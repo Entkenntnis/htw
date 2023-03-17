@@ -1,0 +1,7 @@
+/node_modules/
+*.sqlite
+/prettify
+/db.sqlite-journal
+secrets.js
+CHANGELOG.md
+bot.js

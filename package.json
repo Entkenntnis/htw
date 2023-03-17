@@ -1,0 +1,16 @@
+{
+  "name": "hacktheweb",
+  "version": "0.0.0",
+  "description": "hack.arrrg.de",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js",
+  "author": "Entkenntnis <hack@arrrg.de>",
+  "dependencies": {
+    "@entkenntnis/challenges-server": "1.0.2",
+    "escape-html": "^1.0.3",
+    "mariadb": "^2.4.1",
+    "node-fetch": "^2.6.1"
+  }
+}

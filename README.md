@@ -1,6 +1,6 @@
 # Hack The Web - source code and build instructions
 
-Hallo! In diesem Repo findest du den Quellcode von Hack The Web. Dieses Readme gibt dir eine Anleitung, wie du diesen Quellcode zum Laufen bringen kannst. Das ist als Backup-Lösung gedacht, falls https://hack.arrrg.de ausfallen sollte, dann gibt es die Möglichkeit, das Projekt wieder zum Laufen zu bringen.
+Hallo! In diesem Repo findest du den Quellcode von Hack The Web. Dieses Readme gibt dir eine Anleitung, wie du diesen Quellcode zum Laufen bringen kannst. Das ist als Backup-Lösung gedacht, falls https://hack.arrrg.de ausfallen sollte. Es gibt die Möglichkeit, das Projekt wieder zum Laufen zu bringen.
 
 Der Quellcode soll aber nicht die Aufgaben spoilern - daher habe ich darauf geachtet, alle sensiblen Daten in eine separate Datei zu packen und nicht mitzuliefern. Darin sind hauptsächlich Antworten gespeichert und ein paar Passwörter. Solltest du alle Aufgaben gelöst haben, kannst du diese Datei selbst ausfüllen.
 

@@ -25,4 +25,4 @@ Im nächsten Schritt ist es deine Aufgabe, die Antworten in die Datei `secrets.j
 
 ## Schritt 3: Hosting
 
-Im Produktivbetrieb nutzt das Projekt eine separate Datenbank. Das Passwort dazu muss auch eingetragen werden. Außerdem muss noch ein Impressum eingefügt werden. Optional kann ein Master-Passwort gesetzt werden, um moderieren zu können. Das war's dann auch schon. Der Rest des Codes dient der Verwaltung, wie z.B. die Möglichkeit, die Punktzahl neu zu berechnen oder eine ausführliche Analyse-Funktion
+Im Produktivbetrieb nutzt das Projekt eine separate Datenbank. Das Passwort dazu muss auch eingetragen werden. Außerdem muss noch ein Impressum eingefügt werden. Optional kann ein Master-Passwort gesetzt werden, um moderieren zu können. Das war's dann auch schon. Der Rest des Codes dient der Verwaltung, wie z.B. die Möglichkeit, die Punktzahl neu zu berechnen oder eine ausführliche Analyse-Funktion (letzteres nur auf localhost aktiviert, `localhost:3000/dashboard). 

@@ -21,7 +21,7 @@ Damit sind alle Voraussetzungen erfüllt. Du kannst den Server  mit `npm start` 
 
 ## Schritt 2: Antworten eintragen
 
-Im nächsten Schritt ist es deine Aufgabe, die Antworten in die Datei `secrets.js` einzutragen. Einige Antworten sind durch die Aufgabenstellung gegeben und müssen einen bestimmten Wert haben. Andere Antworten kannst du selbst anpassen und ändern.
+Im nächsten Schritt ist es deine Aufgabe, die Antworten in die Datei `secrets.js` einzutragen. Einige Antworten sind durch die Aufgabenstellung gegeben und müssen einen bestimmten Wert haben. Andere Antworten kannst du selbst festlegen.
 
 ## Schritt 3: Hosting
 

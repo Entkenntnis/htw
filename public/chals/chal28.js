@@ -29,6 +29,12 @@ function countdown() {
       }
     }
     setTimeout(countdown, 1000)
+  } else {
+    // fail save!
+    document.getElementById('skipp').onclick = function () {
+      document.getElementById('banner').style.display = 'none'
+    }
+    setTimeout(countdown, 1000)
   }
 }
 

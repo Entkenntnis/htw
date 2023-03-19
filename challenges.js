@@ -2347,15 +2347,17 @@ PIXI.loader
 
       if (!req.query.level) {
         return `
-          <p>Innerhalb von Träumen werden im Film Inception wieder Träume geschaffen. Diese Struktur stiftet schnell Verwirrung und erfordert viel Vorstellungskraft, sie zu verstehen.
+          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet... anyway, du siehst heute traumhaft gut aus :)</p>
+        
+          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px"></img>
+        
+          <p>Im Film Inception werden innerhalb von Träumen wieder Träume geschaffen. Was der Film macht, kann die Informatik auch. Ich kann dir innerhalb einer Webseite eine andere Webseite einbetten.
           </p>
           
-          <p>Auf vielen Gebieten der Informatik finden sich solche verschachtelten Strukturen. Diese Aufgabe ist ein Beispiel dafür. Klicke auf den Button, um zur Stufe 1 zu gelangen.
+          <p>Klicke auf den Button, um zur Stufe 1 zu gelangen.
           </p>
           
-          <p>Die Antwort findest du auf der untersten Stufe.</p>
-          
-          ${renderFrame(1110, 300, 1)}
+          ${renderFrame(1110, 700, 1)}
         `
       }
 
@@ -2363,41 +2365,28 @@ PIXI.loader
 
       if (level == 1) {
         return `
-          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px"></img>
+          <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px"></img>
           
-          ${renderFrame(1000, 260, 2)}
+          <p>Eine Webseite innerhalb einer Webseite. Es geht noch mehr, gehe tiefer:</p>
+          
+          ${renderFrame(1000, 500, 2)}
         `
       }
 
       if (level == 2) {
         return `
-          <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px"></img>
+           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px"></img>
           
-          ${renderFrame(900, 220, 3)}
+          <p>Die Antwort findest du auf der untersten Stufe.</p>
+          
+          ${renderFrame(900, 400, 3)}
         `
       }
 
       if (level == 3) {
         return `
-           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px"></img>
-          
-          ${renderFrame(700, 180, 4)}
-        `
-      }
-
-      if (level == 4) {
-        return `
-          <img src="/chals/chal84_4.jpg" style="width:100%;margin-bottom:16px"></img>
-          <p><italic>If we are gonna perform Inception then we need imagination.</italic></p>
-          
-          ${renderFrame(500, 140, 5)}
-        `
-      }
-
-      if (level == 5) {
-        return `
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;"></img>
-        
+          
           <p>Die Antwort lautet ${secrets('chal_84')}.</p>
         `
       }

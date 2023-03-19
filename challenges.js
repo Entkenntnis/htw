@@ -2149,7 +2149,7 @@ PIXI.loader
   {
     id: 78,
     pos: { x: 330, y: 480 },
-    title: 'DIN A4',
+    title: 'Papier',
     date: '2022-02-09',
     deps: [18],
     html: `

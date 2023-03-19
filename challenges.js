@@ -438,8 +438,10 @@ module.exports = [
     date: '2017-05-18',
     deps: [24, 31],
     html: `
-      <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Kannst du damit etwas anfangen?
+      <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Dein Hacker-Blick ist gefragt! Du siehst wunderbar aus, wenn du scharf nachdenkst.
       </p>
+      
+      <p>Ziehe den Slider, um die Buchstabe im Alphabet zu verschieben.</p>
       
       <p style="word-wrap:break-word" class="my-4" id="cipher">
       </p>
@@ -2347,11 +2349,11 @@ PIXI.loader
 
       if (!req.query.level) {
         return `
-          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet... anyway, du siehst heute traumhaft gut aus :)</p>
+          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet. Anyway, du siehst heute traumhaft gut aus, besser noch als diese Schauspieler hier:</p>
         
           <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px"></img>
         
-          <p>Im Film Inception werden innerhalb von Träumen wieder Träume geschaffen. Was der Film macht, kann die Informatik auch. Ich kann dir innerhalb einer Webseite eine andere Webseite einbetten.
+          <p>Im Film Inception werden innerhalb von Träumen wieder Träume geschaffen. Was der Film macht, kann die Informatik auch. Man kann innerhalb einer Webseite eine andere Webseite einbetten.
           </p>
           
           <p>Klicke auf den Button, um zur Stufe 1 zu gelangen.

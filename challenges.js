@@ -1326,19 +1326,25 @@ module.exports = [
   {
     id: 51,
     pos: { x: 195, y: 405 },
-    title: 'Basis 2',
+    title: 'Zahlen',
     date: '2020-08-01',
     deps: [24],
     html: `
-      <p>Für elektrische Schaltungen ist es einfacher, mit zwei Zuständen (an / aus) umzugehen, als mit zehn Zuständen. Deshalb werden Zahlen am Computer im Binärsystem dargestellt, also nur mit 1 und 0.
-      </p>
+      <p>Du: "Zahlen, bitte!". Die Kellnerin: "Binär oder dezimal"?</p>
       
-      <p>Zur Grundausstattung einer Hacker*in gehört die Fähigkeit, Zahlen von einer Basis in die andere umzuwandeln. Löse das Quiz, um die Antwort zu erhalten - geschicktes Raten ist erlaubt.
-      </p>
+      <p>Ok, sorry. Dieser Flachwitz hat mir gerade einige Karma-Punkte gekostet.</p>
       
-      <p>&nbsp;</p>
+      <div class="my-4"></div>
       
-      <iframe src="https://app.Lumi.education/api/v1/run/pFLtMk/embed" width="642" height="440" style="background-color:white;padding-left:32px;margin-bottom:12px;padding-top:20px;" frameborder="0">
+      <p>In der Informatik spielt das Binärsystem eine große Rolle. In der Tabelle steht in der Zeile eine Binärzahl in schwarz. Jede Ziffer der Binärzahl hat einen anderen Wert, dieser steht oben in der Tabelle in grün. Um den Dezimalwert zu bestimmen, addiert man alle Binärstellen, wo eine 1 steht.</p>
+      
+      <p>Beispiel Zeile 1: Es gibt zwei 1er, diese stehen an den Stellen 2 und 1. Man rechne 2 + 1 = 3. In der Zeile 2 rechnet man 4 + 1 = 5.</p>
+      
+      <p>Bereit? Dann bist du jetzt dran. Ziehe die Karten rechts in die Tabelle.</p>
+      
+      <div class="my-4"></div>
+      
+      <iframe src="https://app.Lumi.education/api/v1/run/k-Gdye/embed" width="650" height="430" style="background-color:white;padding-left:32px;margin-bottom:12px;padding-top:20px;" frameborder="0">
       </iframe>
     `,
     solution: secrets('chal_51'),

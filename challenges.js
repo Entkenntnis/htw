@@ -1951,17 +1951,32 @@ PIXI.loader
     date: '2021-03-19',
     deps: [29, 66],
     html: `
-      <p>Lege diese Bilder übereinander...
+      <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
       </p>
       
-      <p><img src="/chals/chal69_1.png" width="500" style="border: 1px solid black"></p>
-      <p><img src="/chals/chal69_2.png" width="500" style="border: 1px solid black"></p>
-      <p><img src="/chals/chal69_3.png" width="500" style="border: 1px solid black"></p>
-      <p><img src="/chals/chal69_4.png" width="500" style="border: 1px solid black"></p>
-      <p><img src="/chals/chal69_5.png" width="500" style="border: 1px solid black"></p>
-      <p><img src="/chals/chal69_6.png" width="500" style="border: 1px solid black"></p>
+      <div style="display:flex;flex-wrap:wrap;">
+      <p><img src="/chals/chal69_1.png" width="400" style="border: 1px solid black" class="draggable"></p>
+      <p><img src="/chals/chal69_2.png" width="400" style="border: 1px solid black" class="draggable"></p>
+      <p><img src="/chals/chal69_3.png" width="400" style="border: 1px solid black" class="draggable"></p>
+      <p><img src="/chals/chal69_4.png" width="400" style="border: 1px solid black" class="draggable"></p>
+      <p><img src="/chals/chal69_5.png" width="400" style="border: 1px solid black" class="draggable"></p>
+      <p><img src="/chals/chal69_6.png" width="400" style="border: 1px solid black" class="draggable"></p>
+      </div>
       
-      <p>... und erhalte die Antwort:</p>
+      <script src="/jquery-3.6.0.js"></script>
+      <script src="/jquery-ui.js"></script>
+      
+      <style>
+        .draggable {
+          margin: 12px;
+        }
+      </style>
+      
+      <script>
+          $( function() {
+            $( ".draggable" ).draggable()
+          } )
+      </script>
     `,
     solution: secrets('chal_69'),
   },

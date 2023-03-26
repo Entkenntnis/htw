@@ -1558,16 +1558,22 @@ Doch ich spüre tiefes Beben.</i>
     date: '2020-08-17',
     deps: [3, 25],
     html: `
-      <pre id="output" style="font-size:20px;white-space:pre-wrap">
+      <p>Schon als Kind hat es super viel Spaß gemacht, einen Geheimtext Stück für Stück zu entschlüsseln. Hier kannst das auf interaktive Art nacherleben.
+      </p>
+      
+      <p>Anleitung: Drücke zwei Buchstaben auf der Tastatur, diese werden hervorgehoben und vertauscht.
+      </p>
+    
+      <pre id="output" style="font-size:20px;white-space:pre-wrap;margin-top:48px">
       </pre>
       
-      <div id="selections" style="display:flex;text-align:center;flex-wrap:wrap;gap:6px;"></div>
+      <div id="debug" style="text-align:right"></div>
       
       <script src="/chals/chal59.js"></script>
       
-      <div style="height:24px"></div>
+      <div style="height:40px"></div>
       
-      <p>Jeder Buchstabe wurde mit einem anderen Buchstaben aus dem Alphabet vertauscht. Die Häufigkeit der Buchstaben ist angegeben. Finde ich richtige Zuordnung. Die Antwort ist der Name der Person, die den ersten Satz sagt.
+      <p>Die Antwort ist der Name der Person, die den ersten Satz sagt.
       </p>
     `,
     solution: secrets('chal_59'),

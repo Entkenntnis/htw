@@ -71,7 +71,7 @@ require(path)((config) => {
     <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>
     (<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>)
   `
-  
+
   config.map.customMapHtml = `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">

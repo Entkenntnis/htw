@@ -71,6 +71,11 @@ require(path)((config) => {
     <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>
     (<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>)
   `
+  
+  config.map.customMapHtml = `
+    <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
+    <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
+  `
 
   config.i18nExtend.push({
     lng: 'de',
@@ -187,6 +192,19 @@ require(path)((config) => {
         page: 'news',
         heading: 'Neuigkeiten',
         content: `
+          <div class="my-5"></div>
+          
+          <h3>April 2023</h3>
+           
+          <p>Ich bin super dankbar über die große Community, die mittlerweile Hack The Web täglich bespielt. Danke an Euch! Ihr motiviert mich, immer wieder an der Plattform zu arbeiten, Bugs zu fixen und neue Aufgaben zu erstellen.
+          </p>
+          
+          <p>Mit dieser Version werde ich nun auch den <a href="https://github.com/Entkenntnis/htw">Quellcode für den Server</a> freigeben. Damit möchte ich sicherstellen, dass auch in Zukunft Hack The Web genutzt werden kann, selbst im Fall, wenn dieser Server nicht mehr erreichbar ist. Eine Anleitung ist beigefügt.
+          </p>
+          
+          <p>Ansonsten gab es in den letzten Wochen einige Verbesserungen an den bestehenden Aufgaben. Die Karte erhält zum ersten Mal ein kleines farbliches Update.
+          </p>
+        
           <div class="my-5"></div>
           
           <h3>März 2023</h3>

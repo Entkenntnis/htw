@@ -81,7 +81,7 @@ require(path)((config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: März 2023 (<a href="' +
+      'Version: April 2023 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })

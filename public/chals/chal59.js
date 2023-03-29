@@ -32,8 +32,8 @@ document.addEventListener('keyup', e => {
 })
 
 for (let i = 0; i < 300; i++) {
-  const a = alphabet[Math.floor(Math.random()*alphabet.length)]
-  const b = alphabet[Math.floor(Math.random()*alphabet.length)]
+  const a = alphabet[Math.floor(Math.random()*(alphabet.length-3))]
+  const b = alphabet[Math.floor(Math.random()*(alphabet.length-3))]
   swap(a, b)
 }
 

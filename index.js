@@ -68,6 +68,7 @@ require(path)((config) => {
   config.scoreMode = 'distance'
 
   config.slowRequestWarning = true
+  config.slowRequestThreshold = 5000
 
   config.map.backgroundLicenseHtml = `
     <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>

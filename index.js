@@ -205,14 +205,14 @@ require(path)((config) => {
           <p>Mit dieser Version werde ich nun auch den <a href="https://github.com/Entkenntnis/htw">Quellcode für den Server</a> freigeben. Damit möchte ich sicherstellen, dass auch in Zukunft Hack The Web genutzt werden kann, selbst im Fall, wenn dieser Server nicht mehr erreichbar ist. Eine Anleitung ist beigefügt.
           </p>
           
-          <p>Ansonsten gab es in den letzten Wochen einige Verbesserungen an den bestehenden Aufgaben. Die Karte erhält zum ersten Mal ein kleines farbliches Update.
+          <p>Ansonsten wird es in den nächsten Wochen einige Verbesserungen an den bestehenden Aufgaben geben. Die Karte erhält zum ersten Mal ein kleines farbliches Update. Btw, Hack The Web hat nach aktuellem Stand 78 Aufgaben.
           </p>
         
           <div class="my-5"></div>
           
           <h3>März 2023</h3>
            
-          <p>Ein paar alte Aufgaben wurden mit neuen Ideen gefüllt, dabei wurden zwei Aufgaben zu einer zusammengefasst, es kommen zwei neue Aufgaben hinzu. Btw, Hack The Web hat nach aktuellem Stand 78 Aufgaben.
+          <p>Ein paar alte Aufgaben wurden mit neuen Ideen gefüllt, dabei wurden zwei Aufgaben zu einer zusammengefasst, es kommen zwei neue Aufgaben hinzu.
           </p>
           
           <p>Punktzahlen passen sich ein wenig an, es gibt wieder eine neue Höchstpunktzahl.</p>

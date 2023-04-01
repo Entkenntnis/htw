@@ -913,23 +913,28 @@ module.exports = [
   {
     id: 37,
     pos: { x: 935, y: 185 },
-    title: 'Emojis',
+    title: 'Emoji',
     date: '2020-05-20',
     deps: [79],
     html: `
-      <p>Emojis haben mittlerweile ihren festen Platz in unserer Kommunikation eingenommen. Und es geht sogar soweit, dass man Emojis wie Buchstaben behandelt, d.h. man kann sie kopieren und einfügen, wie ganz normalen Text. Die Antwort besteht aus folgenden drei "Buchstaben":
+      <p>Nichts auf der Welt ist so schön wie dein Lächeln. Schicke mir als Antwort einen lächelnden Emoji:
       </p>
       
-      <p><img src="/chals/chal37.png"></p>
-      
-      <p>Deine Aufgabe ist es nun, sie in das Antwortfeld einzugeben. Beachte, dass die "Buchstaben" je nach Schriftart des Computers z.T. anders aussehen können.</p>
+      <img src="/chals/chal37.png" title="Die Antwort lautet 😀."/>
     `,
     check: (answer) => {
       const withoutWhitespace = answer.replace(/\s+/g, '')
       const encoded = encodeURIComponent(withoutWhitespace)
+      const correct = [
+        '%F0%9F%98%80',
+        '%F0%9F%98%83',
+        '%F0%9F%98%84',
+        '%F0%9F%99%82',
+        '%F0%9F%98%8A',
+      ]
       return {
         answer,
-        correct: encoded == '%F0%9F%98%B3%F0%9F%94%A5%F0%9F%90%B1',
+        correct: correct.includes(encoded),
       }
     },
   },

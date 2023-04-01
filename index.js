@@ -66,7 +66,7 @@ require(path)((config) => {
   })
 
   config.scoreMode = 'distance'
-  
+
   config.slowRequestWarning = true
 
   config.map.backgroundLicenseHtml = `
@@ -399,10 +399,10 @@ require(path)((config) => {
       res.send(userStrings.join('<br>'))
     })*/
 
-    if (!process.env.UBERSPACE) {
-      require('./analyze.js')(App)
+    if (process.env.SAVE2LOCAL && !process.env.UBERSPACE) {
+      run()
 
-      App.express.get('/save2local', async (req, res) => {
+      async function run() {
         if (!process.env.LIVE) throw 'NOT CONNECTED TO LIVE SERVER'
         const LOCALAPP = {}
 
@@ -413,38 +413,44 @@ require(path)((config) => {
         })
         await require('@entkenntnis/challenges-server/server/dbModel')(LOCALAPP)
         await LOCALAPP.db.authenticate()
-        await LOCALAPP.db.sync()
+
+        // Es ist viel schneller, die gesamte Datenbank neu aufzusetzen
+        await LOCALAPP.db.sync({ force: true })
 
         console.log('Lokale Datenbank syncronisiert')
 
         console.log('Starte Import Räume ...')
 
         const rooms = await App.db.models.Room.findAll({ raw: true })
-        await LOCALAPP.db.models.Room.destroy({ where: {} })
         await LOCALAPP.db.models.Room.bulkCreate(rooms, { silent: true })
 
         console.log('Starte Import Benutzer und gelöste Aufgaben ...')
 
+        console.log('  Lade Nutzer von Server')
         const users = await App.db.models.User.findAll({ raw: true })
+
+        console.log('  Lade Lösungen vom Server')
         const solutions = await App.db.models.Solution.findAll({ raw: true })
 
-        await LOCALAPP.db.models.User.destroy({ where: {} })
-        await LOCALAPP.db.models.Solution.destroy({ where: {} })
-
+        console.log(`  Füge ${users.length} Nutzer lokal ein`)
         await LOCALAPP.db.models.User.bulkCreate(users)
 
+        console.log(`  Füge ${solutions.length} Lösungen lokal ein`)
         await LOCALAPP.db.models.Solution.bulkCreate(solutions)
 
         console.log('Starte Import Protokolle ...')
 
         const kvpairs = await App.db.models.KVPair.findAll({ raw: true })
-        await LOCALAPP.db.models.KVPair.destroy({ where: {} })
         await LOCALAPP.db.models.KVPair.bulkCreate(kvpairs)
 
         console.log('Import vollständig')
 
-        res.end('ok')
-      })
+        process.exit()
+      }
+    }
+
+    if (!process.env.UBERSPACE) {
+      require('./analyze.js')(App)
     }
 
     if (process.env.RECALCULATESCORE) {

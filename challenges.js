@@ -917,10 +917,13 @@ module.exports = [
     date: '2020-05-20',
     deps: [79],
     html: `
-      <p>Nichts auf der Welt ist so schön wie dein Lächeln. Schicke mir als Antwort einen lächelnden Emoji:
+      <p>Nichts auf der Welt ist so schön wie dein Lächeln. Ich könnte es den ganzen Tag anschauen.
       </p>
       
-      <img src="/chals/chal37.png" title="Die Antwort lautet 😀."/>
+      <p>Schicke mir ein Lächeln. Deine Antwort ist dieser Emoji:
+      </p>
+      
+      <p><img src="/chals/chal37.png" width="80px"/></p>
     `,
     check: (answer) => {
       const withoutWhitespace = answer.replace(/\s+/g, '')

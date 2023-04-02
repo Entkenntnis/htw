@@ -1804,7 +1804,7 @@ PIXI.loader
     pos: { x: 1155, y: 840 },
     title: 'Eine Zeile Python',
     date: '2020-08-17',
-    deps: [25,86, 87],
+    deps: [25, 86, 87],
     html: `
       <p>Was ist die Ausgabe folgender Zeile?
       </p>
@@ -2471,7 +2471,9 @@ PIXI.loader
           const lead = document.querySelector('p[class="lead"]')
           if (lead) {
             if (lead.textContent.trim().toLowerCase() == 'schau, was ich alles kann!') {
-              document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(secrets('chal_86')).toString('base64')}') + '.'
+              document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
+                secrets('chal_86')
+              ).toString('base64')}') + '.'
               return // don't run check anymore
             }
           }
@@ -2484,7 +2486,7 @@ PIXI.loader
 
   {
     id: 87,
-    pos: {  x: 1045, y: 660 },
+    pos: { x: 1045, y: 660 },
     title: 'Scratch',
     date: '2023-04-02',
     deps: [81],

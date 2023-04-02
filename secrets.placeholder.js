@@ -16,7 +16,6 @@ module.exports = {
   chal_10: '42',
   chal_18: '42',
   chal_21: '42',
-  chal_22: '42',
   chal_23: '42',
   chal_24: '42',
   chal_25: '42',
@@ -42,7 +41,6 @@ module.exports = {
   chal_58: '42',
   chal_59: '42',
   chal_60: '42',
-  chal_61: '42',
   chal_62: '42',
   chal_63: '42',
   chal_64: '42',
@@ -63,4 +61,5 @@ module.exports = {
   chal_84: '42',
   chal_85: '42',
   chal_86: '42',
+  chal_87: '42',
 }

@@ -1599,7 +1599,7 @@ Doch ich spüre tiefes Beben.</i>
     solution: secrets('chal_60'),
   },
 
-  {
+  /*{
     id: 61,
     pos: { x: 1045, y: 660 },
     title: 'Bunte Blöcke',
@@ -1609,7 +1609,7 @@ Doch ich spüre tiefes Beben.</i>
       <p><img src="/chals/chal61.png" width=550></p>
     `,
     solution: secrets('chal_61'),
-  },
+  },*/
 
   {
     id: 62,
@@ -1804,7 +1804,7 @@ PIXI.loader
     pos: { x: 1155, y: 840 },
     title: 'Eine Zeile Python',
     date: '2020-08-17',
-    deps: [25, 61, 86],
+    deps: [25,86, 87],
     html: `
       <p>Was ist die Ausgabe folgender Zeile?
       </p>
@@ -1876,7 +1876,7 @@ PIXI.loader
     pos: { x: 1255, y: 760 },
     title: 'Anschlüsse',
     date: '2021-03-19',
-    deps: [61],
+    deps: [87],
     html: `
       <p>Verbinde die Adern in der richten Reihenfolge mit dem Stecker. Nutze dabei den Standard TIA-568B.</p>
     
@@ -2480,5 +2480,26 @@ PIXI.loader
       </script>
     `,
     solution: secrets('chal_86'),
+  },
+
+  {
+    id: 87,
+    pos: {  x: 1045, y: 660 },
+    title: 'Scratch',
+    date: '2023-04-02',
+    deps: [81],
+    html: `
+      <p>Du hast eine wunderbar entspannte Aura! Das hat mich inspiriert, dieses kleine entspannte Spiel zu entwickeln.
+      </p>
+      
+      <p>Steuere mit den <code>Pfeiltasten</code>.
+      </p>
+      
+      <iframe src="https://scratch.mit.edu/projects/829930955/embed" allowtransparency="true" width="485" height="402" frameborder="0" scrolling="no" allowfullscreen></iframe>
+      
+      <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
+      </p>
+    `,
+    solution: secrets('chal_87'),
   },
 ]

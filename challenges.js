@@ -538,7 +538,7 @@ module.exports = [
     solution: secrets('chal_21'),
   },
 
-  {
+  /*{
     id: 22,
     pos: { x: 845, y: 725 },
     title: 'NoScript',
@@ -568,7 +568,7 @@ module.exports = [
       </script>
     `,
     solution: secrets('chal_22'),
-  },
+  },*/
 
   {
     id: 23,
@@ -622,7 +622,7 @@ module.exports = [
     pos: { x: 865, y: 855 },
     title: 'Russische Puppen',
     date: '2017-08-25',
-    deps: [22, 41, 42],
+    deps: [40, 41, 42],
     html: `
       <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
       </p>
@@ -977,7 +977,7 @@ module.exports = [
 
   {
     id: 40,
-    pos: { x: 945, y: 766 },
+    pos: { x: 845, y: 725 },
     title: 'Terminal',
     date: '2020-05-20',
     deps: [81],
@@ -1804,7 +1804,7 @@ PIXI.loader
     pos: { x: 1155, y: 840 },
     title: 'Eine Zeile Python',
     date: '2020-08-17',
-    deps: [25, 40, 61],
+    deps: [25, 61, 86],
     html: `
       <p>Was ist die Ausgabe folgender Zeile?
       </p>
@@ -2443,5 +2443,41 @@ PIXI.loader
       <p><img src="/chals/chal85.png"></p>
     `,
     solution: secrets('chal_85'),
+  },
+
+  {
+    id: 86,
+    pos: { x: 965, y: 766 },
+    title: 'Fragil',
+    date: '2023-04-02',
+    deps: [81],
+    html: `
+      <p>Diese Seite ist leicht zerbrechlich. Probiere es aus: Du kannst alle Inhalte verändern.</p>
+      
+      <p>Ein kleiner Auftrag: Ändere den Slogan zu "Schau, was ich alles kann!"
+      </p>
+      
+      <p id="output">&nbsp;</p>
+      
+      <script>
+        document.documentElement.contentEditable = true
+          document.body.spellcheck = false
+        setTimeout(() => {
+          document.getElementById('challenge_form').contentEditable = false
+          check()
+        }, 100)
+        
+        function check() {
+          const lead = document.querySelector('p[class="lead"]')
+          if (lead) {
+            if (lead.textContent.trim().toLowerCase() == 'schau, was ich alles kann!') {
+              document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(secrets('chal_86')).toString('base64')}') + '.'
+            }
+          }
+          setTimeout(check, 500)
+        }
+      </script>
+    `,
+    solution: secrets('chal_86'),
   },
 ]

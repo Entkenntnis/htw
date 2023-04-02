@@ -2472,6 +2472,7 @@ PIXI.loader
           if (lead) {
             if (lead.textContent.trim().toLowerCase() == 'schau, was ich alles kann!') {
               document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(secrets('chal_86')).toString('base64')}') + '.'
+              return // don't run check anymore
             }
           }
           setTimeout(check, 500)

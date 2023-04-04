@@ -85,7 +85,7 @@ require(path)((config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: April 2023 (<a href="' +
+      'Version: Auf die 100 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -198,6 +198,16 @@ require(path)((config) => {
         content: `
           <div class="my-5"></div>
           
+          <h3>Auf die 100</h3>
+           
+          <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwoch Abend und jeden Samstag Abend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
+          </p>
+          
+          <p>Btw, Hack The Web hat nach aktuellem Stand 78 Aufgaben.
+          </p>
+        
+          <div class="my-5"></div>
+          
           <h3>April 2023</h3>
            
           <p>Ich bin super dankbar über die große Community, die mittlerweile Hack The Web täglich bespielt. Danke an Euch! Ihr motiviert mich, immer wieder an der Plattform zu arbeiten, Bugs zu fixen und neue Aufgaben zu erstellen.
@@ -206,7 +216,7 @@ require(path)((config) => {
           <p>Mit dieser Version werde ich nun auch den <a href="https://github.com/Entkenntnis/htw">Quellcode für den Server</a> freigeben. Damit möchte ich sicherstellen, dass auch in Zukunft Hack The Web genutzt werden kann, selbst im Fall, wenn dieser Server nicht mehr erreichbar ist. Eine Anleitung ist beigefügt.
           </p>
           
-          <p>Ansonsten wird es in den nächsten Wochen einige Verbesserungen an den bestehenden Aufgaben geben. Die Karte erhält zum ersten Mal ein kleines farbliches Update. Btw, Hack The Web hat nach aktuellem Stand 78 Aufgaben.
+          <p>Ansonsten wird es in den nächsten Wochen einige Verbesserungen an den bestehenden Aufgaben geben. Die Karte erhält zum ersten Mal ein kleines farbliches Update.
           </p>
         
           <div class="my-5"></div>

@@ -46,7 +46,7 @@ require(path)((config) => {
   config.styles.tableHighlightClass = 'secondary'
   config.map.centeringOffset = 0.5
   config.map.width = 1680
-  config.map.height = 1600
+  config.map.height = 2000
   config.editors.push('admin', 'demo')
   config.noSelfAdmin.push('demo')
   config.masterPassword = secrets('config_master_password')
@@ -78,6 +78,7 @@ require(path)((config) => {
   config.map.customMapHtml = `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
+    <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
   `
 
   config.i18nExtend.push({

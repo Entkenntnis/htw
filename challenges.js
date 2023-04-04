@@ -2504,4 +2504,98 @@ PIXI.loader
     `,
     solution: secrets('chal_87'),
   },
+
+  {
+    id: 88,
+    pos: { x: 1065, y: 1273 },
+    title: 'Summe',
+    date: '2023-04-05',
+    deps: [82, 85],
+    html: `
+      <p>Du hast viele tolle Eigenschaften, wie hübsch, attraktiv und Computer Genius. Und noch besser: Du als Person bist noch mehr als die Summe deiner Eigenschaften - frei nach Aristoteles.</p>
+      
+      <p>Als Computer G kennst du sicher eine schnelle Möglichkeit, die Summe dieser Zahlen auszurechnen. Die Summe ist deine Antwort.
+      </p>
+      
+      <div class="my-4"/>
+
+      <table class="table-sm table-bordered" style="width:100%;text-align:center">
+        <tbody>
+          <tr>
+            <td>9</td>
+            <td>8</td>
+            <td>19</td>
+            <td>2</td>
+            <td>7</td>
+            <td>16</td>
+            <td>11</td>
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>12</td>
+            <td>13</td>
+            <td>1</td>
+            <td>14</td>
+            <td>20</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>6</td>
+            <td>17</td>
+            <td>5</td>
+            <td>4</td>
+            <td>15</td>
+            <td>21</td>
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>22</td>
+            <td>26</td>
+            <td>29</td>
+            <td>24</td>
+            <td>2</td>
+            <td>27</td>
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>30</td>
+            <td>42</td>
+            <td>33</td>
+            <td>35</td>
+            <td>34</td>
+            <td>21</td>
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>52</td>
+            <td>45</td>
+            <td>17</td>
+            <td>47</td>
+            <td>33</td>
+            <td>49</td>
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>11</td>
+            <td>25</td>
+            <td>45</td>
+            <td>54</td>
+            <td>27</td>
+            <td>56</td>
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>22</td>
+            <td>26</td>
+            <td>29</td>
+            <td>24</td>
+            <td>28</td>
+            <td>27</td>
+          </tr>
+        </tbody>
+      </table>
+      `,
+    solution: secrets('chal_88'),
+  },
 ]

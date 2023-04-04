@@ -2,7 +2,7 @@ const { Op } = require('sequelize')
 const window = require('svgdom')
 const SVG = require('svg.js')(window)
 const document = window.document
-const fromDate = '2023-02-28'
+const fromDate = '2023-04-04'
 
 function escapeHTML(str) {
   return str

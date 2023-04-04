@@ -37,6 +37,17 @@ for (let i = 0; i < 300; i++) {
   swap(a, b)
 }
 
+swap(text[1].toLowerCase(), 'd')
+swap(text[2], 'a')
+swap(text[3], 's')
+
+
+swap(text[5], 'i')
+swap(text[6], 's')
+swap(text[7], 't')
+
+swap(text[13], 'y')
+
 check()
 
 function check(key) {

@@ -2507,7 +2507,7 @@ PIXI.loader
 
   {
     id: 88,
-    pos: { x: 1065, y: 1273 },
+    pos: { x: 1066, y: 1269 },
     title: 'Summe',
     date: '2023-04-05',
     deps: [82, 85],

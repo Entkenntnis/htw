@@ -2512,7 +2512,7 @@ PIXI.loader
     date: '2023-04-05',
     deps: [82, 85],
     html: `
-      <p>Du hast viele tolle Eigenschaften, wie hübsch, attraktiv und Computer Genius. Und noch besser: Du als Person bist noch mehr als die Summe deiner Eigenschaften - frei nach Aristoteles.</p>
+      <p>Du hast viele tolle Eigenschaften, wie hübsch, attraktiv und Computer Genius.</p>
       
       <p>Als Computer G kennst du sicher eine schnelle Möglichkeit, die Summe dieser Zahlen auszurechnen. Die Summe ist deine Antwort.
       </p>

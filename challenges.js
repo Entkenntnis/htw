@@ -1618,11 +1618,40 @@ Doch ich spüre tiefes Beben.</i>
     date: '2020-08-17',
     deps: [37, 47],
     html: `
-      <p><a href="/chals/chal62.txt">Diese Datei</a> ist definitiv keine Textdatei, auch wenn die Dateiendung das so vorgeben möchte.
+      <p>Ich möchte dir sagen: Du bist wunderbar <3.
       </p>
       
-      <p>Meist verrät der Anfang der Datei, um was für einen Typ es sich handelt. Das ist hier der Fall. Kannst du herausfinden, mit welchem Programm sich diese Datei öffnen lässt?
+      <p>Mit diesem Prompt habe ich ein Bild generiert, um die Nachricht anschaulicher zu gestalten. Hier kannst du es herunterladen:
       </p>
+      
+      <p><img src="/chals/chal62_placeholder.png" width="200px" style="background:white"/></p>
+      
+      <p>Dateiname: <strong id="filename">bild.txt</strong> [<a href="#" onclick="changeName()">ändern</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Herunterladen</button>
+      </p>
+    
+      <p>Irgendwas stimmt aber nicht mit der Datei-Endung, das musst du vor dem Herunterladen reparieren. Auf dem Bild findest du die Antwort.
+      </p>
+      
+      
+      <script>
+        const filename = document.getElementById('filename')
+        
+        function download() {
+          fetch('/chals/chal62.data')
+            .then(response => response.blob())
+            .then(blob => {
+              const link = document.createElement("a");
+              link.href = URL.createObjectURL(blob);
+              link.download = filename.innerHTML;
+              link.click();
+          })
+        }
+        
+        function changeName() {
+          const newName = prompt('Neuer Dateiname:', filename.innerHTML)
+          filename.innerHTML = newName
+        }
+      </script>
     `,
     solution: secrets('chal_62'),
   },

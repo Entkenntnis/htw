@@ -1569,10 +1569,10 @@ Doch ich spüre tiefes Beben.</i>
       <p>Schon als Kind hat es super viel Spaß gemacht, einen Geheimtext Stück für Stück zu entschlüsseln. Hier kannst das auf interaktive Art nacherleben.
       </p>
       
-      <p>Anleitung: Drücke zwei Buchstaben auf der Tastatur, diese werden hervorgehoben und vertauscht.
+      <p>Anleitung: Drücke zwei Buchstaben <strong>gleichzeitig</strong> auf der Tastatur, diese werden hervorgehoben und vertauscht.
       </p>
     
-      <pre id="output" style="font-size:20px;white-space:pre-wrap;margin-top:48px">
+      <pre id="output" style="font-size:16px;white-space:pre-wrap;margin-top:48px">
       </pre>
       
       <div id="debug" style="text-align:right"></div>

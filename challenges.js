@@ -2627,4 +2627,139 @@ PIXI.loader
       `,
     solution: secrets('chal_88'),
   },
+
+  {
+    id: 89,
+    pos: { x: 933, y: 1233 },
+    title: 'Lesezeichen',
+    date: '2023-04-08',
+    deps: [82],
+    render: () => {
+      function generateSection(title, id, letter, next, isBroken) {
+        return `
+          <div style="margin-top:${Math.round(
+            Math.random() * 700 + 700
+          )}px;margin-bottom:${Math.round(Math.random() * 700 + 700)}px">
+            <h1 id="${id}">${title}</h1>
+            <p>${letter}. ${
+          isBroken
+            ? `&lt;a href="#${next}"&gt;weiter&lt;/a&gt;`
+            : `<a href="#${next}">weiter</a>`
+        }</p>
+          </div>
+        `
+      }
+
+      return `
+        <p>Es gibt Tage, an denen weiß ich nicht wirklich, wo ich gerade stehe und wohin es geht. An solchen Tagen ist es schön zu wissen, dass du hier bist und ich nicht alleine bin.
+        </p>
+        
+        <p>Leicht verirren kann man sich auch bei dieser Aufgabe. Solange du den Lesezeichen folgt, sollte das aber kein Problem sein.
+        </p>
+        
+        <p>Beginne in <a href="#abs22">diesem Abschnitt</a> und achte auf die Buchstaben. Leider sind ein paar Lesezeichen defekt.</p>
+        
+        </p>
+        
+        ${generateSection(
+          'Abschnitt 1 - Fortran',
+          'abs1',
+          'T',
+          'challenge_answer',
+          false
+        )}
+        ${generateSection('Abschnitt 2 - Lisp', 'abs2', 'T', 'abs7', false)}
+        ${generateSection('Abschnitt 3 - COBOL', 'abs3', 'K', 'abs9', false)}
+        ${generateSection('Abschnitt 4 - Algol', 'abs4', 'A', 'abs17', true)}
+        ${generateSection('Abschnitt 5 - BASIC', 'abs5', 'M', 'abs14', false)}
+        ${generateSection('Abschnitt 6 - PL/I', 'abs6', 'L', 'abs12', false)}
+        ${generateSection('Abschnitt 7 - Simula', 'abs7', 'L', 'abs18', false)}
+        ${generateSection('Abschnitt 8 - C', 'abs8', 'M', 'abs13', false)}
+        ${generateSection('Abschnitt 9 - Prolog', 'abs9', 'E', 'abs4', false)}
+        ${generateSection(
+          'Abschnitt 10 - Smalltalk',
+          'abs10',
+          'I',
+          'abs5',
+          true
+        )}
+        ${generateSection('Abschnitt 11 - Pascal', 'abs11', 'I', 'abs9', false)}
+        ${generateSection('Abschnitt 12 - Forth', 'abs12', 'R', 'abs2', false)}
+        ${generateSection('Abschnitt 13 - SQL', 'abs13', 'E', 'abs27', false)}
+        ${generateSection('Abschnitt 14 - Ada', 'abs14', 'A', 'abs1', false)}
+        ${generateSection('Abschnitt 15 - C++', 'abs15', 'W', 'abs30', true)}
+        ${generateSection(
+          'Abschnitt 16 - Objective-C',
+          'abs16',
+          'T',
+          'abs13',
+          false
+        )}
+        ${generateSection(
+          'Abschnitt 17 - Common Lisp',
+          'abs17',
+          'N',
+          'abs26',
+          false
+        )}
+        ${generateSection(
+          'Abschnitt 18 - MATLAB',
+          'abs18',
+          'A',
+          'abs21',
+          false
+        )}
+        ${generateSection('Abschnitt 19 - Perl', 'abs19', 'U', 'abs25', false)}
+        ${generateSection(
+          'Abschnitt 20 - Python',
+          'abs20',
+          'H',
+          'abs23',
+          false
+        )}
+        ${generateSection('Abschnitt 21 - Ruby', 'abs21', 'U', 'abs16', true)}
+        ${generateSection('Abschnitt 22 - Java', 'abs22', 'D', 'abs11', false)}
+        ${generateSection(
+          'Abschnitt 23 - JavaScript',
+          'abs23',
+          'E',
+          'abs10',
+          false
+        )}
+        ${generateSection('Abschnitt 24 - PHP', 'abs24', 'T', 'abs7', false)}
+        ${generateSection('Abschnitt 25 - Swift', 'abs25', 'S', 'abs4', false)}
+        ${generateSection(
+          'Abschnitt 26 - Kotlin',
+          'abs26',
+          'T',
+          'abs15',
+          false
+        )}
+        ${generateSection('Abschnitt 27 - Rust', 'abs27', 'T', 'abs20', true)}
+        ${generateSection(
+          'Abschnitt 28 - TypeScript',
+          'abs28',
+          'K',
+          'abs11',
+          false
+        )}
+        ${generateSection('Abschnitt 29 - Go', 'abs29', 'I', 'abs23', false)}
+        ${generateSection('Abschnitt 30 - Dart', 'abs30', 'O', 'abs12', false)}
+      `
+    },
+    solution: secrets('chal_89'),
+  },
+
+  /*{
+    id: 90,
+    pos: { x: 1022, y: 1122 },
+    title: 'Lesezeichen',
+    date: '2023-04-08',
+    deps: [75, 82],
+    html: `
+      <p>TODO
+      </p>
+    `,
+    solution: secrets('chal_90'),
+  },*/
 ]

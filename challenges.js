@@ -2356,7 +2356,7 @@ PIXI.loader
 
   {
     id: 83,
-    pos: { x: 1310, y: 1205 },
+    pos: { x: 1300, y: 1215 },
     title: 'Freiheit',
     date: '2022-12-28',
     deps: [76],
@@ -2750,16 +2750,22 @@ PIXI.loader
     solution: secrets('chal_89'),
   },
 
-  /*{
+  {
     id: 90,
-    pos: { x: 1022, y: 1122 },
-    title: 'Lesezeichen',
-    date: '2023-04-08',
-    deps: [75, 82],
+    pos: { x: 1415, y: 1310 },
+    title: 'Orakel',
+    date: '2023-04-12',
+    deps: [73, 74, 76],
     html: `
-      <p>TODO
+      <p>Ich spüre bei dir so viel Energie! Ich bewundere Menschen, die eine solche Ausstrahlung haben.
+      </p>
+      
+      <p>Mein Orakel, das ich für diese Aufgabe beauftragt habe, strahlt leider nicht vor Energie. Täglich gibt es nur einen Zeitraum von 15 Minuten, in denen das Orakel zu sprechen ist.
+      </p>
+      
+      <p>Sprich mit <a href="/chal/orakel">dem Orakel</a>, um die Antwort zu erfahren.
       </p>
     `,
     solution: secrets('chal_90'),
-  },*/
+  },
 ]

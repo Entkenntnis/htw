@@ -48,6 +48,16 @@ const mazeMessages = {
   F: `Dein Schatz: Die Antwort lautet ${secrets('chal_72')}.`,
 }
 
+const orakelMsg = [
+  'Das Orakel ist aktuell nicht verfügbar.',
+  'Das Orakel befindet sich in tiefer Meditation.',
+  'Das Orakel empfängt gerade eine spirituelle Weisheit.',
+  'Zzzz...',
+  'Das Orakel erledigt gerade ein wichtiges Geschäft.',
+  'Das Orakel bereitet sich gerade mental vor.',
+  'Sie sprechen mit dem Sekretär.',
+]
+
 module.exports = function (App) {
   App.express.get('/chal/chal46', (req, res) => {
     res.set('X-ANTWORT', secrets('chal_46'))
@@ -134,5 +144,22 @@ module.exports = function (App) {
       req.session.maze = { x: mazeStart.x, y: mazeStart.y }
     }
     return res.redirect('/chal/maze')
+  })
+
+  App.express.get('/chal/orakel', (req, res) => {
+    const time = new Date()
+    const hour = time.getHours()
+    const min = time.getMinutes()
+    const minOfDay = hour * 60 + min
+    const secretTime = parseInt(secrets('chal_90_time'))
+    if (minOfDay >= secretTime && minOfDay <= secretTime + 15) {
+      res.send(`Die Antwort lautet ${secrets('chal_90')}.`)
+    } else {
+      res.send(
+        `${
+          orakelMsg[Math.floor(Math.random() * orakelMsg.length)]
+        } Versuche es später nochmal.`
+      )
+    }
   })
 }

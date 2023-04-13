@@ -66,4 +66,5 @@ module.exports = {
   chal_89: '42',
   chal_90: '42',
   chal_90_time: '42',
+  chal_91: '42',
 }

@@ -2768,4 +2768,54 @@ PIXI.loader
     `,
     solution: secrets('chal_90'),
   },
+
+  {
+    id: 91,
+    pos: { x: 1115, y: 1330 },
+    title: 'Kekse',
+    date: '2023-04-15',
+    deps: [82, 85],
+    html: `
+      <p>Es gibt Kekse, frisch aus dem Backofen - nur für dich persönlich gebacken, my dear friend! Sie sind gleich fertig:
+      </p>
+      
+      <p id="countdown"></p>
+      
+      <div id="backdrop" style="display:none;position:fixed;background-color:rgba(255, 255, 255, 0.5);top:0px;left:0px;right:0px;bottom:0px">
+      </div>
+      
+      <div id="modal" style="display:none;position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#fff; border-radius:5px; padding:20px; box-shadow:0px 0px 10px rgba(0,0,0,0.5); z-index:9999; color:black; width: 500px;">
+        <h2 style="margin-top:0;">Cookie-Banner</h2>
+        <p>Diese Seite verwendet Cookies. Durch das Zustimmen wird deine Antwort in einem Cookie auf deinem Rechner gespeichert.</p>
+        <button type="button" class="btn btn-success" onclick="load()">Zustimmen</button>
+      </div>
+      
+      <script>
+        let time = 10
+      
+        function countdown() {
+          document.getElementById('countdown').innerHTML = \`Warte noch \$\{time\} Sekunden ...\`
+          time--
+          if (time < 0) {
+            document.getElementById('modal').style.display = 'block'
+            document.getElementById('backdrop').style.display = 'block'
+            document.getElementById('countdown').innerHTML = '&nbsp;'
+          } else {
+            setTimeout(countdown, 1000)
+          }
+        }
+        
+        window.onload = countdown
+        
+        function load() {
+          var xmlHttp = new XMLHttpRequest();
+          xmlHttp.open("GET", '/chal/chal91', true); // true for asynchronous 
+          xmlHttp.send(null);
+          document.getElementById('modal').style.display = 'none'
+          document.getElementById('backdrop').style.display = 'none'
+        }
+      </script>
+    `,
+    solution: secrets('chal_91'),
+  },
 ]

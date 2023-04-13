@@ -162,4 +162,9 @@ module.exports = function (App) {
       )
     }
   })
+
+  App.express.get('/chal/chal91', (req, res) => {
+    res.cookie('Die_Antwort_lautet', secrets('chal_91'))
+    res.send('ok')
+  })
 }

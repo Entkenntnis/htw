@@ -2884,4 +2884,47 @@ Art 8 
     `,
     solution: secrets('chal_92'),
   },
+
+  {
+    id: 93,
+    pos: { x: 1155, y: 1570 },
+    title: 'Cipher',
+    date: '2023-04-22',
+    deps: [91, 92],
+    html: `
+      <p>Du bist weit gekommen und längst kein Scriptkiddie mehr. Nein, du bist eher 1337 und hast voll Skill drauf 💪!
+      </p>
+      
+      <p>Hacker*innen nutzen viele Fachbegriffe und einer meiner Favoriten ist <strong>Cipher</strong>. Ein Cipher ist ein Algorithmus, der Nachrichten ver- und entschlüsselt.
+      </p>
+      
+      <p>Eine besondere Form davon sind invertierbare Cipher. Das sind Algorithmen, die beim Ver- und Entschlüsseln gleich funktionieren. Hier ist ein Beispiel in Pseudo-Code:
+      </p>
+      
+      <code><pre style="font-size:14px">function cipher(input_bytes) {
+    key = 42
+    output_bytes = []
+
+    for (byte in input_bytes) {
+        xor_byte = byte XOR key
+        output_bytes.append(xor_byte)
+    }
+
+    return output_bytes
+}
+
+message = ".............???............."
+bytes = ascii_string_to_bytes(message)
+encrypted_bytes = cipher(bytes)
+hex_string = convert_bytes_to_hex_string(encrypted_bytes)
+print(hex_string)</pre></code>
+
+      <p>Die Ausgabe dieses Programms siehst so aus:
+      </p>
+      
+      <p><code>6d5f5e4f0a6b58484f435e0b0a6e434f0a6b445e5d45585e0a464b5f5e4f5e0a6b6f7904</code>
+      </p>
+    `,
+    solution: secrets('chal_93'),
+  },
 ]

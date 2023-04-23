@@ -226,6 +226,34 @@ module.exports = function (App) {
       where: { UserId: { [Op.in]: userIds } },
     })
 
+    output += `<p>Insgesamt ${solutions.length} Aufgaben gelöst</p>`
+
+    let maxAmount = 1
+
+    const solvedByUser = solutions.reduce((result, obj) => {
+      const key = obj.UserId
+      const entry = (result[key] = result[key] || { count: 0 })
+      entry.count++
+      if (entry.count > maxAmount) {
+        maxAmount = entry.count
+      }
+      return result
+    }, {})
+
+    const solvedArr = Object.values(solvedByUser).map((x) => x.count)
+
+    output += '<p>'
+    for (let i = 1; i < maxAmount; i++) {
+      const hasSolvedI = solvedArr.filter((c) => c >= i).length
+      const hasSolvedIplus1 = solvedArr.filter((c) => c >= i + 1).length
+      output += `${hasSolvedI} (#${i}) -- <strong>${Math.round(
+        (hasSolvedIplus1 * 100) / hasSolvedI
+      )}%</strong> --> `
+    }
+    output += `${
+      solvedArr.filter((c) => c >= maxAmount).length
+    } (#${maxAmount})</p>`
+
     console.log('Dashboard: Daten geladen')
 
     const userHistory = userIds.map((id) => {

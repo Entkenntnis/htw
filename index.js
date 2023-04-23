@@ -453,6 +453,12 @@ require(path)((config) => {
         console.log('Starte Import Protokolle ...')
 
         const kvpairs = await App.db.models.KVPair.findAll({ raw: true })
+
+        // sqlite not supporting null bytes in strings
+        for (const pair of kvpairs) {
+          pair.value = pair.value.replace(/\0/g, '')
+        }
+
         await LOCALAPP.db.models.KVPair.bulkCreate(kvpairs)
 
         console.log('Import vollständig')

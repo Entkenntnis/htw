@@ -177,7 +177,7 @@ require(path)((config) => {
     key: 'home.invite_',
     value: `Neu hier? Erstelle einen kostenlosen Account und lege los: {{-link}}</p>
 
-      <p>Besuche die <a href="https://de.serlo.org/200247" target="_blank">Community-Seite</a> für weitere Informationen.
+      <p>Besuche die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.
     `,
   })
 
@@ -203,7 +203,7 @@ require(path)((config) => {
           <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwoch Abend und jeden Samstag Abend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
           </p>
           
-          <p>Btw, Hack The Web hat nach aktuellem Stand 84 Aufgaben.
+          <p>Btw, Hack The Web hat nach aktuellem Stand 85 Aufgaben.
           </p>
         
           <div class="my-5"></div>

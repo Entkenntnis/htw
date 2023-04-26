@@ -2927,4 +2927,25 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_93'),
   },
+
+  {
+    id: 94,
+    pos: { x: 885, y: 1410 },
+    title: 'Original',
+    date: '2023-04-26',
+    deps: [88, 89, 91],
+    html: `
+      <p>Du bist ein Original und kein Fake. Lasse dich nicht in eine andere Identität drängen, als du bist.
+      </p>
+      
+      <p>Dieses Bild ist kein Original - zumindest nicht von mir. Es findet sich auf hunderten Webseiten. Doch wo kommt das Original her?
+      </p>
+      
+      <p><img src="/chals/chal94.jpg" width="400px" /></p>
+      
+      <p>Deine Antwort ist der Vorname der ursprünglichen Fotografin.
+      </p>
+    `,
+    solution: secrets('chal_94'),
+  },
 ]

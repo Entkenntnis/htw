@@ -203,7 +203,7 @@ require(path)((config) => {
           <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwoch Abend und jeden Samstag Abend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
           </p>
           
-          <p>Btw, Hack The Web hat nach aktuellem Stand 85 Aufgaben.
+          <p>Btw, Hack The Web hat nach aktuellem Stand 86 Aufgaben.
           </p>
         
           <div class="my-5"></div>
@@ -387,6 +387,48 @@ require(path)((config) => {
         `,
       })
     })
+
+    /*App.express.get('/experiment', async (req, res) => {
+      const currentSolutions = await App.db.models.Solution.findAll({
+        where: {
+          updatedAt: {
+            [Sequelize.Op.gte]: App.moment().subtract(29, 'days').toDate(),
+          },
+        },
+        order: [['updatedAt']],
+        raw: true,
+      })
+
+      const persistenceScore = currentSolutions.reduce((result, obj) => {
+        const key = obj.UserId
+        const entry = (result[key] = result[key] ?? { mins: 0, lastSolved: -1 })
+        const ts = new Date(obj.updatedAt).getTime()
+        if (entry.lastSolved > 0) {
+          const diff = ts - entry.lastSolved
+          entry.mins += Math.min(30, Math.round(diff / 1000 / 60))
+        }
+        entry.lastSolved = ts
+        return result
+      }, {})
+
+      const persistenceArr = Object.entries(persistenceScore)
+
+      persistenceArr.sort((a, b) => b[1].mins - a[1].mins)
+
+      const top10 = persistenceArr.slice(0, 10)
+
+      for (const entry of top10) {
+        const user = await App.db.models.User.findOne({
+          where: { id: entry[0] },
+        })
+        console.log(user)
+        entry.name = user.name
+      }
+
+      console.log(top10)
+
+      res.send('hi')
+    })*/
 
     /*App.express.get('/internal/newusers', async (req, res) => {
       const usersFromDB = await App.db.models.User.findAll({

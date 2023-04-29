@@ -2948,4 +2948,20 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_94'),
   },
+
+  {
+    id: 95,
+    pos: { x: 1059, y: 1530 },
+    title: 'Handschrift',
+    date: '2023-04-29',
+    deps: [91, 92],
+    html: `
+      <p>Hilfe! Ich brauche deinen technischen Rat. Wie macht man es nochmal, dass man eine Schriftart im Browser einbindet?</p>
+      
+      <p>&lt;span style=&quot;font:Hack The Web&quot;&gt;ABC DEFGHIJ KLMNOP QRSTUVWXYZ.&lt;/span&gt;</p>
+      
+      <p>&lt;font src=&quot;/chals/HackTheWeb-Regular.otf&quot; /&gt;</p>
+    `,
+    solution: secrets('chal_95'),
+  },
 ]

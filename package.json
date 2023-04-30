@@ -10,7 +10,7 @@
   "main": "index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
   "dependencies": {
-    "@entkenntnis/challenges-server": "1.0.5",
+    "@entkenntnis/challenges-server": "1.1.0",
     "escape-html": "^1.0.3",
     "mariadb": "^2.4.1",
     "node-fetch": "^2.6.1"

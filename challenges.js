@@ -2964,4 +2964,25 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_95'),
   },
+
+  {
+    id: 96,
+    pos: { x: 980, y: 1460 },
+    title: 'TikTok',
+    date: '2023-05-03',
+    deps: [88, 89],
+    html: `
+      <p>Hast du heute etwas geschafft, worauf du stolz bist? Herzlichen Glückwunsch. Und wenn nicht, halb so wild. Morgen ist auch noch ein Tag.
+      </p>
+      
+      <p>Jetzt ist erstmal Zeit, sich ein wenig zu entspannen und sich unterhalten zu lassen, zum Beispiel mit Videos von <code>@kallmekris</code> auf TikTok.
+      </p>
+      
+      <p>Du möchtest eine Herausforderung? Ok, hier deine Aufgabe: Scrolle runter bis zum ersten Video. Wie lautet die Beschreibung*?
+      </p>
+      
+      <p><small>* 4 Wörter, keine Hashtags</small></p>
+    `,
+    solution: secrets('chal_96'),
+  },
 ]

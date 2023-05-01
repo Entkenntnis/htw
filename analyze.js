@@ -205,6 +205,18 @@ module.exports = function (App) {
     }
 
     output += '<p><a href="/mapWithStats" style="color:#007053">Karte</a></p>'
+    
+    
+    output += '<h2>Räume</h2>'
+    
+    const roomsFromDB = (await App.db.models.Room.findAll()).filter(
+      (room) =>
+        !App.moment(room.createdAt).isBefore(fromDate)
+    )
+    
+    for (const room of roomsFromDB) {
+      output += `<p>Raum: ${room.name}, User: <strong>${users.filter(user => user.RoomId == room.id).length}</strong>, erstellt: ${room.createdAt.toLocaleString()}</p>`
+    }
 
     output += '<h2>Punkte</h2>'
 

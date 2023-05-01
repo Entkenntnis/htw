@@ -69,6 +69,8 @@ require(path)((config) => {
 
   config.slowRequestWarning = true
   config.slowRequestThreshold = 5000
+  
+  config.autoPassword = true
 
   config.map.backgroundLicenseHtml = `
     <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>
@@ -147,10 +149,20 @@ require(path)((config) => {
       <p>Wenn du dich bei HackTheWeb registrierst bzw. einloggst, setzt die Website einen Cookie mit einer Session-ID. Diese wird benötigt, um deinen Login-Status aufrechtzuerhalten. Der Cookie wird beim Schließen des Browserfensters oder nach einem Tag automatisch gelöscht. Ein Tracking findet damit nicht statt.
       </p>
       
+      <p>Lokale Accounts werden dauerhaft in deinem Browser gespeichert. Du kannst durch einen Klick <a onclick="resetLocalUsers()" href="#">alle lokale Accounts entfernen</a>.
+      </p>
+      
       <h3 class="my-4">Google Fonts</h3>
       
       <p>Diese Website verwendet Google Fonts. Für nähere Informationen dazu besuche ihre <a href="https://developers.google.com/fonts/faq" target="_blank">FAQ</a>.
       </p>
+      
+      <script>
+        function resetLocalUsers() {
+          localStorage.removeItem('htw_local_users')
+          alert('Accounts erfolgreich entfernt.')
+        }
+      </script>
     `,
   })
 
@@ -175,7 +187,7 @@ require(path)((config) => {
   config.i18nExtend.push({
     lng: 'de',
     key: 'home.invite_',
-    value: `Neu hier? Erstelle einen kostenlosen Account und lege los: {{-link}}</p>
+    value: `Neu hier? Erstelle einen kostenlosen Account und lege los: <strong>{{-link}}</strong></p>
 
       <p>Besuche die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.
     `,

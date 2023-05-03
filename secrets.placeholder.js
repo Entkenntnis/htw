@@ -2,6 +2,7 @@ module.exports = {
   config_db_password: '42',
   config_master_password: '42',
   config_address: '42',
+  config_token_secret: '42',
   chal_72: '42',
   chal_46: '42',
   chal_1: '42',

@@ -71,7 +71,7 @@ require(path)((config) => {
   config.slowRequestThreshold = 5000
 
   config.autoPassword = true
-  
+
   config.tokenSecret = secrets('config_token_secret')
 
   config.map.backgroundLicenseHtml = `

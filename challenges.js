@@ -74,7 +74,7 @@ module.exports = [
     
       <p>Bei den meisten Aufgabe geht es darum, aus den Angaben heraus eine Antwort zu finden. Allerdings findet sich diese meist nur, wenn man die Aufgabe aus der richtigen Perspektive betrachtet - eben aus der Perspektive eines Hackers.</p>
     
-      <p>Bei der Bearbeitung der Aufgaben sind ausdrücklich alle Hilfsmittel erlaubt. Du darfst im Internet suchen, einen Taschenrechner verwenden, mit Stift und Papier Notizen machen ... Fühl dich frei und nutze die Tools, die dir bei der Bearbeitung der Aufgaben am meisten helfen.
+      <p>Bei der Bearbeitung der Aufgaben sind ausdrücklich alle Hilfsmittel erlaubt. Du darfst im Internet suchen, einen Taschenrechner oder Chatbot verwenden, mit Stift und Papier Notizen machen... Fühl dich frei und nutze die Tools, die dir bei der Bearbeitung der Aufgaben am meisten helfen.
       </p>
       
       ${

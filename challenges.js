@@ -2985,4 +2985,48 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_96'),
   },
+
+  {
+    id: 97,
+    pos: { x: 1194, y: 1650 },
+    title: 'Cipher II',
+    date: '2023-05-06',
+    deps: [93],
+    html: `
+      <p>Deine scharfer Blick und deine Erfahrung als Hacker*in lassen sich nicht täuschen: Viel Sicherheit bringt der Cipher aus der letzten Aufgaben nicht.
+      </p>
+      
+      <p>Daher gibt es nun eine aktualisierte Version, die deutlich mehr Sicherheit bieten soll:
+      </p>
+      
+      <code><pre style="font-size:14px">function cipher_ii(input_bytes) {
+    key = < ??? >
+    previousOutput = 0
+    
+    output_bytes = []
+
+    for (byte in input_bytes) {
+        current_key = previousOutput XOR key
+        xor_byte = byte XOR current_key
+        previousOutput = xor_byte
+        output_bytes.append(xor_byte)
+    }
+
+    return output_bytes
+}
+
+message = < ??? >
+bytes = ascii_string_to_bytes(message)
+encrypted_bytes = cipher_ii(bytes)
+hex_string = convert_bytes_to_hex_string(encrypted_bytes)
+print(hex_string)</pre></code>
+
+      <p>Der Schlüssel ist eine Zahl zwischen 0 und 255. Die Ausgabe dieses Programms siehst so aus:
+      </p>
+      
+      <p><code>4c2f513f5a3256355d3e577a1e60193458204e2b066f0b631d750a27690d70157d022f4c2846235a771b740a68097108255b3f51345c23002d680c641b365f3753305875395a23593b443d0a27781c6206600221</code>
+      </p>
+    `,
+    solution: secrets('chal_97'),
+  },
 ]

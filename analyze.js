@@ -121,6 +121,152 @@ module.exports = function (App) {
     res.send(output)
   })
 
+  App.express.get('/kpi', async (req, res) => {
+    const solutions = await App.db.models.Solution.findAll({})
+    const solvers = solutions.map((s) => ({
+      user: s.UserId,
+      date: App.moment.utc(s.createdAt),
+    }))
+
+    const usersDB = await App.db.models.User.findAll()
+    const userCreated = usersDB
+      .filter((u) => u.score > 0)
+      .map((u) => App.moment.utc(u.createdAt))
+
+    //console.log(userCreated)
+
+    let output = ''
+
+    solvers.sort((a, b) => (b.date.isBefore(a.date) ? 1 : -1))
+    const start = solvers[0].date
+    const end = App.moment(solvers[solvers.length - 1].date)
+
+    const average = []
+    let current = App.moment(start).add(29, 'days')
+    const knowUsers = {}
+    let rawData = []
+
+    while (current.isBefore(end)) {
+      const windowStart = App.moment(current).subtract(28, 'days')
+      const dayEnd = App.moment(current).add(1, 'days')
+      console.log(dayEnd)
+      const users = {}
+      const guardForDaily = {}
+      let dailyNewUsers = 0
+      let dailyReccuringUsers = 0
+      solvers.forEach((s) => {
+        if (
+          s.date.isAfter(current) &&
+          s.date.isBefore(dayEnd) &&
+          !guardForDaily[s.user]
+        ) {
+          guardForDaily[s.user] = true
+          if (knowUsers[s.user]) {
+            dailyReccuringUsers++
+          } else {
+            dailyNewUsers++
+            knowUsers[s.user] = true
+          }
+        }
+        if (s.date.isBefore(dayEnd) && s.date.isAfter(windowStart)) {
+          users[s.user] = true
+        }
+      })
+      let newUsers = 0
+      userCreated.forEach((u) => {
+        if (u.isBefore(dayEnd) && u.isAfter(windowStart)) {
+          newUsers++
+        }
+      })
+      //console.log(newUsers)
+      output += `${current.toString()},${
+        Object.keys(users).length
+      },${newUsers}<br>`
+      current.add(1, 'day')
+      rawData.push(Object.keys(users).length)
+    }
+
+    while (rawData.length < 1300) {
+      rawData.unshift(0)
+    }
+
+    // Get the last 365 values for this year
+    const thisYear = rawData.slice(-365 + 30)
+
+    // Get the last 365 values for the previous year
+    const previousYear = rawData.slice(-365 * 2 + 30, -365 + 30)
+
+    // Get the last 365 values for the previous previous year
+    const previousPreviousYear = rawData.slice(-365 * 3 + 30, -365 * 2 + 30)
+
+    const labels = []
+
+    let startTs = Date.now() + 30 * 24 * 60 * 60 * 1000
+    for (let i = 0; i < 365; i++) {
+      labels.push(
+        new Date(startTs).toLocaleDateString('de-DE', {
+          day: 'numeric',
+          month: 'short',
+        })
+      )
+      startTs -= 24 * 60 * 60 * 1000
+    }
+    labels.reverse()
+
+    res.send(`
+      <head>
+        <title>
+          Hack The Web - KPI Dashboard
+        </title>
+      </head>
+      <div>
+        <canvas id="myChart"></canvas>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <script>
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ${JSON.stringify(labels)},
+            datasets: [{
+              label: 'Dieses Jahr',
+              data: ${JSON.stringify(thisYear)},
+              borderWidth: 1
+            },{
+              label: 'Letztes Jahr',
+              data: ${JSON.stringify(previousYear)},
+              borderWidth: 1
+            },{
+              label: 'Vorletztes Jahr',
+              data: ${JSON.stringify(previousPreviousYear)},
+              borderWidth: 1
+            }]
+          },
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'KPI: Monatlich aktive NutzerInnen',
+                font: {
+                  size: 32,
+                }
+              } 
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+    
+    `)
+  })
+
   App.express.get('/dashboard', async (req, res) => {
     let output =
       '<!DOCTYPE html><html><head><style>body{background-color:#222222;color:white;}</style></head><h1>Dashboard</h1><title>Dashboard</title>'

@@ -122,82 +122,64 @@ module.exports = function (App) {
   })
 
   App.express.get('/kpi', async (req, res) => {
-    const solutions = await App.db.models.Solution.findAll({})
-    const solvers = solutions.map((s) => ({
-      user: s.UserId,
-      date: App.moment.utc(s.createdAt),
-    }))
+    const solutions = await App.db.models.Solution.findAll({ raw: true })
 
-    const usersDB = await App.db.models.User.findAll()
-    const userCreated = usersDB
-      .filter((u) => u.score > 0)
-      .map((u) => App.moment.utc(u.createdAt))
+    console.log('KPI: Daten geladen, gruppiere ...')
 
-    //console.log(userCreated)
-
-    let output = ''
-
-    solvers.sort((a, b) => (b.date.isBefore(a.date) ? 1 : -1))
-    const start = solvers[0].date
-    const end = App.moment(solvers[solvers.length - 1].date)
-
-    const average = []
-    let current = App.moment(start).add(29, 'days')
-    const knowUsers = {}
-    let rawData = []
-
-    while (current.isBefore(end)) {
-      const windowStart = App.moment(current).subtract(28, 'days')
-      const dayEnd = App.moment(current).add(1, 'days')
-      console.log(dayEnd)
-      const users = {}
-      const guardForDaily = {}
-      let dailyNewUsers = 0
-      let dailyReccuringUsers = 0
-      solvers.forEach((s) => {
-        if (
-          s.date.isAfter(current) &&
-          s.date.isBefore(dayEnd) &&
-          !guardForDaily[s.user]
-        ) {
-          guardForDaily[s.user] = true
-          if (knowUsers[s.user]) {
-            dailyReccuringUsers++
-          } else {
-            dailyNewUsers++
-            knowUsers[s.user] = true
-          }
-        }
-        if (s.date.isBefore(dayEnd) && s.date.isAfter(windowStart)) {
-          users[s.user] = true
-        }
+    const usersByDate = solutions.reduce((result, obj) => {
+      const date = new Date(obj.createdAt)
+      const key = date.toLocaleDateString('de-DE', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
       })
-      let newUsers = 0
-      userCreated.forEach((u) => {
-        if (u.isBefore(dayEnd) && u.isAfter(windowStart)) {
-          newUsers++
-        }
-      })
-      //console.log(newUsers)
-      output += `${current.toString()},${
-        Object.keys(users).length
-      },${newUsers}<br>`
-      current.add(1, 'day')
-      rawData.push(Object.keys(users).length)
+      if (key == '29. Mai 2020') return result // data import
+      const entry = (result[key] = result[key] || [])
+      entry.push(obj.UserId)
+      return result
+    }, {})
+
+    console.log('KPI: Daten nach Tag gruppiert')
+
+    const now = Date.now()
+
+    const dateIndex = []
+
+    for (let i = 0; i < 1300; i++) {
+      dateIndex.push(
+        new Date(now - i * 1000 * 60 * 60 * 24).toLocaleDateString('de-DE', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        })
+      )
     }
 
-    while (rawData.length < 1300) {
-      rawData.unshift(0)
+    const MAUs = []
+
+    for (let i = 0; i < 1250; i++) {
+      const windowStart = i + 28
+      const windowEnd = i
+      const userIds = new Set()
+      for (let d = windowStart; d >= windowEnd; d--) {
+        for (const id of usersByDate[dateIndex[d]] || []) {
+          userIds.add(id)
+        }
+      }
+      MAUs.push(userIds.size)
     }
 
     // Get the last 365 values for this year
-    const thisYear = rawData.slice(-365 + 30)
+    const thisYear = MAUs.slice(0, 365 - 30)
+    thisYear.reverse()
 
     // Get the last 365 values for the previous year
-    const previousYear = rawData.slice(-365 * 2 + 30, -365 + 30)
+    const previousYear = MAUs.slice(365 - 30, 365 * 2 - 30)
+    previousYear.reverse()
 
     // Get the last 365 values for the previous previous year
-    const previousPreviousYear = rawData.slice(-365 * 3 + 30, -365 * 2 + 30)
+    const previousPreviousYear = MAUs.slice(365 * 2 - 30, 365 * 3 - 30)
+    previousPreviousYear.reverse()
 
     const labels = []
 

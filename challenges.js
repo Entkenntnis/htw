@@ -3029,4 +3029,32 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_97'),
   },
+
+  {
+    id: 98,
+    pos: { x: 680, y: 1460 },
+    title: 'SQL Tutorial',
+    date: '2023-05-10',
+    deps: [94, 96],
+    html: `
+      <p>Stark von dir, dass du dich immer wieder an neue Herausforderung herantraust und bereit bist, neue Dinge zu lernen. Das erfordert viel Motivation und Mut.
+      </p>
+      
+      <p>In dieser Aufgabe geht es um SQL. Um dich zu unterstützen habe ich ein Mini-Tutorial gebaut. Wir schauen uns die Tabelle <code>Geheimnis</code> mit den Spalten <code>schlüssel</code> und <code>wert</code> an. Du kannst deine Anfragen direkt ausprobieren. Gib verschiedene Eingaben für den Schlüssel ein und schaue dir das Ergebnis an. Probiere es mit apfel, mandarine und wassermelone.
+      </p>
+      
+      <p><code>SELECT * FROM Geheimnis WHERE schlüssel='<input id="value" style="margin-left:8px; margin-right:8px;">';</code></p>
+      
+      <p><span id="runner" class="d-none"><button class="btn btn-sm btn-primary">Ausführen</button></span></p>
+      
+      <pre id="output" style="margin-top:24px;margin-bottom:24px;padding:8px;" class="alert alert-secondary">&nbsp;</pre>
+      
+      <p>In der Datenbank ist ein weiterer Eintrag mit der Antwort gespeichert. Der Schlüssel dafür ist nicht bekannt. Damit sollte das Geheimnis sicher sein.
+      </p>
+      
+      <script src="/sql.js"></script>
+      <script src="/chals/chal98.js"></script>
+    `,
+    solution: secrets('chal_98'),
+  },
 ]

@@ -151,7 +151,7 @@ module.exports = [
       <p>Deine Antwort in Codes lautet:
       </p>
       
-      <p>35 &nbsp; 76 &nbsp; 79 &nbsp; 76 &nbsp; 32 &nbsp; 35 &nbsp; 110 &nbsp; 105 &nbsp; 99 &nbsp; 101
+      <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
       </p>
     `,
     solution: secrets('chal_4'),

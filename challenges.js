@@ -3057,4 +3057,23 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_98'),
   },
+
+  {
+    id: 99,
+    pos: { x: 790, y: 1540 },
+    title: 'Regeln',
+    date: '2023-05-13',
+    deps: [94, 95],
+    html: `
+      <p>Ich spüre, dass heute was anders ist: Hast du eine neue Frisur oder einen neuen Pulli? Etwas ist heute anders und das gefällt mir!
+      </p>
+      
+      <p>Schön, dass du so regelmäßig hier vorbei schaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
+      </p>
+      
+      <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur zwei Regeln. Wie lautet die zweite Regel?
+      </p>
+    `,
+    solution: secrets('chal_99'),
+  },
 ]

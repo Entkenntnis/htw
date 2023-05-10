@@ -10,7 +10,7 @@ initSqlJs().then(function(SQL){
     const button = document.getElementById('runner')
     button.className = ''
     
-    button.onclick = () => {
+    function handler() {
       text = document.getElementById('value')
       const sql = "SELECT * FROM Geheimnis WHERE schlüssel='" + text.value + "';"
       try {
@@ -20,6 +20,15 @@ initSqlJs().then(function(SQL){
         document.getElementById('output').innerHTML = e.toString()
       }
     }
+    
+    button.addEventListener('click', handler)
+    
+    const input = document.getElementById("value")
+    input.addEventListener("keydown", function(event) {
+      if (event.keyCode === 13) {
+        handler()
+      }
+    })
   }
   xhr.send()
 })

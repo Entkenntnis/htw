@@ -3053,7 +3053,7 @@ print(hex_string)</pre></code>
       </p>
       
       <script src="/sql.js"></script>
-      <script src="/chals/chal98.js"></script>
+      <script src="/chals/chal98_2.js"></script>
     `,
     solution: secrets('chal_98'),
   },

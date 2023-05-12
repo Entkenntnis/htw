@@ -653,10 +653,10 @@ module.exports = [
 
   {
     id: 27,
-    pos: { x: 160, y: 485 },
+    pos: { x: 155, y: 745 },
     title: 'Fingerspitzengefühl',
     date: '2017-08-26',
-    deps: [51, 68],
+    deps: [29, 66],
     html: `
       <p>Taste vorsichtig über das Feld und lies die Antwort ab:
       </p>
@@ -701,7 +701,7 @@ module.exports = [
     pos: { x: 195, y: 615 },
     title: 'GPS-Code',
     date: '2017-08-26',
-    deps: [27],
+    deps: [70],
     html: `
       <p>Die Anfangsbuchstaben folgender deutscher Orte ergeben die Antwort:
       </p>
@@ -1164,7 +1164,7 @@ module.exports = [
     pos: { x: 415, y: 1005 },
     title: 'Schriftzeichen',
     date: '2020-05-20',
-    deps: [50, 70],
+    deps: [50, 78],
     html: `
       <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich nun hinter folgenden Schriftzeichen?
       </p>
@@ -1549,7 +1549,7 @@ Doch ich spüre tiefes Beben.</i>
     pos: { x: 355, y: 665 },
     title: 'Code Royale',
     date: '2020-08-17',
-    deps: [52, 78],
+    deps: [52, 69],
     html: `
       <p>Es gibt fast keine Grenzen, mit welchen Mitteln man einen Geheimtext schreiben kann. Hier ist mein bescheidener Versuch, ein bekanntes Spiel einzubringen. Der Code ist nicht perfekt geworden, aber sollte gut genug für dich sein, um das Lösungswort zu entziffern. Es ist ein deutsches Wort mit 6 Buchstaben:
       </p>
@@ -1592,7 +1592,7 @@ Doch ich spüre tiefes Beben.</i>
     pos: { x: 450, y: 600 },
     title: 'Scan Mich',
     date: '2020-08-17',
-    deps: [33, 78],
+    deps: [33, 69],
     html: `
       <p><img src="/chals/chal60.png" width=400 height=400></p>
     `,
@@ -1989,10 +1989,10 @@ PIXI.loader
 
   {
     id: 69,
-    pos: { x: 155, y: 745 },
+    pos: { x: 330, y: 480 },
     title: 'Schattenbilder',
     date: '2021-03-19',
-    deps: [29, 66],
+    deps: [18],
     html: `
       <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
       </p>
@@ -2026,10 +2026,10 @@ PIXI.loader
 
   {
     id: 70,
-    pos: { x: 255, y: 885 },
+    pos: { x: 160, y: 485 },
     title: 'Karol',
     date: '2021-03-19',
-    deps: [69],
+    deps: [51, 68],
     html: `
       <p>Lasse <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">Robot Karol</a> folgenden Code ausführen:
       </p>
@@ -2206,10 +2206,10 @@ PIXI.loader
 
   {
     id: 78,
-    pos: { x: 330, y: 480 },
+    pos: { x: 255, y: 885 },
     title: 'Papier',
     date: '2022-02-09',
-    deps: [18],
+    deps: [27],
     html: `
       <p>Die meisten Webseiten können sich an die Größe des Bildschirms anpassen, sei es ein Handy, Tablet oder großer Monitor. In der analogen Welt gibt es diese Möglichkeiten nicht. Dort findet sich häufig nur das Format DIN A4.
       </p>

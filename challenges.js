@@ -14,9 +14,9 @@ function calculatorCheck(a) {
   else return a
 }
 
-function trinterpreter(str) {
+/*function trinterpreter(str) {
   const stack = []
-  const ops = '+-*/'
+  const ops = '+-/*'
   let prepare = str.replace(/drop/g, '#')
   prepare = prepare.replace(/dup/g, '@')
   prepare = prepare.replace(/ /g, '')
@@ -60,7 +60,7 @@ function trinterpreterstripped(str) {
   if (str.split('').some((c) => allowed.indexOf(c) < 0))
     return 'ungültiger Befehl'
   return trinterpreter(str)
-}
+}*/
 
 module.exports = [
   {
@@ -436,7 +436,7 @@ module.exports = [
     pos: { x: 270, y: 390 },
     title: 'ROT13',
     date: '2017-05-18',
-    deps: [24, 31],
+    deps: [24, 110],
     html: `
       <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Dein Hacker-Blick ist gefragt! Du siehst wunderbar aus, wenn du scharf nachdenkst.
       </p>
@@ -524,7 +524,7 @@ module.exports = [
     pos: { x: 560, y: 410 },
     title: 'MD5 Reverse',
     date: '2017-08-25',
-    deps: [32, 55],
+    deps: [55, 111],
     html: `
       <p>Du hast es fast geschafft: Beim Angriff auf eine Website hast du Zugriff auf die Benutzerdatenbank bekommen und hast für das Passwort des Superadmins folgenden Wert gefunden:
       </p>
@@ -734,12 +734,12 @@ module.exports = [
 
   {
     id: 31,
-    pos: { x: 300, y: 310 },
-    title: 'Taschenrechner',
+    pos: { x: 430, y: 450 },
+    title: 'Taschenrechner III',
     date: '2017-08-26',
-    deps: [4],
+    deps: [111],
     html: `
-      <p>Das hier ist der Taschenrechner von Hack the Web:
+      <p>Es wird Zeit für einen neuen Taschenrechner:
       </p>
       
       <br>
@@ -753,7 +753,7 @@ module.exports = [
       
       <br>
       
-      <p>Der Taschenrechner besteht aus einer "Röhre", die rechts offen ist. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
+      <p>Dieser Taschenrechner besteht aus einer "Röhre", die rechts offen ist. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
       </p>
       
       <p>Um weitere Zahlen zu erzeugen, musst du rechnen. Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
@@ -779,8 +779,8 @@ module.exports = [
 
   {
     id: 32,
-    pos: { x: 380, y: 370 },
-    title: 'Taschenrechner II',
+    pos: { x: 550, y: 500 },
+    title: 'Taschenrechner IV',
     date: '2017-08-26',
     deps: [31],
     html: `
@@ -806,8 +806,8 @@ module.exports = [
 
   {
     id: 33,
-    pos: { x: 430, y: 450 },
-    title: 'Taschenrechner III',
+    pos: { x: 675, y: 525 },
+    title: 'Taschenrechner V',
     date: '2017-08-26',
     deps: [32],
     html: `
@@ -831,7 +831,7 @@ module.exports = [
     hidesubmit: true,
   },
 
-  {
+  /*{
     id: 34,
     pos: { x: 550, y: 500 },
     title: 'Taschenrechner IV',
@@ -873,7 +873,7 @@ module.exports = [
         correct: val == '24',
       }
     },
-  },
+  },*/
 
   {
     id: 36,
@@ -1592,7 +1592,7 @@ Doch ich spüre tiefes Beben.</i>
     pos: { x: 450, y: 600 },
     title: 'Scan Mich',
     date: '2020-08-17',
-    deps: [33, 69],
+    deps: [31, 69],
     html: `
       <p><img src="/chals/chal60.png" width=400 height=400></p>
     `,
@@ -2306,7 +2306,7 @@ PIXI.loader
     pos: { x: 785, y: 615 },
     title: 'Formulare',
     date: '2022-12-28',
-    deps: [30, 35, 60],
+    deps: [30, 33, 60],
     html: `
       <p>Unintuitive Formulare sind ein Schrecken für jeden Internetbenutzer. Zum Beispiel findest du die Antwort zu dieser Aufgabe in diesem viel zu kleinen Textfeld:</p>
       
@@ -3075,5 +3075,99 @@ print(hex_string)</pre></code>
       </p>
     `,
     solution: secrets('chal_99'),
+  },
+
+  {
+    id: 110,
+    pos: { x: 300, y: 310},
+    title: 'Taschenrechner',
+    date: '2023-05-13',
+    deps: [4],
+    html: `
+      <p>Schwierigkeiten halten dich nicht von deinen Zielen ab. Im Gegenteil: Du nutzt deine Kreativität, um die Herausforderung zu lösen.
+      </p>
+      
+      <p>Hier ist ein Taschenrechner aus einem Tutorial. Ich bin dem Tutorial gefolgt, muss aber irgendwo einen Fehler gemacht - man kann keine mehrstelligen Zahlen eingeben.
+      </p>
+      
+      <p>Deine Kreativität ist nun gefragt. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
+      </p>
+      
+      <div class="calculator">
+        <div class="calculator__display">0</div>
+
+        <div class="calculator__keys">
+          <button class="key--operator" data-action="add">+</button>
+          <button class="key--operator" data-action="subtract">-</button>
+          <button class="key--operator" data-action="multiply">&times;</button>
+          <button class="key--operator" data-action="divide">÷</button>
+          <button>7</button>
+          <button>8</button>
+          <button>9</button>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>0</button>
+          <button data-action="decimal">,</button>
+          <button data-action="clear">AC</button>
+          <button class="key--equal" data-action="calculate">=</button>
+        </div>
+      </div>
+      
+      <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
+      
+      <link rel="stylesheet" href="/chals/chal110.css">
+      
+      <script src="/chals/chal110.js"></script>
+    `,
+    solution: secrets('chal_110'),
+    hidesubmit: true,
+  },
+
+  {
+    id: 111,
+    pos: { x: 380, y: 370 },
+    title: 'Taschenrechner II',
+    date: '2023-05-13',
+    deps: [110],
+    html: `
+      <p>Berechne diesmal die Zahl <strong>10240</strong>.
+      </p>
+      
+      <div class="calculator">
+        <div class="calculator__display">0</div>
+
+        <div class="calculator__keys">
+          <button class="key--operator" data-action="add">+</button>
+          <button class="key--operator" data-action="subtract">-</button>
+          <button class="key--operator" data-action="multiply">&times;</button>
+          <button class="key--operator" data-action="divide">÷</button>
+          <button>7</button>
+          <button>8</button>
+          <button>9</button>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>0</button>
+          <button data-action="decimal">,</button>
+          <button data-action="clear">AC</button>
+          <button class="key--equal" data-action="calculate">=</button>
+        </div>
+      </div>
+      
+      <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
+      
+      <link rel="stylesheet" href="/chals/chal110.css">
+      
+      <script src="/chals/chal110.js"></script>
+    `,
+    solution: secrets('chal_111'),
+    hidesubmit: true,
   },
 ]

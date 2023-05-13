@@ -3079,7 +3079,7 @@ print(hex_string)</pre></code>
 
   {
     id: 110,
-    pos: { x: 300, y: 310},
+    pos: { x: 300, y: 310 },
     title: 'Taschenrechner',
     date: '2023-05-13',
     deps: [4],

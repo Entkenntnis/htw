@@ -1,4 +1,5 @@
- 
+// source: https://www.freecodecamp.org/news/how-to-build-an-html-calculator-app-from-scratch-using-javascript-4454b8714b98/
+
 const calculate = (n1, operator, n2) => {
   const firstNum = parseFloat(n1.replace(',', '.'));
   const secondNum = parseFloat(n2.replace(',', '.'));

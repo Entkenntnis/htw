@@ -456,6 +456,33 @@ require(path)((config) => {
         `,
       })
     })
+    
+    App.express.get('/api/highscore', async (req, res) => {
+      const users = await App.db.models.User.findAll({
+        attributes: ['name', 'score', 'updatedAt'],
+        where: {
+          score: { [Sequelize.Op.gt]: 0 },
+        },
+        order: [
+          ['score', 'DESC'],
+          ['updatedAt', 'DESC'],
+        ],
+        limit: 10000,
+        raw: true
+      })
+      users.forEach((user, i) => {
+        if (i > 0 && users[i - 1].score == user.score) {
+          user.rank = users[i - 1].rank
+        } else {
+          user.rank = i + 1
+        }
+      })
+      res.json(users)
+    })
+    
+    App.express.get('/api/map', async (req, res) => {
+      res.json(Object.keys(App.challenges.distance))
+    })
 
     /*App.express.get('/experiment', async (req, res) => {
       const currentSolutions = await App.db.models.Solution.findAll({

@@ -154,7 +154,13 @@ module.exports = [
       <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
       </p>
     `,
-    solution: secrets('chal_4'),
+    check: (answer) => {
+      const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
+      return {
+        answer: trimmed,
+        correct: trimmed == secrets('chal_4'),
+      }
+    },
   },
 
   {

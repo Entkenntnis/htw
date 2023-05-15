@@ -3176,4 +3176,39 @@ print(hex_string)</pre></code>
     solution: secrets('chal_111'),
     hidesubmit: true,
   },
+
+  {
+    id: 100,
+    pos: { x: 920, y: 1590 },
+    title: 'Wii',
+    date: '2023-05-17',
+    deps: [93, 96],
+    render: ({ req }) => `
+      <p>Lust auf einen kleinen Spiele-Nachmittag mit Mario-Kart? Das wird sicher Spaß machen - auch für mich, selbst wenn ich ständig gegen dich verlieren werden.
+      </p>
+      
+      <p>Mario-Kart hat viele Generationen hinter sich. Ich habe noch mit der Version auf der Nintendo Wii begonnen.
+      </p>
+      
+      <p>Wenn man die Wii mit dem Internet verbindet, dann könnte man damit sogar Hack The Web spielen, denn sie enthält einen Browser. Rufe diese Seite auf der Wii auf (oder täusche das dem Server so vor), um die Antwort zu erhalten.
+      </p>
+      
+      <p><code>${(() => {
+        const userAgent = req.headers['user-agent'] || ''
+        const isWii = /Nintendo Wii/i.test(userAgent)
+
+        if (isWii) {
+          return (
+            'Auf gehts mit 150cc auf dem Regenbogen-Boulevard. Die Antwort lautet ' +
+            secrets('chal_100') +
+            '.'
+          )
+        } else {
+          return 'Das ist keine Wii: ' + userAgent
+        }
+      })()}</code></p>
+      
+    `,
+    solution: secrets('chal_100'),
+  },
 ]

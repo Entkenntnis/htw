@@ -217,7 +217,7 @@ require(path)((config) => {
           <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwoch Abend und jeden Samstag Abend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
           </p>
           
-          <p>Btw, Hack The Web hat nach aktuellem Stand 90 Aufgaben.
+          <p>Btw, Hack The Web hat nach aktuellem Stand 91 Aufgaben.
           </p>
         
           <div class="my-5"></div>
@@ -456,7 +456,7 @@ require(path)((config) => {
         `,
       })
     })
-    
+
     App.express.get('/api/highscore', async (req, res) => {
       const users = await App.db.models.User.findAll({
         attributes: ['name', 'score', 'updatedAt'],
@@ -468,7 +468,7 @@ require(path)((config) => {
           ['updatedAt', 'DESC'],
         ],
         limit: 10000,
-        raw: true
+        raw: true,
       })
       users.forEach((user, i) => {
         if (i > 0 && users[i - 1].score == user.score) {
@@ -479,7 +479,7 @@ require(path)((config) => {
       })
       res.json(users)
     })
-    
+
     App.express.get('/api/map', async (req, res) => {
       res.json(Object.keys(App.challenges.distance))
     })

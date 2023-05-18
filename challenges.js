@@ -3211,4 +3211,21 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_100'),
   },
+
+  {
+    id: 101,
+    pos: { x: 950, y: 1700 },
+    title: 'Faktoren',
+    date: '2023-05-20',
+    deps: [93, 95],
+    html: `
+      <p>Ich weiß, dass Tools wie Wolfram Alpha viel besser geeignet wären für diese Aufgabe. Trotzdem wollte ich mal sehen wie ChatGPT auf diese Frage antwortet. Und das Ergebnis ist ... ernüchternd.
+      
+      <p><img src="/chals/chal101.png" /></p>
+    
+      <p>Der Chat geht so viele Zeilen weiter. Das kannst du 100-mal besser! Deine Antwort ist der größte Primfaktor von <code>864186418888888888802470247</code>.
+      </p>
+    `,
+    solution: secrets('chal_101'),
+  },
 ]

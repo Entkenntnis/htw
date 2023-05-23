@@ -3228,4 +3228,49 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_101'),
   },
+
+  {
+    id: 102,
+    pos: { x: 1294, y: 1700 },
+    title: 'Cipher III',
+    date: '2023-05-24',
+    deps: [97],
+    html: `
+      <p>Hut ab! Es ist wirklich schwer, einen Cipher zu entwickeln, der von dir nicht zu brechen ist. Ich muss mir anscheinend nochmal mehr Mühe geben.
+      </p>
+      
+      <p>Mir gehen langsam die Ideen aus. Vielleicht hält doppelt besser: Der neue Cipher verwendet abwechselnd zwei verschiedene Schlüssel.
+      </p>
+      
+      <code><pre style="font-size:14px">function cipher_iii(input_bytes) {
+    key1 = < ??? >
+    key2 = < ??? >
+    previousOutput = 0
+    
+    output_bytes = []
+
+    for (i = 0; i < input_bytes.length; i++) {
+        current_key = previousOutput XOR (i == 0 ? key1 : key2)
+        xor_byte = byte XOR current_key
+        previousOutput = xor_byte
+        output_bytes.append(xor_byte)
+    }
+
+    return output_bytes
+}
+
+message = < ??? >
+bytes = ascii_string_to_bytes(message)
+encrypted_bytes = cipher_ii(bytes)
+hex_string = convert_bytes_to_hex_string(encrypted_bytes)
+print(hex_string)</pre></code>
+
+      <p>Die Schlüssel sind Zahl zwischen 0 und 255. Die Ausgabe dieses Programms siehst so aus:
+      </p>
+      
+      <p><code>591745014e4f1d551a5f5e0d43161b1a6d29612c6e27632c2d7f37783d3c7f3272262b2a5105470d491a1b5301545507da2429287c3376773f7d343573377430317125626d6c09410504642b7e28663560612c6c386d297c7d1c030f030f101c101c030f030f</code>
+      </p>
+    `,
+    solution: secrets('chal_102'),
+  },
 ]

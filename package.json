@@ -4,13 +4,13 @@
   "description": "hack.arrrg.de",
   "scripts": {
     "start": "node index.js",
-    "save2local": "LIVE=1 SAVE2LOCAL=1 node index.js",
+    "save2local": "bash save2local",
     "format": "bash prettify"
   },
   "main": "index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
   "dependencies": {
-    "@entkenntnis/challenges-server": "1.2.4",
+    "@entkenntnis/challenges-server": "1.2.5",
     "escape-html": "^1.0.3",
     "mariadb": "^2.4.1",
     "node-fetch": "^2.6.1"

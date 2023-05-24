@@ -3250,7 +3250,7 @@ print(hex_string)</pre></code>
     output_bytes = []
 
     for (i = 0; i < input_bytes.length; i++) {
-        current_key = previousOutput XOR (i == 0 ? key1 : key2)
+        current_key = previousOutput XOR (i MODULO 2 == 0 ? key1 : key2)
         xor_byte = byte XOR current_key
         previousOutput = xor_byte
         output_bytes.append(xor_byte)
@@ -3268,7 +3268,7 @@ print(hex_string)</pre></code>
       <p>Die Schlüssel sind Zahl zwischen 0 und 255. Die Ausgabe dieses Programms siehst so aus:
       </p>
       
-      <p><code>591745014e4f1d551a5f5e0d43161b1a6d29612c6e27632c2d7f37783d3c7f3272262b2a5105470d491a1b5301545507da2429287c3376773f7d343573377430317125626d6c09410504642b7e28663560612c6c386d297c7d1c030f030f101c101c030f030f</code>
+      <p><code>59176f2b4e4f377f1a5f7427431631306d294b066e2749062d7f1d523d3c55187226010051056d27491a317901547f2dda2403027c335c5d3f7d1e1f73375e1a31710f486d6c236b05044e017e284c1f60610646386d03567d1c2925030f3a36101c2925030f</code>
       </p>
     `,
     solution: secrets('chal_102'),

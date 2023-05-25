@@ -83,6 +83,7 @@ require(path)((config) => {
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
     <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
+    <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
   `
 
   config.i18nExtend.push({
@@ -217,7 +218,7 @@ require(path)((config) => {
           <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwoch Abend und jeden Samstag Abend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
           </p>
           
-          <p>Btw, Hack The Web hat nach aktuellem Stand 93 Aufgaben.
+          <p>Btw, Hack The Web hat nach aktuellem Stand 94 Aufgaben.
           </p>
         
           <div class="my-5"></div>

@@ -3273,4 +3273,20 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_102'),
   },
+
+  {
+    id: 103,
+    pos: { x: 698, y: 1671 },
+    title: 'Hintergrund',
+    date: '2023-05-27',
+    deps: [98, 99, 100, 101],
+    html: `
+      <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
+      </p>
+      
+      <p>Das ist eine Eigenschaft, die du mit der Antwort auf diese Aufgabe gemeinsam hast: Die Antwort ist schon immer da gewesen. Du findest sie auf der Rückseite des Planetens dieser Aufgabe.
+      </p>
+    `,
+    solution: secrets('chal_103'),
+  },
 ]

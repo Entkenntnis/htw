@@ -3289,4 +3289,25 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_103'),
   },
+
+  {
+    id: 104,
+    pos: { x: 560, y: 1777 },
+    title: 'Übergang',
+    date: '2023-05-31',
+    deps: [103],
+    html: `
+      <p>Kann es sein, dass du heute etwas braungebrannter aussiehst, als noch bei unserem letzen Treffen? Ha, ich weiß es: du bist gerade von einer Reise zurückgekehrt.
+      </p>
+      
+      <p>Manchmal bekommt man den Eindruck, dass sich ein Übergang an den anderen reiht: Ferien starten, Ferien enden, Schuljahr startet, Schuljahr endet ... und wir mittendrin.
+      </p>
+      
+      <p>In der Informatik können Übergänge mit solchen Diagrammen dargestellt werden. Ein Pfad führt zum Ziel. Dieser zeigt dir die Antwort.
+      </p>
+      
+      <p><img src="/chals/chal104.png" style="background:white;"></img></p>
+    `,
+    solution: secrets('chal_104'),
+  },
 ]

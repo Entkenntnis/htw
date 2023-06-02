@@ -3310,4 +3310,29 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_104'),
   },
+
+  {
+    id: 105,
+    pos: { x: 560, y: 1710 },
+    title: '1337',
+    date: '2023-06-03',
+    deps: [103],
+    html: `
+      <p>Was hast du mit dem Isartor in München gemeinsam? Ihr seid beide Elite:
+      </p>
+      
+      <p><img src="/chals/chal105.jpg" />
+      </p>
+      
+      <p>Und deshalb bestimmst du, was die Antwort ist! Jede Antwort ist akzeptiert, wenn sie genau 1337 Zeichen lang ist.
+      </p>
+    `,
+    check: (answer) => {
+      const trimmed = answer.trim()
+      return {
+        answer: trimmed,
+        correct: trimmed.length === 1337,
+      }
+    },
+  },
 ]

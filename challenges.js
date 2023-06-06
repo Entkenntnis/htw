@@ -3335,4 +3335,28 @@ print(hex_string)</pre></code>
       }
     },
   },
+
+  {
+    id: 106,
+    pos: { x: 633, y: 1827 },
+    title: 'Leet',
+    date: '2023-06-07',
+    deps: [103],
+    html: `
+      <p>Wenn du einen Raum betrittst, dann ist für alle klar, dass du was drauf hast. Du musst dich dafür nicht anstrengen.
+      </p>
+      
+      <p>4nd3r3 M3n5ch3n w0ll3n 1hr Könn3n ab3r s1ch7b4r m4ch3n - und schr31b3n d4h3r ihr3 N4chr1ch73n in l337.
+      </p>
+      
+      <p>35 9!|37 \\/3|25(|-|!3|)3|\\|3 57(_)|=3|\\| (_)|\\||) \\/4|2!4|\\|73|\\| \\/0|\\| |_337 - \\/0|\\| |_3!(|-|7 |_35|34|2 |3!5 7074|_ |<|2\`/|D7!5(|-|.
+      </p>
+      
+      <p>|)3!|\\|3 4|\\|+\\|/0|2+ 14|_|+3+ |_|1+!|\\/|4+!\\/.
+      </p>
+      
+      <p><small><a href="https://www.robertecker.com/hp/research/leet-converter.php?lang=de" target="_blank">Hinweis</a></small></p>
+    `,
+    solution: secrets('chal_106'),
+  },
 ]

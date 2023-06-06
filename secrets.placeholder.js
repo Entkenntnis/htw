@@ -81,6 +81,7 @@ module.exports = {
   chal_102: '42',
   chal_103: '42',
   chal_104: '42',
+  chal_106: '42',
   chal_110: '42',
   chal_111: '42',
 }

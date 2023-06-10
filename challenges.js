@@ -3359,4 +3359,23 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_106'),
   },
+
+  {
+    id: 107,
+    pos: { x: 530, y: 1627 },
+    title: 'Neuland',
+    date: '2023-06-10',
+    deps: [103],
+    html: `
+      <p>Ich sehe, du bist heute gut ausgerüstet und bereit für deine Expedition in unbekanntes Neuland. Ich bewundere deinen Mut.
+      </p>
+      
+      <p>Hier sind deine Koordinaten: Zwischen <a href="http://arrrg.de:40000/" target="_blank">http://arrrg.de:40000/</a> und <a href="http://arrrg.de:41000/" target="_blank">http://arrrg.de:41000/</a> findest du einen geheimen Ort. 
+      </p>
+      
+      <p>Viel Glück auf deiner Suche! Lasse dich nicht von Widrigkeiten des Ödlands abseits gängiger Protokolle abhalten. Sei hartnäckig und wir sehen uns bald wieder.
+      </p>
+    `,
+    solution: secrets('chal_107'),
+  },
 ]

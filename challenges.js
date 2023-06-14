@@ -2384,7 +2384,7 @@ PIXI.loader
       
       <p><img src="/chals/83_2.png"></p>
       
-      <p>Beispiel 3 - vier Aufgaben gelöst. Es ist dabei unerheblich, in welcher Reihenfolge die Aufgaben gelöst werden. Solange sie zur gleichen Karte führen, zählen sie als einen Spielstand.
+      <p>Beispiel 3 - vier Aufgaben gelöst. Es ist dabei unerheblich, in welcher Reihenfolge die Aufgaben gelöst werden. Solange sie zur gleichen Karte führen, zählen sie als ein Spielstand.
       </p>
       
       <p><img src="/chals/83_4.png"></p>
@@ -3377,5 +3377,32 @@ print(hex_string)</pre></code>
       </p>
     `,
     solution: secrets('chal_107'),
+  },
+
+  {
+    id: 108,
+    pos: { x: 800, y: 1790 },
+    title: 'Sprache',
+    date: '2023-06-14',
+    deps: [103],
+    render: ({ req }) => `
+      <p>Dieser Inhalt ist nur für NutzerInnen verfügbar, die Französisch als ihre Sprache eingestellt haben.
+      </p>
+      
+      <p><code>${(() => {
+        const acceptLanguage = req.headers['accept-language'] || ''
+        const isFrench = /fr-?/i.test(acceptLanguage)
+
+        if (isFrench) {
+          return 'La réponse est ' + secrets('chal_108') + '.'
+        } else {
+          return (
+            'Deine Spracheinstellung wird nicht unterstützt: ' + acceptLanguage
+          )
+        }
+      })()}</code></p>
+      
+    `,
+    solution: secrets('chal_108'),
   },
 ]

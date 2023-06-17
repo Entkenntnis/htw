@@ -90,7 +90,7 @@ require(path)((config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: Auf die 100 (<a href="' +
+      'Version: Juli 2023 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -213,12 +213,19 @@ require(path)((config) => {
         content: `
           <div class="my-5"></div>
           
+          <h3>Juli 2023</h3>
+          
+          <p>Das Ziel ist erreicht! Hack The Web hat nun genau 100 Aufgaben. Damit gehe ich wohlverdient in die Sommerpause.
+          </p>
+          
+          <p>Danke für's Mitmachen und wir sehen uns bald wieder!
+          </p>
+          
+          <div class="my-5"></div>
+          
           <h3>Auf die 100</h3>
            
           <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwoch Abend und jeden Samstag Abend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
-          </p>
-          
-          <p>Btw, Hack The Web hat nach aktuellem Stand 99 Aufgaben.
           </p>
         
           <div class="my-5"></div>

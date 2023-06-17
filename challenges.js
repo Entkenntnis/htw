@@ -14,53 +14,94 @@ function calculatorCheck(a) {
   else return a
 }
 
-/*function trinterpreter(str) {
-  const stack = []
-  const ops = '+-/*'
-  let prepare = str.replace(/drop/g, '#')
-  prepare = prepare.replace(/dup/g, '@')
-  prepare = prepare.replace(/ /g, '')
-  const tokens = prepare.split('')
-  for (let pc = 0; pc < tokens.length; pc++) {
-    const c = tokens[pc]
-    if (c.length == 0) continue
-    if (c.length == 1 && c.charCodeAt(0) >= 48 && c.charCodeAt(0) <= 57) {
-      stack.push(parseInt(c))
-    } else if (c == '#') {
-      if (stack.length == 0) return 'drop: Stack leer'
-      stack.pop()
-    } else if (c == '@') {
-      if (stack.length == 0) return 'dup: Stack leer'
-      stack.push(stack[stack.length - 1])
-    } else if (c.length == 1 && ops.indexOf(c) >= 0) {
-      if (stack.length <= 1) return c + ': Stack leer'
-      if (c == '+') {
-        stack.push(stack.pop() + stack.pop())
-      } else if (c == '*') {
-        stack.push(stack.pop() * stack.pop())
-      } else if (c == '-') {
-        var e1 = stack.pop()
-        var e2 = stack.pop()
-        stack.push(e2 - e1)
-      } else {
-        var e1 = stack.pop()
-        var e2 = stack.pop()
-        stack.push(Math.floor(e2 / e1))
-      }
-    } else {
-      return 'unbekannter Befehl: ' + c
-    }
-  }
-  if (stack.length == 0) return 'stack leer'
-  return stack.pop().toString()
-}
+function runBrainfuck(program) {
+  /** Interpreter variables */
+  // Create a new 30,000 size array, with each cell initialized with the value of 0. Memory can expand.
+  const MAX_STEPS = 10000
 
-function trinterpreterstripped(str) {
-  const allowed = '12*- '
-  if (str.split('').some((c) => allowed.indexOf(c) < 0))
-    return 'ungültiger Befehl'
-  return trinterpreter(str)
-}*/
+  const MEMORY_SIZE = 100
+  const memory = new Array(MEMORY_SIZE).fill(0)
+  // Instruction pointer (Points to the current INSTRUCTION)
+  let ipointer = 0
+  // Memory pointer (Points to a cell in MEMORY)
+  let mpointer = 0
+  // Address stack. Used to track addresses (index) of left brackets
+  let astack = []
+
+  let input = ''
+  let output = ''
+
+  function sendOutput(value) {
+    output += String.fromCharCode(value)
+  }
+
+  let end = false
+  let error = ''
+  let steps = 0
+
+  while (!end) {
+    if (++steps >= MAX_STEPS) {
+      error = 'Maximale Ausführung von ' + MAX_STEPS + ' Schritten'
+      break
+    }
+    switch (program[ipointer]) {
+      case '>':
+        if (mpointer == MEMORY_SIZE - 1) {
+          end = true
+          error = 'Speicher ist auf ' + MEMORY_SIZE + ' Zellen begrenzt.'
+          break
+        }
+        mpointer++
+        break
+      case '<':
+        if (mpointer > 0) mpointer--
+        break
+      case '+':
+        memory[mpointer]++
+        break
+      case '-':
+        memory[mpointer]--
+        break
+      case '.':
+        sendOutput(memory[mpointer])
+        break
+      case ',':
+        memory[mpointer] = 0
+        break
+      case '[':
+        if (memory[mpointer]) {
+          // If non-zero
+          astack.push(ipointer)
+        } else {
+          // Skip to matching right bracket
+          let count = 0
+          while (true) {
+            ipointer++
+            if (!program[ipointer]) break
+            if (program[ipointer] === '[') count++
+            else if (program[ipointer] === ']') {
+              if (count) count--
+              else break
+            }
+          }
+        }
+        break
+      case ']':
+        //Pointer is automatically incremented every iteration, therefore we must decrement to get the correct value
+        ipointer = astack.pop() - 1
+        break
+      case undefined: // We have reached the end of the program
+        end = true
+        break
+      default: // We ignore any character that are not part of regular Brainfuck syntax
+        break
+    }
+    ipointer++
+  }
+
+  if (error) return error
+  return output
+}
 
 module.exports = [
   {
@@ -3404,5 +3445,30 @@ print(hex_string)</pre></code>
       
     `,
     solution: secrets('chal_108'),
+  },
+
+  {
+    id: 109,
+    pos: { x: 721, y: 1800 },
+    title: 'Brainfuck',
+    date: '2023-06-17',
+    deps: [103],
+    html: `
+      <p>Oh man, wie nervig sind Diskussionen darüber, welche Programmiersprache besser ist! Zum Glück bist du jemand, der es besser weiß: Alle Programmiersprachen sind im Kern gleich mächtig - eine Erkenntnis, die Turing wesentlich mitentwickelt hat.
+      </p>
+      
+      <p>Jede Programmiersprache hat ihre besondere Schönheit. Die Schönheit von Brainfuck liegt in ihrer Einfachheit: Acht Zeichen sind genug, um alles zu programmieren, was man sich vorstellen kann - auch wenn es teilweise viel Geduld und Leidenschaft braucht, das auch umzusetzen.
+      </p>
+      
+      <p>Schreibe ein Programm in Brainfuck, dass die Antwort <code>alan</code> ausgibt. Du hast 100 Speicherzellen und 10000 Rechenschritte zur Verfügung.
+      </p>
+    `,
+    check: (answer) => {
+      const output = runBrainfuck(answer)
+      return {
+        answer: output,
+        correct: output == secrets('chal_109'),
+      }
+    },
   },
 ]

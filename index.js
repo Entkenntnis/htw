@@ -190,9 +190,18 @@ require(path)((config) => {
   config.i18nExtend.push({
     lng: 'de',
     key: 'home.invite_',
-    value: `Neu hier? Erstelle einen kostenlosen Account und lege los: <strong>{{-link}}</strong></p>
+    value: `
+      </p>
+      
+      <div class="jumbotron" style="padding-top:24px;margin-top:48px;border:#009670 solid 1px;background-image:url('background.jpg');">
+        <p>Neu hier? Starte deine Reise in die Welt des Hackings:
+        </p>
+        <p class="text-center" style="margin-top:48px;">
+          <a href="/register" class="btn btn-success">Hack The Web starten</a>
+        </p>
+      </div>
 
-      <p>Besuche die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.
+      <p>Besuche auch die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.
     `,
   })
 

@@ -1013,14 +1013,29 @@ module.exports = [
         if (!answer || !answer.startsWith('http')) {
           return { answer: 'Keine URL: ' + answer, correct: false }
         }
-        const res = await fetch(answer, {
-          size: 1024 * 1024,
-          redirect: 'manual',
-        })
-        value = await res.text()
-        value = value.trim()
-        if (value.length > 1000) {
-          value = value.substring(0, 1000) + '...'
+        const controller = new AbortController()
+        const timeout = setTimeout(() => {
+          controller.abort()
+        }, 4000)
+        try {
+          const res = await fetch(answer, {
+            size: 1024 * 1024,
+            redirect: 'manual',
+            signal: controller.signal
+          })
+          value = await res.text()
+          value = value.trim()
+          if (value.length > 1000) {
+            value = value.substring(0, 1000) + '...'
+          }
+        } catch (error) {
+          if (error.message && error.message.includes('aborted')) {
+            value = 'Keine Antwort nach 4 Sekunden'
+          } else {
+            value = error.message
+          }
+        } finally {
+          clearTimeout(timeout)
         }
       } catch (e) {
         value = e.message
@@ -1643,16 +1658,31 @@ module.exports = [
         if (!answer || !answer.startsWith('http')) {
           return { answer: 'Keine URL: ' + answer, correct: false }
         }
-        const res = await fetch(answer, {
-          size: 1024 * 1024 * 2,
-          redirect: 'manual',
-        })
-        value = await res.text()
-        value = value.trim()
-        if (!value) value = '[Leere Seite (Status ' + res.status + ')]'
-        if (value.includes(req.user.name)) containsUsername = true
-        if (value.length > 1000) {
-          value = value.substring(0, 1000) + '...'
+        const controller = new AbortController()
+        const timeout = setTimeout(() => {
+          controller.abort()
+        }, 4000)
+        try {
+          const res = await fetch(answer, {
+            size: 1024 * 1024,
+            redirect: 'manual',
+            signal: controller.signal
+          })
+          value = await res.text()
+          value = value.trim()
+          if (!value) value = '[Leere Seite (Status ' + res.status + ')]'
+          if (value.includes(req.user.name)) containsUsername = true
+          if (value.length > 1000) {
+            value = value.substring(0, 1000) + '...'
+          }
+        } catch (error) {
+          if (error.message && error.message.includes('aborted')) {
+            value = 'Keine Antwort nach 4 Sekunden'
+          } else {
+            value = error.message
+          }
+        } finally {
+          clearTimeout(timeout)
         }
       } catch (e) {
         value = e.message

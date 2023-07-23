@@ -1573,7 +1573,29 @@ module.exports = [
     date: '2020-08-01',
     deps: [4],
     html: `
-      <p>Wer sagt, dass ein Computerprogramm langweilig aussehen muss? Hier gibt es ein ganz besonderes Programm - und zwar in der Form eines Smileys:
+      <p>Schön, dass du hier bist und neue Dinge ausprobierst. Das ist immer ziemlich aufregend.
+      </p>
+      
+      <p>Eine solche aufregende Sache ist das Programmieren. Ganz vereinfacht funktioniert Programmieren so: Man schreibt einen Text und der Computer reagiert dann darauf. In dieses Textfeld kannst du Programme einfügen und starten. Ein Beispiel ist bereits eingegeben.
+      </p>
+      
+      <p><code><textarea rows="10" cols="50" id="code-area">alert('Hallo, Welt!')</textarea></code></p>
+      
+      <p><button class="btn btn-primary btn-sm" onClick="runCode()">Programm starten</button></p>
+      
+      <script>
+        function runCode() {
+          const el = document.getElementById('code-area')
+          const code = el.value
+          try {
+            eval(code)
+          } catch (e) {
+            alert(e)
+          }
+        }
+      </script>
+      
+      <p>Wenn du folgendes Programm in Form eines Smileys in das Textfeld oben einfügst und ausführst, wird dir die Antwort angezeigt.
       </p>
       
       <pre class="bg-dark p-3"><code>                  const d = [68,
@@ -1594,9 +1616,7 @@ module.exports = [
       /*                                 x
         x                             x
            xxxxx                xxx*/
-                 console.log(e)</code></pre>
-
-      <p>Führe das Programm aus, indem du es auf <a href="https://runjs.co/" target="_blank">RunJS</a> einfügen. In der Ausgabe findest du die gesuchte Anwort.</p>
+                 window.alert(e)</code></pre>
     `,
     solution: secrets('chal_55'),
   },

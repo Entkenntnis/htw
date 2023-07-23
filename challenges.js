@@ -175,21 +175,91 @@ module.exports = [
     date: '2017-05-17',
     deps: [1],
     html: `
-      <p>Was heute mit Text möglich ist: Man kann Emojis einfügen 😀, Flaggen 🏳️‍🌈, ꧁༺ 𝕿𝖊𝖝𝖙 𝖘𝖈𝖍𝖎𝖈𝖐 𝖛𝖊𝖗𝖟𝖎𝖊𝖗𝖊𝖓 ༻꧂ und vieles mehr...
+      <p>Du bist eine mutige Person! Du hast dich von den kryptischen Buchstaben im Titel dieser Aufgabe nicht abschrecken lassen.
       </p>
       
-      <p>Aber noch vor relativ wenigen Jahren war das nicht möglich, sondern man hatte nur 95 Zeichen zur Verfügung:
+      <p>
+        Viele Dinge in der Informatik sehen auf dem ersten Blick verwirrend sein. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
+        wo man Dinge nachschauen kann, werden diese weniger fremd.
       </p>
       
-      <p><img src="/chals/chal4.png"></p>
-      
-      <p>That's it. Das ist der harte Kern der Informatik. Der Vorteil: Man kann davon ausgehen, dass diese Zeichen auf jedem System zur Verfügung stehen. Und für die meisten Anwendungen reichen diese Codes auch aus. Auch dieser Text genau hier ist mit diesen Codes gespeichert!
-      </p>
-    
-      <p>Kleines Beispiel wie man die Tabelle liest: Das große H entspricht der Nummer 72, hinter der Zahl 32 verbirgt sich das Leerzeichen.
+      <p>
+        So ist es auch mit dem ASCII-Code. Weil Computer nur mit Zahlen arbeiten können, gibt es zu jedem Schriftzeichen einen einheitlichen Code. Einen Auszug davon
+        findest du in dieser Tabelle.
       </p>
       
-      <p>Deine Antwort in Codes lautet:
+      <div class="container" style="margin-top:24px;margin-bottom:24px;">
+        <div class="row">
+          <div class="col">
+            <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Zeichen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>33</td><td>!</td></tr>
+                <tr><td>34</td><td>"</td></tr>
+                <tr><td>35</td><td>#</td></tr>
+                <tr><td>36</td><td>$</td></tr>
+                <tr><td>97</td><td>a</td></tr>
+                <tr><td>98</td><td>b</td></tr>
+                <tr><td>99</td><td>c</td></tr>
+                <tr><td>100</td><td>d</td></tr>
+                <tr><td>101</td><td>e</td></tr>
+                <tr><td>102</td><td>f</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Zeichen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>103</td><td>g</td></tr>
+                <tr><td>104</td><td>h</td></tr>
+                <tr><td>105</td><td>i</td></tr>
+                <tr><td>106</td><td>j</td></tr>
+                <tr><td>107</td><td>k</td></tr>
+                <tr><td>108</td><td>l</td></tr>
+                <tr><td>109</td><td>m</td></tr>
+                <tr><td>110</td><td>n</td></tr>
+                <tr><td>111</td><td>o</td></tr>
+                <tr><td>112</td><td>p</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">Zeichen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>113</td><td>q</td></tr>
+                <tr><td>114</td><td>r</td></tr>
+                <tr><td>115</td><td>s</td></tr>
+                <tr><td>116</td><td>t</td></tr>
+                <tr><td>117</td><td>u</td></tr>
+                <tr><td>118</td><td>v</td></tr>
+                <tr><td>119</td><td>w</td></tr>
+                <tr><td>120</td><td>x</td></tr>
+                <tr><td>121</td><td>y</td></tr>
+                <tr><td>122</td><td>z</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <p>Ein Beispiel: Das Dollar-Zeichen wird im Computer mit der Zahl 36 gespeichert. Voila, jetzt bist du dran. Deine Antwort in Codes lautet:
       </p>
       
       <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
@@ -3068,7 +3138,7 @@ encrypted_bytes = cipher_ii(bytes)
 hex_string = convert_bytes_to_hex_string(encrypted_bytes)
 print(hex_string)</pre></code>
 
-      <p>Der Schlüssel ist eine Zahl zwischen 0 und 255. Die Ausgabe dieses Programms siehst so aus:
+      <p>Der Schlüssel ist eine Zahl zwischen 0 und 255. Die Ausgabe dieses Programms sieht so aus:
       </p>
       
       <p><code>4c2f513f5a3256355d3e577a1e60193458204e2b066f0b631d750a27690d70157d022f4c2846235a771b740a68097108255b3f51345c23002d680c641b365f3753305875395a23593b443d0a27781c6206600221</code>

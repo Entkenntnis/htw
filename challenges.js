@@ -639,17 +639,22 @@ module.exports = [
   {
     id: 21,
     pos: { x: 560, y: 410 },
-    title: 'MD5 Reverse',
+    title: 'Fingerzeig',
     date: '2017-08-25',
     deps: [55, 111],
     html: `
-      <p>Du hast es fast geschafft: Beim Angriff auf eine Website hast du Zugriff auf die Benutzerdatenbank bekommen und hast für das Passwort des Superadmins folgenden Wert gefunden:
+      <p>
+        Es ist super cool, hilfsbereite Menschen wie dich zu haben. Das macht den Alltag so viel angenehmer, wenn man mal den Weg nicht weiß oder an der Kasse seinen Geldbeutel vergessen hat :)
       </p>
       
-      <p>412a1ed6d21e55191ee5131f266f5178
+      <p>Gleichzeitig ist es auch kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter.
+      </p>
+          
+      <p>
+        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" width="300px"></a>
       </p>
       
-      <p>Kannst du aus diesem Wert das Passwort wiederherstellen? Es wurde mit einer Methode namens <a href="http://reversemd5.com/" target="_blank">MD5</a> verschlüsselt.
+      <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web hast du die Möglichkeit, Hinweise zu finden oder selbst Fragen zu stellen. Klicke auf das Logo, um dem Server beizutreten. Im Forum findest du einen Post mit dem Titel dieser Aufgabe. Dort findest du deine Antwort.
       </p>
     `,
     solution: secrets('chal_21'),
@@ -2168,10 +2173,21 @@ PIXI.loader
     date: '2021-03-19',
     deps: [51, 68],
     html: `
-      <p>Lasse <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">Robot Karol</a> folgenden Code ausführen:
+      <p>Wenn wir heute in einem LEGO-Wettbewerb gegeneinander antreten würde, dann hätte ich gegen dich keine Chance. Irgendwie war ich kreativer, als ich noch jung war.
       </p>
       
-      <p><img src="/chals/chal70.png"></p>
+      <p>Zum Glück braucht Programmieren nicht so viel Kreativität, sondern man kann sich mehr auf das Problemlösen konzentrieren. Robot Karol versucht, einen Mittelweg zu finden und an die LEGO-Welt anzuschließen. Hier findest du eine <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">Online-Version</a> von Robot Karol.
+      </p>
+      
+      <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
+      </iframe>
+      
+      <p>Baue folgenden Code mit Karol und führe das Programm aus.
+      </p>
+      
+      <p><img src="/chals/chal70_2.png"></p>
+      
+      <p>Die Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>
     `,
     solution: secrets('chal_70'), // link: https://karol.arrrg.de/?id=b5S45y9RF
   },

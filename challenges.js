@@ -365,10 +365,13 @@ module.exports = [
     date: '2017-05-17',
     deps: [55, 84],
     html: `
-      <p>Ein gutes mathematisches Gespür kann bei vielen Problemen helfen, eine elegante Lösung zu finden, ohne dabei viel arbeiten zu müssen. Ein kleiner Junge konnte so folgende Aufgabe in wenigen Minuten lösen - du auch?
+      <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
       </p>
       
-      <p>Die Frage lautet: Wie groß ist die Summe 1 + 2 + 3 + ... + 98 + 99 + 100?
+      <p>Das glaubst du nicht? Hier ein Beispiel: Deine Antwort ist das Ergebnis von 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.
+      </p>
+      
+      <p>Warte kurz, ich hole schnell meinen Taschenrechner ...
       </p>
     `,
     solution: secrets('chal_8'),
@@ -381,7 +384,10 @@ module.exports = [
     date: '2017-05-17',
     deps: [8],
     html: `
-      <p>Mit dem richtigen Trick ist auch diese Aufgabe schnell gelöst: Wie groß ist die Summe 100 - 99 + 98 - 97 + ... + 4 - 3 + 2 - 1?
+      <p>Du bist nicht nur gut im Kopfrechnen, sondern auch zielgerichtet. Eine Aufgabe, die du anfängst, ziehst du durch.
+      </p>
+      
+      <p>Deine Antwort ist das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
       </p>
     `,
     solution: secrets('chal_9'),
@@ -394,7 +400,10 @@ module.exports = [
     date: '2017-05-18',
     deps: [9],
     html: `
-      <p>Wie groß ist die Summe 1 + 3 + 5 + 7 + ... + 99?
+      <p>Kopfrechen-Genius, fokussiert - und dazu ein mathematisches Gespür. Damit löst du auch komplexe Probleme auf deine Art und Weise.
+      </p>
+      
+      <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 998 + 999 + 1000.
       </p>
     `,
     solution: secrets('chal_10'),

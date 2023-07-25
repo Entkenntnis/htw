@@ -2604,6 +2604,8 @@ PIXI.loader
               document.getElementById('if').style.display = 'block'
               document.getElementById('bt').style.display = 'none'
             }
+            
+            run()
           </script>
         `
       }
@@ -2615,9 +2617,6 @@ PIXI.loader
           <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px"></img>
         
           <p>Im Film Inception werden innerhalb von Träumen wieder Träume geschaffen. Was der Film macht, kann die Informatik auch. Man kann innerhalb einer Webseite eine andere Webseite einbetten.
-          </p>
-          
-          <p>Klicke auf den Button, um zur Stufe 1 zu gelangen.
           </p>
           
           ${renderFrame(1110, 700, 1)}
@@ -2632,6 +2631,12 @@ PIXI.loader
           
           <p>Eine Webseite innerhalb einer Webseite. Es geht noch mehr, gehe tiefer:</p>
           
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+          
           ${renderFrame(1000, 500, 2)}
         `
       }
@@ -2642,6 +2647,12 @@ PIXI.loader
           
           <p>Die Antwort findest du auf der untersten Stufe.</p>
           
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+          
           ${renderFrame(900, 400, 3)}
         `
       }
@@ -2651,6 +2662,12 @@ PIXI.loader
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;"></img>
           
           <p>Die Antwort lautet ${secrets('chal_84')}.</p>
+          
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
         `
       }
 

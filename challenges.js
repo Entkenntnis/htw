@@ -1243,7 +1243,7 @@ module.exports = [
       <p>Diesmal gibt es keine Umschweife: Die Antwort auf diese Aufgabe lautet Klamauk.
       </p>
       
-      <p>Leider gibt es zu dieser Aufgabe kein Eingabefeld. Aber das sollte dich nicht abhalten, mir die Antwort zu sagen!
+      <p>Leider gibt es zu dieser Aufgabe kein Eingabefeld. Aber das sollte dich nicht abhalten, der Webseite die Antwort zu schicken!
       </p>
     `,
     solution: secrets('chal_43'),

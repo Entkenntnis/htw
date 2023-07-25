@@ -1728,14 +1728,19 @@ Doch ich spüre tiefes Beben.</i>
   {
     id: 58,
     pos: { x: 355, y: 665 },
-    title: 'Code Royale',
+    title: 'Elemente',
     date: '2020-08-17',
     deps: [52, 69],
     html: `
-      <p>Es gibt fast keine Grenzen, mit welchen Mitteln man einen Geheimtext schreiben kann. Hier ist mein bescheidener Versuch, ein bekanntes Spiel einzubringen. Der Code ist nicht perfekt geworden, aber sollte gut genug für dich sein, um das Lösungswort zu entziffern. Es ist ein deutsches Wort mit 6 Buchstaben:
+      <p>Für dich gibt es keine Grenzen, mit welchen Mitteln man einen Geheimtext schreibt. Du kommst mit allen Methoden klar - auch wenn es ein ganz eigener Code ist.
       </p>
       
-      <p><img src="/chals/chal58.jpg"></p>
+      <p>Die Anfangsbuchstaben folgender Elemente aus Teyvat ergeben deine Antwort.
+      </p>
+      
+      <p><img src="/chals/chal58_2.png"></p>
+      
+      <p><small><a href="https://genshin-impact.fandom.com/wiki/Element" target="_blank">Hinweis</a></small></p>
     `,
     solution: secrets('chal_58'),
   },

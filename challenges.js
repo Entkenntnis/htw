@@ -1357,7 +1357,13 @@ module.exports = [
     date: '2020-05-20',
     deps: [79],
     html: `
-      <p>Warte, bis diese Seite deine Antwort berechnet hat ...
+      <p>Ich könnte nicht wie du geduldig sitzen und warten, bis die Antwort lädt ... ich bin immer ungeduldig und drücke auf der Tastatur herum.
+      </p>
+      
+      <p>Aber kann es sein, dass der Ladebalken dadurch tatsächlich schneller wird?
+      </p>
+      
+      <p>Die Antwort erhälst du, sobald der Ladebalken voll ist.
       </p>
       
       <div class="progress my-4">
@@ -1374,14 +1380,14 @@ module.exports = [
         const status = document.getElementById('status')
         
         let step = 1
-        let steps = 2000
+        let steps = 1000
         let x = 3
         
         function transform(x) {
-          return (x * 3) % 1000
+          return (x * 11) % 10000
         }
         
-        function work() {
+        function work(noTimeout) {
           if (step >= steps) {
             bar.style.width = '100%'
           } else {
@@ -1390,8 +1396,14 @@ module.exports = [
             x = transform(x)
             value.innerHTML = x.toString()
             status.innerHTML = '(' + step + '/' + steps + ')'
-            setTimeout(work, 1000)
+            if (!noTimeout) {
+              setTimeout(work, 1000)
+            }
           }
+        }
+        
+        window.onkeydown = () => {
+          work(true)
         }
         
         value.innerHTML = x

@@ -1480,78 +1480,76 @@ module.exports = [
   {
     id: 51,
     pos: { x: 195, y: 405 },
-    title: 'Zahlen',
+    title: 'Binär',
     date: '2020-08-01',
     deps: [24],
     html: `
-      <p>Du: "Zahlen, bitte!". Die Kellnerin: "Binär oder dezimal"?</p>
+      <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
+      </p>
       
-      <p>Ok, sorry. Dieser Flachwitz hat mir gerade einige Karma-Punkte gekostet.</p>
+      <p>Selbst wenn du noch nie damit gearbeitet hast - mit ein wenig logischem Denken findest du schnell den Einstieg.
+      </p>
       
-      <div class="my-4"></div>
+      <p>Als Hilfestellung siehst du hier die ersten 6 Zweierpotenzen. Du kannst sie an- oder ausschalten, wenn du sie anklickst. Alle aktiven Zahlen werden zum Ergebnis addiert.
+      </p>
       
-      <p>In der Informatik spielt das Binärsystem eine große Rolle. In der Tabelle steht in der Zeile eine Binärzahl in schwarz. Jede Ziffer der Binärzahl hat einen anderen Wert, dieser steht oben in der Tabelle in grün. Um den Dezimalwert zu bestimmen, addiert man alle Binärstellen, wo eine 1 steht.</p>
+      <p>Stelle die Zahl 7 ein und schicke sie ab.
+      </p>
       
-      <p>Beispiel Zeile 1: Es gibt zwei 1er, diese stehen an den Stellen 2 und 1. Man rechne 2 + 1 = 3. In der Zeile 2 rechnet man 4 + 1 = 5.</p>
+      <p><svg id="binary"></svg></p>
       
-      <p>Bereit? Dann bist du jetzt dran. Ziehe die Karten rechts in die Tabelle.</p>
+      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
       
-      <div class="my-4"></div>
+      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
       
-      <iframe src="https://app.Lumi.education/api/v1/run/k-Gdye/embed" width="650" height="430" style="background-color:white;padding-left:32px;margin-bottom:12px;padding-top:20px;" frameborder="0">
-      </iframe>
+      <script src="/svg.min.js"></script>
+      <script src="/chals/chal51_2.js"></script>
+      
+      <style>
+        .hoverEffect:hover {
+          cursor:pointer;
+          opacity: 0.9;
+        }
+      </style>
     `,
     solution: secrets('chal_51'),
+    hidesubmit: true,
   },
 
   {
     id: 52,
     pos: { x: 250, y: 530 },
-    title: 'Quiz',
+    title: 'Binär II',
     date: '2020-08-01',
     deps: [51],
     html: `
-      <p>Eine weitere wichtige Sprache von Computer ist der ASCII Code, den du auf <a href="https://www.torsten-horn.de/techdocs/ascii.htm" target="_blank">dieser Website</a> nachschlagen kannst.
+      <p>Das hast du sehr gut gemacht! Stelle nun die Zahl 45 ein.
       </p>
       
-      <p>Bei der ersten Tabelle interessiert uns nur die letzten beiden Spalten. Die letzte Spalte gibt das Zeichen an, die vorletzte Spalte den Code in dezimal (grüne Schrift). Zum Beispiel hat das kleine <code>a</code> den Zeichencode 97.
-      </p>
+      <p><svg id="binary"></svg></p>
       
-      <p>Auch diesmal hilft dir ein Quiz beim Lernen des ASCII Codes. Aber du musst nicht bei jeder Frage in der Tabelle nachschauen. Findest du das Muster, das dir beim Lösen des Quiz hilft?
-      </p>
+      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
       
-      <hr />
+      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
       
-      <p>Wandle um in den ASCII-Code:
-      </p>
+      <script src="/svg.min.js"></script>
+      <script src="/chals/chal51_2.js"></script>
       
-      <p class="my-4"><strong><span id="char-value"></span></strong></p>
-      
-      <p>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1"></button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2"></button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3"></button>
-      </p>
-      
-      <div class="progress my-4">
-        <div class="progress-bar" role="progressbar" style="width: 0%;" id="progress"></div>
-      </div>
-      
-      <p id="status"></p>
-      
-      
-      <script src="/chals/chal52.js"></script>
+      <style>
+        .hoverEffect:hover {
+          cursor:pointer;
+          opacity: 0.9;
+        }
+      </style>
     `,
-    check: (answer) => {
-      return { answer, correct: answer === '8/8' }
-    },
+    solution: secrets('chal_52'),
     hidesubmit: true,
   },
 
   {
     id: 53,
     pos: { x: 265, y: 725 },
-    title: 'Quiz II',
+    title: 'Quiz',
     date: '2020-08-01',
     deps: [29, 52],
     html: `

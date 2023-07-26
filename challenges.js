@@ -1039,7 +1039,7 @@ module.exports = [
           const res = await fetch(answer, {
             size: 1024 * 1024,
             redirect: 'manual',
-            signal: controller.signal
+            signal: controller.signal,
           })
           value = await res.text()
           value = value.trim()
@@ -1712,7 +1712,7 @@ module.exports = [
           const res = await fetch(answer, {
             size: 1024 * 1024,
             redirect: 'manual',
-            signal: controller.signal
+            signal: controller.signal,
           })
           value = await res.text()
           value = value.trim()

@@ -1336,11 +1336,16 @@ module.exports = [
     date: '2020-05-20',
     deps: [43, 48, 62],
     html: `
-      <p>Die Antwort zu dieser Aufgabe findest du in <a href="/chal/chal46">dieser leeren Seite</a>. Aber kann eine leere Website Informationen enthalten?
+      <p>Geheime Spuren zu finden ist für dich kein Problem, denn du hast einen scharfen Blick.
       </p>
       
-      <p>Sehr wohl! Denn beim Öffnen einer Website zählt nicht nur der Inhalt allein.
+      <p>Wenn du eine Webseite öffnest, passieren hinter den Kulissen viele Dinge, selbst beim Aufruf einer <a href="/chal/chal46">leeren Seite</a>. Doch im Hintergrund wurde bereits die Antwort übertragen.
       </p>
+      
+      <p>Die Netzwerkanalyse (meist F12) hilft dir, alle Daten im Hintergrund anzuzeigen. Finde darin deine Antwort.
+      </p>
+      
+      <p><img src="/chals/chal46.png" style="max-width:100%" /></p>
     `,
     solution: secrets('chal_46'),
   },

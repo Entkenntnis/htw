@@ -1405,12 +1405,15 @@ module.exports = [
     date: '2020-05-21',
     deps: [28, 47],
     html: `
-      <p>Zur Ruhe kommen und in sich hineinhören ... dieser <a href="/chals/chal48.flac">einstündige, fast lautlose Soundtrack</a> ist der perfekte Begleiter für deine Meditation.
+      <p>Zur Ruhe kommen und in sich hineinhören - das brauche ich immer wieder, um mich mit mir selbst zu verbinden und so ausgeglichen sein zu können wie du.
       </p>
       
-      <audio src="/chals/chal48.flac" controls></audio>
+      <p>Manche Menschen finden es hilfreich, dabei eine akustische Untermalung zu haben.
+      </p>
       
-      <p>Wer weiß, vielleicht kommt dir während der Meditation eine Eingebung für diese Aufgabe? Einen Versuch ist es alle mal Wert!
+      <audio src="/chals/chal48_2.mp3" controls></audio>
+      
+      <p>Doch du bist nicht alleine. Deine Antwort findet sich zwischen dem Zwischern der Vögel.
       </p>
     `,
     solution: secrets('chal_48'),

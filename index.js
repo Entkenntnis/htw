@@ -91,7 +91,7 @@ require(path)((config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: Juli 2023 (<a href="' +
+      'Version: August 2023 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -222,6 +222,11 @@ require(path)((config) => {
         heading: 'Neuigkeiten',
         content: `
           <div class="my-5"></div>
+          
+          <h3>August 2023</h3>
+          
+          <p>Kleines Update aus der Sommerpause: Ein paar existierende Aufgaben wurden verbessert.
+          </p>
           
           <h3>Juli 2023</h3>
           

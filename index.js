@@ -228,6 +228,8 @@ require(path)((config) => {
           <p>Kleines Update aus der Sommerpause: Ein paar existierende Aufgaben wurden verbessert.
           </p>
           
+          <div class="my-5"></div>
+          
           <h3>Juli 2023</h3>
           
           <p>Das Ziel ist erreicht! Hack The Web hat nun genau 100 Aufgaben. Damit gehe ich wohlverdient in die Sommerpause.

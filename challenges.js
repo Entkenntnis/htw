@@ -771,13 +771,22 @@ module.exports = [
     date: '2017-08-26',
     deps: [60],
     html: `
-      <p>Vor einigen Jahren befand sich unter <a href="https://anagnori.tumblr.com/post/81212017022/if-its-not-too-much-to-ask-could-you-post-the" target="_blank">https://anagnori.tumblr.com/post/81212017022/if-its-not-too-much-to-ask-could-you-post-the</a> ein interessanter Artikel zu einem ganz bestimmten Thema.</p>
+      <p>Du siehst aus wie jemand, der sich für Backstories interessiert! Die Entstehungsgeschichte von Hack The Web hat ein paar spannende Aspekte und hier gibt es eine kleine Geschichtsstunde nur für dich.
+      </p>
       
-      <p>Aber leider ist der Blog gelöscht worden! Das ist ziemlich schade. Gäbe es nur eine Möglichkeit, die Zeit zurück zu drehen?</p>
+      <p>Das Konzept von Aufgaben (<em>Challenges</em>), die in einer Karte angeordnet sind, hat Hack The Web von <a href="https://hacker.org/" target="_blank">Hacker.org</a> übernommen. Diese Seite ist eine großartige Inspiration, aber auch sie ist nicht vom Himmel gefallen. Als die Challenges im Jahr 2008 veröffentlich wurden, fand sich auf der Domain schon viele Jahre ein Projekt, dass als Hacker-Community beschrieben werden könnte.
+      </p>
       
-      <p>Hold on! Zum Glück gibt es das <a href="http://archive.org/web/" target="_blank">Internet-Archiv</a>, das es sich zur Aufgabe gemacht hat, große Teile des Internet zu archivieren. Gehe in das Internet-Archiv und schlage den Artikel nach.</p>
-    
-      <p>Die Antwort ist der Name des Konzepts, über den sich in den Artikel beschwert wird (es geht um ein englisches Wort im Singular mit 8 Buchstaben).</p>
+      <p>Dank des Internet Archives können wir in der Zeit zurückreisen und du kannst erleben, wie sich diese Community verstanden hat.
+      </p>
+      
+      <p>Hier siehst du eine Version von hacker.org vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>.
+      </p>
+      
+      <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
+      
+      <p>Deine Antwort ist die E-Mail-Adresse des Betreibers.
+      </p>
     `,
     solution: secrets('chal_26'),
   },

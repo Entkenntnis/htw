@@ -71,6 +71,7 @@ require(path)((config) => {
   config.slowRequestThreshold = 5000
 
   config.autoPassword = true
+  config.allowNewAutoPassword = false
 
   config.tokenSecret = secrets('config_token_secret')
 
@@ -197,7 +198,7 @@ require(path)((config) => {
         <p>Neu hier? Starte deine Reise in die Welt des Hackings:
         </p>
         <p class="text-center" style="margin-top:48px;">
-          <a href="/register" class="btn btn-success">Hack The Web starten</a>
+          <a href="/register" class="btn btn-success">Bei Hack The Web registrieren</a>
         </p>
       </div>
 

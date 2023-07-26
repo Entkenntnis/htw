@@ -1266,46 +1266,56 @@ module.exports = [
     date: '2020-05-20',
     deps: [47],
     html: `
-      <p>Deine Antwort wird berechnet. Es dauert nur einen Moment ...
+      <p>Der Klügere gibt nach - und du hast kein Problem nachzugeben, wenn es definitiv nicht weitergeht.
+      </p>
+      
+      <p>Dieser Ladebalken dauert sehr lange. Wirst du ihn bist zum Ende abwarten - oder eine andere Lösung finden?
       </p>
       
       <div class="progress my-4">
         <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
       </div>
       
-      <p id="value">LIFEISPROGRESS</p>
+      <p id="value">SQNLPZWYVNYLZZ</p>
       
       <p id="status">...</p>
       
       <script>
         const bar = document.getElementById('44_bar')
-        const value = document.getElementById('value')
+        const valueDiv = document.getElementById('value')
         const status = document.getElementById('status')
         
-        let step = 0
-        let steps = 100000
-        
-        function transform(str) {
-          const chars = str.split('').map(str => str.charCodeAt(0))
-          const output = chars.map((code, i) => {
-            const originIndex = ((code * 2 + 3)) % str.length
-            const originCode = str.charCodeAt(originIndex)
-            const newCode = ((originCode + code * 2 + 1 + i) % 26) + 65
-            return String.fromCharCode(newCode)
-          }).join('')
-          return output
+        const string = "SQNLPZWYVNYLZZ"
+        const steps = 100000
+
+        let step = -steps
+        let value = string
+
+        function forward() {
+          const i = (((step + 1) % string.length) + string.length) % string.length
+          const chars = value.split('')
+          chars[i] = String.fromCharCode(65 + ((chars[i].charCodeAt(0) - 65 + 1) % 26))
+          value = chars.join('')
+          step++
+          //console.log('forward to', value)
+          return value
         }
         
-        function work() {
-          if (step >= steps) {
+        function work(noTimeout) {
+          if (step >= 0) {
             bar.style.width = '100%'
           } else {
-            step++
-            bar.style.width = ((step/steps) * 98.9 + 1) + '%'
-            value.innerHTML = transform(value.innerHTML)
-            status.innerHTML = '(' + step + '/' + steps + ')'
-            setTimeout(work, 1000)
+            bar.style.width = (((steps+step)/steps) * 98.9 + 1) + '%'
+            valueDiv.innerHTML = forward(valueDiv.innerHTML)
+            status.innerHTML = '(' + (step+steps) + '/' + steps + ')'
+            if (!noTimeout) {
+              setTimeout(work, 1000)
+            }
           }
+        }
+        
+        window.onkeydown = () => {
+          work(true)
         }
         
         setTimeout(work, 2000)

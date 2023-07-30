@@ -1,4 +1,5 @@
 const secrets = require('./secrets-loader.js')
+const crypto = require('crypto')
 
 const mazeStr = `
 xxxxxxxxxxxxxxxxxxxxxxx
@@ -166,5 +167,44 @@ module.exports = function (App) {
   App.express.get('/chal/chal91', (req, res) => {
     res.cookie('Die_Antwort_lautet', secrets('chal_91'))
     res.send('ok')
+  })
+
+  App.express.all('/chal/chal301', (req, res) => {
+    // Check if request is a DELETE request
+    if (req.method === 'DELETE') {
+      res.status(200).send('Die Antwort lautet ' + secrets('chal_301') + '.')
+    } else {
+      res.status(405).send('Method ' + req.method + ' not allowed')
+    }
+  })
+
+  App.express.all('/chal/chal302', (req, res) => {
+    // Check if request is a DELETE request
+    if (req.method !== 'DELETE')
+      return res.status(405).send('Method ' + req.method + ' not allowed')
+    // Check if request has authorization header
+    if (!req.headers.authorization)
+      return res.status(401).send('No authorization header provided')
+    // Check if authorization header is valid
+    function checkAuthorization(value) {
+      const parts = value.split(' ')
+      if (parts.length !== 2) return false
+      if (parts[0].toLowerCase() !== 'htw') return false
+      const tokenParts = parts[1].split('⚻')
+      if (tokenParts.length !== 2) return false
+      const hash = crypto
+        .createHash('md5')
+        .update(tokenParts[0] + secrets('chal_302'))
+        .digest('hex')
+      if (hash !== tokenParts[1]) return false
+
+      // ok
+      return true
+    }
+    if (!checkAuthorization(decodeURIComponent(req.headers.authorization))) {
+      return res.status(401).send('Invalid authorization header')
+    }
+
+    res.status(200).send('Die Antwort lautet ' + secrets('chal_302') + '.')
   })
 }

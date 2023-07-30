@@ -45,7 +45,7 @@ require(path)((config) => {
   config.styles.solutionClass_correct = 'primary'
   config.styles.tableHighlightClass = 'secondary'
   config.map.centeringOffset = 0.5
-  config.map.width = 1680
+  config.map.width = 2200
   config.map.height = 2000
   config.editors.push('admin', 'demo')
   config.noSelfAdmin.push('demo')
@@ -506,7 +506,7 @@ require(path)((config) => {
     })
 
     App.express.get('/api/map', async (req, res) => {
-      res.json(Object.keys(App.challenges.distance))
+      res.json(Object.keys(App.challenges.distance).filter((x) => x != 1337))
     })
 
     /*App.express.get('/experiment', async (req, res) => {

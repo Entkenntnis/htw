@@ -2484,7 +2484,10 @@ PIXI.loader
     check: (answer, { App }) => {
       return {
         answer,
-        correct: parseInt(answer) == App.challenges.data.length,
+        correct:
+          parseInt(answer) ==
+            App.challenges.data.filter((data) => !data.noScore).length ||
+          parseInt(answer) == App.challenges.data.length,
       }
     },
   },
@@ -3674,5 +3677,330 @@ print(hex_string)</pre></code>
         correct: output == secrets('chal_109'),
       }
     },
+  },
+
+  {
+    id: 300,
+    pos: { x: 1750, y: 600 },
+    title: 'Community-Bereich',
+    date: '2023-07-28',
+    deps: [57],
+    noScore: true,
+    render: async ({ App, req }) => {
+      const communityChals = App.challenges.data.filter((chal) => chal.noScore)
+      const ids = communityChals.map((chal) => chal.id)
+
+      const sols = await App.db.models.Solution.findAll({
+        where: { cid: ids },
+        raw: true,
+      })
+
+      const users = sols.reduce((res, obj) => {
+        const key = obj.UserId
+        const entry = (res[key] = res[key] || { solved: 0, lastActive: -1 })
+        entry.solved++
+        const ts = App.moment(new Date(obj.createdAt).getTime()).valueOf()
+        if (ts > entry.lastActive) {
+          entry.lastActive = ts
+        }
+        return res
+      }, {})
+
+      const userIds = []
+
+      const usersList = Object.entries(users).map((entry) => {
+        userIds.push(entry[0])
+        return {
+          userId: entry[0],
+          solved: entry[1].solved,
+          lastActive: entry[1].lastActive,
+        }
+      })
+
+      usersList.sort((a, b) => {
+        if (a.solved == b.solved) {
+          return a.lastActive - b.lastActive
+        } else {
+          return b.solved - a.solved
+        }
+      })
+
+      const userNames = await App.db.models.User.findAll({
+        where: { id: userIds },
+        raw: true,
+      })
+
+      const userNameIndex = userNames.reduce((res, obj) => {
+        res[obj.id] = obj.name
+        return res
+      }, {})
+
+      let rank = 1
+
+      for (let i = 0; i < usersList.length; i++) {
+        if (i == 0) {
+          usersList[i].rank = rank
+        } else {
+          if (usersList[i].solved != usersList[i - 1].solved) {
+            rank = i + 1
+          }
+          usersList[i].rank = rank
+        }
+      }
+
+      return `
+        <p>Herzlich Willkommen im Community-Bereich! Wir sind mittlerweile viele Leute auf Hack The Web und haben auch einige kreative Köpfe hier mit guten Ideen für neue Aufgaben. Daher gibt es hier regelmäßig neue Inhalte - von Euch für Euch.
+        </p>
+        
+        <p>Jeder darf mitmachen. Je mehr Ideen wir haben, umso bunter wird es. Die Aufgaben dürfen leicht sein oder sau schwer, witzig oder ernsthaft. Das ist dir überlassen. Falls du eine Idee hast, trete dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> bei und schreibe mir eine Nachricht.
+        </p>
+        
+        <p>Für den Community-Bereich gibt es eine eigene Highscore.
+        </p>
+        
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              
+                <th scope="col">Platz</th>
+              
+              <th scope="col">Benutzername</th>
+              <th scope="col">gelöste Aufgaben</th>
+              <th scope="col">zuletzt aktiv</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${usersList
+              .map(
+                (entry) => `
+              <tr>
+                <td>${entry.rank}</td>
+                <td>${userNameIndex[entry.userId]}</td>
+                <td>${entry.solved}</td>
+                <td>${App.moment(entry.lastActive).fromNow()}</td>
+              </tr>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
+        
+        <!-- psst - hey - probiere mal /challenge/1337 -->
+        
+        <p>Startbereit? Deine Antwort ist die ID dieser Aufgabe.
+        </p>
+      `
+    },
+    solution: '300',
+  },
+
+  {
+    id: 301,
+    pos: { x: 1760, y: 460 },
+    title: 'Schnittstelle',
+    date: '2023-07-28',
+    author: 'cuzimbisonratte',
+    deps: [300],
+    noScore: true,
+    html: `
+      <p>Die Antwort findest du, wenn du die <strong>Löschung</strong> von &nbsp;<code>/chal/chal301</code>&nbsp; anforderst.
+      </p>
+    `,
+    solution: secrets('chal_301'),
+  },
+
+  {
+    id: 302,
+    pos: { x: 1710, y: 370 },
+    title: 'Schnittstelle II',
+    date: '2023-07-28',
+    author: 'cuzimbisonratte',
+    deps: [301],
+    noScore: true,
+    render: ({ req }) => {
+      const username = req.user.name
+      const secretString = username + secrets('chal_302')
+      const hash = crypto.createHash('md5').update(secretString).digest('hex')
+
+      return `
+        <p>Wie bei der vorherigen Aufgabe versuchst du etwas zu löschen. Lösche &nbsp;<code>/chal/chal302</code>&nbsp; und autorisiere dich dabei mit diesem Header:
+        </p>
+        
+        <pre><code>Authorization: HTW ${encodeURIComponent(
+          username + '⚻' + hash
+        )}</code></pre>
+      `
+    },
+    solution: secrets('chal_302'),
+  },
+
+  {
+    id: 303,
+    pos: { x: 1870, y: 530 },
+    title: 'Rechensport',
+    author: 'simonesien',
+    date: '2023-07-28',
+    deps: [300],
+    noScore: true,
+    render: ({ App, req }) => {
+      function generateTask() {
+        let num1 = 0
+        let num2 = 0
+        let op = ''
+        let result = 0
+        const r = Math.random()
+        if (r < 0.33) {
+          op = '+'
+          num1 = Math.round(Math.random() * 9 + 1)
+          num2 = Math.round(Math.random() * 9 + 1)
+          result = num1 + num2
+        } else if (r < 0.67) {
+          op = '*'
+          num1 = Math.floor(Math.random() * 8 + 2)
+          num2 = Math.floor(Math.random() * 8 + 2)
+          result = num1 * num2
+        } else {
+          op = '-'
+          num1 = Math.floor(Math.random() * 9 + 11)
+          num2 = Math.floor(Math.random() * 9 + 1)
+          result = num1 - num2
+        }
+        return { task: `${num1} ${op} ${num2}`, result }
+      }
+      const data = []
+      for (let i = 0; i < 15; i++) {
+        data.push(generateTask())
+      }
+
+      req.session['chal303_ts'] = new Date().getTime()
+      req.session['chal303_result'] = data.map((task) => task.result).join(';')
+
+      return `
+        <p>Wie ich dich kenne, bist du bestimmt super im Kopfrechnen. Hier ist eine Herausforderung für dich - du musst 15 Aufgaben in maximal 30 Sekunden lösen. Vielleicht fällt dir ja etwas ein, das dir dabei hilft ...
+        </p>
+        
+        <form class="container" style="margin-top:32px;margin-bottom:24px;" method="post">
+          <div class="row">
+            <div class="col">
+              <p><span id="task0" style="width:3.5rem;display:inline-block;">${data[0].task} =</span> <input autofocus name="ans0" id="ans0"/></p>
+              <p><span id="task1" style="width:3.5rem;display:inline-block;">${data[1].task} =</span> <input name="ans1" id="ans1"/></p>
+              <p><span id="task2" style="width:3.5rem;display:inline-block;">${data[2].task} =</span> <input name="ans2" id="ans2"/></p>
+              <p><span id="task3" style="width:3.5rem;display:inline-block;">${data[3].task} =</span> <input name="ans3" id="ans3"/></p>
+              <p><span id="task4" style="width:3.5rem;display:inline-block;">${data[4].task} =</span> <input name="ans4" id="ans4"/></p>
+            </div>
+            <div class="col">
+              <p><span id="task5" style="width:3.5rem;display:inline-block;">${data[5].task} =</span> <input name="ans5" id="ans5"/></p>
+              <p><span id="task6" style="width:3.5rem;display:inline-block;">${data[6].task} =</span> <input name="ans6" id="ans6"/></p>
+              <p><span id="task7" style="width:3.5rem;display:inline-block;">${data[7].task} =</span> <input name="ans7" id="ans7"/></p>
+              <p><span id="task8" style="width:3.5rem;display:inline-block;">${data[8].task} =</span> <input name="ans8" id="ans8"/></p>
+              <p><span id="task9" style="width:3.5rem;display:inline-block;">${data[9].task} =</span> <input name="ans9" id="ans9"/></p>
+            </div>
+            <div class="col">
+              <p><span id="task10" style="width:3.5rem;display:inline-block;">${data[10].task} =</span> <input name="ans10" id="ans10"/></p>
+              <p><span id="task11" style="width:3.5rem;display:inline-block;">${data[11].task} =</span> <input name="ans11" id="ans11"/></p>
+              <p><span id="task12" style="width:3.5rem;display:inline-block;">${data[12].task} =</span> <input name="ans12" id="ans12"/></p>
+              <p><span id="task13" style="width:3.5rem;display:inline-block;">${data[13].task} =</span> <input name="ans13" id="ans13"/></p>
+              <p><span id="task14" style="width:3.5rem;display:inline-block;">${data[14].task} =</span> <input name="ans14" id="ans14"/></p>
+            </div>
+          </div>
+          <input type="hidden" name="answer" value="ok" />
+          <p style="margin-top:16px;">Verbleibende Zeit: <span id="timer">30.00</span> Sekunden</p>
+          <p><input type="submit" value="Abschicken" style="margin-top:16px;"/></p>
+        </form>
+        
+        <script>
+          const startTime = new Date().getTime()
+          
+          function callback() {
+            const remaining = Math.max(0, 1000 * 30 - (new Date().getTime() - startTime))
+            document.getElementById('timer').innerHTML = (Math.round(remaining / 10) / 100).toFixed(2)
+            if (remaining > 0) {
+              requestAnimationFrame(callback)
+            }
+          }
+          callback()
+        </script>
+      `
+    },
+    check: (answer, { req }) => {
+      if (!req.session.chal303_ts || !req.session.chal303_result) {
+        return {
+          answer: 'Keine Session gefunden',
+          correct: false,
+        }
+      }
+
+      const ts = new Date().getTime()
+      const startTs = parseInt(req.session.chal303_ts)
+
+      if (ts - startTs > 1000 * 32) {
+        return {
+          answer: 'Zeit abgelaufen',
+          correct: false,
+        }
+      }
+
+      const results = []
+      for (let i = 0; i < 15; i++) {
+        results.push(req.body[`ans${i}`])
+      }
+
+      const resultString = results.join(';')
+
+      return {
+        answer: resultString,
+        correct: resultString == req.session.chal303_result,
+      }
+    },
+    hidesubmit: true,
+  },
+
+  {
+    id: 304,
+    pos: { x: 1930, y: 720 },
+    title: 'TODO: Primzahlen',
+    date: '2023-07-28',
+    deps: [300],
+    noScore: true,
+    html: `
+      <p>TODO
+      </p>
+    `,
+    solution: '123',
+  },
+
+  {
+    id: 305,
+    pos: { x: 1830, y: 780 },
+    title: 'TODO: Base85',
+    date: '2023-07-28',
+    deps: [300],
+    noScore: true,
+    html: `
+      <p>TODO
+      </p>
+    `,
+    solution: '123',
+  },
+
+  {
+    id: 1337,
+    pos: { x: -1000, y: -1000 },
+    title: 'Geheime Aufgabe',
+    author: 'darkermask',
+    date: '2023-07-29',
+    deps: [],
+    noScore: true,
+    html: `
+      <p>Hallo, du hast mich gefunden :)
+      </p>
+      
+      <p>Wir reden hier gerne über "Elite", aber mal ehrlich: Das wollen wir ja eigentlich nicht wirklich sein.
+      </p>
+      
+      <p>Die Antwort lautet Underdog.
+      </p>
+    `,
+    solution: 'underdog',
   },
 ]

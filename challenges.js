@@ -3882,7 +3882,7 @@ print(hex_string)</pre></code>
         <p>Wie ich dich kenne, bist du bestimmt super im Kopfrechnen. Hier ist eine Herausforderung für dich - du musst 15 Aufgaben in maximal 30 Sekunden lösen. Vielleicht fällt dir ja etwas ein, das dir dabei hilft ...
         </p>
         
-        <form class="container" style="margin-top:32px;margin-bottom:24px;" method="post">
+        <form class="container" style="margin-top:32px;margin-bottom:24px;" method="post" autocomplete="off">
           <div class="row">
             <div class="col">
               <p><span id="task0" style="width:3.5rem;display:inline-block;">${data[0].task} =</span> <input autofocus name="ans0" id="ans0"/></p>
@@ -3961,29 +3961,31 @@ print(hex_string)</pre></code>
   {
     id: 304,
     pos: { x: 1930, y: 720 },
-    title: 'TODO: Primzahlen',
-    date: '2023-07-28',
+    title: 'Primzahlen',
+    author: 'darkstar',
+    date: '2023-08-24',
     deps: [300],
     noScore: true,
     html: `
-      <p>TODO
+      <p>Berechne die Summe der ersten 100 Primzahlen.
       </p>
     `,
-    solution: '123',
+    solution: secrets('chal_304'),
   },
 
   {
     id: 305,
     pos: { x: 1830, y: 780 },
-    title: 'TODO: Base85',
-    date: '2023-07-28',
+    title: 'Base85',
+    author: 'darkstar',
+    date: '2023-08-24',
     deps: [300],
     noScore: true,
     html: `
-      <p>TODO
+      <p><code>6tp3T6#LdgDfTqBCghI.ATT%m7RJd</code>
       </p>
     `,
-    solution: '123',
+    solution: secrets('chal_305'),
   },
 
   {

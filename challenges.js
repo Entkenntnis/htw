@@ -2659,6 +2659,9 @@ PIXI.loader
           <p>Im Film Inception werden innerhalb von Träumen wieder Träume geschaffen. Was der Film macht, kann die Informatik auch. Man kann innerhalb einer Webseite eine andere Webseite einbetten.
           </p>
           
+          <p>Scrolle dich durch alle Seiten, bis du auf der untersten Ebene angekommen bist. Dort findest du die Antwort.
+          </p>
+          
           ${renderFrame(1110, 700, 1)}
         `
       }

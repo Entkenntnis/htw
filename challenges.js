@@ -3963,12 +3963,25 @@ print(hex_string)</pre></code>
     pos: { x: 1930, y: 720 },
     title: 'Primzahlen',
     author: 'darkstar',
-    date: '2023-08-24',
+    date: '2023-08-25',
     deps: [300],
     noScore: true,
     html: `
-      <p>Berechne die Summe der ersten 100 Primzahlen.
-      </p>
+      <p>Entdecke die Primzahlen und ihre Eigenschaften!</p>
+
+      <h4 style="margin-top:24px">Was sind Primzahlen?</h4>
+
+      <p>Primzahlen sind ganze Zahlen größer als 1, die nur zwei positive Teiler haben: 1 und sich selbst. Mit anderen Worten, eine Primzahl kann nicht gleichmäßig durch eine andere Zahl außer 1 und sich selbst geteilt werden. Zum Beispiel sind 2, 3, 5, 7 und 11 Primzahlen.</p>
+
+      <h4 style="margin-top:24px">Wie erkennt man Primzahlen?</h4>
+
+      <p>Um herauszufinden, ob eine Zahl eine Primzahl ist, kannst du die Divisionstestmethode verwenden. Du teilst die zu überprüfende Zahl durch alle Zahlen von 2 bis zur Quadratwurzel dieser Zahl und prüfst, ob eine dieser Divisionen ohne Rest aufgeht. Wenn keine Division ohne Rest möglich ist, handelt es sich um eine Primzahl. Dies liegt daran, dass, wenn eine Zahl n keine Primzahl wäre, sie mindestens einen Teiler haben müsste, der kleiner oder gleich der Quadratwurzel von n ist.</p>
+
+      <h4 style="margin-top:24px">Deine Aufgabe</h4>
+
+      <p>Deine Aufgabe besteht darin, alle Primzahlen von 2 bis 4294967296 zu finden und sie anschließend zu addieren.</p>
+
+      <p>Beispiel: Summe aller Primzahlen im Bereich von 1 bis 42:  2 + 3 + 5 + 7 + 11 + 13 + 17 + 19 + 23 + 29 + 31 + 37 + 41 = 238</p>
     `,
     solution: secrets('chal_304'),
   },
@@ -3976,14 +3989,18 @@ print(hex_string)</pre></code>
   {
     id: 305,
     pos: { x: 1830, y: 780 },
-    title: 'Base85',
+    title: 'Rätselhafte Kodierung',
     author: 'darkstar',
-    date: '2023-08-24',
+    date: '2023-08-25',
     deps: [300],
     noScore: true,
     html: `
-      <p><code>6tp3T6#LdgDfTqBCghI.ATT%m7RJd</code>
+    
+      <p>In der digitalen Welt werden oft raffinierte Methoden verwendet, um Daten zu kodieren und zu übertragen. In dieser Aufgabe werdet ihr einen Blick auf eine mysteriöse Kodierung werfen, die dazu dient, Daten effizient zu speichern und zu übertragen.
       </p>
+      
+      <pre style="margin-top:24px">${'&lt;~8SoSMDKKH1F(8ltARlp0FWa&quot;ZF(I6d+Eh=:G@bZ&amp;ATT%]@&lt;6!&gt;2\'?IEDIjr\'Eq\\C%Eb-@ZDL,\n`)C`mn4EcY`(Bk:gdDImhq&gt;%MDXBOu\'4+E_ND6&gt;:&gt;uEb&amp;U#ASrW$@&lt;-[:F*(u0Ch7K:+BRW;Eb0\n-!+@9LXAMu@f2DcO[ASGXfASrW6ATE!+DId=#+E_R4$:8S&amp;@r#WuG&amp;M7@1E]#0FCfM9Bl5%M+Bi\n&gt;j@q]Fk+E_OF@;]UeCih3NDKU&amp;IF&lt;EnYF(I&lt;g+?25$&gt;%MDXBOu\'(F`(^sCN&quot;*6ATDm,ATDl81bD\n%&gt;FCd$jD&quot;_@SAKY])+&gt;k9FASGXfASs+C6t(-ZD.-pfF&lt;EnYF(I&lt;g+DG^96=kIcB-:W*AftVuAI:\nk&lt;AncR*ASuf:AS,OcCNO96ATAo%Ci^^c@&lt;6!&lt;1b9b[@3B-&amp;+Dk\\\'EZd\\_FE8R=DBN`mEdD;;ATA\nnsASGXfASu&gt;FDJ*MfCN!`tATDlD+Eq78+F8\/QASH$nEZf&amp;hBOu3qDBM&gt;UFCf?#Bk(guAKYU_BQA\n2I$6T]2@WH0qASuQ?+Co%tDBNS\'F*1u+FCfM99_NOMDJ+$7DfTqBBleA=6SN%,CMkt=CGTu`~&gt;'}</pre>
+      
     `,
     solution: secrets('chal_305'),
   },

@@ -3758,8 +3758,18 @@ print(hex_string)</pre></code>
         <p>Jeder darf mitmachen. Je mehr Ideen wir haben, umso bunter wird es. Die Aufgaben dürfen leicht sein oder sau schwer, witzig oder ernsthaft. Das ist dir überlassen. Falls du eine Idee hast, trete dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> bei und schreibe mir eine Nachricht.
         </p>
         
-        <p>Für den Community-Bereich gibt es eine eigene Highscore.
+        <!-- psst - hey - probiere mal /challenge/1337 -->
+        
+        <p>Startbereit? Die Antwort ist die Nummer dieser Aufgabe.
         </p>
+        
+        <form autocomplete="off" method="post" id="challenge_form">
+          <input id="challenge_answer" type="text" name="answer" style="height:32px">
+          <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+        </form>
+        
+        <h3 style="margin-top:96px;">Highscore für den Community-Bereich
+        </h3>
         
         <table class="table table-hover">
           <thead>
@@ -3787,14 +3797,10 @@ print(hex_string)</pre></code>
               .join('')}
           </tbody>
         </table>
-        
-        <!-- psst - hey - probiere mal /challenge/1337 -->
-        
-        <p>Startbereit? Deine Antwort ist die ID dieser Aufgabe.
-        </p>
       `
     },
     solution: '300',
+    hidesubmit: true,
   },
 
   {
@@ -3999,10 +4005,65 @@ print(hex_string)</pre></code>
       <p>In der digitalen Welt werden oft raffinierte Methoden verwendet, um Daten zu kodieren und zu übertragen. In dieser Aufgabe werdet ihr einen Blick auf eine mysteriöse Kodierung werfen, die dazu dient, Daten effizient zu speichern und zu übertragen.
       </p>
       
-      <pre style="margin-top:24px">${'&lt;~8SoSMDKKH1F(8ltARlp0FWa&quot;ZF(I6d+Eh=:G@bZ&amp;ATT%]@&lt;6!&gt;2\'?IEDIjr\'Eq\\C%Eb-@ZDL,\n`)C`mn4EcY`(Bk:gdDImhq&gt;%MDXBOu\'4+E_ND6&gt;:&gt;uEb&amp;U#ASrW$@&lt;-[:F*(u0Ch7K:+BRW;Eb0\n-!+@9LXAMu@f2DcO[ASGXfASrW6ATE!+DId=#+E_R4$:8S&amp;@r#WuG&amp;M7@1E]#0FCfM9Bl5%M+Bi\n&gt;j@q]Fk+E_OF@;]UeCih3NDKU&amp;IF&lt;EnYF(I&lt;g+?25$&gt;%MDXBOu\'(F`(^sCN&quot;*6ATDm,ATDl81bD\n%&gt;FCd$jD&quot;_@SAKY])+&gt;k9FASGXfASs+C6t(-ZD.-pfF&lt;EnYF(I&lt;g+DG^96=kIcB-:W*AftVuAI:\nk&lt;AncR*ASuf:AS,OcCNO96ATAo%Ci^^c@&lt;6!&lt;1b9b[@3B-&amp;+Dk\\\'EZd\\_FE8R=DBN`mEdD;;ATA\nnsASGXfASu&gt;FDJ*MfCN!`tATDlD+Eq78+F8\/QASH$nEZf&amp;hBOu3qDBM&gt;UFCf?#Bk(guAKYU_BQA\n2I$6T]2@WH0qASuQ?+Co%tDBNS\'F*1u+FCfM99_NOMDJ+$7DfTqBBleA=6SN%,CMkt=CGTu`~&gt;'}</pre>
+      <pre style="margin-top:24px">${"&lt;~8SoSMDKKH1F(8ltARlp0FWa&quot;ZF(I6d+Eh=:G@bZ&amp;ATT%]@&lt;6!&gt;2'?IEDIjr'Eq\\C%Eb-@ZDL,\n`)C`mn4EcY`(Bk:gdDImhq&gt;%MDXBOu'4+E_ND6&gt;:&gt;uEb&amp;U#ASrW$@&lt;-[:F*(u0Ch7K:+BRW;Eb0\n-!+@9LXAMu@f2DcO[ASGXfASrW6ATE!+DId=#+E_R4$:8S&amp;@r#WuG&amp;M7@1E]#0FCfM9Bl5%M+Bi\n&gt;j@q]Fk+E_OF@;]UeCih3NDKU&amp;IF&lt;EnYF(I&lt;g+?25$&gt;%MDXBOu'(F`(^sCN&quot;*6ATDm,ATDl81bD\n%&gt;FCd$jD&quot;_@SAKY])+&gt;k9FASGXfASs+C6t(-ZD.-pfF&lt;EnYF(I&lt;g+DG^96=kIcB-:W*AftVuAI:\nk&lt;AncR*ASuf:AS,OcCNO96ATAo%Ci^^c@&lt;6!&lt;1b9b[@3B-&amp;+Dk\\'EZd\\_FE8R=DBN`mEdD;;ATA\nnsASGXfASu&gt;FDJ*MfCN!`tATDlD+Eq78+F8/QASH$nEZf&amp;hBOu3qDBM&gt;UFCf?#Bk(guAKYU_BQA\n2I$6T]2@WH0qASuQ?+Co%tDBNS'F*1u+FCfM99_NOMDJ+$7DfTqBBleA=6SN%,CMkt=CGTu`~&gt;"}</pre>
       
     `,
     solution: secrets('chal_305'),
+  },
+
+  {
+    id: 306,
+    pos: { x: 1660, y: 500 },
+    title: 'Ticket',
+    author: 'cuzimbisonratte',
+    date: '2023-08-31',
+    deps: [300],
+    noScore: true,
+    render: ({ req }) => `
+      <p>Um Zugang zu dieser Aufgabe zu erhalten, musst du dein Ticket auf folgender Seite vorzeigen.
+      </p>
+      
+      <p><a href="/chal/chal306" target="_blank">Bitte dein Ticket vorzeigen</a>
+      </p>
+      
+      <p>Dein Zugangscode lautet <code>${req.user.id}@Dodo-Airlines</code>. Der Code muss in Form eines QR Codes eingereicht werden. Dann erhältst du die Antwort.
+      </p>
+    `,
+    solution: secrets('chal_306'),
+  },
+
+  {
+    id: 307,
+    pos: { x: 1580, y: 560 },
+    title: 'Freier Fall',
+    author: 'rkasti u. Satsuma',
+    date: '2023-08-31',
+    deps: [300],
+    noScore: true,
+    html: `
+      <p>Wenn einem langweilig ist, kommt man doch auf verrückte Ideen. Ich bin zum Beispiel letztens auf die Idee gekommen, die Höhe meines Fensters über der Straße auszumessen. Aber nicht mit einem Messband, das wäre viel zu langweilig. Stattdessen habe ich einen Stein aus meinem Fenster fallen lassen. Nach genau 1,3 Sekunden habe ich den Aufprall gehört.</p>
+      
+      <p>Wie hoch ist nun mein Fenster über der Straße? (auf ganze Meter gerundet, Luftreibung kann vernachlässigt werden)
+      </p>
+    `,
+    solution: secrets('chal_307'),
+  },
+
+  {
+    id: 308,
+    pos: { x: 1530, y: 460 },
+    title: 'Freier Fall II',
+    author: 'rkasti u. Satsuma',
+    date: '2023-08-31',
+    deps: [307],
+    noScore: true,
+    html: `
+      <p>Nachdem das Berechnen der Höhe meines Fensters so gut geklappt hat, wollte ich es noch auf einer größeren Skala probieren. Nach ein paar Stunden Wandern stand ich also an der Kante einer sehr hohen Klippe in den Bergen und ließ wieder einen Stein fallen. Diesmal hörte ich nach genau 6,72 Sekunden den Aufprall.</p>
+      
+      <p>Wie hoch ist nun die Klippe? (auf ganze Meter gerundet, Luftreibung kann vernachlässigt werden)
+      </p>
+    `,
+    solution: secrets('chal_308'),
   },
 
   {

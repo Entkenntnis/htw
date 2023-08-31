@@ -1,6 +1,23 @@
 const secrets = require('./secrets-loader.js')
 const crypto = require('crypto')
 
+const multer = require('multer')
+
+const storage = multer.memoryStorage()
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const shouldAccept = req.headers['content-length'] <= 96 * 1024
+    shouldAccept
+      ? cb(null, true)
+      : cb(new Error('Datei zu groß, maximal 96KiB erlaubt'), false)
+  },
+})
+
+const PNG = require('pngjs').PNG
+const jsQR = require('jsqr')
+var escape = require('escape-html');
+
 const mazeStr = `
 xxxxxxxxxxxxxxxxxxxxxxx
 xxxxx____A____x___9___x
@@ -206,5 +223,58 @@ module.exports = function (App) {
     }
 
     res.status(200).send('Die Antwort lautet ' + secrets('chal_302') + '.')
+  })
+
+  App.express.get('/chal/chal306', (req, res) => {  
+    if (!req.session.userId) {
+      res.send('Bitte einloggen.')
+      return
+    }
+    res.send(`
+      <title>Ticket vorzeigen</title>
+      <h1>Ticket vorzeigen</h1>
+      
+      <form action="/chal/chal306" method="post" enctype="multipart/form-data">
+        <input type="file" name="avatar" accept=".png,image/png"/><input type="submit" value="Hochladen" style="display:inline-block;margin-left:24px;"/>
+      </form>
+      
+      <p>Bitte lade eine .png-Datei hoch.</p>
+    `)
+  })
+
+  App.express.post('/chal/chal306', upload.single('avatar'), async (req, res) => {
+    if (!req.session.userId) {
+      res.send('Bitte einloggen.')
+      return
+    }
+    try {
+      if (!req.file) {
+        res.send('Hochladen fehlgeschlagen.')
+        return
+      }
+      const type = req.file.mimetype
+      if (type !== 'image/png') {
+        res.send('Das Ticket muss im png-Format vorliegen.')
+        return
+      }
+      const png = PNG.sync.read(req.file.buffer)
+      const code = jsQR(png.data, png.width, png.height)
+      if (!code || !code.data || typeof code.data !== 'string') {
+        res.send('Kein QR Code erkannt.')
+        return
+      }
+      const data = code.data
+      const ticket = req.session.userId + '@Dodo-Airlines'
+      if (data.includes(ticket)) {
+        res.send('<title>Ticket vorzeigen</title>Die Antwort lautet "' + secrets('chal_306') + '".')
+        return
+      } else {
+        res.send(`<title>Ticket vorzeigen</title>Erwarte <strong>${ticket}</strong>, erhalten: <strong>${escape(data)}</strong>`)
+        return
+      }
+    } catch (e) {
+      res.end('Fehler bei der Verarbeitung.')
+      return
+    }
   })
 }

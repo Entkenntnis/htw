@@ -12,7 +12,10 @@
   "dependencies": {
     "@entkenntnis/challenges-server": "1.4.4",
     "escape-html": "^1.0.3",
+    "jsqr": "^1.4.0",
     "mariadb": "^2.4.1",
-    "node-fetch": "^2.6.1"
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.6.1",
+    "pngjs": "^7.0.0"
   }
 }

@@ -3805,7 +3805,7 @@ print(hex_string)</pre></code>
 
   {
     id: 301,
-    pos: { x: 1760, y: 460 },
+    pos: { x: 1780, y: 400 },
     title: 'Schnittstelle',
     date: '2023-07-28',
     author: 'cuzimbisonratte',
@@ -3820,7 +3820,7 @@ print(hex_string)</pre></code>
 
   {
     id: 302,
-    pos: { x: 1710, y: 370 },
+    pos: { x: 1750, y: 290 },
     title: 'Schnittstelle II',
     date: '2023-07-28',
     author: 'cuzimbisonratte',
@@ -3845,7 +3845,7 @@ print(hex_string)</pre></code>
 
   {
     id: 303,
-    pos: { x: 1870, y: 530 },
+    pos: { x: 1950, y: 500 },
     title: 'Rechensport',
     author: 'simonesien',
     date: '2023-07-28',
@@ -3966,7 +3966,7 @@ print(hex_string)</pre></code>
 
   {
     id: 304,
-    pos: { x: 1930, y: 720 },
+    pos: { x: 1910, y: 730 },
     title: 'Primzahlen',
     author: 'darkstar',
     date: '2023-08-25',
@@ -4013,7 +4013,7 @@ print(hex_string)</pre></code>
 
   {
     id: 306,
-    pos: { x: 1660, y: 500 },
+    pos: { x: 1700, y: 430 },
     title: 'Ticket',
     author: 'cuzimbisonratte',
     date: '2023-08-31',
@@ -4034,7 +4034,7 @@ print(hex_string)</pre></code>
 
   {
     id: 307,
-    pos: { x: 1580, y: 560 },
+    pos: { x: 1580, y: 420 },
     title: 'Freier Fall',
     author: 'rkasti u. Satsuma',
     date: '2023-08-31',
@@ -4051,7 +4051,7 @@ print(hex_string)</pre></code>
 
   {
     id: 308,
-    pos: { x: 1530, y: 460 },
+    pos: { x: 1530, y: 320 },
     title: 'Freier Fall II',
     author: 'rkasti u. Satsuma',
     date: '2023-08-31',
@@ -4067,13 +4067,76 @@ print(hex_string)</pre></code>
   },
 
   {
+    id: 309,
+    pos: { x: 2030, y: 700 },
+    title: 'Cyperchef', 
+    author: 'provn_tq97',
+    date: '2023-09-01',
+    deps: [300],
+    noScore: true,
+    html: `
+      <p>Mir war ein wenig langweilig, daher habe ich das Lösungswort mehrmals verschlüsselt 😁.</p>
+      
+      <p><code>&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7L,;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7L,;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7L,;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=R;-7@(;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=R;-7@(;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7L,;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,;FOW(&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^g&amp;,&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7L,;FOW(&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7L,;FOW(&lt;)lg_AOS=R;-7L,;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^g&amp;,&lt;)lg_AOS=R;-7@(;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^fJq&lt;)lg_AOS=R;-7@(;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^g&amp;,&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7@(;FO&amp;m&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=R;-7@(&lt;^fJq&lt;)lg_AOS=R;-7@(;FOW(&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^g&amp;,&lt;)lg_AOS=R;-7L,;FOW(&lt;)lg_AOS=B;-7@(;FO&amp;m&lt;)lg_AOS=R;-7L,&lt;^g&amp;,&lt;)lg_AOS=R;-7L,;FOSG</code></p>
+    `,
+    solution: secrets('chal_309'),
+  },
+
+  {
+    id: 310,
+    pos: { x: 1940, y: 370 },
+    title: 'RockYou', 
+    author: 'virusrpi',
+    date: '2023-09-02',
+    deps: [300],
+    noScore: true,
+    html: `
+      <p>Manchmal hilft nur noch <a href="https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt" target="_blank">ausprobieren</a>...</p>
+      
+      <script src="/sha256.js"></script>
+      
+      <script>
+        const salt = '3NL/usjb4vEg'
+        const hash = '9bcf0c8289a97d33021b4790659396d9f8af1085210d2186b8ec38efcdc31472'
+        
+        window.onload = () => {
+          document.getElementById('challenge_form').onsubmit = (e) => {
+            const value = document.getElementById('challenge_answer').value
+            if (sha256(salt + value).hex() !== hash) {
+              alert('Passwort falsch.')
+              e.preventDefault()
+              return false
+            }
+          }
+        }
+      </script>
+    `,
+    solution: secrets('chal_310'),
+  },
+
+  {
+    id: 311,
+    pos: { x: 1520, y: 520 },
+    title: 'TODO', 
+    author: 'Lars',
+    date: '2023-09-02',
+    deps: [300],
+    noScore: true,
+    html: `
+      <p>TODO</p>
+    `,
+    solution: secrets('chal_311'),
+  },
+
+  {
     id: 1337,
-    pos: { x: -1000, y: -1000 },
+    pos: { x: 1570, y: 630 },
     title: 'Geheime Aufgabe',
     author: 'darkermask',
     date: '2023-07-29',
-    deps: [],
+    deps: [300],
     noScore: true,
+    showAfterSolve: true,
     html: `
       <p>Hallo, du hast mich gefunden :)
       </p>

@@ -3768,7 +3768,7 @@ print(hex_string)</pre></code>
           <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
         </form>
         
-        <h3 style="margin-top:96px;">Highscore für den Community-Bereich
+        <h3 style="margin-top:96px;margin-bottom:24px;">Highscore für den Community-Bereich
         </h3>
         
         <table class="table table-hover">

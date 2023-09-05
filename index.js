@@ -198,7 +198,7 @@ require(path)((config) => {
         <p>Neu hier? Starte deine Reise in die Welt des Hackings:
         </p>
         <p class="text-center" style="margin-top:48px;">
-          <a href="/register" class="btn btn-success">Bei Hack The Web registrieren</a>
+          <a href="/register" class="btn btn-success btn-lg">Jetzt loslegen</a>
         </p>
       </div>
 

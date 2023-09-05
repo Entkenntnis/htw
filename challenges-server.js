@@ -16,7 +16,7 @@ const upload = multer({
 
 const PNG = require('pngjs').PNG
 const jsQR = require('jsqr')
-var escape = require('escape-html');
+var escape = require('escape-html')
 
 const mazeStr = `
 xxxxxxxxxxxxxxxxxxxxxxx
@@ -225,7 +225,7 @@ module.exports = function (App) {
     res.status(200).send('Die Antwort lautet ' + secrets('chal_302') + '.')
   })
 
-  App.express.get('/chal/chal306', (req, res) => {  
+  App.express.get('/chal/chal306', (req, res) => {
     if (!req.session.userId) {
       res.send('Bitte einloggen.')
       return
@@ -242,39 +242,51 @@ module.exports = function (App) {
     `)
   })
 
-  App.express.post('/chal/chal306', upload.single('avatar'), async (req, res) => {
-    if (!req.session.userId) {
-      res.send('Bitte einloggen.')
-      return
+  App.express.post(
+    '/chal/chal306',
+    upload.single('avatar'),
+    async (req, res) => {
+      if (!req.session.userId) {
+        res.send('Bitte einloggen.')
+        return
+      }
+      try {
+        if (!req.file) {
+          res.send('Hochladen fehlgeschlagen.')
+          return
+        }
+        const type = req.file.mimetype
+        if (type !== 'image/png') {
+          res.send('Das Ticket muss im png-Format vorliegen.')
+          return
+        }
+        const png = PNG.sync.read(req.file.buffer)
+        const code = jsQR(png.data, png.width, png.height)
+        if (!code || !code.data || typeof code.data !== 'string') {
+          res.send('Kein QR Code erkannt.')
+          return
+        }
+        const data = code.data
+        const ticket = req.session.userId + '@Dodo-Airlines'
+        if (data.includes(ticket)) {
+          res.send(
+            '<title>Ticket vorzeigen</title>Die Antwort lautet "' +
+              secrets('chal_306') +
+              '".'
+          )
+          return
+        } else {
+          res.send(
+            `<title>Ticket vorzeigen</title>Erwarte <strong>${ticket}</strong>, erhalten: <strong>${escape(
+              data
+            )}</strong>`
+          )
+          return
+        }
+      } catch (e) {
+        res.end('Fehler bei der Verarbeitung.')
+        return
+      }
     }
-    try {
-      if (!req.file) {
-        res.send('Hochladen fehlgeschlagen.')
-        return
-      }
-      const type = req.file.mimetype
-      if (type !== 'image/png') {
-        res.send('Das Ticket muss im png-Format vorliegen.')
-        return
-      }
-      const png = PNG.sync.read(req.file.buffer)
-      const code = jsQR(png.data, png.width, png.height)
-      if (!code || !code.data || typeof code.data !== 'string') {
-        res.send('Kein QR Code erkannt.')
-        return
-      }
-      const data = code.data
-      const ticket = req.session.userId + '@Dodo-Airlines'
-      if (data.includes(ticket)) {
-        res.send('<title>Ticket vorzeigen</title>Die Antwort lautet "' + secrets('chal_306') + '".')
-        return
-      } else {
-        res.send(`<title>Ticket vorzeigen</title>Erwarte <strong>${ticket}</strong>, erhalten: <strong>${escape(data)}</strong>`)
-        return
-      }
-    } catch (e) {
-      res.end('Fehler bei der Verarbeitung.')
-      return
-    }
-  })
+  )
 }

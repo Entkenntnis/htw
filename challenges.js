@@ -4069,7 +4069,7 @@ print(hex_string)</pre></code>
   {
     id: 309,
     pos: { x: 2030, y: 700 },
-    title: 'Cyperchef', 
+    title: 'Cyperchef',
     author: 'provn_tq97',
     date: '2023-09-01',
     deps: [300],
@@ -4085,7 +4085,7 @@ print(hex_string)</pre></code>
   {
     id: 310,
     pos: { x: 1940, y: 370 },
-    title: 'RockYou', 
+    title: 'RockYou',
     author: 'virusrpi',
     date: '2023-09-02',
     deps: [300],
@@ -4117,7 +4117,7 @@ print(hex_string)</pre></code>
   {
     id: 311,
     pos: { x: 1520, y: 520 },
-    title: 'Brainfuck?', 
+    title: 'Brainfuck?',
     author: 'Lars',
     date: '2023-09-02',
     deps: [300],

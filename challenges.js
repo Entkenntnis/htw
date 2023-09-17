@@ -4040,13 +4040,18 @@ print(hex_string)</pre></code>
     date: '2023-08-31',
     deps: [300],
     noScore: true,
-    html: `
-      <p>Wenn einem langweilig ist, kommt man doch auf verrückte Ideen. Ich bin zum Beispiel letztens auf die Idee gekommen, die Höhe meines Fensters über der Straße auszumessen. Aber nicht mit einem Messband, das wäre viel zu langweilig. Stattdessen habe ich einen Stein aus meinem Fenster fallen lassen. Nach genau 1,3 Sekunden habe ich den Aufprall gehört.</p>
-      
-      <p>Wie hoch ist nun mein Fenster über der Straße? (auf ganze Meter gerundet, Luftreibung kann vernachlässigt werden)
-      </p>
+    html: `      
+      <p>Wenn einem langweilig ist, kommt man doch auf verrückte Ideen. Ich bin zum Beispiel letztens auf die Idee gekommen, die Höhe meines Fensters über der Straße auszumessen. Aber nicht mit einem Messband, das wäre viel zu langweilig. Stattdessen habe ich einen Stein aus meinem Fenster fallen lassen. Nach genau 1,43 Sekunden hat er den Boden berührt.
+
+      <p>Wie hoch ist nun mein Fenster über der Straße? (in Metern auf Zentimeter gerundet, Luftreibung kann vernachlässigt werden, Erdbeschleunigung = 9,81 m/s²)</p>
     `,
-    solution: secrets('chal_307'),
+    check: (answer) => {
+      const prepared = answer.trim().replace('.', ',')
+      return {
+        answer: prepared,
+        correct: prepared === secrets('chal_307'),
+      }
+    },
   },
 
   {
@@ -4058,12 +4063,18 @@ print(hex_string)</pre></code>
     deps: [307],
     noScore: true,
     html: `
-      <p>Nachdem das Berechnen der Höhe meines Fensters so gut geklappt hat, wollte ich es noch auf einer größeren Skala probieren. Nach ein paar Stunden Wandern stand ich also an der Kante einer sehr hohen Klippe in den Bergen und ließ wieder einen Stein fallen. Diesmal hörte ich nach genau 6,72 Sekunden den Aufprall.</p>
-      
-      <p>Wie hoch ist nun die Klippe? (auf ganze Meter gerundet, Luftreibung kann vernachlässigt werden)
-      </p>
+      <p>Nachdem das Berechnen der Höhe meines Fensters so gut geklappt hat, wollte ich es noch auf einer größeren Skala probieren. An einem trockenen Tag mit 20°C stand ich also an der Kante einer sehr hohen Klippe in den Bergen und ließ wieder einen Stein fallen. Ich hörte nach genau 6,733 Sekunden den Aufprall.</p>
+
+      <p>Wie hoch ist nun die Klippe? (in Metern auf Dezimeter gerundet, Luftreibung kann vernachlässigt werden, Erdbeschleunigung = 9,81 m/s²)</p>
+
     `,
-    solution: secrets('chal_308'),
+    check: (answer) => {
+      const prepared = answer.trim().replace('.', ',')
+      return {
+        answer: prepared,
+        correct: prepared === secrets('chal_308'),
+      }
+    },
   },
 
   {

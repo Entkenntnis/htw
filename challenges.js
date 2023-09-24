@@ -581,81 +581,81 @@ module.exports = [
   },
 
   /*{
-    id: 11,
-    pos: { x: 100, y: 400 },
-    title: 'Fremdwährung',
-    deps: [18],
-    html: `
-      <p>Das Währungssystem in Land Compedia ist anders aufgebaut als wir es so gewohnt sind. Es gibt dort nur Münzen und diese haben die Werte 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512. Das sind die ersten 10 Zweierpotenzen.
-      </p>
-      
-      <p>Damit die Einwohner nicht so viel Geld mit sich schleppen müssen, dürfen Preise nur zwischen 1 und 1023 liegen. Zu hohe Preise und Dezimalbrüche sind verboten (und werden per Überweisung bezahlt).
-      </p>
-      
-      <p>Das Interessante an diesem System: Jeder Einwohner kann mit einem Satz an Münzen (also von jedem Wert genau eine Münze, insgesamt 10 Münzen) jeden Preis zwischen 1 und 1023 bezahlen. Wir wollen das mal überprüfen: Den Preis von 100 können wir mit den drei Münzen 64, 32 und 4 bezahlen. Klappt.
-      </p>
-      
-      <p>Die Frage lautet: Wie bezahlt ein Compedianer den Preis 85?
-      </p>
-      
-      <p>Gib die einzelnen Münzwerte von groß nach klein mit Leerzeichen getrennt an (z.B. <em>64 32 4</em>).
-      </p>
-    `,
-    solution: '64 16 4 1',
-  },*/
+      id: 11,
+      pos: { x: 100, y: 400 },
+      title: 'Fremdwährung',
+      deps: [18],
+      html: `
+        <p>Das Währungssystem in Land Compedia ist anders aufgebaut als wir es so gewohnt sind. Es gibt dort nur Münzen und diese haben die Werte 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512. Das sind die ersten 10 Zweierpotenzen.
+        </p>
+        
+        <p>Damit die Einwohner nicht so viel Geld mit sich schleppen müssen, dürfen Preise nur zwischen 1 und 1023 liegen. Zu hohe Preise und Dezimalbrüche sind verboten (und werden per Überweisung bezahlt).
+        </p>
+        
+        <p>Das Interessante an diesem System: Jeder Einwohner kann mit einem Satz an Münzen (also von jedem Wert genau eine Münze, insgesamt 10 Münzen) jeden Preis zwischen 1 und 1023 bezahlen. Wir wollen das mal überprüfen: Den Preis von 100 können wir mit den drei Münzen 64, 32 und 4 bezahlen. Klappt.
+        </p>
+        
+        <p>Die Frage lautet: Wie bezahlt ein Compedianer den Preis 85?
+        </p>
+        
+        <p>Gib die einzelnen Münzwerte von groß nach klein mit Leerzeichen getrennt an (z.B. <em>64 32 4</em>).
+        </p>
+      `,
+      solution: '64 16 4 1',
+    },*/
 
   /*{
-    id: 12,
-    pos: { x: 100, y: 530 },
-    title: 'Fremdwährung II',
-    deps: [11],
-    html: `
-      <p>Wie bezahlt ein Compedianer in diesem System den Preis 805?
-      </p>
-    `,
-    solution: '512 256 32 4 1',
-  },*/
+      id: 12,
+      pos: { x: 100, y: 530 },
+      title: 'Fremdwährung II',
+      deps: [11],
+      html: `
+        <p>Wie bezahlt ein Compedianer in diesem System den Preis 805?
+        </p>
+      `,
+      solution: '512 256 32 4 1',
+    },*/
 
   /*{
-    id: 13,
-    pos: { x: 130, y: 670 },
-    title: 'Fremdwährung III',
-    deps: [12],
-    html: `
-      <p>Die Compedianer nutzen dieses System der Münzen auch für ihre Zahlen, allerdings in einer abgewandelten Form: Die Münzwerte werden durch die Position der Ziffern bestimmt und diese steigt von rechts nach links auf. Es gibt nur zwei Ziffern. Die Null bedeutet, dass diese Münze nicht benutzt wird, die Eins bedeutet, dass sie benutzt wird. Hier sehen wir ein Beispiel für die Zahl 100110:
-      </p>
-      
-      <p><img src="/chals/chal13.png"></p>
-      
-      <p>Verwendet werden die Werte 32, 4 und 2 und damit ergibt sich insgesamt die Zahl 38.</p><p>Die Frage lautet nun: Welche Zahl steckt hinter der Folge 110001100100?
-      </p>
-    `,
-    solution: '3172',
-  },*/
+      id: 13,
+      pos: { x: 130, y: 670 },
+      title: 'Fremdwährung III',
+      deps: [12],
+      html: `
+        <p>Die Compedianer nutzen dieses System der Münzen auch für ihre Zahlen, allerdings in einer abgewandelten Form: Die Münzwerte werden durch die Position der Ziffern bestimmt und diese steigt von rechts nach links auf. Es gibt nur zwei Ziffern. Die Null bedeutet, dass diese Münze nicht benutzt wird, die Eins bedeutet, dass sie benutzt wird. Hier sehen wir ein Beispiel für die Zahl 100110:
+        </p>
+        
+        <p><img src="/chals/chal13.png"></p>
+        
+        <p>Verwendet werden die Werte 32, 4 und 2 und damit ergibt sich insgesamt die Zahl 38.</p><p>Die Frage lautet nun: Welche Zahl steckt hinter der Folge 110001100100?
+        </p>
+      `,
+      solution: '3172',
+    },*/
 
   /*{
-    id: 14,
-    pos: { x: 150, y: 820 },
-    title: 'Fremdwährung IV',
-    deps: [13],
-    html: `
-      <p>Die Compedianer haben damit ihr Zahlensystem auf das sog. Binärsystem umgestellt. Man könnte fast meinen, dass ein Compedianer den Computer erfunden hätte - denn Computer verstehen auch nur Binärzahlen.
-      </p>
-      
-      <p>Für uns Menschen gibt es noch eine Schwierigkeit: Binärzahlen sind oft sehr lang. Um sie kürzer darzustellen, kann man sie in 4er-Packs zerlegen und mit folgender Tabelle übersetzen:
-      </p>
-      
-      <p>0000 = 0<br>0001 = 1<br>0010 = 2<br>0011 = 3<br>0100 = 4<br>0101 = 5<br>0110 = 6<br>0111 = 7<br>1000 = 8<br>1001 = 9<br>1010 = A<br>1011 = B<br>1100 = C<br>1101 = D<br>1110 = E<br>1111 = F
-      </p>
-      
-      <p>Die Tabelle ist eigentlich sehr systematisch: Auf der linken Seite sind die Zahlen von 0 bis 15 dargestellt und rechts die passende Zahl oder ein Buchstabe. Die Binärzahl 10100011 wird dann mit A3 abgekürzt. Diese Schreibweise wird Hexadezimalsystem genannt.
-      </p>
-      
-      <p>Wie lautet nun die Binärzahl 11111010011000000100 in hexadezimaler Schreibweise?
-      </p>
-    `,
-    solution: 'fa604',
-  },*/
+      id: 14,
+      pos: { x: 150, y: 820 },
+      title: 'Fremdwährung IV',
+      deps: [13],
+      html: `
+        <p>Die Compedianer haben damit ihr Zahlensystem auf das sog. Binärsystem umgestellt. Man könnte fast meinen, dass ein Compedianer den Computer erfunden hätte - denn Computer verstehen auch nur Binärzahlen.
+        </p>
+        
+        <p>Für uns Menschen gibt es noch eine Schwierigkeit: Binärzahlen sind oft sehr lang. Um sie kürzer darzustellen, kann man sie in 4er-Packs zerlegen und mit folgender Tabelle übersetzen:
+        </p>
+        
+        <p>0000 = 0<br>0001 = 1<br>0010 = 2<br>0011 = 3<br>0100 = 4<br>0101 = 5<br>0110 = 6<br>0111 = 7<br>1000 = 8<br>1001 = 9<br>1010 = A<br>1011 = B<br>1100 = C<br>1101 = D<br>1110 = E<br>1111 = F
+        </p>
+        
+        <p>Die Tabelle ist eigentlich sehr systematisch: Auf der linken Seite sind die Zahlen von 0 bis 15 dargestellt und rechts die passende Zahl oder ein Buchstabe. Die Binärzahl 10100011 wird dann mit A3 abgekürzt. Diese Schreibweise wird Hexadezimalsystem genannt.
+        </p>
+        
+        <p>Wie lautet nun die Binärzahl 11111010011000000100 in hexadezimaler Schreibweise?
+        </p>
+      `,
+      solution: 'fa604',
+    },*/
 
   {
     id: 15,
@@ -830,49 +830,49 @@ module.exports = [
   },
 
   /*{
-    id: 19,
-    pos: { x: 310, y: 460 },
-    title: 'Cäsar',
-    date: '2017-05-18',
-    deps: [18],
-    html: `
-      <p>Du hast wieder eine verschlüsselte Nachricht erhalten:
-      </p>
-      
-      <p>Yottss</p>
-      
-      <p>Diesmal wurde die Nachricht mit dem Cäsarcode verschlüsselt. Bei diesem Code werden die Buchstaben um eine bestimmte Anzahl im Alphabet verschoben. Wenn man zum Beispiel <strong>Maus</strong> nimmt und die Buchstaben um eins weiter verschiebt, kommt der geheime Text <strong>Nbvt</strong> heraus.
-      </p>
-      
-      <p>Die Schwierigkeit liegt darin: Du weißt nicht, um wie viel die geheime Nachricht verschoben wurde. Aber das sollte Dich als Hacker nicht abhalten! Die geheime Nachricht (ein deutsches Wort) ist die Antwort zu dieser Aufgabe.
-      </p>
-    `,
-    solution: 'kaffee',
-  },*/
+      id: 19,
+      pos: { x: 310, y: 460 },
+      title: 'Cäsar',
+      date: '2017-05-18',
+      deps: [18],
+      html: `
+        <p>Du hast wieder eine verschlüsselte Nachricht erhalten:
+        </p>
+        
+        <p>Yottss</p>
+        
+        <p>Diesmal wurde die Nachricht mit dem Cäsarcode verschlüsselt. Bei diesem Code werden die Buchstaben um eine bestimmte Anzahl im Alphabet verschoben. Wenn man zum Beispiel <strong>Maus</strong> nimmt und die Buchstaben um eins weiter verschiebt, kommt der geheime Text <strong>Nbvt</strong> heraus.
+        </p>
+        
+        <p>Die Schwierigkeit liegt darin: Du weißt nicht, um wie viel die geheime Nachricht verschoben wurde. Aber das sollte Dich als Hacker nicht abhalten! Die geheime Nachricht (ein deutsches Wort) ist die Antwort zu dieser Aufgabe.
+        </p>
+      `,
+      solution: 'kaffee',
+    },*/
 
   /*{
-    id: 20,
-    pos: { x: 160, y: 485 },
-    title: 'Geheimtext',
-    deps: [11, 51],
-    html: `
-      <p>Unser Freund hat dir eine verschlüsselte Nachricht geschickt. Diese Nachricht hat er auf zwei Briefe aufgeteilt. Der erste Brief enthält folgenden Text:
-      </p>
-      
-      <pre class="my-4">JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC</pre>
-      
-      <p>Der zweite Brief enthält folgenden Hinweis:</p>
-      
-      <pre class="my-4">Geheim: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\nKlar:   W ? I E U ? Z V J D ? X ? M L Y K N ? B T S P G O ?</pre>
-      
-      <p>Anscheinend kann man mit diesen Angaben die Nachricht entziffern. Leider sind durch den Regen ein paar Buchstaben im zweiten Brief verwischt. Schaffst du es trotzdem, den Brief zu entschlüsseln?
-      </p>
-    `,
-    // Die Antwort auf deine Aufgabe lautet hammerhai
-    // JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC
-    // hidden: A -> F, C -> B, F -> Z, H -> S, R -> M
-    solution: 'hammerhai',
-  },*/
+      id: 20,
+      pos: { x: 160, y: 485 },
+      title: 'Geheimtext',
+      deps: [11, 51],
+      html: `
+        <p>Unser Freund hat dir eine verschlüsselte Nachricht geschickt. Diese Nachricht hat er auf zwei Briefe aufgeteilt. Der erste Brief enthält folgenden Text:
+        </p>
+        
+        <pre class="my-4">JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC</pre>
+        
+        <p>Der zweite Brief enthält folgenden Hinweis:</p>
+        
+        <pre class="my-4">Geheim: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\nKlar:   W ? I E U ? Z V J D ? X ? M L Y K N ? B T S P G O ?</pre>
+        
+        <p>Anscheinend kann man mit diesen Angaben die Nachricht entziffern. Leider sind durch den Regen ein paar Buchstaben im zweiten Brief verwischt. Schaffst du es trotzdem, den Brief zu entschlüsseln?
+        </p>
+      `,
+      // Die Antwort auf deine Aufgabe lautet hammerhai
+      // JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC
+      // hidden: A -> F, C -> B, F -> Z, H -> S, R -> M
+      solution: 'hammerhai',
+    },*/
 
   {
     id: 21,
@@ -920,36 +920,36 @@ module.exports = [
   },
 
   /*{
-    id: 22,
-    pos: { x: 845, y: 725 },
-    title: 'NoScript',
-    date: '2017-08-25',
-    deps: [81],
-    html: `
-      <p>Moderne Websiten enthalten nicht nur viele Texte und Bilder, sondern auch sehr viele interaktive Inhalte wie Animationen, Menüs, Widgets, ...
-      </p>
+      id: 22,
+      pos: { x: 845, y: 725 },
+      title: 'NoScript',
+      date: '2017-08-25',
+      deps: [81],
+      html: `
+        <p>Moderne Websiten enthalten nicht nur viele Texte und Bilder, sondern auch sehr viele interaktive Inhalte wie Animationen, Menüs, Widgets, ...
+        </p>
+        
+        <p>Ermöglicht werden diese interaktiven Inhalte durch JavaScript. Neben vielem Guten kann man damit aber auch einiges an Unsinn betreiben. Nehmen wir mal das Eingabefeld dieser Aufgabe: Das wurde leider mit JavaScript komplett lahmgelegt.
+        </p>
+        
+        <p>Die Antwort auf diese Aufgabe ist der Name für den standardisierten Sprachkern von JavaScript.
+        </p>
       
-      <p>Ermöglicht werden diese interaktiven Inhalte durch JavaScript. Neben vielem Guten kann man damit aber auch einiges an Unsinn betreiben. Nehmen wir mal das Eingabefeld dieser Aufgabe: Das wurde leider mit JavaScript komplett lahmgelegt.
-      </p>
-      
-      <p>Die Antwort auf diese Aufgabe ist der Name für den standardisierten Sprachkern von JavaScript.
-      </p>
-    
-      <script>
-        window.addEventListener('load', () => {
-          document.getElementById("challenge_submit").disabled = true
-          document.getElementById("challenge_form").onsubmit = e => {
-            e.preventDefault()
-          }
-          document.getElementById("challenge_answer").onkeypress = function(e) {
-            if (e.which == 13)
-              return false
-          }
-        })
-      </script>
-    `,
-    solution: secrets('chal_22'),
-  },*/
+        <script>
+          window.addEventListener('load', () => {
+            document.getElementById("challenge_submit").disabled = true
+            document.getElementById("challenge_form").onsubmit = e => {
+              e.preventDefault()
+            }
+            document.getElementById("challenge_answer").onkeypress = function(e) {
+              if (e.which == 13)
+                return false
+            }
+          })
+        </script>
+      `,
+      solution: secrets('chal_22'),
+    },*/
 
   {
     id: 23,
@@ -1406,48 +1406,48 @@ module.exports = [
   },
 
   /*{
-    id: 34,
-    pos: { x: 550, y: 500 },
-    title: 'Taschenrechner IV',
-    date: '2017-09-01',
-    deps: [33],
-    html: `
-      <p>Diese Aufgabe basiert wieder auf dem ursprünglichen Taschenrechner von Teil 1 (d.h. mit allen Tasten). Diesmal soll die Zahl nicht von dir berechnet werden, sondern es ist die Reihenfolge der Tasten gesucht, die zum richtigen Ergebnis führt.
-      </p>
-      
-      <p>Schreibe die Tasten, die du am Taschenrechner drücken würdest, von links nach rechts mit Leerzeichen getrennt auf. So liefert z.B. die Eingabe "4 5 *" das Ergebnis 20 (Drücke zuerst 4, dann 5, dann die Maltaste). Entsprechend ergibt die Eingabe "4 dup *" das Ergebnis 16 und "1 2 3 drop +" das Ergebnis 3. Du kannst gerne zurückgehen und deine Eingabe am Rechner ausprobieren.
-      </p>
-      
-      <p>Gesucht ist ein Programm, das die Zahl 386 erzeugt.
-      </p>
-    `,
-    check: (answer) => {
-      const val = trinterpreter(answer)
-      return {
-        answer: val,
-        correct: val == '386',
-      }
+      id: 34,
+      pos: { x: 550, y: 500 },
+      title: 'Taschenrechner IV',
+      date: '2017-09-01',
+      deps: [33],
+      html: `
+        <p>Diese Aufgabe basiert wieder auf dem ursprünglichen Taschenrechner von Teil 1 (d.h. mit allen Tasten). Diesmal soll die Zahl nicht von dir berechnet werden, sondern es ist die Reihenfolge der Tasten gesucht, die zum richtigen Ergebnis führt.
+        </p>
+        
+        <p>Schreibe die Tasten, die du am Taschenrechner drücken würdest, von links nach rechts mit Leerzeichen getrennt auf. So liefert z.B. die Eingabe "4 5 *" das Ergebnis 20 (Drücke zuerst 4, dann 5, dann die Maltaste). Entsprechend ergibt die Eingabe "4 dup *" das Ergebnis 16 und "1 2 3 drop +" das Ergebnis 3. Du kannst gerne zurückgehen und deine Eingabe am Rechner ausprobieren.
+        </p>
+        
+        <p>Gesucht ist ein Programm, das die Zahl 386 erzeugt.
+        </p>
+      `,
+      check: (answer) => {
+        const val = trinterpreter(answer)
+        return {
+          answer: val,
+          correct: val == '386',
+        }
+      },
     },
-  },
-
-  {
-    id: 35,
-    pos: { x: 675, y: 525 },
-    title: 'Taschenrechner V',
-    date: '2017-09-01',
-    deps: [34],
-    html: `
-      <p>Es ist ein Programm gesucht, das die Zahl 24 erzeugt. Diesmal sind allerdings nur die vier Befehle 1, 2, * und - erlaubt.
-      </p>
-    `,
-    check: (answer) => {
-      const val = trinterpreterstripped(answer)
-      return {
-        answer: val,
-        correct: val == '24',
-      }
-    },
-  },*/
+  
+    {
+      id: 35,
+      pos: { x: 675, y: 525 },
+      title: 'Taschenrechner V',
+      date: '2017-09-01',
+      deps: [34],
+      html: `
+        <p>Es ist ein Programm gesucht, das die Zahl 24 erzeugt. Diesmal sind allerdings nur die vier Befehle 1, 2, * und - erlaubt.
+        </p>
+      `,
+      check: (answer) => {
+        const val = trinterpreterstripped(answer)
+        return {
+          answer: val,
+          correct: val == '24',
+        }
+      },
+    },*/
 
   {
     id: 36,
@@ -2284,10 +2284,11 @@ module.exports = [
   {
     id: 51,
     pos: { x: 195, y: 405 },
-    title: 'Binär',
+    title: { de: 'Binär', en: 'Binary' },
     date: '2020-08-01',
     deps: [24],
-    html: `
+    html: {
+      de: `
       <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
       </p>
       
@@ -2316,6 +2317,36 @@ module.exports = [
         }
       </style>
     `,
+      en: `
+      <p>You've probably heard of the binary system. It is the language of computers, which consists of 1s and 0s.
+      </p>
+      
+      <p>Even if you've never worked with it before — with a little logical thinking, you'll quickly get started.
+      </p>
+      
+      <p>To help you, you can see the first six powers of two here. You can turn them on or off when you click on them. All active numbers are added to the result.
+      </p>
+      
+      <p>Enter the number 7 and submit it.
+      </p>
+      
+      <p><svg id="binary"></svg></p>
+      
+      <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
+      
+      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Submit</button></p>
+      
+      <script src="/svg.min.js"></script>
+      <script src="/chals/chal51_2.js"></script>
+      
+      <style>
+        .hoverEffect:hover {
+          cursor:pointer;
+          opacity: 0.9;
+        }
+      </style>
+    `,
+    },
     solution: secrets('chal_51'),
     hidesubmit: true,
   },
@@ -2323,10 +2354,11 @@ module.exports = [
   {
     id: 52,
     pos: { x: 250, y: 530 },
-    title: 'Binär II',
+    title: { de: 'Binär II', en: 'Binary II' },
     date: '2020-08-01',
     deps: [51],
-    html: `
+    html: {
+      de: `
       <p>Das hast du sehr gut gemacht! Stelle nun die Zahl 45 ein.
       </p>
       
@@ -2346,6 +2378,27 @@ module.exports = [
         }
       </style>
     `,
+      en: `
+      <p>Well done! Now set the number 45.
+      </p>
+      
+      <p><svg id="binary"></svg></p>
+      
+      <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
+      
+      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Submit</button></p>
+      
+      <script src="/svg.min.js"></script>
+      <script src="/chals/chal51_2.js"></script>
+      
+      <style>
+        .hoverEffect:hover {
+          cursor:pointer;
+          opacity: 0.9;
+        }
+      </style>
+    `,
+    },
     solution: secrets('chal_52'),
     hidesubmit: true,
   },
@@ -2353,10 +2406,11 @@ module.exports = [
   {
     id: 53,
     pos: { x: 265, y: 725 },
-    title: 'Quiz',
+    title: { de: 'Quiz', en: 'Quiz' },
     date: '2020-08-01',
     deps: [29, 52],
-    html: `
+    html: {
+      de: `
       <p>Bei diesem Quiz ist jemandem doch glatt die Kreativität ausgegangen.
       </p>
       
@@ -2379,6 +2433,30 @@ module.exports = [
       
       <script src="/chals/chal53.js"></script>
     `,
+      en: `
+      <p>Someone just ran out of creativity with this quiz.
+      </p>
+      
+      <hr />
+      
+      <p class="my-4">Click on the X:</p>
+      
+      <p>
+        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1">X</button>
+        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2">.</button>
+        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3">.</button>
+      </p>
+      
+      <div class="progress my-4">
+        <div class="progress-bar" role="progressbar" style="width: 0;" id="progress"></div>
+      </div>
+      
+      <p id="status"></p>
+      
+      
+      <script src="/chals/chal53.js"></script>
+    `,
+    },
     check: (answer) => {
       return { answer, correct: answer === '2000/2000' }
     },
@@ -2386,24 +2464,25 @@ module.exports = [
   },
 
   /*{
-    id: 54,
-    pos: { x: 255, y: 895 },
-    title: 'Quiz IV',
-    deps: [53],
-    html: `
-      <p>Doch noch nicht bereit dafür ...
-      </p>
-    `,
-    solution: '---',
-  },*/
+      id: 54,
+      pos: { x: 255, y: 895 },
+      title: 'Quiz IV',
+      deps: [53],
+      html: `
+        <p>Doch noch nicht bereit dafür ...
+        </p>
+      `,
+      solution: '---',
+    },*/
 
   {
     id: 55,
     pos: { x: 390, y: 280 },
-    title: 'Smiley',
+    title: { de: 'Smiley', en: 'Smiley' },
     date: '2020-08-01',
     deps: [4],
-    html: `
+    html: {
+      de: `
       <p>Schön, dass du hier bist und neue Dinge ausprobierst. Das ist immer ziemlich aufregend.
       </p>
       
@@ -2449,6 +2528,53 @@ module.exports = [
            xxxxx                xxx*/
                  window.alert(e)</code></pre>
     `,
+      en: `
+          <p>Glad you're here and trying new things. That's always pretty exciting.
+          </p>
+          
+          <p>One such exciting thing is programming. In basic terms, programming works like this: You write a text, and the computer then reacts to it. You can insert and start programs in this text field. An example is already entered.
+          </p>
+          
+          <p><code><textarea rows="10" cols="50" id="code-area">alert('Hello, World!')</textarea></code></p>
+          
+          <p><button class="btn btn-primary btn-sm" onClick="runCode()">Run</button></p>
+          
+          <script>
+            function runCode() {
+              const el = document.getElementById('code-area')
+              const code = el.value
+              try {
+                eval(code)
+              } catch (e) {
+                alert(e)
+              }
+            }
+          </script>
+          
+          <p>If you paste the following program in the form of a smiley into the text field above and run it, you will see the answer.
+          </p>
+          
+          <pre class="bg-dark p-3"><code>                  const d = [68,
+                 105,               101,
+             32,                         65,
+          110,                             116,
+        119,                                 111,
+      114,        116,            32,         108,
+     97,          117,            116,         101,
+    116,           32,            75,           111,
+    114,                                         111,
+    115,                                         101,
+    110,     115                          ,      101,
+     105      ,46                        ];     const
+      e        = d                   .map(       (x 
+       )=>       String.fromCharCode(x))      .join
+        (''                                    )
+          /*                                 x
+            x                             x
+               xxxxx                xxx*/
+                     window.alert(e)</code></pre>
+        `,
+    },
     solution: secrets('chal_55'),
   },
 
@@ -2588,16 +2714,16 @@ Doch ich spüre tiefes Beben.</i>
   },
 
   /*{
-    id: 61,
-    pos: { x: 1045, y: 660 },
-    title: 'Bunte Blöcke',
-    date: '2020-08-17',
-    deps: [81],
-    html: `
-      <p><img src="/chals/chal61.png" width=550></p>
-    `,
-    solution: secrets('chal_61'),
-  },*/
+      id: 61,
+      pos: { x: 1045, y: 660 },
+      title: 'Bunte Blöcke',
+      date: '2020-08-17',
+      deps: [81],
+      html: `
+        <p><img src="/chals/chal61.png" width=550></p>
+      `,
+      solution: secrets('chal_61'),
+    },*/
 
   {
     id: 62,

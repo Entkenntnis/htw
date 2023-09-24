@@ -652,13 +652,17 @@ module.exports = [
   {
     id: 15,
     pos: { x: 420, y: 90 },
-    title: 'Benutzername',
+    title: {de: 'Benutzername', en: 'Username'},
     date: '2017-05-18',
     deps: [5],
-    html: `
+    html: {de: `
       <p>Die Antwort zu dieser Aufgabe ist ganz einfach dein Benutzername. Allerdings kann es sein, dass deine Eingabe beim Absenden etwas durcheinander gerät. Findest du heraus, was du eingeben musst?
       </p>
-    `,
+    `, en:  `
+      <p>The answer to this challenge is simply your username. However, it may be that your input gets a little mixed up when you submit it. Can you find out what you have to enter?
+      </p>
+    `
+    },
     check: (answer, { req }) => {
       const reversed = stringreverse(answer)
       return {
@@ -671,16 +675,23 @@ module.exports = [
   {
     id: 16,
     pos: { x: 550, y: 100 },
-    title: 'Benutzername II',
+    title: {de: 'Benutzername II', en: 'Username II'},
     date: '2017-05-18',
     deps: [15],
-    html: `
+    html: {de: `
       <p>In der Informatik dreht sich alles um Datenverarbeitung. Eine <em>Funktion</em> nimmt dabei einen Eingabewert (z.B. deine Antwort) und erzeugt daraus einen Ausgabewert (die Antwort, wie sie hier ankommt).
       </p>
       
       <p>Eine Funktion kann Werte vertauschen, verändern, auslassen, etc. - alles Mögliche, wie man will. Was macht diese Funktion hier mit deiner Eingabe? Die Antwort zu dieser Aufgabe ist wieder dein Benutzername.
       </p>
-    `,
+    ` , en: `
+      <p>In computer science, everything revolves around data processing. A <em>function</em> takes an input value (e.g. your answer) and generates an output value (the answer as it arrives here).
+      </p>
+      
+      <p>A function can swap, change, omit, etc. values — anything you want. What does this function do to your input? The answer to this challenge is again your username.
+      </p>
+    `
+    },
     check: (answer, { req }) => {
       const input = answer
       const l = input.length
@@ -699,13 +710,17 @@ module.exports = [
   {
     id: 17,
     pos: { x: 685, y: 70 },
-    title: 'Benutzername III',
+    title: {de: 'Benutzername III', en: 'Username III'},
     date: '2017-05-18',
     deps: [16],
-    html: `
+    html: {de: `
       <p>Eine weitere Runde: Die Antwort auf diese Aufgabe ist wieder dein Benutzername. Allerdings wird deine Eingabe vor der Auswertung wieder durcheinander gebracht. Wie muss diesmal die Eingabe lauten?
       </p>
-    `,
+    `, en: `
+      <p>Another round: The answer to this challenge is again your username. However, your input is again mixed up before the evaluation. What should the input be this time?
+      </p>
+    `
+    },
     check: (answer, { req }) => {
       const input = answer
       const l = answer.length
@@ -723,10 +738,10 @@ module.exports = [
   {
     id: 18,
     pos: { x: 270, y: 390 },
-    title: 'ROT13',
+    title: {de: 'ROT13', en: 'ROT13'},
     date: '2017-05-18',
     deps: [24, 110],
-    html: `
+    html: {de: `
       <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Dein Hacker-Blick ist gefragt! Du siehst wunderbar aus, wenn du scharf nachdenkst.
       </p>
       
@@ -759,7 +774,42 @@ module.exports = [
         
         
       </script>
-    `,
+    `, en: `
+      <p>You have received an encrypted message! It looks like complete nonsense. Your hacker's eye is in demand! You look wonderful when you think hard.
+      </p>
+      
+      <p>Drag the slider to shift the letters in the alphabet.</p>
+      
+      <p style="word-wrap:break-word" class="my-4" id="cipher">
+      </p>
+      
+      <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
+      
+      <script>
+        // noinspection SpellCheckingInspection
+        const message = 'terng lbh unir fhpprffshyyl qrpbqrq gur grkg nf n erjneq lbh abj trg gur nafjre naq vg vf fcvrtryovyq    (gur trezna jbeq sbe zveebe vzntr)'
+        
+        const slider = document.getElementById('slider')
+        
+        const cipher = document.getElementById('cipher')
+        
+        function translate(n) {
+          cipher.innerHTML = message.split('').map(c => {
+            if (c === ' ' || c === '(' || c === ')') return c
+            return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
+          }).join('')
+        }
+        
+        function change() {
+          translate(parseInt(slider.value))
+        }
+        
+        change()
+        
+        
+      </script>
+    `
+    },
     solution: secrets('chal_18'),
   },
 
@@ -811,10 +861,10 @@ module.exports = [
   {
     id: 21,
     pos: { x: 560, y: 410 },
-    title: 'Fingerzeig',
+    title: {de: 'Fingerzeig', en: 'Helping hand'},
     date: '2017-08-25',
     deps: [55, 111],
-    html: `
+    html: {de: `
       <p>
         Es ist super cool, hilfsbereite Menschen wie dich zu haben. Das macht den Alltag so viel angenehmer, wenn man mal den Weg nicht weiß oder an der Kasse seinen Geldbeutel vergessen hat :)
       </p>
@@ -828,7 +878,26 @@ module.exports = [
       
       <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web hast du die Möglichkeit, Hinweise zu finden oder selbst Fragen zu stellen. Klicke auf das Logo, um dem Server beizutreten. Im Forum findest du einen Post mit dem Titel dieser Aufgabe. Dort findest du deine Antwort.
       </p>
-    `,
+    `, en: `
+       <p>
+           It is super cool to have helpful people like you. It makes everyday life so much more pleasant when you don't know the way or forget your wallet at the checkout :)
+       </p>
+       
+       <p> At the same time, it is no problem to ask for help. We all have times when we need help.
+       </p>
+       
+       <p>
+       <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px;" alt="discord"></a>
+       </p>
+     
+       <p>On the <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> of Hack the Web, you have the possibility to find hints or ask questions yourself. Click on the logo to join the server. In the forum you will find a post with the title "Fingerzeig". There you will find your answer.
+       </p>
+       
+       <p>
+       Note: Hack the Web is a German website, which is why the Discord server is in German. Please write only in German on the server. But with the help of a translator, you should be able to find the answer anyway ;)
+       </p>
+   `
+  },
     solution: secrets('chal_21'),
   },
 
@@ -867,10 +936,10 @@ module.exports = [
   {
     id: 23,
     pos: { x: 710, y: 300 },
-    title: 'Grau auf Grau',
+    title: {de: 'Grau auf Grau', en: 'Grey on grey'},
     date: '2017-08-25',
     deps: [7, 8],
-    html: `
+    html: {de: `
       <p>Oje, bei diesem Bild hat jemand den ganzen Kontrast weggenommen! Übrig geblieben ist nur noch grau:
       </p>
       
@@ -883,7 +952,21 @@ module.exports = [
       
       <p>Wie lautet der Vorname der abgebildeten Person?
       </p>
-    `,
+    `, en: `
+      <p>Oh no, someone has taken away all the contrast in this picture! All that's left is gray:
+      </p>
+      
+      <p><a href="/chals/chal23.png"><img src="/chals/chal23.png" style="max-width: 300px;" alt="challenge 23"></a>
+      </p>
+      
+      <p>[<a href="/chals/chal23.png" download="grau.png">Download picture</a>]</p>
+      
+      <p>The information is still present in the image — but so faint that it is no longer visible to the eye. With a method called <a href="https://threshold.imageonline.co/" target="_blank">Threshold</a>, these subtle differences can be amplified and made visible to humans again.</p>
+      
+      <p>What is the first name of the person who is depicted in the picture?</p>
+      </p>
+    `
+  },
     solution: secrets('chal_23'),
   },
 
@@ -933,16 +1016,25 @@ module.exports = [
   {
     id: 25,
     pos: { x: 865, y: 855 },
-    title: 'Russische Puppen',
+    title: {de: 'Russische Puppen', en: 'Russian dolls'},
     date: '2017-08-25',
     deps: [40, 41, 42],
-    html: `
+    html: {de: `
       <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
       </p>
       
       <p>Warum nicht ausprobieren? Ich habe die Antwort mal ordentlich gezipt: Hier ist die <a href="/chals/antwort25.zip">Datei</a>. Darin findet sich die Lösung zu dieser Aufgabe. Und nein, mehrfaches Zippen bringt nichts und macht die Datei sogar größer.
       </p>
-    `,
+    `, en: `
+      <p>When you zip a file, it becomes smaller and requires less space. When you zip it again, does it become even smaller?</p>
+      </p>
+      
+      <p>Let try it! I zipped the answer a bunch of times: This is the <a href="/chals/antwort25.zip">File</a>. In it, there is the answer to this challenge. And no: If you zip a file more than once, it becomes only bigger.
+      </p>
+      
+      <small style="margin-top:48px;display:inline-block">Note: The word "antwort" means "answer" in german</small>
+    `
+  },
     solution: secrets('chal_25'),
   },
 

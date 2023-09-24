@@ -145,7 +145,7 @@ module.exports = [
               : ''
           }
 
-          <p>Are you read? Then let's go! The answer to this first challenge is the result of 6 + 4 * 9.</p>
+          <p>Are you read? Then let's go! The answer to this first challenge is the result of 6 + 4 × 9.</p>
         `
       }
     },
@@ -155,45 +155,69 @@ module.exports = [
   {
     id: 2,
     pos: { x: 585, y: 875 },
-    title: 'Finger-Code',
+    title: { de: 'Finger-Code', en: 'Finger code'},
     date: '2017-05-17',
     deps: [26, 50],
-    html: `
-      <p>Der Inhalt einer Nachricht ist ganz unabhängig von seiner Codierung. Man kann lateinische Buchstaben verwenden - oder seine Finger!
-      </p>
-      
-      <p>Die Antwort zu dieser Aufgabe findet sich im folgenden Bild:
-      </p>
-      
-      <p><img src="/chals/chal2.png" alt="fingercode"></p>
-    `,
+    html: {
+      de: `
+        <p>Der Inhalt einer Nachricht ist ganz unabhängig von seiner Codierung. Man kann lateinische Buchstaben verwenden - oder seine Finger!
+        </p>
+        
+        <p>Die Antwort zu dieser Aufgabe findet sich im folgenden Bild:
+        </p>
+        
+        <p><img src="/chals/chal2.png" alt="fingercode"></p>
+      `,
+      en: `
+         <p>The content of a message is completely independent of its encoding. You can use Latin letters — or your fingers!
+         </p>
+         
+         <p>The answer to this challenge can be found in the following picture:
+         </p>
+         
+         <p><img src="/chals/chal2.png" alt="fingercode"></p>
+      `
+    },
     solution: secrets('chal_2'),
   },
 
   {
     id: 3,
     pos: { x: 825, y: 1025 },
-    title: 'Auf hoher See',
+    title: {de: 'Auf hoher See', en: 'At sea'},
     date: '2017-05-17',
     deps: [2, 39, 45],
-    html: `
-      <p>Wie komfortabel heute die Kommunikation geworden ist! Mit WhatsApp und Facebook kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor hundert Jahren die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
-      </p>
-      
-      <p>Aber das sollte auch für dich kein Hindernis sein. Höre dir <a href ="/chals/chal3.wav">diese Datei</a> an. Darin findest du die Antwort zu dieser Aufgabe.
-      </p>
-      
-      <audio src="/chals/chal3.wav" controls></audio>
-      
-      <p>Dein PC hat keine Lautsprecher? Scanne <a href="/chals/chal3_code.png">diesen QR-Code</a>, um dir die Datei auf dem Handy anzuhören.</p>
-    `,
+    html: {
+      de: `
+        <p>Wie komfortabel heute die Kommunikation geworden ist! Mit WhatsApp und Facebook kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor hundert Jahren die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
+        </p>
+        
+        <p>Aber das sollte auch für dich kein Hindernis sein. Höre dir <a href ="/chals/chal3.wav">diese Datei</a> an. Darin findest du die Antwort zu dieser Aufgabe.
+        </p>
+        
+        <audio src="/chals/chal3.wav" controls></audio>
+        
+        <p>Dein PC hat keine Lautsprecher? Scanne <a href="/chals/chal3_code.png">diesen QR-Code</a>, um dir die Datei auf dem Handy anzuhören.</p>
+      `,
+      en: `
+        <p>How comfortable communication has become today! With WhatsApp and Facebook, you can easily send and receive messages all over the world — it is easy to forget that a hundred years ago the situation was completely different. At that time, for example, in seafaring, one had nothing more than a beep and the Morse alphabet to communicate!
+        </p>
+        
+        <p>But that should not be an obstacle for you either. Listen to <a href ="/chals/chal3.wav">this file</a>. In it, you will find the answer to this challenge.
+        </p>
+        
+        <audio src="/chals/chal3.wav" controls></audio>
+        
+        <p>Your PC has no speakers? Scan <a href="/chals/chal3_code.png">this QR code</a> to listen to the file on your mobile phone.</p>
+      `
+    },
     solution: secrets('chal_3'),
   },
 
   {
     id: 4,
     pos: { x: 270, y: 220 },
-    title: 'ASCII',
+    title: {de: 'ASCII', en: 'ASCII'},
     date: '2017-05-17',
     deps: [1],
     render: () => {
@@ -378,10 +402,10 @@ module.exports = [
   {
     id: 6,
     pos: { x: 485, y: 150 },
-    title: 'HTML',
+    title: {de: 'HTML', en: 'HTML'},
     date: '2017-05-17',
     deps: [5],
-    html: `
+    html: {de: `
       <p>Wenn du dir eine Website am Computer anschaust, dann siehst du eigentlich nur einen kleinen Teil der Website. Hinter den Kulissen aber gibt es noch eine ganze Welt voller Technik zu entdecken.
       </p>
       
@@ -393,7 +417,7 @@ module.exports = [
       |                                        |
       |<!-- Die Antwort lautet ${secrets(
         'chal_6'
-      )}. -->                                        |
+    )}. -->                                        |
       |________________________________________|
       
       </pre>
@@ -411,34 +435,74 @@ module.exports = [
           onpopstate = (_) => { window.location.reload() };
         }
       </script>
-    `,
+    `, en: `
+      <p>When you look at a website on your computer, you actually only see a small part of the website. But behind the scenes, there is a whole world full of technology to discover.
+      </p>
+      
+      <p>Similar to the notes to a piece of music or the script to a film, there is also the code to a website. And in it, you can find information that is not visible otherwise. In the source code of the website, the answer is visible in this box:</p>
+      
+      <pre>
+      
+      __________________________________________
+      |                                        |
+      |<!-- The answer is ${secrets(
+      'chal_6'
+  )}. -->                                               |
+      |________________________________________|
+                
+      </pre>
+      
+      <p><button onclick="transform()">Show sourcecode</button></p>
+      
+      <script>
+        function transform() {
+          const code = document.body.outerHTML
+          document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
+          document.body.style.lineHeight = '1.2';
+          document.body.style.fontFamily = 'monospace';
+          document.body.style.marginLeft = '4px';
+          history.pushState({}, '');
+          onpopstate = () => { window.location.reload(); };
+        }
+      </script>
+      `
+  },
     solution: secrets('chal_6'),
   },
 
   {
     id: 7,
     pos: { x: 590, y: 230 },
-    title: 'HTML II',
+    title: {en: 'HTML II', de: 'HTML II'},
     date: '2017-05-17',
     deps: [6],
-    html: `
+    html: {
+      de: `
       <p>Auch diesmal braucht es einen Blick in den Quelltext der Seite. Allerdings musst du das Portal selber finden. Die Antwort befindet sich direkt unter dieser Zeile ...
       </p>
       
       <!-- ... und lautet ${secrets('chal_7')}. -->
       
       <p><small><a href="/chals/chal7_hint1.png" target="_blank">Tipp 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Tipp 2</a></small></p>
-    `,
+    `, en: `
+        <p>This time, too, it takes a look at the source code of the page. However, you have to find the portal yourself. The answer is directly below this line ...
+        </p>
+        
+        <!-- ... and is ${secrets('chal_7')}. -->
+        
+        <p><small><a href="/chals/chal7_hint_en.png" target="_blank">Hint</a></small></p>
+    `
+  },
     solution: secrets('chal_7'),
   },
 
   {
     id: 8,
     pos: { x: 520, y: 280 },
-    title: 'Fleißaufgabe',
+    title: {de: 'Fleißaufgabe', en: 'Hard work'},
     date: '2017-05-17',
     deps: [55, 84],
-    html: `
+    html: {de: `
       <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
       </p>
       
@@ -447,39 +511,64 @@ module.exports = [
       
       <p>Warte kurz, ich hole schnell meinen Taschenrechner ...
       </p>
-    `,
+    `, en: `
+      <p>Hello, mental arithmetic artist! You solve tasks faster than I can enter them in the calculator.
+      </p>
+      
+      <p>You don't believe it? Here is an example: Your answer is the result of 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.
+      </p>
+      
+      <p>Wait a minute, I'll get my calculator quickly ...
+      </p>
+    `
+  },
     solution: secrets('chal_8'),
   },
 
   {
     id: 9,
     pos: { x: 650, y: 370 },
-    title: 'Fleißaufgabe II',
+    title: {de: 'Fleißaufgabe II', en: 'Hard work II'},
     date: '2017-05-17',
     deps: [8],
-    html: `
+    html: {
+    de: `
       <p>Du bist nicht nur gut im Kopfrechnen, sondern auch zielgerichtet. Eine Aufgabe, die du anfängst, ziehst du durch.
       </p>
       
       <p>Deine Antwort ist das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
       </p>
-    `,
+    `, en: `
+      <p>You are not only good at mental arithmetic, but also motivated. A task that you start, you follow through.
+      </p>
+      
+      <p>Your answer is the result of 1 + 2 + 3 + ... + 98 + 99 + 100.
+      </p>
+    `
+  },
     solution: secrets('chal_9'),
   },
 
   {
     id: 10,
     pos: { x: 800, y: 410 },
-    title: 'Fleißaufgabe III',
+    title: {de: 'Fleißaufgabe III', en: 'Hard work III'},
     date: '2017-05-18',
     deps: [9],
-    html: `
+    html: {de: `
       <p>Kopfrechen-Genius, fokussiert - und dazu ein mathematisches Gespür. Damit löst du auch komplexe Probleme auf deine Art und Weise.
       </p>
       
       <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 998 + 999 + 1000.
       </p>
-    `,
+    `, en: `
+      <p>Mental arithmetic genius, focused — and also a mathematical sense. With this, you even solve complex problems in your own way.
+      </p>
+      
+      <p>This time, calculate the result of 1 + 2 + 3 + ... + 998 + 999 + 1000.
+      </p>
+    `
+  },
     solution: secrets('chal_10'),
   },
 

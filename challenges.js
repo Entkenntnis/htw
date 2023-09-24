@@ -1647,10 +1647,10 @@ module.exports = [
   {
     id: 41,
     pos: { x: 655, y: 675 },
-    title: 'Querlesen',
+    title: {de: 'Querlesen', en: 'Cross Reading'},
     date: '2020-05-20',
     deps: [60],
-    html: `
+    html: {de: `
       <p>Ein schnulziges Gedicht ... oder doch eine geheime Botschaft?
       </p>
       
@@ -1681,17 +1681,48 @@ module.exports = [
         <strong>N</strong>icht zu vergessen,<br>
         <strong>O</strong>stern und Weihnachten.</em>
       </p>
-    `,
+    `, en: `
+       <p>A just a bad poem... or a secret message?
+       </p>
+       
+       <p>
+         <!-- noinspection SpellCheckingInspection -->
+         <em>
+         <strong>T</strong>he hours stretch before the glowing screen.<br>
+         <strong>H</strong>uman language is so imprecise.<br>
+         <strong>E</strong>verything depends on clarity.<br>
+         <strong>A</strong>nd clarity emerges through code's decree.<br>
+         <br>
+         <strong>N</strong>ow is the moment, a canvas to create,<br>
+         <strong>s</strong>culpting worlds in the digital state.<br>
+         <strong>W</strong>ith every line, a universe unfurls.<br>
+         <strong>E</strong>ager minds contemplate the code's weight.<br>
+         <br>
+         <strong>R</strong>evealing secrets in each algorithm's dance,<br>
+         <strong>i</strong>n the binary, we find our cosmic trance. <br>
+         <strong>S</strong>ynchronizing bytes in a digital romance: <br>
+         <br>
+         <strong>S</strong>eeking clarity, as we advance.<br>
+         <strong>T</strong>apping keys, we're bound to transcend,<br>
+         <strong>e</strong>levating thought, in this realm we intend,<br>
+         <strong>n</strong>urturing ideas, our journey won't end,<br>
+         <strong>o</strong>ffline is good, but online is better.
+         </em>
+       </p>
+       
+       <small style="margin-top:48px;display:inline-block">Note: This poem may not make sense as it was partly ki generated for the reason that i (the translator) cannot write poetry</small>
+    `
+  },
     solution: secrets('chal_41'),
   },
 
   {
     id: 42,
     pos: { x: 615, y: 745 },
-    title: 'Ohrwurm',
+    title: {de: 'Ohrwurm', en: 'Catchy Tune'},
     date: '2020-05-20',
     deps: [60],
-    html: `
+    html: {de: `
       <p>Wer kennt ihn nicht: Der Wurm, der uns ins Gehör kriegt und uns Tag und Nacht verfolgt?
       </p>
       
@@ -1702,23 +1733,42 @@ module.exports = [
       
       <p>Die Frage ist nun: Wie heißt der Song?
       </p>
-    `,
+    `, en: `
+      <p>Who doesn't know him: the song that gets into our ears and haunts us day and night?
+      </p>
+      
+      <p>Here is an example of this:
+      </p>
+      
+      <audio src="/chals/chal_42.mp3" controls loop></audio>
+      
+      <p>The question now is: What is the name of the song?
+      </p>
+    `
+  },
     solution: secrets('chal_42'),
   },
 
   {
     id: 43,
     pos: { x: 1125, y: 195 },
-    title: 'POST it',
+    title: {de: 'POST it', en: 'POST it'},
     date: '2020-05-20',
     deps: [37, 56],
-    html: `
+    html: {de: `
       <p>Diesmal gibt es keine Umschweife: Die Antwort auf diese Aufgabe lautet Klamauk.
       </p>
       
       <p>Leider gibt es zu dieser Aufgabe kein Eingabefeld. Aber das sollte dich nicht abhalten, der Webseite die Antwort zu schicken!
       </p>
-    `,
+    `, en: `
+      <p>This time there is no beating around the bush: the answer to this challenge is "Klamauk".
+      </p>
+      
+      <p>Unfortunately, there is no input field for this challenge. But that shouldn't stop you from sending the answer to the website!
+      </p>
+    `
+  },
     solution: secrets('chal_43'),
     hidesubmit: true,
   },
@@ -1726,14 +1776,14 @@ module.exports = [
   {
     id: 44,
     pos: { x: 1120, y: 355 },
-    title: 'Ladebalken II',
+    title: {de: 'Ladebalken II', en: 'Progressbar II'},
     date: '2020-05-20',
     deps: [47],
-    html: `
+    html: {de: `
       <p>Der Klügere gibt nach - und du hast kein Problem nachzugeben, wenn es definitiv nicht weitergeht.
       </p>
       
-      <p>Dieser Ladebalken dauert sehr lange. Wirst du ihn bist zum Ende abwarten - oder eine andere Lösung finden?
+      <p>Dieser Ladebalken dauert sehr lange. Wirst du ihn bis zum Ende abwarten - oder eine andere Lösung finden?
       </p>
       
       <div class="progress my-4">
@@ -1784,22 +1834,83 @@ module.exports = [
         
         setTimeout(work, 2000)
       </script>
-    `,
+    `, en: `
+      <p>The smarter one gives in — and you have no problem giving in if it definitely doesn't go any further.
+      </p>
+      
+      <p>This loading bar takes a very long time. Will you wait it out until the end — or find another solution?
+      </p>
+      
+      <div class="progress my-4">
+        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
+      </div>
+      
+      <p id="value">SQNLPZWYVNYLZZ</p>
+      
+      <p id="status">...</p>
+      
+      <script>
+        const bar = document.getElementById('44_bar')
+        const valueDiv = document.getElementById('value')
+        const status = document.getElementById('status')
+        
+        const string = "SQNLPZWYVNYLZZ"
+        const steps = 100000
+
+        let step = -steps
+        let value = string
+
+        function forward() {
+          const i = (((step + 1) % string.length) + string.length) % string.length
+          const chars = value.split('')
+          chars[i] = String.fromCharCode(65 + ((chars[i].charCodeAt(0) - 65 + 1) % 26))
+          value = chars.join('')
+          step++
+          return value
+        }
+        
+        function work(noTimeout) {
+          if (step >= 0) {
+            bar.style.width = '100%'
+          } else {
+            bar.style.width = (((steps+step)/steps) * 98.9 + 1) + '%'
+            valueDiv.innerHTML = forward(valueDiv.innerHTML)
+            status.innerHTML = '(' + (step+steps) + '/' + steps + ')'
+            if (!noTimeout) {
+              setTimeout(work, 1000)
+            }
+          }
+        }
+        
+        window.onkeydown = () => {
+          work(true)
+        }
+        
+        setTimeout(work, 2000)
+      </script>
+    `
+  },
     solution: secrets('chal_44'),
   },
 
   {
     id: 45,
     pos: { x: 415, y: 1005 },
-    title: 'Schriftzeichen',
+    title: {de: 'Schriftzeichen', en: 'Characters'},
     date: '2020-05-20',
     deps: [50, 78],
-    html: `
+    html: {de: `
       <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich nun hinter folgenden Schriftzeichen?
       </p>
       
       <p><img src="/chals/chal45.png" alt="japanese characters"></p>
-    `,
+    `, en: `
+      <p>We live in an international world and hackers also speak many languages. Some languages differ greatly from our language and thus present us with challenges. What delicacy is hidden behind the following characters?
+      </p>
+      
+      <p><img src="/chals/chal45.png" alt="schriftzeichen"></p>
+    `
+  },
     solution: secrets('chal_45'),
   },
 

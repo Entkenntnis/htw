@@ -6,7 +6,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "save2local": "bash save2local",
-    "format": "bash prettify"
+    "format": "prettier . --write"
   },
   "main": "index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
@@ -21,6 +21,7 @@
     "sequelize": "^6.33.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "prettier": "3.0.3"
   }
 }

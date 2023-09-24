@@ -286,10 +286,10 @@ module.exports = [
           )}px;margin-bottom:${Math.round(Math.random() * 700 + 700)}px">
             <h1 id="${id}">${title}</h1>
             <p>${letter}. ${
-          isBroken
-            ? `&lt;a href="#${next}"&gt;weiter&lt;/a&gt;`
-            : `<a href="#${next}">weiter</a>`
-        }</p>
+              isBroken
+                ? `&lt;a href="#${next}"&gt;weiter&lt;/a&gt;`
+                : `<a href="#${next}">weiter</a>`
+            }</p>
           </div>
         `
       }

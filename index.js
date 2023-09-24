@@ -222,7 +222,7 @@ require(path)((config) => {
         // Es ist viel schneller, die gesamte Datenbank neu aufzusetzen
         await LOCALAPP.db.sync({ force: true })
 
-        console.log('Lokale Datenbank syncronisiert')
+        console.log('Lokale Datenbank synchronisiert')
 
         console.log('Starte Import Räume ...')
 

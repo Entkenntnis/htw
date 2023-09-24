@@ -107,30 +107,48 @@ module.exports = [
   {
     id: 1,
     pos: { x: 150, y: 140 },
-    title: 'Start',
+    title: { de: 'Start', en: 'Start' },
     date: '2017-03-30',
     deps: [],
     render: async ({ req, App }) => {
       if (req.lng == 'en') {
         await App.storage.setItem('visit_english', req.user.name)
       }
-      return `
-        <p>Herzlich Willkommen bei Hack The Web. Hier beginnt deine spannende Reise durch die Welt des Hackings. Es wird eine Reise voller Abenteuer sein. Herausforderungen aus ganz verschiedenen Themenbereichen warten auf dich. An ihnen kannst du dein Können unter Beweis stellen oder dir die Zähne ausbeißen.</p>
-      
-        <p>Bei den meisten Aufgabe geht es darum, aus den Angaben heraus eine Antwort zu finden. Allerdings findet sich diese meist nur, wenn man die Aufgabe aus der richtigen Perspektive betrachtet - eben aus der Perspektive eines Hackers.</p>
-      
-        <p>Bei der Bearbeitung der Aufgaben sind ausdrücklich alle Hilfsmittel erlaubt. Du darfst im Internet suchen, einen Taschenrechner oder Chatbot verwenden, mit Stift und Papier Notizen machen... Fühl dich frei und nutze die Tools, die dir bei der Bearbeitung der Aufgaben am meisten helfen.
-        </p>
+      return {
+        de: `
+          <p>Herzlich Willkommen bei Hack The Web. Hier beginnt deine spannende Reise durch die Welt des Hackings. Es wird eine Reise voller Abenteuer sein. Herausforderungen aus ganz verschiedenen Themenbereichen warten auf dich. An ihnen kannst du dein Können unter Beweis stellen oder dir die Zähne ausbeißen.</p>
         
-        ${
-          req.user.RoomId !== null
-            ? `<p>Falls du einem Raum beigetreten bist und an einer Hacking-Session teilnimmst: Nach der Bearbeitung dieser Aufgabe starten die 30 Minuten. Innerhalb dieser Zeit ist es dein Ziel, so viele Aufgaben wie möglich zu bearbeiten. Deine Punktzahl für diese 30 Minuten wird in die Highscore des Raums eingetragen.
-        </p>`
-            : ''
-        }
-      
-        <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 * 9.</p>
-      `
+          <p>Bei den meisten Aufgabe geht es darum, aus den Angaben heraus eine Antwort zu finden. Allerdings findet sich diese meist nur, wenn man die Aufgabe aus der richtigen Perspektive betrachtet - eben aus der Perspektive einer Hacker*in.</p>
+        
+          <p>Bei der Bearbeitung der Aufgaben sind ausdrücklich alle Hilfsmittel erlaubt. Du darfst im Internet suchen, einen Taschenrechner oder Chatbot verwenden, mit Stift und Papier Notizen machen... Fühl dich frei und nutze die Tools, die dir bei der Bearbeitung der Aufgaben am meisten helfen.
+          </p>
+          
+          ${
+            req.user.RoomId !== null
+              ? `<p>Falls du einem Raum beigetreten bist und an einer Hacking-Session teilnimmst: Nach der Bearbeitung dieser Aufgabe starten die 30 Minuten. Innerhalb dieser Zeit ist es dein Ziel, so viele Aufgaben wie möglich zu bearbeiten. Deine Punktzahl für diese 30 Minuten wird in die Highscore des Raums eingetragen.
+          </p>`
+              : ''
+          }
+        
+          <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 * 9.</p>
+        `,
+        en: `
+          <p>Welcome to Hack The Web. Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or wrestle with them.</p>
+    
+          <p>Most of the challenges are about finding an answer from the information given. However, this can usually only be found if you look at the task from the right perspective — the perspective of a hacker.</p>
+
+          <p>When working on the challenges, all aids are expressly allowed. You may search the Internet, use a calculator or chatbot, make notes with pen and paper... Feel free and use the tools that help you the most when working on the tasks.</p>
+          
+          ${
+            req.user.RoomId !== null
+              ? `<p>If you have joined a room and are participating in a hacking session: After completing this task, the 30 minutes will start. Within this time, it is your goal to work on as many tasks as possible. Your score for these 30 minutes will be entered into the room's highscore.
+          </p>`
+              : ''
+          }
+
+          <p>Are you read? Then let's go! The answer to this first challenge is the result of 6 + 4 * 9.</p>
+        `
+      }
     },
     solution: secrets('chal_1'),
   },
@@ -179,97 +197,129 @@ module.exports = [
     title: 'ASCII',
     date: '2017-05-17',
     deps: [1],
-    html: `
-      <p>Du bist eine mutige Person! Du hast dich von den kryptischen Buchstaben im Titel dieser Aufgabe nicht abschrecken lassen.
-      </p>
-      
-      <p>
-        Viele Dinge in der Informatik sehen auf dem ersten Blick verwirrend sein. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
-        wo man Dinge nachschauen kann, werden diese weniger fremd.
-      </p>
-      
-      <p>
-        So ist es auch mit dem ASCII-Code. Weil Computer nur mit Zahlen arbeiten können, gibt es zu jedem Schriftzeichen einen einheitlichen Code. Einen Auszug davon
-        findest du in dieser Tabelle.
-      </p>
-      
-      <div class="container" style="margin-top:24px;margin-bottom:24px;">
-        <div class="row">
-          <div class="col">
-            <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
-              <thead>
-                <tr>
-                  <th scope="col">Code</th>
-                  <th scope="col">Zeichen</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>33</td><td>!</td></tr>
-                <tr><td>34</td><td>"</td></tr>
-                <tr><td>35</td><td>#</td></tr>
-                <tr><td>36</td><td>$</td></tr>
-                <tr><td>97</td><td>a</td></tr>
-                <tr><td>98</td><td>b</td></tr>
-                <tr><td>99</td><td>c</td></tr>
-                <tr><td>100</td><td>d</td></tr>
-                <tr><td>101</td><td>e</td></tr>
-                <tr><td>102</td><td>f</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="col">
-            <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
-              <thead>
-                <tr>
-                  <th scope="col">Code</th>
-                  <th scope="col">Zeichen</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>103</td><td>g</td></tr>
-                <tr><td>104</td><td>h</td></tr>
-                <tr><td>105</td><td>i</td></tr>
-                <tr><td>106</td><td>j</td></tr>
-                <tr><td>107</td><td>k</td></tr>
-                <tr><td>108</td><td>l</td></tr>
-                <tr><td>109</td><td>m</td></tr>
-                <tr><td>110</td><td>n</td></tr>
-                <tr><td>111</td><td>o</td></tr>
-                <tr><td>112</td><td>p</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="col">
-            <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
-              <thead>
-                <tr>
-                  <th scope="col">Code</th>
-                  <th scope="col">Zeichen</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>113</td><td>q</td></tr>
-                <tr><td>114</td><td>r</td></tr>
-                <tr><td>115</td><td>s</td></tr>
-                <tr><td>116</td><td>t</td></tr>
-                <tr><td>117</td><td>u</td></tr>
-                <tr><td>118</td><td>v</td></tr>
-                <tr><td>119</td><td>w</td></tr>
-                <tr><td>120</td><td>x</td></tr>
-                <tr><td>121</td><td>y</td></tr>
-                <tr><td>122</td><td>z</td></tr>
-              </tbody>
-            </table>
+    render: () => {
+      function renderTable(col1, col2) {
+        return `
+         <div class="container" style="margin-top:24px;margin-bottom:24px;">
+          <div class="row">
+            <div class="col">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+                <thead>
+                  <tr>
+                    <th scope="col">${col1}</th>
+                    <th scope="col">${col2}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>33</td><td>!</td></tr>
+                  <tr><td>34</td><td>"</td></tr>
+                  <tr><td>35</td><td>#</td></tr>
+                  <tr><td>36</td><td>$</td></tr>
+                  <tr><td>97</td><td>a</td></tr>
+                  <tr><td>98</td><td>b</td></tr>
+                  <tr><td>99</td><td>c</td></tr>
+                  <tr><td>100</td><td>d</td></tr>
+                  <tr><td>101</td><td>e</td></tr>
+                  <tr><td>102</td><td>f</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+                <thead>
+                  <tr>
+                    <th scope="col">${col1}</th>
+                    <th scope="col">${col2}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>103</td><td>g</td></tr>
+                  <tr><td>104</td><td>h</td></tr>
+                  <tr><td>105</td><td>i</td></tr>
+                  <tr><td>106</td><td>j</td></tr>
+                  <tr><td>107</td><td>k</td></tr>
+                  <tr><td>108</td><td>l</td></tr>
+                  <tr><td>109</td><td>m</td></tr>
+                  <tr><td>110</td><td>n</td></tr>
+                  <tr><td>111</td><td>o</td></tr>
+                  <tr><td>112</td><td>p</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+                <thead>
+                  <tr>
+                    <th scope="col">${col1}</th>
+                    <th scope="col">${col2}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>113</td><td>q</td></tr>
+                  <tr><td>114</td><td>r</td></tr>
+                  <tr><td>115</td><td>s</td></tr>
+                  <tr><td>116</td><td>t</td></tr>
+                  <tr><td>117</td><td>u</td></tr>
+                  <tr><td>118</td><td>v</td></tr>
+                  <tr><td>119</td><td>w</td></tr>
+                  <tr><td>120</td><td>x</td></tr>
+                  <tr><td>121</td><td>y</td></tr>
+                  <tr><td>122</td><td>z</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+        `
+      }
       
-      <p>Ein Beispiel: Das Dollar-Zeichen wird im Computer mit der Zahl 36 gespeichert. Voila, jetzt bist du dran. Deine Antwort in Codes lautet:
-      </p>
-      
-      <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
-      </p>
-    `,
+      return {
+        de: `
+          <p>Du bist eine mutige Person! Du hast dich von den kryptischen Buchstaben im Titel dieser Aufgabe nicht abschrecken lassen.
+          </p>
+          
+          <p>
+            Viele Dinge in der Informatik sehen auf dem ersten Blick verwirrend sein. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
+            wo man Dinge nachschauen kann, werden diese weniger fremd.
+          </p>
+          
+          <p>
+            So ist es auch mit dem ASCII-Code. Weil Computer nur mit Zahlen arbeiten können, gibt es zu jedem Schriftzeichen einen einheitlichen Code. Einen Auszug davon
+            findest du in dieser Tabelle.
+          </p>
+          
+          ${renderTable('Code', 'Zeichen')}
+          
+          <p>Ein Beispiel: Das Dollar-Zeichen wird im Computer mit der Zahl 36 gespeichert. Voila, jetzt bist du dran. Deine Antwort in Codes lautet:
+          </p>
+          
+          <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
+          </p>
+        `,
+        en: `
+          <p>You are a brave person! You were not deterred by the cryptic letters in the title of this challenge.
+          </p>
+          
+          <p>
+            Many things in computer science can seem confusing at first glance. Especially if you don't have translation aid. But as soon as you know
+            where to look for things, they become less foreign.
+          </p>
+          
+          <p>
+            This is also the case with the ASCII code. Because computers can only work with numbers, there is a uniform code for each character.
+            You can find an excerpt from this in this table.
+          </p>
+          
+          ${renderTable('Code', 'Character')}
+          
+          <p>An example: The dollar sign is stored in the computer with the number 36. Voilà, now it's your turn. Your answer in codes is:
+          </p>
+          
+          <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
+          </p>
+        `
+      }
+    },
     check: (answer) => {
       const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
       return {
@@ -282,27 +332,47 @@ module.exports = [
   {
     id: 5,
     pos: { x: 300, y: 120 },
-    title: 'Zitronentinte',
+    title: { de: 'Zitronentinte', en: 'Lemon juice' },
     date: '2017-05-17',
     deps: [1],
-    html: `
-      <p>Diese Aufgabe hier funktioniert wie das Schreiben mit Zitronentinte: Man nimmt einen Füller und taucht ihn in den Saft einer frischgepressten Zitrone. Damit schreibt man seine geheime Nachricht auf ein weißes Blatt Papier. Weil der Saft transparent ist, schreibt man sozusagen "weiß auf weiß" und ein Anderer kann die Nachricht nicht lesen. Die Person, die die Nachricht empfängt, hält das Papier über eine Flamme. Durch die Hitze verfärbt sich der Zitronensaft und die Nachricht wird sichtbar.
-      </p>
-      
-      <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort:
-      </p>
-      
-      <br>
-      
-      <p>--- Hier fängt das Blatt an ---</p>
-      
-      <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
-        'chal_5'
-      )}</span><br><br>
-      </p>
-      
-      <p>--- Hier endet das Blatt ---</p>
-    `,
+    html: {
+      de: `
+        <p>Diese Aufgabe hier funktioniert wie das Schreiben mit Zitronentinte: Man nimmt einen Füller und taucht ihn in den Saft einer frischgepressten Zitrone. Damit schreibt man seine geheime Nachricht auf ein weißes Blatt Papier. Weil der Saft transparent ist, schreibt man sozusagen "weiß auf weiß" und ein Anderer kann die Nachricht nicht lesen. Die Person, die die Nachricht empfängt, hält das Papier über eine Flamme. Durch die Hitze verfärbt sich der Zitronensaft und die Nachricht wird sichtbar.
+        </p>
+        
+        <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort:
+        </p>
+        
+        <br>
+        
+        <p>--- Hier fängt das Blatt an ---</p>
+        
+        <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
+          'chal_5'
+        )}</span><br><br>
+        </p>
+        
+        <p>--- Hier endet das Blatt ---</p>
+      `,
+      en: `
+        <p>This challenge here works like writing with lemon juice: You take a fountain pen and dip it in the juice of a freshly squeezed lemon. With it, you write your secret message on a white sheet of paper. Because the juice is transparent, you write "white on white" and another person cannot read the message. The person who receives the message holds the paper over a flame. The heat discolors the lemon juice and the message becomes visible.
+        </p>
+        
+        <p>The whole thing also works digitally. Below you will find a "prepared" sheet of paper with the answer:
+        </p>
+        
+        <br>
+        
+        <p>--- Here starts the sheet ---</p>
+        
+        <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
+            'chal_5'
+        )}</span><br><br>
+        </p>
+        
+        <p>--- Here ends the sheet ---</p>
+      `,
+    },
     solution: secrets('chal_5'),
   },
 
@@ -732,24 +802,43 @@ module.exports = [
   {
     id: 24,
     pos: { x: 140, y: 280 },
-    title: 'Nicht blinzeln',
+    title: { de: 'Nicht blinzeln', en: 'Don\'t blink'},
     date: '2017-08-25',
     deps: [1],
-    html: `
-      <p id="poper">Achtung, nicht blinzeln!
-      </p>
-      
-      <script>
-        setTimeout(function(){
-          document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets(
-            'chal_24'
-          )}"
+    html: {
+      de: `
+        <p id="poper">Achtung, nicht blinzeln!
+        </p>
+        
+        <script>
           setTimeout(function(){
-            document.getElementById("poper").innerHTML = "Ups, das ging schnell."
-          }, 150)
-        }, 1500)
-      </script>
-    `,
+            document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets(
+              'chal_24'
+            )}"
+            setTimeout(function(){
+              document.getElementById("poper").innerHTML = "Ups, das ging schnell."
+            }, 150)
+          }, 1500)
+        </script>
+      `,
+      en: `
+        <p id="poper">Don't blink!</p>
+        </p>
+        
+        <small style="margin-top:48px;display:inline-block">Note: The answer is in German.</small>
+        
+        <script>
+          setTimeout(function(){
+            document.getElementById("poper").innerHTML = "The answer is ${secrets(
+              'chal_24'
+              )}"
+            setTimeout(function(){
+              document.getElementById("poper").innerHTML = "Oh. This was fast."
+            }, 150)
+          }, 1500)
+        </script>
+      `,
+    },
     solution: secrets('chal_24'),
   },
 

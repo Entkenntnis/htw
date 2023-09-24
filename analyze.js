@@ -276,7 +276,8 @@ module.exports = function (App) {
     )
     activeTime.sort((a, b) => a - b)
 
-    const attemptsFromDB = (await App.db.models.KVPair.findAll()).filter(
+    const allKVPairs = await App.db.models.KVPair.findAll()
+    const attemptsFromDB = allKVPairs.filter(
       (kvpair) =>
         kvpair.key.startsWith('attempt_') &&
         !App.moment(kvpair.createdAt).isBefore(fromDate)
@@ -333,6 +334,15 @@ module.exports = function (App) {
     }
 
     output += '<p><a href="/mapWithStats" style="color:#007053">Karte</a></p>'
+    
+    const englishVisitors = new Set()
+    allKVPairs.forEach(kvpair => {
+      if (!App.moment(kvpair.createdAt).isBefore(fromDate) && kvpair.key == 'visit_english') {
+        englishVisitors.add(kvpair.value)
+      }
+    })
+    
+    output += `<p>Englische BesucherInnen: ${JSON.stringify([...englishVisitors])}</p>`
 
     output += '<h2>Räume</h2>'
 

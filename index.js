@@ -33,7 +33,7 @@ require(path)((config) => {
   config.configRoutes = false
 
   config.languages = ['de', 'en']
-  
+
   config.brand = 'Hack The Web'
 
   require('./i18n-extension')(config)
@@ -96,19 +96,19 @@ require(path)((config) => {
 
     App.express.get('/news', (req, res) => {
       res.renderPage({
-        page: 'news'
+        page: 'news',
       })
     })
 
     App.express.get('/hints', (req, res) => {
       res.renderPage({
-        page: 'hints'
+        page: 'hints',
       })
     })
 
     App.express.get('/links', (req, res) => {
       res.renderPage({
-        page: 'links'
+        page: 'links',
       })
     })
 

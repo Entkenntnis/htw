@@ -334,15 +334,20 @@ module.exports = function (App) {
     }
 
     output += '<p><a href="/mapWithStats" style="color:#007053">Karte</a></p>'
-    
+
     const englishVisitors = new Set()
-    allKVPairs.forEach(kvpair => {
-      if (!App.moment(kvpair.createdAt).isBefore(fromDate) && kvpair.key == 'visit_english') {
+    allKVPairs.forEach((kvpair) => {
+      if (
+        !App.moment(kvpair.createdAt).isBefore(fromDate) &&
+        kvpair.key == 'visit_english'
+      ) {
         englishVisitors.add(kvpair.value)
       }
     })
-    
-    output += `<p>Englische BesucherInnen: ${JSON.stringify([...englishVisitors])}</p>`
+
+    output += `<p>Englische BesucherInnen: ${JSON.stringify([
+      ...englishVisitors,
+    ])}</p>`
 
     output += '<h2>Räume</h2>'
 

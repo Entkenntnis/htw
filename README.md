@@ -19,7 +19,7 @@ npm install sqlite3
 
 Mache eine **Kopie** von `secrets.placeholder.js` und benenne sie in `secrets.js` um. 
 
-Damit sind alle Voraussetzungen erfüllt. Du kannst den Server mit `npm start` starten und hast einen funktionierenden Server auf `localhost:3000`
+Damit sind alle Voraussetzungen erfüllt. Du kannst den Server mit `npm start` starten und hast einen funktionierenden Server auf `localhost:3000`. Zur Entwicklung kannst du auch `npm run dev` nutzen um den Quellcode automatisch zu aktualiseren.
 
 ## Schritt 2: Antworten eintragen
 

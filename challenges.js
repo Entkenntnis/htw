@@ -1216,10 +1216,10 @@ module.exports = [
   {
     id: 31,
     pos: { x: 430, y: 450 },
-    title: 'Taschenrechner III',
+    title: {de: 'Taschenrechner III', en: 'Calculator III'},
     date: '2017-08-26',
     deps: [111],
-    html: `
+    html: {de: `
       <p>Es wird Zeit für einen neuen Taschenrechner:
       </p>
       
@@ -1247,7 +1247,36 @@ module.exports = [
       </p>
       
       <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
-    `,
+    `, en: `
+      <p>It's time for a new calculator:
+      </p>
+      
+      <br>
+      
+      <p id="op-buttons"></p>
+      <p id="num-buttons"></p>
+      <p><svg id="stack"></svg></p>
+      
+      <script src="/svg.min.js"></script>
+      <script src="/chals/chal31.js"></script>
+      
+      <br>
+      
+      <p>This calculator consists of a "tube" that is open on the right. You can use the number keys to push individual numbers into this tube.
+      </p>
+      
+      <p>To generate more numbers, you have to do math. There are four basic arithmetic operations. With these keys, the two numbers on the far right are taken out of the tube and added, subtracted, multiplied or divided together. Try this and see what happens!
+      </p>
+      
+      <p>There are two special commands: <strong>drop</strong> removes the last number from the tube (i.e. the number on the far right), <strong>dup</strong> adds the last number again (duplicates).
+      </p>
+      
+      <p>Calculate the result 1000:
+      </p>
+      
+      <p><img src="/chals/chal31_result.png" style="max-width: 300px" alt="chal31"></p>
+    `
+  },
     check: (answer) => {
       const val = calculatorCheck(answer)
       return {
@@ -1261,10 +1290,10 @@ module.exports = [
   {
     id: 32,
     pos: { x: 550, y: 500 },
-    title: 'Taschenrechner IV',
+    title: {de: 'Taschenrechner IV', en: 'Calculator IV'},
     date: '2017-08-26',
     deps: [31],
-    html: `
+    html: {de: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
       <p><svg id="stack"></svg></p>
@@ -1274,7 +1303,18 @@ module.exports = [
       
       <p>Berechne diesmal die Zahl 1337.
       </p>
-    `,
+    `, en: `
+      <p id="op-buttons"></p>
+      <p id="num-buttons"></p>
+      <p><svg id="stack"></svg></p>
+      
+      <script src="/svg.min.js"></script>
+      <script src="/chals/chal31.js"></script>
+      
+      <p>This time, calculate the number 1337.
+      </p>
+    `
+  },
     check: (answer) => {
       const val = calculatorCheck(answer)
       return {
@@ -1288,10 +1328,10 @@ module.exports = [
   {
     id: 33,
     pos: { x: 675, y: 525 },
-    title: 'Taschenrechner V',
+    title: {de: 'Taschenrechner V', en: 'Calculator V'},
     date: '2017-08-26',
     deps: [32],
-    html: `
+    html: {de: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
       <p><svg id="stack"></svg></p>
@@ -1301,7 +1341,18 @@ module.exports = [
       
       <p>Berechne die Zahl 100. Allerdings fehlen diesmal ein paar Tasten.
       </p>
-    `,
+    `, en: `
+      <p id="op-buttons"></p>
+      <p id="num-buttons"></p>
+      <p><svg id="stack"></svg></p>
+      
+      <script src="/svg.min.js"></script>
+      <script src="/chals/chal33.js"></script>
+      
+      <p>Calculate the number 100. However, this time a few keys are missing.
+      </p>
+    `
+  },
     check: (answer) => {
       const val = calculatorCheck(answer)
       return {
@@ -1359,13 +1410,17 @@ module.exports = [
   {
     id: 36,
     pos: { x: 1005, y: 50 },
-    title: 'Benutzername V',
+    title: {de: 'Benutzername V', en: 'Username V'},
     date: '2020-05-20',
     deps: [56],
-    html: `
+    html: {de: `
       <p>Es war noch nie einfacher gewesen, eine eigene Website zu bauen und diese ins Internet zu stellen. Daher die Aufgabe für dich: Erstelle eine Website, die genau deinen Benutzernamen enthält (kein HTML, keine Leerzeichen, nur dein Benutzername!) und gib die URL als Antwort ein:
       </p>
-    `,
+    `, en: `
+      <p>It has never been easier to build your own website and put it online. Hence, the task for you: create a website that contains exactly your username (no HTML, no spaces, just your username!) and enter the URL as the answer:
+      </p>
+    `
+  },
     check: async (answer, { req }) => {
       let value = ''
       try {
@@ -1409,10 +1464,10 @@ module.exports = [
   {
     id: 37,
     pos: { x: 935, y: 185 },
-    title: 'Emoji',
+    title: {de: 'Emoji', en: 'Emoji'},
     date: '2020-05-20',
     deps: [79],
-    html: `
+    html: {de: `
       <p>Nichts auf der Welt ist so schön wie dein Lächeln. Ich könnte es den ganzen Tag anschauen.
       </p>
       
@@ -1420,7 +1475,16 @@ module.exports = [
       </p>
       
       <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
-    `,
+    `, en: `
+      <p>Nothing in the world is as beautiful as your smile. I could look at it all day.
+      </p>
+      
+      <p>Send me a smile. Your answer is this emoji:
+      </p>
+      
+      <p><img src="/chals/chal37.png" style="max-width: 80px" alt="chal37"/></p>
+    `
+  },
     check: (answer) => {
       const withoutWhitespace = answer.replace(/\s+/g, '')
       const encoded = encodeURIComponent(withoutWhitespace)
@@ -1441,43 +1505,61 @@ module.exports = [
   {
     id: 38,
     pos: { x: 1250, y: 520 },
-    title: 'Metadaten',
+    title: {de: 'Metadaten', en: 'Metadata'},
     date: '2020-05-20',
     deps: [48],
-    html: `
+    html: {de: `
       <p>Oh wie süß! Schau dir dieses Foto an:
       </p>
       
       <p><img src="/chals/chal38.jpg" alt="hamster"></p>
       
       <p>Neben dem, was du auf dem Foto sehen kannst, enthalten viele Bilddateien noch weitere Informationen, wie z.B. das Kameramodell oder die ISO-Zahl. Das sind die sog. <em>EXIF-Tags</em> und diese sind leider nicht sofort sichtbar. Allerdings gibt es einige Tools, die dir dies Tags anzeigen können. Und darin findest sich auch die Antwort.</p>
-    `,
+    `, en: `
+      <p>Oh, how sweet! Look at this photo:
+      </p>
+      
+      <p><img src="/chals/chal38-en.jpg" alt="chal38-en"></p>
+      
+      <p>In addition to what you can see in the photo, many image files contain other information, such as the camera model or the ISO number. These are the so-called <em>EXIF-Tags</em> and unfortunately these are not immediately visible. However, there are some tools that can show you these tags. And there you will find the answer.</p>
+    `
+  },
     solution: secrets('chal_38'),
   },
 
   {
     id: 39,
     pos: { x: 565, y: 955 },
-    title: 'Flaggen',
+    title: {de: 'Flaggen', en: 'Flags'},
     date: '2020-05-20',
     deps: [50],
-    html: `
+    html: {de: `
       <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. In der Seefahrt wird dieses Potenzial voll ausgenutzt.
       </p>
       
       <p>Schau dir <a href="/chals/chal39.mp4">dieses Video</a> an. Welches Wort ergeben die Buchstaben der Signalflaggen?
       </p>
-    `,
+    `, en: `
+      <p>Flags can have many meanings: They exist for countries and territories, but you can also use them as signals and alphabets. This potential is fully exploited in shipping.
+      </p>
+      
+      <p>Watch<a href="/chals/chal39.mp4">this video</a>. What word do the letters of the signal flags make?
+      </p>
+      
+      <small style="margin-top:48px;display:inline-block">Note: The answer is in German, but you don't need to understand it to solve the challenge.
+      </small>
+    `
+  },
     solution: secrets('chal_39'),
   },
 
   {
     id: 40,
     pos: { x: 845, y: 725 },
-    title: 'Terminal',
+    title: {de: 'Terminal', en: 'Terminal'},
     date: '2020-05-20',
     deps: [81],
-    html: `
+    html: {de: `
       <p>Schwarzer Bildschirm, weiße Schrift, kryptische Zeichen und komplizierte Befehle ... auch bekannt unter dem Namen <em>Terminal</em>.
       </p>
       
@@ -1517,7 +1599,48 @@ module.exports = [
         <code>cd ..</code><br>
         <code>pwd</code>
       </p>
-    `,
+    `, en: `
+      <p>Black screen, white font, cryptic characters and complicated commands...also known by the name <em>Terminal</em>.
+      </p>
+      
+      <p>Behind this is a text-based way to interact with a computer. Instead of clicking with the mouse, the desired actions are entered and carried out using commands. And it's not that big of a rocket science!
+      </p>
+      
+      <p>This task contains a lightweight terminal that manages a file system. There are various directories and files — one of these files contains the answer to this task.
+      </p>
+      
+      <p>To move and orient yourself in the file system, there are four commands:
+      <ul>
+        <li><code>ls</code><br>This command shows the contents of the directory you are currently in.
+        </li>
+        <li><code>pwd</code><br>This command shows you the path of the current directory.
+        </li>
+        <li><code>cd DIR</code><br>This command moves you to a new directory whose name you write instead of DIR. There is a special variant to get back up a level <code>cd ..</code>
+        </li>
+        <li><code>cat FILE</code><br>This command displays the contents of a file in the current directory. Instead of FILE, write the name of the file.
+        </li>
+      </ul>
+      </p>
+      
+      <p>Start your search for the answer in the file<strong>GOP/053/vjer</strong>:
+      </p>
+      
+      <div id="terminal" class="my-4"></div>
+      
+      <script src="/seedrandom.min.js"></script>
+      <script src="/chals/terminal.js"></script>
+      <script src="/chals/chal40.js"></script>
+      
+      <p>Example: Enter the following commands one after the other<br>
+        <code>cd GOP</code><br>
+        <code>cd 239</code><br>
+        <code>ls</code><br>
+        <code>cat yley</code><br>
+        <code>cd ..</code><br>
+        <code>pwd</code>
+      </p>
+    `
+  },
     solution: secrets('chal_40'),
   },
 

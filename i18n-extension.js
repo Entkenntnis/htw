@@ -4,16 +4,14 @@ module.exports = (config) => {
   config.i18nExtend.push({
     lng: 'de',
     key: 'home.slogan',
-    value:
-      'Zeig, was in dir steckt!',
+    value: 'Zeig, was in dir steckt!',
   })
   config.i18nExtend.push({
     lng: 'en',
     key: 'home.slogan',
-    value:
-      'Prove your skill.',
+    value: 'Prove your skill.',
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'home.github',
@@ -24,8 +22,8 @@ module.exports = (config) => {
     key: 'home.github',
     value: 'Links',
   })
-  
-   config.i18nExtend.push({
+
+  config.i18nExtend.push({
     lng: 'de',
     key: 'home.version',
     value:
@@ -41,7 +39,7 @@ module.exports = (config) => {
       config.urlPrefix +
       '/news">News</a>)',
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'home.top10',
@@ -52,7 +50,7 @@ module.exports = (config) => {
     key: 'home.top10',
     value: 'Hackers of the Month',
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'contact.heading',
@@ -63,7 +61,7 @@ module.exports = (config) => {
     key: 'contact.heading',
     value: 'Contact / Imprint',
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'contact.content_',
@@ -86,7 +84,7 @@ module.exports = (config) => {
       </p>
     `,
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'home.supporter_',
@@ -138,7 +136,7 @@ module.exports = (config) => {
       <p>Also visit the <a href="https://de.serlo.org/200247" target="_blank">info page</a> or join our <a href="https://discord.gg/9zDMZP9edd" target="_blank">discord server</a>.
     `,
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'privacy.content_',
@@ -184,7 +182,7 @@ module.exports = (config) => {
       </script>
     `,
   })
-  
+
   config.i18nExtend.push({
     lng: 'en',
     key: 'privacy.content_',
@@ -231,7 +229,7 @@ module.exports = (config) => {
       </script>
     `,
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'finish.heading',
@@ -265,7 +263,7 @@ module.exports = (config) => {
       <p>Thank you for participating. We wish you all the best for your future as a hacker!</p>
     `,
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'news.heading',
@@ -276,7 +274,7 @@ module.exports = (config) => {
     key: 'news.heading',
     value: 'News',
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'news.content_',
@@ -596,7 +594,7 @@ module.exports = (config) => {
       </p>
     `,
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'links.heading',
@@ -607,7 +605,7 @@ module.exports = (config) => {
     key: 'links.heading',
     value: 'External links',
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'links.content_',
@@ -707,7 +705,7 @@ module.exports = (config) => {
       <p><a href="https://informatik.schule.de/comments.php?material_id=503" target="_blank">Informatik.Schule.de - Hack The Web</a></p>
     `,
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'hints.heading',
@@ -718,7 +716,7 @@ module.exports = (config) => {
     key: 'hints.heading',
     value: 'Hints',
   })
-  
+
   config.i18nExtend.push({
     lng: 'de',
     key: 'hints.content_',

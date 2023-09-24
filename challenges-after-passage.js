@@ -1,3 +1,5 @@
+const secrets = require('./secrets-loader.js')
+
 module.exports = [
   {
     id: 71,
@@ -110,7 +112,7 @@ module.exports = [
       }
     },
   },
-  
+
   {
     id: 82,
     pos: { x: 1155, y: 1155 },
@@ -718,7 +720,7 @@ print(hex_string)</pre></code>
     `,
     solution: secrets('chal_99'),
   },
-  
+
   {
     id: 100,
     pos: { x: 920, y: 1590 },

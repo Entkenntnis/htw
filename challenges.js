@@ -147,7 +147,7 @@ module.exports = [
           }
 
           <p>Are you read? Then let's go! The answer to this first challenge is the result of 6 + 4 * 9.</p>
-        `
+        `,
       }
     },
     solution: secrets('chal_1'),
@@ -272,7 +272,7 @@ module.exports = [
         </div>
         `
       }
-      
+
       return {
         de: `
           <p>Du bist eine mutige Person! Du hast dich von den kryptischen Buchstaben im Titel dieser Aufgabe nicht abschrecken lassen.
@@ -317,7 +317,7 @@ module.exports = [
           
           <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
           </p>
-        `
+        `,
       }
     },
     check: (answer) => {
@@ -366,7 +366,7 @@ module.exports = [
         <p>--- Here starts the sheet ---</p>
         
         <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
-            'chal_5'
+          'chal_5'
         )}</span><br><br>
         </p>
         
@@ -802,7 +802,7 @@ module.exports = [
   {
     id: 24,
     pos: { x: 140, y: 280 },
-    title: { de: 'Nicht blinzeln', en: 'Don\'t blink'},
+    title: { de: 'Nicht blinzeln', en: "Don't blink" },
     date: '2017-08-25',
     deps: [1],
     html: {
@@ -831,7 +831,7 @@ module.exports = [
           setTimeout(function(){
             document.getElementById("poper").innerHTML = "The answer is ${secrets(
               'chal_24'
-              )}"
+            )}"
             setTimeout(function(){
               document.getElementById("poper").innerHTML = "Oh. This was fast."
             }, 150)
@@ -2801,6 +2801,6 @@ PIXI.loader
     solution: secrets('chal_111'),
     hidesubmit: true,
   },
-  ...require('./challenges-after-passage')
-  ...require('./community')
+  ...require('./challenges-after-passage'),
+  ...require('./community'),
 ]

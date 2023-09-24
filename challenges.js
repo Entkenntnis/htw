@@ -1041,10 +1041,10 @@ module.exports = [
   {
     id: 26,
     pos: { x: 515, y: 715 },
-    title: 'Zeitmaschine',
+    title: {de: 'Zeitmaschine', en: 'Time machine'},
     date: '2017-08-26',
     deps: [60],
-    html: `
+    html: {de: `
       <p>Du siehst aus wie jemand, der sich für Backstories interessiert! Die Entstehungsgeschichte von Hack The Web hat ein paar spannende Aspekte und hier gibt es eine kleine Geschichtsstunde nur für dich.
       </p>
       
@@ -1061,17 +1061,35 @@ module.exports = [
       
       <p>Deine Antwort ist die E-Mail-Adresse des Betreibers.
       </p>
-    `,
+    `, en: `
+      <p>You look like someone who is interested in backstories! There are a few exciting aspects to Hack The Web's origin story, and here's a little history lesson just for you.
+      </p>
+      
+      <p>The concept of challenges arranged in a map has been adopted by Hack The Web from <a href="https://hacker.org/" target="_blank">Hacker.org</a>. This site is a great inspiration, but it didn't fall from the sky either. When the Challenges were published in 2008, a project that could be described as a hacker community had been on the domain for many years.
+      </p>
+      
+      <p>Thanks to the Internet Archive, we can travel back in time, and you can experience how this community got along.
+      </p>
+      
+      <p>Here you can see a version of hacker.org from the <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">December 18, 1996</a>.
+      </p>
+      
+      <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
+      
+      <p>Your answer is the operator's email address.
+      </p>
+    `
+  },
     solution: secrets('chal_26'),
   },
 
   {
     id: 27,
     pos: { x: 155, y: 745 },
-    title: 'Fingerspitzengefühl',
+    title: {de: 'Fingerspitzengefühl', en: "Tactility"},
     date: '2017-08-26',
     deps: [29, 66],
-    html: `
+    html: {de: `
       <p>Taste vorsichtig über das Feld und lese die Antwort ab:
       </p>
       
@@ -1079,44 +1097,75 @@ module.exports = [
       
       <script src="/svg.min.js"></script>
       <script src="/chals/chal27.js"></script>
-    `,
+    `, en: `
+     <p>Carefully key over the field and read the answer:
+     </p>
+     
+     <p><svg id="chal27"></svg></p>
+       
+     <script src="/svg.min.js"></script>
+     <script src="/chals/chal27.js"></script>
+     
+     <p>Note: The answer is in German, so don't be confused if the word doesn't make sense to you.</p>
+    `
+  },
     solution: secrets('chal_27'),
   },
 
   {
     id: 28,
     pos: { x: 945, y: 385 },
-    title: 'Werbung',
+    title: {de: 'Werbung', en: 'Ads'},
     date: '2017-08-26',
     deps: [10, 23, 79],
-    html: `
-      <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
+    html: {de: `
+       <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
+       </p>
+       
+       <p>Zum Glück bieten moderne Browser Werkzeuge an, mit denen man eine Website bearbeiten kann und damit auch das eine oder andere nervige Element verschwinden lässt. (Falls diese nicht zur Verfügung stehen: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='https://x-ray-goggles.mouse.org/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri','https://x-ray-goggles.mouse.org');document.body.appendChild(script);}())">X-Ray laden</a>)
+       </p>
+       
+       <div style="position:absolute;width:1000px;height:1000px;background-color:green" id="banner">
+         <span style="font-size:100px" id="text">Herzlichen Glückwunsch! Sie haben gewonnen!</span>
+         <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
+       </div>
+       
+       <p>Die Antwort zu dieser Aufgabe lautet<span id="solution"></span>.
+       </p>
+       
+       <script src="/chals/chal28.js"></script>
+       <!--suppress JSDeprecatedSymbols -->
+       <script>document.getElementById("solution").innerHTML = ' ' + atob('${Buffer.from(secrets('chal_28')).toString('base64')}')</script>
+     `, en: `
+      <p>Annoying advertising banners that block the content - who hasn't seen that? In this case too, an advertisement obscures the answer to the challenge.
       </p>
       
-      <p>Zum Glück bieten moderne Browser Werkzeuge an, mit denen man eine Website bearbeiten kann und damit auch das eine oder andere nervige Element verschwinden lässt. (Falls diese nicht zur Verfügung stehen: <a href="#" onclick="(function () { let script=document.createElement('script');script.src='https://x-ray-goggles.mouse.org/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri','https://x-ray-goggles.mouse.org');document.body.appendChild(script);}())">X-Ray laden</a>)
+      <p>Fortunately, modern browsers offer tools with which you can edit a website and thus remove one or two annoying elements. (If these are not available: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='https://x-ray-goggles.mouse.org/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri','https://x-ray-goggles.mouse.org');document.body.appendChild(script);}())">Load X-Ray</a>)
       </p>
       
       <div style="position:absolute;width:1000px;height:1000px;background-color:green" id="banner">
-        <span style="font-size:100px" id="text">Herzlichen Glückwunsch! Sie haben gewonnen!</span>
-        <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
+        <span style="font-size:100px" id="text">Congratulations! You have won!</span>
+        <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Skip in <span id="counter">4568</span> seconds ...</div>
       </div>
       
-      <p>Die Antwort zu dieser Aufgabe lautet <span id="solution"></span>.
+      <p>The answer to this challenge is <span id="solution"></span>.
       </p>
       
       <script src="/chals/chal28.js"></script>
-      <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
-    `,
+      <!--suppress JSDeprecatedSymbols -->
+      <script>document.getElementById("solution").innerHTML = ' ' + atob('${Buffer.from(secrets('chal_28')).toString('base64')}')</script>
+    `
+  },
     solution: secrets('chal_28'),
   },
 
   {
     id: 29,
     pos: { x: 195, y: 615 },
-    title: 'GPS-Code',
+    title: {de: 'GPS-Code', en: 'GPS code'},
     date: '2017-08-26',
     deps: [70],
-    html: `
+    html: {de: `
       <p>Die Anfangsbuchstaben folgender deutscher Orte ergeben die Antwort:
       </p>
       
@@ -1129,20 +1178,38 @@ module.exports = [
         49.59637, 11.11833<br>
         53.679, 10.6947
       </p>
-    `,
+    `, en: `
+      <p>The first letters of these words are the answer to this challenge:  
+      </p>
+      
+      <p>
+          52.7073, 8.5031<br>
+          48.63253, 12.85515<br>
+          50.9761, 8.8677<br>
+          53.2724, 12.824<br>
+          48.0336, 7.7649<br>
+          49.59637, 11.11833<br>
+          53.679, 10.6947
+      </p>
+    `
+  },
     solution: secrets('chal_29'),
   },
 
   {
     id: 30,
     pos: { x: 715, y: 470 },
-    title: 'UNIX Zeitstempel',
+    title: {de: 'UNIX Zeitstempel', en: 'UNIX timestamp'},
     date: '2017-08-26',
     deps: [21],
-    html: `
+    html: {de: `
       <p>Im welchem Jahr liegt der Zeitpunkt 817876800?
       </p>
-    `,
+    `, en: `
+      <p>In which year is the point in time 817876800?
+      </p>
+    `
+  },
     solution: secrets('chal_30'),
   },
 

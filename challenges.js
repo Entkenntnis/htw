@@ -155,7 +155,7 @@ module.exports = [
   {
     id: 2,
     pos: { x: 585, y: 875 },
-    title: { de: 'Finger-Code', en: 'Finger code'},
+    title: { de: 'Finger-Code', en: 'Finger code' },
     date: '2017-05-17',
     deps: [26, 50],
     html: {
@@ -176,7 +176,7 @@ module.exports = [
          </p>
          
          <p><img src="/chals/chal2.png" alt="fingercode"></p>
-      `
+      `,
     },
     solution: secrets('chal_2'),
   },
@@ -184,7 +184,7 @@ module.exports = [
   {
     id: 3,
     pos: { x: 825, y: 1025 },
-    title: {de: 'Auf hoher See', en: 'At sea'},
+    title: { de: 'Auf hoher See', en: 'At sea' },
     date: '2017-05-17',
     deps: [2, 39, 45],
     html: {
@@ -209,7 +209,7 @@ module.exports = [
         <audio src="/chals/chal3.wav" controls></audio>
         
         <p>Your PC has no speakers? Scan <a href="/chals/chal3_code.png">this QR code</a> to listen to the file on your mobile phone.</p>
-      `
+      `,
     },
     solution: secrets('chal_3'),
   },
@@ -217,7 +217,7 @@ module.exports = [
   {
     id: 4,
     pos: { x: 270, y: 220 },
-    title: {de: 'ASCII', en: 'ASCII'},
+    title: { de: 'ASCII', en: 'ASCII' },
     date: '2017-05-17',
     deps: [1],
     render: () => {
@@ -402,10 +402,11 @@ module.exports = [
   {
     id: 6,
     pos: { x: 485, y: 150 },
-    title: {de: 'HTML', en: 'HTML'},
+    title: { de: 'HTML', en: 'HTML' },
     date: '2017-05-17',
     deps: [5],
-    html: {de: `
+    html: {
+      de: `
       <p>Wenn du dir eine Website am Computer anschaust, dann siehst du eigentlich nur einen kleinen Teil der Website. Hinter den Kulissen aber gibt es noch eine ganze Welt voller Technik zu entdecken.
       </p>
       
@@ -435,7 +436,8 @@ module.exports = [
           onpopstate = (_) => { window.location.reload() };
         }
       </script>
-    `, en: `
+    `,
+      en: `
       <p>When you look at a website on your computer, you actually only see a small part of the website. But behind the scenes, there is a whole world full of technology to discover.
       </p>
       
@@ -446,8 +448,8 @@ module.exports = [
       __________________________________________
       |                                        |
       |<!-- The answer is ${secrets(
-      'chal_6'
-  )}. -->                                               |
+        'chal_6'
+      )}. -->                                               |
       |________________________________________|
                 
       </pre>
@@ -465,15 +467,15 @@ module.exports = [
           onpopstate = () => { window.location.reload(); };
         }
       </script>
-      `
-  },
+      `,
+    },
     solution: secrets('chal_6'),
   },
 
   {
     id: 7,
     pos: { x: 590, y: 230 },
-    title: {en: 'HTML II', de: 'HTML II'},
+    title: { en: 'HTML II', de: 'HTML II' },
     date: '2017-05-17',
     deps: [6],
     html: {
@@ -484,25 +486,27 @@ module.exports = [
       <!-- ... und lautet ${secrets('chal_7')}. -->
       
       <p><small><a href="/chals/chal7_hint1.png" target="_blank">Tipp 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Tipp 2</a></small></p>
-    `, en: `
+    `,
+      en: `
         <p>This time, too, it takes a look at the source code of the page. However, you have to find the portal yourself. The answer is directly below this line ...
         </p>
         
         <!-- ... and is ${secrets('chal_7')}. -->
         
         <p><small><a href="/chals/chal7_hint_en.png" target="_blank">Hint</a></small></p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_7'),
   },
 
   {
     id: 8,
     pos: { x: 520, y: 280 },
-    title: {de: 'Fleißaufgabe', en: 'Hard work'},
+    title: { de: 'Fleißaufgabe', en: 'Hard work' },
     date: '2017-05-17',
     deps: [55, 84],
-    html: {de: `
+    html: {
+      de: `
       <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
       </p>
       
@@ -511,7 +515,8 @@ module.exports = [
       
       <p>Warte kurz, ich hole schnell meinen Taschenrechner ...
       </p>
-    `, en: `
+    `,
+      en: `
       <p>Hello, mental arithmetic artist! You solve tasks faster than I can enter them in the calculator.
       </p>
       
@@ -520,55 +525,58 @@ module.exports = [
       
       <p>Wait a minute, I'll get my calculator quickly ...
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_8'),
   },
 
   {
     id: 9,
     pos: { x: 650, y: 370 },
-    title: {de: 'Fleißaufgabe II', en: 'Hard work II'},
+    title: { de: 'Fleißaufgabe II', en: 'Hard work II' },
     date: '2017-05-17',
     deps: [8],
     html: {
-    de: `
+      de: `
       <p>Du bist nicht nur gut im Kopfrechnen, sondern auch zielgerichtet. Eine Aufgabe, die du anfängst, ziehst du durch.
       </p>
       
       <p>Deine Antwort ist das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
       </p>
-    `, en: `
+    `,
+      en: `
       <p>You are not only good at mental arithmetic, but also motivated. A task that you start, you follow through.
       </p>
       
       <p>Your answer is the result of 1 + 2 + 3 + ... + 98 + 99 + 100.
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_9'),
   },
 
   {
     id: 10,
     pos: { x: 800, y: 410 },
-    title: {de: 'Fleißaufgabe III', en: 'Hard work III'},
+    title: { de: 'Fleißaufgabe III', en: 'Hard work III' },
     date: '2017-05-18',
     deps: [9],
-    html: {de: `
+    html: {
+      de: `
       <p>Kopfrechen-Genius, fokussiert - und dazu ein mathematisches Gespür. Damit löst du auch komplexe Probleme auf deine Art und Weise.
       </p>
       
       <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 998 + 999 + 1000.
       </p>
-    `, en: `
+    `,
+      en: `
       <p>Mental arithmetic genius, focused — and also a mathematical sense. With this, you even solve complex problems in your own way.
       </p>
       
       <p>This time, calculate the result of 1 + 2 + 3 + ... + 998 + 999 + 1000.
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_10'),
   },
 
@@ -652,16 +660,18 @@ module.exports = [
   {
     id: 15,
     pos: { x: 420, y: 90 },
-    title: {de: 'Benutzername', en: 'Username'},
+    title: { de: 'Benutzername', en: 'Username' },
     date: '2017-05-18',
     deps: [5],
-    html: {de: `
+    html: {
+      de: `
       <p>Die Antwort zu dieser Aufgabe ist ganz einfach dein Benutzername. Allerdings kann es sein, dass deine Eingabe beim Absenden etwas durcheinander gerät. Findest du heraus, was du eingeben musst?
       </p>
-    `, en:  `
+    `,
+      en: `
       <p>The answer to this challenge is simply your username. However, it may be that your input gets a little mixed up when you submit it. Can you find out what you have to enter?
       </p>
-    `
+    `,
     },
     check: (answer, { req }) => {
       const reversed = stringreverse(answer)
@@ -675,22 +685,24 @@ module.exports = [
   {
     id: 16,
     pos: { x: 550, y: 100 },
-    title: {de: 'Benutzername II', en: 'Username II'},
+    title: { de: 'Benutzername II', en: 'Username II' },
     date: '2017-05-18',
     deps: [15],
-    html: {de: `
+    html: {
+      de: `
       <p>In der Informatik dreht sich alles um Datenverarbeitung. Eine <em>Funktion</em> nimmt dabei einen Eingabewert (z.B. deine Antwort) und erzeugt daraus einen Ausgabewert (die Antwort, wie sie hier ankommt).
       </p>
       
       <p>Eine Funktion kann Werte vertauschen, verändern, auslassen, etc. - alles Mögliche, wie man will. Was macht diese Funktion hier mit deiner Eingabe? Die Antwort zu dieser Aufgabe ist wieder dein Benutzername.
       </p>
-    ` , en: `
+    `,
+      en: `
       <p>In computer science, everything revolves around data processing. A <em>function</em> takes an input value (e.g. your answer) and generates an output value (the answer as it arrives here).
       </p>
       
       <p>A function can swap, change, omit, etc. values — anything you want. What does this function do to your input? The answer to this challenge is again your username.
       </p>
-    `
+    `,
     },
     check: (answer, { req }) => {
       const input = answer
@@ -710,16 +722,18 @@ module.exports = [
   {
     id: 17,
     pos: { x: 685, y: 70 },
-    title: {de: 'Benutzername III', en: 'Username III'},
+    title: { de: 'Benutzername III', en: 'Username III' },
     date: '2017-05-18',
     deps: [16],
-    html: {de: `
+    html: {
+      de: `
       <p>Eine weitere Runde: Die Antwort auf diese Aufgabe ist wieder dein Benutzername. Allerdings wird deine Eingabe vor der Auswertung wieder durcheinander gebracht. Wie muss diesmal die Eingabe lauten?
       </p>
-    `, en: `
+    `,
+      en: `
       <p>Another round: The answer to this challenge is again your username. However, your input is again mixed up before the evaluation. What should the input be this time?
       </p>
-    `
+    `,
     },
     check: (answer, { req }) => {
       const input = answer
@@ -738,10 +752,11 @@ module.exports = [
   {
     id: 18,
     pos: { x: 270, y: 390 },
-    title: {de: 'ROT13', en: 'ROT13'},
+    title: { de: 'ROT13', en: 'ROT13' },
     date: '2017-05-18',
     deps: [24, 110],
-    html: {de: `
+    html: {
+      de: `
       <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Dein Hacker-Blick ist gefragt! Du siehst wunderbar aus, wenn du scharf nachdenkst.
       </p>
       
@@ -774,7 +789,8 @@ module.exports = [
         
         
       </script>
-    `, en: `
+    `,
+      en: `
       <p>You have received an encrypted message! It looks like complete nonsense. Your hacker's eye is in demand! You look wonderful when you think hard.
       </p>
       
@@ -808,7 +824,7 @@ module.exports = [
         
         
       </script>
-    `
+    `,
     },
     solution: secrets('chal_18'),
   },
@@ -861,10 +877,11 @@ module.exports = [
   {
     id: 21,
     pos: { x: 560, y: 410 },
-    title: {de: 'Fingerzeig', en: 'Helping hand'},
+    title: { de: 'Fingerzeig', en: 'Helping hand' },
     date: '2017-08-25',
     deps: [55, 111],
-    html: {de: `
+    html: {
+      de: `
       <p>
         Es ist super cool, hilfsbereite Menschen wie dich zu haben. Das macht den Alltag so viel angenehmer, wenn man mal den Weg nicht weiß oder an der Kasse seinen Geldbeutel vergessen hat :)
       </p>
@@ -878,7 +895,8 @@ module.exports = [
       
       <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web hast du die Möglichkeit, Hinweise zu finden oder selbst Fragen zu stellen. Klicke auf das Logo, um dem Server beizutreten. Im Forum findest du einen Post mit dem Titel dieser Aufgabe. Dort findest du deine Antwort.
       </p>
-    `, en: `
+    `,
+      en: `
        <p>
            It is super cool to have helpful people like you. It makes everyday life so much more pleasant when you don't know the way or forget your wallet at the checkout :)
        </p>
@@ -896,8 +914,8 @@ module.exports = [
        <p>
        Note: Hack the Web is a German website, which is why the Discord server is in German. Please write only in German on the server. But with the help of a translator, you should be able to find the answer anyway ;)
        </p>
-   `
-  },
+   `,
+    },
     solution: secrets('chal_21'),
   },
 
@@ -936,10 +954,11 @@ module.exports = [
   {
     id: 23,
     pos: { x: 710, y: 300 },
-    title: {de: 'Grau auf Grau', en: 'Grey on grey'},
+    title: { de: 'Grau auf Grau', en: 'Grey on grey' },
     date: '2017-08-25',
     deps: [7, 8],
-    html: {de: `
+    html: {
+      de: `
       <p>Oje, bei diesem Bild hat jemand den ganzen Kontrast weggenommen! Übrig geblieben ist nur noch grau:
       </p>
       
@@ -952,7 +971,8 @@ module.exports = [
       
       <p>Wie lautet der Vorname der abgebildeten Person?
       </p>
-    `, en: `
+    `,
+      en: `
       <p>Oh no, someone has taken away all the contrast in this picture! All that's left is gray:
       </p>
       
@@ -965,8 +985,8 @@ module.exports = [
       
       <p>What is the first name of the person who is depicted in the picture?</p>
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_23'),
   },
 
@@ -1016,16 +1036,18 @@ module.exports = [
   {
     id: 25,
     pos: { x: 865, y: 855 },
-    title: {de: 'Russische Puppen', en: 'Russian dolls'},
+    title: { de: 'Russische Puppen', en: 'Russian dolls' },
     date: '2017-08-25',
     deps: [40, 41, 42],
-    html: {de: `
+    html: {
+      de: `
       <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
       </p>
       
       <p>Warum nicht ausprobieren? Ich habe die Antwort mal ordentlich gezipt: Hier ist die <a href="/chals/antwort25.zip">Datei</a>. Darin findet sich die Lösung zu dieser Aufgabe. Und nein, mehrfaches Zippen bringt nichts und macht die Datei sogar größer.
       </p>
-    `, en: `
+    `,
+      en: `
       <p>When you zip a file, it becomes smaller and requires less space. When you zip it again, does it become even smaller?</p>
       </p>
       
@@ -1033,18 +1055,19 @@ module.exports = [
       </p>
       
       <small style="margin-top:48px;display:inline-block">Note: The word "antwort" means "answer" in german</small>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_25'),
   },
 
   {
     id: 26,
     pos: { x: 515, y: 715 },
-    title: {de: 'Zeitmaschine', en: 'Time machine'},
+    title: { de: 'Zeitmaschine', en: 'Time machine' },
     date: '2017-08-26',
     deps: [60],
-    html: {de: `
+    html: {
+      de: `
       <p>Du siehst aus wie jemand, der sich für Backstories interessiert! Die Entstehungsgeschichte von Hack The Web hat ein paar spannende Aspekte und hier gibt es eine kleine Geschichtsstunde nur für dich.
       </p>
       
@@ -1061,7 +1084,8 @@ module.exports = [
       
       <p>Deine Antwort ist die E-Mail-Adresse des Betreibers.
       </p>
-    `, en: `
+    `,
+      en: `
       <p>You look like someone who is interested in backstories! There are a few exciting aspects to Hack The Web's origin story, and here's a little history lesson just for you.
       </p>
       
@@ -1078,18 +1102,19 @@ module.exports = [
       
       <p>Your answer is the operator's email address.
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_26'),
   },
 
   {
     id: 27,
     pos: { x: 155, y: 745 },
-    title: {de: 'Fingerspitzengefühl', en: "Tactility"},
+    title: { de: 'Fingerspitzengefühl', en: 'Tactility' },
     date: '2017-08-26',
     deps: [29, 66],
-    html: {de: `
+    html: {
+      de: `
       <p>Taste vorsichtig über das Feld und lese die Antwort ab:
       </p>
       
@@ -1097,7 +1122,8 @@ module.exports = [
       
       <script src="/svg.min.js"></script>
       <script src="/chals/chal27.js"></script>
-    `, en: `
+    `,
+      en: `
      <p>Carefully key over the field and read the answer:
      </p>
      
@@ -1107,18 +1133,19 @@ module.exports = [
      <script src="/chals/chal27.js"></script>
      
      <p>Note: The answer is in German, so don't be confused if the word doesn't make sense to you.</p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_27'),
   },
 
   {
     id: 28,
     pos: { x: 945, y: 385 },
-    title: {de: 'Werbung', en: 'Ads'},
+    title: { de: 'Werbung', en: 'Ads' },
     date: '2017-08-26',
     deps: [10, 23, 79],
-    html: {de: `
+    html: {
+      de: `
        <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
        </p>
        
@@ -1135,8 +1162,11 @@ module.exports = [
        
        <script src="/chals/chal28.js"></script>
        <!--suppress JSDeprecatedSymbols -->
-       <script>document.getElementById("solution").innerHTML = ' ' + atob('${Buffer.from(secrets('chal_28')).toString('base64')}')</script>
-     `, en: `
+       <script>document.getElementById("solution").innerHTML = ' ' + atob('${Buffer.from(
+         secrets('chal_28')
+       ).toString('base64')}')</script>
+     `,
+      en: `
       <p>Annoying advertising banners that block the content - who hasn't seen that? In this case too, an advertisement obscures the answer to the challenge.
       </p>
       
@@ -1153,19 +1183,22 @@ module.exports = [
       
       <script src="/chals/chal28.js"></script>
       <!--suppress JSDeprecatedSymbols -->
-      <script>document.getElementById("solution").innerHTML = ' ' + atob('${Buffer.from(secrets('chal_28')).toString('base64')}')</script>
-    `
-  },
+      <script>document.getElementById("solution").innerHTML = ' ' + atob('${Buffer.from(
+        secrets('chal_28')
+      ).toString('base64')}')</script>
+    `,
+    },
     solution: secrets('chal_28'),
   },
 
   {
     id: 29,
     pos: { x: 195, y: 615 },
-    title: {de: 'GPS-Code', en: 'GPS code'},
+    title: { de: 'GPS-Code', en: 'GPS code' },
     date: '2017-08-26',
     deps: [70],
-    html: {de: `
+    html: {
+      de: `
       <p>Die Anfangsbuchstaben folgender deutscher Orte ergeben die Antwort:
       </p>
       
@@ -1178,7 +1211,8 @@ module.exports = [
         49.59637, 11.11833<br>
         53.679, 10.6947
       </p>
-    `, en: `
+    `,
+      en: `
       <p>The first letters of these words are the answer to this challenge:  
       </p>
       
@@ -1191,35 +1225,38 @@ module.exports = [
           49.59637, 11.11833<br>
           53.679, 10.6947
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_29'),
   },
 
   {
     id: 30,
     pos: { x: 715, y: 470 },
-    title: {de: 'UNIX Zeitstempel', en: 'UNIX timestamp'},
+    title: { de: 'UNIX Zeitstempel', en: 'UNIX timestamp' },
     date: '2017-08-26',
     deps: [21],
-    html: {de: `
+    html: {
+      de: `
       <p>Im welchem Jahr liegt der Zeitpunkt 817876800?
       </p>
-    `, en: `
+    `,
+      en: `
       <p>In which year is the point in time 817876800?
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_30'),
   },
 
   {
     id: 31,
     pos: { x: 430, y: 450 },
-    title: {de: 'Taschenrechner III', en: 'Calculator III'},
+    title: { de: 'Taschenrechner III', en: 'Calculator III' },
     date: '2017-08-26',
     deps: [111],
-    html: {de: `
+    html: {
+      de: `
       <p>Es wird Zeit für einen neuen Taschenrechner:
       </p>
       
@@ -1247,7 +1284,8 @@ module.exports = [
       </p>
       
       <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
-    `, en: `
+    `,
+      en: `
       <p>It's time for a new calculator:
       </p>
       
@@ -1275,8 +1313,8 @@ module.exports = [
       </p>
       
       <p><img src="/chals/chal31_result.png" style="max-width: 300px" alt="chal31"></p>
-    `
-  },
+    `,
+    },
     check: (answer) => {
       const val = calculatorCheck(answer)
       return {
@@ -1290,10 +1328,11 @@ module.exports = [
   {
     id: 32,
     pos: { x: 550, y: 500 },
-    title: {de: 'Taschenrechner IV', en: 'Calculator IV'},
+    title: { de: 'Taschenrechner IV', en: 'Calculator IV' },
     date: '2017-08-26',
     deps: [31],
-    html: {de: `
+    html: {
+      de: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
       <p><svg id="stack"></svg></p>
@@ -1303,7 +1342,8 @@ module.exports = [
       
       <p>Berechne diesmal die Zahl 1337.
       </p>
-    `, en: `
+    `,
+      en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
       <p><svg id="stack"></svg></p>
@@ -1313,8 +1353,8 @@ module.exports = [
       
       <p>This time, calculate the number 1337.
       </p>
-    `
-  },
+    `,
+    },
     check: (answer) => {
       const val = calculatorCheck(answer)
       return {
@@ -1328,10 +1368,11 @@ module.exports = [
   {
     id: 33,
     pos: { x: 675, y: 525 },
-    title: {de: 'Taschenrechner V', en: 'Calculator V'},
+    title: { de: 'Taschenrechner V', en: 'Calculator V' },
     date: '2017-08-26',
     deps: [32],
-    html: {de: `
+    html: {
+      de: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
       <p><svg id="stack"></svg></p>
@@ -1341,7 +1382,8 @@ module.exports = [
       
       <p>Berechne die Zahl 100. Allerdings fehlen diesmal ein paar Tasten.
       </p>
-    `, en: `
+    `,
+      en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
       <p><svg id="stack"></svg></p>
@@ -1351,8 +1393,8 @@ module.exports = [
       
       <p>Calculate the number 100. However, this time a few keys are missing.
       </p>
-    `
-  },
+    `,
+    },
     check: (answer) => {
       const val = calculatorCheck(answer)
       return {
@@ -1410,17 +1452,19 @@ module.exports = [
   {
     id: 36,
     pos: { x: 1005, y: 50 },
-    title: {de: 'Benutzername V', en: 'Username V'},
+    title: { de: 'Benutzername V', en: 'Username V' },
     date: '2020-05-20',
     deps: [56],
-    html: {de: `
+    html: {
+      de: `
       <p>Es war noch nie einfacher gewesen, eine eigene Website zu bauen und diese ins Internet zu stellen. Daher die Aufgabe für dich: Erstelle eine Website, die genau deinen Benutzernamen enthält (kein HTML, keine Leerzeichen, nur dein Benutzername!) und gib die URL als Antwort ein:
       </p>
-    `, en: `
+    `,
+      en: `
       <p>It has never been easier to build your own website and put it online. Hence, the task for you: create a website that contains exactly your username (no HTML, no spaces, just your username!) and enter the URL as the answer:
       </p>
-    `
-  },
+    `,
+    },
     check: async (answer, { req }) => {
       let value = ''
       try {
@@ -1464,10 +1508,11 @@ module.exports = [
   {
     id: 37,
     pos: { x: 935, y: 185 },
-    title: {de: 'Emoji', en: 'Emoji'},
+    title: { de: 'Emoji', en: 'Emoji' },
     date: '2020-05-20',
     deps: [79],
-    html: {de: `
+    html: {
+      de: `
       <p>Nichts auf der Welt ist so schön wie dein Lächeln. Ich könnte es den ganzen Tag anschauen.
       </p>
       
@@ -1475,7 +1520,8 @@ module.exports = [
       </p>
       
       <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
-    `, en: `
+    `,
+      en: `
       <p>Nothing in the world is as beautiful as your smile. I could look at it all day.
       </p>
       
@@ -1483,8 +1529,8 @@ module.exports = [
       </p>
       
       <p><img src="/chals/chal37.png" style="max-width: 80px" alt="chal37"/></p>
-    `
-  },
+    `,
+    },
     check: (answer) => {
       const withoutWhitespace = answer.replace(/\s+/g, '')
       const encoded = encodeURIComponent(withoutWhitespace)
@@ -1505,41 +1551,45 @@ module.exports = [
   {
     id: 38,
     pos: { x: 1250, y: 520 },
-    title: {de: 'Metadaten', en: 'Metadata'},
+    title: { de: 'Metadaten', en: 'Metadata' },
     date: '2020-05-20',
     deps: [48],
-    html: {de: `
+    html: {
+      de: `
       <p>Oh wie süß! Schau dir dieses Foto an:
       </p>
       
       <p><img src="/chals/chal38.jpg" alt="hamster"></p>
       
       <p>Neben dem, was du auf dem Foto sehen kannst, enthalten viele Bilddateien noch weitere Informationen, wie z.B. das Kameramodell oder die ISO-Zahl. Das sind die sog. <em>EXIF-Tags</em> und diese sind leider nicht sofort sichtbar. Allerdings gibt es einige Tools, die dir dies Tags anzeigen können. Und darin findest sich auch die Antwort.</p>
-    `, en: `
+    `,
+      en: `
       <p>Oh, how sweet! Look at this photo:
       </p>
       
       <p><img src="/chals/chal38-en.jpg" alt="chal38-en"></p>
       
       <p>In addition to what you can see in the photo, many image files contain other information, such as the camera model or the ISO number. These are the so-called <em>EXIF-Tags</em> and unfortunately these are not immediately visible. However, there are some tools that can show you these tags. And there you will find the answer.</p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_38'),
   },
 
   {
     id: 39,
     pos: { x: 565, y: 955 },
-    title: {de: 'Flaggen', en: 'Flags'},
+    title: { de: 'Flaggen', en: 'Flags' },
     date: '2020-05-20',
     deps: [50],
-    html: {de: `
+    html: {
+      de: `
       <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. In der Seefahrt wird dieses Potenzial voll ausgenutzt.
       </p>
       
       <p>Schau dir <a href="/chals/chal39.mp4">dieses Video</a> an. Welches Wort ergeben die Buchstaben der Signalflaggen?
       </p>
-    `, en: `
+    `,
+      en: `
       <p>Flags can have many meanings: They exist for countries and territories, but you can also use them as signals and alphabets. This potential is fully exploited in shipping.
       </p>
       
@@ -1548,18 +1598,19 @@ module.exports = [
       
       <small style="margin-top:48px;display:inline-block">Note: The answer is in German, but you don't need to understand it to solve the challenge.
       </small>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_39'),
   },
 
   {
     id: 40,
     pos: { x: 845, y: 725 },
-    title: {de: 'Terminal', en: 'Terminal'},
+    title: { de: 'Terminal', en: 'Terminal' },
     date: '2020-05-20',
     deps: [81],
-    html: {de: `
+    html: {
+      de: `
       <p>Schwarzer Bildschirm, weiße Schrift, kryptische Zeichen und komplizierte Befehle ... auch bekannt unter dem Namen <em>Terminal</em>.
       </p>
       
@@ -1599,7 +1650,8 @@ module.exports = [
         <code>cd ..</code><br>
         <code>pwd</code>
       </p>
-    `, en: `
+    `,
+      en: `
       <p>Black screen, white font, cryptic characters and complicated commands...also known by the name <em>Terminal</em>.
       </p>
       
@@ -1639,18 +1691,19 @@ module.exports = [
         <code>cd ..</code><br>
         <code>pwd</code>
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_40'),
   },
 
   {
     id: 41,
     pos: { x: 655, y: 675 },
-    title: {de: 'Querlesen', en: 'Cross Reading'},
+    title: { de: 'Querlesen', en: 'Cross Reading' },
     date: '2020-05-20',
     deps: [60],
-    html: {de: `
+    html: {
+      de: `
       <p>Ein schnulziges Gedicht ... oder doch eine geheime Botschaft?
       </p>
       
@@ -1681,7 +1734,8 @@ module.exports = [
         <strong>N</strong>icht zu vergessen,<br>
         <strong>O</strong>stern und Weihnachten.</em>
       </p>
-    `, en: `
+    `,
+      en: `
        <p>A just a bad poem... or a secret message?
        </p>
        
@@ -1711,18 +1765,19 @@ module.exports = [
        </p>
        
        <small style="margin-top:48px;display:inline-block">Note: This poem may not make sense as it was partly ki generated for the reason that i (the translator) cannot write poetry</small>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_41'),
   },
 
   {
     id: 42,
     pos: { x: 615, y: 745 },
-    title: {de: 'Ohrwurm', en: 'Catchy Tune'},
+    title: { de: 'Ohrwurm', en: 'Catchy Tune' },
     date: '2020-05-20',
     deps: [60],
-    html: {de: `
+    html: {
+      de: `
       <p>Wer kennt ihn nicht: Der Wurm, der uns ins Gehör kriegt und uns Tag und Nacht verfolgt?
       </p>
       
@@ -1733,7 +1788,8 @@ module.exports = [
       
       <p>Die Frage ist nun: Wie heißt der Song?
       </p>
-    `, en: `
+    `,
+      en: `
       <p>Who doesn't know him: the song that gets into our ears and haunts us day and night?
       </p>
       
@@ -1744,31 +1800,33 @@ module.exports = [
       
       <p>The question now is: What is the name of the song?
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_42'),
   },
 
   {
     id: 43,
     pos: { x: 1125, y: 195 },
-    title: {de: 'POST it', en: 'POST it'},
+    title: { de: 'POST it', en: 'POST it' },
     date: '2020-05-20',
     deps: [37, 56],
-    html: {de: `
+    html: {
+      de: `
       <p>Diesmal gibt es keine Umschweife: Die Antwort auf diese Aufgabe lautet Klamauk.
       </p>
       
       <p>Leider gibt es zu dieser Aufgabe kein Eingabefeld. Aber das sollte dich nicht abhalten, der Webseite die Antwort zu schicken!
       </p>
-    `, en: `
+    `,
+      en: `
       <p>This time there is no beating around the bush: the answer to this challenge is "Klamauk".
       </p>
       
       <p>Unfortunately, there is no input field for this challenge. But that shouldn't stop you from sending the answer to the website!
       </p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_43'),
     hidesubmit: true,
   },
@@ -1776,10 +1834,11 @@ module.exports = [
   {
     id: 44,
     pos: { x: 1120, y: 355 },
-    title: {de: 'Ladebalken II', en: 'Progressbar II'},
+    title: { de: 'Ladebalken II', en: 'Progressbar II' },
     date: '2020-05-20',
     deps: [47],
-    html: {de: `
+    html: {
+      de: `
       <p>Der Klügere gibt nach - und du hast kein Problem nachzugeben, wenn es definitiv nicht weitergeht.
       </p>
       
@@ -1834,7 +1893,8 @@ module.exports = [
         
         setTimeout(work, 2000)
       </script>
-    `, en: `
+    `,
+      en: `
       <p>The smarter one gives in — and you have no problem giving in if it definitely doesn't go any further.
       </p>
       
@@ -1888,39 +1948,42 @@ module.exports = [
         
         setTimeout(work, 2000)
       </script>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_44'),
   },
 
   {
     id: 45,
     pos: { x: 415, y: 1005 },
-    title: {de: 'Schriftzeichen', en: 'Characters'},
+    title: { de: 'Schriftzeichen', en: 'Characters' },
     date: '2020-05-20',
     deps: [50, 78],
-    html: {de: `
+    html: {
+      de: `
       <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich nun hinter folgenden Schriftzeichen?
       </p>
       
       <p><img src="/chals/chal45.png" alt="japanese characters"></p>
-    `, en: `
+    `,
+      en: `
       <p>We live in an international world and hackers also speak many languages. Some languages differ greatly from our language and thus present us with challenges. What delicacy is hidden behind the following characters?
       </p>
       
       <p><img src="/chals/chal45.png" alt="schriftzeichen"></p>
-    `
-  },
+    `,
+    },
     solution: secrets('chal_45'),
   },
 
   {
     id: 46,
     pos: { x: 1275, y: 405 },
-    title: 'Kopfdaten',
+    title: { de: 'Kopfdaten', en: 'Headers' },
     date: '2020-05-20',
     deps: [43, 48, 62],
-    html: `
+    html: {
+      de: `
       <p>Geheime Spuren zu finden ist für dich kein Problem, denn du hast einen scharfen Blick.
       </p>
       
@@ -1932,16 +1995,30 @@ module.exports = [
       
       <p><img src="/chals/chal46.png" style="max-width:100%"  alt="network tab"/></p>
     `,
+      en: `
+      <p>Finding secret clues is no problem for you because you have a keen eye.
+      </p>
+      
+      <p>When you open a website, a lot of things happen behind the scenes, even when you open one <a href="/chal/chal46">that is empty</a>. But the answer was already being transmitted in the background.
+      </p>
+      
+      <p>Network analysis (usually F12) helps you view all data in the background. Find your answer there.
+      </p>
+      
+      <p><img src="/chals/chal46.png" style="max-width:100%"  alt="network tab"/></p>
+    `,
+    },
     solution: secrets('chal_46'),
   },
 
   {
     id: 47,
     pos: { x: 970, y: 270 },
-    title: 'Ladebalken',
+    title: { de: 'Ladebalken', en: 'Progressbar' },
     date: '2020-05-20',
     deps: [79],
-    html: `
+    html: {
+      de: `
       <p>Ich könnte nicht wie du geduldig sitzen und warten, bis die Antwort lädt ... ich bin immer ungeduldig und drücke auf der Tastatur herum.
       </p>
       
@@ -1997,16 +2074,74 @@ module.exports = [
         setTimeout(work, 1000)
       </script>
     `,
+      en: `
+      <p>II couldn't sit patiently like you and wait for the answer to load... I'm always impatient and fidgeting on the keyboard.
+      </p>
+      
+      <p>But could it be that this actually makes the loading bar faster?
+      </p>
+      
+      <p>You will receive the answer as soon as the loading bar is full.
+      </p>
+      
+      <div class="progress my-4">
+        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
+      </div>
+      
+      <p id="value"></p>
+      
+      <p id="status"></p>
+      
+      <script>
+        const bar = document.getElementById('44_bar')
+        const value = document.getElementById('value')
+        const status = document.getElementById('status')
+        
+        let step = 1
+        let steps = 1000
+        let x = 3
+        
+        function transform(x) {
+          return (x * 11) % 10000
+        }
+        
+        function work(noTimeout) {
+          if (step >= steps) {
+            bar.style.width = '100%'
+          } else {
+            step++
+            bar.style.width = ((step/steps) * 98.9 + 1) + '%'
+            x = transform(x)
+            value.innerHTML = x.toString()
+            status.innerHTML = '(' + step + '/' + steps + ')'
+            if (!noTimeout) {
+              setTimeout(work, 1000)
+            }
+          }
+        }
+        
+        window.onkeydown = () => {
+          work(true)
+        }
+        
+        value.innerHTML = x
+        status.innerHTML = '(1/' + steps + ')'
+        
+        setTimeout(work, 1000)
+      </script>
+    `,
+    },
     solution: secrets('chal_47'),
   },
 
   {
     id: 48,
     pos: { x: 1111, y: 420 },
-    title: 'Stille',
+    title: { de: 'Stille', en: 'Silence' },
     date: '2020-05-21',
     deps: [28, 47],
-    html: `
+    html: {
+      de: `
       <p>Zur Ruhe kommen und in sich hineinhören - das brauche ich immer wieder, um mich mit mir selbst zu verbinden und so ausgeglichen sein zu können wie du.
       </p>
       
@@ -2018,16 +2153,30 @@ module.exports = [
       <p>Doch du bist nicht alleine. Deine Antwort findet sich zwischen dem Zwischern der Vögel.
       </p>
     `,
+      en: `
+      <p>Finding peace and listening to yourself - I need that again and again in order to connect with myself and be as balanced as you.
+      </p>
+      
+      <p>Some people find it helpful to have an acoustic background.
+      </p>
+      
+      <audio src="/chals/chal48_2.mp3" controls></audio>
+      
+      <p>But you are not alone. Your answer can be found among the chirping of the birds.
+      </p>
+    `,
+    },
     solution: secrets('chal_48'),
   },
 
   {
     id: 49,
     pos: { x: 1015, y: 575 },
-    title: 'Spielstand II',
+    title: { de: 'Spielstand II', en: 'Game Save II' },
     date: '2020-05-21',
     deps: [65],
-    html: `
+    html: {
+      de: `
       <p>Es gibt Spiele, die machen richtig viel Spaß - und es gibt welche, die am Ende doch nur dein Geld aus der Tasche ziehen wollen.
       </p>
       
@@ -2048,12 +2197,34 @@ module.exports = [
       
       <p>Deine Aufgabe: Erhöhe deinen Goldbetrag auf 999999 und gib den neuen (verschlüsselten) Spielstand ein.</p>
     `,
+      en: `
+      <p>There are games that are a lot of fun — and there are those that ultimately just want to take your money out of your pocket.
+      </p>
+      
+      <p>In games like these, it's tempting to use a hack to improve your score. Unfortunately, many developers are aware of this possibility and encrypt the save game.
+      </p>
+      
+      <p>But no encryption is perfect! It is usually easy to find out the key and thus crack the encryption.
+      </p>
+      
+      <p>Your current score is: <code>cc76663b7d1e97ea2455b1c25676f44794fec90b0a9b823f916bf79387de4238</code>
+      </p>
+      
+      <p>The key is: <code>786d229b0de877774a2f676d5bd895c3</code>
+      </p>
+      
+      <p>The encryption method is AES-128 in ECB mode with PKCS padding.
+      </p>
+      
+      <p>Your task: Increase your gold amount to 999999 and enter the new (encrypted) score.</p>
+    `,
+    },
     check: (input) => {
       let answer = ''
       let state = {
-        gold: undefined
+        gold: undefined,
       }
-      let decipher;
+      let decipher
       try {
         const key = Buffer.from('786d229b0de877774a2f676d5bd895c3', 'hex')
         const encrypted = Buffer.from(input, 'hex')
@@ -2074,10 +2245,11 @@ module.exports = [
   {
     id: 50,
     pos: { x: 455, y: 825 },
-    title: 'Winkelschrift',
+    title: { de: 'Winkelschrift', en: 'Pigpen Cipher' },
     date: '2020-05-21',
     deps: [53, 58, 60],
-    html: `
+    html: {
+      de: `
       <p>Was diese winkeligen Zeichen wohl sagen mögen?
       </p>
       
@@ -2091,6 +2263,21 @@ module.exports = [
       <p>Der erste Buchstabe des Texts wäre damit ein D, der letzte Buchstabe des Texts ein S.
       </p>
     `,
+      en: `
+      <p>What do these angular signs mean?
+      </p>
+      
+      <p><img src="/chals/chal50-en.png" alt="chal50"></p>
+      
+      <p>Luckily, there is the following hint:
+      </p>
+      
+      <p><img src="/chals/chal50.gif" alt="chal50"></p>
+      
+      <p>The first letter of the text would be a D, and the last letter of the text would be an S.
+      </p>
+    `,
+    },
     solution: secrets('chal_50'),
   },
 
@@ -3044,7 +3231,7 @@ PIXI.loader
     title: 'Inception',
     date: '2023-02-26',
     deps: [4, 5],
-    render: ({req }) => {
+    render: ({ req }) => {
       function renderFrame(w, h, level) {
         return `
           <iframe src="/challenge/84/?level=${level}" width="${w}" height="${h}" id="if" style="display:none"></iframe>
@@ -3158,8 +3345,8 @@ PIXI.loader
           if (lead) {
             if (lead.textContent.trim().toLowerCase() === 'schau, was ich alles kann!') {
               document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
-        secrets('chal_86')
-    ).toString('base64')}') + '.'
+                secrets('chal_86')
+              ).toString('base64')}') + '.'
               return // don't run check anymore
             }
           }

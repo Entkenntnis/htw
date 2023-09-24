@@ -17,7 +17,8 @@
     "mariadb": "^2.4.1",
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^2.6.1",
-    "pngjs": "^7.0.0"
+    "pngjs": "^7.0.0",
+    "sequelize": "^6.33.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

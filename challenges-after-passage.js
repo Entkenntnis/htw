@@ -285,10 +285,11 @@ module.exports = [
   {
     id: 83,
     pos: { x: 1300, y: 1215 },
-    title: 'Freiheit',
+    title: { de: 'Freiheit', en: 'Freedom' },
     date: '2022-12-28',
     deps: [76],
-    html: `
+    html: {
+      de: `
       <p>Die Karte von Hack The Web gibt dir die Freiheit, deinen eigenen Weg zu gehen. Und diese Freiheit wird hier auch gerne genutzt. Dadurch entstehen sehr viele individuelle Spielstände, die schön anzuschauen sind.</p>
       
       <p>Berechne bei dieser Aufgabe die genaue Anzahl der unterschiedlichen Spielstände. Beschränke dich dabei auf einen kleinen Ausschnitt von 11 Aufgaben im Anfangsbereich. Die aktuelle Karte kann von der Abbildung abweichen - nutze die hier gezeigte Version. Die Kanten des Grafs sind vom Start aus gerichtet. Wenn man "Taschenrechner" gelöst hat, wird "ROT13" freigeschaltet - aber nicht andersherum:
@@ -314,18 +315,50 @@ module.exports = [
       <p>Die genaue Anzahl für diesen Anfangsbereich ist deine Antwort.
       </p>
     `,
+      en: `
+      <p>Hack The Web's map gives you the freedom to go your own way. And this freedom is also used here with pleasure. This creates a lot of individual game saves that are nice to look at.</p>
+      
+      <p>In this task, calculate the exact number of different scores. Limit yourself to a small selection of 11 tasks in the initial area. The current map may differ from the image — use the version shown here. The edges of the count are directed from the start. If you have solved Calculator, ROT13 will be unlocked — but not the other way around:
+      </p>
+      
+      <p><img src="/chals/83_full2.png" alt="freedom 1"></p>
+      
+      <p>Example 1 — no task solved yet:
+      </p>
+      
+      <p><img src="/chals/83_empty.png" alt="freedom 2"></p>
+      
+      <p>Example 2 — two tasks solved:
+      </p>
+      
+      <p><img src="/chals/83_2.png" alt="freedom 3"></p>
+      
+      <p>Example 3 — four tasks solved. It is irrelevant in which order the tasks are solved. As long as they lead to the same map, they count as one score.
+      </p>
+      
+      <p><img src="/chals/83_4.png" alt="freedom 4"></p>
+      
+      <p>The exact number for the starting are is your answer.
+      </p>
+    `,
+    },
     solution: secrets('chal_83'),
   },
 
   {
     id: 85,
     pos: { x: 1185, y: 1230 },
-    title: 'Schneehase',
+    title: { de: 'Schneehase', en: 'Snow hare' },
     date: '2023-02-26',
     deps: [76],
-    html: `
+    html: {
+      de: `
       <p><img src="/chals/chal85.png" alt="rabbit"></p>
     `,
+      en: `
+        <p><img src="/chals/chal85-en.png" alt="rabbit"></p>
+    `,
+    },
     solution: secrets('chal_85'),
   },
 

@@ -136,26 +136,35 @@ module.exports = [
   {
     id: 73,
     pos: { x: 1510, y: 1055 },
-    title: 'Rufnummer',
+    title: { de: 'Rufnummer', en: 'Phone number' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Das Festnetz wird heute nur noch wenig genutzt, andere Technologien haben es verdrängt. Aber halten wir für einen Moment die Zeit an und erinnern uns an <a href="/chals/chal73.wav">diese Töne</a>:</p>
     
       <audio src="/chals/chal73.wav" controls>
       </audio>
       
     `,
+      en: `
+        <p>Today landlines are rarely used, other technologies have replaced them. But let's stop time for a moment and remember <a href="/chals/chal73.wav">these sounds</a>:</p>
+        
+        <audio src="/chals/chal73.wav" controls>
+        </audio>
+    `,
+    },
     solution: secrets('chal_73'),
   },
 
   {
     id: 74,
     pos: { x: 1430, y: 1135 },
-    title: 'Blockchain',
+    title: { de: 'Blockchain', en: 'Blockchain' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Heute werden Bitcoins meist zur Spekulation verwendet. Dafür gedacht waren sie nicht. Stattdessen sollte das Konzept einer Blockchain dazu beitragen, eine Währung ohne Zentralbank zu ermöglichen. Eine große Herausforderung dabei ist es, Manipulationen durch Einzelne zu verhindern. Wer schreibt sich selber nicht gerne ein paar Euro auf das eigene Konto?</p>
       
       <p>Ein Proof-of-Work, wie diese Aufgabe es von dir erfordert, soll das verhindern. Um diese Aufgabe zu lösen, musst du mir erstmal beweisen, dass du hart gearbeitet hast.</p>
@@ -172,6 +181,24 @@ module.exports = [
       
       <p>Eine passende Zahl n ist deine Antwort:</p>
     `,
+      en: `
+        <p>Today bitcoins are mostly used for speculation. That was not what they were intended for. Instead, the concept of a blockchain was supposed to make it possible to have a currency without a central bank. A major challenge is to prevent manipulation by individuals. Who doesn't like to write a few euros on their own account?</p>
+        
+        <p>A proof-of-work, as this task requires of you, is supposed to prevent this. To solve this task, you first have to prove to me that you have worked hard.</p>
+        
+        <p>Your work: Find me a natural number n. The md5 hash of "hacktheweb" and n must start with six zeros. That means concretely:</p>
+        
+        <p>
+            n = 1 => md5("hacktheweb1") = 64c8b1f06b096bb17440d60b25c034ae => no match<br>
+            n = 2 => md5("hacktheweb2") = afbab45a805ea5464e6378aaac3ae30f => no match<br>
+            n = 3 => md5("hacktheweb3") = <strong style="color:green">0</strong>e23be04b8f478515df97f09c4751805 → 1 leading zero, you need 6<br>
+            n = 4 => md5("hacktheweb4") = c0bad2e41a5e1cef51fab232d188d265 => no match<br>
+            and so on
+        </p>
+        
+        <p>A suitable number n is your answer:</p>
+    `,
+    },
     check: (answer, { req, App }) => {
       const hash = crypto
         .createHash('md5')
@@ -188,22 +215,30 @@ module.exports = [
   {
     id: 75,
     pos: { x: 1180, y: 1065 },
-    title: 'Verlosung',
+    title: { de: 'Verlosung', en: 'Raffle' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Bei einer Verlosung gibt es immer viele Nieten und wenige Preise. In <a href="/chals/lostrommel.zip">dieser Lostrommel</a> finden sich 1000 Lose. Eine davon ist dein Hauptgewinn.</p>
     `,
+      en: `
+        <p>In a raffle, there are always many blanks and few prizes. In <a href="/chals/raffle.zip">this lottery drum</a> there are 1000 tickets. One of them is your main prize.</p>
+    `,
+    },
     solution: secrets('chal_75'),
   },
 
   {
     id: 76,
     pos: { x: 1280, y: 1095 },
-    title: 'Zeitraum',
+    title: { de: 'Zeitraum', en: 'Timeframe' },
     date: '2022-02-09',
     deps: [57],
-    html: `<p>Schön, dass du schon so lange dabei bist. Nun, sage mir: Seit wie vielen Minuten genau bist du auf dieser Seite registriert?</p>`,
+    html: {
+      de: `<p>Schön, dass du schon so lange dabei bist. Nun, sage mir: Seit wie vielen Minuten genau bist du auf dieser Seite registriert?</p>`,
+      en: `<p>It's nice that you've been here for so long. Now, tell me: How many minutes exactly have you been registered on this site?</p>`,
+    },
     check: (answer, { req, App }) => {
       const str = parseInt(answer)
       const now = App.moment()
@@ -219,10 +254,11 @@ module.exports = [
   {
     id: 82,
     pos: { x: 1155, y: 1155 },
-    title: 'Wegweiser',
+    title: { de: 'Wegweiser', en: 'Guide' },
     date: '2022-12-28',
     deps: [75, 76],
-    html: `
+    html: {
+      de: `
       <p>Im Internet existiert mit dem DNS ein großes Wegweiser-System, welches dafür sorgt, dass zum Beispiel dein Browser über die Eingabe <code>hack.arrrg.de</code> meinen Server findet.</p>
       
       <p>Diese Wegweiser enthalten nicht nur passende IP-Adressen, sondern man kann dort auch beliebigen Text hinterlegen.
@@ -231,6 +267,18 @@ module.exports = [
       <p>Im TXT-Record dieser Domain findest du die Antwort.
       </p>
     `,
+      en: `
+      <p>There is a large guiding system on the Internet called DNS, which ensures that, for example, your browser can find my server by entering <code>hack.arrrg.de</code>.</p>
+      
+      <p>These DNS-Recordes not only contain suitable IP addresses, but you can also store any text there.
+      </p>
+      
+      <p>You will find the answer in the TXT record of this domain.
+      </p>
+      
+      <p>Note: "Die Antwort lautet ..." is German for "The answer is ..."</p>
+    `,
+    },
     solution: secrets('chal_82'),
   },
 

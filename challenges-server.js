@@ -83,7 +83,7 @@ const mazeMessagesEn = {
   F: `Your tresure: The answer is${secrets('chal_72')}.`,
 }
 
-const orakelMsg = [
+const orakelMsgDe = [
   'Das Orakel ist aktuell nicht verfügbar.',
   'Das Orakel befindet sich in tiefer Meditation.',
   'Das Orakel empfängt gerade eine spirituelle Weisheit.',
@@ -91,6 +91,15 @@ const orakelMsg = [
   'Das Orakel erledigt gerade ein wichtiges Geschäft.',
   'Das Orakel bereitet sich gerade mental vor.',
   'Sie sprechen mit dem Sekretär.',
+]
+const orakelMsgEn = [
+  'The oracle is currently not available.',
+  'The oracle is in deep meditation.',
+  'The oracle is currently receiving spiritual wisdom.',
+  'Zzzz...',
+  'The Oracle is conducting important business.',
+  'The Oracle is currently preparing mentally.',
+  'You are speaking to the secretary.',
 ]
 
 module.exports = function (App) {
@@ -217,33 +226,51 @@ module.exports = function (App) {
   })
 
   App.express.get('/chal/orakel', (req, res) => {
+    const isGerman = req.lng === 'de'
+    const orakelMsg = isGerman ? orakelMsgDe : orakelMsgEn
     const time = new Date()
     const hour = time.getHours()
     const min = time.getMinutes()
     const minOfDay = hour * 60 + min
     const secretTime = parseInt(secrets('chal_90_time'))
     if (minOfDay >= secretTime && minOfDay <= secretTime + 15) {
-      res.send(`Die Antwort lautet ${secrets('chal_90')}.`)
+      res.send(
+        isGerman
+          ? `Die Antwort lautet ${secrets('chal_90')}.`
+          : `The answer is ${secrets('chal_90')}.`
+      )
     } else {
       res.send(
-        `${
-          orakelMsg[Math.floor(Math.random() * orakelMsg.length)]
-        } Versuche es später nochmal.`
+        orakelMsg[Math.floor(Math.random() * orakelMsg.length)] + isGerman
+          ? ` Versuche es später nochmal.`
+          : ` Try again later.`
       )
     }
   })
 
   App.express.get('/chal/chal91', (req, res) => {
-    res.cookie('Die_Antwort_lautet', secrets('chal_91'))
+    if (req.lng === 'de') {
+      res.cookie('Die_Antwort_lautet', secrets('chal_91'))
+    } else {
+      res.cookie('The_answer_is', secrets('chal_91'))
+    }
     res.send('ok')
   })
 
   App.express.all('/chal/chal301', (req, res) => {
     // Check if request is a DELETE request
     if (req.method === 'DELETE') {
-      res.status(200).send('Die Antwort lautet ' + secrets('chal_301') + '.')
+      if (req.lng === 'de') {
+        res.status(200).send('Die Antwort lautet ' + secrets('chal_301') + '.')
+      } else {
+        res.status(200).send('The answer is ' + secrets('chal_301') + '.')
+      }
     } else {
-      res.status(405).send('Method ' + req.method + ' not allowed')
+      if (req.lng === 'de') {
+        res.status(405).send('Methode ' + req.method + ' nicht erlaubt')
+      } else {
+        res.status(405).send('Method ' + req.method + ' not allowed')
+      }
     }
   })
 
@@ -274,15 +301,23 @@ module.exports = function (App) {
       return res.status(401).send('Invalid authorization header')
     }
 
-    res.status(200).send('Die Antwort lautet ' + secrets('chal_302') + '.')
+    res
+      .status(200)
+      .send(
+        req.lng === 'de'
+          ? 'Die Antwort lautet '
+          : 'The answer is ' + secrets('chal_302') + '.'
+      )
   })
 
   App.express.get('/chal/chal306', (req, res) => {
     if (!req.session.userId) {
-      res.send('Bitte einloggen.')
+      res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
       return
     }
-    res.send(`
+    res.send(
+      req.lng === 'de'
+        ? `
       <title>Ticket vorzeigen</title>
       <h1>Ticket vorzeigen</h1>
       
@@ -291,7 +326,18 @@ module.exports = function (App) {
       </form>
       
       <p>Bitte lade eine .png-Datei hoch.</p>
-    `)
+    `
+        : `
+      <title>Show ticket</title>
+      <h1>Show ticket</h1>
+      
+      <form action="/chal/chal306" method="post" enctype="multipart/form-data">
+          <input type="file" name="avatar" accept=".png,image/png"/><input type="submit" value="Upload" style="display:inline-block;margin-left:24px;"/>
+      </form>
+      
+      <p>Please upload a .png file.</p>
+    `
+    )
   })
 
   App.express.post(
@@ -299,44 +345,64 @@ module.exports = function (App) {
     upload.single('avatar'),
     async (req, res) => {
       if (!req.session.userId) {
-        res.send('Bitte einloggen.')
+        res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
         return
       }
       try {
         if (!req.file) {
-          res.send('Hochladen fehlgeschlagen.')
+          res.send(
+            req.lng === 'de' ? 'Hochladen fehlgeschlagen.' : 'Upload failed.'
+          )
           return
         }
         const type = req.file.mimetype
         if (type !== 'image/png') {
-          res.send('Das Ticket muss im png-Format vorliegen.')
+          res.send(
+            req.lng === 'de'
+              ? 'Das Ticket muss im png-Format vorliegen.'
+              : 'The ticket must be in png format.'
+          )
           return
         }
         const png = PNG.sync.read(req.file.buffer)
         const code = jsQR(png.data, png.width, png.height)
         if (!code || !code.data || typeof code.data !== 'string') {
-          res.send('Kein QR Code erkannt.')
+          res.send(
+            req.lng === 'de' ? 'Kein QR Code erkannt.' : 'No QR code detected.'
+          )
           return
         }
         const data = code.data
         const ticket = req.session.userId + '@Dodo-Airlines'
         if (data.includes(ticket)) {
           res.send(
-            '<title>Ticket vorzeigen</title>Die Antwort lautet "' +
-              secrets('chal_306') +
-              '".'
+            req.lng === 'de'
+              ? '<title>Ticket vorzeigen</title>Die Antwort lautet "' +
+                  secrets('chal_306') +
+                  '".'
+              : '<title>Show ticket</title>The answer is "' +
+                  secrets('chal_306') +
+                  '".'
           )
           return undefined
         } else {
           res.send(
-            `<title>Ticket vorzeigen</title>Erwarte <strong>${ticket}</strong>, erhalten: <strong>${escape(
-              data
-            )}</strong>`
+            req.lng === 'de'
+              ? `<title>Ticket vorzeigen</title>Erwarte <strong>${ticket}</strong>, erhalten: <strong>${escape(
+                  data
+                )}</strong>`
+              : `<title>Show ticket</title>Expected <strong>${ticket}</strong>, received: <strong>${escape(
+                  data
+                )}</strong>`
           )
           return undefined
         }
       } catch (e) {
-        res.end('Fehler bei der Verarbeitung.')
+        res.end(
+          req.lng === 'de'
+            ? 'Fehler bei der Verarbeitung.'
+            : 'Error while processing.'
+        )
         return undefined
       }
     }

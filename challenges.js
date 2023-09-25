@@ -3605,11 +3605,12 @@ PIXI.loader
   {
     id: 77,
     pos: { x: 630, y: 155 },
-    title: 'Hell und dunkel',
+    title: { de: 'Hell und dunkel', en: 'Light and dark' },
     date: '2022-02-09',
     deps: [6, 16],
-    html: `
-      <p>Seit einiger Zeit hast sich der "Dark mode" bei vielen Websiten durchgesetzt. Diese Seite zeigt dir einen unterschiedlichen Inhalt an, je nach dem, welchen Modus du gerade aktiviert hast. Zusammen ergeben die Zeichen die Antwort:</p>
+    html: {
+      de: `
+      <p>Seit einiger Zeit hat sich der "Dark mode" bei vielen Websiten durchgesetzt. Diese Seite zeigt dir einen unterschiedlichen Inhalt an, je nachdem, welchen Modus du gerade aktiviert hast. Zusammen ergeben die Zeichen die Antwort:</p>
       
       <div style="display: flex">
         <div class="letter"><span class="light">Y</span></div>
@@ -3652,16 +3653,62 @@ PIXI.loader
         }
       </style>
     `,
+      en: `
+      <p>“Dark mode” has become established on many websites for some time now. This page will show you different content depending on which mode you currently have activated. Together the characters give the answer:</p>
+      
+      <div style="display: flex">
+        <div class="letter"><span class="light">Y</span></div>
+        <div class="letter"><span class="dark">I</span></div>
+        <div class="letter"><span class="light">N</span></div>
+        <div class="letter"><span class="dark">Y</span></div>
+        <div class="letter"><span class="light">A</span></div>
+        <div class="letter"><span class="dark">N</span></div>
+        <div class="letter"><span class="light">G</span></div>
+      </div>
+      
+      <style>
+        @media (prefers-color-scheme: dark) {
+          .dark {
+            display: block;
+            background: black;
+            color: white;
+          }
+          .light {
+            display: none;
+          }
+        }
+        @media (prefers-color-scheme: light) {
+          .dark {
+            display: none;
+          }
+          .light {
+            display: block;
+            background: white;
+            color: black;
+          }
+        }
+        .letter {
+          margin: 4px;
+          padding: 4px;
+          font-size: 3rem;
+          border: 1px rgb(128,128,128) solid;
+          width: 90px;
+          text-align: center;
+        }
+      </style>
+    `,
+    },
     solution: secrets('chal_77'),
   },
 
   {
     id: 78,
     pos: { x: 255, y: 885 },
-    title: 'Papier',
+    title: { de: 'Papier', en: 'Paper' },
     date: '2022-02-09',
     deps: [27],
-    html: `
+    html: {
+      de: `
       <p>Die meisten Webseiten können sich an die Größe des Bildschirms anpassen, sei es ein Handy, Tablet oder großer Monitor. In der analogen Welt gibt es diese Möglichkeiten nicht. Dort findet sich häufig nur das Format DIN A4.
       </p>
       
@@ -3682,22 +3729,53 @@ PIXI.loader
         }
       </style>
     `,
+      en: `
+      <p>Most websites can adapt to the size of the screen, be it a mobile phone, tablet or large monitor. In the analog world, these options do not exist. There you will often only find the DIN A4 format.
+      </p>
+      
+      <p>A website can also be converted to DIN A4 format, for example, using the print preview. There you will find the answer to this task.
+      </p>
+      
+      <p class="print-only">The answer is ${secrets('chal_78')}.</p>
+      
+      <style>
+        .print-only {
+          display: none;
+        }
+        @media print { 
+          .print-only {
+            display: block;
+            font-size: 4em;
+          }
+        }
+      </style>
+    `,
+    },
     solution: secrets('chal_78'),
   },
 
   {
     id: 79,
     pos: { x: 755, y: 210 },
-    title: 'Google-Fu',
+    title: { de: 'Google-Fu', en: 'Googling' },
     date: '2022-02-24',
     deps: [7, 77],
-    html: `
+    html: {
+      de: `
       <p>In den weiten des Internets lassen sich so manche Informationen sammeln. Der Name für diese Fähigkeit: Google-Fu.</p>
       
       <p>Die Frage an dich lautet:  Wie viele Aufgaben hat Hack The Web insgesamt zum jetzigen Zeitpunkt?</p>
       
       <p>Hole dein ganzes Google-Fu heraus und zeige, was du drauf hast!</p>
     `,
+      en: `
+        <p>There is a lot of information to be found on the Internet. The name for this skill: Googling.</p>
+        
+        <p>The question for you is: How many challenges does Hack The Web have in total at the moment?</p>
+        
+        <p>Use all your Googling skills and show what you've got!</p>
+    `,
+    },
     check: (answer, { App }) => {
       return {
         answer,
@@ -3712,10 +3790,11 @@ PIXI.loader
   {
     id: 80,
     pos: { x: 1105, y: 535 },
-    title: 'Stylesheet',
+    title: { de: 'Stylesheet', en: 'Stylesheet' },
     date: '2022-02-24',
     deps: [28],
-    html: `
+    html: {
+      de: `
       <p>ARRRRG! Irgendeine <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen:</p>
       
       <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
@@ -3752,6 +3831,44 @@ PIXI.loader
       
       <script src="/chals/chal80_2.js"></script>
     `,
+      en: `
+      <p>ARRRRG! Some <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> person messed up the colors of the rainbow flag! It's now up to you to put the colors back in the correct order:</p>
+      
+      <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
+  background-color: green;
+}
+#bar2 {
+  background-color: purple;
+}
+#bar3 {
+  background-color: red;
+}
+#bar4 {
+  background-color: yellow;
+}
+#bar5 {
+  background-color: blue;
+}
+#bar6 {
+  background-color: orange;
+}</textarea>
+      
+      <div style="width:389px;border:1px solid black">
+        <div style="height:40px" id="bar1"></div>
+        <div style="height:40px" id="bar2"></div>
+        <div style="height:40px" id="bar3"></div>
+        <div style="height:40px" id="bar4"></div>
+        <div style="height:40px" id="bar5"></div>
+        <div style="height:40px" id="bar6"></div>
+      </div>
+      
+      <style id="injector"></style>
+      
+      <div id="result" style="margin-top:10px"></div>
+      
+      <script src="/chals/chal80_2.js"></script>
+    `,
+    },
     solution: secrets('chal_80'),
   },
 

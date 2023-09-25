@@ -1209,7 +1209,7 @@ module.exports = [
       </p>
     `,
       en: `
-      <p>The first letters of these words are the answer to this challenge:  
+      <p>The first letters of these towns are the answer to this challenge:  
       </p>
       
       <p>

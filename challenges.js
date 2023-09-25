@@ -2557,24 +2557,24 @@ module.exports = [
           </p>
           
           <pre class="bg-dark p-3"><code>                  const d = [68,
-                 105,               101,
-             32,                         65,
-          110,                             116,
-        119,                                 111,
-      114,        116,            32,         108,
-     97,          117,            116,         101,
-    116,           32,            75,           111,
-    114,                                         111,
-    115,                                         101,
-    110,     115                          ,      101,
-     105      ,46                        ];     const
-      e        = d                   .map(       (x 
-       )=>       String.fromCharCode(x))      .join
-        (''                                    )
-          /*                                 x
-            x                             x
-               xxxxx                xxx*/
-                     window.alert(e)</code></pre>
+              105,               101,
+          32,                         65,
+      110,                             116,
+    119,                                 111,
+  114,        116,            32,         108,
+  97,          117,            116,         101,
+116,           32,            75,           111,
+114,                                         111,
+115,                                         101,
+110,     115                          ,      101,
+  105      ,46                        ];     const
+  e        = d                   .map(       (x 
+    )=>       String.fromCharCode(x))      .join
+    (''                                    )
+      /*                                 x
+        x                             x
+            xxxxx                xxx*/
+                  window.alert(e)</code></pre>
         `,
     },
     solution: secrets('chal_55'),

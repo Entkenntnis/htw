@@ -581,81 +581,81 @@ module.exports = [
   },
 
   /*{
-          id: 11,
-          pos: { x: 100, y: 400 },
-          title: 'Fremdwährung',
-          deps: [18],
-          html: `
-            <p>Das Währungssystem in Land Compedia ist anders aufgebaut als wir es so gewohnt sind. Es gibt dort nur Münzen und diese haben die Werte 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512. Das sind die ersten 10 Zweierpotenzen.
-            </p>
-            
-            <p>Damit die Einwohner nicht so viel Geld mit sich schleppen müssen, dürfen Preise nur zwischen 1 und 1023 liegen. Zu hohe Preise und Dezimalbrüche sind verboten (und werden per Überweisung bezahlt).
-            </p>
-            
-            <p>Das Interessante an diesem System: Jeder Einwohner kann mit einem Satz an Münzen (also von jedem Wert genau eine Münze, insgesamt 10 Münzen) jeden Preis zwischen 1 und 1023 bezahlen. Wir wollen das mal überprüfen: Den Preis von 100 können wir mit den drei Münzen 64, 32 und 4 bezahlen. Klappt.
-            </p>
-            
-            <p>Die Frage lautet: Wie bezahlt ein Compedianer den Preis 85?
-            </p>
-            
-            <p>Gib die einzelnen Münzwerte von groß nach klein mit Leerzeichen getrennt an (z.B. <em>64 32 4</em>).
-            </p>
-          `,
-          solution: '64 16 4 1',
-        },*/
+            id: 11,
+            pos: { x: 100, y: 400 },
+            title: 'Fremdwährung',
+            deps: [18],
+            html: `
+              <p>Das Währungssystem in Land Compedia ist anders aufgebaut als wir es so gewohnt sind. Es gibt dort nur Münzen und diese haben die Werte 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512. Das sind die ersten 10 Zweierpotenzen.
+              </p>
+              
+              <p>Damit die Einwohner nicht so viel Geld mit sich schleppen müssen, dürfen Preise nur zwischen 1 und 1023 liegen. Zu hohe Preise und Dezimalbrüche sind verboten (und werden per Überweisung bezahlt).
+              </p>
+              
+              <p>Das Interessante an diesem System: Jeder Einwohner kann mit einem Satz an Münzen (also von jedem Wert genau eine Münze, insgesamt 10 Münzen) jeden Preis zwischen 1 und 1023 bezahlen. Wir wollen das mal überprüfen: Den Preis von 100 können wir mit den drei Münzen 64, 32 und 4 bezahlen. Klappt.
+              </p>
+              
+              <p>Die Frage lautet: Wie bezahlt ein Compedianer den Preis 85?
+              </p>
+              
+              <p>Gib die einzelnen Münzwerte von groß nach klein mit Leerzeichen getrennt an (z.B. <em>64 32 4</em>).
+              </p>
+            `,
+            solution: '64 16 4 1',
+          },*/
 
   /*{
-          id: 12,
-          pos: { x: 100, y: 530 },
-          title: 'Fremdwährung II',
-          deps: [11],
-          html: `
-            <p>Wie bezahlt ein Compedianer in diesem System den Preis 805?
-            </p>
-          `,
-          solution: '512 256 32 4 1',
-        },*/
+            id: 12,
+            pos: { x: 100, y: 530 },
+            title: 'Fremdwährung II',
+            deps: [11],
+            html: `
+              <p>Wie bezahlt ein Compedianer in diesem System den Preis 805?
+              </p>
+            `,
+            solution: '512 256 32 4 1',
+          },*/
 
   /*{
-          id: 13,
-          pos: { x: 130, y: 670 },
-          title: 'Fremdwährung III',
-          deps: [12],
-          html: `
-            <p>Die Compedianer nutzen dieses System der Münzen auch für ihre Zahlen, allerdings in einer abgewandelten Form: Die Münzwerte werden durch die Position der Ziffern bestimmt und diese steigt von rechts nach links auf. Es gibt nur zwei Ziffern. Die Null bedeutet, dass diese Münze nicht benutzt wird, die Eins bedeutet, dass sie benutzt wird. Hier sehen wir ein Beispiel für die Zahl 100110:
-            </p>
-            
-            <p><img src="/chals/chal13.png"></p>
-            
-            <p>Verwendet werden die Werte 32, 4 und 2 und damit ergibt sich insgesamt die Zahl 38.</p><p>Die Frage lautet nun: Welche Zahl steckt hinter der Folge 110001100100?
-            </p>
-          `,
-          solution: '3172',
-        },*/
+            id: 13,
+            pos: { x: 130, y: 670 },
+            title: 'Fremdwährung III',
+            deps: [12],
+            html: `
+              <p>Die Compedianer nutzen dieses System der Münzen auch für ihre Zahlen, allerdings in einer abgewandelten Form: Die Münzwerte werden durch die Position der Ziffern bestimmt und diese steigt von rechts nach links auf. Es gibt nur zwei Ziffern. Die Null bedeutet, dass diese Münze nicht benutzt wird, die Eins bedeutet, dass sie benutzt wird. Hier sehen wir ein Beispiel für die Zahl 100110:
+              </p>
+              
+              <p><img src="/chals/chal13.png"></p>
+              
+              <p>Verwendet werden die Werte 32, 4 und 2 und damit ergibt sich insgesamt die Zahl 38.</p><p>Die Frage lautet nun: Welche Zahl steckt hinter der Folge 110001100100?
+              </p>
+            `,
+            solution: '3172',
+          },*/
 
   /*{
-          id: 14,
-          pos: { x: 150, y: 820 },
-          title: 'Fremdwährung IV',
-          deps: [13],
-          html: `
-            <p>Die Compedianer haben damit ihr Zahlensystem auf das sog. Binärsystem umgestellt. Man könnte fast meinen, dass ein Compedianer den Computer erfunden hätte - denn Computer verstehen auch nur Binärzahlen.
-            </p>
-            
-            <p>Für uns Menschen gibt es noch eine Schwierigkeit: Binärzahlen sind oft sehr lang. Um sie kürzer darzustellen, kann man sie in 4er-Packs zerlegen und mit folgender Tabelle übersetzen:
-            </p>
-            
-            <p>0000 = 0<br>0001 = 1<br>0010 = 2<br>0011 = 3<br>0100 = 4<br>0101 = 5<br>0110 = 6<br>0111 = 7<br>1000 = 8<br>1001 = 9<br>1010 = A<br>1011 = B<br>1100 = C<br>1101 = D<br>1110 = E<br>1111 = F
-            </p>
-            
-            <p>Die Tabelle ist eigentlich sehr systematisch: Auf der linken Seite sind die Zahlen von 0 bis 15 dargestellt und rechts die passende Zahl oder ein Buchstabe. Die Binärzahl 10100011 wird dann mit A3 abgekürzt. Diese Schreibweise wird Hexadezimalsystem genannt.
-            </p>
-            
-            <p>Wie lautet nun die Binärzahl 11111010011000000100 in hexadezimaler Schreibweise?
-            </p>
-          `,
-          solution: 'fa604',
-        },*/
+            id: 14,
+            pos: { x: 150, y: 820 },
+            title: 'Fremdwährung IV',
+            deps: [13],
+            html: `
+              <p>Die Compedianer haben damit ihr Zahlensystem auf das sog. Binärsystem umgestellt. Man könnte fast meinen, dass ein Compedianer den Computer erfunden hätte - denn Computer verstehen auch nur Binärzahlen.
+              </p>
+              
+              <p>Für uns Menschen gibt es noch eine Schwierigkeit: Binärzahlen sind oft sehr lang. Um sie kürzer darzustellen, kann man sie in 4er-Packs zerlegen und mit folgender Tabelle übersetzen:
+              </p>
+              
+              <p>0000 = 0<br>0001 = 1<br>0010 = 2<br>0011 = 3<br>0100 = 4<br>0101 = 5<br>0110 = 6<br>0111 = 7<br>1000 = 8<br>1001 = 9<br>1010 = A<br>1011 = B<br>1100 = C<br>1101 = D<br>1110 = E<br>1111 = F
+              </p>
+              
+              <p>Die Tabelle ist eigentlich sehr systematisch: Auf der linken Seite sind die Zahlen von 0 bis 15 dargestellt und rechts die passende Zahl oder ein Buchstabe. Die Binärzahl 10100011 wird dann mit A3 abgekürzt. Diese Schreibweise wird Hexadezimalsystem genannt.
+              </p>
+              
+              <p>Wie lautet nun die Binärzahl 11111010011000000100 in hexadezimaler Schreibweise?
+              </p>
+            `,
+            solution: 'fa604',
+          },*/
 
   {
     id: 15,
@@ -830,49 +830,49 @@ module.exports = [
   },
 
   /*{
-          id: 19,
-          pos: { x: 310, y: 460 },
-          title: 'Cäsar',
-          date: '2017-05-18',
-          deps: [18],
-          html: `
-            <p>Du hast wieder eine verschlüsselte Nachricht erhalten:
-            </p>
-            
-            <p>Yottss</p>
-            
-            <p>Diesmal wurde die Nachricht mit dem Cäsarcode verschlüsselt. Bei diesem Code werden die Buchstaben um eine bestimmte Anzahl im Alphabet verschoben. Wenn man zum Beispiel <strong>Maus</strong> nimmt und die Buchstaben um eins weiter verschiebt, kommt der geheime Text <strong>Nbvt</strong> heraus.
-            </p>
-            
-            <p>Die Schwierigkeit liegt darin: Du weißt nicht, um wie viel die geheime Nachricht verschoben wurde. Aber das sollte Dich als Hacker nicht abhalten! Die geheime Nachricht (ein deutsches Wort) ist die Antwort zu dieser Aufgabe.
-            </p>
-          `,
-          solution: 'kaffee',
-        },*/
+            id: 19,
+            pos: { x: 310, y: 460 },
+            title: 'Cäsar',
+            date: '2017-05-18',
+            deps: [18],
+            html: `
+              <p>Du hast wieder eine verschlüsselte Nachricht erhalten:
+              </p>
+              
+              <p>Yottss</p>
+              
+              <p>Diesmal wurde die Nachricht mit dem Cäsarcode verschlüsselt. Bei diesem Code werden die Buchstaben um eine bestimmte Anzahl im Alphabet verschoben. Wenn man zum Beispiel <strong>Maus</strong> nimmt und die Buchstaben um eins weiter verschiebt, kommt der geheime Text <strong>Nbvt</strong> heraus.
+              </p>
+              
+              <p>Die Schwierigkeit liegt darin: Du weißt nicht, um wie viel die geheime Nachricht verschoben wurde. Aber das sollte Dich als Hacker nicht abhalten! Die geheime Nachricht (ein deutsches Wort) ist die Antwort zu dieser Aufgabe.
+              </p>
+            `,
+            solution: 'kaffee',
+          },*/
 
   /*{
-          id: 20,
-          pos: { x: 160, y: 485 },
-          title: 'Geheimtext',
-          deps: [11, 51],
-          html: `
-            <p>Unser Freund hat dir eine verschlüsselte Nachricht geschickt. Diese Nachricht hat er auf zwei Briefe aufgeteilt. Der erste Brief enthält folgenden Text:
-            </p>
-            
-            <pre class="my-4">JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC</pre>
-            
-            <p>Der zweite Brief enthält folgenden Hinweis:</p>
-            
-            <pre class="my-4">Geheim: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\nKlar:   W ? I E U ? Z V J D ? X ? M L Y K N ? B T S P G O ?</pre>
-            
-            <p>Anscheinend kann man mit diesen Angaben die Nachricht entziffern. Leider sind durch den Regen ein paar Buchstaben im zweiten Brief verwischt. Schaffst du es trotzdem, den Brief zu entschlüsseln?
-            </p>
-          `,
-          // Die Antwort auf deine Aufgabe lautet hammerhai
-          // JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC
-          // hidden: A -> F, C -> B, F -> Z, H -> S, R -> M
-          solution: 'hammerhai',
-        },*/
+            id: 20,
+            pos: { x: 160, y: 485 },
+            title: 'Geheimtext',
+            deps: [11, 51],
+            html: `
+              <p>Unser Freund hat dir eine verschlüsselte Nachricht geschickt. Diese Nachricht hat er auf zwei Briefe aufgeteilt. Der erste Brief enthält folgenden Text:
+              </p>
+              
+              <pre class="my-4">JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC</pre>
+              
+              <p>Der zweite Brief enthält folgenden Hinweis:</p>
+              
+              <pre class="my-4">Geheim: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\nKlar:   W ? I E U ? Z V J D ? X ? M L Y K N ? B T S P G O ?</pre>
+              
+              <p>Anscheinend kann man mit diesen Angaben die Nachricht entziffern. Leider sind durch den Regen ein paar Buchstaben im zweiten Brief verwischt. Schaffst du es trotzdem, den Brief zu entschlüsseln?
+              </p>
+            `,
+            // Die Antwort auf deine Aufgabe lautet hammerhai
+            // JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC
+            // hidden: A -> F, C -> B, F -> Z, H -> S, R -> M
+            solution: 'hammerhai',
+          },*/
 
   {
     id: 21,
@@ -920,36 +920,36 @@ module.exports = [
   },
 
   /*{
-          id: 22,
-          pos: { x: 845, y: 725 },
-          title: 'NoScript',
-          date: '2017-08-25',
-          deps: [81],
-          html: `
-            <p>Moderne Websiten enthalten nicht nur viele Texte und Bilder, sondern auch sehr viele interaktive Inhalte wie Animationen, Menüs, Widgets, ...
-            </p>
+            id: 22,
+            pos: { x: 845, y: 725 },
+            title: 'NoScript',
+            date: '2017-08-25',
+            deps: [81],
+            html: `
+              <p>Moderne Websiten enthalten nicht nur viele Texte und Bilder, sondern auch sehr viele interaktive Inhalte wie Animationen, Menüs, Widgets, ...
+              </p>
+              
+              <p>Ermöglicht werden diese interaktiven Inhalte durch JavaScript. Neben vielem Guten kann man damit aber auch einiges an Unsinn betreiben. Nehmen wir mal das Eingabefeld dieser Aufgabe: Das wurde leider mit JavaScript komplett lahmgelegt.
+              </p>
+              
+              <p>Die Antwort auf diese Aufgabe ist der Name für den standardisierten Sprachkern von JavaScript.
+              </p>
             
-            <p>Ermöglicht werden diese interaktiven Inhalte durch JavaScript. Neben vielem Guten kann man damit aber auch einiges an Unsinn betreiben. Nehmen wir mal das Eingabefeld dieser Aufgabe: Das wurde leider mit JavaScript komplett lahmgelegt.
-            </p>
-            
-            <p>Die Antwort auf diese Aufgabe ist der Name für den standardisierten Sprachkern von JavaScript.
-            </p>
-          
-            <script>
-              window.addEventListener('load', () => {
-                document.getElementById("challenge_submit").disabled = true
-                document.getElementById("challenge_form").onsubmit = e => {
-                  e.preventDefault()
-                }
-                document.getElementById("challenge_answer").onkeypress = function(e) {
-                  if (e.which == 13)
-                    return false
-                }
-              })
-            </script>
-          `,
-          solution: secrets('chal_22'),
-        },*/
+              <script>
+                window.addEventListener('load', () => {
+                  document.getElementById("challenge_submit").disabled = true
+                  document.getElementById("challenge_form").onsubmit = e => {
+                    e.preventDefault()
+                  }
+                  document.getElementById("challenge_answer").onkeypress = function(e) {
+                    if (e.which == 13)
+                      return false
+                  }
+                })
+              </script>
+            `,
+            solution: secrets('chal_22'),
+          },*/
 
   {
     id: 23,
@@ -1402,48 +1402,48 @@ module.exports = [
   },
 
   /*{
-          id: 34,
-          pos: { x: 550, y: 500 },
-          title: 'Taschenrechner IV',
-          date: '2017-09-01',
-          deps: [33],
-          html: `
-            <p>Diese Aufgabe basiert wieder auf dem ursprünglichen Taschenrechner von Teil 1 (d.h. mit allen Tasten). Diesmal soll die Zahl nicht von dir berechnet werden, sondern es ist die Reihenfolge der Tasten gesucht, die zum richtigen Ergebnis führt.
-            </p>
-            
-            <p>Schreibe die Tasten, die du am Taschenrechner drücken würdest, von links nach rechts mit Leerzeichen getrennt auf. So liefert z.B. die Eingabe "4 5 *" das Ergebnis 20 (Drücke zuerst 4, dann 5, dann die Maltaste). Entsprechend ergibt die Eingabe "4 dup *" das Ergebnis 16 und "1 2 3 drop +" das Ergebnis 3. Du kannst gerne zurückgehen und deine Eingabe am Rechner ausprobieren.
-            </p>
-            
-            <p>Gesucht ist ein Programm, das die Zahl 386 erzeugt.
-            </p>
-          `,
-          check: (answer) => {
-            const val = trinterpreter(answer)
-            return {
-              answer: val,
-              correct: val == '386',
-            }
+            id: 34,
+            pos: { x: 550, y: 500 },
+            title: 'Taschenrechner IV',
+            date: '2017-09-01',
+            deps: [33],
+            html: `
+              <p>Diese Aufgabe basiert wieder auf dem ursprünglichen Taschenrechner von Teil 1 (d.h. mit allen Tasten). Diesmal soll die Zahl nicht von dir berechnet werden, sondern es ist die Reihenfolge der Tasten gesucht, die zum richtigen Ergebnis führt.
+              </p>
+              
+              <p>Schreibe die Tasten, die du am Taschenrechner drücken würdest, von links nach rechts mit Leerzeichen getrennt auf. So liefert z.B. die Eingabe "4 5 *" das Ergebnis 20 (Drücke zuerst 4, dann 5, dann die Maltaste). Entsprechend ergibt die Eingabe "4 dup *" das Ergebnis 16 und "1 2 3 drop +" das Ergebnis 3. Du kannst gerne zurückgehen und deine Eingabe am Rechner ausprobieren.
+              </p>
+              
+              <p>Gesucht ist ein Programm, das die Zahl 386 erzeugt.
+              </p>
+            `,
+            check: (answer) => {
+              const val = trinterpreter(answer)
+              return {
+                answer: val,
+                correct: val == '386',
+              }
+            },
           },
-        },
-      
-        {
-          id: 35,
-          pos: { x: 675, y: 525 },
-          title: 'Taschenrechner V',
-          date: '2017-09-01',
-          deps: [34],
-          html: `
-            <p>Es ist ein Programm gesucht, das die Zahl 24 erzeugt. Diesmal sind allerdings nur die vier Befehle 1, 2, * und - erlaubt.
-            </p>
-          `,
-          check: (answer) => {
-            const val = trinterpreterstripped(answer)
-            return {
-              answer: val,
-              correct: val == '24',
-            }
-          },
-        },*/
+        
+          {
+            id: 35,
+            pos: { x: 675, y: 525 },
+            title: 'Taschenrechner V',
+            date: '2017-09-01',
+            deps: [34],
+            html: `
+              <p>Es ist ein Programm gesucht, das die Zahl 24 erzeugt. Diesmal sind allerdings nur die vier Befehle 1, 2, * und - erlaubt.
+              </p>
+            `,
+            check: (answer) => {
+              const val = trinterpreterstripped(answer)
+              return {
+                answer: val,
+                correct: val == '24',
+              }
+            },
+          },*/
 
   {
     id: 36,
@@ -2466,16 +2466,16 @@ module.exports = [
   },
 
   /*{
-          id: 54,
-          pos: { x: 255, y: 895 },
-          title: 'Quiz IV',
-          deps: [53],
-          html: `
-            <p>Doch noch nicht bereit dafür ...
-            </p>
-          `,
-          solution: '---',
-        },*/
+            id: 54,
+            pos: { x: 255, y: 895 },
+            title: 'Quiz IV',
+            deps: [53],
+            html: `
+              <p>Doch noch nicht bereit dafür ...
+              </p>
+            `,
+            solution: '---',
+          },*/
 
   {
     id: 55,
@@ -2784,24 +2784,25 @@ Doch ich spüre tiefes Beben.</i>
   },
 
   /*{
-          id: 61,
-          pos: { x: 1045, y: 660 },
-          title: 'Bunte Blöcke',
-          date: '2020-08-17',
-          deps: [81],
-          html: `
-            <p><img src="/chals/chal61.png" width=550></p>
-          `,
-          solution: secrets('chal_61'),
-        },*/
+            id: 61,
+            pos: { x: 1045, y: 660 },
+            title: 'Bunte Blöcke',
+            date: '2020-08-17',
+            deps: [81],
+            html: `
+              <p><img src="/chals/chal61.png" width=550></p>
+            `,
+            solution: secrets('chal_61'),
+          },*/
 
   {
     id: 62,
     pos: { x: 1130, y: 300 },
-    title: 'Datei',
+    title: { de: 'Datei', en: 'File' },
     date: '2020-08-17',
     deps: [37, 47],
-    html: `
+    html: {
+      de: `
       <p>Ich möchte dir sagen: Du bist wunderbar <3.
       </p>
       
@@ -2836,16 +2837,53 @@ Doch ich spüre tiefes Beben.</i>
         }
       </script>
     `,
+      en: `
+      <p>I want to tell you: you are wonderful <3.
+      </p>
+      
+      <p>With this prompt I generated an image to make the message more clear. You can download it here:
+      </p>
+      
+      <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
+      
+      <p>File name:<strong id="filename">picture.txt</strong> [<a href="#" onclick="changeName()">change</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Download</button>
+      </p>
+    
+      <p>There is something wrong with the file extension, you need to fix it before downloading. You can find the answer in the picture.
+      </p>
+      
+      
+      <script>
+        const filename = document.getElementById('filename')
+        
+        function download() {
+          fetch('/chals/chal62-en.data')
+            .then(response => response.blob())
+            .then(blob => {
+              const link = document.createElement("a");
+              link.href = URL.createObjectURL(blob);
+              link.download = filename.innerHTML;
+              link.click();
+          })
+        }
+        
+        function changeName() {
+          filename.innerHTML = prompt('New file name:', filename.innerHTML)
+        }
+      </script>
+    `,
+    },
     solution: secrets('chal_62'),
   },
 
   {
     id: 63,
     pos: { x: 1335, y: 650 },
-    title: 'Cheater',
+    title: { de: 'Cheater', en: 'Cheater' },
     date: '2020-08-17',
     deps: [38, 46, 80],
-    html: `
+    html: {
+      de: `
       <p>Anleitung: Klicke auf das Spielfeld. Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet.</p>
       
       <p>Du sieht die Antwort, sobald du 1000 Punkte erreichst. Das Spiel hat keine Cheats eingebaut - du musst es daher selber hacken.
@@ -3008,31 +3046,204 @@ PIXI.loader
     </script>
 
     `,
+      en: `
+      <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
+      
+      <p>You will see the answer as soon as you reach 1000 points. The game doesn't have any cheats built in - so you have to hack it yourself.
+      </p>
+      
+      <div id="game" tabindex="1"></div>
+      
+      <script src="/pixi.min.js"></script>
+      <script src="/chals/chal63/matter.js"></script>
+      
+      <button onclick="handleLeft()">Left</button>
+      <button onclick="handleUp()">Up</button>
+      <button onclick="handleRight()">Right</button>
+
+      <p><button onclick="update()" style="margin-top:20px">Update code</button></p>
+      
+      <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">if (app) app.ticker.stop();
+var app = new PIXI.Application(800,600,{backgroundColor:0x1099bb});
+document.getElementById('game').innerHTML = ''
+document.getElementById('game').appendChild(app.view);
+
+var engine = Matter.Engine.create(),
+world = engine.world;
+
+var WOOD = "/chals/chal63/holz.jpg"
+var BALL = "/chals/chal63/ball.png"
+
+PIXI.loader.reset()
+
+PIXI.loader
+.add(WOOD)
+.add(BALL)
+.load(() => {
+
+  var basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
+  window.basicText = basicText
+  basicText.x = 30
+  basicText.y = 90
+  
+  var woodTexture = PIXI.loader.resources[WOOD].texture
+  
+  function buildWoodBlock(x, y, w, h, id) {
+    var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
+    app.stage.addChild(block)
+    Matter.World.add(world, Matter.Bodies.rectangle(x+w/2, y+h/2, w, h, {isStatic:true, id}))
+    block.x = x
+    block.y = y
+  }
+  
+  buildWoodBlock(0, 570, 800, 30, 1)
+  buildWoodBlock(0, 170, 30, 400, 2)
+  buildWoodBlock(770, 170, 30, 400, 3)
+  buildWoodBlock(350,50,100,100, 4)
+  
+  
+  var ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
+  ball.x = 300
+  ball.y = 200
+  ball.width = 100
+  ball.height = 100
+  ball.anchor.set(0.5)
+  app.stage.addChild(ball)
+  
+  var border = undefined
+  
+  if (window.score === undefined) {
+    window.score = 0
+    basicText.text = window.score.toString()
+  }
+  
+  var circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
+  Matter.World.add(world, circle)
+  Matter.Events.on(engine, "collisionStart", data => {
+    if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
+      window.score = 0
+      basicText.text = window.score.toString()
+    }
+    else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined)
+        border = 2
+      
+      if (data.pairs[0].bodyA.id == border) {
+        window.score++
+        basicText.text = window.score.toString()
+        border = 3
+      }
+    }
+    else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined)
+        border = 3
+      
+      if (data.pairs[0].bodyA.id == border) {
+        window.score++
+        basicText.text = window.score.toString()
+        border = 2
+      }
+    }
+  })
+  
+  function handleUp() {
+    var angle = Math.random()*40-20-90
+    var r = angle/180*Math.PI
+    Matter.Body.applyForce(circle, circle.position, {x:Math.cos(r)*0.24,y:Math.sin(r)*0.24})
+  }
+  
+  function handleLeft() {
+    Matter.Body.applyForce(circle, circle.position, {x:-0.2,y:-0.05})
+  }
+  
+  function handleRight() {
+    Matter.Body.applyForce(circle, circle.position, {x:+0.2,y:-0.05})
+  }
+  
+  document.handleLeft = handleLeft
+  document.handleUp = handleUp
+  document.handleRight = handleRight
+  
+  
+  document.getElementById('game').onkeydown = (key) => {
+    if (key.keyCode == 38) {
+      handleUp()
+      key.preventDefault()
+    }
+    
+    if (key.keyCode == 37) {
+      handleLeft()
+      key.preventDefault()
+    }
+    
+    if (key.keyCode == 39) {
+      handleRight()
+      key.preventDefault()
+    }
+  }
+  
+  app.ticker.add(delta => {
+    Matter.Engine.update(engine)
+    ball.x = circle.position.x
+    ball.y = circle.position.y
+  })
+})
+</textarea></p>
+    
+    <script>
+      function update() {
+        eval(document.getElementById('code').value)
+      }
+      
+      function checkDone() {
+        if (window.score >= 1000) {
+          window.basicText.text = 'The answer is ' + (![]+[])[!+[]+!+[]+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]
+        }
+        setTimeout(checkDone, 10)
+      }
+      
+      window.onload = () => {
+        update()
+        checkDone()
+      }
+    </script>
+
+    `,
+    },
     solution: secrets('chal_63'),
   },
 
   {
     id: 64,
     pos: { x: 1155, y: 840 },
-    title: 'Eine Zeile Python',
+    title: { de: 'Eine Zeile Python', en: 'One Line of Python' },
     date: '2020-08-17',
     deps: [25, 86, 87],
-    html: `
+    html: {
+      de: `
       <p>Was ist die Ausgabe folgender Zeile?
       </p>
       
       <p><pre><code>print(sum([(x+1)*(x+1) for x in range(10)]))</pre></code></p>
     `,
+      en: `
+      <p>What is the output of the following line?
+      </p>
+        
+      <p><pre><code>print(sum([(x+1)*(x+1) for x in range(10)]))</pre></code></p>
+    `,
+    },
     solution: secrets('chal_64'),
   },
 
   {
     id: 65,
     pos: { x: 895, y: 555 },
-    title: 'Spielstand',
+    title: { de: 'Spielstand', en: 'Game Save' },
     date: '2021-03-19',
     deps: [81],
-    html: `
+    html: {
+      de: `
       <p>Die meisten Spiele speichern ihre Spielstände in einer verschlüsselten Form. Auch dieses kleine Spiel hier auf der Seite. Erreiche 999999 Gold und gibt deinen Spielstand als Antwort ein. Du kannst das Spiel spielen - oder es austricken.
       </p>
     
@@ -3051,6 +3262,26 @@ PIXI.loader
         }
       </script>
     `,
+      en: `
+        <p>Most games save their game states in an encrypted form. Even this little game here on the page. Reach 999999 gold and enter your game state as an answer. You can play the game — or trick it.
+        </p>
+        
+        <br /><br />
+        
+        <p>Your gold: <span id="gold-span">0</span><br /><button onclick="update()">Grind me!</button>
+        </p>
+        <p style="color:rgb(128,128,128)">Game state: <span id="score"></span>
+        </p>
+        <script>
+            function update() {
+                let gold = parseInt(document.getElementById('gold-span').innerHTML);
+                gold = gold + 1
+                document.getElementById('gold-span').innerHTML = gold.toString()
+                document.getElementById('score').innerHTML = btoa(JSON.stringify({gold:gold}))
+            }
+        </script>
+    `,
+    },
     check: (input) => {
       let answer = input
       let state = {}

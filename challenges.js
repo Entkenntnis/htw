@@ -4299,10 +4299,11 @@ PIXI.loader
   {
     id: 111,
     pos: { x: 380, y: 370 },
-    title: 'Taschenrechner II',
+    title: { de: 'Taschenrechner II', en: 'Calculator II' },
     date: '2023-05-13',
     deps: [110],
-    html: `
+    html: {
+      de: `
       <p>Berechne diesmal die Zahl <strong>10240</strong>.
       </p>
       
@@ -4336,6 +4337,41 @@ PIXI.loader
       
       <script src="/chals/chal110.js"></script>
     `,
+      en: `
+      <p>This time calculate the number <strong>10240</strong>.
+      </p>
+      
+      <div class="calculator">
+        <div class="calculator__display">0</div>
+
+        <div class="calculator__keys">
+          <button class="key--operator" data-action="add">+</button>
+          <button class="key--operator" data-action="subtract">-</button>
+          <button class="key--operator" data-action="multiply">&times;</button>
+          <button class="key--operator" data-action="divide">÷</button>
+          <button>7</button>
+          <button>8</button>
+          <button>9</button>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>0</button>
+          <button data-action="decimal">,</button>
+          <button data-action="clear">AC</button>
+          <button class="key--equal" data-action="calculate">=</button>
+        </div>
+      </div>
+      
+      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
+      
+      <link rel="stylesheet" href="/chals/chal110.css">
+      
+      <script src="/chals/chal110.js"></script>
+    `,
+    },
     solution: secrets('chal_111'),
     hidesubmit: true,
   },

@@ -3,7 +3,7 @@ document.getElementById('terminal').appendChild(terminal.html)
 terminal.setHeight("400px")
 
 const rng = new Math.seedrandom('hello.')
-const isGerman = navigator.language.startsWith("de")
+const isGerman = window.htw_locale === 'de'
 console.log('German ', isGerman)
 
 function randomUp() {

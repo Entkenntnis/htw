@@ -1636,6 +1636,9 @@ module.exports = [
       
       <script src="/seedrandom.min.js"></script>
       <script src="/chals/terminal.js"></script>
+      <script>
+        window.htw_locale = 'de'
+      </script>
       <script src="/chals/chal40.js"></script>
       
       <p>Beispiel: Tippe nacheinander die Befehle<br>
@@ -1677,6 +1680,9 @@ module.exports = [
       
       <script src="/seedrandom.min.js"></script>
       <script src="/chals/terminal.js"></script>
+      <script>
+        window.htw_locale = 'en'
+      </script>
       <script src="/chals/chal40.js"></script>
       
       <p>Example: Enter the following commands one after the other<br>

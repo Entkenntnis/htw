@@ -1589,7 +1589,7 @@ module.exports = [
       <p>Flags can have many meanings: They exist for countries and territories, but you can also use them as signals and alphabets. This potential is fully exploited in shipping.
       </p>
       
-      <p>Watch<a href="/chals/chal39.mp4">this video</a>. What word do the letters of the signal flags make?
+      <p>Watch <a href="/chals/chal39.mp4">this video</a>. What word do the letters of the signal flags make?
       </p>
       
       <small style="margin-top:48px;display:inline-block">Note: The answer is in German, but you don't need to understand it to solve the challenge.

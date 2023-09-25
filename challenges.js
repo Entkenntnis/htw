@@ -1051,7 +1051,7 @@ module.exports = [
       <p>When you zip a file, it becomes smaller and requires less space. When you zip it again, does it become even smaller?</p>
       </p>
       
-      <p>Let try it! I zipped the answer a bunch of times: This is the <a href="/chals/antwort25.zip">File</a>. In it, there is the answer to this challenge. And no: If you zip a file more than once, it becomes only bigger.
+      <p>Let's try it! I zipped the answer a bunch of times: This is the <a href="/chals/antwort25.zip">File</a>. In it, there is the answer to this challenge. And no: If you zip a file more than once, it becomes only bigger.
       </p>
       
       <small style="margin-top:48px;display:inline-block">Note: The word "antwort" means "answer" in german</small>
@@ -2274,7 +2274,7 @@ module.exports = [
       
       <p><img src="/chals/chal50.gif" alt="chal50"></p>
       
-      <p>The first letter of the text would be a D, and the last letter of the text would be an S.
+      <p>The first letter of the text would be a T, and the third letter of the text would be an E.
       </p>
     `,
     },

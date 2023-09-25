@@ -1157,12 +1157,12 @@ module.exports = [
          <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
        </div>
        
-       <p>Die Antwort zu dieser Aufgabe lautet<span id="solution"></span>.
+       <p>Die Antwort zu dieser Aufgabe lautet <span id="solution"></span>.
        </p>
        
        <script src="/chals/chal28.js"></script>
        <!--suppress JSDeprecatedSymbols -->
-       <script>document.getElementById("solution").innerHTML = ' ' + atob("TGl0ZmHfc+R1bGU=")</script>
+       <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
      `,
       en: `
       <p>Annoying advertising banners that block the content - who hasn't seen that? In this case too, an advertisement obscures the answer to the challenge.
@@ -1181,7 +1181,7 @@ module.exports = [
       
       <script src="/chals/chal28.js"></script>
       <!--suppress JSDeprecatedSymbols -->
-      <script>document.getElementById("solution").innerHTML = ' ' + atob("TGl0ZmHfc+R1bGU=")</script>
+      <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
     `,
     },
     solution: secrets('chal_28'),

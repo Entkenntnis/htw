@@ -3304,37 +3304,51 @@ PIXI.loader
   {
     id: 66,
     pos: { x: 100, y: 565 },
-    title: 'Matrix',
+    title: { de: 'Matrix', en: 'Matrix' },
     date: '2021-03-19',
     deps: [68],
-    html: `
+    html: {
+      de: `
       <p>Im Hintergrund der <a href="/chals/chal66/index.html" target="_blank">Matrix</a> ist ein Wort versteckt. Schaue genau hin und achte auf die Schatten.
       </p>
     `,
+      en: `
+      <p>There is a word hidden in the background of the <a href="/chals/chal66/index.html" target="_blank">Matrix</a>. Look closely and pay attention to the shadows.
+      </p>
+    `,
+    },
     solution: secrets('chal_66'),
   },
 
   {
     id: 67,
     pos: { x: 1255, y: 760 },
-    title: 'Anschlüsse',
+    title: { de: 'Anschlüsse', en: 'Ports' },
     date: '2021-03-19',
     deps: [87],
-    html: `
+    html: {
+      de: `
       <p>Verbinde die Adern in der richten Reihenfolge mit dem Stecker. Nutze dabei den Standard TIA-568B.</p>
     
       <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
     `,
+      en: `
+      <p>Connect the wires in the right order with the plug. Use the TIA-568B standard.</p>
+      
+      <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
+    `,
+    },
     solution: secrets('chal_67'),
   },
 
   {
     id: 68,
     pos: { x: 100, y: 400 },
-    title: 'Gemälde',
+    title: { de: 'Gemälde', en: 'Painting' },
     date: '2021-03-19',
     deps: [24],
-    html: `
+    html: {
+      de: `
       <p>Kunst überdauert Jahrhunderte - auch weil sie immer wieder neu interpretiert und überarbeitet wird.</p>
       
       <p>Dein Freund Normand zeigt dir stolz sein neustes Kunstwerk:
@@ -3398,16 +3412,82 @@ PIXI.loader
     
     <p>Die Umsetzung ist kreativ und modern, doch das Motiv selber ist schon sehr alt. In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
     `,
+      en: `
+      <p>Art lasts for centuries — also because it is constantly reinterpreted and revised.</p>
+      
+      <p>Your friend Normand proudly shows you his latest work of art:
+      </p>
+      
+      <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
+                            _,,ad8888888888bba,_
+                         ,ad88888I888888888888888ba,
+                       ,88888888I88888888888888888888a,
+                     ,d888888888I8888888888888888888888b,
+                    d88888PP"""" ""YY88888888888888888888b,
+                  ,d88"'__,,--------,,,,.;ZZZY8888888888888,
+                 ,8IIl'"                ;;l"ZZZIII8888888888,
+                ,I88l;'                  ;lZZZZZ888III8888888,
+              ,II88Zl;.                  ;llZZZZZ888888I888888,
+             ,II888Zl;.                .;;;;;lllZZZ888888I8888b
+            ,II8888Z;;                 \`;;;;;''llZZ8888888I8888,
+            II88888Z;'                        .;lZZZ8888888I888b
+            II88888Z; _,aaa,      .,aaaaa,__.l;llZZZ88888888I888
+            II88888IZZZZZZZZZ,  .ZZZZZZZZZZZZZZ;llZZ88888888I888,
+            II88888IZZ<'(@@>Z|  |ZZZ<'(@@>ZZZZ;;llZZ888888888I88I
+           ,II88888;   \`""" ;|  |ZZ; \`"""     ;;llZ8888888888I888
+           II888888l            \`;;          .;llZZ8888888888I888,
+          ,II888888Z;           ;;;        .;;llZZZ8888888888I888I
+          III888888Zl;    ..,   \`;;       ,;;lllZZZ88888888888I888
+          II88888888Z;;...;(_    _)      ,;;;llZZZZ88888888888I888,
+          II88888888Zl;;;;;' \`--'Z;.   .,;;;;llZZZZ88888888888I888b
+          ]I888888888Z;;;;'   ";llllll;..;;;lllZZZZ88888888888I8888,
+          II888888888Zl.;;"Y88bd888P";;,..;lllZZZZZ88888888888I8888I
+          II8888888888Zl;.; \`"PPP";;;,..;lllZZZZZZZ88888888888I88888
+          II888888888888Zl;;. \`;;;l;;;;lllZZZZZZZZW88888888888I88888
+          \`II8888888888888Zl;.    ,;;lllZZZZZZZZWMZ88888888888I88888
+           II8888888888888888ZbaalllZZZZZZZZZWWMZZZ8888888888I888888,
+           \`II88888888888888888b"WWZZZZZWWWMMZZZZZZI888888888I888888b
+            \`II88888888888888888;ZZMMMMMMZZZZZZZZllI888888888I8888888
+             \`II8888888888888888 \`;lZZZZZZZZZZZlllll888888888I8888888,
+              II8888888888888888, \`;lllZZZZllllll;;.Y88888888I8888888b,
+             ,II8888888888888888b   .;;lllllll;;;.;..88888888I88888888b,
+             II888888888888888PZI;.  .\`;;;.;;;..; ...88888888I8888888888,
+             II888888888888PZ;;';;.   ;. .;.  .;. .. Y8888888I88888888888b,
+            ,II888888888PZ;;'                        \`8888888I8888888888888b,
+            II888888888'                              888888I8888888888888888b
+           ,II888888888                              ,888888I88888888888888888
+          ,d88888888888                              d888888I8888888888ZZZZZZZ
+       ,ad888888888888I                              8888888I8888ZZZZZZZZZZZZZ
+     ,d888888888888888'                              888888IZZZZZZZZZZZZZZZZZZ
+   ,d888888888888P'8P'                               Y888ZZZZZZZZZZZZZZZZZZZZZ
+  ,8888888888888,  "                                 ,ZZZZZZZZZZZZZZZZZZZZZZZZ
+ d888888888888888,                                ,ZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+ 888888888888888888a,      _                    ,ZZZZZZZZZZZZZZZZZZZZ888888888
+ 888888888888888888888ba,_d'                  ,ZZZZZZZZZZZZZZZZZ88888888888888
+ 8888888888888888888888888888bbbaaa,,,______,ZZZZZZZZZZZZZZZ888888888888888888
+ 88888888888888888888888888888888888888888ZZZZZZZZZZZZZZZ888888888888888888888
+ 8888888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888
+ 888888888888888888888888888888888888888ZZZZZZZZZZZZZZ888888888888888888888888
+ 8888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888
+ 88888888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888888888888
+ 8888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888 Normand  88
+ 88888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888 Veilleux 88
+ 8888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888888</pre>
+    
+    <p>The implementation is creative and modern, but the motif itself is very old. What year was the artist of the original painting born?</p>
+    `,
+    },
     solution: secrets('chal_68'),
   },
 
   {
     id: 69,
     pos: { x: 330, y: 480 },
-    title: 'Schattenbilder',
+    title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
     date: '2021-03-19',
     deps: [18],
-    html: `
+    html: {
+      de: `
       <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
       </p>
       
@@ -3435,16 +3515,46 @@ PIXI.loader
           } )
       </script>
     `,
+      en: `
+      <p>I couldn't be so precise with the mouse because you have great sensitivity! The 6 images can be moved with the mouse. When placed one on top of the other, they provide the answer.
+      </p>
+      
+      <div style="display:flex;flex-wrap:wrap;">
+      <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
+      <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
+      <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
+      <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
+      <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
+      <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
+      </div>
+      
+      <script src="/jquery-3.6.0.js"></script>
+      <script src="/jquery-ui.js"></script>
+      
+      <style>
+        .draggable {
+          margin: 12px;
+        }
+      </style>
+      
+      <script>
+          $( function() {
+            $( ".draggable" ).draggable()
+          } )
+      </script>
+    `,
+    },
     solution: secrets('chal_69'),
   },
 
   {
     id: 70,
     pos: { x: 160, y: 485 },
-    title: 'Karol',
+    title: { de: 'Karol', en: 'Karol' },
     date: '2021-03-19',
     deps: [51, 68],
-    html: `
+    html: {
+      de: `
       <p>Wenn wir heute in einem LEGO-Wettbewerb gegeneinander antreten würde, dann hätte ich gegen dich keine Chance. Irgendwie war ich kreativer, als ich noch jung war.
       </p>
       
@@ -3461,6 +3571,34 @@ PIXI.loader
       
       <p>Die Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>
     `,
+      en: `
+      <p>If we competed against each other in a LEGO competition today, I wouldn't stand a chance against you. Somehow, I was more creative when I was young.
+      </p>
+      
+      <p>Luckily, programming doesn't require so much creativity, and you can focus more on problem-solving. Robot Karol tries to find a middle ground and connect to the LEGO world. You can find an online version of Robot Karol <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">here</a>.
+      </p>
+      
+      <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
+      </iframe>
+      
+      <p>Build the following code with Karol and run the program.
+      </p>
+      
+      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
+      
+      <p>The answer is the number of yellow tokens at the end.</p>
+      
+      <br />
+      <p>Note:</p>
+      <p>wiederhohle ... mal ≙ repeat ... times</p>
+      <p>schritt ≙ step</p>
+      <p>markeSetzen ≙ setMarker</p>
+      <p>wenn ... dann ≙ if ... than</p>
+      <p>istWand ≙ isWall</p>
+      <p>linksDrehen ≙ turnLeft</p>
+      <p>markeLöschen ≙ removeMarker</p>
+    `,
+    },
     solution: secrets('chal_70'), // link: https://karol.arrrg.de/?id=b5S45y9RF
   },
 

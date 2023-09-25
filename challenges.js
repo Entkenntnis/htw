@@ -3875,10 +3875,11 @@ PIXI.loader
   {
     id: 81,
     pos: { x: 785, y: 615 },
-    title: 'Formulare',
+    title: { de: 'Formulare', en: 'Forms' },
     date: '2022-12-28',
     deps: [30, 33, 60],
-    html: `
+    html: {
+      de: `
       <p>Unintuitive Formulare sind ein Schrecken für jeden Internetbenutzer. Zum Beispiel findest du die Antwort zu dieser Aufgabe in diesem viel zu kleinen Textfeld:</p>
       
       <p><input size="5" value="-> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> Die Antwort lautet ${secrets(
@@ -3903,6 +3904,32 @@ PIXI.loader
         return output
       })()}
     `,
+      en: `
+      <p>Unintuitive forms are a nightmare for every internet user. For example, you can find the answer to this task in this much too small text field:</p>
+      
+      <p><input size="5" value="-> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> The answer is ${secrets(
+        'chal_81'
+      )}"/>
+      </p>
+      
+      <p>Now we're getting to the fun part. Only one of the input fields works:</p>
+      
+      ${(() => {
+        let output = ''
+        for (let i = 0; i < 25; i++) {
+          output += `
+            <form autocomplete="off" method="post" id="challenge_form"${
+              i !== 18 ? ' action="/wrong_submit"' : ''
+            }>
+              <input id="challenge_answer" type="text" name="answer" style="height:32px">
+              <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+            </form>
+          `
+        }
+        return output
+      })()}
+    `,
+    },
     hidesubmit: true,
     solution: secrets('chal_81'),
   },
@@ -3910,15 +3937,19 @@ PIXI.loader
   {
     id: 84,
     pos: { x: 395, y: 200 },
-    title: 'Inception',
+    title: { de: 'Inception', en: 'Inception' },
     date: '2023-02-26',
     deps: [4, 5],
     render: ({ req }) => {
-      function renderFrame(w, h, level) {
+      function renderFrame(w, h, level, lang) {
         return `
           <iframe src="/challenge/84/?level=${level}" width="${w}" height="${h}" id="if" style="display:none"></iframe>
           
-          <button onclick="run()" id="bt" style="margin-top:16px">Stufe ${level} betreten</button>
+          ${
+            lang === 'de'
+              ? `<button onclick="run()" id="bt" style="margin-top:16px">Stufe ${level} betreten</button>`
+              : `<button onclick="run()" id="bt" style="margin-top:16px">Entered ${level} level</button>`
+          }
           
           <script>
             function run() {
@@ -3930,9 +3961,9 @@ PIXI.loader
           </script>
         `
       }
-
-      if (!req.query.level) {
-        return `
+      if (req.lng === 'de') {
+        if (!req.query.level) {
+          return `
           <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet. Anyway, du siehst heute traumhaft gut aus, besser noch als diese Schauspieler hier:</p>
         
           <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
@@ -3945,12 +3976,12 @@ PIXI.loader
           
           ${renderFrame(1110, 700, 1)}
         `
-      }
+        }
 
-      const level = parseInt(req.query.level)
+        const level = parseInt(req.query.level)
 
-      if (level === 1) {
-        return `
+        if (level === 1) {
+          return `
           <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px" alt="inception">
           
           <p>Eine Webseite innerhalb einer Webseite. Es geht noch mehr, gehe tiefer:</p>
@@ -3963,10 +3994,10 @@ PIXI.loader
           
           ${renderFrame(1000, 500, 2)}
         `
-      }
+        }
 
-      if (level === 2) {
-        return `
+        if (level === 2) {
+          return `
            <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
           
           <p>Die Antwort findest du auf der untersten Stufe.</p>
@@ -3979,10 +4010,10 @@ PIXI.loader
           
           ${renderFrame(900, 400, 3)}
         `
-      }
+        }
 
-      if (level === 3) {
-        return `
+        if (level === 3) {
+          return `
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
           
           <p>Die Antwort lautet ${secrets('chal_84')}.</p>
@@ -3993,9 +4024,76 @@ PIXI.loader
             }, 100)
           </script>
         `
-      }
+        }
 
-      return ''
+        return ''
+      } else {
+        if (!req.query.level) {
+          return `
+          <p>Did you sleep well yesterday? I hope you didn't meet any strange people in your dream. Anyway, you look amazing today, even better than these actors here:</p>
+        
+          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
+        
+          <p>In the film Inception, dreams are created again within dreams. What the film does, computer science can do too. You can embed another website within a website.
+          </p>
+          
+          <p>Scroll through all the pages until you reach the lowest level. There you will find the answer.
+          </p>
+          
+          ${renderFrame(1110, 700, 1)}
+        `
+        }
+
+        const level = parseInt(req.query.level)
+
+        if (level === 1) {
+          return `
+          <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px" alt="inception">
+          
+          <p>A website within a website. There's more, go deeper:</p>
+          
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+          
+          ${renderFrame(1000, 500, 2)}
+        `
+        }
+
+        if (level === 2) {
+          return `
+           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
+          
+          <p>You will find the answer on the lowest level.</p>
+          
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+          
+          ${renderFrame(900, 400, 3)}
+        `
+        }
+
+        if (level === 3) {
+          return `
+          <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
+          
+          <p>The answer is ${secrets('chal_84')}.</p>
+          
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+        `
+        }
+
+        return ''
+      }
     },
     solution: secrets('chal_84'),
   },
@@ -4003,10 +4101,11 @@ PIXI.loader
   {
     id: 86,
     pos: { x: 965, y: 766 },
-    title: 'Fragil',
+    title: { de: 'Fragil', en: 'Fragile' },
     date: '2023-04-02',
     deps: [81],
-    html: `
+    html: {
+      de: `
       <p>Diese Seite ist leicht zerbrechlich. Probiere es aus: Du kannst alle Inhalte verändern.</p>
       
       <p>Ein kleiner Auftrag: Ändere den Slogan zu "Schau, was ich alles kann!"
@@ -4036,16 +4135,48 @@ PIXI.loader
         }
       </script>
     `,
+      en: `
+      <p>This site is easily fragile. Try it out: You can edit all content.</p>
+      
+      <p>A small task: change the slogan to "Look what I can do!"
+      </p>
+      
+      <p id="output">&nbsp;</p>
+      
+      <script>
+        document.documentElement.contentEditable = true
+          document.body.spellcheck = false
+        setTimeout(() => {
+          document.getElementById('challenge_form').contentEditable = false
+          check()
+        }, 100)
+        
+        function check() {
+          const lead = document.querySelector('p[class="lead"]')
+          if (lead) {
+            if (lead.textContent.trim().toLowerCase() === 'look what i can do!') {
+              document.getElementById('output').innerHTML = 'The answer is ' + atob('${Buffer.from(
+                secrets('chal_86')
+              ).toString('base64')}') + '.'
+              return // don't run check anymore
+            }
+          }
+          setTimeout(check, 500)
+        }
+      </script>
+    `,
+    },
     solution: secrets('chal_86'),
   },
 
   {
     id: 87,
     pos: { x: 1045, y: 660 },
-    title: 'Scratch',
+    title: { de: 'Scratch', en: 'Scratch' },
     date: '2023-04-02',
     deps: [81],
-    html: `
+    html: {
+      de: `
       <p>Du hast eine wunderbar entspannte Aura! Das hat mich inspiriert, dieses kleine entspannte Spiel zu entwickeln.
       </p>
       
@@ -4057,16 +4188,30 @@ PIXI.loader
       <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
       </p>
     `,
+      en: `
+        <p>You have a wonderfully relaxed aura! That inspired me to develop this little relaxed game.
+        </p>
+        
+        <p>Control with the <code>arrow keys</code>.
+        </p>
+        
+        <iframe src="https://scratch.mit.edu/projects/898484613/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
+        
+        <p style="margin-top:12px">Is it too slow for you? Look into the project: <a href="https://scratch.mit.edu/projects/898484613/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
+        </p>
+    `,
+    },
     solution: secrets('chal_87'),
   },
 
   {
     id: 110,
     pos: { x: 300, y: 310 },
-    title: 'Taschenrechner',
+    title: { de: 'Taschenrechner', en: 'Calculator' },
     date: '2023-05-13',
     deps: [4],
-    html: `
+    html: {
+      de: `
       <p>Schwierigkeiten halten dich nicht von deinen Zielen ab. Im Gegenteil: Du nutzt deine Kreativität, um die Herausforderung zu lösen.
       </p>
       
@@ -4106,6 +4251,47 @@ PIXI.loader
       
       <script src="/chals/chal110.js"></script>
     `,
+      en: `
+      <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
+      </p>
+      
+      <p>Here is a calculator from a tutorial. I followed the tutorial, but I must have made a mistake somewhere — you can't enter multi-digit numbers.
+      </p>
+      
+      <p>Your creativity is now required. Calculate the number <strong>256</strong> and submit the result.
+      </p>
+      
+      <div class="calculator">
+        <div class="calculator__display">0</div>
+
+        <div class="calculator__keys">
+          <button class="key--operator" data-action="add">+</button>
+          <button class="key--operator" data-action="subtract">-</button>
+          <button class="key--operator" data-action="multiply">&times;</button>
+          <button class="key--operator" data-action="divide">÷</button>
+          <button>7</button>
+          <button>8</button>
+          <button>9</button>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>0</button>
+          <button data-action="decimal">,</button>
+          <button data-action="clear">AC</button>
+          <button class="key--equal" data-action="calculate">=</button>
+        </div>
+      </div>
+      
+      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
+      
+      <link rel="stylesheet" href="/chals/chal110.css">
+      
+      <script src="/chals/chal110.js"></script>
+    `,
+    },
     solution: secrets('chal_110'),
     hidesubmit: true,
   },

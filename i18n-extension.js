@@ -194,7 +194,7 @@ module.exports = (config) => {
       
       <h3 class="my-4">Account data</h3>
       
-      <p>Your username is publicly displayed in the highscore and possibly on the homepage. The timestamp of your last activity on the platform is recorded and also displayed. Additionally, for each task, it is visible how many users have already solved it (without reference to individual users). You have the option to completely delete your account at any time in your profile. The operator reserves the right to modify or delete accounts without prior notice.
+      <p>Your username is publicly displayed in the highscore and possibly on the homepage. The timestamp of your last activity on the platform is recorded and also displayed. Additionally, for each task, it is visible how many users have already solved it (without a reference to individual users). You have the option to completely delete your account at any time in your profile. The operator reserves the right to modify or delete accounts without a prior notice.
       </p>
       
       <h3 class="my-4">Hosting</h3>
@@ -258,7 +258,7 @@ module.exports = (config) => {
     value: `
       <p>You have successfully completed the session. Your 30 minutes are now over.</p>
       
-      <p>Click OK to save your result in the highscore. After that your account will be switched to free mode. You can continue working on the tasks - without any time pressure.</p>
+      <p>Click OK to save your result in the highscore. After that, your account will be switched to free mode. You can continue working on the tasks without any time pressure.</p>
       
       <p>Thank you for participating. We wish you all the best for your future as a hacker!</p>
     `,
@@ -300,14 +300,14 @@ module.exports = (config) => {
       <p>Das Ziel ist erreicht! Hack The Web hat nun genau 100 Aufgaben. Damit gehe ich wohlverdient in die Sommerpause.
       </p>
       
-      <p>Danke für's Mitmachen und wir sehen uns bald wieder!
+      <p>Danke fürs Mitmachen und wir sehen uns bald wieder!
       </p>
       
       <div class="my-5"></div>
       
       <h3>HTW100</h3>
         
-      <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwoch Abend und jeden Samstag Abend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
+      <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwochabend und jeden Samstagabend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
       </p>
     
       <div class="my-5"></div>
@@ -339,7 +339,7 @@ module.exports = (config) => {
       <p>Vielen Dank an die vielen Spieler*innen und an die Lehrkräfte, die Hack The Web regelmäßig im Klassenzimmer einsetzen! Am 21. Oktober 2022 ist die Plattform offiziell 5 Jahre alt geworden und in dieser Zeit ordentlich gewachsen. Es ist mir eine große Ehre, euch diese Plattform anzubieten und ich freue mich, euch mit weiteren Updates und neuen Aufgaben in die Welt der Hacker*innen einführen zu dürfen.
       </p>
       
-      <p>Zum neuen Jahr gibt es also wieder 3 neue Aufgaben, zwei existierende Aufgaben (darunter das Finale) erhalten ebenfalls einen neuen Anstrich. Frohes Hacken an Alle!</p>
+      <p>Zum neuen Jahr gibt es also wieder 3 neue Aufgaben, zwei existierende Aufgaben (darunter das Finale) erhalten ebenfalls einen neuen Anstrich. Frohes Hacken an alle!</p>
       
       <p>Üblicher Hinweis: eine Aufgabe verschiebt sich, daher passen sich die Punktzahlen minimal an. Es gibt wieder eine neue Höchstpunktzahl.
       </p>
@@ -378,7 +378,7 @@ module.exports = (config) => {
       </p>
       
       <ul>
-        <li>Die Highscore lässt sich nun sortieren. Es gibt drei Optionen: Nach Punktzahl (wie bisher), nach Punktzahl der aktiven Benutzer des letzten Monats und nach dem Zeitpunkt der letzten Aktivität. Damit bekommt man eine bessere Übersicht, was aktuell auf der Plattform passiert.</li>
+        <li>Die Highscore lässt sich nun sortieren. Es gibt drei Optionen: nach Punktzahl (wie bisher), nach Punktzahl der aktiven Benutzer des letzten Monats und nach dem Zeitpunkt der letzten Aktivität. Damit bekommt man eine bessere Übersicht, was aktuell auf der Plattform passiert.</li>
         <li>Im Profil wird nun der aktuelle (globale) Platz und die zuletzt gelöste Aufgabe angezeigt.</li>
         <li>Einige Aufgaben wurden überarbeitet und verbessert.</li>
         <li>Auf der Community-Seite sind ein paar neue Hinweise hinzugekommen.</li>
@@ -402,7 +402,7 @@ module.exports = (config) => {
       <p>Sei bereit für das große Finale! Mit diesem Update gibt es sieben neue Aufgaben und die Karte wird damit vervollständigt.
       </p>
       
-      <p>Außerdem wird das Punktesystem fairer gemacht: Der Zeitbonus entfällt, dafür werden die Punkte anhand der Schwierigkeit der Aufgaben bestimmt. Je weiter entfernt eine Aufgabe vom Start liegt, umso mehr Punkte gibt es. Es gilt die Formel: Punktzahl = 10 + (minimale Anzahl Kanten zum Start). Damit spiegeln die Punkte besser die Arbeit wieder, die man in die Aufgaben gesteckt hat.
+      <p>Außerdem wird das Punktesystem fairer gemacht: Der Zeitbonus entfällt, dafür werden die Punkte anhand der Schwierigkeit der Aufgaben bestimmt. Je weiter entfernt eine Aufgabe vom Start liegt, umso mehr Punkte gibt es. Es gilt die Formel: Punktzahl = 10 + (minimale Anzahl Kanten zum Start). Damit spiegeln die Punkte besser die Arbeit wider, die man in die Aufgaben gesteckt hat.
       </p>
       
       <div class="my-5"></div>
@@ -416,7 +416,7 @@ module.exports = (config) => {
     
       <h3>Juni 2020</h3>
       
-      <p>Nach mehr als einem Jahr Inaktivität gibt es endlich ein Update: Neue Aufgaben, neue Funktionen und Open Source! Die Änderungen im Detail:
+      <p>Nach mehr als einem Jahr Inaktivität gibt es endlich ein Update: neue Aufgaben, neue Funktionen und Open Source! Die Änderungen im Detail:
       </p>
       
       <ul>
@@ -464,7 +464,7 @@ module.exports = (config) => {
       
       <h3>HTW100</h3>
       
-      <p>In the next few weeks there will be regular updates for the first time over a longer period of time. Every Wednesday evening and every Saturday evening a new challenge will be unlocked in the area after the passage. It starts tomorrow evening (April 5th), the goal is reached when the 100th challenge is unlocked, which should be around mid-June.
+      <p>In the next few weeks, there will be regular updates for the first time over a longer period of time. Every Wednesday evening and every Saturday evening a new challenge will be unlocked in the area after the passage. It starts tomorrow evening (April 5th); the goal is reached when the 100th challenge is unlocked, which should be around mid-June.
       </p>
       
       <div class="my-5"></div>
@@ -474,7 +474,7 @@ module.exports = (config) => {
       <p>I am super grateful for the large community that now plays Hack The Web every day. Thank you! You motivate me to keep working on the platform, fixing bugs and creating new challenges.
       </p>
       
-      <p>With this version I will now also release the <a href="https://github.com/Entkenntnis/htw">source code for the server</a>. With this I want to make sure that Hack The Web can be used in the future, even if this server is no longer available. Instructions are included.
+      <p>With this version, I will now also release the <a href="https://github.com/Entkenntnis/htw">source code for the server</a>. With this, I want to make sure that Hack The Web can be used in the future, even if this server is no longer available. Instructions are included.
       </p>
       
       <p>Otherwise, there will be some improvements to the existing challenges in the next few weeks. The map gets a small color update for the first time.
@@ -496,7 +496,7 @@ module.exports = (config) => {
       <p>Many thanks to the many players and teachers who regularly use Hack The Web in the classroom! On October 21, 2022, the platform officially turned 5 years old and has grown considerably in that time. It is a great honor for me to offer you this platform, and I am happy to introduce you to the world of hackers with further updates and new challenges.
       </p>
       
-      <p>So for the new year there are 3 new challenges again, two existing challenges (including the final) also get a new look. Happy hacking to everyone!</p>
+      <p>So for the new year, there are three new challenges again, two existing challenges (including the final) also get a new look. Happy hacking to everyone!</p>
       
       <p>Usual note: one challenge is replaced, so the scores change slightly. There is a new high score again.
       </p>
@@ -505,7 +505,7 @@ module.exports = (config) => {
       
       <h3>August 2022</h3>
       
-      <p>In the last few months there has been a lot of feedback on the challenges. As part of the regular maintenance, all challenges were checked again and improved in almost a third of them.
+      <p>In the last few months, there has been a lot of feedback on the challenges. As part of the regular maintenance, all challenges were checked again and improved in almost a third of them.
       </p>
       
       <div class="my-5"></div>
@@ -524,7 +524,7 @@ module.exports = (config) => {
       
       <h3>February 2022</h3>
       
-      <p>The journey continues! Behind the final there are now six new challenges. For the first time, a score in the four-digit range can be achieved.
+      <p>The journey continues! Behind the final, there are now six new challenges. For the first time, a score in the four-digit range can be achieved.
       </p>
       
       <p>There are also two new challenges in the starting area. A few existing challenges change their places. As a result, the scores change slightly.
@@ -534,11 +534,11 @@ module.exports = (config) => {
       
       <h3>July 2021</h3>
       
-      <p>This update brings some improvements to the "Quality of Service". These include:
+      <p>This update brings some improvements to the "Quality of Service" These include:
       </p>
       
       <ul>
-        <li>The high score can now be sorted. There are three options: by score (as before), by score of the active users of the last month and by the time of the last activity. This gives you a better overview of what is currently happening on the platform.</li>
+        <li>The high score can now be sorted. There are three options: by score (as before), by score of the active users from the last month and by the time of the last activity. This gives you a better overview of what is currently happening on the platform.</li>
         <li>The profile now shows the current (global) rank and the last solved challenge.</li>
         <li>Some challenges have been revised and improved.</li>
         <li>There are a few new hints on the community page.</li>
@@ -549,7 +549,7 @@ module.exports = (config) => {
       
       <h3>April 2021</h3>
       
-      <p>There is another update with six new challenges, four old challenges retire for it. The scores have been adjusted accordingly - there is now a new possible high score.
+      <p>There is another update with six new challenges, four old challenges retire for it. The scores have been adjusted accordingly — there is now a new possible high score.
       </p>
       
       <p>Another addition: There is now a <a href="https://de.serlo.org/200247" target="_blank">community page</a> with hints about the challenges and further background information.
@@ -559,7 +559,7 @@ module.exports = (config) => {
       
       <h3>September 2020</h3>
       
-      <p>Be ready for the big finale! With this update there are seven new challenges and the map is complete.
+      <p>Be ready for the big finale! With this update, there are seven new challenges and the map is complete.
       </p>
       
       <p>In addition, the scoring system is made fairer: The time bonus is eliminated, instead the points are determined based on the difficulty of the challenges. The further away a challenge is from the start, the more points there are. The formula is: score = 10 + (minimum number of edges to the start). This better reflects the work that has been put into the challenges.
@@ -580,13 +580,13 @@ module.exports = (config) => {
       </p>
       
       <ul>
-        <li>15 new challenges are added to the existing 35 challenges and hopefully provide even more fun and challenge.
+        <li>Fifteen new challenges are added to the existing 35 challenges and hopefully provide even more fun and challenge.
         </li>
         <li>The 30-minute session mode is now available to everyone and makes it easier to participate as a group or class: create your own room and join via the room key.
         </li>
         <li>Registered users can change their password. Accounts can also be deleted manually.
         </li>
-        <li>The platform of Hack The Web is now available as an open source project on GitHub: <a href="https://github.com/Entkenntnis/challenges-server" target="_blank">github.com/Entkenntnis/challenges-server</a>. This makes it possible to build your own variants of challenge websites.
+        <li>The platform of Hack The Web is now available as an open-source project on GitHub: <a href="https://github.com/Entkenntnis/challenges-server" target="_blank">github.com/Entkenntnis/challenges-server</a>. This makes it possible to build your own variants of challenge websites.
         </li>
       </ul>
       
@@ -648,7 +648,7 @@ module.exports = (config) => {
       
       <p><a href="https://www.lmz-bw.de/medienbildung/medienbildung-an/weiterfuehrende-schulen/mint-portal/informatik/mint-machen-informatik" target="_blank">Landesmedienzentrum Baden-Württemberg - MINT machen - Informatik</a></p>
       
-      <p><a href="https://www.lmz-bw.de/medienbildung/medienbildung-an/weiterfuehrende-schulen/mint-portal/informatik/3x3-mediendossiers/kryptografie" target="_blank">Landesmedienzentrum Baden-Württemberg - Kryptographie</a></p>
+      <p><a href="https://www.lmz-bw.de/medienbildung/medienbildung-an/weiterfuehrende-schulen/mint-portal/informatik/3x3-mediendossiers/kryptografie" target="_blank">Landesmedienzentrum Baden-Württemberg - Kryptografie</a></p>
       
       <p><a href="https://www.bildungsserver.de/Informatik-3727-de.html" target="_blank">Deutscher Bildungsserver - Informatik - Arbeitsblätter und weitere Unterrichtsmaterialen für die Sekundarstufe</a></p>
       
@@ -667,7 +667,7 @@ module.exports = (config) => {
             
       <h3 class="mb-4">Source Code</h3>
       
-      <p>The engine behind this website is available as an open source project. This makes it possible to develop your own projects on this basis:</p>
+      <p>The engine behind this website is available as an open-source project. This makes it possible to develop your own projects on this basis:</p>
       
       <p><a href="https://github.com/Entkenntnis/challenges-server" target="_blank">GitHub: Entkenntnis/challenges-server</a></p>
       
@@ -730,7 +730,7 @@ module.exports = (config) => {
       <div class="my-5"></div>
       
       <p>
-        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" width="300px"></a>
+        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px" alt="discord"></a>
       </p>
       
       <p>Schaue auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei. Dort kannst du Fragen stellen und dich mit anderen Hacker*innen austauschen.
@@ -740,7 +740,7 @@ module.exports = (config) => {
       <div class="my-5"></div>
       
       <p>
-        <a href="https://de.serlo.org/informatik/200247/hack-the-web" target="_blank"><img src="/info.png" width="400px"></a>
+        <a href="https://de.serlo.org/informatik/200247/hack-the-web" target="_blank"><img src="/info.png" style="max-width: 400px" alt="info"></a>
       </p>
       
       <p>Auf der <a href="https://de.serlo.org/informatik/200247/hack-the-web" target="_blank">Info-Seite</a> findest du Antworten auf die häufigsten Fragen.
@@ -749,7 +749,7 @@ module.exports = (config) => {
       <div class="my-5"></div>
       
       <p>
-        <img src="/mail.png" style="margin-left:-12px;">
+        <img src="/mail.png" style="margin-left:-12px;" alt="mail">
       </p>
       
       <p>Du kannst mir auch jederzeit direkt per Mail schreiben. Ich antworte auf alle Anfragen.
@@ -781,7 +781,7 @@ module.exports = (config) => {
       <div class="my-5"></div>
       
       <p>
-          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" width="300px" alt="discord"></a>
+          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px" alt="discord"></a>
       </p>
       
       <p>Join our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>. There you can ask questions and exchange ideas with other hackers.
@@ -791,7 +791,7 @@ module.exports = (config) => {
       <div class="my-5"></div>
       
       <p>
-          <a href="https://de.serlo.org/informatik/200247/hack-the-web" target="_blank"><img src="/info.png" width="400px" alt="info"></a>
+          <a href="https://de.serlo.org/informatik/200247/hack-the-web" target="_blank"><img src="/info.png" style="max-width: 400px" alt="info"></a>
       </p>
       
       <p>On the <a href="https://de.serlo.org/informatik/200247/hack-the-web" target="_blank">info page</a> you will find answers to the most frequently asked questions.

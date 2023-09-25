@@ -16,7 +16,7 @@ const upload = multer({
 
 const PNG = require('pngjs').PNG
 const jsQR = require('jsqr')
-var escape = require('escape-html')
+const escape = require('escape-html')
 
 const mazeStr = `
 xxxxxxxxxxxxxxxxxxxxxxx
@@ -48,7 +48,7 @@ const maze = mazeStr
 
 const mazeStart = { x: 13, y: 15 }
 
-const mazeMessages = {
+const mazeMessagesDe = {
   1: 'Das ist der Eingang zum Labyrinth.',
   2: '"Ganz schön dunkel hier drinnen."',
   3: '"Was ich hier wohl finden werde?"',
@@ -64,6 +64,23 @@ const mazeMessages = {
   D: 'Das ist eine Sackgasse.',
   E: 'Du hast ein gutes Gefühl.',
   F: `Dein Schatz: Die Antwort lautet ${secrets('chal_72')}.`,
+}
+const mazeMessagesEn = {
+  1: 'This is the entrance to the labyrinth.',
+  2: '"It\'s pretty dark in here."',
+  3: '"What will I find here?"',
+  4: '"Yuck, a rat."',
+  5: '"I wish you could see further."',
+  6: 'You find an empty soda can. This is probably a dead end.',
+  7: 'Somehow you have a bad feeling.',
+  8: 'You hear a quiet beep.',
+  9: '“Am I running in circles here?”',
+  A: "It's dripping from the ceiling.",
+  B: 'You see some cobwebs.',
+  C: 'You find an old newspaper from 1995. Creepy.',
+  D: 'This is a dead end.',
+  E: 'You have a good feeling.',
+  F: `Your tresure: The answer is${secrets('chal_72')}.`,
 }
 
 const orakelMsg = [
@@ -83,81 +100,116 @@ module.exports = function (App) {
   })
 
   App.express.get('/chal/maze', (req, res) => {
-    if (!req.session || !req.session.userId) return res.send('Bitte einloggen.')
+    if (!req.session || !req.session.userId)
+      return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     if (!req.session.maze) {
       req.session.maze = { x: mazeStart.x, y: mazeStart.y }
     }
     const pos = req.session.maze
     const key = maze[pos.y][pos.x]
 
-    if (key == 'x' || key === undefined)
+    if (key === 'x' || key === undefined)
       return res.redirect('/chal/maze/giveup') // something went wrong
 
     let message = ''
 
-    if (key == 'd') {
+    if (key === 'd') {
       req.session.maze = undefined
-      return res.send(
-        '<p>Arrrrg! Du bist gestorben!</p><p><a href="maze">erneut versuchen</a></p>'
-      )
+      if (req.lng === 'de') {
+        return res.send(
+          '<p>Arrrrg! Du bist gestorben!</p><p><a href="/chal/maze">erneut versuchen</a></p>'
+        )
+      } else {
+        return res.send(
+          '<p>Arrrrg! You died!</p><p><a href="/chal/maze">try again</a></p>'
+        )
+      }
     }
 
+    const mazeMessages = req.lng === 'de' ? mazeMessagesDe : mazeMessagesEn
     if (mazeMessages[key]) message = mazeMessages[key]
 
-    if (!message) message = 'Hier ist nichts zu sehen.'
+    if (!message)
+      message =
+        req.lng === 'de'
+          ? 'Hier ist nichts zu sehen.'
+          : 'There is nothing to see here.'
 
-    let goto = 'Gehe nach: '
+    let goto = req.lng === 'de' ? 'Gehe nach: ' : 'Go to: '
 
-    if (maze[pos.y][pos.x + 1] != 'x') goto += '<a href="maze/east">Osten</a> '
-    if (maze[pos.y + 1][pos.x] != 'x') goto += '<a href="maze/south">Süden</a> '
-    if (maze[pos.y][pos.x - 1] != 'x') goto += '<a href="maze/west">West</a> '
-    if (maze[pos.y - 1][pos.x] != 'x') goto += '<a href="maze/north">Nord</a> '
+    if (maze[pos.y][pos.x + 1] !== 'x')
+      goto +=
+        req.lng === 'de'
+          ? '<a href="maze/east">Osten</a> '
+          : '<a href="maze/east">East</a> '
+    if (maze[pos.y + 1][pos.x] !== 'x')
+      goto +=
+        req.lng === 'de'
+          ? '<a href="maze/south">Süden</a> '
+          : '<a href="maze/south">South</a> '
+    if (maze[pos.y][pos.x - 1] !== 'x')
+      goto +=
+        req.lng === 'de'
+          ? '<a href="maze/west">West</a> '
+          : '<a href="maze/west">West</a> '
+    if (maze[pos.y - 1][pos.x] !== 'x')
+      goto +=
+        req.lng === 'de'
+          ? '<a href="maze/north">Nord</a> '
+          : '<a href="maze/north">North</a> '
 
     let giveup =
-      '<p><a href="maze/giveup" style="font-size:0.75em">Aufgeben</a></p>'
+      req.lng === 'de'
+        ? '<p><a href="maze/giveup" style="font-size:0.75em">Aufgeben</a></p>'
+        : '<p><a href="maze/giveup" style="font-size:0.75em">Give up</a></p>'
 
-    if (key == '1') giveup = ''
+    if (key === '1') giveup = ''
     return res.send(`<p>${message}</p><p>${goto}</p>${giveup}`)
   })
 
   App.express.get('/chal/maze/east', (req, res) => {
-    if (!req.session || !req.session.userId) return res.send('Bitte einloggen.')
+    if (!req.session || !req.session.userId)
+      return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
-    if (pos && maze[pos.y][pos.x + 1] != 'x') {
+    if (pos && maze[pos.y][pos.x + 1] !== 'x') {
       req.session.maze.x++
     }
     return res.redirect('/chal/maze')
   })
 
   App.express.get('/chal/maze/south', (req, res) => {
-    if (!req.session || !req.session.userId) return res.send('Bitte einloggen.')
+    if (!req.session || !req.session.userId)
+      return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
-    if (pos && maze[pos.y + 1][pos.x] != 'x') {
+    if (pos && maze[pos.y + 1][pos.x] !== 'x') {
       req.session.maze.y++
     }
     return res.redirect('/chal/maze')
   })
 
   App.express.get('/chal/maze/west', (req, res) => {
-    if (!req.session || !req.session.userId) return res.send('Bitte einloggen.')
+    if (!req.session || !req.session.userId)
+      return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
-    if (pos && maze[pos.y][pos.x - 1] != 'x') {
+    if (pos && maze[pos.y][pos.x - 1] !== 'x') {
       req.session.maze.x--
     }
     return res.redirect('/chal/maze')
   })
 
   App.express.get('/chal/maze/north', (req, res) => {
-    if (!req.session || !req.session.userId) return res.send('Bitte einloggen.')
+    if (!req.session || !req.session.userId)
+      return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
-    if (pos && maze[pos.y - 1][pos.x] != 'x') {
+    if (pos && maze[pos.y - 1][pos.x] !== 'x') {
       req.session.maze.y--
     }
     return res.redirect('/chal/maze')
   })
 
   App.express.get('/chal/maze/giveup', (req, res) => {
-    if (!req.session || !req.session.userId) return res.send('Bitte einloggen.')
+    if (!req.session || !req.session.userId)
+      return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     if (req.session.maze) {
       req.session.maze = { x: mazeStart.x, y: mazeStart.y }
     }
@@ -202,7 +254,7 @@ module.exports = function (App) {
     // Check if request has authorization header
     if (!req.headers.authorization)
       return res.status(401).send('No authorization header provided')
-    // Check if authorization header is valid
+    // Check if the authorization header is valid
     function checkAuthorization(value) {
       const parts = value.split(' ')
       if (parts.length !== 2) return false
@@ -274,18 +326,18 @@ module.exports = function (App) {
               secrets('chal_306') +
               '".'
           )
-          return
+          return undefined
         } else {
           res.send(
             `<title>Ticket vorzeigen</title>Erwarte <strong>${ticket}</strong>, erhalten: <strong>${escape(
               data
             )}</strong>`
           )
-          return
+          return undefined
         }
       } catch (e) {
         res.end('Fehler bei der Verarbeitung.')
-        return
+        return undefined
       }
     }
   )

@@ -92,10 +92,11 @@ module.exports = [
   {
     id: 71,
     pos: { x: 1550, y: 905 },
-    title: 'Sag mal',
+    title: { de: 'Sag mal', en: 'Say' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Manche Missverständnisse sind ärgerlich. Zum Beispiel hast du gefragt, was im Bild zu sehen ist - und hast als Antwort <a href="/chals/sagmal.mp3">diese Sprachnachricht</a> erhalten:</p>
       
       <audio src="/chals/sagmal.mp3" controls>
@@ -103,18 +104,32 @@ module.exports = [
       
       <p>Dein Gegenüber hat dir also tatsächlich die einzelnen Bytes der Bilddatei vorgelesen - eine Stunde lang! Jetzt liegt es an dir, daraus wieder ein Bild zu bauen. Sage mir, welches Wort auf diesem Bild steht.</p>
     `,
+      en: `
+      <p>Some misunderstandings are annoying. For example, you asked what was in the picture — and received <a href="/chals/sagmal.mp3">this voice message</a> in response:</p>
+      
+      <audio src="/chals/sagmal-en.mp3" controls>
+      </audio>
+      
+        <p>Your counterpart has actually read the individual bytes of the image file to you – for an hour! Now it's up to you to build a picture out of it again. Tell me what word is written on this picture.</p>
+    `,
+    },
     solution: secrets('chal_71'),
   },
 
   {
     id: 72,
     pos: { x: 1570, y: 985 },
-    title: 'Labyrinth',
+    title: { de: 'Labyrinth', en: 'Maze' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>In den Tiefen dieser Website ist ein <a href="/chal/maze" target="_blank">Labyrinth</a> versteckt. Erforsche es und komme zurück, wenn du den Schatz gefunden hast.</p>
     `,
+      en: `
+      <p>Hidden in the depths of this website is a <a href="/chal/maze" target="_blank">maze</a>. Explore it and come back when you have found the treasure.</p>
+    `,
+    },
     solution: secrets('chal_72'),
   },
 

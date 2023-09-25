@@ -1,5 +1,93 @@
 const secrets = require('./secrets-loader.js')
 
+function runBrainfuck(program) {
+  /** Interpreter variables */
+  // Create a new 30,000-size array, with each cell initialized with the value of 0. Memory can expand.
+  const MAX_STEPS = 10000
+
+  const MEMORY_SIZE = 100
+  const memory = new Array(MEMORY_SIZE).fill(0)
+  // Instruction pointer (Points to the current INSTRUCTION)
+  let ipointer = 0
+  // Memory pointer (Points to a cell in MEMORY)
+  let mpointer = 0
+  // Address stack. Used to track addresses (index) of left brackets
+  let astack = []
+
+  let output = ''
+
+  function sendOutput(value) {
+    output += String.fromCharCode(value)
+  }
+
+  let end = false
+  let error = ''
+  let steps = 0
+
+  while (!end) {
+    if (++steps >= MAX_STEPS) {
+      error = 'Maximale Ausführung von ' + MAX_STEPS + ' Schritten'
+      break
+    }
+    switch (program[ipointer]) {
+      case '>':
+        if (mpointer === MEMORY_SIZE - 1) {
+          end = true
+          error = 'Speicher ist auf ' + MEMORY_SIZE + ' Zellen begrenzt.'
+          break
+        }
+        mpointer++
+        break
+      case '<':
+        if (mpointer > 0) mpointer--
+        break
+      case '+':
+        memory[mpointer]++
+        break
+      case '-':
+        memory[mpointer]--
+        break
+      case '.':
+        sendOutput(memory[mpointer])
+        break
+      case ',':
+        memory[mpointer] = 0
+        break
+      case '[':
+        if (memory[mpointer]) {
+          // If non-zero
+          astack.push(ipointer)
+        } else {
+          // Skip to matching right bracket
+          let count = 0
+          while (true) {
+            ipointer++
+            if (!program[ipointer]) break
+            if (program[ipointer] === '[') count++
+            else if (program[ipointer] === ']') {
+              if (count) count--
+              else break
+            }
+          }
+        }
+        break
+      case ']':
+        //Pointer is automatically incremented every iteration, therefore, we must decrement to get the correct value
+        ipointer = astack.pop() - 1
+        break
+      case undefined: // We have reached the end of the program
+        end = true
+        break
+      default: // We ignore any character that is not part of regular Brainfuck syntax
+        break
+    }
+    ipointer++
+  }
+
+  if (error) return error
+  return output
+}
+
 module.exports = [
   {
     id: 71,
@@ -55,14 +143,14 @@ module.exports = [
     html: `
       <p>Heute werden Bitcoins meist zur Spekulation verwendet. Dafür gedacht waren sie nicht. Stattdessen sollte das Konzept einer Blockchain dazu beitragen, eine Währung ohne Zentralbank zu ermöglichen. Eine große Herausforderung dabei ist es, Manipulationen durch Einzelne zu verhindern. Wer schreibt sich selber nicht gerne ein paar Euro auf das eigene Konto?</p>
       
-      <p>Ein Proof-of-Work, wie diese Aufgabe es von dir erfordert, soll das verhindern. Um diese Aufgabe zu lösen musst du mir erstmal beweisen, dass du hart gearbeitet hast.</p>
+      <p>Ein Proof-of-Work, wie diese Aufgabe es von dir erfordert, soll das verhindern. Um diese Aufgabe zu lösen, musst du mir erstmal beweisen, dass du hart gearbeitet hast.</p>
       
       <p>Deine Arbeit: Finde mir eine natürliche Zahl n. Der md5-hash von "hacktheweb" und n muss mit 6 Nullen anfangen. Das heißt konkret:</p>
       
       <p>
         n = 1 => md5("hacktheweb1") = 64c8b1f06b096bb17440d60b25c034ae => kein Treffer<br>
         n = 2 => md5("hacktheweb2") = afbab45a805ea5464e6378aaac3ae30f => kein Treffer<br>
-        n = 3 => md5("hacktheweb3") = <strong style="color:green">0</strong>e23be04b8f478515df97f09c4751805 => 1 führende Null, du braucht 6<br>
+        n = 3 => md5("hacktheweb3") = <strong style="color:green">0</strong>e23be04b8f478515df97f09c4751805 → 1 führende Null, du braucht 6<br>
         n = 4 => md5("hacktheweb4") = c0bad2e41a5e1cef51fab232d188d265 => kein Treffer<br>
         u.s.w.
       </p>
@@ -140,25 +228,25 @@ module.exports = [
     html: `
       <p>Die Karte von Hack The Web gibt dir die Freiheit, deinen eigenen Weg zu gehen. Und diese Freiheit wird hier auch gerne genutzt. Dadurch entstehen sehr viele individuelle Spielstände, die schön anzuschauen sind.</p>
       
-      <p>Berechne bei dieser Aufgabe die genaue Anzahl der unterschiedlichen Spielstände. Beschränke dich dabei auf einen kleinen Ausschnitt von 11 Aufgaben im Anfangsbereich. Die aktuelle Karte kann von der Abbildung abweichen - nutze die hier gezeigte Version. Die Kanten des Graphs sind vom Start aus gerichtet. Wenn man "Taschenrechner" gelöst hat, wird "ROT13" freigeschaltet - aber nicht andersherum:
+      <p>Berechne bei dieser Aufgabe die genaue Anzahl der unterschiedlichen Spielstände. Beschränke dich dabei auf einen kleinen Ausschnitt von 11 Aufgaben im Anfangsbereich. Die aktuelle Karte kann von der Abbildung abweichen - nutze die hier gezeigte Version. Die Kanten des Grafs sind vom Start aus gerichtet. Wenn man "Taschenrechner" gelöst hat, wird "ROT13" freigeschaltet - aber nicht andersherum:
       </p>
       
-      <p><img src="/chals/83_full2.png" ></p>
+      <p><img src="/chals/83_full2.png"  alt="freedom 1"></p>
       
       <p>Beispiel 1 - noch keine Aufgabe gelöst:
       </p>
       
-      <p><img src="/chals/83_empty.png"></p>
+      <p><img src="/chals/83_empty.png" alt="freedom 2"></p>
       
       <p>Beispiel 2 - zwei Aufgaben gelöst:
       </p>
       
-      <p><img src="/chals/83_2.png"></p>
+      <p><img src="/chals/83_2.png" alt="freedom 3"></p>
       
       <p>Beispiel 3 - vier Aufgaben gelöst. Es ist dabei unerheblich, in welcher Reihenfolge die Aufgaben gelöst werden. Solange sie zur gleichen Karte führen, zählen sie als ein Spielstand.
       </p>
       
-      <p><img src="/chals/83_4.png"></p>
+      <p><img src="/chals/83_4.png" alt="freedom 4"></p>
       
       <p>Die genaue Anzahl für diesen Anfangsbereich ist deine Antwort.
       </p>
@@ -173,7 +261,7 @@ module.exports = [
     date: '2023-02-26',
     deps: [76],
     html: `
-      <p><img src="/chals/chal85.png"></p>
+      <p><img src="/chals/chal85.png" alt="rabbit"></p>
     `,
     solution: secrets('chal_85'),
   },
@@ -425,10 +513,10 @@ module.exports = [
       
       <p id="countdown"></p>
       
-      <div id="backdrop" style="display:none;position:fixed;background-color:rgba(255, 255, 255, 0.5);top:0px;left:0px;right:0px;bottom:0px">
+      <div id="backdrop" style="display:none;position:fixed;background-color:rgba(255, 255, 255, 0.5);top:0;left:0;right:0;bottom:0">
       </div>
       
-      <div id="modal" style="display:none;position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#fff; border-radius:5px; padding:20px; box-shadow:0px 0px 10px rgba(0,0,0,0.5); z-index:9999; color:black; width: 500px;">
+      <div id="modal" style="display:none;position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#fff; border-radius:5px; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.5); z-index:9999; color:black; width: 500px;">
         <h2 style="margin-top:0;">Cookie-Banner</h2>
         <p>Diese Seite verwendet Cookies. Durch das Zustimmen wird deine Antwort in einem Cookie auf deinem Rechner gespeichert.</p>
         <button type="button" class="btn btn-success" onclick="load()">Zustimmen</button>
@@ -452,7 +540,7 @@ module.exports = [
         window.onload = countdown
         
         function load() {
-          var xmlHttp = new XMLHttpRequest();
+          const xmlHttp = new XMLHttpRequest();
           xmlHttp.open("GET", '/chal/chal91', true); // true for asynchronous 
           xmlHttp.send(null);
           document.getElementById('modal').style.display = 'none'
@@ -478,7 +566,7 @@ module.exports = [
       
       <div class="m-4"></div>
       
-      <pre style="height:500px; overflow:auto; white-space: pre-wrap; border:1px gray solid; padding: 8px">
+      <pre style="height:500px; overflow:auto; white-space: pre-wrap; border:1px rgb(128,128,128) solid; padding: 8px">
 Art 1 
 (1) Die Würde des Menschen ist unantastbar. Sie zu achten und zu schützen ist Verpflichtung aller staatlichen Gewalt.
 (2) Das Deutsche Volk bekennt sich darum zu unverletzlichen und unveräußerlichen Menschenrechten als Grundlage jeder menschlichen Gemeinschaft, des Friedens und der Gerechtigkeit in der Welt.
@@ -585,7 +673,7 @@ print(hex_string)</pre></code>
       <p>Dieses Bild ist kein Original - zumindest nicht von mir. Es findet sich auf hunderten Webseiten. Doch wo kommt das Original her?
       </p>
       
-      <p><img src="/chals/chal94.jpg" width="400px" /></p>
+      <p><img src="/chals/chal94.jpg" style="max-width: 400px"  alt="kids"/></p>
       
       <p>Deine Antwort ist der Vorname der ursprünglichen Fotografin.
       </p>
@@ -602,7 +690,7 @@ print(hex_string)</pre></code>
     html: `
       <p>Hilfe! Ich brauche deinen technischen Rat. Wie macht man es nochmal, dass man eine Schriftart im Browser einbindet?</p>
       
-      <p>&lt;span style=&quot;font:Hack The Web&quot;&gt;ABC DEFGHIJ KLMNOP QRSTUVWXYZ.&lt;/span&gt;</p>
+      <p>&lt;span style=&quot;font: Hack The Web&quot;&gt;ABC DEFGHIJ KLMNOP QRSTUVWXYZ.&lt;/span&gt;</p>
       
       <p>&lt;font src=&quot;/chals/HackTheWeb-Regular.otf&quot; /&gt;</p>
     `,
@@ -637,7 +725,7 @@ print(hex_string)</pre></code>
     date: '2023-05-06',
     deps: [93],
     html: `
-      <p>Deine scharfer Blick und deine Erfahrung als Hacker*in lassen sich nicht täuschen: Viel Sicherheit bringt der Cipher aus der letzten Aufgaben nicht.
+      <p>Dein scharfer Blick und deine Erfahrung als Hacker*in lassen sich nicht täuschen: Viel Sicherheit bringt der Cipher aus der letzten Aufgaben nicht.
       </p>
       
       <p>Daher gibt es nun eine aktualisierte Version, die deutlich mehr Sicherheit bieten soll:
@@ -712,7 +800,7 @@ print(hex_string)</pre></code>
       <p>Ich spüre, dass heute was anders ist: Hast du eine neue Frisur oder einen neuen Pulli? Etwas ist heute anders und das gefällt mir!
       </p>
       
-      <p>Schön, dass du so regelmäßig hier vorbei schaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
+      <p>Schön, dass du so regelmäßig hier vorbeischaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
       </p>
       
       <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur zwei Regeln. Wie lautet die zweite Regel?
@@ -765,7 +853,7 @@ print(hex_string)</pre></code>
     html: `
       <p>Ich weiß, dass Tools wie Wolfram Alpha viel besser geeignet wären für diese Aufgabe. Trotzdem wollte ich mal sehen wie ChatGPT auf diese Frage antwortet. Und das Ergebnis ist ... ernüchternd.
       
-      <p><img src="/chals/chal101.png" /></p>
+      <p><img src="/chals/chal101.png"  alt="chat gpt"/></p>
     
       <p>Der Chat geht so viele Zeilen weiter. Das kannst du 100-mal besser! Deine Antwort ist der größte Primfaktor von <code>864186418888888888802470247</code>.
       </p>
@@ -841,7 +929,7 @@ print(hex_string)</pre></code>
     date: '2023-05-31',
     deps: [103],
     html: `
-      <p>Kann es sein, dass du heute etwas braungebrannter aussiehst, als noch bei unserem letzen Treffen? Ha, ich weiß es: du bist gerade von einer Reise zurückgekehrt.
+      <p>Kann es sein, dass du heute etwas braungebrannter aussiehst, als noch bei unserem letzen Treffen? Ha, ich weiß es: Du bist gerade von einer Reise zurückgekehrt.
       </p>
       
       <p>Manchmal bekommt man den Eindruck, dass sich ein Übergang an den anderen reiht: Ferien starten, Ferien enden, Schuljahr startet, Schuljahr endet ... und wir mittendrin.
@@ -850,7 +938,7 @@ print(hex_string)</pre></code>
       <p>In der Informatik können Übergänge mit solchen Diagrammen dargestellt werden. Ein Pfad führt zum Ziel. Dieser zeigt dir die Antwort.
       </p>
       
-      <p><img src="/chals/chal104.png" style="background:white;"></img></p>
+      <p><img src="/chals/chal104.png" style="background:white;" alt="graph"></p>
     `,
     solution: secrets('chal_104'),
   },
@@ -865,7 +953,7 @@ print(hex_string)</pre></code>
       <p>Was hast du mit dem Isartor in München gemeinsam? Ihr seid beide Elite:
       </p>
       
-      <p><img src="/chals/chal105.jpg" />
+      <p><img src="/chals/chal105.jpg"  alt="isar tor"/>
       </p>
       
       <p>Und deshalb bestimmst du, was die Antwort ist! Jede Antwort ist akzeptiert, wenn sie genau 1337 Zeichen lang ist.
@@ -957,7 +1045,7 @@ print(hex_string)</pre></code>
     date: '2023-06-17',
     deps: [103],
     html: `
-      <p>Oh man, wie nervig sind Diskussionen darüber, welche Programmiersprache besser ist! Zum Glück bist du jemand, der es besser weiß: Alle Programmiersprachen sind im Kern gleich mächtig - eine Erkenntnis, die Turing wesentlich mitentwickelt hat.
+      <p>Mensch, wie nervig sind Diskussionen darüber, welche Programmiersprache besser ist! Zum Glück bist du jemand, der es besser weiß: Alle Programmiersprachen sind im Kern gleich mächtig - eine Erkenntnis, die Turing wesentlich mitentwickelt hat.
       </p>
       
       <p>Jede Programmiersprache hat ihre besondere Schönheit. Die Schönheit von Brainfuck liegt in ihrer Einfachheit: Acht Zeichen sind genug, um alles zu programmieren, was man sich vorstellen kann - auch wenn es teilweise viel Geduld und Leidenschaft braucht, das auch umzusetzen.
@@ -970,7 +1058,7 @@ print(hex_string)</pre></code>
       const output = runBrainfuck(answer)
       return {
         answer: output,
-        correct: output == secrets('chal_109'),
+        correct: output === secrets('chal_109'),
       }
     },
   },

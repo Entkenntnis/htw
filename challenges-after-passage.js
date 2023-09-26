@@ -1293,6 +1293,7 @@ print(hex_string)</pre></code>
       </p>
       
       <script src="/sql.js"></script>
+      <script>window.htw_locale = 'en'</script>
       <script src="/chals/chal98_2.js"></script>
     `,
     },
@@ -1342,7 +1343,7 @@ print(hex_string)</pre></code>
     date: '2023-05-17',
     deps: [93, 96],
     render: ({ req }) => {
-      const isGerman = req.headers['accept-language']?.startsWith('de') || false
+      const isGerman = req.lng == 'de'
       return isGerman
         ? `
       <p>Lust auf einen kleinen Spiele-Nachmittag mit Mario-Kart? Das wird sicher Spaß machen - auch für mich, selbst wenn ich ständig gegen dich verlieren werde.
@@ -1683,7 +1684,7 @@ print(hex_string)</pre></code>
     date: '2023-06-14',
     deps: [103],
     render: ({ req }) => `${
-      /de?/i.test(req.headers['accept-language'] || '')
+      req.lng == 'de'
         ? `<p>Dieser Inhalt ist nur für NutzerInnen verfügbar, die Französisch als ihre Sprache eingestellt haben.
       </p>`
         : `<p>This content is only available to users who have set French as their language.`
@@ -1696,7 +1697,7 @@ print(hex_string)</pre></code>
         if (isFrench) {
           return 'La réponse est ' + secrets('chal_108') + '.'
         } else {
-          return /de?/i.test(req.headers['accept-language'] || '')
+          return req.lng == 'de'
             ? 'Deine Spracheinstellung wird nicht unterstützt: ' +
                 acceptLanguage
             : 'Your language setting is not supported: ' + acceptLanguage

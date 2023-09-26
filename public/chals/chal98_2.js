@@ -12,7 +12,7 @@ initSqlJs().then(function(SQL){
     
     function handler() {
       text = document.getElementById('value')
-      const isGerman = navigator.language.startsWith('de')
+      const isGerman = window.htw_locale !== 'en'
       const sql = isGerman?"SELECT * FROM Geheimnis WHERE schlüssel='" + text.value + "';":"SELECT * FROM Secret WHERE key='" + text.value + "';"
       try {
         const output = db.exec(sql)

@@ -38,7 +38,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: September 2023 (<a href="' +
+      'Version: Oktober 2023 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -46,7 +46,7 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.version',
     value:
-      'Version: September 2023 (<a href="' +
+      'Version: October 2023 (<a href="' +
       config.urlPrefix +
       '/news">News</a>)',
   })
@@ -292,6 +292,13 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>Oktober 2023</h3>
+      
+      <p>Ab diesem Release sind alle Aufgaben auf deutsch und englisch spielbar.
+      </p>
+      
+      <div class="my-5"></div>
+      
       <h3>September 2023</h3>
       
       <p>Es kommt ein neuer Community-Bereich hinzu, dieser ist nach der Passage erreichbar. Dort gibt es regelmäßig neue Aufgaben und ihr könnt eigene Ideen einbringen.
@@ -449,6 +456,13 @@ module.exports = (config) => {
     lng: 'en',
     key: 'news.content_',
     value: `
+      <div class="my-5"></div>
+      
+      <h3>Oktober 2023</h3>
+      
+      <p>From this release on all challenges are playable in English and German.
+      </p>
+      
       <div class="my-5"></div>
             
       <h3>September 2023</h3>

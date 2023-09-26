@@ -871,7 +871,7 @@ module.exports = [
   {
     id: 92,
     pos: { x: 1225, y: 1410 },
-    title: { de: 'Grundgesetz', en: 'Constiution' },
+    title: { de: 'Grundgesetz', en: 'Constitution' },
     date: '2023-04-19',
     deps: [83, 85, 90],
     html: {

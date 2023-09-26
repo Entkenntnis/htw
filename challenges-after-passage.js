@@ -1301,30 +1301,50 @@ print(hex_string)</pre></code>
   {
     id: 99,
     pos: { x: 790, y: 1540 },
-    title: 'Regeln',
+    title: { de: 'Regeln', en: 'Rules' },
     date: '2023-05-13',
     deps: [94, 95],
-    html: `
+    html: {
+      de: `
       <p>Ich spüre, dass heute was anders ist: Hast du eine neue Frisur oder einen neuen Pulli? Etwas ist heute anders und das gefällt mir!
       </p>
       
       <p>Schön, dass du so regelmäßig hier vorbeischaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
       </p>
       
-      <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur zwei Regeln. Wie lautet die zweite Regel?
+      <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur drei Regeln. Wie lautet die zweite Regel?
       </p>
     `,
+      en: `
+      <p>I sense that something is different today: Do you have a new hairstyle or a new sweater? Something is different today and I like that!
+      </p>
+      
+      <p>It's nice that you stop by here so regularly. Well, rules: They help us to organize our interactions better. Many rules probably don't make much sense, but there are some that are valuable.
+      </p>
+      
+      <p>On our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> we only have three rules. What is the second rule (in the german rule channel)?
+      </p>
+      
+      
+      <p>
+         Note: Hack the Web is a German website, which is why the Discord server is in German. Please write only in German on the server except the channels labeled as english (e.g., forum-en or general-en). But with the help of a translator, you should be able to find the answer anyway ;)
+       </p>
+    `,
+    },
     solution: secrets('chal_99'),
   },
 
   {
     id: 100,
     pos: { x: 920, y: 1590 },
-    title: 'Wii',
+    title: { de: 'Wii', en: 'Wii' },
     date: '2023-05-17',
     deps: [93, 96],
-    render: ({ req }) => `
-      <p>Lust auf einen kleinen Spiele-Nachmittag mit Mario-Kart? Das wird sicher Spaß machen - auch für mich, selbst wenn ich ständig gegen dich verlieren werden.
+    render: ({ req }) => {
+      const isGerman = req.headers['accept-language']?.startsWith('de') || false
+      return isGerman
+        ? `
+      <p>Lust auf einen kleinen Spiele-Nachmittag mit Mario-Kart? Das wird sicher Spaß machen - auch für mich, selbst wenn ich ständig gegen dich verlieren werde.
       </p>
       
       <p>Mario-Kart hat viele Generationen hinter sich. Ich habe noch mit der Version auf der Nintendo Wii begonnen.
@@ -1348,17 +1368,51 @@ print(hex_string)</pre></code>
         }
       })()}</code></p>
       
-    `,
+      <p>
+        Hinweis: Aufgrund der Veralterung des Wii-Browsers funktioniert Hack The Web möglicherweise nicht wie vorgesehen oder überhaupt nicht mehr.
+      </p>
+      
+    `
+        : `
+      <p>Fancy a little gaming afternoon with Mario Kart? That's sure to be fun – for me, too, even if I'm constantly losing to you.
+      </p>
+      
+      <p>Mario Kart has gone through many generations. I still started with the version on the Nintendo Wii.
+      </p>
+      
+      <p>If you connect the Wii to the Internet, you could even play Hack The Web with it because it includes a browser. Visit this page on the Wii (or trick the server into doing so) to get the answer.
+      </p>
+      
+      <p><code>${(() => {
+        const userAgent = req.headers['user-agent'] || ''
+        const isWii = /Nintendo Wii/i.test(userAgent)
+
+        if (isWii) {
+          return (
+            "Let's go with 150cc on Rainbow Boulevard. The answer is " +
+            secrets('chal_100') +
+            '.'
+          )
+        } else {
+          return 'This is not a Wii:' + userAgent
+        }
+      })()}</code></p>
+      
+      <p>Note: Because of the deprecation of the Wii browser Hack The Web may not work as intended or not even work at all.</p>
+      
+    `
+    },
     solution: secrets('chal_100'),
   },
 
   {
     id: 101,
     pos: { x: 950, y: 1700 },
-    title: 'Faktoren',
+    title: { de: 'Faktoren', en: 'Factors' },
     date: '2023-05-20',
     deps: [93, 95],
-    html: `
+    html: {
+      de: `
       <p>Ich weiß, dass Tools wie Wolfram Alpha viel besser geeignet wären für diese Aufgabe. Trotzdem wollte ich mal sehen wie ChatGPT auf diese Frage antwortet. Und das Ergebnis ist ... ernüchternd.
       
       <p><img src="/chals/chal101.png"  alt="chat gpt"/></p>
@@ -1366,16 +1420,26 @@ print(hex_string)</pre></code>
       <p>Der Chat geht so viele Zeilen weiter. Das kannst du 100-mal besser! Deine Antwort ist der größte Primfaktor von <code>864186418888888888802470247</code>.
       </p>
     `,
+      en: `
+      <p>I know that tools like Wolfram Alpha would be much better suited for this task. Nevertheless, I wanted to see how ChatGPT answers this question. And the result is... sobering.
+      
+      <p><img src="/chals/chal101-en.png"  alt="chat gpt"/></p>
+    
+      <p>The chat goes on for so many lines. You can do it 100 times better! Your answer is the largest prime factor of <code>864186418888888888802470247</code>.
+      </p>
+    `,
+    },
     solution: secrets('chal_101'),
   },
 
   {
     id: 102,
     pos: { x: 1294, y: 1700 },
-    title: 'Cipher III',
+    title: { de: 'Cipher III', en: 'Cipher III' },
     date: '2023-05-24',
     deps: [97],
-    html: `
+    html: {
+      de: `
       <p>Hut ab! Es ist wirklich schwer, einen Cipher zu entwickeln, der von dir nicht zu brechen ist. Ich muss mir anscheinend nochmal mehr Mühe geben.
       </p>
       
@@ -1401,7 +1465,7 @@ print(hex_string)</pre></code>
 
 message = < ??? >
 bytes = ascii_string_to_bytes(message)
-encrypted_bytes = cipher_ii(bytes)
+encrypted_bytes = cipher_iii(bytes)
 hex_string = convert_bytes_to_hex_string(encrypted_bytes)
 print(hex_string)</pre></code>
 
@@ -1411,20 +1475,57 @@ print(hex_string)</pre></code>
       <p><code>59176f2b4e4f377f1a5f7427431631306d294b066e2749062d7f1d523d3c55187226010051056d27491a317901547f2dda2403027c335c5d3f7d1e1f73375e1a31710f486d6c236b05044e017e284c1f60610646386d03567d1c2925030f3a36101c2925030f</code>
       </p>
     `,
+      en: `
+      <p>Hats off! It's really hard to develop a cipher that you can't break. Apparently I have to try harder.
+      </p>
+      
+      <p>I'm slowly running out of ideas. Maybe twice is better: the new cipher uses two different keys alternately.
+      </p>
+      
+      <code><pre style="font-size:14px">function cipher_iii(input_bytes) {
+    key1 = < ??? >
+    key2 = < ??? >
+    previousOutput = 0
+    
+    output_bytes = []
+
+    for (i = 0; i < input_bytes.length; i++) {
+        current_key = previousOutput XOR (i MODULO 2 == 0 ? key1 : key2)
+        xor_byte = byte XOR current_key
+        previousOutput = xor_byte
+        output_bytes.append(xor_byte)
+    }
+
+    return output_bytes
+}
+
+message = < ??? >
+bytes = ascii_string_to_bytes(message)
+encrypted_bytes = cipher_iii(bytes)
+hex_string = convert_bytes_to_hex_string(encrypted_bytes)
+print(hex_string)</pre></code>
+
+      <p>The keys are numbers between 0 and 255. The output of this program looks like this:
+      </p>
+      
+      <p><code>59176f2b5352386b05047d39565b7027450b6c2857052e6e1753783b5c08666b40126c2a4013387008097127490d727f541471341f775c1a782f41403e6f4a4b145d333258176f3957042f671f1e554a6c6046597f73554a6c6046</code>
+      </p>
+    `,
+    },
     solution: secrets('chal_102'),
   },
 
   {
     id: 103,
     pos: { x: 698, y: 1671 },
-    title: 'Hintergrund',
+    title: { de: 'Hintergrund', en: 'Background' },
     date: '2023-05-27',
     deps: [98, 99, 100, 101],
     html: `
-      <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
+      <p>There are people who are just always there. You can rely on these people.
       </p>
       
-      <p>Das ist eine Eigenschaft, die du mit der Antwort auf diese Aufgabe gemeinsam hast: Die Antwort ist schon immer da gewesen. Du findest sie auf der Rückseite des Planetens dieser Aufgabe.
+      <p>This is a quality you have in common with the answer to this task: the answer has always been there. You can find them on the back side of the planet in this task.
       </p>
     `,
     solution: secrets('chal_103'),

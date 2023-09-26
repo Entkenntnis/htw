@@ -820,11 +820,11 @@ module.exports = [
        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px;" alt="discord"></a>
        </p>
      
-       <p>On the <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> of Hack the Web, you have the possibility to find hints or ask questions yourself. Click on the logo to join the server. In the forum you will find a post with the title "Fingerzeig". There you will find your answer.
+       <p>On the <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> of Hack the Web, you have the possibility to find hints or ask questions yourself. Click on the logo to join the server. In the German forum you will find a post with the title "Fingerzeig". There you will find your answer.
        </p>
        
        <p>
-       Note: Hack the Web is a German website, which is why the Discord server is in German. Please write only in German on the server. But with the help of a translator, you should be able to find the answer anyway ;)
+         Note: Hack the Web is a German website, which is why the Discord server is in German. Please write only in German on the server except the channels labeled as english (e.g., forum-en or general-en). But with the help of a translator, you should be able to find the answer anyway ;)
        </p>
    `,
     },

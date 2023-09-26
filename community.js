@@ -158,7 +158,7 @@ module.exports = [
                 <td>${entry.rank}</td>
                 <td>${userNameIndex[entry.userId]}</td>
                 <td>${entry.solved}</td>
-                <td>${App.moment(entry.lastActive).locale('de').fromNow()}</td>
+                <td>${App.moment(entry.lastActive).locale('en').fromNow()}</td>
               </tr>
             `
               )

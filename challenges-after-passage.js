@@ -1,4 +1,5 @@
 const secrets = require('./secrets-loader.js')
+const crypto = require('crypto')
 
 function runBrainfuck(program) {
   /** Interpreter variables */

@@ -2590,9 +2590,10 @@ Doch ich spüre tiefes Beben.</i>
             </i>
           </p> 
           
-            <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and tasks that will make you bite your teeth.</p>
+            <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
             <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 64 &nbsp; 18</p>
-            <p>Each number corresponds to the number of a task. Look at the address bar. There you can see that this task has the number 57. The first letters of the tasks form the answer.</p>
+            <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
+            <p>The first letters of the <strong>German</strong> challenge names form the answer. Please switch to the German version for this challenge.</p>
     `,
     },
     solution: secrets('chal_57'),

@@ -1,13 +1,103 @@
 const secrets = require('./secrets-loader.js')
+const crypto = require('crypto')
+
+function runBrainfuck(program) {
+  /** Interpreter variables */
+  // Create a new 30,000-size array, with each cell initialized with the value of 0. Memory can expand.
+  const MAX_STEPS = 10000
+
+  const MEMORY_SIZE = 100
+  const memory = new Array(MEMORY_SIZE).fill(0)
+  // Instruction pointer (Points to the current INSTRUCTION)
+  let ipointer = 0
+  // Memory pointer (Points to a cell in MEMORY)
+  let mpointer = 0
+  // Address stack. Used to track addresses (index) of left brackets
+  let astack = []
+
+  let output = ''
+
+  function sendOutput(value) {
+    output += String.fromCharCode(value)
+  }
+
+  let end = false
+  let error = ''
+  let steps = 0
+
+  while (!end) {
+    if (++steps >= MAX_STEPS) {
+      error = 'Maximale Ausführung von ' + MAX_STEPS + ' Schritten'
+      break
+    }
+    switch (program[ipointer]) {
+      case '>':
+        if (mpointer === MEMORY_SIZE - 1) {
+          end = true
+          error = 'Speicher ist auf ' + MEMORY_SIZE + ' Zellen begrenzt.'
+          break
+        }
+        mpointer++
+        break
+      case '<':
+        if (mpointer > 0) mpointer--
+        break
+      case '+':
+        memory[mpointer]++
+        break
+      case '-':
+        memory[mpointer]--
+        break
+      case '.':
+        sendOutput(memory[mpointer])
+        break
+      case ',':
+        memory[mpointer] = 0
+        break
+      case '[':
+        if (memory[mpointer]) {
+          // If non-zero
+          astack.push(ipointer)
+        } else {
+          // Skip to matching right bracket
+          let count = 0
+          while (true) {
+            ipointer++
+            if (!program[ipointer]) break
+            if (program[ipointer] === '[') count++
+            else if (program[ipointer] === ']') {
+              if (count) count--
+              else break
+            }
+          }
+        }
+        break
+      case ']':
+        //Pointer is automatically incremented every iteration, therefore, we must decrement to get the correct value
+        ipointer = astack.pop() - 1
+        break
+      case undefined: // We have reached the end of the program
+        end = true
+        break
+      default: // We ignore any character that is not part of regular Brainfuck syntax
+        break
+    }
+    ipointer++
+  }
+
+  if (error) return error
+  return output
+}
 
 module.exports = [
   {
     id: 71,
     pos: { x: 1550, y: 905 },
-    title: 'Sag mal',
+    title: { de: 'Sag mal', en: 'Say it' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Manche Missverständnisse sind ärgerlich. Zum Beispiel hast du gefragt, was im Bild zu sehen ist - und hast als Antwort <a href="/chals/sagmal.mp3">diese Sprachnachricht</a> erhalten:</p>
       
       <audio src="/chals/sagmal.mp3" controls>
@@ -15,60 +105,101 @@ module.exports = [
       
       <p>Dein Gegenüber hat dir also tatsächlich die einzelnen Bytes der Bilddatei vorgelesen - eine Stunde lang! Jetzt liegt es an dir, daraus wieder ein Bild zu bauen. Sage mir, welches Wort auf diesem Bild steht.</p>
     `,
+      en: `
+      <p>Some misunderstandings are annoying. For example, you asked what was in the picture — and received <a href="/chals/sagmal.mp3">this voice message</a> in response:</p>
+      
+      <audio src="/chals/sagmal-en.mp3" controls>
+      </audio>
+      
+        <p>Your counterpart has actually read the individual bytes of the image file to you – for an hour! Now it's up to you to build a picture out of it again. Tell me what word is written on this picture.</p>
+    `,
+    },
     solution: secrets('chal_71'),
   },
 
   {
     id: 72,
     pos: { x: 1570, y: 985 },
-    title: 'Labyrinth',
+    title: { de: 'Labyrinth', en: 'Maze' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>In den Tiefen dieser Website ist ein <a href="/chal/maze" target="_blank">Labyrinth</a> versteckt. Erforsche es und komme zurück, wenn du den Schatz gefunden hast.</p>
     `,
+      en: `
+      <p>Hidden in the depths of this website is a <a href="/chal/maze" target="_blank">maze</a>. Explore it and come back when you have found the treasure.</p>
+    `,
+    },
     solution: secrets('chal_72'),
   },
 
   {
     id: 73,
     pos: { x: 1510, y: 1055 },
-    title: 'Rufnummer',
+    title: { de: 'Rufnummer', en: 'Phone number' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Das Festnetz wird heute nur noch wenig genutzt, andere Technologien haben es verdrängt. Aber halten wir für einen Moment die Zeit an und erinnern uns an <a href="/chals/chal73.wav">diese Töne</a>:</p>
     
       <audio src="/chals/chal73.wav" controls>
       </audio>
       
     `,
+      en: `
+        <p>Today landlines are rarely used, other technologies have replaced them. But let's stop time for a moment and remember <a href="/chals/chal73.wav">these sounds</a>:</p>
+        
+        <audio src="/chals/chal73.wav" controls>
+        </audio>
+    `,
+    },
     solution: secrets('chal_73'),
   },
 
   {
     id: 74,
     pos: { x: 1430, y: 1135 },
-    title: 'Blockchain',
+    title: { de: 'Blockchain', en: 'Blockchain' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Heute werden Bitcoins meist zur Spekulation verwendet. Dafür gedacht waren sie nicht. Stattdessen sollte das Konzept einer Blockchain dazu beitragen, eine Währung ohne Zentralbank zu ermöglichen. Eine große Herausforderung dabei ist es, Manipulationen durch Einzelne zu verhindern. Wer schreibt sich selber nicht gerne ein paar Euro auf das eigene Konto?</p>
       
-      <p>Ein Proof-of-Work, wie diese Aufgabe es von dir erfordert, soll das verhindern. Um diese Aufgabe zu lösen musst du mir erstmal beweisen, dass du hart gearbeitet hast.</p>
+      <p>Ein Proof-of-Work, wie diese Aufgabe es von dir erfordert, soll das verhindern. Um diese Aufgabe zu lösen, musst du mir erstmal beweisen, dass du hart gearbeitet hast.</p>
       
       <p>Deine Arbeit: Finde mir eine natürliche Zahl n. Der md5-hash von "hacktheweb" und n muss mit 6 Nullen anfangen. Das heißt konkret:</p>
       
       <p>
         n = 1 => md5("hacktheweb1") = 64c8b1f06b096bb17440d60b25c034ae => kein Treffer<br>
         n = 2 => md5("hacktheweb2") = afbab45a805ea5464e6378aaac3ae30f => kein Treffer<br>
-        n = 3 => md5("hacktheweb3") = <strong style="color:green">0</strong>e23be04b8f478515df97f09c4751805 => 1 führende Null, du braucht 6<br>
+        n = 3 => md5("hacktheweb3") = <strong style="color:green">0</strong>e23be04b8f478515df97f09c4751805 → 1 führende Null, du braucht 6<br>
         n = 4 => md5("hacktheweb4") = c0bad2e41a5e1cef51fab232d188d265 => kein Treffer<br>
         u.s.w.
       </p>
       
       <p>Eine passende Zahl n ist deine Antwort:</p>
     `,
+      en: `
+        <p>Today bitcoins are mostly used for speculation. That was not what they were intended for. Instead, the concept of a blockchain was supposed to make it possible to have a currency without a central bank. A major challenge is to prevent manipulation by individuals. Who doesn't like to write a few euros on their own account?</p>
+        
+        <p>A proof-of-work, as this task requires of you, is supposed to prevent this. To solve this task, you first have to prove to me that you have worked hard.</p>
+        
+        <p>Your work: Find me a natural number n. The md5 hash of "hacktheweb" and n must start with six zeros. That means concretely:</p>
+        
+        <p>
+            n = 1 => md5("hacktheweb1") = 64c8b1f06b096bb17440d60b25c034ae => no match<br>
+            n = 2 => md5("hacktheweb2") = afbab45a805ea5464e6378aaac3ae30f => no match<br>
+            n = 3 => md5("hacktheweb3") = <strong style="color:green">0</strong>e23be04b8f478515df97f09c4751805 → 1 leading zero, you need 6<br>
+            n = 4 => md5("hacktheweb4") = c0bad2e41a5e1cef51fab232d188d265 => no match<br>
+            and so on
+        </p>
+        
+        <p>A suitable number n is your answer:</p>
+    `,
+    },
     check: (answer, { req, App }) => {
       const hash = crypto
         .createHash('md5')
@@ -85,22 +216,30 @@ module.exports = [
   {
     id: 75,
     pos: { x: 1180, y: 1065 },
-    title: 'Verlosung',
+    title: { de: 'Verlosung', en: 'Raffle' },
     date: '2022-02-09',
     deps: [57],
-    html: `
+    html: {
+      de: `
       <p>Bei einer Verlosung gibt es immer viele Nieten und wenige Preise. In <a href="/chals/lostrommel.zip">dieser Lostrommel</a> finden sich 1000 Lose. Eine davon ist dein Hauptgewinn.</p>
     `,
+      en: `
+        <p>In a raffle, there are always many blanks and few prizes. In <a href="/chals/raffle.zip">this lottery drum</a> there are 1000 tickets. One of them is your main prize.</p>
+    `,
+    },
     solution: secrets('chal_75'),
   },
 
   {
     id: 76,
     pos: { x: 1280, y: 1095 },
-    title: 'Zeitraum',
+    title: { de: 'Zeitraum', en: 'Timeframe' },
     date: '2022-02-09',
     deps: [57],
-    html: `<p>Schön, dass du schon so lange dabei bist. Nun, sage mir: Seit wie vielen Minuten genau bist du auf dieser Seite registriert?</p>`,
+    html: {
+      de: `<p>Schön, dass du schon so lange dabei bist. Nun, sage mir: Seit wie vielen Minuten genau bist du auf dieser Seite registriert?</p>`,
+      en: `<p>It's nice that you've been here for so long. Now, tell me: How many minutes exactly have you been registered on this site?</p>`,
+    },
     check: (answer, { req, App }) => {
       const str = parseInt(answer)
       const now = App.moment()
@@ -116,10 +255,11 @@ module.exports = [
   {
     id: 82,
     pos: { x: 1155, y: 1155 },
-    title: 'Wegweiser',
+    title: { de: 'Wegweiser', en: 'Guide' },
     date: '2022-12-28',
     deps: [75, 76],
-    html: `
+    html: {
+      de: `
       <p>Im Internet existiert mit dem DNS ein großes Wegweiser-System, welches dafür sorgt, dass zum Beispiel dein Browser über die Eingabe <code>hack.arrrg.de</code> meinen Server findet.</p>
       
       <p>Diese Wegweiser enthalten nicht nur passende IP-Adressen, sondern man kann dort auch beliebigen Text hinterlegen.
@@ -128,53 +268,98 @@ module.exports = [
       <p>Im TXT-Record dieser Domain findest du die Antwort.
       </p>
     `,
+      en: `
+      <p>There is a large guiding system on the Internet called DNS, which ensures that, for example, your browser can find my server by entering <code>hack.arrrg.de</code>.</p>
+      
+      <p>These DNS-Recordes not only contain suitable IP addresses, but you can also store any text there.
+      </p>
+      
+      <p>You will find the answer in the TXT record of this domain.
+      </p>
+      
+      <p>Note: "Die Antwort lautet ..." is German for "The answer is ..."</p>
+    `,
+    },
     solution: secrets('chal_82'),
   },
 
   {
     id: 83,
     pos: { x: 1300, y: 1215 },
-    title: 'Freiheit',
+    title: { de: 'Freiheit', en: 'Freedom' },
     date: '2022-12-28',
     deps: [76],
-    html: `
+    html: {
+      de: `
       <p>Die Karte von Hack The Web gibt dir die Freiheit, deinen eigenen Weg zu gehen. Und diese Freiheit wird hier auch gerne genutzt. Dadurch entstehen sehr viele individuelle Spielstände, die schön anzuschauen sind.</p>
       
-      <p>Berechne bei dieser Aufgabe die genaue Anzahl der unterschiedlichen Spielstände. Beschränke dich dabei auf einen kleinen Ausschnitt von 11 Aufgaben im Anfangsbereich. Die aktuelle Karte kann von der Abbildung abweichen - nutze die hier gezeigte Version. Die Kanten des Graphs sind vom Start aus gerichtet. Wenn man "Taschenrechner" gelöst hat, wird "ROT13" freigeschaltet - aber nicht andersherum:
+      <p>Berechne bei dieser Aufgabe die genaue Anzahl der unterschiedlichen Spielstände. Beschränke dich dabei auf einen kleinen Ausschnitt von 11 Aufgaben im Anfangsbereich. Die aktuelle Karte kann von der Abbildung abweichen - nutze die hier gezeigte Version. Die Kanten des Grafs sind vom Start aus gerichtet. Wenn man "Taschenrechner" gelöst hat, wird "ROT13" freigeschaltet - aber nicht andersherum:
       </p>
       
-      <p><img src="/chals/83_full2.png" ></p>
+      <p><img src="/chals/83_full2.png"  alt="freedom 1"></p>
       
       <p>Beispiel 1 - noch keine Aufgabe gelöst:
       </p>
       
-      <p><img src="/chals/83_empty.png"></p>
+      <p><img src="/chals/83_empty.png" alt="freedom 2"></p>
       
       <p>Beispiel 2 - zwei Aufgaben gelöst:
       </p>
       
-      <p><img src="/chals/83_2.png"></p>
+      <p><img src="/chals/83_2.png" alt="freedom 3"></p>
       
       <p>Beispiel 3 - vier Aufgaben gelöst. Es ist dabei unerheblich, in welcher Reihenfolge die Aufgaben gelöst werden. Solange sie zur gleichen Karte führen, zählen sie als ein Spielstand.
       </p>
       
-      <p><img src="/chals/83_4.png"></p>
+      <p><img src="/chals/83_4.png" alt="freedom 4"></p>
       
       <p>Die genaue Anzahl für diesen Anfangsbereich ist deine Antwort.
       </p>
     `,
+      en: `
+      <p>Hack The Web's map gives you the freedom to go your own way. And this freedom is also used here with pleasure. This creates a lot of individual game saves that are nice to look at.</p>
+      
+      <p>In this task, calculate the exact number of different scores. Limit yourself to a small selection of 11 tasks in the initial area. The current map may differ from the image — use the version shown here. The edges of the count are directed from the start. If you have solved Calculator, ROT13 will be unlocked — but not the other way around:
+      </p>
+      
+      <p><img src="/chals/83_full2.png" alt="freedom 1"></p>
+      
+      <p>Example 1 — no task solved yet:
+      </p>
+      
+      <p><img src="/chals/83_empty.png" alt="freedom 2"></p>
+      
+      <p>Example 2 — two tasks solved:
+      </p>
+      
+      <p><img src="/chals/83_2.png" alt="freedom 3"></p>
+      
+      <p>Example 3 — four tasks solved. It is irrelevant in which order the tasks are solved. As long as they lead to the same map, they count as one score.
+      </p>
+      
+      <p><img src="/chals/83_4.png" alt="freedom 4"></p>
+      
+      <p>The exact number for the starting are is your answer.
+      </p>
+    `,
+    },
     solution: secrets('chal_83'),
   },
 
   {
     id: 85,
     pos: { x: 1185, y: 1230 },
-    title: 'Schneehase',
+    title: { de: 'Schneehase', en: 'Snow hare' },
     date: '2023-02-26',
     deps: [76],
-    html: `
-      <p><img src="/chals/chal85.png"></p>
+    html: {
+      de: `
+      <p><img src="/chals/chal85.png" alt="rabbit"></p>
     `,
+      en: `
+        <p><img src="/chals/chal85-en.png" alt="rabbit"></p>
+    `,
+    },
     solution: secrets('chal_85'),
   },
 
@@ -425,10 +610,10 @@ module.exports = [
       
       <p id="countdown"></p>
       
-      <div id="backdrop" style="display:none;position:fixed;background-color:rgba(255, 255, 255, 0.5);top:0px;left:0px;right:0px;bottom:0px">
+      <div id="backdrop" style="display:none;position:fixed;background-color:rgba(255, 255, 255, 0.5);top:0;left:0;right:0;bottom:0">
       </div>
       
-      <div id="modal" style="display:none;position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#fff; border-radius:5px; padding:20px; box-shadow:0px 0px 10px rgba(0,0,0,0.5); z-index:9999; color:black; width: 500px;">
+      <div id="modal" style="display:none;position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#fff; border-radius:5px; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.5); z-index:9999; color:black; width: 500px;">
         <h2 style="margin-top:0;">Cookie-Banner</h2>
         <p>Diese Seite verwendet Cookies. Durch das Zustimmen wird deine Antwort in einem Cookie auf deinem Rechner gespeichert.</p>
         <button type="button" class="btn btn-success" onclick="load()">Zustimmen</button>
@@ -452,7 +637,7 @@ module.exports = [
         window.onload = countdown
         
         function load() {
-          var xmlHttp = new XMLHttpRequest();
+          const xmlHttp = new XMLHttpRequest();
           xmlHttp.open("GET", '/chal/chal91', true); // true for asynchronous 
           xmlHttp.send(null);
           document.getElementById('modal').style.display = 'none'
@@ -478,7 +663,7 @@ module.exports = [
       
       <div class="m-4"></div>
       
-      <pre style="height:500px; overflow:auto; white-space: pre-wrap; border:1px gray solid; padding: 8px">
+      <pre style="height:500px; overflow:auto; white-space: pre-wrap; border:1px rgb(128,128,128) solid; padding: 8px">
 Art 1 
 (1) Die Würde des Menschen ist unantastbar. Sie zu achten und zu schützen ist Verpflichtung aller staatlichen Gewalt.
 (2) Das Deutsche Volk bekennt sich darum zu unverletzlichen und unveräußerlichen Menschenrechten als Grundlage jeder menschlichen Gemeinschaft, des Friedens und der Gerechtigkeit in der Welt.
@@ -585,7 +770,7 @@ print(hex_string)</pre></code>
       <p>Dieses Bild ist kein Original - zumindest nicht von mir. Es findet sich auf hunderten Webseiten. Doch wo kommt das Original her?
       </p>
       
-      <p><img src="/chals/chal94.jpg" width="400px" /></p>
+      <p><img src="/chals/chal94.jpg" style="max-width: 400px"  alt="kids"/></p>
       
       <p>Deine Antwort ist der Vorname der ursprünglichen Fotografin.
       </p>
@@ -602,7 +787,7 @@ print(hex_string)</pre></code>
     html: `
       <p>Hilfe! Ich brauche deinen technischen Rat. Wie macht man es nochmal, dass man eine Schriftart im Browser einbindet?</p>
       
-      <p>&lt;span style=&quot;font:Hack The Web&quot;&gt;ABC DEFGHIJ KLMNOP QRSTUVWXYZ.&lt;/span&gt;</p>
+      <p>&lt;span style=&quot;font: Hack The Web&quot;&gt;ABC DEFGHIJ KLMNOP QRSTUVWXYZ.&lt;/span&gt;</p>
       
       <p>&lt;font src=&quot;/chals/HackTheWeb-Regular.otf&quot; /&gt;</p>
     `,
@@ -637,7 +822,7 @@ print(hex_string)</pre></code>
     date: '2023-05-06',
     deps: [93],
     html: `
-      <p>Deine scharfer Blick und deine Erfahrung als Hacker*in lassen sich nicht täuschen: Viel Sicherheit bringt der Cipher aus der letzten Aufgaben nicht.
+      <p>Dein scharfer Blick und deine Erfahrung als Hacker*in lassen sich nicht täuschen: Viel Sicherheit bringt der Cipher aus der letzten Aufgaben nicht.
       </p>
       
       <p>Daher gibt es nun eine aktualisierte Version, die deutlich mehr Sicherheit bieten soll:
@@ -712,7 +897,7 @@ print(hex_string)</pre></code>
       <p>Ich spüre, dass heute was anders ist: Hast du eine neue Frisur oder einen neuen Pulli? Etwas ist heute anders und das gefällt mir!
       </p>
       
-      <p>Schön, dass du so regelmäßig hier vorbei schaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
+      <p>Schön, dass du so regelmäßig hier vorbeischaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
       </p>
       
       <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur zwei Regeln. Wie lautet die zweite Regel?
@@ -765,7 +950,7 @@ print(hex_string)</pre></code>
     html: `
       <p>Ich weiß, dass Tools wie Wolfram Alpha viel besser geeignet wären für diese Aufgabe. Trotzdem wollte ich mal sehen wie ChatGPT auf diese Frage antwortet. Und das Ergebnis ist ... ernüchternd.
       
-      <p><img src="/chals/chal101.png" /></p>
+      <p><img src="/chals/chal101.png"  alt="chat gpt"/></p>
     
       <p>Der Chat geht so viele Zeilen weiter. Das kannst du 100-mal besser! Deine Antwort ist der größte Primfaktor von <code>864186418888888888802470247</code>.
       </p>
@@ -841,7 +1026,7 @@ print(hex_string)</pre></code>
     date: '2023-05-31',
     deps: [103],
     html: `
-      <p>Kann es sein, dass du heute etwas braungebrannter aussiehst, als noch bei unserem letzen Treffen? Ha, ich weiß es: du bist gerade von einer Reise zurückgekehrt.
+      <p>Kann es sein, dass du heute etwas braungebrannter aussiehst, als noch bei unserem letzen Treffen? Ha, ich weiß es: Du bist gerade von einer Reise zurückgekehrt.
       </p>
       
       <p>Manchmal bekommt man den Eindruck, dass sich ein Übergang an den anderen reiht: Ferien starten, Ferien enden, Schuljahr startet, Schuljahr endet ... und wir mittendrin.
@@ -850,7 +1035,7 @@ print(hex_string)</pre></code>
       <p>In der Informatik können Übergänge mit solchen Diagrammen dargestellt werden. Ein Pfad führt zum Ziel. Dieser zeigt dir die Antwort.
       </p>
       
-      <p><img src="/chals/chal104.png" style="background:white;"></img></p>
+      <p><img src="/chals/chal104.png" style="background:white;" alt="graph"></p>
     `,
     solution: secrets('chal_104'),
   },
@@ -865,7 +1050,7 @@ print(hex_string)</pre></code>
       <p>Was hast du mit dem Isartor in München gemeinsam? Ihr seid beide Elite:
       </p>
       
-      <p><img src="/chals/chal105.jpg" />
+      <p><img src="/chals/chal105.jpg"  alt="isar tor"/>
       </p>
       
       <p>Und deshalb bestimmst du, was die Antwort ist! Jede Antwort ist akzeptiert, wenn sie genau 1337 Zeichen lang ist.
@@ -957,7 +1142,7 @@ print(hex_string)</pre></code>
     date: '2023-06-17',
     deps: [103],
     html: `
-      <p>Oh man, wie nervig sind Diskussionen darüber, welche Programmiersprache besser ist! Zum Glück bist du jemand, der es besser weiß: Alle Programmiersprachen sind im Kern gleich mächtig - eine Erkenntnis, die Turing wesentlich mitentwickelt hat.
+      <p>Mensch, wie nervig sind Diskussionen darüber, welche Programmiersprache besser ist! Zum Glück bist du jemand, der es besser weiß: Alle Programmiersprachen sind im Kern gleich mächtig - eine Erkenntnis, die Turing wesentlich mitentwickelt hat.
       </p>
       
       <p>Jede Programmiersprache hat ihre besondere Schönheit. Die Schönheit von Brainfuck liegt in ihrer Einfachheit: Acht Zeichen sind genug, um alles zu programmieren, was man sich vorstellen kann - auch wenn es teilweise viel Geduld und Leidenschaft braucht, das auch umzusetzen.
@@ -970,7 +1155,7 @@ print(hex_string)</pre></code>
       const output = runBrainfuck(answer)
       return {
         answer: output,
-        correct: output == secrets('chal_109'),
+        correct: output === secrets('chal_109'),
       }
     },
   },

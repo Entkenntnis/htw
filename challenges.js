@@ -14,94 +14,6 @@ function calculatorCheck(a) {
   else return a
 }
 
-function runBrainfuck(program) {
-  /** Interpreter variables */
-  // Create a new 30,000-size array, with each cell initialized with the value of 0. Memory can expand.
-  const MAX_STEPS = 10000
-
-  const MEMORY_SIZE = 100
-  const memory = new Array(MEMORY_SIZE).fill(0)
-  // Instruction pointer (Points to the current INSTRUCTION)
-  let ipointer = 0
-  // Memory pointer (Points to a cell in MEMORY)
-  let mpointer = 0
-  // Address stack. Used to track addresses (index) of left brackets
-  let astack = []
-
-  let output = ''
-
-  function sendOutput(value) {
-    output += String.fromCharCode(value)
-  }
-
-  let end = false
-  let error = ''
-  let steps = 0
-
-  while (!end) {
-    if (++steps >= MAX_STEPS) {
-      error = 'Maximale Ausführung von ' + MAX_STEPS + ' Schritten'
-      break
-    }
-    switch (program[ipointer]) {
-      case '>':
-        if (mpointer === MEMORY_SIZE - 1) {
-          end = true
-          error = 'Speicher ist auf ' + MEMORY_SIZE + ' Zellen begrenzt.'
-          break
-        }
-        mpointer++
-        break
-      case '<':
-        if (mpointer > 0) mpointer--
-        break
-      case '+':
-        memory[mpointer]++
-        break
-      case '-':
-        memory[mpointer]--
-        break
-      case '.':
-        sendOutput(memory[mpointer])
-        break
-      case ',':
-        memory[mpointer] = 0
-        break
-      case '[':
-        if (memory[mpointer]) {
-          // If non-zero
-          astack.push(ipointer)
-        } else {
-          // Skip to matching right bracket
-          let count = 0
-          while (true) {
-            ipointer++
-            if (!program[ipointer]) break
-            if (program[ipointer] === '[') count++
-            else if (program[ipointer] === ']') {
-              if (count) count--
-              else break
-            }
-          }
-        }
-        break
-      case ']':
-        //Pointer is automatically incremented every iteration, therefore, we must decrement to get the correct value
-        ipointer = astack.pop() - 1
-        break
-      case undefined: // We have reached the end of the program
-        end = true
-        break
-      default: // We ignore any character that is not part of regular Brainfuck syntax
-        break
-    }
-    ipointer++
-  }
-
-  if (error) return error
-  return output
-}
-
 module.exports = [
   {
     id: 1,
@@ -581,81 +493,81 @@ module.exports = [
   },
 
   /*{
-      id: 11,
-      pos: { x: 100, y: 400 },
-      title: 'Fremdwährung',
-      deps: [18],
-      html: `
-        <p>Das Währungssystem in Land Compedia ist anders aufgebaut als wir es so gewohnt sind. Es gibt dort nur Münzen und diese haben die Werte 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512. Das sind die ersten 10 Zweierpotenzen.
-        </p>
-        
-        <p>Damit die Einwohner nicht so viel Geld mit sich schleppen müssen, dürfen Preise nur zwischen 1 und 1023 liegen. Zu hohe Preise und Dezimalbrüche sind verboten (und werden per Überweisung bezahlt).
-        </p>
-        
-        <p>Das Interessante an diesem System: Jeder Einwohner kann mit einem Satz an Münzen (also von jedem Wert genau eine Münze, insgesamt 10 Münzen) jeden Preis zwischen 1 und 1023 bezahlen. Wir wollen das mal überprüfen: Den Preis von 100 können wir mit den drei Münzen 64, 32 und 4 bezahlen. Klappt.
-        </p>
-        
-        <p>Die Frage lautet: Wie bezahlt ein Compedianer den Preis 85?
-        </p>
-        
-        <p>Gib die einzelnen Münzwerte von groß nach klein mit Leerzeichen getrennt an (z.B. <em>64 32 4</em>).
-        </p>
-      `,
-      solution: '64 16 4 1',
-    },*/
+            id: 11,
+            pos: { x: 100, y: 400 },
+            title: 'Fremdwährung',
+            deps: [18],
+            html: `
+              <p>Das Währungssystem in Land Compedia ist anders aufgebaut als wir es so gewohnt sind. Es gibt dort nur Münzen und diese haben die Werte 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512. Das sind die ersten 10 Zweierpotenzen.
+              </p>
+              
+              <p>Damit die Einwohner nicht so viel Geld mit sich schleppen müssen, dürfen Preise nur zwischen 1 und 1023 liegen. Zu hohe Preise und Dezimalbrüche sind verboten (und werden per Überweisung bezahlt).
+              </p>
+              
+              <p>Das Interessante an diesem System: Jeder Einwohner kann mit einem Satz an Münzen (also von jedem Wert genau eine Münze, insgesamt 10 Münzen) jeden Preis zwischen 1 und 1023 bezahlen. Wir wollen das mal überprüfen: Den Preis von 100 können wir mit den drei Münzen 64, 32 und 4 bezahlen. Klappt.
+              </p>
+              
+              <p>Die Frage lautet: Wie bezahlt ein Compedianer den Preis 85?
+              </p>
+              
+              <p>Gib die einzelnen Münzwerte von groß nach klein mit Leerzeichen getrennt an (z.B. <em>64 32 4</em>).
+              </p>
+            `,
+            solution: '64 16 4 1',
+          },*/
 
   /*{
-      id: 12,
-      pos: { x: 100, y: 530 },
-      title: 'Fremdwährung II',
-      deps: [11],
-      html: `
-        <p>Wie bezahlt ein Compedianer in diesem System den Preis 805?
-        </p>
-      `,
-      solution: '512 256 32 4 1',
-    },*/
+            id: 12,
+            pos: { x: 100, y: 530 },
+            title: 'Fremdwährung II',
+            deps: [11],
+            html: `
+              <p>Wie bezahlt ein Compedianer in diesem System den Preis 805?
+              </p>
+            `,
+            solution: '512 256 32 4 1',
+          },*/
 
   /*{
-      id: 13,
-      pos: { x: 130, y: 670 },
-      title: 'Fremdwährung III',
-      deps: [12],
-      html: `
-        <p>Die Compedianer nutzen dieses System der Münzen auch für ihre Zahlen, allerdings in einer abgewandelten Form: Die Münzwerte werden durch die Position der Ziffern bestimmt und diese steigt von rechts nach links auf. Es gibt nur zwei Ziffern. Die Null bedeutet, dass diese Münze nicht benutzt wird, die Eins bedeutet, dass sie benutzt wird. Hier sehen wir ein Beispiel für die Zahl 100110:
-        </p>
-        
-        <p><img src="/chals/chal13.png"></p>
-        
-        <p>Verwendet werden die Werte 32, 4 und 2 und damit ergibt sich insgesamt die Zahl 38.</p><p>Die Frage lautet nun: Welche Zahl steckt hinter der Folge 110001100100?
-        </p>
-      `,
-      solution: '3172',
-    },*/
+            id: 13,
+            pos: { x: 130, y: 670 },
+            title: 'Fremdwährung III',
+            deps: [12],
+            html: `
+              <p>Die Compedianer nutzen dieses System der Münzen auch für ihre Zahlen, allerdings in einer abgewandelten Form: Die Münzwerte werden durch die Position der Ziffern bestimmt und diese steigt von rechts nach links auf. Es gibt nur zwei Ziffern. Die Null bedeutet, dass diese Münze nicht benutzt wird, die Eins bedeutet, dass sie benutzt wird. Hier sehen wir ein Beispiel für die Zahl 100110:
+              </p>
+              
+              <p><img src="/chals/chal13.png"></p>
+              
+              <p>Verwendet werden die Werte 32, 4 und 2 und damit ergibt sich insgesamt die Zahl 38.</p><p>Die Frage lautet nun: Welche Zahl steckt hinter der Folge 110001100100?
+              </p>
+            `,
+            solution: '3172',
+          },*/
 
   /*{
-      id: 14,
-      pos: { x: 150, y: 820 },
-      title: 'Fremdwährung IV',
-      deps: [13],
-      html: `
-        <p>Die Compedianer haben damit ihr Zahlensystem auf das sog. Binärsystem umgestellt. Man könnte fast meinen, dass ein Compedianer den Computer erfunden hätte - denn Computer verstehen auch nur Binärzahlen.
-        </p>
-        
-        <p>Für uns Menschen gibt es noch eine Schwierigkeit: Binärzahlen sind oft sehr lang. Um sie kürzer darzustellen, kann man sie in 4er-Packs zerlegen und mit folgender Tabelle übersetzen:
-        </p>
-        
-        <p>0000 = 0<br>0001 = 1<br>0010 = 2<br>0011 = 3<br>0100 = 4<br>0101 = 5<br>0110 = 6<br>0111 = 7<br>1000 = 8<br>1001 = 9<br>1010 = A<br>1011 = B<br>1100 = C<br>1101 = D<br>1110 = E<br>1111 = F
-        </p>
-        
-        <p>Die Tabelle ist eigentlich sehr systematisch: Auf der linken Seite sind die Zahlen von 0 bis 15 dargestellt und rechts die passende Zahl oder ein Buchstabe. Die Binärzahl 10100011 wird dann mit A3 abgekürzt. Diese Schreibweise wird Hexadezimalsystem genannt.
-        </p>
-        
-        <p>Wie lautet nun die Binärzahl 11111010011000000100 in hexadezimaler Schreibweise?
-        </p>
-      `,
-      solution: 'fa604',
-    },*/
+            id: 14,
+            pos: { x: 150, y: 820 },
+            title: 'Fremdwährung IV',
+            deps: [13],
+            html: `
+              <p>Die Compedianer haben damit ihr Zahlensystem auf das sog. Binärsystem umgestellt. Man könnte fast meinen, dass ein Compedianer den Computer erfunden hätte - denn Computer verstehen auch nur Binärzahlen.
+              </p>
+              
+              <p>Für uns Menschen gibt es noch eine Schwierigkeit: Binärzahlen sind oft sehr lang. Um sie kürzer darzustellen, kann man sie in 4er-Packs zerlegen und mit folgender Tabelle übersetzen:
+              </p>
+              
+              <p>0000 = 0<br>0001 = 1<br>0010 = 2<br>0011 = 3<br>0100 = 4<br>0101 = 5<br>0110 = 6<br>0111 = 7<br>1000 = 8<br>1001 = 9<br>1010 = A<br>1011 = B<br>1100 = C<br>1101 = D<br>1110 = E<br>1111 = F
+              </p>
+              
+              <p>Die Tabelle ist eigentlich sehr systematisch: Auf der linken Seite sind die Zahlen von 0 bis 15 dargestellt und rechts die passende Zahl oder ein Buchstabe. Die Binärzahl 10100011 wird dann mit A3 abgekürzt. Diese Schreibweise wird Hexadezimalsystem genannt.
+              </p>
+              
+              <p>Wie lautet nun die Binärzahl 11111010011000000100 in hexadezimaler Schreibweise?
+              </p>
+            `,
+            solution: 'fa604',
+          },*/
 
   {
     id: 15,
@@ -830,49 +742,49 @@ module.exports = [
   },
 
   /*{
-      id: 19,
-      pos: { x: 310, y: 460 },
-      title: 'Cäsar',
-      date: '2017-05-18',
-      deps: [18],
-      html: `
-        <p>Du hast wieder eine verschlüsselte Nachricht erhalten:
-        </p>
-        
-        <p>Yottss</p>
-        
-        <p>Diesmal wurde die Nachricht mit dem Cäsarcode verschlüsselt. Bei diesem Code werden die Buchstaben um eine bestimmte Anzahl im Alphabet verschoben. Wenn man zum Beispiel <strong>Maus</strong> nimmt und die Buchstaben um eins weiter verschiebt, kommt der geheime Text <strong>Nbvt</strong> heraus.
-        </p>
-        
-        <p>Die Schwierigkeit liegt darin: Du weißt nicht, um wie viel die geheime Nachricht verschoben wurde. Aber das sollte Dich als Hacker nicht abhalten! Die geheime Nachricht (ein deutsches Wort) ist die Antwort zu dieser Aufgabe.
-        </p>
-      `,
-      solution: 'kaffee',
-    },*/
+            id: 19,
+            pos: { x: 310, y: 460 },
+            title: 'Cäsar',
+            date: '2017-05-18',
+            deps: [18],
+            html: `
+              <p>Du hast wieder eine verschlüsselte Nachricht erhalten:
+              </p>
+              
+              <p>Yottss</p>
+              
+              <p>Diesmal wurde die Nachricht mit dem Cäsarcode verschlüsselt. Bei diesem Code werden die Buchstaben um eine bestimmte Anzahl im Alphabet verschoben. Wenn man zum Beispiel <strong>Maus</strong> nimmt und die Buchstaben um eins weiter verschiebt, kommt der geheime Text <strong>Nbvt</strong> heraus.
+              </p>
+              
+              <p>Die Schwierigkeit liegt darin: Du weißt nicht, um wie viel die geheime Nachricht verschoben wurde. Aber das sollte Dich als Hacker nicht abhalten! Die geheime Nachricht (ein deutsches Wort) ist die Antwort zu dieser Aufgabe.
+              </p>
+            `,
+            solution: 'kaffee',
+          },*/
 
   /*{
-      id: 20,
-      pos: { x: 160, y: 485 },
-      title: 'Geheimtext',
-      deps: [11, 51],
-      html: `
-        <p>Unser Freund hat dir eine verschlüsselte Nachricht geschickt. Diese Nachricht hat er auf zwei Briefe aufgeteilt. Der erste Brief enthält folgenden Text:
-        </p>
-        
-        <pre class="my-4">JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC</pre>
-        
-        <p>Der zweite Brief enthält folgenden Hinweis:</p>
-        
-        <pre class="my-4">Geheim: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\nKlar:   W ? I E U ? Z V J D ? X ? M L Y K N ? B T S P G O ?</pre>
-        
-        <p>Anscheinend kann man mit diesen Angaben die Nachricht entziffern. Leider sind durch den Regen ein paar Buchstaben im zweiten Brief verwischt. Schaffst du es trotzdem, den Brief zu entschlüsseln?
-        </p>
-      `,
-      // Die Antwort auf deine Aufgabe lautet hammerhai
-      // JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC
-      // hidden: A -> F, C -> B, F -> Z, H -> S, R -> M
-      solution: 'hammerhai',
-    },*/
+            id: 20,
+            pos: { x: 160, y: 485 },
+            title: 'Geheimtext',
+            deps: [11, 51],
+            html: `
+              <p>Unser Freund hat dir eine verschlüsselte Nachricht geschickt. Diese Nachricht hat er auf zwei Briefe aufgeteilt. Der erste Brief enthält folgenden Text:
+              </p>
+              
+              <pre class="my-4">JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC</pre>
+              
+              <p>Der zweite Brief enthält folgenden Hinweis:</p>
+              
+              <pre class="my-4">Geheim: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\nKlar:   W ? I E U ? Z V J D ? X ? M L Y K N ? B T S P G O ?</pre>
+              
+              <p>Anscheinend kann man mit diesen Angaben die Nachricht entziffern. Leider sind durch den Regen ein paar Buchstaben im zweiten Brief verwischt. Schaffst du es trotzdem, den Brief zu entschlüsseln?
+              </p>
+            `,
+            // Die Antwort auf deine Aufgabe lautet hammerhai
+            // JCD FRUAYMU FEZ JDCRD FEZXFTD OFEUDU SFNNDMSFC
+            // hidden: A -> F, C -> B, F -> Z, H -> S, R -> M
+            solution: 'hammerhai',
+          },*/
 
   {
     id: 21,
@@ -920,36 +832,36 @@ module.exports = [
   },
 
   /*{
-      id: 22,
-      pos: { x: 845, y: 725 },
-      title: 'NoScript',
-      date: '2017-08-25',
-      deps: [81],
-      html: `
-        <p>Moderne Websiten enthalten nicht nur viele Texte und Bilder, sondern auch sehr viele interaktive Inhalte wie Animationen, Menüs, Widgets, ...
-        </p>
-        
-        <p>Ermöglicht werden diese interaktiven Inhalte durch JavaScript. Neben vielem Guten kann man damit aber auch einiges an Unsinn betreiben. Nehmen wir mal das Eingabefeld dieser Aufgabe: Das wurde leider mit JavaScript komplett lahmgelegt.
-        </p>
-        
-        <p>Die Antwort auf diese Aufgabe ist der Name für den standardisierten Sprachkern von JavaScript.
-        </p>
-      
-        <script>
-          window.addEventListener('load', () => {
-            document.getElementById("challenge_submit").disabled = true
-            document.getElementById("challenge_form").onsubmit = e => {
-              e.preventDefault()
-            }
-            document.getElementById("challenge_answer").onkeypress = function(e) {
-              if (e.which == 13)
-                return false
-            }
-          })
-        </script>
-      `,
-      solution: secrets('chal_22'),
-    },*/
+            id: 22,
+            pos: { x: 845, y: 725 },
+            title: 'NoScript',
+            date: '2017-08-25',
+            deps: [81],
+            html: `
+              <p>Moderne Websiten enthalten nicht nur viele Texte und Bilder, sondern auch sehr viele interaktive Inhalte wie Animationen, Menüs, Widgets, ...
+              </p>
+              
+              <p>Ermöglicht werden diese interaktiven Inhalte durch JavaScript. Neben vielem Guten kann man damit aber auch einiges an Unsinn betreiben. Nehmen wir mal das Eingabefeld dieser Aufgabe: Das wurde leider mit JavaScript komplett lahmgelegt.
+              </p>
+              
+              <p>Die Antwort auf diese Aufgabe ist der Name für den standardisierten Sprachkern von JavaScript.
+              </p>
+            
+              <script>
+                window.addEventListener('load', () => {
+                  document.getElementById("challenge_submit").disabled = true
+                  document.getElementById("challenge_form").onsubmit = e => {
+                    e.preventDefault()
+                  }
+                  document.getElementById("challenge_answer").onkeypress = function(e) {
+                    if (e.which == 13)
+                      return false
+                  }
+                })
+              </script>
+            `,
+            solution: secrets('chal_22'),
+          },*/
 
   {
     id: 23,
@@ -1402,48 +1314,48 @@ module.exports = [
   },
 
   /*{
-      id: 34,
-      pos: { x: 550, y: 500 },
-      title: 'Taschenrechner IV',
-      date: '2017-09-01',
-      deps: [33],
-      html: `
-        <p>Diese Aufgabe basiert wieder auf dem ursprünglichen Taschenrechner von Teil 1 (d.h. mit allen Tasten). Diesmal soll die Zahl nicht von dir berechnet werden, sondern es ist die Reihenfolge der Tasten gesucht, die zum richtigen Ergebnis führt.
-        </p>
+            id: 34,
+            pos: { x: 550, y: 500 },
+            title: 'Taschenrechner IV',
+            date: '2017-09-01',
+            deps: [33],
+            html: `
+              <p>Diese Aufgabe basiert wieder auf dem ursprünglichen Taschenrechner von Teil 1 (d.h. mit allen Tasten). Diesmal soll die Zahl nicht von dir berechnet werden, sondern es ist die Reihenfolge der Tasten gesucht, die zum richtigen Ergebnis führt.
+              </p>
+              
+              <p>Schreibe die Tasten, die du am Taschenrechner drücken würdest, von links nach rechts mit Leerzeichen getrennt auf. So liefert z.B. die Eingabe "4 5 *" das Ergebnis 20 (Drücke zuerst 4, dann 5, dann die Maltaste). Entsprechend ergibt die Eingabe "4 dup *" das Ergebnis 16 und "1 2 3 drop +" das Ergebnis 3. Du kannst gerne zurückgehen und deine Eingabe am Rechner ausprobieren.
+              </p>
+              
+              <p>Gesucht ist ein Programm, das die Zahl 386 erzeugt.
+              </p>
+            `,
+            check: (answer) => {
+              const val = trinterpreter(answer)
+              return {
+                answer: val,
+                correct: val == '386',
+              }
+            },
+          },
         
-        <p>Schreibe die Tasten, die du am Taschenrechner drücken würdest, von links nach rechts mit Leerzeichen getrennt auf. So liefert z.B. die Eingabe "4 5 *" das Ergebnis 20 (Drücke zuerst 4, dann 5, dann die Maltaste). Entsprechend ergibt die Eingabe "4 dup *" das Ergebnis 16 und "1 2 3 drop +" das Ergebnis 3. Du kannst gerne zurückgehen und deine Eingabe am Rechner ausprobieren.
-        </p>
-        
-        <p>Gesucht ist ein Programm, das die Zahl 386 erzeugt.
-        </p>
-      `,
-      check: (answer) => {
-        const val = trinterpreter(answer)
-        return {
-          answer: val,
-          correct: val == '386',
-        }
-      },
-    },
-  
-    {
-      id: 35,
-      pos: { x: 675, y: 525 },
-      title: 'Taschenrechner V',
-      date: '2017-09-01',
-      deps: [34],
-      html: `
-        <p>Es ist ein Programm gesucht, das die Zahl 24 erzeugt. Diesmal sind allerdings nur die vier Befehle 1, 2, * und - erlaubt.
-        </p>
-      `,
-      check: (answer) => {
-        const val = trinterpreterstripped(answer)
-        return {
-          answer: val,
-          correct: val == '24',
-        }
-      },
-    },*/
+          {
+            id: 35,
+            pos: { x: 675, y: 525 },
+            title: 'Taschenrechner V',
+            date: '2017-09-01',
+            deps: [34],
+            html: `
+              <p>Es ist ein Programm gesucht, das die Zahl 24 erzeugt. Diesmal sind allerdings nur die vier Befehle 1, 2, * und - erlaubt.
+              </p>
+            `,
+            check: (answer) => {
+              const val = trinterpreterstripped(answer)
+              return {
+                answer: val,
+                correct: val == '24',
+              }
+            },
+          },*/
 
   {
     id: 36,
@@ -2466,16 +2378,16 @@ module.exports = [
   },
 
   /*{
-      id: 54,
-      pos: { x: 255, y: 895 },
-      title: 'Quiz IV',
-      deps: [53],
-      html: `
-        <p>Doch noch nicht bereit dafür ...
-        </p>
-      `,
-      solution: '---',
-    },*/
+            id: 54,
+            pos: { x: 255, y: 895 },
+            title: 'Quiz IV',
+            deps: [53],
+            html: `
+              <p>Doch noch nicht bereit dafür ...
+              </p>
+            `,
+            solution: '---',
+          },*/
 
   {
     id: 55,
@@ -2583,19 +2495,29 @@ module.exports = [
   {
     id: 56,
     pos: { x: 865, y: 105 },
-    title: 'Benutzername IV',
+    title: { de: 'Benutzername IV', en: 'Username IV' },
     date: '2020-08-01',
     deps: [17],
-    html: `
+    html: {
+      de: `
       <p>Es ist wieder dein Benutzername gefragt. Aber diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
       </p>
     `,
+      en: `
+        <p>It's your username again. But this time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
+        </p>
+    `,
+    },
     check: async (answer, { req }) => {
       let value = ''
       let containsUsername = false
       try {
         if (!answer || !answer.startsWith('http')) {
-          return { answer: 'Keine URL: ' + answer, correct: false }
+          if (req.lng.startsWith('de')) {
+            return { answer: 'Keine URL: ' + answer, correct: false }
+          } else {
+            return { answer: 'No URL: ' + answer, correct: false }
+          }
         }
         const controller = new AbortController()
         const timeout = setTimeout(() => {
@@ -2609,14 +2531,19 @@ module.exports = [
           })
           value = await res.text()
           value = value.trim()
-          if (!value) value = '[Leere Seite (Status ' + res.status + ')]'
+          if (!value)
+            value = req.lng.startsWith('de')
+              ? '[Leere Seite (Status ' + res.status + ')]'
+              : '[Empty page (status ' + res.status + ')]'
           if (value.includes(req.user.name)) containsUsername = true
           if (value.length > 1000) {
             value = value.substring(0, 1000) + '...'
           }
         } catch (error) {
           if (error.message && error.message.includes('aborted')) {
-            value = 'Keine Antwort nach 4 Sekunden'
+            value = req.lng.startsWith('de')
+              ? 'Keine Antwort nach 4 Sekunden'
+              : 'No response after 4 seconds'
           } else {
             value = error.message
           }
@@ -2636,10 +2563,11 @@ module.exports = [
   {
     id: 57,
     pos: { x: 1350, y: 950 },
-    title: 'Passage',
+    title: { de: 'Passage', en: 'Passage' },
     date: '2020-08-17',
     deps: [59, 63, 64, 67],
-    html: `
+    html: {
+      de: `
           <p><i>Durch dunkle Gänge zieht es mich,<br>
 Von Geheimnissen umgeben.<br>
 Was sich verbirgt, ich weiß es nicht,<br>
@@ -2652,16 +2580,33 @@ Doch ich spüre tiefes Beben.</i>
           
           <p>Jede Zahl entspricht der Nummer einer Aufgabe. Schaue in die Addressleiste. Dort siehst du, dass diese Aufgabe die Nummer 57 hat. Die Anfangsbuchstaben der Aufgaben bilden die Antwort.</p>
     `,
+      en: `
+          <p>
+            <i>
+                Through dark corridors I am drawn,<br>
+                Surrounded by secrets.<br>   
+                What is hidden, I do not know,<br>
+                But I feel deep tremors.
+            </i>
+          </p> 
+          
+            <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
+            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 64 &nbsp; 18</p>
+            <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
+            <p>The first letters of the <strong>German</strong> challenge names form the answer. Please switch to the German version for this challenge.</p>
+    `,
+    },
     solution: secrets('chal_57'),
   },
 
   {
     id: 58,
     pos: { x: 355, y: 665 },
-    title: 'Elemente',
+    title: { de: 'Elemente', en: 'Elements' },
     date: '2020-08-17',
     deps: [52, 69],
-    html: `
+    html: {
+      de: `
       <p>Für dich gibt es keine Grenzen, mit welchen Mitteln man einen Geheimtext schreibt. Du kommst mit allen Methoden klar - auch wenn es ein ganz eigener Code ist.
       </p>
       
@@ -2672,16 +2617,28 @@ Doch ich spüre tiefes Beben.</i>
       
       <p><small><a href="https://genshin-impact.fandom.com/wiki/Element" target="_blank">Hinweis</a></small></p>
     `,
+      en: `
+        <p>There are no limits for you when it comes to writing a secret text. You can handle all methods — even if it is a very special code.
+        </p>
+
+        <p>The first letters of the following elements from Teyvat form your answer.
+        
+        <p><img src="/chals/chal58_2.png" alt="genshin"></p>
+        
+        <p><small><a href="https://genshin-impact.fandom.com/wiki/Element" target="_blank">Hint</a></small></p>
+    `,
+    },
     solution: secrets('chal_58'),
   },
 
   {
     id: 59,
     pos: { x: 1075, y: 985 },
-    title: 'Geheimtext',
+    title: { de: 'Geheimtext', en: 'Secret Text' },
     date: '2020-08-17',
     deps: [3, 25],
-    html: `
+    html: {
+      de: `
       <p>Schon als Kind hat es super viel Spaß gemacht, einen Geheimtext Stück für Stück zu entschlüsseln. Hier kannst das auf interaktive Art nacherleben.
       </p>
       
@@ -2693,6 +2650,10 @@ Doch ich spüre tiefes Beben.</i>
       
       <div id="debug" style="text-align:right"></div>
       
+      
+      <script>
+        window.htw_locale = 'de'
+      </script>
       <script src="/chals/chal59.js"></script>
       
       <div style="height:40px"></div>
@@ -2700,40 +2661,68 @@ Doch ich spüre tiefes Beben.</i>
       <p>Die Antwort ist der Name der Person, die den ersten Satz sagt.
       </p>
     `,
+      en: `
+        <p>Even as a child, it was a lot of fun to decipher a secret text piece by piece. Here you can relive this in an interactive way.
+        </p>
+        
+        <p>Instructions: Press two letters <strong>at the same time</strong> on the keyboard, they will be highlighted and swapped.
+        
+        <pre id="output" style="font-size:16px;white-space:pre-wrap;margin-top:48px">
+        </pre>
+        
+        <div id="debug" style="text-align:right"></div>
+          
+        <script>
+          window.htw_locale = 'en'
+        </script>
+        <script src="/chals/chal59.js"></script>
+        
+        <div style="height:40px"></div>
+        
+        <p>The answer is the name of the person who says the first sentence.
+        </p>
+    `,
+    },
     solution: secrets('chal_59'),
   },
 
   {
     id: 60,
     pos: { x: 450, y: 600 },
-    title: 'Scan Mich',
+    title: { de: 'Scan Mich', en: 'Scan Me' },
     date: '2020-08-17',
     deps: [31, 69],
-    html: `
+    html: {
+      de: `
       <p><img src="/chals/chal60.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
     `,
+      en: `
+        <p><img src="/chals/chal60-en.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
+    `,
+    },
     solution: secrets('chal_60'),
   },
 
   /*{
-      id: 61,
-      pos: { x: 1045, y: 660 },
-      title: 'Bunte Blöcke',
-      date: '2020-08-17',
-      deps: [81],
-      html: `
-        <p><img src="/chals/chal61.png" width=550></p>
-      `,
-      solution: secrets('chal_61'),
-    },*/
+            id: 61,
+            pos: { x: 1045, y: 660 },
+            title: 'Bunte Blöcke',
+            date: '2020-08-17',
+            deps: [81],
+            html: `
+              <p><img src="/chals/chal61.png" width=550></p>
+            `,
+            solution: secrets('chal_61'),
+          },*/
 
   {
     id: 62,
     pos: { x: 1130, y: 300 },
-    title: 'Datei',
+    title: { de: 'Datei', en: 'File' },
     date: '2020-08-17',
     deps: [37, 47],
-    html: `
+    html: {
+      de: `
       <p>Ich möchte dir sagen: Du bist wunderbar <3.
       </p>
       
@@ -2768,16 +2757,53 @@ Doch ich spüre tiefes Beben.</i>
         }
       </script>
     `,
+      en: `
+      <p>I want to tell you: you are wonderful <3.
+      </p>
+      
+      <p>With this prompt I generated an image to make the message more clear. You can download it here:
+      </p>
+      
+      <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
+      
+      <p>File name:<strong id="filename">picture.txt</strong> [<a href="#" onclick="changeName()">change</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Download</button>
+      </p>
+    
+      <p>There is something wrong with the file extension, you need to fix it before downloading. You can find the answer in the picture.
+      </p>
+      
+      
+      <script>
+        const filename = document.getElementById('filename')
+        
+        function download() {
+          fetch('/chals/chal62-en.data')
+            .then(response => response.blob())
+            .then(blob => {
+              const link = document.createElement("a");
+              link.href = URL.createObjectURL(blob);
+              link.download = filename.innerHTML;
+              link.click();
+          })
+        }
+        
+        function changeName() {
+          filename.innerHTML = prompt('New file name:', filename.innerHTML)
+        }
+      </script>
+    `,
+    },
     solution: secrets('chal_62'),
   },
 
   {
     id: 63,
     pos: { x: 1335, y: 650 },
-    title: 'Cheater',
+    title: { de: 'Cheater', en: 'Cheater' },
     date: '2020-08-17',
     deps: [38, 46, 80],
-    html: `
+    html: {
+      de: `
       <p>Anleitung: Klicke auf das Spielfeld. Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet.</p>
       
       <p>Du sieht die Antwort, sobald du 1000 Punkte erreichst. Das Spiel hat keine Cheats eingebaut - du musst es daher selber hacken.
@@ -2940,31 +2966,204 @@ PIXI.loader
     </script>
 
     `,
+      en: `
+      <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
+      
+      <p>You will see the answer as soon as you reach 1000 points. The game doesn't have any cheats built in - so you have to hack it yourself.
+      </p>
+      
+      <div id="game" tabindex="1"></div>
+      
+      <script src="/pixi.min.js"></script>
+      <script src="/chals/chal63/matter.js"></script>
+      
+      <button onclick="handleLeft()">Left</button>
+      <button onclick="handleUp()">Up</button>
+      <button onclick="handleRight()">Right</button>
+
+      <p><button onclick="update()" style="margin-top:20px">Update code</button></p>
+      
+      <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">if (app) app.ticker.stop();
+var app = new PIXI.Application(800,600,{backgroundColor:0x1099bb});
+document.getElementById('game').innerHTML = ''
+document.getElementById('game').appendChild(app.view);
+
+var engine = Matter.Engine.create(),
+world = engine.world;
+
+var WOOD = "/chals/chal63/holz.jpg"
+var BALL = "/chals/chal63/ball.png"
+
+PIXI.loader.reset()
+
+PIXI.loader
+.add(WOOD)
+.add(BALL)
+.load(() => {
+
+  var basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
+  window.basicText = basicText
+  basicText.x = 30
+  basicText.y = 90
+  
+  var woodTexture = PIXI.loader.resources[WOOD].texture
+  
+  function buildWoodBlock(x, y, w, h, id) {
+    var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
+    app.stage.addChild(block)
+    Matter.World.add(world, Matter.Bodies.rectangle(x+w/2, y+h/2, w, h, {isStatic:true, id}))
+    block.x = x
+    block.y = y
+  }
+  
+  buildWoodBlock(0, 570, 800, 30, 1)
+  buildWoodBlock(0, 170, 30, 400, 2)
+  buildWoodBlock(770, 170, 30, 400, 3)
+  buildWoodBlock(350,50,100,100, 4)
+  
+  
+  var ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
+  ball.x = 300
+  ball.y = 200
+  ball.width = 100
+  ball.height = 100
+  ball.anchor.set(0.5)
+  app.stage.addChild(ball)
+  
+  var border = undefined
+  
+  if (window.score === undefined) {
+    window.score = 0
+    basicText.text = window.score.toString()
+  }
+  
+  var circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
+  Matter.World.add(world, circle)
+  Matter.Events.on(engine, "collisionStart", data => {
+    if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
+      window.score = 0
+      basicText.text = window.score.toString()
+    }
+    else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined)
+        border = 2
+      
+      if (data.pairs[0].bodyA.id == border) {
+        window.score++
+        basicText.text = window.score.toString()
+        border = 3
+      }
+    }
+    else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined)
+        border = 3
+      
+      if (data.pairs[0].bodyA.id == border) {
+        window.score++
+        basicText.text = window.score.toString()
+        border = 2
+      }
+    }
+  })
+  
+  function handleUp() {
+    var angle = Math.random()*40-20-90
+    var r = angle/180*Math.PI
+    Matter.Body.applyForce(circle, circle.position, {x:Math.cos(r)*0.24,y:Math.sin(r)*0.24})
+  }
+  
+  function handleLeft() {
+    Matter.Body.applyForce(circle, circle.position, {x:-0.2,y:-0.05})
+  }
+  
+  function handleRight() {
+    Matter.Body.applyForce(circle, circle.position, {x:+0.2,y:-0.05})
+  }
+  
+  document.handleLeft = handleLeft
+  document.handleUp = handleUp
+  document.handleRight = handleRight
+  
+  
+  document.getElementById('game').onkeydown = (key) => {
+    if (key.keyCode == 38) {
+      handleUp()
+      key.preventDefault()
+    }
+    
+    if (key.keyCode == 37) {
+      handleLeft()
+      key.preventDefault()
+    }
+    
+    if (key.keyCode == 39) {
+      handleRight()
+      key.preventDefault()
+    }
+  }
+  
+  app.ticker.add(delta => {
+    Matter.Engine.update(engine)
+    ball.x = circle.position.x
+    ball.y = circle.position.y
+  })
+})
+</textarea></p>
+    
+    <script>
+      function update() {
+        eval(document.getElementById('code').value)
+      }
+      
+      function checkDone() {
+        if (window.score >= 1000) {
+          window.basicText.text = 'The answer is ' + (![]+[])[!+[]+!+[]+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]
+        }
+        setTimeout(checkDone, 10)
+      }
+      
+      window.onload = () => {
+        update()
+        checkDone()
+      }
+    </script>
+
+    `,
+    },
     solution: secrets('chal_63'),
   },
 
   {
     id: 64,
     pos: { x: 1155, y: 840 },
-    title: 'Eine Zeile Python',
+    title: { de: 'Eine Zeile Python', en: 'One Line of Python' },
     date: '2020-08-17',
     deps: [25, 86, 87],
-    html: `
+    html: {
+      de: `
       <p>Was ist die Ausgabe folgender Zeile?
       </p>
       
       <p><pre><code>print(sum([(x+1)*(x+1) for x in range(10)]))</pre></code></p>
     `,
+      en: `
+      <p>What is the output of the following line?
+      </p>
+        
+      <p><pre><code>print(sum([(x+1)*(x+1) for x in range(10)]))</pre></code></p>
+    `,
+    },
     solution: secrets('chal_64'),
   },
 
   {
     id: 65,
     pos: { x: 895, y: 555 },
-    title: 'Spielstand',
+    title: { de: 'Spielstand', en: 'Game Save' },
     date: '2021-03-19',
     deps: [81],
-    html: `
+    html: {
+      de: `
       <p>Die meisten Spiele speichern ihre Spielstände in einer verschlüsselten Form. Auch dieses kleine Spiel hier auf der Seite. Erreiche 999999 Gold und gibt deinen Spielstand als Antwort ein. Du kannst das Spiel spielen - oder es austricken.
       </p>
     
@@ -2983,6 +3182,26 @@ PIXI.loader
         }
       </script>
     `,
+      en: `
+        <p>Most games save their game states in an encrypted form. Even this little game here on the page. Reach 999999 gold and enter your game state as an answer. You can play the game — or trick it.
+        </p>
+        
+        <br /><br />
+        
+        <p>Your gold: <span id="gold-span">0</span><br /><button onclick="update()">Grind me!</button>
+        </p>
+        <p style="color:rgb(128,128,128)">Game state: <span id="score"></span>
+        </p>
+        <script>
+            function update() {
+                let gold = parseInt(document.getElementById('gold-span').innerHTML);
+                gold = gold + 1
+                document.getElementById('gold-span').innerHTML = gold.toString()
+                document.getElementById('score').innerHTML = btoa(JSON.stringify({gold:gold}))
+            }
+        </script>
+    `,
+    },
     check: (input) => {
       let answer = input
       let state = {}
@@ -3005,37 +3224,51 @@ PIXI.loader
   {
     id: 66,
     pos: { x: 100, y: 565 },
-    title: 'Matrix',
+    title: { de: 'Matrix', en: 'Matrix' },
     date: '2021-03-19',
     deps: [68],
-    html: `
+    html: {
+      de: `
       <p>Im Hintergrund der <a href="/chals/chal66/index.html" target="_blank">Matrix</a> ist ein Wort versteckt. Schaue genau hin und achte auf die Schatten.
       </p>
     `,
+      en: `
+      <p>There is a word hidden in the background of the <a href="/chals/chal66/index.html" target="_blank">Matrix</a>. Look closely and pay attention to the shadows.
+      </p>
+    `,
+    },
     solution: secrets('chal_66'),
   },
 
   {
     id: 67,
     pos: { x: 1255, y: 760 },
-    title: 'Anschlüsse',
+    title: { de: 'Anschlüsse', en: 'Ports' },
     date: '2021-03-19',
     deps: [87],
-    html: `
+    html: {
+      de: `
       <p>Verbinde die Adern in der richten Reihenfolge mit dem Stecker. Nutze dabei den Standard TIA-568B.</p>
     
       <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
     `,
+      en: `
+      <p>Connect the wires in the right order with the plug. Use the TIA-568B standard.</p>
+      
+      <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
+    `,
+    },
     solution: secrets('chal_67'),
   },
 
   {
     id: 68,
     pos: { x: 100, y: 400 },
-    title: 'Gemälde',
+    title: { de: 'Gemälde', en: 'Painting' },
     date: '2021-03-19',
     deps: [24],
-    html: `
+    html: {
+      de: `
       <p>Kunst überdauert Jahrhunderte - auch weil sie immer wieder neu interpretiert und überarbeitet wird.</p>
       
       <p>Dein Freund Normand zeigt dir stolz sein neustes Kunstwerk:
@@ -3099,16 +3332,82 @@ PIXI.loader
     
     <p>Die Umsetzung ist kreativ und modern, doch das Motiv selber ist schon sehr alt. In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
     `,
+      en: `
+      <p>Art lasts for centuries — also because it is constantly reinterpreted and revised.</p>
+      
+      <p>Your friend Normand proudly shows you his latest work of art:
+      </p>
+      
+      <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
+                            _,,ad8888888888bba,_
+                         ,ad88888I888888888888888ba,
+                       ,88888888I88888888888888888888a,
+                     ,d888888888I8888888888888888888888b,
+                    d88888PP"""" ""YY88888888888888888888b,
+                  ,d88"'__,,--------,,,,.;ZZZY8888888888888,
+                 ,8IIl'"                ;;l"ZZZIII8888888888,
+                ,I88l;'                  ;lZZZZZ888III8888888,
+              ,II88Zl;.                  ;llZZZZZ888888I888888,
+             ,II888Zl;.                .;;;;;lllZZZ888888I8888b
+            ,II8888Z;;                 \`;;;;;''llZZ8888888I8888,
+            II88888Z;'                        .;lZZZ8888888I888b
+            II88888Z; _,aaa,      .,aaaaa,__.l;llZZZ88888888I888
+            II88888IZZZZZZZZZ,  .ZZZZZZZZZZZZZZ;llZZ88888888I888,
+            II88888IZZ<'(@@>Z|  |ZZZ<'(@@>ZZZZ;;llZZ888888888I88I
+           ,II88888;   \`""" ;|  |ZZ; \`"""     ;;llZ8888888888I888
+           II888888l            \`;;          .;llZZ8888888888I888,
+          ,II888888Z;           ;;;        .;;llZZZ8888888888I888I
+          III888888Zl;    ..,   \`;;       ,;;lllZZZ88888888888I888
+          II88888888Z;;...;(_    _)      ,;;;llZZZZ88888888888I888,
+          II88888888Zl;;;;;' \`--'Z;.   .,;;;;llZZZZ88888888888I888b
+          ]I888888888Z;;;;'   ";llllll;..;;;lllZZZZ88888888888I8888,
+          II888888888Zl.;;"Y88bd888P";;,..;lllZZZZZ88888888888I8888I
+          II8888888888Zl;.; \`"PPP";;;,..;lllZZZZZZZ88888888888I88888
+          II888888888888Zl;;. \`;;;l;;;;lllZZZZZZZZW88888888888I88888
+          \`II8888888888888Zl;.    ,;;lllZZZZZZZZWMZ88888888888I88888
+           II8888888888888888ZbaalllZZZZZZZZZWWMZZZ8888888888I888888,
+           \`II88888888888888888b"WWZZZZZWWWMMZZZZZZI888888888I888888b
+            \`II88888888888888888;ZZMMMMMMZZZZZZZZllI888888888I8888888
+             \`II8888888888888888 \`;lZZZZZZZZZZZlllll888888888I8888888,
+              II8888888888888888, \`;lllZZZZllllll;;.Y88888888I8888888b,
+             ,II8888888888888888b   .;;lllllll;;;.;..88888888I88888888b,
+             II888888888888888PZI;.  .\`;;;.;;;..; ...88888888I8888888888,
+             II888888888888PZ;;';;.   ;. .;.  .;. .. Y8888888I88888888888b,
+            ,II888888888PZ;;'                        \`8888888I8888888888888b,
+            II888888888'                              888888I8888888888888888b
+           ,II888888888                              ,888888I88888888888888888
+          ,d88888888888                              d888888I8888888888ZZZZZZZ
+       ,ad888888888888I                              8888888I8888ZZZZZZZZZZZZZ
+     ,d888888888888888'                              888888IZZZZZZZZZZZZZZZZZZ
+   ,d888888888888P'8P'                               Y888ZZZZZZZZZZZZZZZZZZZZZ
+  ,8888888888888,  "                                 ,ZZZZZZZZZZZZZZZZZZZZZZZZ
+ d888888888888888,                                ,ZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+ 888888888888888888a,      _                    ,ZZZZZZZZZZZZZZZZZZZZ888888888
+ 888888888888888888888ba,_d'                  ,ZZZZZZZZZZZZZZZZZ88888888888888
+ 8888888888888888888888888888bbbaaa,,,______,ZZZZZZZZZZZZZZZ888888888888888888
+ 88888888888888888888888888888888888888888ZZZZZZZZZZZZZZZ888888888888888888888
+ 8888888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888
+ 888888888888888888888888888888888888888ZZZZZZZZZZZZZZ888888888888888888888888
+ 8888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888
+ 88888888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888888888888
+ 8888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888 Normand  88
+ 88888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888 Veilleux 88
+ 8888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888888</pre>
+    
+    <p>The implementation is creative and modern, but the motif itself is very old. What year was the artist of the original painting born?</p>
+    `,
+    },
     solution: secrets('chal_68'),
   },
 
   {
     id: 69,
     pos: { x: 330, y: 480 },
-    title: 'Schattenbilder',
+    title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
     date: '2021-03-19',
     deps: [18],
-    html: `
+    html: {
+      de: `
       <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
       </p>
       
@@ -3136,16 +3435,46 @@ PIXI.loader
           } )
       </script>
     `,
+      en: `
+      <p>I couldn't be so precise with the mouse because you have great sensitivity! The 6 images can be moved with the mouse. When placed one on top of the other, they provide the answer.
+      </p>
+      
+      <div style="display:flex;flex-wrap:wrap;">
+      <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
+      <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
+      <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
+      <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
+      <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
+      <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
+      </div>
+      
+      <script src="/jquery-3.6.0.js"></script>
+      <script src="/jquery-ui.js"></script>
+      
+      <style>
+        .draggable {
+          margin: 12px;
+        }
+      </style>
+      
+      <script>
+          $( function() {
+            $( ".draggable" ).draggable()
+          } )
+      </script>
+    `,
+    },
     solution: secrets('chal_69'),
   },
 
   {
     id: 70,
     pos: { x: 160, y: 485 },
-    title: 'Karol',
+    title: { de: 'Karol', en: 'Karol' },
     date: '2021-03-19',
     deps: [51, 68],
-    html: `
+    html: {
+      de: `
       <p>Wenn wir heute in einem LEGO-Wettbewerb gegeneinander antreten würde, dann hätte ich gegen dich keine Chance. Irgendwie war ich kreativer, als ich noch jung war.
       </p>
       
@@ -3162,17 +3491,46 @@ PIXI.loader
       
       <p>Die Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>
     `,
+      en: `
+      <p>If we competed against each other in a LEGO competition today, I wouldn't stand a chance against you. Somehow, I was more creative when I was young.
+      </p>
+      
+      <p>Luckily, programming doesn't require so much creativity, and you can focus more on problem-solving. Robot Karol tries to find a middle ground and connect to the LEGO world. You can find an online version of Robot Karol <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">here</a>.
+      </p>
+      
+      <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
+      </iframe>
+      
+      <p>Build the following code with Karol and run the program.
+      </p>
+      
+      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
+      
+      <p>The answer is the number of yellow tokens at the end.</p>
+      
+      <br />
+      <p>Note:</p>
+      <p>wiederhohle ... mal ≙ repeat ... times</p>
+      <p>schritt ≙ step</p>
+      <p>markeSetzen ≙ setMarker</p>
+      <p>wenn ... dann ≙ if ... than</p>
+      <p>istWand ≙ isWall</p>
+      <p>linksDrehen ≙ turnLeft</p>
+      <p>markeLöschen ≙ removeMarker</p>
+    `,
+    },
     solution: secrets('chal_70'), // link: https://karol.arrrg.de/?id=b5S45y9RF
   },
 
   {
     id: 77,
     pos: { x: 630, y: 155 },
-    title: 'Hell und dunkel',
+    title: { de: 'Hell und dunkel', en: 'Light and dark' },
     date: '2022-02-09',
     deps: [6, 16],
-    html: `
-      <p>Seit einiger Zeit hast sich der "Dark mode" bei vielen Websiten durchgesetzt. Diese Seite zeigt dir einen unterschiedlichen Inhalt an, je nach dem, welchen Modus du gerade aktiviert hast. Zusammen ergeben die Zeichen die Antwort:</p>
+    html: {
+      de: `
+      <p>Seit einiger Zeit hat sich der "Dark mode" bei vielen Websiten durchgesetzt. Diese Seite zeigt dir einen unterschiedlichen Inhalt an, je nachdem, welchen Modus du gerade aktiviert hast. Zusammen ergeben die Zeichen die Antwort:</p>
       
       <div style="display: flex">
         <div class="letter"><span class="light">Y</span></div>
@@ -3215,16 +3573,62 @@ PIXI.loader
         }
       </style>
     `,
+      en: `
+      <p>“Dark mode” has become established on many websites for some time now. This page will show you different content depending on which mode you currently have activated. Together the characters give the answer:</p>
+      
+      <div style="display: flex">
+        <div class="letter"><span class="light">Y</span></div>
+        <div class="letter"><span class="dark">I</span></div>
+        <div class="letter"><span class="light">N</span></div>
+        <div class="letter"><span class="dark">Y</span></div>
+        <div class="letter"><span class="light">A</span></div>
+        <div class="letter"><span class="dark">N</span></div>
+        <div class="letter"><span class="light">G</span></div>
+      </div>
+      
+      <style>
+        @media (prefers-color-scheme: dark) {
+          .dark {
+            display: block;
+            background: black;
+            color: white;
+          }
+          .light {
+            display: none;
+          }
+        }
+        @media (prefers-color-scheme: light) {
+          .dark {
+            display: none;
+          }
+          .light {
+            display: block;
+            background: white;
+            color: black;
+          }
+        }
+        .letter {
+          margin: 4px;
+          padding: 4px;
+          font-size: 3rem;
+          border: 1px rgb(128,128,128) solid;
+          width: 90px;
+          text-align: center;
+        }
+      </style>
+    `,
+    },
     solution: secrets('chal_77'),
   },
 
   {
     id: 78,
     pos: { x: 255, y: 885 },
-    title: 'Papier',
+    title: { de: 'Papier', en: 'Paper' },
     date: '2022-02-09',
     deps: [27],
-    html: `
+    html: {
+      de: `
       <p>Die meisten Webseiten können sich an die Größe des Bildschirms anpassen, sei es ein Handy, Tablet oder großer Monitor. In der analogen Welt gibt es diese Möglichkeiten nicht. Dort findet sich häufig nur das Format DIN A4.
       </p>
       
@@ -3245,22 +3649,53 @@ PIXI.loader
         }
       </style>
     `,
+      en: `
+      <p>Most websites can adapt to the size of the screen, be it a mobile phone, tablet or large monitor. In the analog world, these options do not exist. There you will often only find the DIN A4 format.
+      </p>
+      
+      <p>A website can also be converted to DIN A4 format, for example, using the print preview. There you will find the answer to this task.
+      </p>
+      
+      <p class="print-only">The answer is ${secrets('chal_78')}.</p>
+      
+      <style>
+        .print-only {
+          display: none;
+        }
+        @media print { 
+          .print-only {
+            display: block;
+            font-size: 4em;
+          }
+        }
+      </style>
+    `,
+    },
     solution: secrets('chal_78'),
   },
 
   {
     id: 79,
     pos: { x: 755, y: 210 },
-    title: 'Google-Fu',
+    title: { de: 'Google-Fu', en: 'Googling' },
     date: '2022-02-24',
     deps: [7, 77],
-    html: `
+    html: {
+      de: `
       <p>In den weiten des Internets lassen sich so manche Informationen sammeln. Der Name für diese Fähigkeit: Google-Fu.</p>
       
       <p>Die Frage an dich lautet:  Wie viele Aufgaben hat Hack The Web insgesamt zum jetzigen Zeitpunkt?</p>
       
       <p>Hole dein ganzes Google-Fu heraus und zeige, was du drauf hast!</p>
     `,
+      en: `
+        <p>There is a lot of information to be found on the Internet. The name for this skill: Googling.</p>
+        
+        <p>The question for you is: How many challenges does Hack The Web have in total at the moment?</p>
+        
+        <p>Use all your Googling skills and show what you've got!</p>
+    `,
+    },
     check: (answer, { App }) => {
       return {
         answer,
@@ -3275,10 +3710,11 @@ PIXI.loader
   {
     id: 80,
     pos: { x: 1105, y: 535 },
-    title: 'Stylesheet',
+    title: { de: 'Stylesheet', en: 'Stylesheet' },
     date: '2022-02-24',
     deps: [28],
-    html: `
+    html: {
+      de: `
       <p>ARRRRG! Irgendeine <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen:</p>
       
       <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
@@ -3315,16 +3751,55 @@ PIXI.loader
       
       <script src="/chals/chal80_2.js"></script>
     `,
+      en: `
+      <p>ARRRRG! Some <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> person messed up the colors of the rainbow flag! It's now up to you to put the colors back in the correct order:</p>
+      
+      <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
+  background-color: green;
+}
+#bar2 {
+  background-color: purple;
+}
+#bar3 {
+  background-color: red;
+}
+#bar4 {
+  background-color: yellow;
+}
+#bar5 {
+  background-color: blue;
+}
+#bar6 {
+  background-color: orange;
+}</textarea>
+      
+      <div style="width:389px;border:1px solid black">
+        <div style="height:40px" id="bar1"></div>
+        <div style="height:40px" id="bar2"></div>
+        <div style="height:40px" id="bar3"></div>
+        <div style="height:40px" id="bar4"></div>
+        <div style="height:40px" id="bar5"></div>
+        <div style="height:40px" id="bar6"></div>
+      </div>
+      
+      <style id="injector"></style>
+      
+      <div id="result" style="margin-top:10px"></div>
+      
+      <script src="/chals/chal80_2.js"></script>
+    `,
+    },
     solution: secrets('chal_80'),
   },
 
   {
     id: 81,
     pos: { x: 785, y: 615 },
-    title: 'Formulare',
+    title: { de: 'Formulare', en: 'Forms' },
     date: '2022-12-28',
     deps: [30, 33, 60],
-    html: `
+    html: {
+      de: `
       <p>Unintuitive Formulare sind ein Schrecken für jeden Internetbenutzer. Zum Beispiel findest du die Antwort zu dieser Aufgabe in diesem viel zu kleinen Textfeld:</p>
       
       <p><input size="5" value="-> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> Die Antwort lautet ${secrets(
@@ -3349,6 +3824,32 @@ PIXI.loader
         return output
       })()}
     `,
+      en: `
+      <p>Unintuitive forms are a nightmare for every internet user. For example, you can find the answer to this task in this much too small text field:</p>
+      
+      <p><input size="5" value="-> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> The answer is ${secrets(
+        'chal_81'
+      )}"/>
+      </p>
+      
+      <p>Now we're getting to the fun part. Only one of the input fields works:</p>
+      
+      ${(() => {
+        let output = ''
+        for (let i = 0; i < 25; i++) {
+          output += `
+            <form autocomplete="off" method="post" id="challenge_form"${
+              i !== 18 ? ' action="/wrong_submit"' : ''
+            }>
+              <input id="challenge_answer" type="text" name="answer" style="height:32px">
+              <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+            </form>
+          `
+        }
+        return output
+      })()}
+    `,
+    },
     hidesubmit: true,
     solution: secrets('chal_81'),
   },
@@ -3356,15 +3857,19 @@ PIXI.loader
   {
     id: 84,
     pos: { x: 395, y: 200 },
-    title: 'Inception',
+    title: { de: 'Inception', en: 'Inception' },
     date: '2023-02-26',
     deps: [4, 5],
     render: ({ req }) => {
-      function renderFrame(w, h, level) {
+      function renderFrame(w, h, level, lang) {
         return `
           <iframe src="/challenge/84/?level=${level}" width="${w}" height="${h}" id="if" style="display:none"></iframe>
           
-          <button onclick="run()" id="bt" style="margin-top:16px">Stufe ${level} betreten</button>
+          ${
+            lang === 'de'
+              ? `<button onclick="run()" id="bt" style="margin-top:16px">Stufe ${level} betreten</button>`
+              : `<button onclick="run()" id="bt" style="margin-top:16px">Entered ${level} level</button>`
+          }
           
           <script>
             function run() {
@@ -3376,9 +3881,9 @@ PIXI.loader
           </script>
         `
       }
-
-      if (!req.query.level) {
-        return `
+      if (req.lng === 'de') {
+        if (!req.query.level) {
+          return `
           <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet. Anyway, du siehst heute traumhaft gut aus, besser noch als diese Schauspieler hier:</p>
         
           <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
@@ -3391,12 +3896,12 @@ PIXI.loader
           
           ${renderFrame(1110, 700, 1)}
         `
-      }
+        }
 
-      const level = parseInt(req.query.level)
+        const level = parseInt(req.query.level)
 
-      if (level === 1) {
-        return `
+        if (level === 1) {
+          return `
           <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px" alt="inception">
           
           <p>Eine Webseite innerhalb einer Webseite. Es geht noch mehr, gehe tiefer:</p>
@@ -3409,10 +3914,10 @@ PIXI.loader
           
           ${renderFrame(1000, 500, 2)}
         `
-      }
+        }
 
-      if (level === 2) {
-        return `
+        if (level === 2) {
+          return `
            <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
           
           <p>Die Antwort findest du auf der untersten Stufe.</p>
@@ -3425,10 +3930,10 @@ PIXI.loader
           
           ${renderFrame(900, 400, 3)}
         `
-      }
+        }
 
-      if (level === 3) {
-        return `
+        if (level === 3) {
+          return `
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
           
           <p>Die Antwort lautet ${secrets('chal_84')}.</p>
@@ -3439,9 +3944,76 @@ PIXI.loader
             }, 100)
           </script>
         `
-      }
+        }
 
-      return ''
+        return ''
+      } else {
+        if (!req.query.level) {
+          return `
+          <p>Did you sleep well yesterday? I hope you didn't meet any strange people in your dream. Anyway, you look amazing today, even better than these actors here:</p>
+        
+          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
+        
+          <p>In the film Inception, dreams are created again within dreams. What the film does, computer science can do too. You can embed another website within a website.
+          </p>
+          
+          <p>Scroll through all the pages until you reach the lowest level. There you will find the answer.
+          </p>
+          
+          ${renderFrame(1110, 700, 1)}
+        `
+        }
+
+        const level = parseInt(req.query.level)
+
+        if (level === 1) {
+          return `
+          <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px" alt="inception">
+          
+          <p>A website within a website. There's more, go deeper:</p>
+          
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+          
+          ${renderFrame(1000, 500, 2)}
+        `
+        }
+
+        if (level === 2) {
+          return `
+           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
+          
+          <p>You will find the answer on the lowest level.</p>
+          
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+          
+          ${renderFrame(900, 400, 3)}
+        `
+        }
+
+        if (level === 3) {
+          return `
+          <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
+          
+          <p>The answer is ${secrets('chal_84')}.</p>
+          
+          <script>
+            setTimeout(() => {
+              document.getElementById('challenge_form').style.display = 'none'
+            }, 100)
+          </script>
+        `
+        }
+
+        return ''
+      }
     },
     solution: secrets('chal_84'),
   },
@@ -3449,10 +4021,11 @@ PIXI.loader
   {
     id: 86,
     pos: { x: 965, y: 766 },
-    title: 'Fragil',
+    title: { de: 'Fragil', en: 'Fragile' },
     date: '2023-04-02',
     deps: [81],
-    html: `
+    html: {
+      de: `
       <p>Diese Seite ist leicht zerbrechlich. Probiere es aus: Du kannst alle Inhalte verändern.</p>
       
       <p>Ein kleiner Auftrag: Ändere den Slogan zu "Schau, was ich alles kann!"
@@ -3482,16 +4055,48 @@ PIXI.loader
         }
       </script>
     `,
+      en: `
+      <p>This site is easily fragile. Try it out: You can edit all content.</p>
+      
+      <p>A small task: change the slogan to "Look what I can do!"
+      </p>
+      
+      <p id="output">&nbsp;</p>
+      
+      <script>
+        document.documentElement.contentEditable = true
+          document.body.spellcheck = false
+        setTimeout(() => {
+          document.getElementById('challenge_form').contentEditable = false
+          check()
+        }, 100)
+        
+        function check() {
+          const lead = document.querySelector('p[class="lead"]')
+          if (lead) {
+            if (lead.textContent.trim().toLowerCase() === 'look what i can do!') {
+              document.getElementById('output').innerHTML = 'The answer is ' + atob('${Buffer.from(
+                secrets('chal_86')
+              ).toString('base64')}') + '.'
+              return // don't run check anymore
+            }
+          }
+          setTimeout(check, 500)
+        }
+      </script>
+    `,
+    },
     solution: secrets('chal_86'),
   },
 
   {
     id: 87,
     pos: { x: 1045, y: 660 },
-    title: 'Scratch',
+    title: { de: 'Scratch', en: 'Scratch' },
     date: '2023-04-02',
     deps: [81],
-    html: `
+    html: {
+      de: `
       <p>Du hast eine wunderbar entspannte Aura! Das hat mich inspiriert, dieses kleine entspannte Spiel zu entwickeln.
       </p>
       
@@ -3503,16 +4108,30 @@ PIXI.loader
       <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
       </p>
     `,
+      en: `
+        <p>You have a wonderfully relaxed aura! That inspired me to develop this little relaxed game.
+        </p>
+        
+        <p>Control with the <code>arrow keys</code>.
+        </p>
+        
+        <iframe src="https://scratch.mit.edu/projects/898484613/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
+        
+        <p style="margin-top:12px">Is it too slow for you? Look into the project: <a href="https://scratch.mit.edu/projects/898484613/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
+        </p>
+    `,
+    },
     solution: secrets('chal_87'),
   },
 
   {
     id: 110,
     pos: { x: 300, y: 310 },
-    title: 'Taschenrechner',
+    title: { de: 'Taschenrechner', en: 'Calculator' },
     date: '2023-05-13',
     deps: [4],
-    html: `
+    html: {
+      de: `
       <p>Schwierigkeiten halten dich nicht von deinen Zielen ab. Im Gegenteil: Du nutzt deine Kreativität, um die Herausforderung zu lösen.
       </p>
       
@@ -3552,6 +4171,47 @@ PIXI.loader
       
       <script src="/chals/chal110.js"></script>
     `,
+      en: `
+      <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
+      </p>
+      
+      <p>Here is a calculator from a tutorial. I followed the tutorial, but I must have made a mistake somewhere — you can't enter multi-digit numbers.
+      </p>
+      
+      <p>Your creativity is now required. Calculate the number <strong>256</strong> and submit the result.
+      </p>
+      
+      <div class="calculator">
+        <div class="calculator__display">0</div>
+
+        <div class="calculator__keys">
+          <button class="key--operator" data-action="add">+</button>
+          <button class="key--operator" data-action="subtract">-</button>
+          <button class="key--operator" data-action="multiply">&times;</button>
+          <button class="key--operator" data-action="divide">÷</button>
+          <button>7</button>
+          <button>8</button>
+          <button>9</button>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>0</button>
+          <button data-action="decimal">,</button>
+          <button data-action="clear">AC</button>
+          <button class="key--equal" data-action="calculate">=</button>
+        </div>
+      </div>
+      
+      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
+      
+      <link rel="stylesheet" href="/chals/chal110.css">
+      
+      <script src="/chals/chal110.js"></script>
+    `,
+    },
     solution: secrets('chal_110'),
     hidesubmit: true,
   },
@@ -3559,10 +4219,11 @@ PIXI.loader
   {
     id: 111,
     pos: { x: 380, y: 370 },
-    title: 'Taschenrechner II',
+    title: { de: 'Taschenrechner II', en: 'Calculator II' },
     date: '2023-05-13',
     deps: [110],
-    html: `
+    html: {
+      de: `
       <p>Berechne diesmal die Zahl <strong>10240</strong>.
       </p>
       
@@ -3596,6 +4257,41 @@ PIXI.loader
       
       <script src="/chals/chal110.js"></script>
     `,
+      en: `
+      <p>This time calculate the number <strong>10240</strong>.
+      </p>
+      
+      <div class="calculator">
+        <div class="calculator__display">0</div>
+
+        <div class="calculator__keys">
+          <button class="key--operator" data-action="add">+</button>
+          <button class="key--operator" data-action="subtract">-</button>
+          <button class="key--operator" data-action="multiply">&times;</button>
+          <button class="key--operator" data-action="divide">÷</button>
+          <button>7</button>
+          <button>8</button>
+          <button>9</button>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>0</button>
+          <button data-action="decimal">,</button>
+          <button data-action="clear">AC</button>
+          <button class="key--equal" data-action="calculate">=</button>
+        </div>
+      </div>
+      
+      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
+      
+      <link rel="stylesheet" href="/chals/chal110.css">
+      
+      <script src="/chals/chal110.js"></script>
+    `,
+    },
     solution: secrets('chal_111'),
     hidesubmit: true,
   },

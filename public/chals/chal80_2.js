@@ -24,7 +24,7 @@ function update() {
   const diff6 = compare(bar6, [119, 0, 136])
   const diff = diff1 + diff2 + diff3 + diff4 + diff5 + diff6
   const diffRel = Math.round((diff / 255) * 100)
-  result.innerHTML = diffRel <= 100 ? atob(window.atobx) : 'Farben sind leider nicht in der richtigen Reihenfolge.'
+  result.innerHTML = diffRel <= 100 ? atob(window.atobx) : 'Farben sind leider nicht in der richtigen Reihenfolge. / Colors are not in the right order.'
 }
 
 // https://stackoverflow.com/a/44655529

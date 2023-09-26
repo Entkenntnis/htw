@@ -668,7 +668,7 @@ module.exports = [
         ${generateSection('Abschnitt 30 - Dart', 'abs30', 'O', 'abs12', false)}
       `
         : `
-        <p>There are days when I don't really know where I am or where I'm going. On days like this it's nice to know that you're here and I'm not alone.
+        <p>There are days when I don't really know where I am or where I'm going. On days like this, it's nice to know that you're here, and I'm not alone.
         </p>
         
         <p>It's easy to get lost with this task. As long as you follow the bookmarks, this shouldn't be a problem.
@@ -1042,7 +1042,7 @@ print(hex_string)</pre></code>
       <p>Hackers use many technical terms, and one of my favorites is <strong>Cipher</strong>. A cipher is an algorithm that encrypts and decrypts messages.
       </p>
       
-      <p>A special form of this are invertible ciphers. These are algorithms that work the same way when encrypting and decrypting. Here is an example in pseudocode:
+      <p>A special form of these are invertible ciphers. These are algorithms that work the same way when encrypting and decrypting. Here is an example in pseudocode:
       </p>
       
       <code><pre style="font-size:14px">function cipher(input_bytes) {
@@ -1171,10 +1171,11 @@ print(hex_string)</pre></code>
   {
     id: 97,
     pos: { x: 1194, y: 1650 },
-    title: 'Cipher II',
+    title: { de: 'Cipher II', en: 'Cipher II' },
     date: '2023-05-06',
     deps: [93],
-    html: `
+    html: {
+      de: `
       <p>Dein scharfer Blick und deine Erfahrung als Hacker*in lassen sich nicht täuschen: Viel Sicherheit bringt der Cipher aus der letzten Aufgaben nicht.
       </p>
       
@@ -1209,16 +1210,53 @@ print(hex_string)</pre></code>
       <p><code>4c2f513f5a3256355d3e577a1e60193458204e2b066f0b631d750a27690d70157d022f4c2846235a771b740a68097108255b3f51345c23002d680c641b365f3753305875395a23593b443d0a27781c6206600221</code>
       </p>
     `,
+      en: `
+      <p>Your sharp eye and your experience as a hacker cannot be fooled: the cipher from the last tasks does not provide much security.
+      </p>
+      
+      <p>Therefore, there is now an updated version that is intended to offer significantly more security:
+      </p>
+      
+      <code><pre style="font-size:14px">function cipher_ii(input_bytes) {
+    key = < ??? >
+    previousOutput = 0
+    
+    output_bytes = []
+
+    for (byte in input_bytes) {
+        current_key = previousOutput XOR key
+        xor_byte = byte XOR current_key
+        previousOutput = xor_byte
+        output_bytes.append(xor_byte)
+    }
+
+    return output_bytes
+}
+
+message = < ??? >
+bytes = ascii_string_to_bytes(message)
+encrypted_bytes = cipher_ii(bytes)
+hex_string = convert_bytes_to_hex_string(encrypted_bytes)
+print(hex_string)</pre></code>
+
+      <p>The key is a number between 0 and 255. The output of this program looks like this:
+      </p>
+      
+      <p><code>4c314c205f37542d4c3819345c274f2c01781d79072a44205d38502f0266183556344d600c631d7f1e661f7716624f3159374f30587b56137b046c46381561037b0429452658224a35022f70146a0e680a29</code>
+      </p>
+    `,
+    },
     solution: secrets('chal_97'),
   },
 
   {
     id: 98,
     pos: { x: 680, y: 1460 },
-    title: 'SQL Tutorial',
+    title: { de: 'SQL Tutorial', en: 'SQL Tutorial' },
     date: '2023-05-10',
     deps: [94, 96],
-    html: `
+    html: {
+      de: `
       <p>Stark von dir, dass du dich immer wieder an neue Herausforderung herantraust und bereit bist, neue Dinge zu lernen. Das erfordert viel Motivation und Mut.
       </p>
       
@@ -1237,6 +1275,26 @@ print(hex_string)</pre></code>
       <script src="/sql.js"></script>
       <script src="/chals/chal98_2.js"></script>
     `,
+      en: `
+      <p>It's great that you always dare to take on new challenges and are willing to learn new things. This requires a lot of motivation and courage.
+      </p>
+      
+      <p>This task is about SQL. To support you, I built a mini tutorial. We look at the table <code>Secret</code> with the columns <code>key</code> and <code>value</code>. You can try out your requests directly. Enter various inputs for the key and see the result. Try it with apple, tangerine and watermelon.
+      </p>
+      
+      <p><code>SELECT * FROM Secret WHERE key='<input id="value" style="margin-left:8px; margin-right:8px;">';</code></p>
+      
+      <p><span id="runner" class="d-none"><button class="btn btn-sm btn-primary">Execute</button></span></p>
+      
+      <pre id="output" style="margin-top:24px;margin-bottom:24px;padding:8px;" class="alert alert-secondary">&nbsp;</pre>
+      
+      <p>Another entry with the answer is stored in the database. The key to this is not known. This should keep the secret safe.
+      </p>
+      
+      <script src="/sql.js"></script>
+      <script src="/chals/chal98_2.js"></script>
+    `,
+    },
     solution: secrets('chal_98'),
   },
 

@@ -344,7 +344,7 @@ module.exports = [
             </div>
           </div>
           <input type="hidden" name="answer" value="ok" />
-          <p style="margin-top:16px;">Remaining time:<span id="timer">30.00</span> Seconds</p>
+          <p style="margin-top:16px;">Remaining time: <span id="timer">30.00</span> Seconds</p>
           <p><input type="submit" value="Submit" style="margin-top:16px;"/></p>
         </form>
         

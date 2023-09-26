@@ -1554,7 +1554,7 @@ print(hex_string)</pre></code>
         <p>Is it possible that you look a little more tanned today than at our last meeting? Ha, I know it: You just returned from a trip.
         </p>
         
-        <p>Sometimes you get the impression that one transition follows another: holidays start, holidays end, school year starts, school year ends ... and we are in the middle of it.
+        <p>Sometimes you get the impression that one transition follows another: holiday start, holiday end, school year starts, school year ends ... and we are in the middle of it.
         
         <p>In computer science, transitions can be represented with such diagrams. A path leads to the goal. This shows you the answer.
         </p>

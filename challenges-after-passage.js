@@ -365,10 +365,11 @@ module.exports = [
   {
     id: 88,
     pos: { x: 1066, y: 1269 },
-    title: 'Summe',
+    title: { de: 'Summe', en: 'Sum' },
     date: '2023-04-05',
     deps: [82, 85],
-    html: `
+    html: {
+      de: `
       <p>Du hast viele tolle Eigenschaften, wie hübsch, attraktiv und Computer Genius.</p>
       
       <p>Als Computer G kennst du sicher eine schnelle Möglichkeit, die Summe dieser Zahlen auszurechnen. Die Summe ist deine Antwort.
@@ -453,16 +454,103 @@ module.exports = [
         </tbody>
       </table>
       `,
+      en: `
+      <p>You have many great qualities, such as pretty, attractive and computer genius.</p>
+      
+      <p>As a computer G, you probably know a quick way to calculate the sum of these numbers. The sum is your answer.
+      </p>
+      
+      <div class="my-4"/>
+
+      <table class="table-sm table-bordered" style="width:100%;text-align:center">
+        <tbody>
+          <tr>
+            <td>9</td>
+            <td>8</td>
+            <td>19</td>
+            <td>2</td>
+            <td>7</td>
+            <td>16</td>
+            <td>11</td>
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>12</td>
+            <td>13</td>
+            <td>1</td>
+            <td>14</td>
+            <td>20</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>6</td>
+            <td>17</td>
+            <td>5</td>
+            <td>4</td>
+            <td>15</td>
+            <td>21</td>
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>22</td>
+            <td>26</td>
+            <td>29</td>
+            <td>24</td>
+            <td>2</td>
+            <td>27</td>
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>30</td>
+            <td>42</td>
+            <td>33</td>
+            <td>35</td>
+            <td>34</td>
+            <td>21</td>
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>52</td>
+            <td>45</td>
+            <td>17</td>
+            <td>47</td>
+            <td>33</td>
+            <td>49</td>
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>11</td>
+            <td>25</td>
+            <td>45</td>
+            <td>54</td>
+            <td>27</td>
+            <td>56</td>
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>22</td>
+            <td>26</td>
+            <td>29</td>
+            <td>24</td>
+            <td>28</td>
+            <td>27</td>
+          </tr>
+        </tbody>
+      </table>
+      `,
+    },
     solution: secrets('chal_88'),
   },
 
   {
     id: 89,
     pos: { x: 933, y: 1233 },
-    title: 'Lesezeichen',
+    title: { de: 'Lesezeichen', en: 'Bookmarks' },
     date: '2023-04-08',
     deps: [82],
-    render: () => {
+    render: ({ req }) => {
+      const isGerman = req.lng === 'de'
       function generateSection(title, id, letter, next, isBroken) {
         return `
           <div style="margin-top:${Math.round(
@@ -471,14 +559,19 @@ module.exports = [
             <h1 id="${id}">${title}</h1>
             <p>${letter}. ${
               isBroken
-                ? `&lt;a href="#${next}"&gt;weiter&lt;/a&gt;`
-                : `<a href="#${next}">weiter</a>`
+                ? isGerman
+                  ? `&lt;a href="#${next}"&gt;weiter&lt;/a&gt;`
+                  : `&lt;a href="#${next}"&gt;next&lt;/a&gt;`
+                : isGerman
+                ? `<a href="#${next}">weiter</a>`
+                : `<a href="#${next}">next</a>`
             }</p>
           </div>
         `
       }
 
-      return `
+      return isGerman
+        ? `
         <p>Es gibt Tage, an denen weiß ich nicht wirklich, wo ich gerade stehe und wohin es geht. An solchen Tagen ist es schön zu wissen, dass du hier bist und ich nicht alleine bin.
         </p>
         
@@ -574,6 +667,78 @@ module.exports = [
         ${generateSection('Abschnitt 29 - Go', 'abs29', 'I', 'abs23', false)}
         ${generateSection('Abschnitt 30 - Dart', 'abs30', 'O', 'abs12', false)}
       `
+        : `
+        <p>There are days when I don't really know where I am or where I'm going. On days like this it's nice to know that you're here and I'm not alone.
+        </p>
+        
+        <p>It's easy to get lost with this task. As long as you follow the bookmarks, this shouldn't be a problem.
+        </p>
+        
+        <p>Start in <a href="#abs26">this section</a> and pay attention to the letters. Unfortunately a few bookmarks are broken.</p>
+        
+        </p>
+        
+        ${generateSection(
+          'Section 1 - Fortran',
+          'abs1',
+          'T',
+          'challenge_answer',
+          false
+        )}
+        ${generateSection('Section 2 - Lisp', 'abs2', 'T', 'abs7', false)}
+        ${generateSection('Section 3 - COBOL', 'abs3', 'K', 'abs9', false)}
+        ${generateSection('Section 4 - Algol', 'abs4', 'A', 'abs17', true)}
+        ${generateSection('Section 5 - BASIC', 'abs5', 'M', 'abs14', false)}
+        ${generateSection('Section 6 - PL/I', 'abs6', 'L', 'abs12', false)}
+        ${generateSection('Section 7 - Simula', 'abs7', 'L', 'abs18', false)}
+        ${generateSection('Section 8 - C', 'abs8', 'M', 'abs13', false)}
+        ${generateSection('Section 9 - Prologue', 'abs9', 'E', 'abs4', false)}
+        ${generateSection('Section 10 - Smalltalk', 'abs10', 'I', 'abs5', true)}
+        ${generateSection('Section 11 - Pascal', 'abs11', 'I', 'abs21', false)}
+        ${generateSection('Section 12 - Forth', 'abs12', 'R', 'abs11', false)}
+        ${generateSection('Section 13 - SQL', 'abs13', 'E', 'abs12', false)}
+        ${generateSection('Section 14 - Ada', 'abs14', 'A', 'abs1', false)}
+        ${generateSection('Section 15 - C++', 'abs15', 'W', 'abs13', true)}
+        ${generateSection(
+          'Section 16 - Objective-C',
+          'abs16',
+          'H',
+          'abs23',
+          false
+        )}
+        ${generateSection(
+          'Section 17 - Common Lisp',
+          'abs17',
+          'N',
+          'abs30',
+          false
+        )}
+        ${generateSection('Section 18 - MATLAB', 'abs18', 'A', 'abs21', false)}
+        ${generateSection('Section 19 - Perl', 'abs19', 'U', 'abs25', false)}
+        ${generateSection('Section 20 - Python', 'abs20', 'H', 'abs9', false)}
+        ${generateSection('Section 21 - Ruby', 'abs21', 'S', 'abs16', true)}
+        ${generateSection('Section 22 - Java', 'abs22', 'D', 'abs11', false)}
+        ${generateSection(
+          'Section 23 - JavaScript',
+          'abs23',
+          'E',
+          'abs10',
+          false
+        )}
+        ${generateSection('Section 24 - PHP', 'abs24', 'T', 'abs7', false)}
+        ${generateSection('Section 25 - Swift', 'abs25', 'S', 'abs4', false)}
+        ${generateSection('Section 26 - Kotlin', 'abs26', 'T', 'abs20', false)}
+        ${generateSection('Section 27 - Rust', 'abs27', 'T', 'abs20', true)}
+        ${generateSection(
+          'Section 28 - TypeScript',
+          'abs28',
+          'K',
+          'abs11',
+          false
+        )}
+        ${generateSection('Section 29 - Go', 'abs29', 'I', 'abs23', false)}
+        ${generateSection('Section 30 - Dart', 'abs30', 'S', 'abs15', false)}
+      `
     },
     solution: secrets('chal_89'),
   },
@@ -581,10 +746,11 @@ module.exports = [
   {
     id: 90,
     pos: { x: 1415, y: 1310 },
-    title: 'Orakel',
+    title: { de: 'Orakel', en: 'Oracle' },
     date: '2023-04-12',
     deps: [73, 74, 76],
-    html: `
+    html: {
+      de: `
       <p>Ich spüre bei dir so viel Energie! Ich bewundere Menschen, die eine solche Ausstrahlung haben.
       </p>
       
@@ -594,16 +760,28 @@ module.exports = [
       <p>Sprich mit <a href="/chal/orakel">dem Orakel</a>, um die Antwort zu erfahren.
       </p>
     `,
+      en: `
+        <p>I feel so much energy from you! I admire people who have such charisma.
+        </p>
+        
+        <p>Unfortunately, my oracle, which I commissioned for this task, does not radiate energy. There is only a period of 15 minutes each day in which the oracle can speak.
+        </p>
+        
+        <p>Talk to <a href="/chal/orakel">the oracle</a> to find out the answer.
+        </p>
+    `,
+    },
     solution: secrets('chal_90'),
   },
 
   {
     id: 91,
     pos: { x: 1115, y: 1330 },
-    title: 'Kekse',
+    title: { de: 'Kekse', en: 'Cookies' },
     date: '2023-04-15',
     deps: [82, 85],
-    html: `
+    html: {
+      de: `
       <p>Es gibt Kekse, frisch aus dem Backofen - nur für dich persönlich gebacken, my dear friend! Sie sind gleich fertig:
       </p>
       
@@ -644,16 +822,59 @@ module.exports = [
         }
       </script>
     `,
+      en: `
+      <p>There are cookies fresh from the oven — baked just for you, my dear friend! You're almost done:
+      </p>
+      
+      <p id="countdown"></p>
+      
+      <div id="backdrop" style="display:none;position:fixed;background-color:rgba(255, 255, 255, 0.5);top:0;left:0;right:0;bottom:0">
+      </div>
+      
+      <div id="modal" style="display:none;position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background-color:#fff; border-radius:5px; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.5); z-index:9999; color:black; width: 500px;">
+        <h2 style="margin-top:0;">Cookie-Banner</h2>
+        <p>This site uses cookies. By agreeing, your answer will be saved in a cookie on your computer.</p>
+        <button type="button" class="btn btn-success" onclick="load()">Zustimmen</button>
+      </div>
+      
+      <script>
+        let time = 10
+      
+        function countdown() {
+          document.getElementById('countdown').innerHTML = \`Wait for \$\{time\} seconds...\`
+          time--
+          if (time < 0) {
+            document.getElementById('modal').style.display = 'block'
+            document.getElementById('backdrop').style.display = 'block'
+            document.getElementById('countdown').innerHTML = '&nbsp;'
+          } else {
+            setTimeout(countdown, 1000)
+          }
+        }
+        
+        window.onload = countdown
+        
+        function load() {
+          const xmlHttp = new XMLHttpRequest();
+          xmlHttp.open("GET", '/chal/chal91', true); // true for asynchronous 
+          xmlHttp.send(null);
+          document.getElementById('modal').style.display = 'none'
+          document.getElementById('backdrop').style.display = 'none'
+        }
+      </script>
+    `,
+    },
     solution: secrets('chal_91'),
   },
 
   {
     id: 92,
     pos: { x: 1225, y: 1410 },
-    title: 'Grundgesetz',
+    title: { de: 'Grundgesetz', en: 'Constiution' },
     date: '2023-04-19',
     deps: [83, 85, 90],
-    html: `
+    html: {
+      de: `
       <p>Erst wenn ich mich sicher fühle, kann ich meine spielerische Seite zum Vorschein bringen. Oft werde ich dafür nur schräg angeschaut. Bei dir muss ich mir keine Sorgen machen. Hier fühle ich mich sicher.
       </p>
       
@@ -710,16 +931,77 @@ Art 8 
       <p><small>Als Wort zählt eine zusammenhängende Folge von Buchstaben und Umlauten. Groß-/Kleinschreibung wird nicht beachtet. Verschiedene grammatikalische Formen zählen als unterschiedliche Wörter.</small>
       </p>
     `,
+      en: `
+      <p>Only when I feel safe can I bring out my playful side. I often get looked at sideways for this. I don't have to worry about you. I feel safe here.
+      </p>
+      
+      <p>The constiution should also provide security. Here you can see the first eight articles of the German "Grund Gesetz". But what is it actually about? There is a word that appears exactly 10 times in this text. This word is your answer.
+      </p>
+      
+      <p>Note: You just have to find the word that appears 10 times and for that you don't have to understand the meaning. But you can, of course, still look for a translation if you want to find out anyway :)</p>
+      
+      <div class="m-4"></div>
+      
+      <pre style="height:500px; overflow:auto; white-space: pre-wrap; border:1px rgb(128,128,128) solid; padding: 8px">
+Art 1 
+(1) Die Würde des Menschen ist unantastbar. Sie zu achten und zu schützen ist Verpflichtung aller staatlichen Gewalt.
+(2) Das Deutsche Volk bekennt sich darum zu unverletzlichen und unveräußerlichen Menschenrechten als Grundlage jeder menschlichen Gemeinschaft, des Friedens und der Gerechtigkeit in der Welt.
+(3) Die nachfolgenden Grundrechte binden Gesetzgebung, vollziehende Gewalt und Rechtsprechung als unmittelbar geltendes Recht.
+
+Art 2 
+(1) Jeder hat das Recht auf die freie Entfaltung seiner Persönlichkeit, soweit er nicht die Rechte anderer verletzt und nicht gegen die verfassungsmäßige Ordnung oder das Sittengesetz verstößt.
+(2) Jeder hat das Recht auf Leben und körperliche Unversehrtheit. Die Freiheit der Person ist unverletzlich. In diese Rechte darf nur auf Grund eines Gesetzes eingegriffen werden.
+
+Art 3 
+(1) Alle Menschen sind vor dem Gesetz gleich.
+(2) Männer und Frauen sind gleichberechtigt. Der Staat fördert die tatsächliche Durchsetzung der Gleichberechtigung von Frauen und Männern und wirkt auf die Beseitigung bestehender Nachteile hin.
+(3) Niemand darf wegen seines Geschlechtes, seiner Abstammung, seiner Rasse, seiner Sprache, seiner Heimat und Herkunft, seines Glaubens, seiner religiösen oder politischen Anschauungen benachteiligt oder bevorzugt werden. Niemand darf wegen seiner Behinderung benachteiligt werden.
+
+Art 4 
+(1) Die Freiheit des Glaubens, des Gewissens und die Freiheit des religiösen und weltanschaulichen Bekenntnisses sind unverletzlich.
+(2) Die ungestörte Religionsausübung wird gewährleistet.
+(3) Niemand darf gegen sein Gewissen zum Kriegsdienst mit der Waffe gezwungen werden. Das Nähere regelt ein Bundesgesetz.
+
+Art 5 
+(1) Jeder hat das Recht, seine Meinung in Wort, Schrift und Bild frei zu äußern und zu verbreiten und sich aus allgemein zugänglichen Quellen ungehindert zu unterrichten. Die Pressefreiheit und die Freiheit der Berichterstattung durch Rundfunk und Film werden gewährleistet. Eine Zensur findet nicht statt.
+(2) Diese Rechte finden ihre Schranken in den Vorschriften der allgemeinen Gesetze, den gesetzlichen Bestimmungen zum Schutze der Jugend und in dem Recht der persönlichen Ehre.
+(3) Kunst und Wissenschaft, Forschung und Lehre sind frei. Die Freiheit der Lehre entbindet nicht von der Treue zur Verfassung.
+
+Art 6 
+(1) Ehe und Familie stehen unter dem besonderen Schutze der staatlichen Ordnung.
+(2) Pflege und Erziehung der Kinder sind das natürliche Recht der Eltern und die zuvörderst ihnen obliegende Pflicht. Über ihre Betätigung wacht die staatliche Gemeinschaft.
+(3) Gegen den Willen der Erziehungsberechtigten dürfen Kinder nur auf Grund eines Gesetzes von der Familie getrennt werden, wenn die Erziehungsberechtigten versagen oder wenn die Kinder aus anderen Gründen zu verwahrlosen drohen.
+(4) Jede Mutter hat Anspruch auf den Schutz und die Fürsorge der Gemeinschaft.
+(5) Den unehelichen Kindern sind durch die Gesetzgebung die gleichen Bedingungen für ihre leibliche und seelische Entwicklung und ihre Stellung in der Gesellschaft zu schaffen wie den ehelichen Kindern.
+
+Art 7 
+(1) Das gesamte Schulwesen steht unter der Aufsicht des Staates.
+(2) Die Erziehungsberechtigten haben das Recht, über die Teilnahme des Kindes am Religionsunterricht zu bestimmen.
+(3) Der Religionsunterricht ist in den öffentlichen Schulen mit Ausnahme der bekenntnisfreien Schulen ordentliches Lehrfach. Unbeschadet des staatlichen Aufsichtsrechtes wird der Religionsunterricht in Übereinstimmung mit den Grundsätzen der Religionsgemeinschaften erteilt. Kein Lehrer darf gegen seinen Willen verpflichtet werden, Religionsunterricht zu erteilen.
+(4) Das Recht zur Errichtung von privaten Schulen wird gewährleistet. Private Schulen als Ersatz für öffentliche Schulen bedürfen der Genehmigung des Staates und unterstehen den Landesgesetzen. Die Genehmigung ist zu erteilen, wenn die privaten Schulen in ihren Lehrzielen und Einrichtungen sowie in der wissenschaftlichen Ausbildung ihrer Lehrkräfte nicht hinter den öffentlichen Schulen zurückstehen und eine Sonderung der Schüler nach den Besitzverhältnissen der Eltern nicht gefördert wird. Die Genehmigung ist zu versagen, wenn die wirtschaftliche und rechtliche Stellung der Lehrkräfte nicht genügend gesichert ist.
+(5) Eine private Volksschule ist nur zuzulassen, wenn die Unterrichtsverwaltung ein besonderes pädagogisches Interesse anerkennt oder, auf Antrag von Erziehungsberechtigten, wenn sie als Gemeinschaftsschule, als Bekenntnis- oder Weltanschauungsschule errichtet werden soll und eine öffentliche Volksschule dieser Art in der Gemeinde nicht besteht.
+(6) Vorschulen bleiben aufgehoben.
+
+Art 8 
+(1) Alle Deutschen haben das Recht, sich ohne Anmeldung oder Erlaubnis friedlich und ohne Waffen zu versammeln.
+(2) Für Versammlungen unter freiem Himmel kann dieses Recht durch Gesetz oder auf Grund eines Gesetzes beschränkt werden.
+      </pre>
+      
+      <p><small>A word counts as a coherent sequence of letters and umlauts. Upper/lower case is not taken into account. Different grammatical forms count as different words.</small>
+      </p>
+    `,
+    },
     solution: secrets('chal_92'),
   },
 
   {
     id: 93,
     pos: { x: 1155, y: 1570 },
-    title: 'Cipher',
+    title: { de: 'Cipher', en: 'Cipher' },
     date: '2023-04-22',
     deps: [91, 92],
-    html: `
+    html: {
+      de: `
       <p>Du bist weit gekommen und längst kein Scriptkiddie mehr. Nein, du bist eher 1337 und hast voll Skill drauf 💪!
       </p>
       
@@ -753,16 +1035,52 @@ print(hex_string)</pre></code>
       <p><code>6d5f5e4f0a6b58484f435e0b0a6e434f0a6b445e5d45585e0a464b5f5e4f5e0a6b6f7904</code>
       </p>
     `,
+      en: `
+      <p>You've come a long way and are no longer a skid. No, you're more like 1337 and have full skill 💪!
+      </p>
+      
+      <p>Hackers use many technical terms, and one of my favorites is <strong>Cipher</strong>. A cipher is an algorithm that encrypts and decrypts messages.
+      </p>
+      
+      <p>A special form of this are invertible ciphers. These are algorithms that work the same way when encrypting and decrypting. Here is an example in pseudocode:
+      </p>
+      
+      <code><pre style="font-size:14px">function cipher(input_bytes) {
+    key = 42
+    output_bytes = []
+
+    for (byte in input_bytes) {
+        xor_byte = byte XOR key
+        output_bytes.append(xor_byte)
+    }
+
+    return output_bytes
+}
+
+message = ".............???............."
+bytes = ascii_string_to_bytes(message)
+encrypted_bytes = cipher(bytes)
+hex_string = convert_bytes_to_hex_string(encrypted_bytes)
+print(hex_string)</pre></code>
+
+      <p>The output of this program looks like this:
+      </p>
+      
+      <p><code>6d45454e0a4045480b0a7e424f0a4b44595d4f580a43590a6b6f7904</code>
+      </p>
+    `,
+    },
     solution: secrets('chal_93'),
   },
 
   {
     id: 94,
     pos: { x: 885, y: 1410 },
-    title: 'Original',
+    title: { de: 'Original', en: 'Original' },
     date: '2023-04-26',
     deps: [88, 89, 91],
-    html: `
+    html: {
+      de: `
       <p>Du bist ein Original und kein Fake. Lasse dich nicht in eine andere Identität drängen, als du bist.
       </p>
       
@@ -774,32 +1092,55 @@ print(hex_string)</pre></code>
       <p>Deine Antwort ist der Vorname der ursprünglichen Fotografin.
       </p>
     `,
+      en: `
+      <p>You are an original and not a fake. Don't allow yourself to be forced into an identity other than who you are.
+      </p>
+      
+      <p>This picture is not an original — at least not from me. It can be found on hundreds of websites. But where does the original come from?
+      </p>
+      
+      <p><img src="/chals/chal94.jpg" style="max-width: 400px"  alt="kids"/></p>
+      
+      <p>Your answer is the first name of the original photographer.
+      </p>
+    `,
+    },
     solution: secrets('chal_94'),
   },
 
   {
     id: 95,
     pos: { x: 1059, y: 1530 },
-    title: 'Handschrift',
+    title: { de: 'Handschrift', en: 'Handwriting' },
     date: '2023-04-29',
     deps: [91, 92],
-    html: `
+    html: {
+      de: `
       <p>Hilfe! Ich brauche deinen technischen Rat. Wie macht man es nochmal, dass man eine Schriftart im Browser einbindet?</p>
       
       <p>&lt;span style=&quot;font: Hack The Web&quot;&gt;ABC DEFGHIJ KLMNOP QRSTUVWXYZ.&lt;/span&gt;</p>
       
       <p>&lt;font src=&quot;/chals/HackTheWeb-Regular.otf&quot; /&gt;</p>
     `,
+      en: `
+        <p>Help! I need your technical advice. How do you embed a font in the browser again?</p>
+        
+        <p>&lt;span style=&quot;font: Hack The Web&quot;&gt;ABC EFGHIJ LM OPQRSTUVWX..&lt;/span&gt;</p>
+        
+        <p>&lt;font src=&quot;/chals/HackTheWebEnglish-Regular.otf&quot; /&gt;</p>
+    `,
+    },
     solution: secrets('chal_95'),
   },
 
   {
     id: 96,
     pos: { x: 980, y: 1460 },
-    title: 'TikTok',
+    title: { de: 'TikTok', en: 'TikTok' },
     date: '2023-05-03',
     deps: [88, 89],
-    html: `
+    html: {
+      de: `
       <p>Hast du heute etwas geschafft, worauf du stolz bist? Herzlichen Glückwunsch. Und wenn nicht, halb so wild. Morgen ist auch noch ein Tag.
       </p>
       
@@ -811,6 +1152,19 @@ print(hex_string)</pre></code>
       
       <p><small>* 4 Wörter, keine Hashtags</small></p>
     `,
+      en: `
+      <p>Did you accomplish something today that you are proud of? Congratulations. And if not, it's not so bad. Tomorrow is also a day.
+      </p>
+      
+      <p>Now it's time to relax a little and be entertained, for example, with videos from <code>@kallmekris</code> on TikTok.
+      </p>
+      
+      <p>You want a challenge? Ok, here's your task: Scroll down to the first video. What is the description*?
+      </p>
+      
+      <p><small>* four words, no hashtags</small></p>
+    `,
+    },
     solution: secrets('chal_96'),
   },
 

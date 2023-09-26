@@ -9,7 +9,7 @@ module.exports = [
     date: '2023-07-28',
     deps: [57],
     noScore: true,
-    render: async ({ App, req }) => {
+    render: async ({ App }) => {
       const communityChals = App.challenges.data.filter((chal) => chal.noScore)
       const ids = communityChals.map((chal) => chal.id)
 
@@ -41,7 +41,7 @@ module.exports = [
       })
 
       usersList.sort((a, b) => {
-        if (a.solved == b.solved) {
+        if (a.solved === b.solved) {
           return a.lastActive - b.lastActive
         } else {
           return b.solved - a.solved
@@ -61,10 +61,10 @@ module.exports = [
       let rank = 1
 
       for (let i = 0; i < usersList.length; i++) {
-        if (i == 0) {
+        if (i === 0) {
           usersList[i].rank = rank
         } else {
-          if (usersList[i].solved != usersList[i - 1].solved) {
+          if (usersList[i].solved !== usersList[i - 1].solved) {
             rank = i + 1
           }
           usersList[i].rank = rank
@@ -72,7 +72,7 @@ module.exports = [
       }
 
       return `
-        <p>Herzlich Willkommen im Community-Bereich! Wir sind mittlerweile viele Leute auf Hack The Web und haben auch einige kreative Köpfe hier mit guten Ideen für neue Aufgaben. Daher gibt es hier regelmäßig neue Inhalte - von Euch für Euch.
+        <p>Herzlich willkommen im Community-Bereich! Wir sind mittlerweile viele Leute auf Hack The Web und haben auch einige kreative Köpfe hier mit guten Ideen für neue Aufgaben. Daher gibt es hier regelmäßig neue Inhalte - von Euch für Euch.
         </p>
         
         <p>Jeder darf mitmachen. Je mehr Ideen wir haben, umso bunter wird es. Die Aufgaben dürfen leicht sein oder sau schwer, witzig oder ernsthaft. Das ist dir überlassen. Falls du eine Idee hast, trete dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> bei und schreibe mir eine Nachricht.
@@ -171,12 +171,12 @@ module.exports = [
     date: '2023-07-28',
     deps: [300],
     noScore: true,
-    render: ({ App, req }) => {
+    render: ({ req }) => {
       function generateTask() {
-        let num1 = 0
-        let num2 = 0
-        let op = ''
-        let result = 0
+        let num1
+        let num2
+        let op
+        let result
         const r = Math.random()
         if (r < 0.33) {
           op = '+'
@@ -278,7 +278,7 @@ module.exports = [
 
       return {
         answer: resultString,
-        correct: resultString == req.session.chal303_result,
+        correct: resultString === req.session.chal303_result,
       }
     },
     hidesubmit: true,
@@ -346,7 +346,7 @@ module.exports = [
       <p><a href="/chal/chal306" target="_blank">Bitte dein Ticket vorzeigen</a>
       </p>
       
-      <p>Dein Zugangscode lautet <code>${req.user.id}@Dodo-Airlines</code>. Der Code muss in Form eines QR Codes eingereicht werden. Dann erhältst du die Antwort.
+      <p>Dein Zugangscode lautet <code>${req.user.id}@Dodo-Airlines</code>. Der Code muss in Form eines QR-Codes eingereicht werden. Dann erhältst du die Antwort.
       </p>
     `,
     solution: secrets('chal_306'),
@@ -383,7 +383,7 @@ module.exports = [
     deps: [307],
     noScore: true,
     html: `
-      <p>Nachdem das Berechnen der Höhe meines Fensters so gut geklappt hat, wollte ich es noch auf einer größeren Skala probieren. An einem trockenen Tag mit 20°C stand ich also an der Kante einer sehr hohen Klippe in den Bergen und ließ wieder einen Stein fallen. Ich hörte nach genau 6,733 Sekunden den Aufprall.</p>
+      <p>Nachdem das Berechnen der Höhe meines Fensters so gut geklappt hat, wollte ich es noch auf einer größeren Skala probieren. An einem trockenen Tag mit 20 °C stand ich also an der Kante einer sehr hohen Klippe in den Bergen und ließ wieder einen Stein fallen. Ich hörte nach genau 6,733 Sekunden den Aufprall.</p>
 
       <p>Wie hoch ist nun die Klippe? (in Metern auf Dezimeter gerundet, Luftreibung kann vernachlässigt werden, Erdbeschleunigung = 9,81 m/s²)</p>
 
@@ -422,7 +422,7 @@ module.exports = [
     deps: [300],
     noScore: true,
     html: `
-      <p>Manchmal hilft nur noch <a href="https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt" target="_blank">ausprobieren</a>...</p>
+      <p>Manchmal hilft nur noch <a href="https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt" target="_blank">ausprobieren </a>...</p>
       
       <script src="/sha256.js"></script>
       

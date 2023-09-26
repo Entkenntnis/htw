@@ -1534,10 +1534,11 @@ print(hex_string)</pre></code>
   {
     id: 104,
     pos: { x: 560, y: 1777 },
-    title: 'Übergang',
+    title: { de: 'Übergang', en: 'Transition' },
     date: '2023-05-31',
     deps: [103],
-    html: `
+    html: {
+      de: `
       <p>Kann es sein, dass du heute etwas braungebrannter aussiehst, als noch bei unserem letzen Treffen? Ha, ich weiß es: Du bist gerade von einer Reise zurückgekehrt.
       </p>
       
@@ -1549,16 +1550,29 @@ print(hex_string)</pre></code>
       
       <p><img src="/chals/chal104.png" style="background:white;" alt="graph"></p>
     `,
+      en: `
+        <p>Is it possible that you look a little more tanned today than at our last meeting? Ha, I know it: You just returned from a trip.
+        </p>
+        
+        <p>Sometimes you get the impression that one transition follows another: holidays start, holidays end, school year starts, school year ends ... and we are in the middle of it.
+        
+        <p>In computer science, transitions can be represented with such diagrams. A path leads to the goal. This shows you the answer.
+        </p>
+        
+        <p><img src="/chals/chal104.png" style="background:white;" alt="graph"></p>
+    `,
+    },
     solution: secrets('chal_104'),
   },
 
   {
     id: 105,
     pos: { x: 560, y: 1710 },
-    title: '1337',
+    title: { de: '1337', en: '1337' },
     date: '2023-06-03',
     deps: [103],
-    html: `
+    html: {
+      de: `
       <p>Was hast du mit dem Isartor in München gemeinsam? Ihr seid beide Elite:
       </p>
       
@@ -1568,6 +1582,17 @@ print(hex_string)</pre></code>
       <p>Und deshalb bestimmst du, was die Antwort ist! Jede Antwort ist akzeptiert, wenn sie genau 1337 Zeichen lang ist.
       </p>
     `,
+      en: `
+        <p>What do you have in common with the Isartor in Munich? You are both elite:
+        </p>
+        
+        <p><img src="/chals/chal105.jpg"  alt="isar tor"/>
+        </p>
+        
+        <p>And that's why you decide what the answer is! Any answer is accepted if it is exactly 1337 characters long.
+        </p>
+    `,
+    },
     check: (answer) => {
       const trimmed = answer.trim()
       return {
@@ -1580,14 +1605,15 @@ print(hex_string)</pre></code>
   {
     id: 106,
     pos: { x: 633, y: 1827 },
-    title: 'Leet',
+    title: { de: 'Leet', en: 'Leet' },
     date: '2023-06-07',
     deps: [103],
-    html: `
+    html: {
+      de: `
       <p>Wenn du einen Raum betrittst, dann ist für alle klar, dass du was drauf hast. Du musst dich dafür nicht anstrengen.
       </p>
       
-      <p>4nd3r3 M3n5ch3n w0ll3n 1hr Könn3n ab3r s1ch7b4r m4ch3n - und schr31b3n d4h3r ihr3 N4chr1ch73n in l337.
+      <p>bu7 07h3r p30pl3 w4n7 70 m4k3 7h31r 5k1ll5 v151bl3 - 4nd 7h3r3f0r3 wr173 7h31r m3554635 1n l337.
       </p>
       
       <p>35 9!|37 \\/3|25(|-|!3|)3|\\|3 57(_)|=3|\\| (_)|\\||) \\/4|2!4|\\|73|\\| \\/0|\\| |_337 - \\/0|\\| |_3!(|-|7 |_35|34|2 |3!5 7074|_ |<|2\`/|D7!5(|-|.
@@ -1598,16 +1624,31 @@ print(hex_string)</pre></code>
       
       <p><small><a href="https://www.robertecker.com/hp/research/leet-converter.php?lang=de" target="_blank">Hinweis</a></small></p>
     `,
+      en: `
+        <p>When you enter a room, everyone knows you've got what it takes. You don't have to try for that.
+        </p>
+        
+        <p>4nd3r3 M3n5ch3n w0ll3n 1hr Könn3n ab3r s1ch7b4r m4ch3n - und schr31b3n d4h3r ihr3 N4chr1ch73n in l337.
+        
+        <p>7|-|3|23 4|23 |)!|=|=3|23|\\\\|7 |_3\\\\/3|_5 4|\\\\||) \\\\/4|2!4|\\\\|75 0|= |_337 - |=|20/\\\\/\\\\ 345!|_\`/ |234|)4|3|_3 70 7074|_|_\`/ (|2\`/|D7!(.
+        
+        <p>\`/0|_||2 4|\\\\|5\\\\|/3|2 !5 |_|1+!|\\\\/|4+!\\\\/.
+        </p>
+        
+        <p><small><a href="https://www.robertecker.com/hp/research/leet-converter.php?lang=en" target="_blank">Hint</a></small></p>
+    `,
+    },
     solution: secrets('chal_106'),
   },
 
   {
     id: 107,
     pos: { x: 530, y: 1627 },
-    title: 'Neuland',
+    title: { de: 'Neuland', en: 'New Territory' },
     date: '2023-06-10',
     deps: [103],
-    html: `
+    html: {
+      de: `
       <p>Ich sehe, du bist heute gut ausgerüstet und bereit für deine Expedition in unbekanntes Neuland. Ich bewundere deinen Mut.
       </p>
       
@@ -1617,18 +1658,35 @@ print(hex_string)</pre></code>
       <p>Viel Glück auf deiner Suche! Lasse dich nicht von Widrigkeiten des Ödlands abseits gängiger Protokolle abhalten. Sei hartnäckig und wir sehen uns bald wieder.
       </p>
     `,
+      en: `
+        <p>I see you are well-equipped today and ready for your expedition into unknown territory. I admire your courage.
+        </p>
+        
+        <p>Here are your coordinates: Between <a href="http://arrrg.de:40000/" target="_blank">http://arrrg.de:40000/</a> and <a href="http://arrrg.de:41000/" target="_blank">http://arrrg.de:41000/</a> you will find a secret place.
+        </p>
+        
+        <p>Good luck in your search! Don't let the adversities of the wasteland off the beaten track of common protocols stop you. Be persistent and we'll see each other again soon.
+        </p>
+        
+        <p>Note 1: The title of this challenge is a reference to a quote by former German Chancellor Merkel, who said in 2013 „Das Internet ist für uns alle Neuland.” (The Internet is new territory for everyone) and many people made and make fun of this statement.</p>
+        <p>Note 2: The message in the secret place is in German</p>
+`,
+    },
     solution: secrets('chal_107'),
   },
 
   {
     id: 108,
     pos: { x: 800, y: 1790 },
-    title: 'Sprache',
+    title: { de: 'Sprache', en: 'Language' },
     date: '2023-06-14',
     deps: [103],
-    render: ({ req }) => `
-      <p>Dieser Inhalt ist nur für NutzerInnen verfügbar, die Französisch als ihre Sprache eingestellt haben.
-      </p>
+    render: ({ req }) => `${
+      /de?/i.test(req.headers['accept-language'] || '')
+        ? `<p>Dieser Inhalt ist nur für NutzerInnen verfügbar, die Französisch als ihre Sprache eingestellt haben.
+      </p>`
+        : `<p>This content is only available to users who have set French as their language.`
+    }
       
       <p><code>${(() => {
         const acceptLanguage = req.headers['accept-language'] || ''
@@ -1637,9 +1695,10 @@ print(hex_string)</pre></code>
         if (isFrench) {
           return 'La réponse est ' + secrets('chal_108') + '.'
         } else {
-          return (
-            'Deine Spracheinstellung wird nicht unterstützt: ' + acceptLanguage
-          )
+          return /de?/i.test(req.headers['accept-language'] || '')
+            ? 'Deine Spracheinstellung wird nicht unterstützt: ' +
+                acceptLanguage
+            : 'Your language setting is not supported: ' + acceptLanguage
         }
       })()}</code></p>
       
@@ -1650,10 +1709,11 @@ print(hex_string)</pre></code>
   {
     id: 109,
     pos: { x: 721, y: 1800 },
-    title: 'Brainfuck',
+    title: { de: 'Brainfuck', en: 'Brainfuck' },
     date: '2023-06-17',
     deps: [103],
-    html: `
+    html: {
+      de: `
       <p>Mensch, wie nervig sind Diskussionen darüber, welche Programmiersprache besser ist! Zum Glück bist du jemand, der es besser weiß: Alle Programmiersprachen sind im Kern gleich mächtig - eine Erkenntnis, die Turing wesentlich mitentwickelt hat.
       </p>
       
@@ -1663,6 +1723,17 @@ print(hex_string)</pre></code>
       <p>Schreibe ein Programm in Brainfuck, dass die Antwort <code>alan</code> ausgibt. Du hast 100 Speicherzellen und 10000 Rechenschritte zur Verfügung.
       </p>
     `,
+      en: `
+      <p>Man, how annoying are discussions about which programming language is better! Luckily, you are someone who knows better: All programming languages are essentially equally powerful — a finding that Turing played a key role in developing.
+      </p>
+      
+      <p>Every programming language has its own special beauty. The beauty of Brainfuck lies in its simplicity: eight characters are enough to program anything you can imagine — even if it sometimes takes a lot of patience and passion to implement it.
+      </p>
+      
+      <p>Write a program in Brainfuck that prints the answer <code>alan</code>. You have 100 memory cells and 10,000 calculation steps available.
+      </p>
+    `,
+    },
     check: (answer) => {
       const output = runBrainfuck(answer)
       return {

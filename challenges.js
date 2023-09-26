@@ -2650,6 +2650,10 @@ Doch ich spüre tiefes Beben.</i>
       
       <div id="debug" style="text-align:right"></div>
       
+      
+      <script>
+        window.htw_locale = 'de'
+      </script>
       <script src="/chals/chal59.js"></script>
       
       <div style="height:40px"></div>
@@ -2667,7 +2671,10 @@ Doch ich spüre tiefes Beben.</i>
         </pre>
         
         <div id="debug" style="text-align:right"></div>
-        
+          
+        <script>
+          window.htw_locale = 'en'
+        </script>
         <script src="/chals/chal59.js"></script>
         
         <div style="height:40px"></div>

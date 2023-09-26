@@ -3,7 +3,7 @@ initSqlJs().then(function(SQL){
   xhr.open('GET', '/chals/chal98.db', true)
   xhr.responseType = 'arraybuffer'
 
-  xhr.onload = e => {
+  xhr.onload = _ => {
     const uInt8Array = new Uint8Array(xhr.response)
     const db = new SQL.Database(uInt8Array)
     
@@ -12,7 +12,8 @@ initSqlJs().then(function(SQL){
     
     function handler() {
       text = document.getElementById('value')
-      const sql = "SELECT * FROM Geheimnis WHERE schlüssel='" + text.value + "';"
+      const isGerman = window.htw_locale !== 'en'
+      const sql = isGerman?"SELECT * FROM Geheimnis WHERE schlüssel='" + text.value + "';":"SELECT * FROM Secret WHERE key='" + text.value + "';"
       try {
         const output = db.exec(sql)
         document.getElementById('output').innerHTML = JSON.stringify(output, 0, 2)

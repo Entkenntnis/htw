@@ -11,6 +11,17 @@ module.exports = (config) => {
     key: 'home.slogan',
     value: 'Prove your skill.',
   })
+  
+  config.i18nExtend.push({
+    lng: 'de',
+    key: 'home.language',
+    value: 'Sprache/Language',
+  })
+  config.i18nExtend.push({
+    lng: 'en',
+    key: 'home.language',
+    value: 'Sprache/Language',
+  })
 
   config.i18nExtend.push({
     lng: 'de',

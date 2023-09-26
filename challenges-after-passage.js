@@ -1,4 +1,5 @@
 const secrets = require('./secrets-loader.js')
+const crypto = require('crypto')
 
 function runBrainfuck(program) {
   /** Interpreter variables */
@@ -92,7 +93,7 @@ module.exports = [
   {
     id: 71,
     pos: { x: 1550, y: 905 },
-    title: { de: 'Sag mal', en: 'Say' },
+    title: { de: 'Sag mal', en: 'Say it' },
     date: '2022-02-09',
     deps: [57],
     html: {

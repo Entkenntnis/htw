@@ -241,9 +241,8 @@ module.exports = function (App) {
       )
     } else {
       res.send(
-        orakelMsg[Math.floor(Math.random() * orakelMsg.length)] + isGerman
-          ? ` Versuche es später nochmal.`
-          : ` Try again later.`
+        orakelMsg[Math.floor(Math.random() * orakelMsg.length)] +
+          (isGerman ? ` Versuche es später nochmal.` : ` Try again later.`)
       )
     }
   })

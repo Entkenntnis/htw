@@ -6,7 +6,7 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyzäöü'
 
 
 
-let text = navigator.language.startsWith('de')?originalText:originalText_en
+let text = window.htw_locale == 'de'?originalText:originalText_en
 
 const pressedKeys = new Set()
 
@@ -37,16 +37,24 @@ for (let i = 0; i < 300; i++) {
   swap(a, b)
 }
 
-swap(text[1].toLowerCase(), 'd')
-swap(text[2], 'a')
-swap(text[3], 's')
+if (window.htw_locale == 'de') {
+  swap(text[1].toLowerCase(), 'd')
+  swap(text[2], 'a')
+  swap(text[3], 's')
 
 
-swap(text[5], 'i')
-swap(text[6], 's')
-swap(text[7], 't')
+  swap(text[5], 'i')
+  swap(text[6], 's')
+  swap(text[7], 't')
 
-swap(text[13], 'y')
+  swap(text[13], 'y')
+} else {
+  swap(text[13], 'y')
+  swap(text[6], 's')
+  swap(text[4], 't')
+  
+  swap(text[16].toLowerCase(), 'j')
+}
 
 check()
 
@@ -71,7 +79,7 @@ function check(key) {
   }
   
   
-  navigator.language.startsWith('de')?document.getElementById('debug').innerHTML = 'Gedrücke Tasten: ' + [...pressedKeys.values()].join(', ') + ' | Aktion: ' + (action === 'unknown' ? '[???]' : action ? `${firstKeyDown} <-> ${secondKeyDown}` : ''):
+  window.htw_locale == 'de'?document.getElementById('debug').innerHTML = 'Gedrücke Tasten: ' + [...pressedKeys.values()].join(', ') + ' | Aktion: ' + (action === 'unknown' ? '[???]' : action ? `${firstKeyDown} <-> ${secondKeyDown}` : ''):
                                       document.getElementById('debug').innerHTML = 'Pressed keys: ' + [...pressedKeys.values()].join(', ') + ' | Action: ' + (action === 'unknown' ? '[???]' : action ? `${firstKeyDown} <-> ${secondKeyDown}` : '')
   renderOutput()
 }

@@ -44,11 +44,14 @@ module.exports = [
           <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 × 9.</p>
         `,
         en: `
-          <p>Welcome to Hack The Web. Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or wrestle with them.</p>
+          <p>Welcome to Hack The Web. Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or struggle with them.</p>
     
           <p>Most of the challenges are about finding an answer from the information given. However, this can usually only be found if you look at the task from the right perspective — the perspective of a hacker.</p>
 
           <p>When working on the challenges, all aids are expressly allowed. You may search the Internet, use a calculator or chatbot, make notes with pen and paper... Feel free and use the tools that help you the most when working on the tasks.</p>
+          
+          <p>Hack The Web started out as a German project. That's the reason why many answers are German words. I hope you enjoy learning some German along the way :)
+          </p>
           
           ${
             req.user.RoomId !== null
@@ -57,7 +60,7 @@ module.exports = [
               : ''
           }
 
-          <p>Are you read? Then let's go! The answer to this first challenge is the result of 6 + 4 × 9.</p>
+          <p>Are you ready? Then let's go! The answer to this first challenge is the result of 6 + 4 × 9.</p>
         `,
       }
     },
@@ -290,7 +293,7 @@ module.exports = [
         <p>--- Hier endet das Blatt ---</p>
       `,
       en: `
-        <p>This challenge here works like writing with lemon juice: You take a fountain pen and dip it in the juice of a freshly squeezed lemon. With it, you write your secret message on a white sheet of paper. Because the juice is transparent, you write "white on white" and another person cannot read the message. The person who receives the message holds the paper over a flame. The heat discolors the lemon juice and the message becomes visible.
+        <p>This challenge here works like writing with lemon juice: You take a fountain pen and dip it in the juice of a freshly squeezed lemon. With it, you write your secret message on a white sheet of paper. Because the juice is transparent, you write "white on white" and another person cannot read the message. The person who receives the message holds the paper over a flame. The heat colors the lemon juice and the message becomes visible.
         </p>
         
         <p>The whole thing also works digitally. Below you will find a "prepared" sheet of paper with the answer:
@@ -300,7 +303,7 @@ module.exports = [
         
         <p>--- Here starts the sheet ---</p>
         
-        <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
+        <p><br><span style="color:#222222;padding-left:150px">Here is nothing.</span><br><br><span style="color:#222222">Lalala, the weather is beautiful.</span><br><br><br><br><span style="color:#222222;padding-left:400px">The answer is: ${secrets(
           'chal_5'
         )}</span><br><br>
         </p>
@@ -927,8 +930,6 @@ module.exports = [
       en: `
         <p id="poper">Don't blink!</p>
         </p>
-        
-        <small style="margin-top:48px;display:inline-block">Note: The answer is in German.</small>
         
         <script>
           setTimeout(function(){

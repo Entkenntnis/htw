@@ -532,7 +532,7 @@ module.exports = function (App) {
       const point = {
         id: challenge.id,
         pos: challenge.pos,
-        title: challenge.title,
+        title: challenge.title['de'] || challenge.title,
         isSolved,
       }
       const visible =

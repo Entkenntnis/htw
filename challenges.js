@@ -23,7 +23,7 @@ module.exports = [
     deps: [],
     render: async ({ req, App }) => {
       if (req.lng === 'en') {
-        await App.storage.setItem('visit_english', req.user.name)
+        await App.storage.setItem('visit_english_' + new Date().getTime(), req.user.name)
       }
       return {
         de: `

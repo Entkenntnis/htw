@@ -339,7 +339,7 @@ module.exports = function (App) {
     allKVPairs.forEach((kvpair) => {
       if (
         !App.moment(kvpair.createdAt).isBefore(fromDate) &&
-        kvpair.key == 'visit_english'
+        kvpair.key.startsWith('visit_english_')
       ) {
         englishVisitors.add(kvpair.value)
       }

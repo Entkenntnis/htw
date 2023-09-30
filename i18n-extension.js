@@ -755,7 +755,7 @@ module.exports = (config) => {
       <div class="my-5"></div>
       
       <p>
-        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px" alt="discord"></a>
+        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px;margin-left:16px;" alt="discord"></a>
       </p>
       
       <p>Schaue auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei. Dort kannst du Fragen stellen und dich mit anderen Hacker*innen austauschen.
@@ -806,7 +806,7 @@ module.exports = (config) => {
       <div class="my-5"></div>
       
       <p>
-          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px" alt="discord"></a>
+          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px;margin-left:16px;" alt="discord"></a>
       </p>
       
       <p>Join our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>. There you can ask questions and exchange ideas with other hackers.

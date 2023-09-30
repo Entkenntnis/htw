@@ -537,7 +537,7 @@ module.exports = [
 
   {
     id: 308,
-    pos: { x: 1530, y: 320 },
+    pos: { x: 1550, y: 320 },
     title: { de: 'Freier Fall II', en: 'Free fall II' },
     author: 'rkasti u. Satsuma',
     date: '2023-08-31',
@@ -814,7 +814,7 @@ module.exports = [
   },
 
   {
-    id: 1337,
+    id: parseInt(secrets('secret_chal_1_id')),
     pos: { x: 1570, y: 630 },
     title: { de: 'Geheime Aufgabe', en: 'Secret Challenge' },
     author: 'darkermask',
@@ -827,11 +827,26 @@ module.exports = [
       <p>Hallo, du hast mich gefunden :)
       </p>
       
-      <p>Wir reden hier gerne über "Elite", aber mal ehrlich: Das wollen wir ja eigentlich nicht wirklich sein.
+      <p>Wir reden hier gerne über "Elite", aber mal ehrlich: Das wollen wir ja nicht wirklich sein.
       </p>
       
       <p>Die Antwort lautet Underdog.
       </p>
+      
+      <div style="position:absolute;bottom:0;right:0;color:rgb(128,128,128)"><small>Pst! Hier gibt's noch was: 0x&lt;span style=&quot;font-family:HackTheWeb&quot;&gt;lolo&lt;/span&gt;</small>
+      </div>
+      
+      <style>
+        body {
+          height: 3000px;
+          position:relative;
+          
+        }
+        @font-face {
+          font-family: 'HackTheWeb';
+          src: url('/chals/HackTheWeb-Regular.otf');
+        }
+      </style>
     `,
       en: `
         <p>Hello, you found me :)
@@ -842,8 +857,220 @@ module.exports = [
         
         <p>The answer is underdog.
         </p>
+        
+        <div style="position:absolute;bottom:0;right:0;color:rgb(128,128,128)"><small>Shh! Here's something else: 0x&lt;span style=&quot;font-family:HackTheWeb&quot;&gt;lolo&lt;/span&gt;</small>
+        </div>
+       
+        <style>
+        body {
+          height: 3000px;
+          position:relative;
+          
+        }
+        @font-face {
+          font-family: 'HackTheWeb';
+          src: url('/chals/HackTheWeb-Regular.otf');
+        }
+      </style>
     `,
     },
     solution: 'underdog',
+  },
+
+  {
+    id: parseInt(secrets('secret_chal_2_id')),
+    pos: { x: 1480, y: 680 },
+    title: { de: 'Geheime Aufgabe II', en: 'Secret Challenge II' },
+    author: 'darkermask',
+    date: '2023-10-01',
+    deps: [parseInt(secrets('secret_chal_1_id'))],
+    noScore: true,
+    showAfterSolve: true,
+    html: {
+      de: `
+      <p>Hurra! Du hast mich wieder gefunden!</p>
+      
+      <p>Die Antwort lautet Detektiv.
+      </p>
+    `,
+      en: `
+        <p>Hurrah! You found me again!</p>
+        <p>The answer is Detektiv (the German word for a detective)</p>
+    `,
+    },
+    solution: 'detektiv',
+  },
+
+  {
+    id: 312,
+    pos: { x: 1460, y: 250 },
+    title: { de: 'Freier Fall III', en: 'Free fall III' },
+    author: 'rkasti u. Satsuma',
+    date: '2023-10-01',
+    deps: [308],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ja, ich weiß, ich hab es übertrieben. Denn ich hab es geschafft, mich mit einer selbstgebauten Rakete in den Weltraum zu schießen,
+        um dort das nächste Experiment durchzuführen. Der Plan besteht darin, eine Metallkugel von meiner Rakete aus auf die Erde fallen zu lassen.
+        Ich befinde mich aktuell genau 87654321 Meter über der Erdoberfläche und lasse von dort die Kugel fallen.
+        Kannst du mir sagen, wie lange die Kugel braucht, um auf der Erde einzuschlagen?</p>
+
+      <p style="margin-bottom:4px;">Bedingungen:
+      </p>
+      <ul>
+      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s)</li>
+      <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
+      <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
+      <li>die Kugel wird nur von der Erde beeinflusst</li>
+      <li>Angabe in ganzen Sekunden</li>
+      </ul>
+
+    `,
+      en: `
+        <p>Yes, I know, I overdid it. Because I managed to shoot myself into space with a self-made rocket,
+        to carry out the next experiment there. The plan is to drop a metal ball to Earth from my rocket.
+        I am currently exactly 87654321 meters above the earth's surface, and I let the ball fall from there.
+        Can you tell me how long it takes for the bullet to hit the earth?</p>
+        
+        <p style="margin-bottom:4px;">Conditions:
+        </p>
+        
+        <ul>
+        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s)</li>
+        <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
+        <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
+        <li>the ball is only influenced by the earth</li>
+        <li>answer in whole seconds</li>
+        </ul>
+        `,
+    },
+    check: (answer) => {
+      const prepared = answer.trim().replace('.', ',')
+      return {
+        answer: prepared,
+        correct: prepared === secrets('chal_312'),
+      }
+    },
+  },
+
+  {
+    id: 313,
+    pos: { x: 1480, y: 130 },
+    title: { de: 'Freier Fall IV', en: 'Free fall IV' },
+    author: 'rkasti u. Satsuma',
+    date: '2023-10-01',
+    deps: [312],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ich befinde mich immer noch in meiner selbstgebauten Rakete und habe vor, das mögliche Finale dieses Experimentes durchzuführen.
+Dafür habe ich die Metallkugel mit ein wenig Elektronik ausgestattet,
+damit sie beim Aufprall auf die Erdoberfläche ein Radiosignal an einen Computer in der Rakete schickt.
+Dieser misst die Zeit zwischen Loslassen der Kugel und empfangen des Radiosignales exakt.
+Nachdem ich die Kugel fallen gelassen habe, hat der Computer folgende Zeit ausgegeben: 755367.5351298475669s.
+Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
+
+      <p style="margin-bottom:4px;">Bedingungen:
+      </p>
+      <ul>
+      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s), leite daraus die Erdmasse ab</li>
+      <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
+      <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
+      <li>die Kugel wird nur von der Erde beeinflusst</li>
+      <li>Angabe in ganzen Metern</li>
+      </ul>
+
+    `,
+      en: `
+        <p>I am still in my self-made rocket and plan to carry out the possible finale of this experiment.
+        For this I equipped the metal ball with a little electronics,
+        so that it sends a radio signal to a computer in the rocket when it hits the earth's surface.
+        This measures the time between releasing the ball and receiving the radio signal exactly.
+        After I dropped the ball, the computer output the following time: 755367.5351298475669s.
+        How high was I with my rocket above the earth's surface?</p>
+        
+        <p style="margin-bottom:4px;">Conditions:
+        </p>
+        <ul>
+        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s), derive the earth mass from it</li>
+        <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
+        <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
+        <li>the ball is only influenced by the earth</li>
+        <li>answer in whole meters</li>
+        </ul>
+        
+        `,
+    },
+    check: (answer) => {
+      const prepared = answer.trim().replace('.', ',')
+      return {
+        answer: prepared,
+        correct: prepared === secrets('chal_313'),
+      }
+    },
+  },
+
+  {
+    id: 314,
+    pos: { x: 1860, y: 370 },
+    title: { de: 'Tor', en: 'Tor' },
+    date: '2023-10-01',
+    author: 'virusrpi',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Finde die Antwort durch einen Besuch auf <code>arrrg.ahcbagldgzdpa74g2mh74fvk5zjzpfjbvgqin6g3mfuu66tynv2gkiid.onion/htw/chal314.txt</code>.
+      </p>
+    `,
+      en: `
+      <p>You can find the answer on <code>arrrg.ahcbagldgzdpa74g2mh74fvk5zjzpfjbvgqin6g3mfuu66tynv2gkiid.onion/htw/chal314.txt</code>.</p>
+    `,
+    },
+    solution: secrets('chal_314'),
+  },
+
+  {
+    id: 315,
+    pos: { x: 1960, y: 270 },
+    title: { de: 'Mentalist', en: 'Mentalist' },
+    date: '2023-10-01',
+    author: 'virusrpi',
+    deps: [310],
+    noScore: true,
+    html: {
+      de: `
+      <p>
+      Manchmal lässt sich ein Passwort auch erraten, wenn man genug Informationen über eine Person hat.
+      </p>
+      <p>
+      Vorname: Max<br>
+      Nachname: Musterman<br>
+      Geburtstag: 18. Juni 2001<br>
+      Katze: Felix<br>
+      Lieblingsspiel: Minecraft<br>
+      (zuffällig generierte Informationen)
+      </p>
+      
+      <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
+    `,
+      en: `
+        <p>
+        Sometimes you can guess a password if you have enough information about a person.
+        </p>
+        <p>
+        First name: Max<br>
+        Last name: Musterman<br>
+        Birthday: 18. June 2001<br>
+        Cat: Felix<br>
+        Favorite game: Minecraft<br>
+        (randomly generated information)
+        </p>
+          
+        <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
+    `,
+    },
+    solution: secrets('chal_315'),
   },
 ]

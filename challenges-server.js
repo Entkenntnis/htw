@@ -10,7 +10,12 @@ const upload = multer({
     const shouldAccept = req.headers['content-length'] <= 96 * 1024
     shouldAccept
       ? cb(null, true)
-      : cb(req.lng == 'de' ? 'Datei zu groß, maximal 96KiB erlaubt': 'Maximal filesize of 96KiB exceeded.', false)
+      : cb(
+          req.lng == 'de'
+            ? 'Datei zu groß, maximal 96KiB erlaubt'
+            : 'Maximal filesize of 96KiB exceeded.',
+          false
+        )
   },
 })
 

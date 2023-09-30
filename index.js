@@ -136,7 +136,12 @@ require(path)((config) => {
     })
 
     App.express.get('/api/map', async (req, res) => {
-      res.json(Object.keys(App.challenges.distance).filter((x) => x != secrets('secret_chal_1_id') && x != secrets('secret_chal_2_id')))
+      res.json(
+        Object.keys(App.challenges.distance).filter(
+          (x) =>
+            x != secrets('secret_chal_1_id') && x != secrets('secret_chal_2_id')
+        )
+      )
     })
 
     /*App.express.get('/experiment', async (req, res) => {

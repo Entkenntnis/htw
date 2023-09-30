@@ -2393,101 +2393,67 @@ module.exports = [
   {
     id: 55,
     pos: { x: 390, y: 280 },
-    title: { de: 'Smiley', en: 'Smiley' },
+    title: { de: 'Spätabends', en: 'Late night' },
     date: '2020-08-01',
     deps: [4],
     html: {
       de: `
-      <p>Schön, dass du hier bist und neue Dinge ausprobierst. Das ist immer ziemlich aufregend.
+      <p >Ich habe gestern zur späten Stunde noch versucht was zu programmieren, war aber nicht mehr fit dafür. Ich kann deinen frischen Blick gut gebrauchen.
       </p>
       
-      <p>Eine solche aufregende Sache ist das Programmieren. Ganz vereinfacht funktioniert Programmieren so: Man schreibt einen Text und der Computer reagiert dann darauf. In dieses Textfeld kannst du Programme einfügen und starten. Ein Beispiel ist bereits eingegeben.
+      <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
+{'id': 'Java_de', 'speed': 1000, 'withBottomPanel': false ,'withPCode': false ,'withConsole': false ,'withFileList': false ,'withErrorList': false}
+<script type="plain/text" title="Programm.java">
+// Erstelle Nachricht in ASCII
+int [] ascii = new int[] {
+68, 105, 101, 32, 65, 110, 116, 119, 111, 114, 116,
+32, 108, 97, 117, 116, 101, 116, 32, 83, 121, 110,
+116, 97, 120, 46
+};
+
+String output = "";
+
+// Konvertiere Nachricht zu Text
+for (int i = 0; i < ascii.length; i++) {
+char c = (char) aScii[i];
+output = ouTpuT + c;
+}
+
+// Zeige Nachricht
+System.out.println(output);</script>
+</iframe>
+
+      <p>In Zeile 12 und Zeile 13 gibt es zwei Fehlermeldungen. Korrigiere die Fehler und führe das Programm aus, um die Antwort zu erhalten.
       </p>
       
-      <p><code><textarea rows="10" cols="50" id="code-area">alert('Hallo, Welt!')</textarea></code></p>
-      
-      <p><button class="btn btn-primary btn-sm" onClick="runCode()">Programm starten</button></p>
-      
-      <script>
-        function runCode() {
-          const el = document.getElementById('code-area')
-          const code = el.value
-          try {
-            eval(code)
-          } catch (e) {
-            alert(e)
-          }
-        }
-      </script>
-      
-      <p>Wenn du folgendes Programm in Form eines Smileys in das Textfeld oben einfügst und ausführst, wird dir die Antwort angezeigt.
-      </p>
-      
-      <pre class="bg-dark p-3"><code>                  const d = [68,
-             105,               101,
-         32,                         65,
-      110,                             116,
-    119,                                 111,
-  114,        116,            32,         108,
- 97,          117,            116,         101,
-116,           32,            75,           111,
-114,                                         111,
-115,                                         101,
-110,     115                          ,      101,
- 105      ,46                        ];     const
-  e        = d                   .map(       (x 
-   )=>       String.fromCharCode(x))      .join
-    (''                                    )
-      /*                                 x
-        x                             x
-           xxxxx                xxx*/
-                 window.alert(e)</code></pre>
     `,
       en: `
-          <p>Glad you're here and trying new things. That's always pretty exciting.
-          </p>
-          
-          <p>One such exciting thing is programming. In basic terms, programming works like this: You write a text, and the computer then reacts to it. You can insert and start programs in this text field. An example is already entered.
-          </p>
-          
-          <p><code><textarea rows="10" cols="50" id="code-area">alert('Hello, World!')</textarea></code></p>
-          
-          <p><button class="btn btn-primary btn-sm" onClick="runCode()">Run</button></p>
-          
-          <script>
-            function runCode() {
-              const el = document.getElementById('code-area')
-              const code = el.value
-              try {
-                eval(code)
-              } catch (e) {
-                alert(e)
-              }
-            }
-          </script>
-          
-          <p>If you paste the following program in the form of a smiley into the text field above and run it, you will see the answer.
-          </p>
-          
-          <pre class="bg-dark p-3"><code>                  const d = [68,
-              105,               101,
-          32,                         65,
-      110,                             116,
-    119,                                 111,
-  114,        116,            32,         108,
-  97,          117,            116,         101,
-116,           32,            75,           111,
-114,                                         111,
-115,                                         101,
-110,     115                          ,      101,
-  105      ,46                        ];     const
-  e        = d                   .map(       (x 
-    )=>       String.fromCharCode(x))      .join
-    (''                                    )
-      /*                                 x
-        x                             x
-            xxxxx                xxx*/
-                  window.alert(e)</code></pre>
+          <p >I tried to program late last night, but I wasn't up to it. I could really use your fresh perspective.
+      </p>
+      
+      <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
+{'id': 'Java_en', 'speed': 1000, 'withBottomPanel': false ,'withPCode': false ,'withConsole': false ,'withFileList': false ,'withErrorList': false}
+<script type="plain/text" title="Programm.java">
+// create message in ASCII
+int [] ascii = new int[] {
+84, 104, 101, 32, 97, 110, 115, 119, 101, 114, 32,
+105, 115, 32, 115, 121, 110, 116, 97, 120, 46
+};
+
+String output = "";
+
+// convert message to text
+for (int i = 0; i < ascii.length; i++) {
+char c = (char) aScii[i];
+output = ouTpuT + c;
+}
+
+// show message
+System.out.println(output);</script>
+</iframe>
+
+      <p>In line 12 and line 13, there are two error messages. Correct the errors and run the program to get the answer.
+      </p>
         `,
     },
     solution: secrets('chal_55'),
@@ -3137,21 +3103,61 @@ PIXI.loader
   {
     id: 64,
     pos: { x: 1155, y: 840 },
-    title: { de: 'Eine Zeile Python', en: 'One Line of Python' },
+    title: { de: 'Smiley', en: 'Smiley' },
     date: '2020-08-17',
     deps: [25, 86, 87],
     html: {
       de: `
-      <p>Was ist die Ausgabe folgender Zeile?
+      <p>Du hast es gleich zur Passage geschafft! Dafür schenke ich dir ein Smiley.
       </p>
       
-      <p><pre><code>print(sum([(x+1)*(x+1) for x in range(10)]))</pre></code></p>
+      <pre class="bg-dark p-3"><code>                  const d = [68,
+             105,               101,
+         32,                         65,
+      110,                             116,
+    119,                                 111,
+  114,        116,            32,         108,
+ 97,          117,            116,         101,
+116,           32,            75,           111,
+114,                                         111,
+115,                                         101,
+110,     115                          ,      101,
+ 105      ,46                        ];     const
+  e        = d                   .map(       (x 
+   )=>       String.fromCharCode(x))      .join
+    (''                                    )
+      /*                                 x
+        x                             x
+           xxxxx                xxx*/
+                 window.alert(e)</code></pre>
+                 
+      <p>Wenn du das Smiley als Programm ausführst, erhältst du die Antwort auf diese Aufgabe. Eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> hilft.</p>
     `,
       en: `
-      <p>What is the output of the following line?
+      <p>You're already very close to the passage! Here is a small gift for you.
       </p>
-        
-      <p><pre><code>print(sum([(x+1)*(x+1) for x in range(10)]))</pre></code></p>
+      
+      <pre class="bg-dark p-3"><code>                  const d = [68,
+             105,               101,
+         32,                         65,
+      110,                             116,
+    119,                                 111,
+  114,        116,            32,         108,
+ 97,          117,            116,         101,
+116,           32,            75,           111,
+114,                                         111,
+115,                                         101,
+110,     115                          ,      101,
+ 105      ,46                        ];     const
+  e        = d                   .map(       (x 
+   )=>       String.fromCharCode(x))      .join
+    (''                                    )
+      /*                                 x
+        x                             x
+           xxxxx                xxx*/
+                 window.alert(e)</code></pre>
+                 
+      <p>Run the smiley as a program and you will receive your answer. A website like <a href="https://runjs.co/" target="_blank">RunJS</a> is helpful.</p>
     `,
     },
     solution: secrets('chal_64'),

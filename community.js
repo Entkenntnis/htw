@@ -833,7 +833,7 @@ module.exports = [
       <p>Die Antwort lautet Underdog.
       </p>
       
-      <div style="position:absolute;bottom:0;right:0;color:gray"><small>Pst! Hier gibt's noch was: 0x&lt;span style=&quot;font-family:HackTheWeb&quot;&gt;lolo&lt;/span&gt;</small>
+      <div style="position:absolute;bottom:0;right:0;color:rgb(128,128,128)"><small>Pst! Hier gibt's noch was: 0x&lt;span style=&quot;font-family:HackTheWeb&quot;&gt;lolo&lt;/span&gt;</small>
       </div>
       
       <style>
@@ -858,7 +858,20 @@ module.exports = [
         <p>The answer is underdog.
         </p>
         
-        <p>TODO</p>
+        <div style="position:absolute;bottom:0;right:0;color:rgb(128,128,128)"><small>Shh! Here's something else: 0x&lt;span style=&quot;font-family:HackTheWeb&quot;&gt;lolo&lt;/span&gt;</small>
+        </div>
+       
+        <style>
+        body {
+          height: 3000px;
+          position:relative;
+          
+        }
+        @font-face {
+          font-family: 'HackTheWeb';
+          src: url('/chals/HackTheWeb-Regular.otf');
+        }
+      </style>
     `,
     },
     solution: 'underdog',
@@ -881,12 +894,13 @@ module.exports = [
       </p>
     `,
       en: `
-        <p>TODO</p>
+        <p>Hurrah! You found me again!</p>
+        <p>The answer is Detektiv (the German word for a detective)</p>
     `,
     },
     solution: 'detektiv',
   },
-  
+
   {
     id: 312,
     pos: { x: 1460, y: 250 },
@@ -996,13 +1010,11 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       }
     },
   },
-  
-  
 
   {
     id: 314,
     pos: { x: 1860, y: 370 },
-    title: { de: 'Tor', en: 'TODO' },
+    title: { de: 'Tor', en: 'Tor' },
     date: '2023-10-01',
     author: 'virusrpi',
     deps: [300],
@@ -1013,27 +1025,47 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       </p>
     `,
       en: `
-      <p>TODO</p>
+      <p>You can find the answer on <code>arrrg.ahcbagldgzdpa74g2mh74fvk5zjzpfjbvgqin6g3mfuu66tynv2gkiid.onion/htw/chal314.txt</code>.</p>
     `,
     },
     solution: secrets('chal_314'),
   },
-  
+
   {
     id: 315,
     pos: { x: 1960, y: 270 },
-    title: { de: 'Mentalist', en: 'TODO' },
+    title: { de: 'Mentalist', en: 'Mentalist' },
     date: '2023-10-01',
     author: 'virusrpi',
     deps: [310],
     noScore: true,
     html: {
       de: `
-      <p>TODO
+      <p>
+      Manchmal lässt sich ein Passwort auch erraten, wenn man genug Informationen über eine Person hat.
       </p>
+      <p>
+      Vorname: Max
+      Nachname: Musterman
+      Geburtstag: 18. Juni 2001
+      Katze: Felix
+      Lieblingsspiel: Minecraft
+      (zuffal gererierte Informationen)
+      </p>
+      <a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/">Mentalist</a>
     `,
       en: `
-      <p>TODO</p>
+        <p>
+        Sometimes you can guess a password if you have enough information about a person.
+        </p>
+        <p>
+        First name: Max
+        Last name: Musterman
+        Birthday: 18. June 2001
+        Cat: Felix
+        Favorite game: Minecraft
+        (randomly generated information)
+        </p>
     `,
     },
     solution: secrets('chal_315'),

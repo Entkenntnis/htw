@@ -537,7 +537,7 @@ module.exports = [
 
   {
     id: 308,
-    pos: { x: 1530, y: 320 },
+    pos: { x: 1550, y: 320 },
     title: { de: 'Freier Fall II', en: 'Free fall II' },
     author: 'rkasti u. Satsuma',
     date: '2023-08-31',
@@ -845,5 +845,87 @@ module.exports = [
     `,
     },
     solution: 'underdog',
+  },
+  
+  {
+    id: 312,
+    pos: { x: 1460, y: 250 },
+    title: { de: 'Freier Fall III', en: 'Free fall III' },
+    author: 'rkasti u. Satsuma',
+    date: '2023-10-01',
+    deps: [308],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ja, ich weiß, ich hab es übertrieben. Denn ich hab es geschafft, mich mit einer selbstgebauten Rakete in den Weltraum zu schießen,
+        um dort das nächste Experiment durchzuführen. Der Plan besteht darin, eine Metallkugel von meiner Rakete aus auf die Erde fallen zu lassen.
+        Ich befinde mich aktuell genau 87654321 Meter über der Erdoberfläche und lasse von dort die Kugel fallen.
+        Kannst du mir sagen, wie lange die Kugel braucht, um auf der Erde einzuschlagen?</p>
+
+      <p style="margin-bottom:4px;">Bedingungen:
+      </p>
+      <ul>
+      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s)</li>
+      <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
+      <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
+      <li>die Kugel wird nur von der Erde beeinflusst</li>
+      <li>Angabe in ganzen Sekunden</li>
+      </ul>
+
+    `,
+      en: `
+        <p>TODO</p>
+        
+        `,
+    },
+    check: (answer) => {
+      const prepared = answer.trim().replace('.', ',')
+      return {
+        answer: prepared,
+        correct: prepared === secrets('chal_312'),
+      }
+    },
+  },
+  
+  {
+    id: 313,
+    pos: { x: 1480, y: 130 },
+    title: { de: 'Freier Fall IV', en: 'Free fall IV' },
+    author: 'rkasti u. Satsuma',
+    date: '2023-10-01',
+    deps: [312],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ich befinde mich immer noch in meiner selbstgebauten Rakete und habe vor, das mögliche Finale dieses Experimentes durchzuführen.
+Dafür habe ich die Metallkugel mit ein wenig Elektronik ausgestattet,
+damit sie beim Aufprall auf die Erdoberfläche ein Radiosignal an einen Computer in der Rakete schickt.
+Dieser misst die Zeit zwischen Loslassen der Kugel und empfangen des Radiosignales exakt.
+Nachdem ich die Kugel fallen gelassen habe, hat der Computer folgende Zeit ausgegeben: 755367.5351298475669s.
+Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
+
+      <p style="margin-bottom:4px;">Bedingungen:
+      </p>
+      <ul>
+      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s), leite daraus die Erdmasse ab</li>
+      <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
+      <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
+      <li>die Kugel wird nur von der Erde beeinflusst</li>
+      <li>Angabe in ganzen Metern</li>
+      </ul>
+
+    `,
+      en: `
+        <p>TODO</p>
+        
+        `,
+    },
+    check: (answer) => {
+      const prepared = answer.trim().replace('.', ',')
+      return {
+        answer: prepared,
+        correct: prepared === secrets('chal_313'),
+      }
+    },
   },
 ]

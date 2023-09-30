@@ -814,7 +814,7 @@ module.exports = [
   },
 
   {
-    id: 1337,
+    id: parseInt(secrets('secret_chal_1_id')),
     pos: { x: 1570, y: 630 },
     title: { de: 'Geheime Aufgabe', en: 'Secret Challenge' },
     author: 'darkermask',
@@ -827,11 +827,26 @@ module.exports = [
       <p>Hallo, du hast mich gefunden :)
       </p>
       
-      <p>Wir reden hier gerne über "Elite", aber mal ehrlich: Das wollen wir ja eigentlich nicht wirklich sein.
+      <p>Wir reden hier gerne über "Elite", aber mal ehrlich: Das wollen wir ja nicht wirklich sein.
       </p>
       
       <p>Die Antwort lautet Underdog.
       </p>
+      
+      <div style="position:absolute;bottom:0;right:0;color:gray"><small>Pst! Hier gibt's noch was: 0x&lt;span style=&quot;font-family:HackTheWeb&quot;&gt;lolo&lt;/span&gt;</small>
+      </div>
+      
+      <style>
+        body {
+          height: 3000px;
+          position:relative;
+          
+        }
+        @font-face {
+          font-family: 'HackTheWeb';
+          src: url('/chals/HackTheWeb-Regular.otf');
+        }
+      </style>
     `,
       en: `
         <p>Hello, you found me :)
@@ -842,11 +857,36 @@ module.exports = [
         
         <p>The answer is underdog.
         </p>
+        
+        <p>TODO</p>
     `,
     },
     solution: 'underdog',
   },
 
+  {
+    id: parseInt(secrets('secret_chal_2_id')),
+    pos: { x: 1480, y: 680 },
+    title: { de: 'Geheime Aufgabe II', en: 'Secret Challenge II' },
+    author: 'darkermask',
+    date: '2023-10-01',
+    deps: [parseInt(secrets('secret_chal_1_id'))],
+    noScore: true,
+    showAfterSolve: true,
+    html: {
+      de: `
+      <p>Hurra! Du hast mich wieder gefunden!</p>
+      
+      <p>Die Antwort lautet Detektiv.
+      </p>
+    `,
+      en: `
+        <p>TODO</p>
+    `,
+    },
+    solution: 'detektiv',
+  },
+  
   {
     id: 312,
     pos: { x: 1460, y: 250 },
@@ -955,5 +995,47 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
         correct: prepared === secrets('chal_313'),
       }
     },
+  },
+  
+  
+
+  {
+    id: 314,
+    pos: { x: 1860, y: 370 },
+    title: { de: 'Tor', en: 'TODO' },
+    date: '2023-10-01',
+    author: 'virusrpi',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Finde die Antwort durch einen Besuch auf <code>arrrg.ahcbagldgzdpa74g2mh74fvk5zjzpfjbvgqin6g3mfuu66tynv2gkiid.onion/htw/chal314.txt</code>.
+      </p>
+    `,
+      en: `
+      <p>TODO</p>
+    `,
+    },
+    solution: secrets('chal_314'),
+  },
+  
+  {
+    id: 315,
+    pos: { x: 1960, y: 270 },
+    title: { de: 'Mentalist', en: 'TODO' },
+    date: '2023-10-01',
+    author: 'virusrpi',
+    deps: [310],
+    noScore: true,
+    html: {
+      de: `
+      <p>TODO
+      </p>
+    `,
+      en: `
+      <p>TODO</p>
+    `,
+    },
+    solution: secrets('chal_315'),
   },
 ]

@@ -846,7 +846,7 @@ module.exports = [
     },
     solution: 'underdog',
   },
-  
+
   {
     id: 312,
     pos: { x: 1460, y: 250 },
@@ -874,8 +874,21 @@ module.exports = [
 
     `,
       en: `
-        <p>TODO</p>
+        <p>Yes, I know, I overdid it. Because I managed to shoot myself into space with a self-made rocket,
+        to carry out the next experiment there. The plan is to drop a metal ball to Earth from my rocket.
+        I am currently exactly 87654321 meters above the earth's surface, and I let the ball fall from there.
+        Can you tell me how long it takes for the bullet to hit the earth?</p>
         
+        <p style="margin-bottom:4px;">Conditions:
+        </p>
+        
+        <ul>
+        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s)</li>
+        <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
+        <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
+        <li>the ball is only influenced by the earth</li>
+        <li>answer in whole seconds</li>
+        </ul>
         `,
     },
     check: (answer) => {
@@ -886,7 +899,7 @@ module.exports = [
       }
     },
   },
-  
+
   {
     id: 313,
     pos: { x: 1480, y: 130 },
@@ -916,7 +929,22 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
     `,
       en: `
-        <p>TODO</p>
+        <p>I am still in my self-made rocket and plan to carry out the possible finale of this experiment.
+        For this I equipped the metal ball with a little electronics,
+        so that it sends a radio signal to a computer in the rocket when it hits the earth's surface.
+        This measures the time between releasing the ball and receiving the radio signal exactly.
+        After I dropped the ball, the computer output the following time: 755367.5351298475669s.
+        How high was I with my rocket above the earth's surface?</p>
+        
+        <p style="margin-bottom:4px;">Conditions:
+        </p>
+        <ul>
+        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s), derive the earth mass from it</li>
+        <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
+        <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
+        <li>the ball is only influenced by the earth</li>
+        <li>answer in whole meters</li>
+        </ul>
         
         `,
     },

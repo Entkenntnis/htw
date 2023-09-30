@@ -791,10 +791,10 @@ module.exports = [
 
   {
     id: 21,
-    pos: { x: 560, y: 410 },
+    pos: { x: 160, y: 485 },
     title: { de: 'Fingerzeig', en: 'Helping hand' },
     date: '2017-08-25',
-    deps: [55, 111],
+    deps: [51, 68],
     html: {
       de: `
       <p>
@@ -1105,7 +1105,7 @@ module.exports = [
     pos: { x: 195, y: 615 },
     title: { de: 'GPS-Code', en: 'GPS code' },
     date: '2017-08-26',
-    deps: [70],
+    deps: [21],
     html: {
       de: `
       <p>Die Anfangsbuchstaben folgender deutscher Orte ergeben die Antwort:
@@ -1144,7 +1144,7 @@ module.exports = [
     pos: { x: 715, y: 470 },
     title: { de: 'UNIX Zeitstempel', en: 'UNIX timestamp' },
     date: '2017-08-26',
-    deps: [21],
+    deps: [70],
     html: {
       de: `
       <p>Im welchem Jahr liegt der Zeitpunkt 817876800?
@@ -3476,10 +3476,10 @@ PIXI.loader
 
   {
     id: 70,
-    pos: { x: 160, y: 485 },
+    pos: { x: 560, y: 410 },
     title: { de: 'Karol', en: 'Karol' },
     date: '2021-03-19',
-    deps: [51, 68],
+    deps: [55, 111],
     html: {
       de: `
       <p>Wenn wir heute in einem LEGO-Wettbewerb gegeneinander antreten würde, dann hätte ich gegen dich keine Chance. Irgendwie war ich kreativer, als ich noch jung war.

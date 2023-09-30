@@ -1045,27 +1045,30 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       Manchmal lässt sich ein Passwort auch erraten, wenn man genug Informationen über eine Person hat.
       </p>
       <p>
-      Vorname: Max
-      Nachname: Musterman
-      Geburtstag: 18. Juni 2001
-      Katze: Felix
-      Lieblingsspiel: Minecraft
-      (zuffal gererierte Informationen)
+      Vorname: Max<br>
+      Nachname: Musterman<br>
+      Geburtstag: 18. Juni 2001<br>
+      Katze: Felix<br>
+      Lieblingsspiel: Minecraft<br>
+      (zuffällig generierte Informationen)
       </p>
-      <a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/">Mentalist</a>
+      
+      <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
     `,
       en: `
         <p>
         Sometimes you can guess a password if you have enough information about a person.
         </p>
         <p>
-        First name: Max
-        Last name: Musterman
-        Birthday: 18. June 2001
-        Cat: Felix
-        Favorite game: Minecraft
+        First name: Max<br>
+        Last name: Musterman<br>
+        Birthday: 18. June 2001<br>
+        Cat: Felix<br>
+        Favorite game: Minecraft<br>
         (randomly generated information)
         </p>
+          
+        <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
     `,
     },
     solution: secrets('chal_315'),

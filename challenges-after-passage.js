@@ -339,7 +339,7 @@ module.exports = [
       
       <p><img src="/chals/83_4.png" alt="freedom 4"></p>
       
-      <p>The exact number for the starting are is your answer.
+      <p>The exact number of possible game states is the answer.
       </p>
     `,
     },

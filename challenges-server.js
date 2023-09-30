@@ -304,7 +304,7 @@ module.exports = function (App) {
       .status(200)
       .send(
         req.lng === 'de'
-          ? 'Die Antwort lautet '
+          ? 'Die Antwort lautet ' + secrets('chal_302') + '.'
           : 'The answer is ' + secrets('chal_302') + '.'
       )
   })

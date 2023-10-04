@@ -569,7 +569,7 @@ module.exports = [
   {
     id: 309,
     pos: { x: 2030, y: 700 },
-    title: { de: 'Cyperchef', en: 'Cyperchef' },
+    title: { de: 'Cyberchef', en: 'Cyberchef' },
     author: 'provn_tq97',
     date: '2023-09-01',
     deps: [300],

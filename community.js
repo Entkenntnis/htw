@@ -1054,6 +1054,24 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       </p>
       
       <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
+      
+      <script src="/sha256.js"></script>
+      
+      <script>
+        const salt = '3NL/usjb4vEg'
+        const hash = '47fde76c898053a9db963df844bb936c26ab54867663f4d1505858d6c346eacc'
+        
+        window.onload = () => {
+          document.getElementById('challenge_form').onsubmit = (e) => {
+            const value = document.getElementById('challenge_answer').value
+            if (sha256(salt + value).hex() !== hash) {
+              alert('Passwort falsch.')
+              e.preventDefault()
+              return false
+            }
+          }
+        }
+      </script>
     `,
       en: `
         <p>
@@ -1069,6 +1087,24 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
         </p>
           
         <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
+      
+        <script src="/sha256.js"></script>
+        
+        <script>
+          const salt = '3NL/usjb4vEg'
+          const hash = '47fde76c898053a9db963df844bb936c26ab54867663f4d1505858d6c346eacc'
+          
+          window.onload = () => {
+            document.getElementById('challenge_form').onsubmit = (e) => {
+              const value = document.getElementById('challenge_answer').value
+              if (sha256(salt + value).hex() !== hash) {
+                alert('Passwort falsch.')
+                e.preventDefault()
+                return false
+              }
+            }
+          }
+        </script>
     `,
     },
     solution: secrets('chal_315'),

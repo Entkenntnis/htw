@@ -427,7 +427,7 @@ module.exports = function (App) {
     })
 
     const challengesData = App.challenges.data.map((c) => {
-      const title = c.title
+      const title = c.title['de']
       const solvedBy = solutions.filter((s) => s.cid == c.id).length
       const seenBy = userHistory.filter((h) =>
         h.userSolutions.some((s) => c.deps.includes(s.cid))

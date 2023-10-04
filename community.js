@@ -919,7 +919,7 @@ module.exports = [
       <p style="margin-bottom:4px;">Bedingungen:
       </p>
       <ul>
-      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s)</li>
+      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s²)</li>
       <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
       <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
       <li>die Kugel wird nur von der Erde beeinflusst</li>
@@ -937,7 +937,7 @@ module.exports = [
         </p>
         
         <ul>
-        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s)</li>
+        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s²)</li>
         <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
         <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
         <li>the ball is only influenced by the earth</li>
@@ -974,7 +974,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       <p style="margin-bottom:4px;">Bedingungen:
       </p>
       <ul>
-      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s), leite daraus die Erdmasse ab</li>
+      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s²), leite daraus die Erdmasse ab</li>
       <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
       <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
       <li>die Kugel wird nur von der Erde beeinflusst</li>
@@ -993,7 +993,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
         <p style="margin-bottom:4px;">Conditions:
         </p>
         <ul>
-        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s), derive the earth mass from it</li>
+        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s²), derive the earth mass from it</li>
         <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
         <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
         <li>the ball is only influenced by the earth</li>

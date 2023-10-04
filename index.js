@@ -49,7 +49,7 @@ require(path)((config) => {
   config.map.centeringOffset = 0.5
   config.map.width = 2400
   config.map.height = 2000
-  config.editors.push('admin', 'demo')
+  config.editors.push('editor', 'demo')
   config.noSelfAdmin.push('demo')
   config.masterPassword = secrets('config_master_password')
   //config.urlPrefix = '//localhost:3000'

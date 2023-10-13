@@ -1523,13 +1523,22 @@ print(hex_string)</pre></code>
     title: { de: 'Hintergrund', en: 'Background' },
     date: '2023-05-27',
     deps: [98, 99, 100, 101],
-    html: `
+    html: {
+      de: `
+      <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
+      </p>
+      
+      <p>Das ist eine Eigenschaft, die du mit der Antwort auf diese Aufgabe gemeinsam hast: Die Antwort ist schon immer da gewesen. Du findest sie auf der Rückseite des Planetens dieser Aufgabe.
+      </p>
+    `,
+      en: `
       <p>There are people who are just always there. You can rely on these people.
       </p>
       
       <p>This is a quality you have in common with the answer to this task: the answer has always been there. You can find them on the back side of the planet in this task.
       </p>
-    `,
+    `
+    },
     solution: secrets('chal_103'),
   },
 

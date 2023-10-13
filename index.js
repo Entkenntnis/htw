@@ -71,6 +71,10 @@ require(path)((config) => {
   config.allowNewAutoPassword = false
 
   config.tokenSecret = secrets('config_token_secret')
+  
+  config.rateLimit.enabled = true
+  config.rateLimit.timespan = 3
+  config.rateLimit.requests = 250
 
   config.map.backgroundLicenseHtml = `
     <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>

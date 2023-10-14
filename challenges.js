@@ -84,7 +84,9 @@ module.exports = [
         <p>Die Antwort zu dieser Aufgabe findet sich im folgenden Bild:
         </p>
         
-        <p><img src="/chals/chal2.png" alt="fingercode"></p>
+        <p><img src="/chals/chal2.gif" alt="fingercode"></p>
+        
+        <small><a href="https://gebaerdenlernen.ch/woerterbuch" target="_blank">Quelle</a></small>
       `,
       en: `
          <p>The content of a message is completely independent of its encoding. You can use Latin letters — or your fingers!
@@ -92,8 +94,10 @@ module.exports = [
          
          <p>The answer to this challenge can be found in the following picture:
          </p>
-         
-         <p><img src="/chals/chal2.png" alt="fingercode"></p>
+        
+        <p><img src="/chals/chal2.gif" alt="fingercode"></p>
+        
+        <small><a href="https://gebaerdenlernen.ch/woerterbuch" target="_blank">Source</a></small>
       `,
     },
     solution: secrets('chal_2'),

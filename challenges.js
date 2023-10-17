@@ -2550,7 +2550,7 @@ Doch ich spüre tiefes Beben.</i>
           
           <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst.</p>
           
-          <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 64 &nbsp; 18</p>
+          <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/64">64</a> &nbsp; <a href="/challenge/18">18</a></p>
           
           <p>Jede Zahl entspricht der Nummer einer Aufgabe. Schaue in die Addressleiste. Dort siehst du, dass diese Aufgabe die Nummer 57 hat. Die Anfangsbuchstaben der Aufgaben bilden die Antwort.</p>
     `,

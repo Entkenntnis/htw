@@ -1362,11 +1362,7 @@ print(hex_string)</pre></code>
         const isIE = /Trident/i.test(userAgent)
 
         if (isIE) {
-          return (
-            'Die Antwort lautet ' +
-            secrets('chal_100') +
-            '.'
-          )
+          return 'Die Antwort lautet ' + secrets('chal_100') + '.'
         } else {
           return 'Das ist kein Internet Explorer: ' + userAgent
         }
@@ -1387,11 +1383,7 @@ print(hex_string)</pre></code>
         const isIE = /Trident/i.test(userAgent)
 
         if (isIE) {
-          return (
-            "The answer is " +
-            secrets('chal_100') +
-            '.'
-          )
+          return 'The answer is ' + secrets('chal_100') + '.'
         } else {
           return 'This is not Internet Explorer:' + userAgent
         }
@@ -1532,7 +1524,7 @@ print(hex_string)</pre></code>
       
       <p>This is a quality you have in common with the answer to this task: the answer has always been there. You can find them on the back side of the planet in this task.
       </p>
-    `
+    `,
     },
     solution: secrets('chal_103'),
   },

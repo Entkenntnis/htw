@@ -71,7 +71,7 @@ require(path)((config) => {
   config.allowNewAutoPassword = false
 
   config.tokenSecret = secrets('config_token_secret')
-  
+
   config.rateLimit.enabled = true
   config.rateLimit.timespan = 3
   config.rateLimit.requests = 250

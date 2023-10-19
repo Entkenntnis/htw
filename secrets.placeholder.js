@@ -100,8 +100,10 @@ module.exports = {
   chal_311: '42',
   chal_312: '42',
   chal_313: '42',
-  secret_chal_1_id: '42',
-  secret_chal_2_id: '42',
+  secret_chal_1_id: '42000',
+  secret_chal_2_id: '420000',
   chal_314: '42',
   chal_315: '42',
+  chal_316: '42',
+  chal_317: '42',
 }

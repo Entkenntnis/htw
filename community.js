@@ -1109,4 +1109,52 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
     },
     solution: secrets('chal_315'),
   },
+
+  {
+    id: 316,
+    pos: { x: 1740, y: 815 },
+    title: { de: 'OSINT', en: 'OSINT' },
+    date: '2023-10-19',
+    author: 'User0',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ein guter Hacker muss auch Detektivarbeit leisten. Zeig, dass du das Zeug dazu hast! Welcher Fluss ist hier abgebildet?
+      </p>
+      
+      <p><img src="/chals/chal316.jpg" alt="Fluss"></p>
+    `,
+      en: `
+      <p>A good hacker also needs to do detective work. Show that you have what it takes! Which river is depicted here?</p>
+
+      <p><img src="/chals/chal316.jpg" alt="River"></p>
+    `,
+    },
+    solution: secrets('chal_316'),
+  },
+
+  {
+    id: 317,
+    pos: { x: 1790, y: 915 },
+    title: { de: 'OSINT II', en: 'OSINT II' },
+    date: '2023-10-19',
+    author: 'User0',
+    deps: [316],
+    noScore: true,
+    html: {
+      de: `
+      <p>Schon lange versuchst du diese Webseite zu hacken. Den Login-Namen des Administrators hast Du bereits. Die Sicherheitsfrage, um das Passwort zu ändern lautet: “Traumhafter Urlaubsort”. Auf dem Instagram-Account seiner Freundin findest du dieses alte Video. Ist das der Ort?
+      </p>
+      
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ks3kxAc3nSo?si=Qz3Tr3hAfy9Nh-5t" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    `,
+      en: `
+      <p>You've been trying to hack this website for a long time. You already have the administrator's login name. The security question to change the password is: "Dreamy vacation spot." On his girlfriend's Instagram account, you find this old video. Is that the place?</p>
+
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ks3kxAc3nSo?si=Qz3Tr3hAfy9Nh-5t" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    `,
+    },
+    solution: secrets('chal_317'),
+  },
 ]

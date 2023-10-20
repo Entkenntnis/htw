@@ -2400,12 +2400,12 @@ module.exports = [
   {
     id: 55,
     pos: { x: 390, y: 280 },
-    title: { de: 'Spätabends', en: 'Late night' },
+    title: { de: 'Fehlermeldung', en: 'Error message' },
     date: '2020-08-01',
     deps: [4],
     html: {
       de: `
-      <p >Ich habe gestern zur späten Stunde noch versucht was zu programmieren, war aber nicht mehr fit dafür. Ich kann deinen frischen Blick gut gebrauchen.
+      <p >Ich habe gestern zur späten Stunde noch versucht was zu programmieren, war aber nicht mehr fit dafür. Ich kann deinen frischen Blick gut gebrauchen. Ich bin nicht mehr in der Lage, Großbuchstaben von Kleinbuchstaben zu unterscheiden.
       </p>
       
       <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
@@ -2430,13 +2430,12 @@ output = ouTpuT + c;
 System.out.println(output);</script>
 </iframe>
 
-      <p>In Zeile 12 und Zeile 13 gibt es zwei Fehlermeldungen. Korrigiere die Fehler und führe das Programm aus, um die Antwort zu erhalten.
+      <p>In JAVA ist die Groß-/Kleinschreibung wichtig. In Zeile 12 und Zeile 13 wurden dabei zwei Fehler gemacht. Korrigiere die Fehler und führe das Programm aus, um die Antwort zu erhalten.
       </p>
       
     `,
       en: `
-          <p >I tried to program late last night, but I wasn't up to it. I could really use your fresh perspective.
-      </p>
+          <p>I tried to program something late at night yesterday, but I wasn't fit for it anymore. I can really use your fresh perspective. I can no longer distinguish between uppercase and lowercase letters.</p>
       
       <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
 {'id': 'Java_en', 'speed': 1000, 'withBottomPanel': false ,'withPCode': false ,'withConsole': false ,'withFileList': false ,'withErrorList': false}
@@ -2459,8 +2458,7 @@ output = ouTpuT + c;
 System.out.println(output);</script>
 </iframe>
 
-      <p>In line 12 and line 13, there are two error messages. Correct the errors and run the program to get the answer.
-      </p>
+      <p>In JAVA, letter case is important. Two errors were made in line 12 and line 13. Correct the errors and run the program to get the answer.</p>
         `,
     },
     solution: secrets('chal_55'),

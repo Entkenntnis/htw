@@ -569,7 +569,7 @@ module.exports = [
   {
     id: 309,
     pos: { x: 2030, y: 700 },
-    title: { de: 'Cyperchef', en: 'Cyperchef' },
+    title: { de: 'Cyberchef', en: 'Cyberchef' },
     author: 'provn_tq97',
     date: '2023-09-01',
     deps: [300],
@@ -919,7 +919,7 @@ module.exports = [
       <p style="margin-bottom:4px;">Bedingungen:
       </p>
       <ul>
-      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s)</li>
+      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s²)</li>
       <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
       <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
       <li>die Kugel wird nur von der Erde beeinflusst</li>
@@ -937,7 +937,7 @@ module.exports = [
         </p>
         
         <ul>
-        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s)</li>
+        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s²)</li>
         <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
         <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
         <li>the ball is only influenced by the earth</li>
@@ -968,13 +968,13 @@ module.exports = [
 Dafür habe ich die Metallkugel mit ein wenig Elektronik ausgestattet,
 damit sie beim Aufprall auf die Erdoberfläche ein Radiosignal an einen Computer in der Rakete schickt.
 Dieser misst die Zeit zwischen Loslassen der Kugel und empfangen des Radiosignales exakt.
-Nachdem ich die Kugel fallen gelassen habe, hat der Computer folgende Zeit ausgegeben: 755367.5351298475669s.
+Nachdem ich die Kugel fallen gelassen habe, hat der Computer folgende Zeit ausgegeben: 755367,5351298475669 s.
 Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
       <p style="margin-bottom:4px;">Bedingungen:
       </p>
       <ul>
-      <li>konstanter Erdradius von 6374,34 km (dort gilt g = 9,81 m/s), leite daraus die Erdmasse ab</li>
+      <li>konstanter Erdradius von 6374,3400000 km (dort gilt g = 9,8100000000 m/s²), leite daraus die Erdmasse ab</li>
       <li>Weitere Konstanten findest du hier: <a href="https://de.wikipedia.org/wiki/Physikalische_Konstante" target="_blank">https://de.wikipedia.org/wiki/Physikalische_Konstante</a></li>
       <li>jegliche Effekte der Atmosphäre sowie relativistische Effekte können vernachlässigt werden</li>
       <li>die Kugel wird nur von der Erde beeinflusst</li>
@@ -987,13 +987,13 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
         For this I equipped the metal ball with a little electronics,
         so that it sends a radio signal to a computer in the rocket when it hits the earth's surface.
         This measures the time between releasing the ball and receiving the radio signal exactly.
-        After I dropped the ball, the computer output the following time: 755367.5351298475669s.
+        After I dropped the ball, the computer output the following time: 755367.5351298475669 s.
         How high was I with my rocket above the earth's surface?</p>
         
         <p style="margin-bottom:4px;">Conditions:
         </p>
         <ul>
-        <li>constant earth radius of 6374.34 km (there g = 9.81 m/s), derive the earth mass from it</li>
+        <li>constant earth radius of 6374.3400000 km (there g = 9.8100000000 m/s²), derive the earth mass from it</li>
         <li>You can find more constants here: <a href="https://en.wikipedia.org/wiki/Physical_constant" target="_blank">https://en.wikipedia.org/wiki/Physical_constant</a></li>
         <li>any effects of the atmosphere as well as relativistic effects can be neglected</li>
         <li>the ball is only influenced by the earth</li>
@@ -1054,6 +1054,24 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       </p>
       
       <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
+      
+      <script src="/sha256.js"></script>
+      
+      <script>
+        const salt = '3NL/usjb4vEg'
+        const hash = '47fde76c898053a9db963df844bb936c26ab54867663f4d1505858d6c346eacc'
+        
+        window.onload = () => {
+          document.getElementById('challenge_form').onsubmit = (e) => {
+            const value = document.getElementById('challenge_answer').value
+            if (sha256(salt + value).hex() !== hash) {
+              alert('Passwort falsch.')
+              e.preventDefault()
+              return false
+            }
+          }
+        }
+      </script>
     `,
       en: `
         <p>
@@ -1069,8 +1087,74 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
         </p>
           
         <p><a href="https://null-byte.wonderhowto.com/how-to/create-custom-wordlists-for-password-cracking-using-mentalist-0183992/" target="_blank">Mentalist</a></p>
+      
+        <script src="/sha256.js"></script>
+        
+        <script>
+          const salt = '3NL/usjb4vEg'
+          const hash = '47fde76c898053a9db963df844bb936c26ab54867663f4d1505858d6c346eacc'
+          
+          window.onload = () => {
+            document.getElementById('challenge_form').onsubmit = (e) => {
+              const value = document.getElementById('challenge_answer').value
+              if (sha256(salt + value).hex() !== hash) {
+                alert('Passwort falsch.')
+                e.preventDefault()
+                return false
+              }
+            }
+          }
+        </script>
     `,
     },
     solution: secrets('chal_315'),
+  },
+
+  {
+    id: 316,
+    pos: { x: 1740, y: 815 },
+    title: { de: 'OSINT', en: 'OSINT' },
+    date: '2023-10-19',
+    author: 'User0',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ein guter Hacker muss auch Detektivarbeit leisten. Zeig, dass du das Zeug dazu hast! Welcher Fluss ist hier abgebildet?
+      </p>
+      
+      <p><img src="/chals/chal316.jpg" alt="Fluss"></p>
+    `,
+      en: `
+      <p>A good hacker also needs to do detective work. Show that you have what it takes! Which river is depicted here?</p>
+
+      <p><img src="/chals/chal316.jpg" alt="River"></p>
+    `,
+    },
+    solution: secrets('chal_316'),
+  },
+
+  {
+    id: 317,
+    pos: { x: 1790, y: 915 },
+    title: { de: 'OSINT II', en: 'OSINT II' },
+    date: '2023-10-19',
+    author: 'User0',
+    deps: [316],
+    noScore: true,
+    html: {
+      de: `
+      <p>Schon lange versuchst du diese Webseite zu hacken. Den Login-Namen des Administrators hast Du bereits. Die Sicherheitsfrage, um das Passwort zu ändern lautet: “Traumhafter Urlaubsort”. Auf dem Instagram-Account seiner Freundin findest du dieses alte Video. Ist das der Ort?
+      </p>
+      
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ks3kxAc3nSo?si=Qz3Tr3hAfy9Nh-5t" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    `,
+      en: `
+      <p>You've been trying to hack this website for a long time. You already have the administrator's login name. The security question to change the password is: "Dreamy vacation spot." On his girlfriend's Instagram account, you find this old video. Is that the place?</p>
+
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ks3kxAc3nSo?si=Qz3Tr3hAfy9Nh-5t" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    `,
+    },
+    solution: secrets('chal_317'),
   },
 ]

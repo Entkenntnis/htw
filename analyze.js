@@ -2,7 +2,7 @@ const { Op } = require('sequelize')
 const window = require('svgdom')
 const SVG = require('svg.js')(window)
 const document = window.document
-const fromDate = '2023-07-27'
+const fromDate = '2023-10-21'
 
 function escapeHTML(str) {
   return str
@@ -427,7 +427,7 @@ module.exports = function (App) {
     })
 
     const challengesData = App.challenges.data.map((c) => {
-      const title = c.title
+      const title = c.title['de']
       const solvedBy = solutions.filter((s) => s.cid == c.id).length
       const seenBy = userHistory.filter((h) =>
         h.userSolutions.some((s) => c.deps.includes(s.cid))

@@ -1339,68 +1339,55 @@ print(hex_string)</pre></code>
   {
     id: 100,
     pos: { x: 920, y: 1590 },
-    title: { de: 'Wii', en: 'Wii' },
+    title: { de: 'Nostalgie', en: 'Nostalgia' },
     date: '2023-05-17',
     deps: [93, 96],
     render: ({ req }) => {
       const isGerman = req.lng == 'de'
       return isGerman
         ? `
-      <p>Lust auf einen kleinen Spiele-Nachmittag mit Mario-Kart? Das wird sicher Spaß machen - auch für mich, selbst wenn ich ständig gegen dich verlieren werde.
+      <p>Du kannst gut zuhören! Und das nicht nur bei neuen und modernen Entwicklungen, sondern auch bei Dingen, die bereits Teil der Geschichte sind. Das ist zum Beispiel hier der Fall:
       </p>
       
-      <p>Mario-Kart hat viele Generationen hinter sich. Ich habe noch mit der Version auf der Nintendo Wii begonnen.
+      <p><img src="/chals/chal100.png"  alt="chat gpt" width="200"/></p>
+      
+      <p>Für viele Menschen war der Internet Explorer der erste Zugang zum Internet. Mittlerweile wurde der IE ersetzt. Doch das hält niemanden davon ab, den alten Browser nochmal herauszuholen.
       </p>
       
-      <p>Wenn man die Wii mit dem Internet verbindet, dann könnte man damit sogar Hack The Web spielen, denn sie enthält einen Browser. Rufe diese Seite auf der Wii auf (oder täusche das dem Server so vor), um die Antwort zu erhalten.
+      <p>Öffne diese Seite mit dem Internet Explorer, um die Antwort zu erhalten.
       </p>
       
       <p><code>${(() => {
         const userAgent = req.headers['user-agent'] || ''
-        const isWii = /Nintendo Wii/i.test(userAgent)
+        const isIE = /Trident/i.test(userAgent)
 
-        if (isWii) {
-          return (
-            'Auf gehts mit 150cc auf dem Regenbogen-Boulevard. Die Antwort lautet ' +
-            secrets('chal_100') +
-            '.'
-          )
+        if (isIE) {
+          return 'Die Antwort lautet ' + secrets('chal_100') + '.'
         } else {
-          return 'Das ist keine Wii: ' + userAgent
+          return 'Das ist kein Internet Explorer: ' + userAgent
         }
       })()}</code></p>
-      
-      <p>
-        Hinweis: Aufgrund der Veralterung des Wii-Browsers funktioniert Hack The Web möglicherweise nicht wie vorgesehen oder überhaupt nicht mehr.
-      </p>
       
     `
         : `
-      <p>Fancy a little gaming afternoon with Mario Kart? That's sure to be fun – for me, too, even if I'm constantly losing to you.
-      </p>
-      
-      <p>Mario Kart has gone through many generations. I still started with the version on the Nintendo Wii.
-      </p>
-      
-      <p>If you connect the Wii to the Internet, you could even play Hack The Web with it because it includes a browser. Visit this page on the Wii (or trick the server into doing so) to get the answer.
-      </p>
+      <p>You're a good listener! And not just when it comes to new and modern developments, but also with things that are already part of history. That's the case here, for example:</p>
+
+      <p><img src="/chals/chal100.png" alt="chat gpt" width="200"/></p>
+
+      <p>For many people, the Internet Explorer was their first access to the internet. However, it has since been replaced. But that doesn't stop anyone from dusting off the old browser.</p>
+
+      <p>Open this page with Internet Explorer to get the answer.</p>
       
       <p><code>${(() => {
         const userAgent = req.headers['user-agent'] || ''
-        const isWii = /Nintendo Wii/i.test(userAgent)
+        const isIE = /Trident/i.test(userAgent)
 
-        if (isWii) {
-          return (
-            "Let's go with 150cc on Rainbow Boulevard. The answer is " +
-            secrets('chal_100') +
-            '.'
-          )
+        if (isIE) {
+          return 'The answer is ' + secrets('chal_100') + '.'
         } else {
-          return 'This is not a Wii:' + userAgent
+          return 'This is not Internet Explorer:' + userAgent
         }
       })()}</code></p>
-      
-      <p>Note: Because of the deprecation of the Wii browser Hack The Web may not work as intended or not even work at all.</p>
       
     `
     },
@@ -1523,13 +1510,22 @@ print(hex_string)</pre></code>
     title: { de: 'Hintergrund', en: 'Background' },
     date: '2023-05-27',
     deps: [98, 99, 100, 101],
-    html: `
+    html: {
+      de: `
+      <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
+      </p>
+      
+      <p>Das ist eine Eigenschaft, die du mit der Antwort auf diese Aufgabe gemeinsam hast: Die Antwort ist schon immer da gewesen. Du findest sie auf der Rückseite des Planetens dieser Aufgabe.
+      </p>
+    `,
+      en: `
       <p>There are people who are just always there. You can rely on these people.
       </p>
       
       <p>This is a quality you have in common with the answer to this task: the answer has always been there. You can find them on the back side of the planet in this task.
       </p>
     `,
+    },
     solution: secrets('chal_103'),
   },
 

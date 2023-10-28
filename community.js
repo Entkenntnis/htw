@@ -1170,12 +1170,12 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       de: `
       <p>Ein Wink mit dem Zaunpfahl: bestimmte Zeichen durch andere Zeichen zu ersetzen ist nur eine Art, Text zu verschlüsseln (Substitution), denn man kann einen Text auch unkenntlich machen, in dem man die Zeichen nicht verändert, sondern nur verschiebt (Transposition).</p>
       
-      <p><code>Tonfithsln i Teü,tnvns atikSwiwä tn a nrpsosfrsnaüc  iolennaecdv evrlst i  i oe htnadsr le a o ädetonmhdk en.Slu:Gez.asiicie dnrinrnv,w aurhnilx shsldmmnctndBcaeu  oshßnn.ntr  nr lcieekbri ttatannthn lun mseetceaah ubfWcenseAtirraeeru</code></p>
+      <pre style="white-space: pre-wrap;"><code>Tonfithsln i Teü,tnvns atikSwiwä tn a nrpsosfrsnaüc  iolennaecdv evrlst i  i oe htnadsr le a o ädetonmhdk en.Slu:Gez.asiicie dnrinrnv,w aurhnilx shsldmmnctndBcaeu  oshßnn.ntr  nr lcieekbri ttatannthn lun mseetceaah ubfWcenseAtirraeeru</code></pre>
     `,
       en: `
       <p>Sometimes you have to jump to one side of the fence: either you replace certain characters with other characters to encode your secret text (substitution), or you do not replace characters but only move them around (transposition).</p>
       
-      <p><code>Orrs r u uduxto'ue tt wyucea i.stnfustaoinceseo slio oeoget hyuntdch df het.Ori ooleoz  nriday i:reu. oe nptoih rnyeufyec nht oa  a eetwrrmelestes,ucdrgitesemetlI  anac,sipalf ne stcd oo rhe  nhwmetGz</code></p>
+      <pre style="white-space: pre-wrap;"><code>Orrs r u uduxto'ue tt wyucea i.stnfustaoinceseo slio oeoget hyuntdch df het.Ori ooleoz  nriday i:reu. oe nptoih rnyeufyec nht oa  a eetwrrmelestes,ucdrgitesemetlI  anac,sipalf ne stcd oo rhe  nhwmetGz</code></pre>
     `,
     },
     solution: secrets('chal_318'),
@@ -1194,17 +1194,17 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
       <p>Zum Verschlüsseln von Daten ist Transposition alleine nicht sinnvoll, weil zu leicht zu knacken, aber beim Komprimieren von Daten kann sie sehr nützlich sein.
 Das Kompressionsprogramm bzip2 benutzt dazu ein Verfahren, mit dem dieser Text zur Kompression vorbereitet wurde:</p>
       
-      <p><code>e..eneetrd,rnthetnsnsm:.tneit    ^   $f MnrDdrt rl aiiun nihthntmirlZr tghhdtvirbtsTrstou n coccc  eeeeeDsmesehs gra roeeeaeiiaiuaoiA hKiVfwmeütsofepheooesasn  snaueeuhfrxefsarnus neaazala tetf</code></p>
+      <pre style="white-space: pre-wrap;"><code>e..eneetrd,rnthetnsnsm:.tneit    ^   $f MnrDdrt rl aiiun nihthntmirlZr tghhdtvirbtsTrstou n coccc  eeeeeDsmesehs gra roeeeaeiiaiuaoiA hKiVfwmeütsofepheooesasn  snaueeuhfrxefsarnus neaazala tetf</code></pre>
       
       <p>Hinweis: <code>^</code> und <code>$</code> markieren Anfang und Ende des Klartexts.</p>
     `,
       en: `
-      <p>Transposition alone is not useful for encrypting data because it is too easy to crack, but it can be very useful when compressing data.
+      <pre style="white-space: pre-wrap;">Transposition alone is not useful for encrypting data because it is too easy to crack, but it can be very useful when compressing data.
 The compression program bzip2 uses such a method, which this text was prepared for compression with:</p>
       
       <p><code>..rneneuehlseaesrsnaenrdttmle:.ewis  ^$  rerscr  eh hr    aeinhsmerhhtdpmsrtwvvtmhrst st oigctTttT e ht st daaroarioieoaooaa rciciffYrpamoeaaet afpeof eneri e  nseunxaafc s    i ole ose</code></p>
       
-      <p>Hint: <code>^</code> and <code>$</code> mark beginning and end of the plaintext.</p>
+      <p>Hint: <code>^</code> and <code>$</code> mark beginning and end of the plaintext.</pre>
     `,
     },
     solution: secrets('chal_319'),

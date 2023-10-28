@@ -47,8 +47,8 @@ require(path)((config) => {
   config.styles.solutionClass_correct = 'primary'
   config.styles.tableHighlightClass = 'secondary'
   config.map.centeringOffset = 0.5
-  config.map.width = 2400
-  config.map.height = 2000
+  config.map.width = 3000
+  config.map.height = 2400
   config.editors.push('editor', 'demo')
   config.noSelfAdmin.push('demo')
   config.masterPassword = secrets('config_master_password')

@@ -1157,4 +1157,116 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
     },
     solution: secrets('chal_317'),
   },
+
+  {
+    id: 318,
+    pos: { x: 2070, y: 485 },
+    title: { de: 'Transponiert', en: 'Transposed' },
+    date: '2023-10-28',
+    author: 'dpw',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ein Wink mit dem Zaunpfahl: bestimmte Zeichen durch andere Zeichen zu ersetzen ist nur eine Art, Text zu verschlüsseln (Substitution), denn man kann einen Text auch unkenntlich machen, in dem man die Zeichen nicht verändert, sondern nur verschiebt (Transposition).</p>
+      
+      <p><code>Tonfithsln i Teü,tnvns atikSwiwä tn a nrpsosfrsnaüc  iolennaecdv evrlst i  i oe htnadsr le a o ädetonmhdk en.Slu:Gez.asiicie dnrinrnv,w aurhnilx shsldmmnctndBcaeu  oshßnn.ntr  nr lcieekbri ttatannthn lun mseetceaah ubfWcenseAtirraeeru</code></p>
+    `,
+      en: `
+      <p>Sometimes you have to jump to one side of the fence: either you replace certain characters with other characters to encode your secret text (substitution), or you do not replace characters but only move them around (transposition).</p>
+      
+      <p><code>Orrs r u uduxto'ue tt wyucea i.stnfustaoinceseo slio oeoget hyuntdch df het.Ori ooleoz  nriday i:reu. oe nptoih rnyeufyec nht oa  a eetwrrmelestes,ucdrgitesemetlI  anac,sipalf ne stcd oo rhe  nhwmetGz</code></p>
+    `,
+    },
+    solution: secrets('chal_318'),
+  },
+
+  {
+    id: 319,
+    pos: { x: 2170, y: 405 },
+    title: { de: 'Transponiert II', en: 'Transposed II' },
+    date: '2023-10-28',
+    author: 'dpw',
+    deps: [318],
+    noScore: true,
+    html: {
+      de: `
+      <p>Zum Verschlüsseln von Daten ist Transposition alleine nicht sinnvoll, weil zu leicht zu knacken, aber beim Komprimieren von Daten kann sie sehr nützlich sein.
+Das Kompressionsprogramm bzip2 benutzt dazu ein Verfahren, mit dem dieser Text zur Kompression vorbereitet wurde:</p>
+      
+      <p><code>e..eneetrd,rnthetnsnsm:.tneit    ^   $f MnrDdrt rl aiiun nihthntmirlZr tghhdtvirbtsTrstou n coccc  eeeeeDsmesehs gra roeeeaeiiaiuaoiA hKiVfwmeütsofepheooesasn  snaueeuhfrxefsarnus neaazala tetf</code></p>
+      
+      <p>Hinweis: <code>^</code> und <code>$</code> markieren Anfang und Ende des Klartexts.</p>
+    `,
+      en: `
+      <p>Transposition alone is not useful for encrypting data because it is too easy to crack, but it can be very useful when compressing data.
+The compression program bzip2 uses such a method, which this text was prepared for compression with:</p>
+      
+      <p><code>..rneneuehlseaesrsnaenrdttmle:.ewis  ^$  rerscr  eh hr    aeinhsmerhhtdpmsrtwvvtmhrst st oigctTttT e ht st daaroarioieoaooaa rciciffYrpamoeaaet afpeof eneri e  nseunxaafc s    i ole ose</code></p>
+      
+      <p>Hint: <code>^</code> and <code>$</code> mark beginning and end of the plaintext.</p>
+    `,
+    },
+    solution: secrets('chal_319'),
+  },
+
+  {
+    id: 320,
+    pos: { x: 1970, y: 435 },
+    title: { de: 'Schnitzeljagd', en: 'Treasure Hunt' },
+    date: '2023-10-28',
+    author: 'drache1209',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Kannst du meine Schnitzeljagd testen? Ich bin mir nicht sicher, ob sie zu schwer ist. Du musst von jedem gelösten Wort den ersten Buchstaben nehmen.</p>
+      
+      <ol>
+        <li>Die größte Online Enzyklopädie</li>
+        <li>Verzögerung, damit Daten von einem Punkt zum anderen reisen können</li>
+        <li>Eine endliche, eindeutige Handlungsvorschrift</li>
+        <li>Eigenschaft eines Systems um mehrere Berechungen gleichzeitig ausführen zu können</li>
+      </ol>
+    `,
+      en: `
+      <p>Can you test my treasure hunt? I'm not sure if it's too difficult. You have to take the first letter of each solved word.</p>
+
+      <ol>
+        <li>The largest online encyclopedia</li>
+        <li>Delay to allow data to travel from one point to another</li>
+        <li>A finite, unambiguous set of instructions</li>
+        <li>A machine learning model inspired by the human brain's structure</li>
+      </ol>
+    `,
+    },
+    solution: secrets('chal_320'),
+  },
+
+  {
+    id: 321,
+    pos: { x: 1670, y: 835 },
+    title: { de: 'Mehrdeutig', en: 'Ambiguous' },
+    date: '2023-10-28',
+    author: 'm.florian u. Minecraftspielen',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Ziel dieser Aufgabe ist es, 100x die falsche Antwort einzugeben.</p>
+    `,
+      en: `
+      <p>The goal of this challenge is to type the wrong answer 100 times.</p>
+    `,
+    },
+    check: (answer) => {
+      const prepared = answer.trim()
+      return {
+        answer: prepared,
+        correct:
+          prepared === secrets('chal_321') ||
+          prepared === secrets('chal_321_en'),
+      }
+    },
+  },
 ]

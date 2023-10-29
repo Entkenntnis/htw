@@ -1160,11 +1160,11 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 318,
-    pos: { x: 2070, y: 485 },
+    pos: { x: 2150, y: 395 },
     title: { de: 'Transponiert', en: 'Transposed' },
     date: '2023-10-28',
     author: 'dpw',
-    deps: [300],
+    deps: [322],
     noScore: true,
     html: {
       de: `
@@ -1183,7 +1183,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 319,
-    pos: { x: 2170, y: 405 },
+    pos: { x: 2185, y: 295 },
     title: { de: 'Transponiert II', en: 'Transposed II' },
     date: '2023-10-28',
     author: 'dpw',
@@ -1268,5 +1268,31 @@ The compression program bzip2 uses such a method, which this text was prepared f
           prepared === secrets('chal_321_en'),
       }
     },
+  },
+
+  {
+    id: 322,
+    pos: { x: 2050, y: 525 },
+    title: { de: 'Hommage', en: 'Hommage' },
+    date: '2023-10-29',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+      <p>Hack The Web ist eine Hommage an eine ältere Rätselseite. Viele der Ideen sind von dort inspiriert. Die Seite beschreibt sich selbst mit diesen Worten:</p>
+      
+      <p><i>"The hacker explores the intersection of art and science in an insatiable quest to understand and shape the world around them.<br />We guide you on this journey."</i></p>
+      
+      <p>Deine Antwort ist der Name dieser Rätselseite.</p>
+    `,
+      en: `
+      <p>Hack The Web is an hommage to an older puzzle website. Many of the ideas are inspired by it. That site describes itself with these words:</p>
+      
+      <p><i>"The hacker explores the intersection of art and science in an insatiable quest to understand and shape the world around them.<br />We guide you on this journey."</i></p>
+      
+      <p>Your answer is the name of this puzzle website.</p>
+    `,
+    },
+    solution: secrets('chal_322'),
   },
 ]

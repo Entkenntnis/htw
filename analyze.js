@@ -1,7 +1,4 @@
 const { Op } = require('sequelize')
-const window = require('svgdom')
-const SVG = require('svg.js')(window)
-const document = window.document
 const fromDate = '2023-10-21'
 
 function escapeHTML(str) {
@@ -14,6 +11,20 @@ function escapeHTML(str) {
 }
 
 module.exports = function (App) {
+  
+  App.express.get('/yearly', async (req, res) => {
+    const usersDB = await App.db.models.User.findAll()
+    
+    usersDB.sort((a, b) => {
+      return Math.abs(b.createdAt.getTime() - b.updatedAt.getTime()) - Math.abs(a.createdAt.getTime() - a.updatedAt.getTime())
+    })
+    
+    console.log(usersDB.slice(0, 100).map(user => ({name: user.name, created: user.createdAt, updated: user.updatedAt, score: user.score})))
+
+    res.send('ok')
+  })
+  
+  
   App.express.get('/peakStats', async (req, res) => {
     const attempts = (await App.db.models.KVPair.findAll()).map((a) =>
       App.moment(a.createdAt).unix()
@@ -522,8 +533,11 @@ module.exports = function (App) {
 
     App.challenges.data.map((c) => solved.push(c.id))
 
-    const element = document.createElement('svg')
-    const canvas = SVG(element).size('100%', '100%')
+    const svgStart =
+      '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="100%" height="100%">'
+    const svgEnd = '</svg>'
+    const svgLines = []
+    const svgCircles = []
 
     const points = []
 
@@ -544,16 +558,9 @@ module.exports = function (App) {
         challenge.deps.forEach((dep) => {
           const previous = App.challenges.data.filter((c) => c.id === dep)[0]
           if (solved.includes(previous.id)) {
-            canvas
-              .line(
-                previous.pos.x,
-                previous.pos.y,
-                challenge.pos.x,
-                challenge.pos.y
-              )
-              .stroke({ width: 10 })
-              .stroke('lightgray')
-              .attr('stroke-linecap', 'round')
+            svgLines.push(
+              `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="lightgray" stroke-width="10" stroke-linecap="round"></line>`
+            )
           }
         })
       }
@@ -567,35 +574,26 @@ module.exports = function (App) {
           App.challenges.data.find((x) => x.id == point.id).deps.includes(s.cid)
         )
       ).length
-      const link = canvas
-        .link(App.config.urlPrefix + '/challenge/' + point.id)
-        .addClass('no-underline')
-      link.circle(18).attr({
-        fill: point.isSolved
-          ? App.config.styles.pointColor_solved
-          : App.config.styles.pointColor,
-        cx: point.pos.x,
-        cy: point.pos.y,
-      })
-      const text = link
-        .plain(point.title)
-        .fill('black')
-        .font('family', 'inherit')
-        .attr('font-weight', App.config.styles.mapTextWeight)
-      text.center(
-        point.pos.x + App.config.map.centeringOffset * point.title.length,
-        point.pos.y - 23
-      )
       const subtext =
         solvedBy + ' / ' + Math.round((100 * solvedBy) / seenBy) + '%'
-      const text2 = link
-        .plain(subtext)
-        .fill('black')
-        .font('family', 'inherit')
-        .attr('font-weight', App.config.styles.mapTextWeight)
-      text2.center(
-        point.pos.x + App.config.map.centeringOffset * subtext.length,
-        point.pos.y + 16
+      svgCircles.push(
+        `<a href="${
+          App.config.urlPrefix + '/challenge/' + point.id
+        }" class="no-underline"><g><circle r="9" cx="${point.pos.x}" cy="${
+          point.pos.y
+        }" fill="${
+          point.isSolved
+            ? App.config.styles.pointColor_solved
+            : App.config.styles.pointColor
+        }"></circle><text font-family="inherit" fill="black" font-weight="${App.config.styles.mapTextWeight}" x="${
+          point.pos.x
+        }" y="${point.pos.y - 17}" text-anchor="middle">${
+          point.title
+        }</text><text font-family="inherit" fill="black" font-weight="${App.config.styles.mapTextWeight}" x="${
+          point.pos.x
+        }" y="${point.pos.y + 23}" text-anchor="middle">${
+          subtext
+        }</text></g></a>`
       )
     }
 
@@ -603,7 +601,7 @@ module.exports = function (App) {
       page: 'map',
       props: {
         map:
-          canvas.svg() +
+          svgStart + svgLines.join('') + svgCircles.join('') + svgEnd +
           '<style>.drawing{background-color:white!important}</style>',
       },
       outsideOfContainer: true,

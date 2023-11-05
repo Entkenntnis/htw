@@ -1168,11 +1168,15 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
     noScore: true,
     html: {
       de: `
+      <p><img src="/chals/chal318.png" alt="Zaun"></p>
+      
       <p>Ein Wink mit dem Zaunpfahl: bestimmte Zeichen durch andere Zeichen zu ersetzen ist nur eine Art, Text zu verschlüsseln (Substitution), denn man kann einen Text auch unkenntlich machen, in dem man die Zeichen nicht verändert, sondern nur verschiebt (Transposition).</p>
       
       <pre style="white-space: pre-wrap;"><code>Tonfithsln i Teü,tnvns atikSwiwä tn a nrpsosfrsnaüc  iolennaecdv evrlst i  i oe htnadsr le a o ädetonmhdk en.Slu:Gez.asiicie dnrinrnv,w aurhnilx shsldmmnctndBcaeu  oshßnn.ntr  nr lcieekbri ttatannthn lun mseetceaah ubfWcenseAtirraeeru</code></pre>
     `,
       en: `
+      <p><img src="/chals/chal318.png" alt="Fence"></p>
+      
       <p>Sometimes you have to jump to one side of the fence: either you replace certain characters with other characters to encode your secret text (substitution), or you do not replace characters but only move them around (transposition).</p>
       
       <pre style="white-space: pre-wrap;"><code>Orrs r u uduxto'ue tt wyucea i.stnfustaoinceseo slio oeoget hyuntdch df het.Ori ooleoz  nriday i:reu. oe nptoih rnyeufyec nht oa  a eetwrrmelestes,ucdrgitesemetlI  anac,sipalf ne stcd oo rhe  nhwmetGz</code></pre>

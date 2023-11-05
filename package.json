@@ -11,7 +11,7 @@
   "main": "index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
   "dependencies": {
-    "@entkenntnis/challenges-server": "2.2.0",
+    "@entkenntnis/challenges-server": "2.2.1",
     "escape-html": "^1.0.3",
     "jsqr": "^1.4.0",
     "mariadb": "^2.4.1",

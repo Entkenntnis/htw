@@ -39,6 +39,7 @@ require(path)((config) => {
   require('./i18n-extension')(config)
 
   config.port = process.env.HTWPORT ? parseInt(process.env.HTWPORT) : 3000
+  config.accounts.highscoreLimit = 250
 
   config.styles.mapTextColor = 'white'
   config.styles.connectionColor = '#464545'

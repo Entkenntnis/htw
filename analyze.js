@@ -11,20 +11,30 @@ function escapeHTML(str) {
 }
 
 module.exports = function (App) {
-  
   App.express.get('/yearly', async (req, res) => {
     const usersDB = await App.db.models.User.findAll()
-    
+
     usersDB.sort((a, b) => {
-      return Math.abs(b.createdAt.getTime() - b.updatedAt.getTime()) - Math.abs(a.createdAt.getTime() - a.updatedAt.getTime())
+      return (
+        Math.abs(b.createdAt.getTime() - b.updatedAt.getTime()) -
+        Math.abs(a.createdAt.getTime() - a.updatedAt.getTime())
+      )
     })
-    
-    console.log(usersDB.slice(0, 100).map(user => ({name: user.name, created: user.createdAt, updated: user.updatedAt, score: user.score})))
+
+    console.log(
+      usersDB
+        .slice(0, 100)
+        .map((user) => ({
+          name: user.name,
+          created: user.createdAt,
+          updated: user.updatedAt,
+          score: user.score,
+        }))
+    )
 
     res.send('ok')
   })
-  
-  
+
   App.express.get('/peakStats', async (req, res) => {
     const attempts = (await App.db.models.KVPair.findAll()).map((a) =>
       App.moment(a.createdAt).unix()
@@ -585,15 +595,15 @@ module.exports = function (App) {
           point.isSolved
             ? App.config.styles.pointColor_solved
             : App.config.styles.pointColor
-        }"></circle><text font-family="inherit" fill="black" font-weight="${App.config.styles.mapTextWeight}" x="${
-          point.pos.x
-        }" y="${point.pos.y - 17}" text-anchor="middle">${
+        }"></circle><text font-family="inherit" fill="black" font-weight="${
+          App.config.styles.mapTextWeight
+        }" x="${point.pos.x}" y="${point.pos.y - 17}" text-anchor="middle">${
           point.title
-        }</text><text font-family="inherit" fill="black" font-weight="${App.config.styles.mapTextWeight}" x="${
-          point.pos.x
-        }" y="${point.pos.y + 23}" text-anchor="middle">${
-          subtext
-        }</text></g></a>`
+        }</text><text font-family="inherit" fill="black" font-weight="${
+          App.config.styles.mapTextWeight
+        }" x="${point.pos.x}" y="${
+          point.pos.y + 23
+        }" text-anchor="middle">${subtext}</text></g></a>`
       )
     }
 
@@ -601,7 +611,10 @@ module.exports = function (App) {
       page: 'map',
       props: {
         map:
-          svgStart + svgLines.join('') + svgCircles.join('') + svgEnd +
+          svgStart +
+          svgLines.join('') +
+          svgCircles.join('') +
+          svgEnd +
           '<style>.drawing{background-color:white!important}</style>',
       },
       outsideOfContainer: true,

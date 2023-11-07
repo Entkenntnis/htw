@@ -1136,11 +1136,11 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 317,
-    pos: { x: 1790, y: 915 },
-    title: { de: 'OSINT II', en: 'OSINT II' },
+    pos: { x: 1810, y: 1035 },
+    title: { de: 'OSINT III', en: 'OSINT III' },
     date: '2023-10-19',
     author: 'User0',
-    deps: [316],
+    deps: [324],
     noScore: true,
     html: {
       de: `
@@ -1298,5 +1298,51 @@ The compression program bzip2 uses such a method, which this text was prepared f
     `,
     },
     solution: secrets('chal_322'),
+  },
+
+  {
+    id: 323,
+    pos: { x: 1705, y: 955 },
+    title: { de: 'Mehrdeutig II', en: 'Ambiguous II' },
+    date: '2023-11-07',
+    author: 'Minecraftspielen u. drache1209',
+    deps: [321],
+    noScore: true,
+    html: {
+      de: `
+      <p>Hier ist <a href="/chals/chal323.txt">eine Textdatei</a>. Irgendwo hier befindet sich die Lösung. Finde sie.</p>
+      
+      <!-- Die Antwort lautet: 101% richtig -->
+    `,
+      en: `
+      <p>Here is <a href="/chals/chal323.txt">a text file</a>. The answer is somewhere here. Find it.</p>
+      
+      <!-- The answer is: 101% richtig -->
+    `,
+    },
+    solution: secrets('chal_323'),
+  },
+
+  {
+    id: 324,
+    pos: { x: 1790, y: 915 },
+    title: { de: 'OSINT II', en: 'OSINT II' },
+    date: '2023-11-07',
+    author: 'User0',
+    deps: [316],
+    noScore: true,
+    html: {
+      de: `
+      <p>Hier hat jemand mit Photoshop den Laden unkenntlich gemacht. Für Dich dürfte es aber kein Problem sein herauszufinden wie er heißt. Ein Wort, ohne "shop", oder "GmbH" oder so.</p>
+      
+      <p><img src="/chals/chal324.jpg" alt="Laden" style="width:600px;"></p>
+    `,
+      en: `
+      <p>Here, someone has made the store unrecognizable with Photoshop. But for you, it shouldn't be a problem to figure out its name. A word without "shop," "GmbH," or anything like that.</p>
+      
+      <p><img src="/chals/chal324.jpg" alt="Shop" style="width:600px;"></p>
+    `,
+    },
+    solution: secrets('chal_324'),
   },
 ]

@@ -38,7 +38,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: Oktober 2023 (<a href="' +
+      'Version: November 2023 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -46,7 +46,7 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.version',
     value:
-      'Version: October 2023 (<a href="' +
+      'Version: November 2023 (<a href="' +
       config.urlPrefix +
       '/news">News</a>)',
   })

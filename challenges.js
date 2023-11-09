@@ -2548,7 +2548,7 @@ Doch ich spüre tiefes Beben.</i>
           
           <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst.</p>
           
-          <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/64">64</a> &nbsp; <a href="/challenge/18">18</a></p>
+          <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
           
           <p>Jede Zahl entspricht der Nummer einer Aufgabe. Schaue in die Addressleiste. Dort siehst du, dass diese Aufgabe die Nummer 57 hat. Die Anfangsbuchstaben der Aufgaben bilden die Antwort.</p>
     `,
@@ -2563,7 +2563,7 @@ Doch ich spüre tiefes Beben.</i>
           </p> 
           
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
-            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 64 &nbsp; 18</p>
+            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 18</p>
             <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
             <p>The first letters of the <strong>German</strong> challenge names form the answer. Please switch to the German version for this challenge.</p>
     `,

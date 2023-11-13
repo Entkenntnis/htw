@@ -1345,4 +1345,73 @@ The compression program bzip2 uses such a method, which this text was prepared f
     },
     solution: secrets('chal_324'),
   },
+
+  {
+    id: 325,
+    pos: { x: 2225, y: 450 },
+    title: { de: 'Vor aller Augen', en: 'In Plain Sight' },
+    date: '2023-11-13',
+    author: 'dpw',
+    deps: [322],
+    noScore: true,
+    html: {
+      de: `
+      <p>Tief im Dunkeln still und leise.</p>
+      
+      <p><img src="/chals/load_it_check_it_quick_rewrite_it.jpg" alt="Brunnen" ></p>
+    `,
+      en: `
+      <p>Deep in the dark quiet and still.</p>
+      
+      <p><img src="/chals/load_it_check_it_quick_rewrite_it.jpg" alt="Well" ></p>
+    `,
+    },
+    solution: secrets('chal_325'),
+  },
+
+  {
+    id: 326,
+    pos: { x: 2365, y: 420 },
+    title: { de: 'Vor aller Augen II', en: 'In Plain Sight II' },
+    date: '2023-11-13',
+    author: 'dpw',
+    deps: [325],
+    noScore: true,
+    html: {
+      de: `
+      <p>Dieses Bild enthält 4% Geheimnisse.</p>
+      
+      <p><img src="/chals/buy_it_use_it_break_it_fix_it.png" alt="Rauschen"></p>
+    `,
+      en: `
+      <p>This image contains 4% secrets.</p>
+      
+      <p><img src="/chals/buy_it_use_it_break_it_fix_it.png" alt="Noise"></p>
+    `,
+    },
+    solution: secrets('chal_326'),
+  },
+
+  {
+    id: 327,
+    pos: { x: 2475, y: 340 },
+    title: { de: 'Vor aller Augen III', en: 'In Plain Sight III' },
+    date: '2023-11-13',
+    author: 'dpw',
+    deps: [326],
+    noScore: true,
+    html: {
+      de: `
+      <p>Nur auf die Oberfläche zu schauen reicht nicht, wenn es danach noch weitergeht.</p>
+      
+      <p><img src="/chals/write_it_cut_it_paste_it_save_it.png" alt="Buntes Rauschen"></p>
+    `,
+      en: `
+      <p>Just looking at the surface is not enough if there is more to see afterwards.</p>
+      
+      <p><img src="/chals/write_it_cut_it_paste_it_save_it.png" alt="Colorful noise"></p>
+    `,
+    },
+    solution: secrets('chal_327'),
+  },
 ]

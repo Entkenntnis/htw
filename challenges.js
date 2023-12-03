@@ -224,7 +224,7 @@ module.exports = [
           </p>
           
           <p>
-            Viele Dinge in der Informatik sehen auf den ersten Blick verwirrend sein. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
+            Viele Dinge in der Informatik sehen auf den ersten Blick verwirrend aus. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
             wo man Dinge nachschauen kann, werden diese weniger fremd.
           </p>
           

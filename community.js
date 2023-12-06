@@ -1263,15 +1263,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
       <p>The goal of this challenge is to type the wrong answer 100 times.</p>
     `,
     },
-    check: (answer) => {
-      const prepared = answer.trim()
-      return {
-        answer: prepared,
-        correct:
-          prepared === secrets('chal_321') ||
-          prepared === secrets('chal_321_en'),
-      }
-    },
+    solution: [secrets('chal_321'), secrets('chal_321_en')]
   },
 
   {

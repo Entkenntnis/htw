@@ -92,7 +92,9 @@ module.exports = [
         <h3 style="margin-top:96px;margin-bottom:24px;">Highscore für den Community-Bereich
         </h3>
         
-        <table class="table table-hover">
+        <p style="text-align:right;"><label><input type="checkbox" onclick="handleClick(this)"> zeige nur aktiv in letzten 24 Stunden</label></p>
+        
+        <table class="table table-hover" id="highscore-table">
           <thead>
             <tr>
               
@@ -106,18 +108,39 @@ module.exports = [
           <tbody>
             ${usersList
               .map(
-                (entry) => `
-              <tr>
+                (entry) => {
+                  const lastActive = App.moment(entry.lastActive)
+                  const days = (new Date().getTime() - lastActive.valueOf()) / (1000 * 60 * 60 * 24)
+                  return `
+              <tr class="${days > 1 ? 'old' : ''}">
                 <td>${entry.rank}</td>
                 <td>${userNameIndex[entry.userId]}</td>
                 <td>${entry.solved}</td>
-                <td>${App.moment(entry.lastActive).locale('de').fromNow()}</td>
+                <td>${lastActive.locale('de').fromNow()}</td>
               </tr>
             `
+                }
               )
               .join('')}
           </tbody>
         </table>
+        
+        <script>
+          function handleClick(e) {
+            const table = document.getElementById('highscore-table')
+            if (e.checked) {
+              table.classList.add('hide-old')
+            } else {
+              table.classList.remove('hide-old')
+            }
+          }
+        </script>
+        
+        <style>
+          table.hide-old .old {
+            display: none;
+          }
+        </style>
       `
         : `
         <p>Welcome to the community area! There are now a lot of people on Hack The Web, and we also have some creative minds here with good ideas for new tasks. That's why there is new content here regularly — from you for you.

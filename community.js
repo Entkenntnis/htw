@@ -1427,17 +1427,17 @@ The compression program bzip2 uses such a method, which this text was prepared f
       const count = solvedDb.filter((s) =>
         communityArea1Challenges.includes(s.cid)
       ).length
-      const target = communityArea1Challenges.length
+      const target = Math.ceil(communityArea1Challenges.length / 2)
 
       if (count < target && !solvedDb.some((s) => s.cid == 328)) {
         return {
           de: `
-            <p>Löse alle Aufgaben, die vom Start des Community-Bereichs direkt erreichbar sind, um das Archiv freizuschalten.</p>
+            <p>Löse ${target} Aufgaben, die vom Start des Community-Bereichs direkt erreichbar sind, um das Archiv freizuschalten.</p>
             
             <p>Fortschritt: ${count}/${target}</p>
           `,
           en: `
-            <p>Complete all tasks that are directly accessible from the start of the community area to unlock the archive.</p>
+            <p>Complete ${target} tasks that are directly accessible from the start of the community area to unlock the archive.</p>
             
             <p>Progress: ${count}/${target}</p>
           `,
@@ -1452,7 +1452,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
           
           <p>Doch genau deshalb brauchen die Aufgaben eine Person wie dich, die sie mit Geduld und Liebe betrachtet.</p>
           
-          <p>Aber nun genug der Wort. Klicke auf den Button, um das Archiv freizuschalten.</p>
+          <p>Aber nun genug der Worte. Klicke auf den Button, um das Archiv freizuschalten.</p>
           
           <form method="post"><input type="hidden" name="answer" value="${secrets(
             'chal_328'

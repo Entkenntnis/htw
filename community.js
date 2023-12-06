@@ -398,7 +398,7 @@ module.exports = [
 
   {
     id: 304,
-    pos: { x: 750, y: 2150},
+    pos: { x: 750, y: 2150 },
     title: { de: 'Primzahlen', en: 'Prime numbers' },
     author: 'darkstar',
     date: '2023-08-25',
@@ -445,7 +445,7 @@ module.exports = [
 
   {
     id: 305,
-    pos: { x: 750, y: 2200},
+    pos: { x: 750, y: 2200 },
     title: { de: 'Rätselhafte Kodierung', en: 'Mysterious encoding' },
     author: 'darkstar',
     date: '2023-08-25',
@@ -568,7 +568,7 @@ module.exports = [
 
   {
     id: 309,
-    pos: { x: 750, y: 2100},
+    pos: { x: 750, y: 2100 },
     title: { de: 'Cyberchef', en: 'Cyberchef' },
     author: 'provn_tq97',
     date: '2023-09-01',
@@ -879,7 +879,7 @@ module.exports = [
 
   {
     id: parseInt(secrets('secret_chal_2_id')),
-    pos: { x: 550, y: 1950   },
+    pos: { x: 550, y: 1950 },
     title: { de: 'Geheime Aufgabe II', en: 'Secret Challenge II' },
     author: 'darkermask',
     date: '2023-10-01',
@@ -1033,7 +1033,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 315,
-    pos: { x: 550, y: 2050},
+    pos: { x: 550, y: 2050 },
     title: { de: 'Mentalist', en: 'Mentalist' },
     date: '2023-10-01',
     author: 'virusrpi',
@@ -1414,19 +1414,22 @@ The compression program bzip2 uses such a method, which this text was prepared f
     date: '2023-12-06',
     deps: [103],
     noScore: true,
-    render: async ({App, req}) => {
-      
-      const communityArea1Challenges = App.challenges.data.filter((c) => c.deps.includes(300)).map(c => c.id)
+    render: async ({ App, req }) => {
+      const communityArea1Challenges = App.challenges.data
+        .filter((c) => c.deps.includes(300))
+        .map((c) => c.id)
 
       const solvedDb = await App.db.models.Solution.findAll({
         where: { UserId: req.user.id },
-        raw: true
+        raw: true,
       })
-      
-      const count = solvedDb.filter(s => communityArea1Challenges.includes(s.cid)).length
+
+      const count = solvedDb.filter((s) =>
+        communityArea1Challenges.includes(s.cid)
+      ).length
       const target = communityArea1Challenges.length
-      
-      if (count < target && !solvedDb.some(s => s.cid == 328)) {
+
+      if (count < target && !solvedDb.some((s) => s.cid == 328)) {
         return {
           de: `
             <p>Löse alle Aufgaben, die vom Start des Community-Bereichs direkt erreichbar sind, um das Archiv freizuschalten.</p>
@@ -1440,7 +1443,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
           `,
         }
       }
-      
+
       return {
         de: `
           <p>Moin Meister! Deine Motivation ist nicht zu stoppen. Als Belohnung erhältst du hiermit Zugang zum Community-Archiv.</p>
@@ -1451,7 +1454,9 @@ The compression program bzip2 uses such a method, which this text was prepared f
           
           <p>Aber nun genug der Wort. Klicke auf den Button, um das Archiv freizuschalten.</p>
           
-          <form method="post"><input type="hidden" name="answer" value="${secrets('chal_328')}"><button class="btn btn-primary btn-sm">Archiv freischalten</button></form>
+          <form method="post"><input type="hidden" name="answer" value="${secrets(
+            'chal_328'
+          )}"><button class="btn btn-primary btn-sm">Archiv freischalten</button></form>
         `,
         en: `
           <p>Hello Friend! Your motivation is unstoppable. As a reward, you now have access to the community archive.</p>
@@ -1462,7 +1467,9 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
           <p>But enough words for now. Click the button to unlock the archive.</p>
 
-          <form method="post"><input type="hidden" name="answer" value="${secrets('chal_328')}"><button class="btn btn-primary btn-sm">Unlock Archive</button></form>
+          <form method="post"><input type="hidden" name="answer" value="${secrets(
+            'chal_328'
+          )}"><button class="btn btn-primary btn-sm">Unlock Archive</button></form>
         `,
       }
     },
@@ -1472,7 +1479,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 330,
-    pos: { x: 1930, y:750 },
+    pos: { x: 1930, y: 750 },
     title: { de: 'Fab Four', en: 'Fab Four' },
     date: '2023-12-06',
     author: 'Ingo',

@@ -173,11 +173,11 @@ module.exports = [
 
   {
     id: 301,
-    pos: { x: 1780, y: 400 },
+    pos: { x: 750, y: 2000 },
     title: { de: 'Schnittstelle', en: 'Interface' },
     date: '2023-07-28',
     author: 'cuzimbisonratte',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -192,7 +192,7 @@ module.exports = [
 
   {
     id: 302,
-    pos: { x: 1750, y: 290 },
+    pos: { x: 550, y: 2000 },
     title: { de: 'Schnittstelle II', en: 'Interface II' },
     date: '2023-07-28',
     author: 'cuzimbisonratte',
@@ -227,7 +227,7 @@ module.exports = [
 
   {
     id: 303,
-    pos: { x: 1950, y: 500 },
+    pos: { x: 2000, y: 630 },
     title: { de: 'Rechensport', en: 'Mental arithmetic' },
     author: 'simonesien',
     date: '2023-07-28',
@@ -398,11 +398,11 @@ module.exports = [
 
   {
     id: 304,
-    pos: { x: 1910, y: 730 },
+    pos: { x: 750, y: 2150},
     title: { de: 'Primzahlen', en: 'Prime numbers' },
     author: 'darkstar',
     date: '2023-08-25',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -445,11 +445,11 @@ module.exports = [
 
   {
     id: 305,
-    pos: { x: 1830, y: 780 },
+    pos: { x: 750, y: 2200},
     title: { de: 'Rätselhafte Kodierung', en: 'Mysterious encoding' },
     author: 'darkstar',
     date: '2023-08-25',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -568,11 +568,11 @@ module.exports = [
 
   {
     id: 309,
-    pos: { x: 2030, y: 700 },
+    pos: { x: 750, y: 2100},
     title: { de: 'Cyberchef', en: 'Cyberchef' },
     author: 'provn_tq97',
     date: '2023-09-01',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -591,11 +591,11 @@ module.exports = [
 
   {
     id: 310,
-    pos: { x: 1940, y: 370 },
+    pos: { x: 750, y: 2050 },
     title: { de: 'RockYou', en: 'RockYou' },
     author: 'virusrpi',
     date: '2023-09-02',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -815,11 +815,11 @@ module.exports = [
 
   {
     id: parseInt(secrets('secret_chal_1_id')),
-    pos: { x: 1570, y: 630 },
+    pos: { x: 750, y: 1950 },
     title: { de: 'Geheime Aufgabe', en: 'Secret Challenge' },
     author: 'darkermask',
     date: '2023-07-29',
-    deps: [300],
+    deps: [328],
     noScore: true,
     showAfterSolve: true,
     html: {
@@ -879,7 +879,7 @@ module.exports = [
 
   {
     id: parseInt(secrets('secret_chal_2_id')),
-    pos: { x: 1480, y: 680 },
+    pos: { x: 550, y: 1950   },
     title: { de: 'Geheime Aufgabe II', en: 'Secret Challenge II' },
     author: 'darkermask',
     date: '2023-10-01',
@@ -1033,7 +1033,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 315,
-    pos: { x: 1960, y: 270 },
+    pos: { x: 550, y: 2050},
     title: { de: 'Mentalist', en: 'Mentalist' },
     date: '2023-10-01',
     author: 'virusrpi',
@@ -1112,7 +1112,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 316,
-    pos: { x: 1740, y: 815 },
+    pos: { x: 1830, y: 815 },
     title: { de: 'OSINT', en: 'OSINT' },
     date: '2023-10-19',
     author: 'User0',
@@ -1263,7 +1263,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
       <p>The goal of this challenge is to type the wrong answer 100 times.</p>
     `,
     },
-    solution: [secrets('chal_321'), secrets('chal_321_en')]
+    solution: [secrets('chal_321'), secrets('chal_321_en')],
   },
 
   {
@@ -1405,5 +1405,112 @@ The compression program bzip2 uses such a method, which this text was prepared f
     `,
     },
     solution: secrets('chal_327'),
+  },
+
+  {
+    id: 328,
+    pos: { x: 888, y: 2070 },
+    title: { de: 'Community-Archiv', en: 'Community Archive' },
+    date: '2023-12-06',
+    deps: [103],
+    noScore: true,
+    render: async ({App, req}) => {
+      
+      const communityArea1Challenges = App.challenges.data.filter((c) => c.deps.includes(300)).map(c => c.id)
+
+      const solvedDb = await App.db.models.Solution.findAll({
+        where: { UserId: req.user.id },
+        raw: true
+      })
+      
+      const count = solvedDb.filter(s => communityArea1Challenges.includes(s.cid)).length
+      const target = communityArea1Challenges.length
+      
+      if (count < target && !solvedDb.some(s => s.cid == 328)) {
+        return {
+          de: `
+            <p>Löse alle Aufgaben, die vom Start des Community-Bereichs direkt erreichbar sind, um das Archiv freizuschalten.</p>
+            
+            <p>Fortschritt: ${count}/${target}</p>
+          `,
+          en: `
+            <p>Complete all tasks that are directly accessible from the start of the community area to unlock the archive.</p>
+            
+            <p>Progress: ${count}/${target}</p>
+          `,
+        }
+      }
+      
+      return {
+        de: `
+          <p>Moin Meister! Deine Motivation ist nicht zu stoppen. Als Belohnung erhältst du hiermit Zugang zum Community-Archiv.</p>
+          
+          <p>Schönheit liegt im Auge der Betrachter. Die Aufgaben im Archiv wurden weniger oft gelöst als die anderen Aufgaben im Community-Bereich. Die Gründe dafür können unterschiedlich sein. Manche Aufgaben sind technisch anspruchsvoll, andere brauchen eine geschickte Intuition.</p>
+          
+          <p>Doch genau deshalb brauchen die Aufgaben eine Person wie dich, die sie mit Geduld und Liebe betrachtet.</p>
+          
+          <p>Aber nun genug der Wort. Klicke auf den Button, um das Archiv freizuschalten.</p>
+          
+          <form method="post"><input type="hidden" name="answer" value="${secrets('chal_328')}"><button class="btn btn-primary btn-sm">Archiv freischalten</button></form>
+        `,
+        en: `
+          <p>Hello Friend! Your motivation is unstoppable. As a reward, you now have access to the community archive.</p>
+
+          <p>Beauty is in the eye of the beholder. Tasks in the archive have been solved less frequently than other tasks in the community area. The reasons for this can vary. Some tasks are technically challenging, while others require clever intuition.</p>
+
+          <p>That's exactly why tasks like these need someone like you to look at them with patience and love.</p>
+
+          <p>But enough words for now. Click the button to unlock the archive.</p>
+
+          <form method="post"><input type="hidden" name="answer" value="${secrets('chal_328')}"><button class="btn btn-primary btn-sm">Unlock Archive</button></form>
+        `,
+      }
+    },
+    solution: secrets('chal_328'),
+    hidesubmit: true,
+  },
+
+  {
+    id: 330,
+    pos: { x: 1930, y:750 },
+    title: { de: 'Fab Four', en: 'Fab Four' },
+    date: '2023-12-06',
+    author: 'Ingo',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+        <p>Meine Oma liebt die Beatles und kennt so gut wie alle Alben und Songs auswendig. Um ihr Computer-Passwort nicht zu vergessen, hat sie sich diese Notiz gemacht:</p>
+ 
+<pre>LIBN#10
+PPM#5
+BFS#3
+RA#16
+YSS#1
+LATHB#7
+L#18
+LIB#3
+RS#1</pre>
+ 
+        <p>Sicherlich nicht sehr sicher - aber ein schönes Beispiel für ihre Leidenschaft. Stürze dich für einen Moment in die Welt der Beatles und entschlüssle das Passwort.</p>
+      `,
+      en: `
+        <p>My grandma loves the Beatles and knows almost all albums and songs by heart. To remember her computer password, she made this note:</p>
+
+<pre>LIBN#10
+PPM#5
+BFS#3
+RA#16
+YSS#1
+LATHB#7
+L#18
+LIB#3
+RS#1</pre>
+
+        <p>Certainly not very secure, but a lovely example of her passion. Dive into the world of the Beatles for a moment and decipher the password.</p>
+
+      `,
+    },
+    solution: secrets('chal_329'),
   },
 ]

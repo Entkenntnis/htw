@@ -22,14 +22,12 @@ module.exports = function (App) {
     })
 
     console.log(
-      usersDB
-        .slice(0, 100)
-        .map((user) => ({
-          name: user.name,
-          created: user.createdAt,
-          updated: user.updatedAt,
-          score: user.score,
-        }))
+      usersDB.slice(0, 100).map((user) => ({
+        name: user.name,
+        created: user.createdAt,
+        updated: user.updatedAt,
+        score: user.score,
+      }))
     )
 
     res.send('ok')

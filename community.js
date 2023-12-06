@@ -1518,6 +1518,6 @@ RS#1</pre>
 
       `,
     },
-    solution: secrets('chal_329'),
+    solution: secrets('chal_330'),
   },
 ]

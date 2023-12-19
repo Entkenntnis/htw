@@ -19,7 +19,7 @@ function randomLo() {
   return String.fromCharCode(97 + Math.floor(rng()*26))
 }
 
-const words = isGerman?['das', 'Haus', 'ist', 'groß', 'klein', 'wird', 'sie', 'er', 'wir', 'Garten', 'Sonne', 'Mond']:["the", "house", "is", "big", "small", "will", "she", "he", "we", "garden", "sun", "moon"]
+const words = ['das', 'Haus', 'ist', 'groß', 'klein', 'wird', 'sie', 'er', 'wir', 'Garten', 'Sonne', 'Mond']
 
 function randomWord() {
   return words[Math.floor(words.length*rng())]
@@ -156,9 +156,9 @@ function cd(dirname) {
 
 function cat(filename) {
   let listing = getListing()
-  for (let i = 0; i < listing.length; i++) {
-    if (listing[i].type === 'file' && listing[i].name === filename) {
-      terminal.print(listing[i].content)
+  for (const element of listing) {
+    if (element.type === 'file' && element.name === filename) {
+      terminal.print(element.content)
       break
     }
   }

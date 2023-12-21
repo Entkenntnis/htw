@@ -107,11 +107,12 @@ module.exports = [
           </thead>
           <tbody>
             ${usersList
-              .map(
-                (entry) => {
-                  const lastActive = App.moment(entry.lastActive)
-                  const days = (new Date().getTime() - lastActive.valueOf()) / (1000 * 60 * 60 * 24)
-                  return `
+              .map((entry) => {
+                const lastActive = App.moment(entry.lastActive)
+                const days =
+                  (new Date().getTime() - lastActive.valueOf()) /
+                  (1000 * 60 * 60 * 24)
+                return `
               <tr class="${days > 1 ? 'old' : ''}">
                 <td>${entry.rank}</td>
                 <td>${userNameIndex[entry.userId]}</td>
@@ -119,8 +120,7 @@ module.exports = [
                 <td>${lastActive.locale('de').fromNow()}</td>
               </tr>
             `
-                }
-              )
+              })
               .join('')}
           </tbody>
         </table>
@@ -1542,5 +1542,35 @@ RS#1</pre>
       `,
     },
     solution: secrets('chal_330'),
+  },
+
+  {
+    id: 329,
+    pos: { x: 1535, y: 615 },
+    title: { de: 'Hacking Challenges', en: 'Hacking Challenges' },
+    date: '2023-12-21',
+    deps: [300],
+    noScore: true,
+    html: {
+      de: `
+        <p style="margin-bottom:32px;"><em>Ein liebevoll gestaltetes Projekt - empfehlenswert!</em></p>
+
+        <p>Du suchst einen Hacking Challenges Server? Dann ist dieser wahrscheinlich der Richtige für dich. Wir sind eine kleine, noch wachsende Community. Wir haben einen eigenen Bot mit einem coolen Punkte-System, schöne Aufgaben und mehr. Solltest du bei einer Aufgabe nicht weiterkommen kannst du sie auch überspringen. Wir bekommen täglich neue Aufgaben dazu! Worauf wartest du noch? Joine unserem Server und hab Spaß!</p>
+
+        <p><a href="https://discord.gg/ebtePDmYxw" target="_blank">https://discord.gg/ebtePDmYxw</a></p>
+
+        <p style="margin-top:32px;">Deine Antwort ist die Lösung zur <code>challenge-3</code>.</p>
+      `,
+      en: `
+        <p style="margin-bottom:32px;"><em>A lovingly crafted project - highly recommended! Only available in German, so use your translator to get started.</em></p>
+
+        <p>Du suchst einen Hacking Challenges Server? Dann ist dieser wahrscheinlich der Richtige für dich. Wir sind eine kleine, noch wachsende Community. Wir haben einen eigenen Bot mit einem coolen Punkte-System, schöne Aufgaben und mehr. Solltest du bei einer Aufgabe nicht weiterkommen kannst du sie auch überspringen. Wir bekommen täglich neue Aufgaben dazu! Worauf wartest du noch? Joine unserem Server und hab Spaß!</p>
+
+        <p><a href="https://discord.gg/ebtePDmYxw" target="_blank">https://discord.gg/ebtePDmYxw</a></p>
+        
+        <p style="margin-top:32px;">Your answer is the solution to <code>challenge-3</code>.</p>
+      `,
+    },
+    solution: secrets('chal_329'),
   },
 ]

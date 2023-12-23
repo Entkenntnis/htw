@@ -1573,4 +1573,34 @@ RS#1</pre>
     },
     solution: secrets('chal_329'),
   },
+
+  {
+    id: 331,
+    pos: { x: 2015, y: 705 },
+    title: { de: 'Zusammengesetzt', en: 'Assembled' },
+    date: '2023-12-23',
+    deps: [300],
+    author: 'LakyLuc',
+    noScore: true,
+    html: {
+      de: `
+        <p>Auf dieser Website wird dein Geschick beim Lösen verschiedener Rätsel und Probleme auf die Probe gestellt. Jede gelöste Aufgabe trägt dazu bei, eine spezielle Zahl zu generieren, die am Ende als Lösung dieser Aufgabe benötigt wird. Sammle deine Ergebnisse und kombiniere sie, um die ultimative Antwort zu erhalten. Betrachte alle Aufgaben vor der Passage.</p>
+      `,
+      en: `
+        <p>On this website, your skill in solving various puzzles and problems will be put to the test. Each solved challenge contributes to generating a specific number, which is needed as the solution to this challenge. Collect your results and combine them to obtain the ultimate answer. Consider all challenges before the passage.</p>
+      `,
+    },
+    check: async (answer, { App }) => {
+      const chals = Object.entries(App.challenges.distance)
+        .filter((entry) => entry[1] >= 0 && entry[1] <= 8 && entry[0] != '57')
+        .map((entry) => parseInt(entry[0]))
+      const num = await App.db.models.Solution.count({
+        where: { cid: chals },
+      })
+      return {
+        answer,
+        correct: parseInt(answer) === num,
+      }
+    },
+  },
 ]

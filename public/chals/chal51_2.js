@@ -2,7 +2,7 @@ const binary = SVG('binary').size(550, 70)
 
 const background = binary.rect(550, 70).fill('#333').radius(4)
 
-let resultText = binary.text('= 0').attr('font-size', '40px').move(450, 20).fill('white')
+let resultText = binary.text('= 0').attr('font-size', '40px').move(450, 16).fill('white')
 
 const values = [false, false, false, false, false, false]
 
@@ -33,7 +33,7 @@ function buildCircle(i, label) {
     if (!output) output = '0'
     input.innerHTML = output
   })
-  binary.text(label).attr('font-size', '24px').move(25 + 70*i + (i >= 2 ? 8 : 0), 26).style('pointer-events:none')
+  binary.text(label).attr('font-size', '24px').move(25 + 70*i + (i >= 2 ? 8 : 0), 23).style('pointer-events:none')
 }
 
 const labels = ['32', '16', '8', '4', '2', '1']

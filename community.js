@@ -1603,4 +1603,23 @@ RS#1</pre>
       }
     },
   },
+
+  {
+    id: 332,
+    pos: { x: 1760, y: 345 },
+    title: { de: 'Social Engineer :)', en: 'Social Engineer :)' },
+    date: '2024-01-03',
+    deps: [300],
+    noScore: true,
+    author: 'User0',
+    html: {
+      de: `
+        <p>Du bist <a href="/chals/eng_soc" target="_blank">auf einer Pirateninsel gestrandet</a> und hörst von einem Piraten, der viel Gold haben soll. Lass Dir von ihm den Namen der Insel verraten, wo das Gold versteckt ist.</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_332'),
+  },
 ]

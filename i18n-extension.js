@@ -844,4 +844,30 @@ module.exports = (config) => {
       </p>
     `,
   })
+
+  config.i18nExtend.push({
+    lng: 'de',
+    key: 'decode-me.heading',
+    value: 'Decode Me!',
+  })
+  config.i18nExtend.push({
+    lng: 'en',
+    key: 'decode-me.heading',
+    value: 'Decode Me!',
+  })
+
+  config.i18nExtend.push({
+    lng: 'de',
+    key: 'decode-me.content_',
+    value: `
+      <p>TODO</p>
+    `,
+  })
+  config.i18nExtend.push({
+    lng: 'en',
+    key: 'decode-me.content_',
+    value: `
+      <p>TODO</p>
+    `,
+  })
 }

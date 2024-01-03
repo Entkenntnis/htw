@@ -79,13 +79,14 @@ require(path)((config) => {
 
   config.map.backgroundLicenseHtml = `
     <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>
-    (<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>)
+    (<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>), Satellit: <a href="https://www.freepik.com/free-vector/illustration-satellite_2606121.htm" target="_blank">Image by rawpixel.com</a> on Freepik
   `
 
   config.map.customMapHtml = `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
     <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
+    <a href="/test" style="position:absolute;left:1250px;top:140px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
   `
 

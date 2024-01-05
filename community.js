@@ -1608,7 +1608,7 @@ RS#1</pre>
     id: 332,
     pos: { x: 1760, y: 345 },
     title: { de: 'Social Engineer :)', en: 'Social Engineer :)' },
-    date: '2024-01-03',
+    date: '2024-01-05',
     deps: [300],
     noScore: true,
     author: 'User0',
@@ -1617,7 +1617,7 @@ RS#1</pre>
         <p>Du bist <a href="/chals/eng_soc" target="_blank">auf einer Pirateninsel gestrandet</a> und hörst von einem Piraten, der viel Gold haben soll. Lass Dir von ihm den Namen der Insel verraten, wo das Gold versteckt ist.</p>
       `,
       en: `
-        <p>TODO</p>
+        <p>You're stranded on <a href="/chals/eng_soc/en.html" target="_blank">a pirate island</a> and hear about a pirate who is said to have a lot of gold. Get him to tell you the name of the island where the gold is hidden.</p>
       `,
     },
     solution: secrets('chal_332'),

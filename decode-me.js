@@ -4,11 +4,11 @@ const levelConfig = {
   2: { ops: ['hex'] },
   3: { ops: ['base64'] },
   4: { ops: ['binary'] },
-  5: {},
-  6: {},
-  7: {},
-  8: {},
-  9: {},
+  5: { ops: ['hex', 'decimal'] },
+  6: { ops: ['hex', 'base64'] },
+  7: { ops: ['base64', 'decimal'] },
+  8: { ops: ['hex', 'decimal', 'base64'] },
+  9: { ops: ['hex', 'decimal', 'base64', 'binary'] },
 }
 
 const adjectives = [

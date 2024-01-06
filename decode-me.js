@@ -1,3 +1,5 @@
+const seedrandom = require('seedrandom')
+
 const levelConfig = {
   0: {},
   1: { ops: ['decimal'] },
@@ -42,27 +44,29 @@ const nouns = [
   'Programmiersprache',
 ]
 
-function generateSolution1() {
-  return `${selectFromArray(adjectives)}_${selectFromArray(nouns)}_${Math.floor(
-    Math.random() * 900 + 100
-  )}`
+function generateSolution1(rng) {
+  return `${selectFromArray(adjectives, rng)}_${selectFromArray(
+    nouns,
+    rng
+  )}_${Math.floor(rng() * 900 + 100)}`
 }
 
 // generates a new riddle for the given difficulty level
-module.exports = function (level) {
+module.exports = function (level, seed) {
+  const rng = seedrandom(seed)
   if (level >= 100 || level < 0) {
     return 'out of range' // maybe some better error message
   }
 
   const config = levelConfig[Math.floor(level / 10)]
 
-  let solution = generateSolution1()
+  let solution = generateSolution1(rng)
 
   let msg = `Die Antwort lautet ${solution}.`
 
   if (Array.isArray(config.ops)) {
     const ops = config.ops.slice(0)
-    shuffleArray(ops)
+    shuffleArray(ops, rng)
     for (const op of ops) {
       if (op == 'decimal') {
         msg = new TextEncoder().encode(msg).join(' ')
@@ -100,13 +104,13 @@ module.exports = function (level) {
 
 // helper
 
-function selectFromArray(arr) {
-  return arr[Math.floor(arr.length * Math.random())]
+function selectFromArray(arr, rng) {
+  return arr[Math.floor(arr.length * rng())]
 }
 
-const shuffleArray = (array) => {
+const shuffleArray = (array, rng) => {
   for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
+    const j = Math.floor(rng() * (i + 1))
     const temp = array[i]
     array[i] = array[j]
     array[j] = temp

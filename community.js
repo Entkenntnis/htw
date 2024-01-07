@@ -9,6 +9,7 @@ module.exports = [
     date: '2023-07-28',
     deps: [57],
     noScore: true,
+    showAboveScore: 111,
     render: async ({ App, req }) => {
       const communityChals = App.challenges.data.filter((chal) => chal.noScore)
       const ids = communityChals.map((chal) => chal.id)
@@ -81,13 +82,15 @@ module.exports = [
         
         <!-- psst - hey - probiere mal /challenge/1337 -->
         
-        <p>Startbereit? Die Antwort ist die Nummer dieser Aufgabe.
+        <p>Dein Fortschritt im Community-Bereich ist unabhängig von den Punkten. Du erhältst keine Punkte für gelöste Aufgaben, dafür wird dein Fortschritt in der Highscore hier unter der Aufgabe angezeigt.
         </p>
         
-        <form autocomplete="off" method="post" id="challenge_form">
-          <input id="challenge_answer" type="text" name="answer" style="height:32px">
-          <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
-        </form>
+        ${userIds.includes(req.user.id.toString()) ? '' : `<p>Startbereit? Dann nichts wie los!
+        </p>
+        
+        <form method="post"><input type="hidden" name="answer" value="300">
+          <button class="btn btn-primary">Community-Bereich freischalten</button>
+        </form>`}
         
         <h3 style="margin-top:96px;margin-bottom:24px;">Highscore für den Community-Bereich
         </h3>
@@ -151,15 +154,16 @@ module.exports = [
         
         <!-- psst - hey - try /challenge/1337 -->
         
-        <p>Ready to start? The answer is the number of this challenge.
+        <p>Your progress in the community area is independent of your score. You do not receive points for solving tasks; instead, your progress is displayed in the highscore below the task.</p>
+
+        ${userIds.includes(req.user.id.toString()) ? '' : `<p>Ready to start? Then go ahead!
         </p>
+
+        <form method="post"><input type="hidden" name="answer" value="300">
+          <button class="btn btn-primary">Unlock Community Area</button>
+        </form>`}
         
-        <form autocomplete="off" method="post" id="challenge_form">
-          <input id="challenge_answer" type="text" name="answer" style="height:32px">
-          <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
-        </form>
-        
-        <h3 style="margin-top:96px;margin-bottom:24px;">High score for the community area
+        <h3 style="margin-top:96px;margin-bottom:24px;">Highscore for the community area
         </h3>
         
         <table class="table table-hover">

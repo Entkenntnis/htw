@@ -91,8 +91,9 @@ require(path)((config) => {
 
   config.onSubmit = async ({ App, id, correct, solved, isEditor, answer }) => {
     if (!isEditor) {
-      const key = `attempt_${id}_${Date.now()}`
-      await App.storage.setItem(key, answer)
+      // disable protocols
+      // const key = `attempt_${id}_${Date.now()}`
+      // await App.storage.setItem(key, answer)
     }
   }
 

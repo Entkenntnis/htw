@@ -38,7 +38,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: November 2023 (<a href="' +
+      'Version: Januar 2024 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -46,7 +46,7 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.version',
     value:
-      'Version: November 2023 (<a href="' +
+      'Version: January 2024 (<a href="' +
       config.urlPrefix +
       '/news">News</a>)',
   })
@@ -292,6 +292,13 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>Januar 2024</h3>
+      
+      <p>Der Community-Bereich ist früher erreichbar.
+      </p>
+      
+      <div class="my-5"></div>
+      
       <h3>Oktober 2023</h3>
       
       <p>Ab diesem Release sind alle Aufgaben auf deutsch und englisch spielbar.
@@ -458,7 +465,14 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
-      <h3>Oktober 2023</h3>
+      <h3>January 2024</h3>
+      
+      <p>You can access the community area earlier.
+      </p>
+      
+      <div class="my-5"></div>
+      
+      <h3>October 2023</h3>
       
       <p>From this release on all challenges are playable in English and German.
       </p>

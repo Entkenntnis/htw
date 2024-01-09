@@ -83,12 +83,20 @@ require(path)((config) => {
   `
 
   config.map.customMapHtml = ({ App, req }) => {
+    const showDecodeMe =
+      req.user &&
+      (req.user.score >= 88 || App.config.editors.includes(req.user.name))
+
     return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
     <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
-    <a href="/decode-me" style="position:absolute;left:1240px;top:70px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
+    ${
+      showDecodeMe
+        ? '<a href="/decode-me" style="position:absolute;left:1240px;top:70px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>'
+        : ''
+    }
   `
   }
 

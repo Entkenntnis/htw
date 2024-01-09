@@ -9,7 +9,7 @@ module.exports = [
     date: '2023-07-28',
     deps: [57],
     noScore: true,
-    showAboveScore: 111,
+    showAboveScore: 155,
     render: async ({ App, req }) => {
       const communityChals = App.challenges.data.filter((chal) => chal.noScore)
       const ids = communityChals.map((chal) => chal.id)
@@ -85,12 +85,16 @@ module.exports = [
         <p>Dein Fortschritt im Community-Bereich ist unabhängig von den Punkten. Du erhältst keine Punkte für gelöste Aufgaben, dafür wird dein Fortschritt in der Highscore hier unter der Aufgabe angezeigt.
         </p>
         
-        ${userIds.includes(req.user.id.toString()) ? '' : `<p>Startbereit? Dann nichts wie los!
+        ${
+          userIds.includes(req.user.id.toString())
+            ? ''
+            : `<p>Startbereit? Dann nichts wie los!
         </p>
         
         <form method="post"><input type="hidden" name="answer" value="300">
           <button class="btn btn-primary">Community-Bereich freischalten</button>
-        </form>`}
+        </form>`
+        }
         
         <h3 style="margin-top:96px;margin-bottom:24px;">Highscore für den Community-Bereich
         </h3>
@@ -156,12 +160,16 @@ module.exports = [
         
         <p>Your progress in the community area is independent of your score. You do not receive points for solving tasks; instead, your progress is displayed in the highscore below the task.</p>
 
-        ${userIds.includes(req.user.id.toString()) ? '' : `<p>Ready to start? Then go ahead!
+        ${
+          userIds.includes(req.user.id.toString())
+            ? ''
+            : `<p>Ready to start? Then go ahead!
         </p>
 
         <form method="post"><input type="hidden" name="answer" value="300">
           <button class="btn btn-primary">Unlock Community Area</button>
-        </form>`}
+        </form>`
+        }
         
         <h3 style="margin-top:96px;margin-bottom:24px;">Highscore for the community area
         </h3>

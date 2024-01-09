@@ -120,6 +120,7 @@ require(path)((config) => {
     App.express.get('/decode-me', (req, res) => {
       res.renderPage({
         page: 'decode-me',
+        backButton: false,
       })
     })
 

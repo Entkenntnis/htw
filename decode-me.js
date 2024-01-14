@@ -1,4 +1,6 @@
 const seedrandom = require('seedrandom')
+const secrets = require('./secrets-loader.js')
+const crypto = require('crypto')
 
 async function pageHandler(req, res) {
   res.renderPage({
@@ -6,13 +8,13 @@ async function pageHandler(req, res) {
     heading: 'Decode Me!',
     backButton: false,
     content: `
-      <h3 style="margin-top:32px;">Level 4</h3>
+      <h3 style="margin-top:32px;">Level 0</h3>
 
       <p><a href="/map">zurück</a> | <span style="color:lightgray;cursor:pointer;">springe zu Level</span></p>
 
       <p style="margin-top:32px;">Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden. Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
       
-      <p>Es sind viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.</p>
+      <p>Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.</p>
 
       <p style="padding:12px;background-color:#171717;border-radius:12px;"><code>sdsfdsfsfss</code></p>
 
@@ -20,6 +22,10 @@ async function pageHandler(req, res) {
         <input id="challenge_answer" type="text" name="answer" style="height:32px">
         <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
       </form>
+
+      <div style="height:128px;"></div>
+
+      <p style="line-height:1.1"><small style="color:lightgray">Zuletzt gelöst: <span style="color:gray;">Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen</span></small></p>
     `,
   })
 }
@@ -141,6 +147,63 @@ const shuffleArray = (array, rng) => {
   }
 }
 
+function generateSHA256(input) {
+  const hash = crypto.createHash('sha256')
+  hash.update(input)
+  return hash.digest('hex')
+}
+
+function generateToken(userId) {
+  return `${userId}-${generateSHA256(
+    `${userId}___${secrets('config_token_secret')}`
+  ).substring(0, 12)}`
+}
+
+function sanitizeTokenAndLevel(req, res, next) {
+  const level = parseInt(req.query.level)
+  const token = typeof req.query.token === 'string' ? req.query.token : ''
+
+  if (!token) {
+    return res.send('token is missing')
+  }
+  if (isNaN(level)) {
+    return res.send('level is missing')
+  }
+  if (level < 0 || level >= 100) {
+    return res.send('level out of range')
+  }
+  const id = parseInt(token.split('-')[0])
+  if (isNaN(id) || id < 0) {
+    return res.send('malformed token')
+  }
+  const expectedToken = generateToken(id)
+  if (token !== expectedToken) {
+    return res.send('invalid token')
+  }
+
+  req.level = level
+  req.userid = id
+
+  next()
+}
+
 module.exports = (App) => {
   App.express.get('/decode-me', pageHandler)
+
+  // debug: http://localhost:3000/decode-me/get?token=983-e42184cfad36&level=0
+  App.express.get('/decode-me/get', sanitizeTokenAndLevel, async (req, res) => {
+    const { solution, msg } = generate(
+      req.level,
+      generateSHA256(`${req.userid}-${secrets('config_token_secret')}`)
+    )
+    res.send('get for ' + req.userid)
+  })
+
+  App.express.get(
+    '/decode-me/submit',
+    sanitizeTokenAndLevel,
+    async (req, res) => {
+      res.send('submit for ' + req.userid)
+    }
+  )
 }

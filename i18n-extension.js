@@ -858,43 +858,4 @@ module.exports = (config) => {
       </p>
     `,
   })
-
-  config.i18nExtend.push({
-    lng: 'de',
-    key: 'decode-me.heading',
-    value: 'Decode Me!',
-  })
-  config.i18nExtend.push({
-    lng: 'en',
-    key: 'decode-me.heading',
-    value: 'Decode Me!',
-  })
-
-  config.i18nExtend.push({
-    lng: 'de',
-    key: 'decode-me.content_',
-    value: `
-      <h3 style="margin-top:32px;">Level 4</h3>
-
-      <p><a href="/map">zurück</a> | <span style="color:lightgray;cursor:pointer;">springe zu Level</span></p>
-
-      <p style="margin-top:32px;">Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
-      
-      <p>Schaue in den Quellcode um zu erfahren, wie man die Aufgabe automatisiert.</p>
-
-      <p style="padding:12px;background-color:#171717;border-radius:12px;"><code>sdsfdsfsfss</code></p>
-
-      <form autocomplete="off" method="post" id="challenge_form">
-        <input id="challenge_answer" type="text" name="answer" style="height:32px">
-        <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
-      </form>
-    `,
-  })
-  config.i18nExtend.push({
-    lng: 'en',
-    key: 'decode-me.content_',
-    value: `
-      <p>TODO</p>
-    `,
-  })
 }

@@ -1,5 +1,29 @@
 const seedrandom = require('seedrandom')
 
+async function pageHandler(req, res) {
+  res.renderPage({
+    page: 'decode-me',
+    heading: 'Decode Me!',
+    backButton: false,
+    content: `
+      <h3 style="margin-top:32px;">Level 4</h3>
+
+      <p><a href="/map">zurück</a> | <span style="color:lightgray;cursor:pointer;">springe zu Level</span></p>
+
+      <p style="margin-top:32px;">Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
+      
+      <p>Schaue in den Quellcode um zu erfahren, wie man die Aufgabe automatisiert.</p>
+
+      <p style="padding:12px;background-color:#171717;border-radius:12px;"><code>sdsfdsfsfss</code></p>
+
+      <form autocomplete="off" method="post" id="challenge_form">
+        <input id="challenge_answer" type="text" name="answer" style="height:32px">
+        <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+      </form>
+    `,
+  })
+}
+
 const levelConfig = {
   0: {},
   1: { ops: ['decimal'] },
@@ -52,7 +76,7 @@ function generateSolution1(rng) {
 }
 
 // generates a new riddle for the given difficulty level
-module.exports = function (level, seed) {
+function generate(level, seed) {
   const rng = seedrandom(seed)
   if (level >= 100 || level < 0) {
     return 'out of range' // maybe some better error message
@@ -115,4 +139,8 @@ const shuffleArray = (array, rng) => {
     array[i] = array[j]
     array[j] = temp
   }
+}
+
+module.exports = (App) => {
+  App.express.get('/decode-me', pageHandler)
 }

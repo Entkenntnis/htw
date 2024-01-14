@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const escapeHtml = require('escape-html')
 const setupChallengesServer = require('./challenges-server.js')
 const secrets = require('./secrets-loader.js')
+const decodeMe = require('./decode-me.js')
 
 const path = process.env.SERVERDEV
   ? '../challenges-server'
@@ -110,17 +111,11 @@ require(path)((config) => {
 
   config.callback = function (App) {
     setupChallengesServer(App)
+    decodeMe(App)
 
     App.express.get('/news', (req, res) => {
       res.renderPage({
         page: 'news',
-      })
-    })
-
-    App.express.get('/decode-me', (req, res) => {
-      res.renderPage({
-        page: 'decode-me',
-        backButton: false,
       })
     })
 

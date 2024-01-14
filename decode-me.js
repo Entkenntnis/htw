@@ -10,9 +10,9 @@ async function pageHandler(req, res) {
 
       <p><a href="/map">zurück</a> | <span style="color:lightgray;cursor:pointer;">springe zu Level</span></p>
 
-      <p style="margin-top:32px;">Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
+      <p style="margin-top:32px;">Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden. Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
       
-      <p>Schaue in den Quellcode um zu erfahren, wie man die Aufgabe automatisiert.</p>
+      <p>Es sind viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.</p>
 
       <p style="padding:12px;background-color:#171717;border-radius:12px;"><code>sdsfdsfsfss</code></p>
 

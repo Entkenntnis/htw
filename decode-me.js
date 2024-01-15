@@ -1,6 +1,7 @@
 const seedrandom = require('seedrandom')
 const secrets = require('./secrets-loader.js')
 const crypto = require('crypto')
+const Sequelize = require('sequelize')
 
 const levelConfig = {
   0: {},
@@ -22,12 +23,24 @@ const adjectives = [
   'uncoole',
   'krasse',
   'nette',
-  'verrückte',
+  'abgedrehte',
   'liebevolle',
-  'große',
+  'gigantische',
   'kleine',
   'bekannte',
   'unbekannte',
+  'gelbe',
+  'blaue',
+  'rote',
+  'lila',
+  'pinke',
+  'violette',
+  'stabile',
+  'epische',
+  'stilvolle',
+  'freundliche',
+  'starke',
+  'schwache',
 ]
 
 const nouns = [
@@ -38,12 +51,23 @@ const nouns = [
   'Webcam',
   'Datei',
   'Mail',
-  'Sicherheitslücke',
+  'Schwachstelle',
   'IT-Sicherheit',
   'Firewall',
   'CPU',
   'GPU',
   'Programmiersprache',
+  'Hackerin',
+  'Programmiererin',
+  'Software',
+  'Domain',
+  'Anwendung',
+  'Schrift',
+  'Datenstruktur',
+  'Maschine',
+  'LED',
+  'Katze',
+  'Musik',
 ]
 
 function generateSolution1(rng) {
@@ -71,7 +95,7 @@ function generate(level, seed) {
     shuffleArray(ops, rng)
     for (const op of ops) {
       if (op == 'decimal') {
-        msg = new TextEncoder().encode(msg).join(' ')
+        msg = Buffer.from(msg).join(' ')
       }
       if (op == 'hex') {
         msg = Array.from(new TextEncoder().encode(msg))
@@ -132,58 +156,70 @@ function generateToken(userId) {
 }
 
 module.exports = (App) => {
-  function apiHandler(req, res, next) {
-    const level = parseInt(req.query.level)
-    const token = typeof req.query.token === 'string' ? req.query.token : ''
+  async function apiHandler(req, res, next) {
+    try {
+      const level = parseInt(req.query.level)
+      const token = typeof req.query.token === 'string' ? req.query.token : ''
 
-    if (!token) {
-      return res.send('token is missing')
-    }
-    if (isNaN(level)) {
-      return res.send('level is missing')
-    }
-    if (level < 0 || level >= 100) {
-      return res.send('level out of range')
-    }
-    const id = parseInt(token.split('-')[0])
-    if (isNaN(id) || id < 0) {
-      return res.send('malformed token')
-    }
-    const expectedToken = generateToken(id)
-    if (token !== expectedToken) {
-      return res.send('invalid token')
-    }
+      if (!token) {
+        return res.send('token is missing')
+      }
+      if (isNaN(level)) {
+        return res.send('level is missing')
+      }
+      if (level < 0 || level >= 100) {
+        return res.send('level out of range')
+      }
+      const id = parseInt(token.split('-')[0])
+      if (isNaN(id) || id < 0) {
+        return res.send('malformed token')
+      }
+      const expectedToken = generateToken(id)
+      if (token !== expectedToken) {
+        return res.send('invalid token')
+      }
 
-    req.level = level
-    req.userid = id
+      req.level = level
+      req.userid = id
 
-    const storageKey = `decodeme_${id}`
-    const fromDB = parseInt(App.storage.getItem(storageKey)) // should be fine
-    const playerLevel = isNaN(fromDB) ? 0 : fromDB
+      const storageKey = `decodeme_${id}`
+      const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
+      const playerLevel = isNaN(fromDB) ? 0 : fromDB
 
-    if (level > playerLevel) {
-      return res.send('level not unlocked yet')
+      if (level > playerLevel) {
+        return res.send('level not unlocked yet')
+      }
+
+      const { solution, msg } = generate(
+        req.level,
+        generateSHA256(
+          `${req.userid}-${secrets('config_token_secret')}-${req.level}`
+        )
+      )
+
+      req.solution = solution
+      req.msg = msg
+      req.playerLevel = playerLevel
+    } catch (e) {
+      return res.send('internal error')
     }
-
-    const { solution, msg } = generate(
-      req.level,
-      generateSHA256(`${req.userid}-${secrets('config_token_secret')}`)
-    )
-
-    req.solution = solution
-    req.msg = msg
-    req.playerLevel = playerLevel
 
     next()
   }
 
   // debug: http://localhost:3000/decode-me/get?token=983-e42184cfad36&level=0
-  App.express.get('/decode-me/get', apiHandler, async (req, res) => {
+  App.express.get('/decode-me/get', apiHandler, (req, res) => {
     res.send(req.msg)
   })
 
   App.express.get('/decode-me/submit', apiHandler, async (req, res) => {
-    res.send('submit for ' + req.userid)
+    const { answer } = req.query
+    if (answer === req.solution) {
+      const storageKey = `decodeme_${req.userid}`
+      await App.storage.setItem(storageKey, req.playerLevel + 1)
+      return res.send('ok')
+    }
+    res.send('answer not correct')
   })
 
   App.express.get('/decode-me', pageHandler)
@@ -194,8 +230,38 @@ module.exports = (App) => {
     }
 
     const storageKey = `decodeme_${req.user.id}`
-    const fromDB = parseInt(App.storage.getItem(storageKey)) // should be fine
+    const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
     const playerLevel = isNaN(fromDB) ? 0 : fromDB
+
+    const lastActive = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Sequelize.Op.like]: 'decodeme_%',
+        },
+      },
+      order: [['updatedAt', 'DESC']],
+      limit: 10,
+      raw: true,
+    })
+
+    const userIds = []
+
+    lastActive.forEach((entry) => {
+      entry.id = parseInt(entry.key.split('_')[1])
+      userIds.push(entry.id)
+    })
+
+    const userNames = await App.db.models.User.findAll({
+      where: { id: userIds },
+      raw: true,
+    })
+
+    const userNameIndex = userNames.reduce((res, obj) => {
+      res[obj.id] = obj.name
+      return res
+    }, {})
+
+    console.log(lastActive)
 
     res.renderPage({
       page: 'decode-me',
@@ -204,36 +270,73 @@ module.exports = (App) => {
       content: `
         <h3 style="margin-top:32px;">Level ${playerLevel}</h3>
   
-        <p><a href="/map">zurück</a> | <span style="color:lightgray;cursor:pointer;">springe zu Level</span></p>
+        <p><a href="/map">zurück</a></p>
   
-        <p style="margin-top:32px;">Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden. Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
+        <p style="margin-top:32px;">Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden.</p>
+        
+        <p>Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
         
         <p>Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.</p>
   
         <p style="padding:12px;background-color:#171717;border-radius:12px;"><code id="level-msg">&nbsp;</code></p>
   
-        <form id="submit-form">
+        <form id="submit-form" autocomplete="off">
           <input id="challenge_answer" type="text" name="answer" style="height:32px" >
           <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
         </form>
+
+        <p id="feedback" class="text-danger" style="margin-top:12px;"></p>
   
         <div style="height:128px;"></div>
   
-        <p style="line-height:1.1"><small style="color:lightgray">Zuletzt gelöst: <span style="color:gray;">Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen</span></small></p>
+        <p style="line-height:1.1"><small style="color:lightgray">Zuletzt gelöst: <span style="color:gray;">${lastActive
+          .map((entry) => {
+            return `Level ${entry.value} von ${
+              userNameIndex[entry.id]
+            } ${App.moment(entry.updatedAt).locale(req.lng).fromNow()}`
+          })
+          .join(', ')}</span></small></p>
   
         <script>
+          /***
+           *     _             _         _                   
+           *    | | ___   ___ | | __    | |__   ___ _ __ ___ 
+           *    | |/ _ \\ / _ \\| |/ /    | '_ \\ / _ \\ '__/ _ \\
+           *    | | (_) | (_) |   <     | | | |  __/ | |  __/
+           *    |_|\\___/ \\___/|_|\\_\\    |_| |_|\\___|_|  \\___|
+           *                                              
+           */
+
           const token = "${generateToken(req.user.id)}"
           const level = ${playerLevel}
   
-          fetch('/decode-me/get?level=${playerLevel}&token=' + token)
+          const params = new URLSearchParams({
+            token,
+            level,
+          })
+
+          fetch('/decode-me/get?' + params)
             .then(res => res.text())
             .then(text => {
               document.getElementById('level-msg').innerText = text
             })
           
           document.getElementById('submit-form').addEventListener('submit', (e) => {
-            alert('hi')
             e.preventDefault()
+            const params = new URLSearchParams({
+              token,
+              level,
+              answer: document.getElementById('challenge_answer').value
+            })
+            fetch('/decode-me/submit?' + params)
+            .then(res => res.text())
+            .then(text => {
+              if (text == 'ok') {
+                location.reload()
+              } else {
+                document.getElementById('feedback').innerText = "Das ist nicht die richtige Antwort."
+              }
+            })
           })
         </script>
       

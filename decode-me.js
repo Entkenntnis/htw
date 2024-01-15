@@ -261,8 +261,6 @@ module.exports = (App) => {
       return res
     }, {})
 
-    console.log(lastActive)
-
     res.renderPage({
       page: 'decode-me',
       heading: 'Decode Me!',

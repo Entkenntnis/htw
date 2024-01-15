@@ -2,34 +2,6 @@ const seedrandom = require('seedrandom')
 const secrets = require('./secrets-loader.js')
 const crypto = require('crypto')
 
-async function pageHandler(req, res) {
-  res.renderPage({
-    page: 'decode-me',
-    heading: 'Decode Me!',
-    backButton: false,
-    content: `
-      <h3 style="margin-top:32px;">Level 0</h3>
-
-      <p><a href="/map">zurück</a> | <span style="color:lightgray;cursor:pointer;">springe zu Level</span></p>
-
-      <p style="margin-top:32px;">Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden. Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
-      
-      <p>Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.</p>
-
-      <p style="padding:12px;background-color:#171717;border-radius:12px;"><code>sdsfdsfsfss</code></p>
-
-      <form autocomplete="off" method="post" id="challenge_form">
-        <input id="challenge_answer" type="text" name="answer" style="height:32px">
-        <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
-      </form>
-
-      <div style="height:128px;"></div>
-
-      <p style="line-height:1.1"><small style="color:lightgray">Zuletzt gelöst: <span style="color:gray;">Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen</span></small></p>
-    `,
-  })
-}
-
 const levelConfig = {
   0: {},
   1: { ops: ['decimal'] },
@@ -159,51 +131,113 @@ function generateToken(userId) {
   ).substring(0, 12)}`
 }
 
-function sanitizeTokenAndLevel(req, res, next) {
-  const level = parseInt(req.query.level)
-  const token = typeof req.query.token === 'string' ? req.query.token : ''
-
-  if (!token) {
-    return res.send('token is missing')
-  }
-  if (isNaN(level)) {
-    return res.send('level is missing')
-  }
-  if (level < 0 || level >= 100) {
-    return res.send('level out of range')
-  }
-  const id = parseInt(token.split('-')[0])
-  if (isNaN(id) || id < 0) {
-    return res.send('malformed token')
-  }
-  const expectedToken = generateToken(id)
-  if (token !== expectedToken) {
-    return res.send('invalid token')
-  }
-
-  req.level = level
-  req.userid = id
-
-  next()
-}
-
 module.exports = (App) => {
-  App.express.get('/decode-me', pageHandler)
+  function apiHandler(req, res, next) {
+    const level = parseInt(req.query.level)
+    const token = typeof req.query.token === 'string' ? req.query.token : ''
 
-  // debug: http://localhost:3000/decode-me/get?token=983-e42184cfad36&level=0
-  App.express.get('/decode-me/get', sanitizeTokenAndLevel, async (req, res) => {
+    if (!token) {
+      return res.send('token is missing')
+    }
+    if (isNaN(level)) {
+      return res.send('level is missing')
+    }
+    if (level < 0 || level >= 100) {
+      return res.send('level out of range')
+    }
+    const id = parseInt(token.split('-')[0])
+    if (isNaN(id) || id < 0) {
+      return res.send('malformed token')
+    }
+    const expectedToken = generateToken(id)
+    if (token !== expectedToken) {
+      return res.send('invalid token')
+    }
+
+    req.level = level
+    req.userid = id
+
+    const storageKey = `decodeme_${id}`
+    const fromDB = parseInt(App.storage.getItem(storageKey)) // should be fine
+    const playerLevel = isNaN(fromDB) ? 0 : fromDB
+
+    if (level > playerLevel) {
+      return res.send('level not unlocked yet')
+    }
+
     const { solution, msg } = generate(
       req.level,
       generateSHA256(`${req.userid}-${secrets('config_token_secret')}`)
     )
-    res.send('get for ' + req.userid)
+
+    req.solution = solution
+    req.msg = msg
+    req.playerLevel = playerLevel
+
+    next()
+  }
+
+  // debug: http://localhost:3000/decode-me/get?token=983-e42184cfad36&level=0
+  App.express.get('/decode-me/get', apiHandler, async (req, res) => {
+    res.send(req.msg)
   })
 
-  App.express.get(
-    '/decode-me/submit',
-    sanitizeTokenAndLevel,
-    async (req, res) => {
-      res.send('submit for ' + req.userid)
+  App.express.get('/decode-me/submit', apiHandler, async (req, res) => {
+    res.send('submit for ' + req.userid)
+  })
+
+  App.express.get('/decode-me', pageHandler)
+
+  async function pageHandler(req, res) {
+    if (!req.user.id) {
+      return res.redirect('/')
     }
-  )
+
+    const storageKey = `decodeme_${req.user.id}`
+    const fromDB = parseInt(App.storage.getItem(storageKey)) // should be fine
+    const playerLevel = isNaN(fromDB) ? 0 : fromDB
+
+    res.renderPage({
+      page: 'decode-me',
+      heading: 'Decode Me!',
+      backButton: false,
+      content: `
+        <h3 style="margin-top:32px;">Level ${playerLevel}</h3>
+  
+        <p><a href="/map">zurück</a> | <span style="color:lightgray;cursor:pointer;">springe zu Level</span></p>
+  
+        <p style="margin-top:32px;">Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden. Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
+        
+        <p>Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.</p>
+  
+        <p style="padding:12px;background-color:#171717;border-radius:12px;"><code id="level-msg">&nbsp;</code></p>
+  
+        <form id="submit-form">
+          <input id="challenge_answer" type="text" name="answer" style="height:32px" >
+          <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+        </form>
+  
+        <div style="height:128px;"></div>
+  
+        <p style="line-height:1.1"><small style="color:lightgray">Zuletzt gelöst: <span style="color:gray;">Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen, Level 34 von darkstar vor 2 Tagen</span></small></p>
+  
+        <script>
+          const token = "${generateToken(req.user.id)}"
+          const level = ${playerLevel}
+  
+          fetch('/decode-me/get?level=${playerLevel}&token=' + token)
+            .then(res => res.text())
+            .then(text => {
+              document.getElementById('level-msg').innerText = text
+            })
+          
+          document.getElementById('submit-form').addEventListener('submit', (e) => {
+            alert('hi')
+            e.preventDefault()
+          })
+        </script>
+      
+      `,
+    })
+  }
 }

@@ -80,11 +80,11 @@ function generateSolution1(rng) {
 // generates a new riddle for the given difficulty level
 function generate(level, seed) {
   const rng = seedrandom(seed)
-  if (level >= 100 || level < 0) {
+  if (level >= 50 || level < 0) {
     return 'out of range' // maybe some better error message
   }
 
-  const config = levelConfig[Math.floor(level / 10)]
+  const config = levelConfig[Math.floor(level / 5)]
 
   let solution = generateSolution1(rng)
 
@@ -167,8 +167,15 @@ module.exports = (App) => {
       if (isNaN(level)) {
         return res.send('level is missing')
       }
-      if (level < 0 || level >= 100) {
-        return res.send('level out of range')
+      if (level < 0) {
+        return res.send('woah, there are no negative levels')
+      }
+      if (level >= 50) {
+        return res.send(
+          req.lng == 'de'
+            ? 'Dies ist das Ende des Weges - für den Moment. Weitere Level sind auf dem Weg.'
+            : 'This is the end of the road - for the moment. More levels are on the way.'
+        )
       }
       const id = parseInt(token.split('-')[0])
       if (isNaN(id) || id < 0) {
@@ -216,7 +223,10 @@ module.exports = (App) => {
     const { answer } = req.query
     if (answer === req.solution) {
       const storageKey = `decodeme_${req.userid}`
-      await App.storage.setItem(storageKey, req.playerLevel + 1)
+      const unlockedLevel = req.level + 1
+      if (unlockedLevel > req.playerLevel) {
+        await App.storage.setItem(storageKey, req.playerLevel + 1)
+      }
       return res.send('ok')
     }
     res.send('answer not correct')
@@ -261,6 +271,36 @@ module.exports = (App) => {
       return res
     }, {})
 
+    const stringsDe = {
+      back: 'zurück',
+      line1:
+        'Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden.',
+      line2:
+        'Ermittle die Antwort aus der empfangenen Nachricht. Alle 5 Level steigert sich die Schwierigkeit.',
+      line3:
+        'Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.',
+      go: 'Los',
+      lastSolved: 'Zuletzt gelöst',
+      by: 'von',
+      incorrect: 'Das ist nicht die richtige Antwort.',
+    }
+
+    const stringsEn = {
+      back: 'back',
+      line1:
+        'The answer is within reach. The message has already been found and is waiting in the last step to be "unpacked."',
+      line2:
+        'Determine the answer from the received message. The difficulty increases every 5 levels.',
+      line3:
+        'There are many levels. Learn in the source code how to automate the task.',
+      go: 'Go',
+      lastSolved: 'Last solved',
+      by: 'by',
+      incorrect: 'That is not the right answer.',
+    }
+
+    const strings = req.lng == 'de' ? stringsDe : stringsEn
+
     res.renderPage({
       page: 'decode-me',
       heading: 'Decode Me!',
@@ -268,30 +308,36 @@ module.exports = (App) => {
       content: `
         <h3 style="margin-top:32px;">Level ${playerLevel}</h3>
   
-        <p><a href="/map">zurück</a></p>
+        <p><a href="/map">${strings.back}</a></p>
   
-        <p style="margin-top:32px;">Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden.</p>
+        <p style="margin-top:32px;">${strings.line1}</p>
         
-        <p>Ermittle die Antwort aus der empfangenen Nachricht. Alle 10 Level steigert sich die Schwierigkeit.</p>
+        <p>${strings.line2}</p>
         
-        <p>Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.</p>
+        <p>${strings.line3}</p>
   
         <p style="padding:12px;background-color:#171717;border-radius:12px;"><code id="level-msg">&nbsp;</code></p>
   
         <form id="submit-form" autocomplete="off">
           <input id="challenge_answer" type="text" name="answer" style="height:32px" >
-          <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+          <input type="submit" id="challenge_submit" value="${
+            strings.go
+          }" style="height:32px;line-height:1;vertical-align:bottom;">
         </form>
 
         <p id="feedback" class="text-danger" style="margin-top:12px;"></p>
   
         <div style="height:128px;"></div>
   
-        <p style="line-height:1.1"><small style="color:lightgray">Zuletzt gelöst: <span style="color:gray;">${lastActive
+        <p style="line-height:1.1"><small style="color:lightgray">${
+          strings.lastSolved
+        }: <span style="color:gray;">${lastActive
           .map((entry) => {
-            return `Level ${entry.value} von ${
+            return `Level ${entry.value} ${strings.by} ${
               userNameIndex[entry.id]
-            } ${App.moment(entry.updatedAt).locale(req.lng).fromNow()}`
+            } ${App.moment(new Date(entry.updatedAt))
+              .locale(req.lng)
+              .fromNow()}`
           })
           .join(', ')}</span></small></p>
   
@@ -307,13 +353,8 @@ module.exports = (App) => {
 
           const token = "${generateToken(req.user.id)}"
           const level = ${playerLevel}
-  
-          const params = new URLSearchParams({
-            token,
-            level,
-          })
 
-          fetch('/decode-me/get?' + params)
+          fetch('/decode-me/get?level=' + level + '&token=' + token)
             .then(res => res.text())
             .then(text => {
               document.getElementById('level-msg').innerText = text
@@ -321,18 +362,17 @@ module.exports = (App) => {
           
           document.getElementById('submit-form').addEventListener('submit', (e) => {
             e.preventDefault()
-            const params = new URLSearchParams({
-              token,
-              level,
-              answer: document.getElementById('challenge_answer').value
-            })
-            fetch('/decode-me/submit?' + params)
+            const answer = encodeURIComponent(document.getElementById('challenge_answer').value)
+            fetch('/decode-me/submit?level=' + level + '&answer=' + answer + '&token=' + token)
             .then(res => res.text())
             .then(text => {
               if (text == 'ok') {
                 location.reload()
+                window.scrollTo(0, 0)
               } else {
-                document.getElementById('feedback').innerText = "Das ist nicht die richtige Antwort."
+                document.getElementById('feedback').innerText = "${
+                  strings.incorrect
+                }"
               }
             })
           })

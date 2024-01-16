@@ -168,12 +168,12 @@ module.exports = (App) => {
         return res.send('level is missing')
       }
       if (level < 0) {
-        return res.send('woah, there are no negative levels')
+        return res.send('there are no negative levels')
       }
       if (level >= 50) {
         return res.send(
           req.lng == 'de'
-            ? 'Dies ist das Ende des Weges - für den Moment. Weitere Level sind auf dem Weg.'
+            ? 'Dies ist das Ende des Weges - für den Moment. Weitere Level sind in Vorbereitung.'
             : 'This is the end of the road - for the moment. More levels are on the way.'
         )
       }
@@ -222,9 +222,9 @@ module.exports = (App) => {
   App.express.get('/decode-me/submit', apiHandler, async (req, res) => {
     const { answer } = req.query
     if (answer === req.solution) {
-      const storageKey = `decodeme_${req.userid}`
       const unlockedLevel = req.level + 1
       if (unlockedLevel > req.playerLevel) {
+        const storageKey = `decodeme_${req.userid}`
         await App.storage.setItem(storageKey, req.playerLevel + 1)
       }
       return res.send('ok')

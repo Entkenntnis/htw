@@ -86,7 +86,7 @@ require(path)((config) => {
   config.map.customMapHtml = ({ App, req }) => {
     const showDecodeMe =
       req.user &&
-      (req.user.score >= 88 || App.config.editors.includes(req.user.name))
+      (req.user.score >= 66 || App.config.editors.includes(req.user.name))
 
     return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">

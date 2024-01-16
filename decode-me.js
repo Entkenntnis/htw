@@ -235,7 +235,7 @@ module.exports = (App) => {
   App.express.get('/decode-me', pageHandler)
 
   async function pageHandler(req, res) {
-    if (!req.user.id) {
+    if (!req.user || !req.user.id) {
       return res.redirect('/')
     }
 
@@ -339,7 +339,10 @@ module.exports = (App) => {
               .locale(req.lng)
               .fromNow()}`
           })
-          .join(', ')}</span></small></p>
+          .join(
+            ', '
+          )}</span><br /><span style="margin-top:8px;display:inline-block"><a href="/decode-me/stats">Statistik</a></span></small></p>
+
   
         <script>
           /***
@@ -381,4 +384,67 @@ module.exports = (App) => {
       `,
     })
   }
+
+  App.express.get('/decode-me/stats', async (req, res) => {
+    const allUsers = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Sequelize.Op.like]: 'decodeme_%',
+        },
+      },
+      raw: true,
+    })
+
+    const levels = allUsers.map((entry) => {
+      return parseInt(entry.value)
+    })
+
+    const count = {}
+
+    for (let i = 1; i <= 50; i++) {
+      count[i] = 0
+    }
+
+    levels.forEach((level) => count[level]++)
+
+    const entries = Object.entries(count)
+
+    entries.unshift(['0', 0])
+
+    res.renderPage({
+      page: 'decode-me-stats',
+      heading: 'Decode Me! - Statistik',
+      backButton: false,
+      content: `
+        <p><a href="/decode-me">zurück</a></p>
+
+        <div style="height:32px"></div>
+        <canvas id="myChart"></canvas>
+        <div style="height:32px"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          const ctx = document.getElementById('myChart');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ${JSON.stringify(entries.map((e) => e[0]))},
+              datasets: [{
+                label: 'Anzahl SpielerInnen',
+                data: ${JSON.stringify(entries.map((e) => e[1]))}
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        </script>
+      `,
+    })
+  })
 }

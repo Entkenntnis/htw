@@ -283,6 +283,7 @@ module.exports = (App) => {
       lastSolved: 'Zuletzt gelöst',
       by: 'von',
       incorrect: 'Das ist nicht die richtige Antwort.',
+      statistics: 'Statistik',
     }
 
     const stringsEn = {
@@ -297,6 +298,7 @@ module.exports = (App) => {
       lastSolved: 'Last solved',
       by: 'by',
       incorrect: 'That is not the right answer.',
+      statistics: 'Statistics',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -341,7 +343,9 @@ module.exports = (App) => {
           })
           .join(
             ', '
-          )}</span><br /><span style="margin-top:8px;display:inline-block"><a href="/decode-me/stats">Statistik</a></span></small></p>
+          )}</span><br /><span style="margin-top:8px;display:inline-block"><a href="/decode-me/stats">${
+          strings.statistics
+        }</a></span></small></p>
 
   
         <script>
@@ -411,12 +415,26 @@ module.exports = (App) => {
 
     entries.unshift(['0', 0])
 
+    const stringsDe = {
+      statistics: 'Statistik',
+      back: 'zurück',
+      label: 'Anzahl',
+    }
+
+    const stringsEn = {
+      statistics: 'Statistics',
+      back: 'back',
+      label: 'Count',
+    }
+
+    const strings = req.lng == 'de' ? stringsDe : stringsEn
+
     res.renderPage({
       page: 'decode-me-stats',
-      heading: 'Decode Me! - Statistik',
+      heading: 'Decode Me! - ' + strings.statistics,
       backButton: false,
       content: `
-        <p><a href="/decode-me">zurück</a></p>
+        <p><a href="/decode-me">${strings.back}</a></p>
 
         <div style="height:32px"></div>
         <canvas id="myChart"></canvas>
@@ -431,7 +449,7 @@ module.exports = (App) => {
             data: {
               labels: ${JSON.stringify(entries.map((e) => e[0]))},
               datasets: [{
-                label: 'Anzahl SpielerInnen',
+                label: '${strings.label}',
                 data: ${JSON.stringify(entries.map((e) => e[1]))}
               }]
             },

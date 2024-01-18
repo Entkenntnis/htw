@@ -1251,7 +1251,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 320,
-    pos: { x: 1970, y: 435 },
+    pos: { x: 1990, y: 455 },
     title: { de: 'Schnitzeljagd', en: 'Treasure Hunt' },
     date: '2023-10-28',
     author: 'drache1209',
@@ -1633,5 +1633,64 @@ RS#1</pre>
       `,
     },
     solution: secrets('chal_332'),
+  },
+
+  {
+    id: 333,
+    pos: { x: 1950, y: 375 },
+    title: { de: 'Discord', en: 'Discord' },
+    date: '2024-01-19',
+    deps: [300],
+    noScore: true,
+    author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Discord ist faszinierend. Die Antwort auf diese Aufgabe ist die Nutzer-ID von virusrpi.</p>
+      `,
+      en: `
+        <p>Discord is fascinating. The answer to this task is the user id of virusrpi.</p>
+      `,
+    },
+    solution: secrets('chal_333'),
+  },
+
+  {
+    id: 334,
+    pos: { x: 2010, y: 255 },
+    title: { de: 'Discord II', en: 'Discord II' },
+    date: '2024-01-19',
+    deps: [333],
+    noScore: true,
+    author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Nutzer-IDs verstehst du ... Die Antwort auf diese Aufgabe ist die Server-ID vom Hack The Web Server.</p>
+      `,
+      en: `
+        <p>You understand user ids... The answer to this task is the server id of Hack The Web.</p>
+
+      `,
+    },
+    solution: secrets('chal_334'),
+  },
+
+  {
+    id: 335,
+    pos: { x: 2110, y: 205 },
+    title: { de: 'Discord III', en: 'Discord III' },
+    date: '2024-01-19',
+    deps: [334],
+    noScore: true,
+    author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Server-IDs verstehst du ... Die Antwort auf diese Aufgabe ist die ID des personalisierten Emojis peepo_hacker auf unserem Server.</p>
+      `,
+      en: `
+        <p>You understand server ids... The answer to this task is the id of the personalized emoji peepo_hacker on our server.</p>
+
+      `,
+    },
+    solution: secrets('chal_335'),
   },
 ]

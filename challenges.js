@@ -607,36 +607,22 @@ module.exports = [
   {
     id: 16,
     pos: { x: 550, y: 100 },
-    title: { de: 'Benutzername II', en: 'Username II' },
+    title: { de: 'Punktzahl', en: 'Points' },
     date: '2017-05-18',
     deps: [15],
     html: {
       de: `
-      <p>In der Informatik dreht sich alles um Datenverarbeitung. Eine <em>Funktion</em> nimmt dabei einen Eingabewert (z.B. deine Antwort) und erzeugt daraus einen Ausgabewert (die Antwort, wie sie hier ankommt).
-      </p>
-      
-      <p>Eine Funktion kann Werte vertauschen, verändern, auslassen, etc. - alles Mögliche, wie man will. Was macht diese Funktion hier mit deiner Eingabe? Die Antwort zu dieser Aufgabe ist wieder dein Benutzername.
-      </p>
+      <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
     `,
       en: `
-      <p>In computer science, everything revolves around data processing. A <em>function</em> takes an input value (e.g. your answer) and generates an output value (the answer as it arrives here).
-      </p>
-      
-      <p>A function can swap, change, omit, etc. values — anything you want. What does this function do to your input? The answer to this challenge is again your username.
-      </p>
+      <p>The answer to this task is your current score. Similar to before, your input is a bit jumbled.</p>
     `,
     },
     check: (answer, { req }) => {
-      const input = answer
-      const l = input.length
-      let r = ''
-      for (let i = 0; i < l; i += 3) {
-        if (i + 2 >= l) r += input.substring(i)
-        else r += input.charAt(i + 1) + input.charAt(i + 2) + input.charAt(i)
-      }
+      const input = -parseInt(answer)
       return {
-        answer: r,
-        correct: r === req.user.name,
+        answer: isNaN(input) ? answer : input.toString(),
+        correct: input === req.user.score,
       }
     },
   },

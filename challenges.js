@@ -1353,7 +1353,7 @@ module.exports = [
   {
     id: 36,
     pos: { x: 1005, y: 50 },
-    title: { de: 'Benutzername V', en: 'Username V' },
+    title: { de: 'Benutzername III', en: 'Username III' },
     date: '2020-05-20',
     deps: [56],
     html: {
@@ -2452,16 +2452,16 @@ System.out.println(output);</script>
   {
     id: 56,
     pos: { x: 865, y: 105 },
-    title: { de: 'Benutzername IV', en: 'Username IV' },
+    title: { de: 'Benutzername II', en: 'Username II' },
     date: '2020-08-01',
     deps: [17],
     html: {
       de: `
-      <p>Es ist wieder dein Benutzername gefragt. Aber diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
+      <p>Es ist wieder dein Benutzername gefragt. Diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
       </p>
     `,
       en: `
-        <p>It's your username again. But this time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
+        <p>It's your username again. This time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
         </p>
     `,
     },

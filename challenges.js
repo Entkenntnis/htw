@@ -857,37 +857,21 @@ module.exports = [
   {
     id: 23,
     pos: { x: 710, y: 300 },
-    title: { de: 'Grau auf Grau', en: 'Grey on grey' },
+    title: { de: '3D', en: '3D' },
     date: '2017-08-25',
     deps: [7, 8],
     html: {
       de: `
-      <p>Oje, bei diesem Bild hat jemand den ganzen Kontrast weggenommen! Übrig geblieben ist nur noch grau:
+      <p>Schaue entspannt gerade aus, ohne den Blick zu fokusieren. Suche einen passenden Abstand zum Bildschirm. Dann wird die Antwort in diesem Bild erscheinen.
       </p>
       
-      <p><a href="/chals/chal23.png"><img src="/chals/chal23.png" style="max-width: 300px" alt="grey"></a>
-      </p>
-      
-      <p>[<a href="/chals/chal23.png" download="grau.png">Bild herunterladen</a>]</p>
-      
-      <p>Die Informationen sind immer noch im Bild vorhanden - allerdings so schwach, dass sie mit dem Auge nicht mehr zu sehen sind. Mit einer Methode namens <a href="https://threshold.imageonline.co/" target="_blank">Threshold</a> können diese feinen Unterschiede verstärkt und wieder für den Menschen sichtbar gemacht werden.</p>
-      
-      <p>Wie lautet der Vorname der abgebildeten Person?
+      <p><img src="/chals/chal23_2.png" alt="3d">
       </p>
     `,
       en: `
-      <p>Oh no, someone has taken away all the contrast in this picture! All that's left is gray:
-      </p>
-      
-      <p><a href="/chals/chal23.png"><img src="/chals/chal23.png" style="max-width: 300px;" alt="challenge 23"></a>
-      </p>
-      
-      <p>[<a href="/chals/chal23.png" download="grau.png">Download picture</a>]</p>
-      
-      <p>The information is still present in the image — but so faint that it is no longer visible to the eye. With a method called <a href="https://threshold.imageonline.co/" target="_blank">Threshold</a>, these subtle differences can be amplified and made visible to humans again.</p>
-      
-      <p>What is the first name of the person who is depicted in the picture?</p>
-      </p>
+      <p>Look straight ahead in a relaxed manner, without focusing your gaze. Find a suitable distance from the screen. The answer will appear in this image.</p>
+
+      <p><img src="/chals/chal23_2.png" alt="3d"></p>
     `,
     },
     solution: secrets('chal_23'),

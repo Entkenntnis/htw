@@ -460,18 +460,16 @@ module.exports = [
     deps: [8],
     html: {
       de: `
-      <p>Du bist nicht nur gut im Kopfrechnen, sondern auch zielgerichtet. Eine Aufgabe, die du anfängst, ziehst du durch.
+      <p>Du bist nicht nur gut im Kopfrechnen, sondern auch gut in Mustererkennung. Mit bisschen Geschick kannst du dir viel Arbeit sparen.
       </p>
       
-      <p>Deine Antwort ist das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
+      <p>Deine Antwort ist das Ergebnis von 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.
       </p>
     `,
       en: `
-      <p>You are not only good at mental arithmetic, but also motivated. A task that you start, you follow through.
-      </p>
-      
-      <p>Your answer is the result of 1 + 2 + 3 + ... + 98 + 99 + 100.
-      </p>
+      <p>You are not only good at mental math but also skilled in pattern recognition. With a bit of skill, you can save a lot of work.</p>
+
+      <p>Your answer is the result of 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.</p>
     `,
     },
     solution: secrets('chal_9'),
@@ -485,18 +483,16 @@ module.exports = [
     deps: [9],
     html: {
       de: `
-      <p>Kopfrechen-Genius, fokussiert - und dazu ein mathematisches Gespür. Damit löst du auch komplexe Probleme auf deine Art und Weise.
+      <p>Kopfrechen-Genius, geschickt - und dazu mit guter Vorstellungskraft. Damit löst du auch komplexe Probleme auf elegante Art und Weise.
       </p>
       
-      <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 998 + 999 + 1000.
+      <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
       </p>
     `,
       en: `
-      <p>Mental arithmetic genius, focused — and also a mathematical sense. With this, you even solve complex problems in your own way.
-      </p>
-      
-      <p>This time, calculate the result of 1 + 2 + 3 + ... + 998 + 999 + 1000.
-      </p>
+      <p>Mental math genius, skilled - and with a good imagination. With that, you solve complex problems in an elegant manner.</p>
+
+      <p>This time, calculate the result of 1 + 2 + 3 + ... + 98 + 99 + 100.</p>
     `,
     },
     solution: secrets('chal_10'),

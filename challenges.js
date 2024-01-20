@@ -630,29 +630,28 @@ module.exports = [
   {
     id: 17,
     pos: { x: 685, y: 70 },
-    title: { de: 'Benutzername III', en: 'Username III' },
+    title: { de: 'Beschreibung', en: 'Description' },
     date: '2017-05-18',
     deps: [16],
     html: {
       de: `
-      <p>Eine weitere Runde: Die Antwort auf diese Aufgabe ist wieder dein Benutzername. Allerdings wird deine Eingabe vor der Auswertung wieder durcheinander gebracht. Wie muss diesmal die Eingabe lauten?
-      </p>
+      <p>Deine Antwort ist die Beschreibung dieser Aufgabe. Die Eingabe gerät wieder durcheinander.</p>
     `,
       en: `
-      <p>Another round: The answer to this challenge is again your username. However, your input is again mixed up before the evaluation. What should the input be this time?
-      </p>
+      <p>The answer is the description of this challenge. Your input is jumbled again.</p>
     `,
     },
     check: (answer, { req }) => {
-      const input = answer
-      const l = answer.length
-      let r = ''
-      for (let i = 0; i < l; i += 2) {
-        r += input.charAt(i)
-      }
+      const text =
+        req.lng == 'de'
+          ? 'Deine Antwort ist die Beschreibung dieser Aufgabe. Die Eingabe gerät wieder durcheinander.'
+          : 'The answer is the description of this challenge. Your input is jumbled again.'
+      const input = answer.trim().split(' ')
+      input.reverse()
+      const str = input.join(' ')
       return {
-        answer: r,
-        correct: r === req.user.name,
+        answer: str,
+        correct: str === text,
       }
     },
   },

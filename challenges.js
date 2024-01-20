@@ -607,7 +607,7 @@ module.exports = [
   {
     id: 16,
     pos: { x: 550, y: 100 },
-    title: { de: 'Punktzahl', en: 'Points' },
+    title: { de: 'Punktzahl', en: 'Score' },
     date: '2017-05-18',
     deps: [15],
     html: {
@@ -3881,15 +3881,9 @@ PIXI.loader
       if (req.lng === 'de') {
         if (!req.query.level) {
           return `
-          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet. Anyway, du siehst heute traumhaft gut aus, besser noch als diese Schauspieler hier:</p>
+          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet wie im Film Inception.</p>
         
-          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-        
-          <p>Im Film Inception werden innerhalb von Träumen wieder Träume geschaffen. Was der Film macht, kann die Informatik auch. Man kann innerhalb einer Webseite eine andere Webseite einbetten.
-          </p>
-          
-          <p>Scrolle dich durch alle Seiten, bis du auf der untersten Ebene angekommen bist. Dort findest du die Antwort.
-          </p>
+          <p>Diese Seite ist von Inception inspiriert. Scrolle dich durch alle Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
           
           ${renderFrame(1110, 700, 1)}
         `
@@ -3909,23 +3903,7 @@ PIXI.loader
             }, 100)
           </script>
           
-          ${renderFrame(1000, 500, 2)}
-        `
-        }
-
-        if (level === 2) {
-          return `
-           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-          
-          <p>Die Antwort findest du auf der untersten Stufe.</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-          
-          ${renderFrame(900, 400, 3)}
+          ${renderFrame(1000, 500, 3)}
         `
         }
 
@@ -3947,15 +3925,10 @@ PIXI.loader
       } else {
         if (!req.query.level) {
           return `
-          <p>Did you sleep well yesterday? I hope you didn't meet any strange people in your dream. Anyway, you look amazing today, even better than these actors here:</p>
-        
-          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-        
-          <p>In the film Inception, dreams are created again within dreams. What the film does, computer science can do too. You can embed another website within a website.
-          </p>
-          
-          <p>Scroll through all the pages until you reach the lowest level. There you will find the answer.
-          </p>
+          <p>Did you sleep well yesterday? I hope you didn't encounter any strange people in your dream like in the movie Inception.</p>
+
+          <p>This page is inspired by Inception. Scroll through all the levels. On the lowest level, you'll find the answer.</p>
+
           
           ${renderFrame(1110, 700, 1)}
         `
@@ -3975,23 +3948,7 @@ PIXI.loader
             }, 100)
           </script>
           
-          ${renderFrame(1000, 500, 2)}
-        `
-        }
-
-        if (level === 2) {
-          return `
-           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-          
-          <p>You will find the answer on the lowest level.</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-          
-          ${renderFrame(900, 400, 3)}
+          ${renderFrame(1000, 500, 3)}
         `
         }
 

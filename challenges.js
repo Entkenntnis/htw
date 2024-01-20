@@ -2381,65 +2381,24 @@ module.exports = [
   {
     id: 55,
     pos: { x: 390, y: 280 },
-    title: { de: 'Fehlermeldung', en: 'Error message' },
+    title: { de: 'Farben', en: 'Colors' },
     date: '2020-08-01',
     deps: [4],
     html: {
       de: `
-      <p >Ich habe gestern zur späten Stunde noch versucht was zu programmieren, war aber nicht mehr fit dafür. Ich kann deinen frischen Blick gut gebrauchen. Ich bin nicht mehr in der Lage, Großbuchstaben von Kleinbuchstaben zu unterscheiden.
+      <p>Die Welt ist voller Farben. Im Internet gibt es für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> feste Name.
       </p>
-      
-      <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
-{'id': 'Java_de', 'speed': 1000, 'withBottomPanel': false ,'withPCode': false ,'withConsole': false ,'withFileList': false ,'withErrorList': false}
-<script type="plain/text" title="Programm.java">
-// Erstelle Nachricht in ASCII
-int [] ascii = new int[] {
-68, 105, 101, 32, 65, 110, 116, 119, 111, 114, 116,
-32, 108, 97, 117, 116, 101, 116, 32, 83, 121, 110,
-116, 97, 120, 46
-};
 
-String output = "";
+      <p>Deine Antwort ist der Name dieser Farbe.</p>
 
-// Konvertiere Nachricht zu Text
-for (int i = 0; i < ascii.length; i++) {
-char c = (char) aScii[i];
-output = ouTpuT + c;
-}
-
-// Zeige Nachricht
-System.out.println(output);</script>
-</iframe>
-
-      <p>In JAVA ist die Groß-/Kleinschreibung wichtig. In Zeile 12 und Zeile 13 wurden dabei zwei Fehler gemacht. Korrigiere die Fehler und führe das Programm aus, um die Antwort zu erhalten.
-      </p>
-      
+      <div style="height:80px;width:250px;background-color:#663399;"></div>
     `,
       en: `
-          <p>I tried to program something late at night yesterday, but I wasn't fit for it anymore. I can really use your fresh perspective. I can no longer distinguish between uppercase and lowercase letters.</p>
+      <p>The world is full of colors. On the internet, there are fixed names for <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 colors</a>.</p>
+
+      <p>Your answer is the name of this color.</p>
       
-      <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
-{'id': 'Java_en', 'speed': 1000, 'withBottomPanel': false ,'withPCode': false ,'withConsole': false ,'withFileList': false ,'withErrorList': false}
-<script type="plain/text" title="Programm.java">
-// create message in ASCII
-int [] ascii = new int[] {
-84, 104, 101, 32, 97, 110, 115, 119, 101, 114, 32,
-105, 115, 32, 115, 121, 110, 116, 97, 120, 46
-};
-
-String output = "";
-
-// convert message to text
-for (int i = 0; i < ascii.length; i++) {
-char c = (char) aScii[i];
-output = ouTpuT + c;
-}
-
-// show message
-System.out.println(output);</script>
-</iframe>
-
-      <p>In JAVA, letter case is important. Two errors were made in line 12 and line 13. Correct the errors and run the program to get the answer.</p>
+      <div style="height:80px;width:250px;background-color:#663399;"></div>      
         `,
     },
     solution: secrets('chal_55'),

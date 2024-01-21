@@ -2590,10 +2590,10 @@ Doch ich spüre tiefes Beben.</i>
     deps: [31, 69],
     html: {
       de: `
-      <p><img src="/chals/chal60.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
+      <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
     `,
       en: `
-        <p><img src="/chals/chal60-en.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
+        <p><img src="/chals/chal60-en-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
     `,
     },
     solution: secrets('chal_60'),

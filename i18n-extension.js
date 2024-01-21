@@ -38,7 +38,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: Januar 2024 (<a href="' +
+      'Version: Februar 2024 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -46,7 +46,7 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.version',
     value:
-      'Version: January 2024 (<a href="' +
+      'Version: February 2024 (<a href="' +
       config.urlPrefix +
       '/news">News</a>)',
   })
@@ -292,9 +292,16 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>Februar 2024</h3>
+      
+      <p>Kleine Verbesserungen an exisiterenden Aufgaben.
+      </p>
+      
+      <div class="my-5"></div>
+      
       <h3>Januar 2024</h3>
       
-      <p>Der Community-Bereich ist früher erreichbar.
+      <p>Es gibt ein neues Mini-Spiel "Decode Me!".
       </p>
       
       <div class="my-5"></div>
@@ -465,9 +472,18 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>Februar 2024</h3>
+      
+      <p>Small reworks of existing challenges.
+      </p>
+      
+      <div class="my-5"></div>
+      
+      <div class="my-5"></div>
+      
       <h3>January 2024</h3>
       
-      <p>You can access the community area earlier.
+      <p>There is a new mini game "Decode Me!".
       </p>
       
       <div class="my-5"></div>

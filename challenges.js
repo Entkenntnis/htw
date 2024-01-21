@@ -460,18 +460,16 @@ module.exports = [
     deps: [8],
     html: {
       de: `
-      <p>Du bist nicht nur gut im Kopfrechnen, sondern auch zielgerichtet. Eine Aufgabe, die du anfängst, ziehst du durch.
+      <p>Du bist nicht nur gut im Kopfrechnen, sondern auch gut in Mustererkennung. Mit bisschen Geschick kannst du dir viel Arbeit sparen.
       </p>
       
-      <p>Deine Antwort ist das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
+      <p>Deine Antwort ist das Ergebnis von 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.
       </p>
     `,
       en: `
-      <p>You are not only good at mental arithmetic, but also motivated. A task that you start, you follow through.
-      </p>
-      
-      <p>Your answer is the result of 1 + 2 + 3 + ... + 98 + 99 + 100.
-      </p>
+      <p>You are not only good at mental math but also skilled in pattern recognition. With a bit of skill, you can save a lot of work.</p>
+
+      <p>Your answer is the result of 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.</p>
     `,
     },
     solution: secrets('chal_9'),
@@ -485,18 +483,16 @@ module.exports = [
     deps: [9],
     html: {
       de: `
-      <p>Kopfrechen-Genius, fokussiert - und dazu ein mathematisches Gespür. Damit löst du auch komplexe Probleme auf deine Art und Weise.
+      <p>Kopfrechen-Genius, geschickt - und dazu mit guter Vorstellungskraft. Damit löst du auch komplexe Probleme auf elegante Art und Weise.
       </p>
       
-      <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 998 + 999 + 1000.
+      <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
       </p>
     `,
       en: `
-      <p>Mental arithmetic genius, focused — and also a mathematical sense. With this, you even solve complex problems in your own way.
-      </p>
-      
-      <p>This time, calculate the result of 1 + 2 + 3 + ... + 998 + 999 + 1000.
-      </p>
+      <p>Mental math genius, skilled - and with a good imagination. With that, you solve complex problems in an elegant manner.</p>
+
+      <p>This time, calculate the result of 1 + 2 + 3 + ... + 98 + 99 + 100.</p>
     `,
     },
     solution: secrets('chal_10'),
@@ -607,36 +603,22 @@ module.exports = [
   {
     id: 16,
     pos: { x: 550, y: 100 },
-    title: { de: 'Benutzername II', en: 'Username II' },
+    title: { de: 'Punktzahl', en: 'Score' },
     date: '2017-05-18',
     deps: [15],
     html: {
       de: `
-      <p>In der Informatik dreht sich alles um Datenverarbeitung. Eine <em>Funktion</em> nimmt dabei einen Eingabewert (z.B. deine Antwort) und erzeugt daraus einen Ausgabewert (die Antwort, wie sie hier ankommt).
-      </p>
-      
-      <p>Eine Funktion kann Werte vertauschen, verändern, auslassen, etc. - alles Mögliche, wie man will. Was macht diese Funktion hier mit deiner Eingabe? Die Antwort zu dieser Aufgabe ist wieder dein Benutzername.
-      </p>
+      <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
     `,
       en: `
-      <p>In computer science, everything revolves around data processing. A <em>function</em> takes an input value (e.g. your answer) and generates an output value (the answer as it arrives here).
-      </p>
-      
-      <p>A function can swap, change, omit, etc. values — anything you want. What does this function do to your input? The answer to this challenge is again your username.
-      </p>
+      <p>The answer to this task is your current score. Similar to before, your input is a bit jumbled.</p>
     `,
     },
     check: (answer, { req }) => {
-      const input = answer
-      const l = input.length
-      let r = ''
-      for (let i = 0; i < l; i += 3) {
-        if (i + 2 >= l) r += input.substring(i)
-        else r += input.charAt(i + 1) + input.charAt(i + 2) + input.charAt(i)
-      }
+      const input = -parseInt(answer)
       return {
-        answer: r,
-        correct: r === req.user.name,
+        answer: isNaN(input) ? answer : input.toString(),
+        correct: input === req.user.score,
       }
     },
   },
@@ -644,29 +626,28 @@ module.exports = [
   {
     id: 17,
     pos: { x: 685, y: 70 },
-    title: { de: 'Benutzername III', en: 'Username III' },
+    title: { de: 'Beschreibung', en: 'Description' },
     date: '2017-05-18',
     deps: [16],
     html: {
       de: `
-      <p>Eine weitere Runde: Die Antwort auf diese Aufgabe ist wieder dein Benutzername. Allerdings wird deine Eingabe vor der Auswertung wieder durcheinander gebracht. Wie muss diesmal die Eingabe lauten?
-      </p>
+      <p>Deine Antwort ist die Beschreibung dieser Aufgabe. Die Eingabe gerät wieder durcheinander.</p>
     `,
       en: `
-      <p>Another round: The answer to this challenge is again your username. However, your input is again mixed up before the evaluation. What should the input be this time?
-      </p>
+      <p>The answer is the description of this challenge. Your input is jumbled again.</p>
     `,
     },
     check: (answer, { req }) => {
-      const input = answer
-      const l = answer.length
-      let r = ''
-      for (let i = 0; i < l; i += 2) {
-        r += input.charAt(i)
-      }
+      const text =
+        req.lng == 'de'
+          ? 'Deine Antwort ist die Beschreibung dieser Aufgabe. Die Eingabe gerät wieder durcheinander.'
+          : 'The answer is the description of this challenge. Your input is jumbled again.'
+      const input = answer.trim().split(' ')
+      input.reverse()
+      const str = input.join(' ')
       return {
-        answer: r,
-        correct: r === req.user.name,
+        answer: str,
+        correct: str === text,
       }
     },
   },
@@ -876,37 +857,21 @@ module.exports = [
   {
     id: 23,
     pos: { x: 710, y: 300 },
-    title: { de: 'Grau auf Grau', en: 'Grey on grey' },
+    title: { de: '3D', en: '3D' },
     date: '2017-08-25',
     deps: [7, 8],
     html: {
       de: `
-      <p>Oje, bei diesem Bild hat jemand den ganzen Kontrast weggenommen! Übrig geblieben ist nur noch grau:
+      <p>Schaue entspannt gerade aus, ohne den Blick zu fokusieren. Suche einen passenden Abstand zum Bildschirm. Dann wird die Antwort in diesem Bild erscheinen.
       </p>
       
-      <p><a href="/chals/chal23.png"><img src="/chals/chal23.png" style="max-width: 300px" alt="grey"></a>
-      </p>
-      
-      <p>[<a href="/chals/chal23.png" download="grau.png">Bild herunterladen</a>]</p>
-      
-      <p>Die Informationen sind immer noch im Bild vorhanden - allerdings so schwach, dass sie mit dem Auge nicht mehr zu sehen sind. Mit einer Methode namens <a href="https://threshold.imageonline.co/" target="_blank">Threshold</a> können diese feinen Unterschiede verstärkt und wieder für den Menschen sichtbar gemacht werden.</p>
-      
-      <p>Wie lautet der Vorname der abgebildeten Person?
+      <p><img src="/chals/chal23_2.png" alt="3d">
       </p>
     `,
       en: `
-      <p>Oh no, someone has taken away all the contrast in this picture! All that's left is gray:
-      </p>
-      
-      <p><a href="/chals/chal23.png"><img src="/chals/chal23.png" style="max-width: 300px;" alt="challenge 23"></a>
-      </p>
-      
-      <p>[<a href="/chals/chal23.png" download="grau.png">Download picture</a>]</p>
-      
-      <p>The information is still present in the image — but so faint that it is no longer visible to the eye. With a method called <a href="https://threshold.imageonline.co/" target="_blank">Threshold</a>, these subtle differences can be amplified and made visible to humans again.</p>
-      
-      <p>What is the first name of the person who is depicted in the picture?</p>
-      </p>
+      <p>Look straight ahead in a relaxed manner, without focusing your gaze. Find a suitable distance from the screen. The answer will appear in this image.</p>
+
+      <p><img src="/chals/chal23_2.png" alt="3d"></p>
     `,
     },
     solution: secrets('chal_23'),
@@ -1368,7 +1333,7 @@ module.exports = [
   {
     id: 36,
     pos: { x: 1005, y: 50 },
-    title: { de: 'Benutzername V', en: 'Username V' },
+    title: { de: 'Benutzername III', en: 'Username III' },
     date: '2020-05-20',
     deps: [56],
     html: {
@@ -2400,65 +2365,24 @@ module.exports = [
   {
     id: 55,
     pos: { x: 390, y: 280 },
-    title: { de: 'Fehlermeldung', en: 'Error message' },
+    title: { de: 'Farben', en: 'Colors' },
     date: '2020-08-01',
     deps: [4],
     html: {
       de: `
-      <p >Ich habe gestern zur späten Stunde noch versucht was zu programmieren, war aber nicht mehr fit dafür. Ich kann deinen frischen Blick gut gebrauchen. Ich bin nicht mehr in der Lage, Großbuchstaben von Kleinbuchstaben zu unterscheiden.
+      <p>Die Welt ist voller Farben. Im Internet gibt es für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> feste Name.
       </p>
-      
-      <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
-{'id': 'Java_de', 'speed': 1000, 'withBottomPanel': false ,'withPCode': false ,'withConsole': false ,'withFileList': false ,'withErrorList': false}
-<script type="plain/text" title="Programm.java">
-// Erstelle Nachricht in ASCII
-int [] ascii = new int[] {
-68, 105, 101, 32, 65, 110, 116, 119, 111, 114, 116,
-32, 108, 97, 117, 116, 101, 116, 32, 83, 121, 110,
-116, 97, 120, 46
-};
 
-String output = "";
+      <p>Deine Antwort ist der Name dieser Farbe.</p>
 
-// Konvertiere Nachricht zu Text
-for (int i = 0; i < ascii.length; i++) {
-char c = (char) aScii[i];
-output = ouTpuT + c;
-}
-
-// Zeige Nachricht
-System.out.println(output);</script>
-</iframe>
-
-      <p>In JAVA ist die Groß-/Kleinschreibung wichtig. In Zeile 12 und Zeile 13 wurden dabei zwei Fehler gemacht. Korrigiere die Fehler und führe das Programm aus, um die Antwort zu erhalten.
-      </p>
-      
+      <div style="height:80px;width:250px;background-color:#663399;"></div>
     `,
       en: `
-          <p>I tried to program something late at night yesterday, but I wasn't fit for it anymore. I can really use your fresh perspective. I can no longer distinguish between uppercase and lowercase letters.</p>
+      <p>The world is full of colors. On the internet, there are fixed names for <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 colors</a>.</p>
+
+      <p>Your answer is the name of this color.</p>
       
-      <iframe srcdoc="<script>window.jo_doc = window.frameElement.textContent;</script><script src='https://embed.learnj.de/include/js/includeide/includeIDE.js'></script>" width="900" height="400" frameborder="0">
-{'id': 'Java_en', 'speed': 1000, 'withBottomPanel': false ,'withPCode': false ,'withConsole': false ,'withFileList': false ,'withErrorList': false}
-<script type="plain/text" title="Programm.java">
-// create message in ASCII
-int [] ascii = new int[] {
-84, 104, 101, 32, 97, 110, 115, 119, 101, 114, 32,
-105, 115, 32, 115, 121, 110, 116, 97, 120, 46
-};
-
-String output = "";
-
-// convert message to text
-for (int i = 0; i < ascii.length; i++) {
-char c = (char) aScii[i];
-output = ouTpuT + c;
-}
-
-// show message
-System.out.println(output);</script>
-</iframe>
-
-      <p>In JAVA, letter case is important. Two errors were made in line 12 and line 13. Correct the errors and run the program to get the answer.</p>
+      <div style="height:80px;width:250px;background-color:#663399;"></div>      
         `,
     },
     solution: secrets('chal_55'),
@@ -2467,16 +2391,16 @@ System.out.println(output);</script>
   {
     id: 56,
     pos: { x: 865, y: 105 },
-    title: { de: 'Benutzername IV', en: 'Username IV' },
+    title: { de: 'Benutzername II', en: 'Username II' },
     date: '2020-08-01',
     deps: [17],
     html: {
       de: `
-      <p>Es ist wieder dein Benutzername gefragt. Aber diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
+      <p>Es ist wieder dein Benutzername gefragt. Diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
       </p>
     `,
       en: `
-        <p>It's your username again. But this time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
+        <p>It's your username again. This time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
         </p>
     `,
     },
@@ -2666,10 +2590,10 @@ Doch ich spüre tiefes Beben.</i>
     deps: [31, 69],
     html: {
       de: `
-      <p><img src="/chals/chal60.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
+      <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
     `,
       en: `
-        <p><img src="/chals/chal60-en.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
+        <p><img src="/chals/chal60-en-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
     `,
     },
     solution: secrets('chal_60'),
@@ -3537,97 +3461,23 @@ PIXI.loader
   {
     id: 77,
     pos: { x: 630, y: 155 },
-    title: { de: 'Hell und dunkel', en: 'Light and dark' },
+    title: { de: 'Geburtstag', en: 'Birthday' },
     date: '2022-02-09',
     deps: [6, 16],
     html: {
       de: `
-      <p>Seit einiger Zeit hat sich der "Dark mode" bei vielen Websiten durchgesetzt. Diese Seite zeigt dir einen unterschiedlichen Inhalt an, je nachdem, welchen Modus du gerade aktiviert hast. Zusammen ergeben die Zeichen die Antwort:</p>
-      
-      <div style="display: flex">
-        <div class="letter"><span class="light">Y</span></div>
-        <div class="letter"><span class="dark">I</span></div>
-        <div class="letter"><span class="light">N</span></div>
-        <div class="letter"><span class="dark">Y</span></div>
-        <div class="letter"><span class="light">A</span></div>
-        <div class="letter"><span class="dark">N</span></div>
-        <div class="letter"><span class="light">G</span></div>
-      </div>
-      
-      <style>
-        @media (prefers-color-scheme: dark) {
-          .dark {
-            display: block;
-            background: black;
-            color: white;
-          }
-          .light {
-            display: none;
-          }
-        }
-        @media (prefers-color-scheme: light) {
-          .dark {
-            display: none;
-          }
-          .light {
-            display: block;
-            background: white;
-            color: black;
-          }
-        }
-        .letter {
-          margin: 4px;
-          padding: 4px;
-          font-size: 3rem;
-          border: 1px rgb(128,128,128) solid;
-          width: 90px;
-          text-align: center;
-        }
-      </style>
+      <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren.</p>
+
+      <p>Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brillianten und sogleich tragisches Leben.</p>
+
+      <p>Deine Antwort ist der Nachname dieser Person.</p>
     `,
       en: `
-      <p>“Dark mode” has become established on many websites for some time now. This page will show you different content depending on which mode you currently have activated. Together the characters give the answer:</p>
-      
-      <div style="display: flex">
-        <div class="letter"><span class="light">Y</span></div>
-        <div class="letter"><span class="dark">I</span></div>
-        <div class="letter"><span class="light">N</span></div>
-        <div class="letter"><span class="dark">Y</span></div>
-        <div class="letter"><span class="light">A</span></div>
-        <div class="letter"><span class="dark">N</span></div>
-        <div class="letter"><span class="light">G</span></div>
-      </div>
-      
-      <style>
-        @media (prefers-color-scheme: dark) {
-          .dark {
-            display: block;
-            background: black;
-            color: white;
-          }
-          .light {
-            display: none;
-          }
-        }
-        @media (prefers-color-scheme: light) {
-          .dark {
-            display: none;
-          }
-          .light {
-            display: block;
-            background: white;
-            color: black;
-          }
-        }
-        .letter {
-          margin: 4px;
-          padding: 4px;
-          font-size: 3rem;
-          border: 1px rgb(128,128,128) solid;
-          width: 90px;
-          text-align: center;
-        }
-      </style>
+        <p>Even people from a completely different era can inspire us today.</p>
+
+        <p>Such an individual was born on June 23, 1912, and led a brilliant yet tragic life.</p>
+
+        <p>Your answer is the last name of this person.</p>
     `,
     },
     solution: secrets('chal_77'),
@@ -3896,15 +3746,9 @@ PIXI.loader
       if (req.lng === 'de') {
         if (!req.query.level) {
           return `
-          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet. Anyway, du siehst heute traumhaft gut aus, besser noch als diese Schauspieler hier:</p>
+          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet wie im Film Inception.</p>
         
-          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-        
-          <p>Im Film Inception werden innerhalb von Träumen wieder Träume geschaffen. Was der Film macht, kann die Informatik auch. Man kann innerhalb einer Webseite eine andere Webseite einbetten.
-          </p>
-          
-          <p>Scrolle dich durch alle Seiten, bis du auf der untersten Ebene angekommen bist. Dort findest du die Antwort.
-          </p>
+          <p>Diese Seite ist von Inception inspiriert. Scrolle dich durch alle Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
           
           ${renderFrame(1110, 700, 1)}
         `
@@ -3924,23 +3768,7 @@ PIXI.loader
             }, 100)
           </script>
           
-          ${renderFrame(1000, 500, 2)}
-        `
-        }
-
-        if (level === 2) {
-          return `
-           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-          
-          <p>Die Antwort findest du auf der untersten Stufe.</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-          
-          ${renderFrame(900, 400, 3)}
+          ${renderFrame(1000, 500, 3)}
         `
         }
 
@@ -3962,15 +3790,10 @@ PIXI.loader
       } else {
         if (!req.query.level) {
           return `
-          <p>Did you sleep well yesterday? I hope you didn't meet any strange people in your dream. Anyway, you look amazing today, even better than these actors here:</p>
-        
-          <img src="/chals/chal84_1.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-        
-          <p>In the film Inception, dreams are created again within dreams. What the film does, computer science can do too. You can embed another website within a website.
-          </p>
-          
-          <p>Scroll through all the pages until you reach the lowest level. There you will find the answer.
-          </p>
+          <p>Did you sleep well yesterday? I hope you didn't encounter any strange people in your dream like in the movie Inception.</p>
+
+          <p>This page is inspired by Inception. Scroll through all the levels. On the lowest level, you'll find the answer.</p>
+
           
           ${renderFrame(1110, 700, 1)}
         `
@@ -3990,23 +3813,7 @@ PIXI.loader
             }, 100)
           </script>
           
-          ${renderFrame(1000, 500, 2)}
-        `
-        }
-
-        if (level === 2) {
-          return `
-           <img src="/chals/chal84_3.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-          
-          <p>You will find the answer on the lowest level.</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-          
-          ${renderFrame(900, 400, 3)}
+          ${renderFrame(1000, 500, 3)}
         `
         }
 

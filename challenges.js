@@ -3461,97 +3461,23 @@ PIXI.loader
   {
     id: 77,
     pos: { x: 630, y: 155 },
-    title: { de: 'Hell und dunkel', en: 'Light and dark' },
+    title: { de: 'Geburtstag', en: 'Birthday' },
     date: '2022-02-09',
     deps: [6, 16],
     html: {
       de: `
-      <p>Seit einiger Zeit hat sich der "Dark mode" bei vielen Websiten durchgesetzt. Diese Seite zeigt dir einen unterschiedlichen Inhalt an, je nachdem, welchen Modus du gerade aktiviert hast. Zusammen ergeben die Zeichen die Antwort:</p>
-      
-      <div style="display: flex">
-        <div class="letter"><span class="light">Y</span></div>
-        <div class="letter"><span class="dark">I</span></div>
-        <div class="letter"><span class="light">N</span></div>
-        <div class="letter"><span class="dark">Y</span></div>
-        <div class="letter"><span class="light">A</span></div>
-        <div class="letter"><span class="dark">N</span></div>
-        <div class="letter"><span class="light">G</span></div>
-      </div>
-      
-      <style>
-        @media (prefers-color-scheme: dark) {
-          .dark {
-            display: block;
-            background: black;
-            color: white;
-          }
-          .light {
-            display: none;
-          }
-        }
-        @media (prefers-color-scheme: light) {
-          .dark {
-            display: none;
-          }
-          .light {
-            display: block;
-            background: white;
-            color: black;
-          }
-        }
-        .letter {
-          margin: 4px;
-          padding: 4px;
-          font-size: 3rem;
-          border: 1px rgb(128,128,128) solid;
-          width: 90px;
-          text-align: center;
-        }
-      </style>
+      <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren.</p>
+
+      <p>Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brillianten und sogleich tragisches Leben.</p>
+
+      <p>Deine Antwort ist der Nachname dieser Person.</p>
     `,
       en: `
-      <p>“Dark mode” has become established on many websites for some time now. This page will show you different content depending on which mode you currently have activated. Together the characters give the answer:</p>
-      
-      <div style="display: flex">
-        <div class="letter"><span class="light">Y</span></div>
-        <div class="letter"><span class="dark">I</span></div>
-        <div class="letter"><span class="light">N</span></div>
-        <div class="letter"><span class="dark">Y</span></div>
-        <div class="letter"><span class="light">A</span></div>
-        <div class="letter"><span class="dark">N</span></div>
-        <div class="letter"><span class="light">G</span></div>
-      </div>
-      
-      <style>
-        @media (prefers-color-scheme: dark) {
-          .dark {
-            display: block;
-            background: black;
-            color: white;
-          }
-          .light {
-            display: none;
-          }
-        }
-        @media (prefers-color-scheme: light) {
-          .dark {
-            display: none;
-          }
-          .light {
-            display: block;
-            background: white;
-            color: black;
-          }
-        }
-        .letter {
-          margin: 4px;
-          padding: 4px;
-          font-size: 3rem;
-          border: 1px rgb(128,128,128) solid;
-          width: 90px;
-          text-align: center;
-        }
-      </style>
+        <p>Even people from a completely different era can inspire us today.</p>
+
+        <p>Such an individual was born on June 23, 1912, and led a brilliant yet tragic life.</p>
+
+        <p>Your answer is the last name of this person.</p>
     `,
     },
     solution: secrets('chal_77'),

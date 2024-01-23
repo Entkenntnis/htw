@@ -3468,7 +3468,7 @@ PIXI.loader
       de: `
       <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren.</p>
 
-      <p>Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brillianten und sogleich tragisches Leben.</p>
+      <p>Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
 
       <p>Deine Antwort ist der Nachname dieser Person.</p>
     `,

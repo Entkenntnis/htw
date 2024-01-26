@@ -860,16 +860,21 @@ module.exports = [
     deps: [7, 8],
     html: {
       de: `
+      <p>Mit einem Steoreogramm lassen sich 3D-Objekte in einem speziell präparierten Bild verstecken.
+      </p>
+      
       <p>Schaue entspannt gerade aus, ohne den Blick zu fokusieren. Suche einen passenden Abstand zum Bildschirm. Dann wird die Antwort in diesem Bild erscheinen.
       </p>
       
-      <p><img src="/chals/chal23_2.png" alt="3d">
+      <p><img src="/chals/chal23_2.png" alt="Stereogramm">
       </p>
     `,
       en: `
+      <p>A steoreogram can be used to hide 3D objects in a specially prepared image.</p>
+      
       <p>Look straight ahead in a relaxed manner, without focusing your gaze. Find a suitable distance from the screen. The answer will appear in this image.</p>
 
-      <p><img src="/chals/chal23_2.png" alt="3d"></p>
+      <p><img src="/chals/chal23_2.png" alt="stereogram"></p>
     `,
     },
     solution: secrets('chal_23'),

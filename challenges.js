@@ -2375,15 +2375,15 @@ module.exports = [
 
       <p>Deine Antwort ist der Name dieser Farbe.</p>
 
-      <div style="height:80px;width:250px;background-color:#663399;"></div>
+      <div style="height:80px;width:250px;background-color:#663399;position:relative"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
     `,
       en: `
       <p>The world is full of colors. On the internet, there are fixed names for <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 colors</a>.</p>
 
       <p>Your answer is the name of this color.</p>
       
-      <div style="height:80px;width:250px;background-color:#663399;"></div>      
-        `,
+      <div style="height:80px;width:250px;background-color:#663399;position:relative"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
+      `,
     },
     solution: secrets('chal_55'),
   },

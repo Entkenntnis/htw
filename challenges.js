@@ -626,22 +626,20 @@ module.exports = [
   {
     id: 17,
     pos: { x: 685, y: 70 },
-    title: { de: 'Beschreibung', en: 'Description' },
+    title: { de: 'Slogan', en: 'Slogan' },
     date: '2017-05-18',
     deps: [16],
     html: {
       de: `
-      <p>Deine Antwort ist die Beschreibung dieser Aufgabe. Die Eingabe gerät wieder durcheinander.</p>
+      <p>Deine Antwort ist der Slogan von Hack The Web. Die Eingabe gerät wieder durcheinander.</p>
     `,
       en: `
-      <p>The answer is the description of this challenge. Your input is jumbled again.</p>
+      <p>The answer is the slogan of Hack The Web. Your input is jumbled again.</p>
     `,
     },
     check: (answer, { req }) => {
       const text =
-        req.lng == 'de'
-          ? 'Deine Antwort ist die Beschreibung dieser Aufgabe. Die Eingabe gerät wieder durcheinander.'
-          : 'The answer is the description of this challenge. Your input is jumbled again.'
+        req.lng == 'de' ? 'Zeig, was in dir steckt!' : 'Prove your skill.'
       const input = answer.trim().split(' ')
       input.reverse()
       const str = input.join(' ')
@@ -2365,7 +2363,7 @@ module.exports = [
   {
     id: 55,
     pos: { x: 390, y: 280 },
-    title: { de: 'Farben', en: 'Colors' },
+    title: { de: 'Farbe', en: 'Color' },
     date: '2020-08-01',
     deps: [4],
     html: {

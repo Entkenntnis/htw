@@ -5,15 +5,24 @@ const Sequelize = require('sequelize')
 
 const levelConfig = {
   0: {},
-  1: { ops: ['decimal'] },
-  2: { ops: ['hex'] },
-  3: { ops: ['base64'] },
-  4: { ops: ['binary'] },
-  5: { ops: ['hex', 'decimal'] },
-  6: { ops: ['hex', 'base64'] },
-  7: { ops: ['base64', 'decimal'] },
-  8: { ops: ['hex', 'decimal', 'base64'] },
-  9: { ops: ['hex', 'decimal', 'base64', 'binary'] },
+  1: { ops: ['bars'] },
+  2: { ops: ['triple'] },
+  3: { ops: ['dashs'] },
+  4: { ops: ['reverse'] },
+  5: { ops: ['bars', 'triple'] },
+  6: { ops: ['bars', 'dashs'] },
+  7: { ops: ['triple', 'dashs'] },
+  8: { ops: ['bars', 'triple', 'dashs'] },
+  9: { ops: ['bars', 'triple', 'dashs', 'reverse'] },
+  //1: { ops: ['decimal'] },
+  //2: { ops: ['hex'] },
+  //3: { ops: ['base64'] },
+  //4: { ops: ['binary'] },
+  //5: { ops: ['hex', 'decimal'] },
+  //6: { ops: ['hex', 'base64'] },
+  //7: { ops: ['base64', 'decimal'] },
+  //8: { ops: ['hex', 'decimal', 'base64'] },
+  //9: { ops: ['hex', 'decimal', 'base64', 'binary'] },
 }
 
 const adjectives = [
@@ -121,6 +130,24 @@ function generate(level, seed) {
             return val
           })
           .join(' ')
+      }
+      if (op == 'reverse') {
+        const chars = [...msg]
+        chars.reverse()
+        msg = chars.join('')
+      }
+      if (op == 'triple') {
+        const output = []
+        ;[...msg].forEach((c) => {
+          output.push(c, c, c)
+        })
+        msg = output.join('')
+      }
+      if (op == 'bars') {
+        msg = [...msg].join('|')
+      }
+      if (op == 'dashs') {
+        msg = [...msg].map((x) => `[${x}]`).join('')
       }
     }
   }
@@ -410,7 +437,6 @@ module.exports = (App) => {
             window.location.href = window.location.href.split('?')[0] + '?level=' + level
           })
         </script>
-      
       `,
     })
   })

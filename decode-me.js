@@ -232,16 +232,26 @@ module.exports = (App) => {
     res.send('answer not correct')
   })
 
-  App.express.get('/decode-me', pageHandler)
-
-  async function pageHandler(req, res) {
+  App.express.get('/decode-me', async (req, res) => {
     if (!req.user || !req.user.id) {
       return res.redirect('/')
     }
 
+    const queryLevel = parseInt(req.query.level)
+
     const storageKey = `decodeme_${req.user.id}`
     const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
     const playerLevel = isNaN(fromDB) ? 0 : fromDB
+    let level = playerLevel
+
+    if (
+      !isNaN(queryLevel) &&
+      queryLevel.toString() === req.query.level &&
+      queryLevel >= 0 &&
+      queryLevel <= playerLevel
+    ) {
+      level = queryLevel
+    }
 
     const lastActive = await App.db.models.KVPair.findAll({
       where: {
@@ -284,6 +294,7 @@ module.exports = (App) => {
       by: 'von',
       incorrect: 'Das ist nicht die richtige Antwort.',
       statistics: 'Statistik',
+      jump: 'springe zu Level',
     }
 
     const stringsEn = {
@@ -299,6 +310,7 @@ module.exports = (App) => {
       by: 'by',
       incorrect: 'That is not the right answer.',
       statistics: 'Statistics',
+      jump: 'jump to level',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -308,9 +320,13 @@ module.exports = (App) => {
       heading: 'Decode Me!',
       backButton: false,
       content: `
-        <h3 style="margin-top:32px;">Level ${playerLevel}</h3>
+        <h3 style="margin-top:32px;">Level ${level}</h3>
   
-        <p><a href="/map">${strings.back}</a></p>
+        <p><a href="/map">${
+          strings.back
+        }</a> | <span style="cursor:pointer;color:gray;" id="jump">${
+          strings.jump
+        } ...</span></p>
   
         <p style="margin-top:32px;">${strings.line1}</p>
         
@@ -359,7 +375,7 @@ module.exports = (App) => {
            */
 
           const token = "${generateToken(req.user.id)}"
-          const level = ${playerLevel}
+          const level = ${level}
 
           fetch('/decode-me/get?level=' + level + '&token=' + token)
             .then(res => res.text())
@@ -374,7 +390,9 @@ module.exports = (App) => {
             .then(res => res.text())
             .then(text => {
               if (text == 'ok') {
-                location.reload()
+                window.location.href = window.location.href.split('?')[0] + '?level=' + ${
+                  level + 1
+                }
                 window.scrollTo(0, 0)
               } else {
                 document.getElementById('feedback').innerText = "${
@@ -383,11 +401,19 @@ module.exports = (App) => {
               }
             })
           })
+
+          document.getElementById('jump').addEventListener('click', (e) => {
+            const level = prompt('${capitalizeFirstLetter(
+              strings.jump
+            )} (0-' + ${playerLevel} + ')')
+            if (typeof level === 'string' && level.length > 0)
+            window.location.href = window.location.href.split('?')[0] + '?level=' + level
+          })
         </script>
       
       `,
     })
-  }
+  })
 
   App.express.get('/decode-me/stats', async (req, res) => {
     const allUsers = await App.db.models.KVPair.findAll({
@@ -465,4 +491,14 @@ module.exports = (App) => {
       `,
     })
   })
+}
+
+function capitalizeFirstLetter(inputString) {
+  // Check if the input is a non-empty string
+  if (typeof inputString !== 'string' || inputString.length === 0) {
+    return inputString // Return the input unchanged
+  }
+
+  // Capitalize the first letter and concatenate the rest of the string
+  return inputString.charAt(0).toUpperCase() + inputString.slice(1)
 }

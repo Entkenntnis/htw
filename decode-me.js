@@ -383,7 +383,7 @@ module.exports = (App) => {
         <p style="padding:12px;background-color:#171717;border-radius:12px;"><code id="level-msg">&nbsp;</code></p>
   
         <form id="submit-form" autocomplete="off">
-          <input id="challenge_answer" type="text" name="answer" style="height:32px" >
+          <input id="challenge_answer" type="text" name="answer" style="height:32px" autofocus="">
           <input type="submit" id="challenge_submit" value="${
             strings.go
           }" style="height:32px;line-height:1;vertical-align:bottom;">

@@ -14,7 +14,27 @@ const levelConfig = {
   7: { ops: ['triple', 'dashs'] },
   8: { ops: ['bars', 'triple', 'dashs'] },
   9: { ops: ['bars', 'triple', 'dashs', 'reverse'] },
-  //1: { ops: ['decimal'] },
+  10: { ops: ['phonetic'] },
+  11: { ops: ['decimal'] },
+  12: { ops: ['binary'] },
+  13: { ops: ['base64'] },
+  14: {
+    ops: [
+      'bars',
+      'triple',
+      'dashs',
+      'reverse',
+      'phonetic',
+      'decimal',
+      'binary',
+      'base64',
+    ],
+  },
+  15: { ops: [] },
+  16: { ops: [] },
+  17: { ops: [] },
+  18: { ops: [] },
+  19: { ops: [] },
   //2: { ops: ['hex'] },
   //3: { ops: ['base64'] },
   //4: { ops: ['binary'] },
@@ -24,6 +44,8 @@ const levelConfig = {
   //8: { ops: ['hex', 'decimal', 'base64'] },
   //9: { ops: ['hex', 'decimal', 'base64', 'binary'] },
 }
+
+const maxLevel = Object.keys(levelConfig).length * 5
 
 const adjectives = [
   'sichere',
@@ -89,7 +111,7 @@ function generateSolution1(rng) {
 // generates a new riddle for the given difficulty level
 function generate(level, seed) {
   const rng = seedrandom(seed)
-  if (level >= 50 || level < 0) {
+  if (level >= maxLevel || level < 0) {
     return 'out of range' // maybe some better error message
   }
 
@@ -149,6 +171,9 @@ function generate(level, seed) {
       if (op == 'dashs') {
         msg = [...msg].map((x) => `[${x}]`).join('')
       }
+      if (op == 'phonetic') {
+        msg = aviationPhoneticAlphabet(msg)
+      }
     }
   }
 
@@ -197,7 +222,7 @@ module.exports = (App) => {
       if (level < 0) {
         return res.send('there are no negative levels')
       }
-      if (level >= 50) {
+      if (level >= maxLevel) {
         return res.send(
           req.lng == 'de'
             ? 'Dies ist das Ende des Weges - für den Moment. Weitere Level sind in Vorbereitung.'
@@ -457,7 +482,7 @@ module.exports = (App) => {
 
     const count = {}
 
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= maxLevel; i++) {
       count[i] = 0
     }
 
@@ -527,4 +552,60 @@ function capitalizeFirstLetter(inputString) {
 
   // Capitalize the first letter and concatenate the rest of the string
   return inputString.charAt(0).toUpperCase() + inputString.slice(1)
+}
+
+function aviationPhoneticAlphabet(input) {
+  const phoneticAlphabet = {
+    A: 'Alpha',
+    B: 'Bravo',
+    C: 'Charlie',
+    D: 'Delta',
+    E: 'Echo',
+    F: 'Foxtrot',
+    G: 'Golf',
+    H: 'Hotel',
+    I: 'India',
+    J: 'Juliet',
+    K: 'Kilo',
+    L: 'Lima',
+    M: 'Mike',
+    N: 'November',
+    O: 'Oscar',
+    P: 'Papa',
+    Q: 'Quebec',
+    R: 'Romeo',
+    S: 'Sierra',
+    T: 'Tango',
+    U: 'Uniform',
+    V: 'Victor',
+    W: 'Whiskey',
+    X: 'X-ray',
+    Y: 'Yankee',
+    Z: 'Zulu',
+    0: 'Zero',
+    1: 'One',
+    2: 'Two',
+    3: 'Three',
+    4: 'Four',
+    5: 'Five',
+    6: 'Six',
+    7: 'Seven',
+    8: 'Eight',
+    9: 'Nine',
+    ' ': '(space)',
+  }
+
+  const result = Array.from(input).map((char) => {
+    if (/[A-Z]/.test(char)) {
+      return phoneticAlphabet[char].toUpperCase()
+    } else if (/[a-z]/.test(char)) {
+      return phoneticAlphabet[char.toUpperCase()].toLowerCase()
+    } else if (/\d| /.test(char)) {
+      return phoneticAlphabet[char]
+    } else {
+      return char // if the character is not a letter or digit, leave it unchanged
+    }
+  })
+
+  return result.join(' ')
 }

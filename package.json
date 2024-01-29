@@ -11,6 +11,7 @@
   },
   "main": "index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
+  "license": "MIT",
   "dependencies": {
     "@entkenntnis/challenges-server": "2.4.2",
     "escape-html": "^1.0.3",

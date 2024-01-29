@@ -19,6 +19,13 @@ const levelConfig = {
   12: { ops: ['binary'] },
   13: { ops: ['base64'] },
   14: {
+    ops: ['bars', 'dashs', 'phonetic'],
+  },
+  15: { ops: ['triple', 'reverse', 'decimal'] },
+  16: { ops: ['bars', 'dashs', 'reverse', 'binary'] },
+  17: { ops: ['triple', 'dashs', 'phonetic', 'decimal', 'base64'] },
+  18: { ops: ['bars', 'triple', 'reverse', 'decimal', 'binary'] },
+  19: {
     ops: [
       'bars',
       'triple',
@@ -30,19 +37,6 @@ const levelConfig = {
       'base64',
     ],
   },
-  15: { ops: [] },
-  16: { ops: [] },
-  17: { ops: [] },
-  18: { ops: [] },
-  19: { ops: [] },
-  //2: { ops: ['hex'] },
-  //3: { ops: ['base64'] },
-  //4: { ops: ['binary'] },
-  //5: { ops: ['hex', 'decimal'] },
-  //6: { ops: ['hex', 'base64'] },
-  //7: { ops: ['base64', 'decimal'] },
-  //8: { ops: ['hex', 'decimal', 'base64'] },
-  //9: { ops: ['hex', 'decimal', 'base64', 'binary'] },
 }
 
 const maxLevel = Object.keys(levelConfig).length * 5

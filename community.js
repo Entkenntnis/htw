@@ -1693,4 +1693,70 @@ RS#1</pre>
     },
     solution: secrets('chal_335'),
   },
+
+  {
+    id: 336,
+    pos: { x: 1920, y: 825 },
+    title: { de: 'Minecraft', en: 'Minecraft' },
+    date: '2024-02-01',
+    deps: [300],
+    noScore: true,
+    author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Was ist die Block-ID von diesem Block?</p>
+        
+        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
+      `,
+      en: `
+        <p>What is the block-ID for this block?</p>
+          
+        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
+      `,
+    },
+    solution: secrets('chal_336'),
+  },
+
+  {
+    id: 337,
+    pos: { x: 2040, y: 905 },
+    title: { de: 'Minecraft II', en: 'Minecraft II' },
+    date: '2024-02-01',
+    deps: [336],
+    noScore: true,
+    author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Welches Konzept wird hier dargestellt?</p>
+          
+        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
+      `,
+      en: `
+        <p>Which concept is presented here?</p>
+            
+        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
+      `,
+    },
+    solution: secrets('chal_337'),
+  },
+
+  /*{
+    id: 338,
+    pos: { x: 2160, y: 945 },
+    title: { de: 'Minecraft III', en: 'Minecraft III' },
+    date: '2024-02-01',
+    deps: [337],
+    noScore: true,
+    author: 'QWERTZ',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+
+      `,
+    },
+    solution: '42',
+  },*/
 ]

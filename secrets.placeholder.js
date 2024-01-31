@@ -124,4 +124,6 @@ module.exports = {
   chal_333: '42',
   chal_334: '42',
   chal_335: '42',
+  chal_336: '42',
+  chal_337: '42',
 }

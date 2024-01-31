@@ -267,7 +267,7 @@ require(path)((config) => {
         console.log(`  Füge ${solutions.length} Lösungen lokal ein`)
         await LOCALAPP.db.models.Solution.bulkCreate(solutions)
 
-        console.log('Starte Import Protokolle ...')
+        console.log('Starte Import KVPairs ...')
 
         const kvpairs = await App.db.models.KVPair.findAll({ raw: true })
 
@@ -278,7 +278,7 @@ require(path)((config) => {
 
         await LOCALAPP.db.models.KVPair.bulkCreate(kvpairs)
 
-        console.log('Import vollständig')
+        console.log('  KVPAirs vollständig')
 
         process.exit()
       }

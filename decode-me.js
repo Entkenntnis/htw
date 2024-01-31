@@ -461,10 +461,15 @@ module.exports = (App) => {
   })
 
   App.express.get('/decode-me/stats', async (req, res) => {
+    const cutoff = '2024-01-30'
+
     const allUsers = await App.db.models.KVPair.findAll({
       where: {
         key: {
           [Sequelize.Op.like]: 'decodeme_%',
+        },
+        updatedAt: {
+          [Sequelize.Op.gte]: new Date(cutoff),
         },
       },
       raw: true,
@@ -484,18 +489,18 @@ module.exports = (App) => {
 
     const entries = Object.entries(count)
 
-    entries.unshift(['0', 0])
-
     const stringsDe = {
       statistics: 'Statistik',
       back: 'zurück',
       label: 'Anzahl',
+      dataRange: 'Daten ab',
     }
 
     const stringsEn = {
       statistics: 'Statistics',
       back: 'back',
       label: 'Count',
+      dataRange: 'Data from',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -509,6 +514,12 @@ module.exports = (App) => {
 
         <div style="height:32px"></div>
         <canvas id="myChart"></canvas>
+        <div style="height:32px"></div>
+
+        <p style="text-align:right"><small style="color:gray;">${
+          strings.dataRange
+        } ${cutoff}</small></p>
+
         <div style="height:32px"></div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -528,6 +539,11 @@ module.exports = (App) => {
               scales: {
                 y: {
                   beginAtZero: true
+                }
+              },
+              plugins: {
+                legend: {
+                  display: false
                 }
               }
             }

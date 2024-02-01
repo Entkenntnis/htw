@@ -1571,7 +1571,7 @@ RS#1</pre>
 
         <p><a href="https://discord.gg/ebtePDmYxw" target="_blank">https://discord.gg/ebtePDmYxw</a></p>
 
-        <p style="margin-top:32px;">Deine Antwort ist die Lösung zur <code>challenge-3</code>.</p>
+        <p style="margin-top:32px;">Deine Antwort ist die Lösung zur <code>challenge-1</code>.</p>
       `,
       en: `
         <p style="margin-bottom:32px;"><em>A lovingly crafted project - highly recommended! Only available in German, so use your translator to get started.</em></p>
@@ -1580,7 +1580,7 @@ RS#1</pre>
 
         <p><a href="https://discord.gg/ebtePDmYxw" target="_blank">https://discord.gg/ebtePDmYxw</a></p>
         
-        <p style="margin-top:32px;">Your answer is the solution to <code>challenge-3</code>.</p>
+        <p style="margin-top:32px;">Your answer is the solution to <code>challenge-1</code>.</p>
       `,
     },
     solution: secrets('chal_329'),

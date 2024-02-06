@@ -3,6 +3,7 @@ const escapeHtml = require('escape-html')
 const setupChallengesServer = require('./challenges-server.js')
 const secrets = require('./secrets-loader.js')
 const decodeMe = require('./decode-me.js')
+const mortalCoil = require('./mortal-coil.js')
 
 const path = process.env.SERVERDEV
   ? '../challenges-server'
@@ -95,7 +96,8 @@ require(path)((config) => {
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
     ${
       showDecodeMe
-        ? '<a href="/decode-me" style="position:absolute;left:1240px;top:70px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>'
+        ? '<a href="/decode-me" style="position:absolute;left:1240px;top:70px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>' +
+          '<a href="/mortal-coil" style="position:absolute;left:99px;top:920px;" class="text-reset text-decoration-none"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:56px;margin-top:6px;margin-left:9px;"></a>'
         : ''
     }
   `
@@ -112,6 +114,7 @@ require(path)((config) => {
   config.callback = function (App) {
     setupChallengesServer(App)
     decodeMe(App)
+    mortalCoil(App)
 
     App.express.get('/news', (req, res) => {
       res.renderPage({

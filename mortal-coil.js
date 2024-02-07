@@ -1,3 +1,5 @@
+const levels = require('./mortal-coil-levels.json')
+
 module.exports = (App) => {
   App.express.get('/mortal-coil', async (req, res) => {
     if (!req.user || !req.user.id) {
@@ -82,6 +84,8 @@ module.exports = (App) => {
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
 
+    const levelData = levels[level]
+
     res.renderPage({
       page: 'mortal-coil',
       heading: 'Mortal Coil',
@@ -95,7 +99,9 @@ module.exports = (App) => {
           strings.jump
         } ...</span></p>
 
-        <script>var curLevel = 4; var width = 5; var height = 3; var boardStr = "......X......X.";</script>
+        <script> var width = ${levelData.width}; var height = ${
+          levelData.height
+        }; var boardStr = "${levelData.boardStr}";</script>
   
         <div id="coilframe">
           <button id="coilrestart" class="btn btn-sm btn-secondary">Neustart</button>

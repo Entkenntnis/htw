@@ -17,7 +17,8 @@ module.exports = (App) => {
       !isNaN(queryLevel) &&
       queryLevel.toString() === req.query.level &&
       queryLevel >= 0 &&
-      queryLevel <= playerLevel
+      //queryLevel <= playerLevel
+      levels[queryLevel]
     ) {
       level = queryLevel
     }
@@ -104,14 +105,30 @@ module.exports = (App) => {
         }; var boardStr = "${levelData.boardStr}";</script>
   
         <div id="coilframe">
-          <button id="coilrestart" class="btn btn-sm btn-secondary">Neustart</button>
+          <button id="coilrestart" class="btn btn-sm btn-primary">
+            Neustart
+          </button>
+          <button id="coilundo" class="btn btn-sm btn-secondary">
+            Rückgängig
+          </button>
           <div id="coilgame">
             <div id="coilgame_inner"></div>
           </div>
-          <button id="coilcontinue" class="ui-button ui-widget ui-corner-all">You won!<br>Click here to continue...</button>
+          <button id="coilcontinue"
+            class="btn btn-success">
+            Zum nächsten Level
+          </button>
         </div>
 
-        <p><small style="color:gray;">Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder</small></p>
+        <div style="margin-top:24px">Anzahl offener Felder: <span id="to_visit_count"></span></div>
+
+        <div style="margin-top:8px">Verfügbare Richtungen: <span id="available_directions"></span></div>
+        <div style="margin-top:8px">Sackgassen: <span id="deadend_count"></span></div>
+        <div style="margin-top:8px">Flächen-Analyse: <span id="flood_analysis"></span></div>
+
+        <div style="height:200px;"></div>
+
+        <p><small style="color:gray;">Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder. Statistik</small></p>
 
   
         <script>

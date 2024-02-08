@@ -1,4 +1,5 @@
 const levels = require('./mortal-coil-levels.json')
+const { capitalizeFirstLetter } = require('./helper')
 
 module.exports = (App) => {
   App.express.get('/mortal-coil', async (req, res) => {
@@ -23,44 +24,24 @@ module.exports = (App) => {
       level = queryLevel
     }
 
-    /*const lastActive = await App.db.models.KVPair.findAll({
-      where: {
-        key: {
-          [Sequelize.Op.like]: 'decodeme_%',
-        },
-      },
-      order: [['updatedAt', 'DESC']],
-      limit: 10,
-      raw: true,
-    })*/
-
-    /*const userIds = []
-
-    lastActive.forEach((entry) => {
-      entry.id = parseInt(entry.key.split('_')[1])
-      userIds.push(entry.id)
-    })
-
-    const userNames = await App.db.models.User.findAll({
-      where: { id: userIds },
-      raw: true,
-    })
-
-    const userNameIndex = userNames.reduce((res, obj) => {
-      res[obj.id] = obj.name
-      return res
-    }, {})*/
-
     const stringsDe = {
       back: 'zurück',
-      statistics: 'Statistik',
+      // statistics: 'Statistik',
+      description:
+        'Klicke, um deine Startposition zu bestimmen. Nachfolgende Klicks bewegen dich, bis du auf eine Wand triffst. Versuche, das ganze Spielfeld abzudecken.',
       jump: 'springe zu Level',
+      restart: 'Neustart',
+      undo: 'Rückgängig',
     }
 
     const stringsEn = {
       back: 'back',
-      statistics: 'Statistics',
+      // statistics: 'Statistics',
+      description:
+        'Click to place your starting position. Subsequent clicks move until you hit something. Try to cover the whole board with your coil.',
       jump: 'jump to level',
+      restart: 'Restart',
+      undo: 'Undo',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -78,6 +59,16 @@ module.exports = (App) => {
           strings.jump
         } ...</span></p>
 
+        ${
+          level == 0
+            ? `
+        
+          <p>${strings.description}
+          </p>
+        `
+            : ''
+        }
+
         <script>var level = ${level}; var width = ${
           levelData.width
         }; var height = ${levelData.height}; var boardStr = "${
@@ -86,10 +77,10 @@ module.exports = (App) => {
   
         <div id="coilframe">
           <button id="coilrestart" class="btn btn-sm btn-primary">
-            Neustart
+            ${strings.restart}
           </button>
           <button id="coilundo" class="btn btn-sm btn-secondary">
-            Rückgängig
+            ${strings.undo}
           </button>
           <div id="coilgame">
             <div id="coilgame_inner"></div>
@@ -103,7 +94,7 @@ module.exports = (App) => {
           </div>
         </div>
 
-        <p><small style="color:gray;margin-left:44px;">Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder</small></p>
+        <p><small style="color:gray;margin-left:44px;">Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder. Adapted from hacker.org.</small></p>
 
         <div style="height:200px;"></div>
 
@@ -125,14 +116,4 @@ module.exports = (App) => {
       `,
     })
   })
-}
-
-function capitalizeFirstLetter(inputString) {
-  // Check if the input is a non-empty string
-  if (typeof inputString !== 'string' || inputString.length === 0) {
-    return inputString // Return the input unchanged
-  }
-
-  // Capitalize the first letter and concatenate the rest of the string
-  return inputString.charAt(0).toUpperCase() + inputString.slice(1)
 }

@@ -70,7 +70,11 @@ $(document).ready(function () {
   $("#coilrestart").click(restart);
 
   $("#coilcontinue").click(function () {
-    window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
+    if (level >= 99) {
+      alert('Du hast alle Level abgeschlossen.')
+    } else {
+      window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
+    }
   });
 
   var cur = { x: 0, y: 0 }
@@ -187,6 +191,7 @@ $(document).ready(function () {
       statusMessage.html(count + ' offene Zellen')
     })()
 
+    // return true
     return count == 0;
   }
 

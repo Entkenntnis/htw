@@ -9,17 +9,18 @@ module.exports = (App) => {
 
     const queryLevel = parseInt(req.query.level)
 
+    const isEditor = App.config.editors.includes(req.user.name)
+
     const storageKey = `mortalcoil_${req.user.id}`
     const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-    const playerLevel = isNaN(fromDB) ? 0 : fromDB
-    let level = playerLevel
+    const playerLevel = isEditor ? 99 : isNaN(fromDB) ? 0 : fromDB
+    let level = isEditor ? 0 : playerLevel
 
     if (
       !isNaN(queryLevel) &&
       queryLevel.toString() === req.query.level &&
       queryLevel >= 0 &&
-      //queryLevel <= playerLevel
-      levels[queryLevel]
+      queryLevel <= playerLevel
     ) {
       level = queryLevel
     }

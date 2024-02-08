@@ -236,9 +236,11 @@ module.exports = (App) => {
       req.level = level
       req.userid = id
 
+      const isEditor = App.config.editors.includes(req.user.name)
+
       const storageKey = `decodeme_${id}`
       const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-      const playerLevel = isNaN(fromDB) ? 0 : fromDB
+      const playerLevel = isEditor ? maxLevel : isNaN(fromDB) ? 0 : fromDB
 
       if (level > playerLevel) {
         return res.send('level not unlocked yet')
@@ -286,10 +288,12 @@ module.exports = (App) => {
 
     const queryLevel = parseInt(req.query.level)
 
+    const isEditor = App.config.editors.includes(req.user.name)
+
     const storageKey = `decodeme_${req.user.id}`
     const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-    const playerLevel = isNaN(fromDB) ? 0 : fromDB
-    let level = playerLevel
+    const playerLevel = isEditor ? maxLevel : isNaN(fromDB) ? 0 : fromDB
+    let level = isEditor ? 0 : playerLevel
 
     if (
       !isNaN(queryLevel) &&
@@ -364,11 +368,9 @@ module.exports = (App) => {
 
     res.renderPage({
       page: 'decode-me',
-      heading: 'Decode Me!',
+      heading: 'Decode Me! - Level ' + level,
       backButton: false,
       content: `
-        <h3 style="margin-top:32px;">Level ${level}</h3>
-  
         <p><a href="/map">${
           strings.back
         }</a> | <span style="cursor:pointer;color:gray;" id="jump">${

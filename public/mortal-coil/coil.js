@@ -6,10 +6,7 @@ $(document).ready(function () {
 
   var coilParent = $("#coilgame_inner");
   var aspect = width / height;
-  const toVisitCount = $('#to_visit_count')
-  const availableDirections = $('#available_directions')
-  const deadendCount = $('#deadend_count')
-  const floodAnalysis = $('#flood_analysis')
+  const statusMessage = $('#status_message')
 
   if (aspect <= maxAspect) {
     // too wide
@@ -53,14 +50,11 @@ $(document).ready(function () {
     }
   }
 
+
   function restart() {
     debounce = false;
     start.set = false;
     path = "";
-    toVisitCount.html('')
-    availableDirections.html('')
-    deadendCount.html('')
-    floodAnalysis.html('')
     history = []
     $("#coilcontinue").css("display", "none");
 
@@ -70,26 +64,21 @@ $(document).ready(function () {
         board[row][col].dom.removeClass(["player", "visited", "blockedHit"]);
       }
     }
+    checkIfWon()
   }
 
   $("#coilrestart").click(restart);
 
-  /*$("#coilcontinue").click(function () {
-    var method = path.length > 512 ? "POST" : "GET";
-    var s = '<form action="./" method"' + method + '" style="display: none">';
-    s += '<input type="text" name="x" value="' + start.x + '" />';
-    s += '<input type="text" name="y" value="' + start.y + '" />';
-    s += '<input type="text" name="path" value="' + path + '" />';
-    s += '</form>';
-
-    var frm = $(s).appendTo('body');
-    frm.submit();
-  });*/
+  $("#coilcontinue").click(function () {
+    window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
+  });
 
   var cur = { x: 0, y: 0 }
   var history = []
   var start = { x: 0, y: 0, set: false }
   var path = "";
+
+  checkIfWon()
 
   function move(dx, dy) {
     board[cur.y][cur.x].dom.removeClass("player");
@@ -111,9 +100,6 @@ $(document).ready(function () {
     history.push(op)
 
     board[cur.y][cur.x].dom.addClass("player");
-    /*if (board[y] && board[y][x] && board[y][x].wall) {
-      //      board[y][x].dom.addClass("blockedHit");
-    }*/
 
   }
 
@@ -183,16 +169,24 @@ $(document).ready(function () {
   function checkIfWon() {
     const count = countToVisit()
     dirs = listOpenDirs(cur.x, cur.y)
-    availableDirections.html(dirs.join(', '))
-    if (count > 0 && dirs.length == 0) {
-      availableDirections.html('keine, UNLÖSBAR')
-    }
-    if (count == 0) {
-      availableDirections.html('-')
-    }
-    toVisitCount.html(count)
-    countDeadEnds()
-    analyzeSolvableByFlooding(count, dirs)
+    ;(() => {
+      if (count == 0) {
+        statusMessage.html('gelöst')
+        return
+      }
+      if (dirs.length == 0) {
+        statusMessage.html('UNLÖSBAR, keine Bewegung mehr möglich')
+        return
+      }
+      if (analyzeSolvableByFlooding(count, dirs)) {
+        return
+      }
+      if (countDeadEnds()) {
+        return
+      }
+      statusMessage.html(count + ' offene Zellen')
+    })()
+
     return count == 0;
   }
 
@@ -226,15 +220,13 @@ $(document).ready(function () {
   }
 
   function analyzeSolvableByFlooding(count, dirs) {
-    if (count == 0 || dirs.length == 0) {
-      floodAnalysis.html('-')
+    if (count == 0 || dirs.length == 0 || !start.set) {
       return
     }
 
     const visited = {}
 
     function floodCount(x, y, dir) {
-      console.log('flood count', x, y, dir)
       if (dir == 'U') {
         if (y <= 0) {
           return 0
@@ -272,10 +264,13 @@ $(document).ready(function () {
       return sum
     }
 
-    if (floodCount(cur.x, cur.y, dirs[0]) < count) {
-      floodAnalysis.html('nicht alle Felder erreichbar, UNLÖSBAR')
+    const fc = floodCount(cur.x, cur.y, dirs[0])
+
+    if (fc < count) {
+      statusMessage.html('UNLÖSBAR, Feld nicht mehr zusammenhängend')
+      return true
     } else {
-      floodAnalysis.html('ok')
+      //floodAnalysis.html('ok')
     }
     
   }
@@ -295,21 +290,21 @@ $(document).ready(function () {
             r = row
             c = col
             deadends++
-            // console.log('DEAD END', col, row)
           }
-          if (dirs.length == 0) {
-            deadendCount.html(`Abgeschnittenes Feld bei (${col}|${row}), UNLÖSBAR`)
-            return
-          }
+          /*if (dirs.length == 0) {
+            statusMessage.html(`UNLÖSBAR, abgeschnittenes Feld bei (${col}|${row})`)
+            return true
+          }*/
         }
       }
     }
     if (deadends == 0) {
-      deadendCount.html('keine')
     } else if (deadends == 1) {
-      deadendCount.html(`Ende muss bei (${c}|${r}) sein`)
+      statusMessage.html(`Ende muss bei (${c}|${r}) sein`)
+      return true
     } else if (deadends > 0) {
-      deadendCount.html(`Insgesamt ${deadends}, UNLÖSBAR`)
+      statusMessage.html(`UNLÖSBAR, es gibt ${deadends} Sackgassen`)
+      return true
     }
   }
 });

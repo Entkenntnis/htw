@@ -53,32 +53,12 @@ module.exports = (App) => {
 
     const stringsDe = {
       back: 'zurück',
-      line1:
-        'Die Antwort ist zum Greifen nahe. Die Nachricht ist bereits gefunden und wartet im letzten Schritt darauf, "entpackt" zu werden.',
-      line2:
-        'Ermittle die Antwort aus der empfangenen Nachricht. Alle 5 Level steigert sich die Schwierigkeit.',
-      line3:
-        'Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.',
-      go: 'Los',
-      lastSolved: 'Zuletzt gelöst',
-      by: 'von',
-      incorrect: 'Das ist nicht die richtige Antwort.',
       statistics: 'Statistik',
       jump: 'springe zu Level',
     }
 
     const stringsEn = {
       back: 'back',
-      line1:
-        'The answer is within reach. The message has already been found and is waiting in the last step to be "unpacked."',
-      line2:
-        'Determine the answer from the received message. The difficulty increases every 5 levels.',
-      line3:
-        'There are many levels. Learn in the source code how to automate the task.',
-      go: 'Go',
-      lastSolved: 'Last solved',
-      by: 'by',
-      incorrect: 'That is not the right answer.',
       statistics: 'Statistics',
       jump: 'jump to level',
     }
@@ -89,20 +69,20 @@ module.exports = (App) => {
 
     res.renderPage({
       page: 'mortal-coil',
-      heading: 'Mortal Coil',
+      heading: 'Mortal Coil - Level ' + level,
       backButton: false,
       content: `
-        <h3 style="margin-top:32px;">Level ${level}</h3>
-  
         <p><a href="/map">${
           strings.back
         }</a> | <span style="cursor:pointer;color:gray;" id="jump">${
           strings.jump
         } ...</span></p>
 
-        <script> var width = ${levelData.width}; var height = ${
-          levelData.height
-        }; var boardStr = "${levelData.boardStr}";</script>
+        <script>var level = ${level}; var width = ${
+          levelData.width
+        }; var height = ${levelData.height}; var boardStr = "${
+          levelData.boardStr
+        }";</script>
   
         <div id="coilframe">
           <button id="coilrestart" class="btn btn-sm btn-primary">
@@ -118,17 +98,14 @@ module.exports = (App) => {
             class="btn btn-success">
             Zum nächsten Level
           </button>
+          <div style="bottom:4px;left:36px;position:absolute;color:lightgray;">
+            Status: <span id="status_message"></span>
+          </div>
         </div>
 
-        <div style="margin-top:24px">Anzahl offener Felder: <span id="to_visit_count"></span></div>
-
-        <div style="margin-top:8px">Verfügbare Richtungen: <span id="available_directions"></span></div>
-        <div style="margin-top:8px">Sackgassen: <span id="deadend_count"></span></div>
-        <div style="margin-top:8px">Flächen-Analyse: <span id="flood_analysis"></span></div>
+        <p><small style="color:gray;margin-left:44px;">Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder</small></p>
 
         <div style="height:200px;"></div>
-
-        <p><small style="color:gray;">Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder. Statistik</small></p>
 
   
         <script>

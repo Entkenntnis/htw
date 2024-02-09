@@ -33,6 +33,7 @@ module.exports = (App) => {
       jump: 'springe zu Level',
       restart: 'Neustart',
       undo: 'Rückgängig',
+      nextLevel: 'Zum nächsten Level',
     }
 
     const stringsEn = {
@@ -43,6 +44,7 @@ module.exports = (App) => {
       jump: 'jump to level',
       restart: 'Restart',
       undo: 'Undo',
+      nextLevel: 'Go to next level',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -74,7 +76,7 @@ module.exports = (App) => {
           levelData.width
         }; var height = ${levelData.height}; var boardStr = "${
           levelData.boardStr
-        }";</script>
+        }"; var lng = ${req.lng}</script>
   
         <div id="coilframe">
           <button id="coilrestart" class="btn btn-sm btn-primary">
@@ -88,7 +90,7 @@ module.exports = (App) => {
           </div>
           <button id="coilcontinue"
             class="btn btn-success">
-            Zum nächsten Level
+            ${strings.nextLevel}
           </button>
           <div style="bottom:4px;left:36px;position:absolute;color:lightgray;">
             Status: <span id="status_message"></span>

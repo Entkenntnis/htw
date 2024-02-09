@@ -70,8 +70,9 @@ $(document).ready(function () {
   $("#coilrestart").click(restart);
 
   $("#coilcontinue").click(function () {
+    // TODO: submit request to API and verify solution
     if (level >= 99) {
-      alert('Du hast alle Level abgeschlossen.')
+      alert(lng == 'de' ? 'Du hast alle Level abgeschlossen.' : 'You have completed all levels.')
     } else {
       window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
     }
@@ -94,7 +95,7 @@ $(document).ready(function () {
     while (board[y] && board[y][x] && !board[y][x].visited) {
       cur.x = x;
       cur.y = y;
-      op.visited.push({x, y})
+      op.visited.push({ x, y })
       board[y][x].dom.addClass("visited");
       board[y][x].visited = true;
       y += dy;
@@ -173,23 +174,23 @@ $(document).ready(function () {
   function checkIfWon() {
     const count = countToVisit()
     dirs = listOpenDirs(cur.x, cur.y)
-    ;(() => {
-      if (count == 0) {
-        statusMessage.html('gelöst')
-        return
-      }
-      if (dirs.length == 0) {
-        statusMessage.html('UNLÖSBAR, keine Bewegung mehr möglich')
-        return
-      }
-      if (analyzeSolvableByFlooding(count, dirs)) {
-        return
-      }
-      if (countDeadEnds()) {
-        return
-      }
-      statusMessage.html(count + ' offene Zellen')
-    })()
+      ; (() => {
+        if (count == 0) {
+          statusMessage.html(lng == 'de' ? 'gelöst' : 'solved')
+          return
+        }
+        if (dirs.length == 0) {
+          statusMessage.html(lng == 'de' ? 'UNLÖSBAR, keine Bewegung mehr möglich' : 'UNSOLVABLE, no movement possible')
+          return
+        }
+        if (analyzeSolvableByFlooding(count, dirs)) {
+          return
+        }
+        if (countDeadEnds()) {
+          return
+        }
+        statusMessage.html(count + (lng == 'de' ? ' unbesucht' : ' unvisited'))
+      })()
 
     // return true
     return count == 0;
@@ -251,7 +252,7 @@ $(document).ready(function () {
         x--
       }
       if (dir == 'R') {
-        if (x + 1 >=  width) {
+        if (x + 1 >= width) {
           return 0
         }
         x++
@@ -272,12 +273,12 @@ $(document).ready(function () {
     const fc = floodCount(cur.x, cur.y, dirs[0])
 
     if (fc < count) {
-      statusMessage.html('UNLÖSBAR, Feld nicht mehr zusammenhängend')
+      statusMessage.html(lng == 'de' ? 'UNLÖSBAR, nicht mehr zusammenhängend' : 'UNSOLVABLE, board is split')
       return true
     } else {
       //floodAnalysis.html('ok')
     }
-    
+
   }
 
   function countDeadEnds() {
@@ -305,10 +306,10 @@ $(document).ready(function () {
     }
     if (deadends == 0) {
     } else if (deadends == 1) {
-      statusMessage.html(`Ende muss bei (${c}|${r}) sein`)
+      statusMessage.html(lng == 'de' ? `Ende muss bei (${c}|${r}) sein` : `End must be at (${c}|${r})`)
       return true
     } else if (deadends > 0) {
-      statusMessage.html(`UNLÖSBAR, es gibt ${deadends} Sackgassen`)
+      statusMessage.html(lng == 'de' ? `UNLÖSBAR, es gibt ${deadends} Sackgassen` : `UNSOLVABLE, there are ${deadends} deadens`)
       return true
     }
   }

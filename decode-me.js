@@ -1,8 +1,11 @@
 const seedrandom = require('seedrandom')
 const secrets = require('./secrets-loader.js')
-const crypto = require('crypto')
 const Sequelize = require('sequelize')
-const { capitalizeFirstLetter } = require('./helper')
+const {
+  capitalizeFirstLetter,
+  generateSHA256,
+  generateToken,
+} = require('./helper')
 
 const levelConfig = {
   0: {},
@@ -190,18 +193,6 @@ const shuffleArray = (array, rng) => {
   }
 }
 
-function generateSHA256(input) {
-  const hash = crypto.createHash('sha256')
-  hash.update(input)
-  return hash.digest('hex')
-}
-
-function generateToken(userId) {
-  return `${userId}-${generateSHA256(
-    `${userId}___${secrets('config_token_secret')}`
-  ).substring(0, 12)}`
-}
-
 module.exports = (App) => {
   async function apiHandler(req, res, next) {
     try {
@@ -304,34 +295,6 @@ module.exports = (App) => {
       level = queryLevel
     }
 
-    const lastActive = await App.db.models.KVPair.findAll({
-      where: {
-        key: {
-          [Sequelize.Op.like]: 'decodeme_%',
-        },
-      },
-      order: [['updatedAt', 'DESC']],
-      limit: 10,
-      raw: true,
-    })
-
-    const userIds = []
-
-    lastActive.forEach((entry) => {
-      entry.id = parseInt(entry.key.split('_')[1])
-      userIds.push(entry.id)
-    })
-
-    const userNames = await App.db.models.User.findAll({
-      where: { id: userIds },
-      raw: true,
-    })
-
-    const userNameIndex = userNames.reduce((res, obj) => {
-      res[obj.id] = obj.name
-      return res
-    }, {})
-
     const stringsDe = {
       back: 'zurück',
       line1:
@@ -341,8 +304,6 @@ module.exports = (App) => {
       line3:
         'Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.',
       go: 'Los',
-      lastSolved: 'Zuletzt gelöst',
-      by: 'von',
       incorrect: 'Das ist nicht die richtige Antwort.',
       statistics: 'Statistik',
       jump: 'springe zu Level',
@@ -357,8 +318,6 @@ module.exports = (App) => {
       line3:
         'There are many levels. Learn in the source code how to automate the task.',
       go: 'Go',
-      lastSolved: 'Last solved',
-      by: 'by',
       incorrect: 'That is not the right answer.',
       statistics: 'Statistics',
       jump: 'jump to level',
@@ -396,21 +355,9 @@ module.exports = (App) => {
   
         <div style="height:128px;"></div>
   
-        <p style="line-height:1.1"><small style="color:lightgray">${
-          strings.lastSolved
-        }: <span style="color:gray;">${lastActive
-          .map((entry) => {
-            return `Level ${entry.value} ${strings.by} ${
-              userNameIndex[entry.id]
-            } ${App.moment(new Date(entry.updatedAt))
-              .locale(req.lng)
-              .fromNow()}`
-          })
-          .join(
-            ', '
-          )}</span><br /><span style="margin-top:8px;display:inline-block"><a href="/decode-me/stats">${
+        <p><small><a href="/decode-me/stats">${
           strings.statistics
-        }</a></span></small></p>
+        }</a></small></p>
 
   
         <script>
@@ -492,11 +439,41 @@ module.exports = (App) => {
 
     const entries = Object.entries(count)
 
+    const lastActive = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Sequelize.Op.like]: 'decodeme_%',
+        },
+      },
+      order: [['updatedAt', 'DESC']],
+      limit: 10,
+      raw: true,
+    })
+
+    const userIds = []
+
+    lastActive.forEach((entry) => {
+      entry.id = parseInt(entry.key.split('_')[1])
+      userIds.push(entry.id)
+    })
+
+    const userNames = await App.db.models.User.findAll({
+      where: { id: userIds },
+      raw: true,
+    })
+
+    const userNameIndex = userNames.reduce((res, obj) => {
+      res[obj.id] = obj.name
+      return res
+    }, {})
+
     const stringsDe = {
       statistics: 'Statistik',
       back: 'zurück',
       label: 'Anzahl',
       dataRange: 'Daten ab',
+      lastSolved: 'Zuletzt gelöst',
+      by: 'von',
     }
 
     const stringsEn = {
@@ -504,6 +481,8 @@ module.exports = (App) => {
       back: 'back',
       label: 'Count',
       dataRange: 'Data from',
+      lastSolved: 'Last solved',
+      by: 'by',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -515,7 +494,24 @@ module.exports = (App) => {
       content: `
         <p><a href="/decode-me">${strings.back}</a></p>
 
+        <h4>${strings.lastSolved}</h4>
+
+        <ul>
+          ${lastActive
+            .map((entry) => {
+              return `<li>Level ${entry.value} ${strings.by} ${
+                userNameIndex[entry.id]
+              } ${App.moment(new Date(entry.updatedAt))
+                .locale(req.lng)
+                .fromNow()}</li>`
+            })
+            .join(' ')}
+        </ul>
+
         <div style="height:32px"></div>
+
+        <h4>Verteilung</h4>
+
         <canvas id="myChart"></canvas>
         <div style="height:32px"></div>
 

@@ -330,8 +330,8 @@ module.exports = (App) => {
       heading: 'Decode Me! - Level ' + level,
       backButton: false,
       content: `
-        <p><a href="/map">${
-          strings.back
+        <p><a href="/map">${strings.back}</a> | <a href="/decode-me/stats">${
+          strings.statistics
         }</a> | <span style="cursor:pointer;color:gray;" id="jump">${
           strings.jump
         } ...</span></p>
@@ -354,11 +354,6 @@ module.exports = (App) => {
         <p id="feedback" class="text-danger" style="margin-top:12px;"></p>
   
         <div style="height:128px;"></div>
-  
-        <p><small><a href="/decode-me/stats">${
-          strings.statistics
-        }</a></small></p>
-
   
         <script>
           /***

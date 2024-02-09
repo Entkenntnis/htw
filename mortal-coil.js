@@ -27,7 +27,7 @@ module.exports = (App) => {
 
     const stringsDe = {
       back: 'zurück',
-      // statistics: 'Statistik',
+      statistics: 'Statistik',
       description:
         'Klicke, um deine Startposition zu bestimmen. Nachfolgende Klicks bewegen dich, bis du auf eine Wand triffst. Versuche, das ganze Spielfeld abzudecken.',
       jump: 'springe zu Level',
@@ -38,7 +38,7 @@ module.exports = (App) => {
 
     const stringsEn = {
       back: 'back',
-      // statistics: 'Statistics',
+      statistics: 'Statistics',
       description:
         'Click to place your starting position. Subsequent clicks move until you hit something. Try to cover the whole board with your coil.',
       jump: 'jump to level',
@@ -56,8 +56,8 @@ module.exports = (App) => {
       heading: 'Mortal Coil - Level ' + level,
       backButton: false,
       content: `
-        <p><a href="/map">${
-          strings.back
+        <p><a href="/map">${strings.back}</a> | <a href="/mortal-coil/stats">${
+          strings.statistics
         }</a> | <span style="cursor:pointer;color:gray;" id="jump">${
           strings.jump
         } ...</span></p>
@@ -76,7 +76,7 @@ module.exports = (App) => {
           levelData.width
         }; var height = ${levelData.height}; var boardStr = "${
           levelData.boardStr
-        }"; var lng = ${req.lng}</script>
+        }"; var lng = "${req.lng}"</script>
   
         <div id="coilframe">
           <button id="coilrestart" class="btn btn-sm btn-primary">

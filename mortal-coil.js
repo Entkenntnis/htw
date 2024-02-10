@@ -1,7 +1,67 @@
 const levels = require('./mortal-coil-levels.json')
 const { capitalizeFirstLetter, generateToken } = require('./helper')
 
+const maxLevel = 100
+
 module.exports = (App) => {
+  App.express.get('/mortal-coil/submit', async (req, res) => {
+    try {
+      const level = parseInt(req.query.level)
+      const token = typeof req.query.token === 'string' ? req.query.token : ''
+
+      if (!token) {
+        return res.send('token is missing')
+      }
+      if (isNaN(level)) {
+        return res.send('level is missing')
+      }
+      if (level < 0) {
+        return res.send('there are no negative levels')
+      }
+      if (level >= maxLevel) {
+        return res.send('level not available')
+      }
+      const userid = parseInt(token.split('-')[0])
+      if (isNaN(userid) || userid < 0) {
+        return res.send('malformed token')
+      }
+      const expectedToken = generateToken(userid)
+      if (token !== expectedToken) {
+        return res.send('invalid token')
+      }
+
+      const isEditor = req.user && App.config.editors.includes(req.user.name)
+
+      const storageKey = `mortalcoil_${userid}`
+      const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
+      const playerLevel = isEditor ? maxLevel - 1 : isNaN(fromDB) ? 0 : fromDB
+
+      if (level > playerLevel) {
+        return res.send('cannot submit to this level')
+      }
+
+      let isCorrect = verifyLevel(
+        level,
+        parseInt(req.query.x),
+        parseInt(req.query.y),
+        req.query.path
+      )
+
+      if (isCorrect) {
+        const unlockedLevel = level + 1
+        if (unlockedLevel > playerLevel) {
+          const storageKey = `mortalcoil_${userid}`
+          await App.storage.setItem(storageKey, playerLevel + 1)
+          console.log('set storage key')
+        }
+        return res.send('ok')
+      }
+      res.send('answer not correct')
+    } catch (e) {
+      return res.send('internal error')
+    }
+  })
+
   App.express.get('/mortal-coil', async (req, res) => {
     if (!req.user || !req.user.id) {
       return res.redirect('/')
@@ -13,7 +73,8 @@ module.exports = (App) => {
 
     const storageKey = `mortalcoil_${req.user.id}`
     const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-    const playerLevel = isEditor ? 99 : isNaN(fromDB) ? 0 : fromDB
+    console.log({ fromDB })
+    const playerLevel = isEditor ? maxLevel - 1 : isNaN(fromDB) ? 0 : fromDB
     let level = isEditor ? 0 : playerLevel
 
     if (
@@ -121,4 +182,65 @@ module.exports = (App) => {
       `,
     })
   })
+}
+
+function verifyLevel(level, x, y, path) {
+  const { height, width, boardStr } = levels[level]
+
+  if (isNaN(x) || isNaN(y) || x < 0 || y < 0 || x >= width || y >= height) {
+    return false
+  }
+
+  const board = new Array(height)
+  for (let row = 0; row < height; ++row) {
+    board[row] = new Array(width)
+    for (let col = 0; col < width; ++col) {
+      isWall = boardStr.charAt(row * width + col) === 'X'
+      board[row][col] = { wall: isWall, visited: isWall }
+    }
+  }
+
+  if (board[y][x].visited) {
+    return false
+  } else {
+    board[y][x].visited = true
+  }
+
+  const cur = { x, y }
+  for (const char of [...path]) {
+    if (char == 'U') {
+      move(0, -1)
+    } else if (char == 'D') {
+      move(0, 1)
+    } else if (char == 'L') {
+      move(-1, 0)
+    } else if (char == 'R') {
+      move(1, 0)
+    } else {
+      return false // invalid char
+    }
+  }
+
+  function move(dx, dy) {
+    let x = cur.x + dx
+    let y = cur.y + dy
+
+    while (board[y] && board[y][x] && !board[y][x].visited) {
+      cur.x = x
+      cur.y = y
+      board[y][x].visited = true
+      x += dx
+      y += dy
+    }
+  }
+
+  let unvisited = 0
+  for (let row = 0; row < height; ++row) {
+    for (let col = 0; col < width; ++col) {
+      if (!board[row][col].visited) {
+        unvisited++
+      }
+    }
+  }
+  return unvisited == 0
 }

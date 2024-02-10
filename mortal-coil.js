@@ -1,4 +1,5 @@
 const levels = require('./mortal-coil-levels.json')
+const Sequelize = require('sequelize')
 const { capitalizeFirstLetter, generateToken } = require('./helper')
 
 const maxLevel = 100
@@ -186,6 +187,148 @@ module.exports = (App) => {
         <script src="/mortal-coil/coil.js"></script>
         
         <link rel="stylesheet" href="/mortal-coil/coil.css" />
+      `,
+    })
+  })
+
+  App.express.get('/mortal-coil/stats', async (req, res) => {
+    const cutoff = '2024-01-30'
+
+    const allUsers = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Sequelize.Op.like]: 'mortalcoil_%',
+        },
+        updatedAt: {
+          [Sequelize.Op.gte]: new Date(cutoff),
+        },
+      },
+      raw: true,
+    })
+
+    const levels = allUsers.map((entry) => {
+      return parseInt(entry.value)
+    })
+
+    const count = {}
+
+    for (let i = 1; i <= maxLevel; i++) {
+      count[i] = 0
+    }
+
+    levels.forEach((level) => count[level]++)
+
+    const entries = Object.entries(count)
+
+    const lastActive = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Sequelize.Op.like]: 'mortalcoil_%',
+        },
+      },
+      order: [['updatedAt', 'DESC']],
+      limit: 10,
+      raw: true,
+    })
+
+    const userIds = []
+
+    lastActive.forEach((entry) => {
+      entry.id = parseInt(entry.key.split('_')[1])
+      userIds.push(entry.id)
+    })
+
+    const userNames = await App.db.models.User.findAll({
+      where: { id: userIds },
+      raw: true,
+    })
+
+    const userNameIndex = userNames.reduce((res, obj) => {
+      res[obj.id] = obj.name
+      return res
+    }, {})
+
+    const stringsDe = {
+      statistics: 'Statistik',
+      back: 'zurück',
+      label: 'Anzahl',
+      dataRange: 'Daten ab',
+      lastSolved: 'Zuletzt gelöst',
+      by: 'von',
+    }
+
+    const stringsEn = {
+      statistics: 'Statistics',
+      back: 'back',
+      label: 'Count',
+      dataRange: 'Data from',
+      lastSolved: 'Last solved',
+      by: 'by',
+    }
+
+    const strings = req.lng == 'de' ? stringsDe : stringsEn
+
+    res.renderPage({
+      page: 'decode-me-stats',
+      heading: 'Mortal Coil - ' + strings.statistics,
+      backButton: false,
+      content: `
+        <p><a href="/mortal-coil">${strings.back}</a></p>
+
+        <h4>${strings.lastSolved}</h4>
+
+        <ul>
+          ${lastActive
+            .map((entry) => {
+              return `<li>Level ${entry.value} ${strings.by} ${
+                userNameIndex[entry.id]
+              } ${App.moment(new Date(entry.updatedAt))
+                .locale(req.lng)
+                .fromNow()}</li>`
+            })
+            .join(' ')}
+        </ul>
+
+        <div style="height:32px"></div>
+
+        <h4>Verteilung</h4>
+
+        <canvas id="myChart"></canvas>
+        <div style="height:32px"></div>
+
+        <p style="text-align:right"><small style="color:gray;">${
+          strings.dataRange
+        } ${cutoff}</small></p>
+
+        <div style="height:32px"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+          const ctx = document.getElementById('myChart');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ${JSON.stringify(entries.map((e) => e[0]))},
+              datasets: [{
+                label: '${strings.label}',
+                data: ${JSON.stringify(entries.map((e) => e[1]))}
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              },
+              plugins: {
+                legend: {
+                  display: false
+                }
+              }
+            }
+          });
+        </script>
       `,
     })
   })

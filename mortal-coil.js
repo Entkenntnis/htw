@@ -57,7 +57,6 @@ module.exports = (App) => {
         if (unlockedLevel > playerLevel) {
           const storageKey = `mortalcoil_${userid}`
           await App.storage.setItem(storageKey, playerLevel + 1)
-          console.log('set storage key')
         }
         return res.send('ok')
       }

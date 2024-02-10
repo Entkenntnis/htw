@@ -34,7 +34,11 @@ module.exports = (App) => {
 
       const storageKey = `mortalcoil_${userid}`
       const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-      const playerLevel = isEditor ? maxLevel - 1 : isNaN(fromDB) ? 0 : fromDB
+      const playerLevel = isEditor
+        ? maxLevel - 1
+        : isNaN(fromDB)
+        ? 0
+        : Math.min(maxLevel - 1, fromDB)
 
       if (level > playerLevel) {
         return res.send('cannot submit to this level')
@@ -73,8 +77,11 @@ module.exports = (App) => {
 
     const storageKey = `mortalcoil_${req.user.id}`
     const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-    console.log({ fromDB })
-    const playerLevel = isEditor ? maxLevel - 1 : isNaN(fromDB) ? 0 : fromDB
+    const playerLevel = isEditor
+      ? maxLevel - 1
+      : isNaN(fromDB)
+      ? 0
+      : Math.min(maxLevel - 1, fromDB)
     let level = isEditor ? 0 : playerLevel
 
     if (

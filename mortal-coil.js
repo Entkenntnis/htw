@@ -1,5 +1,5 @@
 const levels = require('./mortal-coil-levels.json')
-const { capitalizeFirstLetter } = require('./helper')
+const { capitalizeFirstLetter, generateToken } = require('./helper')
 
 module.exports = (App) => {
   App.express.get('/mortal-coil', async (req, res) => {
@@ -72,7 +72,9 @@ module.exports = (App) => {
             : ''
         }
 
-        <script>var level = ${level}; var width = ${
+        <script>var token = "${generateToken(
+          req.user.id
+        )}"; var level = ${level}; var width = ${
           levelData.width
         }; var height = ${levelData.height}; var boardStr = "${
           levelData.boardStr

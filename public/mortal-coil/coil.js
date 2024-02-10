@@ -69,12 +69,21 @@ $(document).ready(function () {
 
   $("#coilrestart").click(restart);
 
-  $("#coilcontinue").click(function () {
-    // TODO: submit request to API and verify solution
-    if (level >= 99) {
-      alert(lng == 'de' ? 'Du hast alle Level abgeschlossen.' : 'You have completed all levels.')
-    } else {
-      window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
+  $("#coilcontinue").click(async function () {
+    try {
+      const res = await fetch(`/mortal-coil/submit?level=${level}&x=${start.x}&y=${start.y}&path=${path}&token=${token}`)
+      const text = await res.text()
+      if (text == 'ok') {
+        if (level >= 99) {
+          alert(lng == 'de' ? 'Du hast alle Level abgeschlossen.' : 'You have completed all levels.')
+        } else {
+          window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
+        }
+      } else {
+        throw new Error('bad')
+      }
+    } catch (e) {
+      alert(lng == 'de' ? 'Fehler bei der Überprüfung der Antwort.' : 'There was an error while submitting your solution.')
     }
   });
 
@@ -123,6 +132,7 @@ $(document).ready(function () {
         board[cell.y][cell.x].dom.removeClass("visited")
         board[cell.y][cell.x].visited = false
       }
+      path = path.slice(0, -1)
       checkIfWon()
     }
   })

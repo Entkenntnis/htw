@@ -127,7 +127,9 @@ module.exports = (config) => {
         </p>
       </div>
 
-      <p>Besuche auch die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.
+      <p>Besuche auch die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.</p>
+      
+      <p>Zugangsdaten zum Ausprobieren: <code>demo</code> / <code>1234</code>.
     `,
   })
   config.i18nExtend.push({
@@ -144,7 +146,9 @@ module.exports = (config) => {
         </p>
       </div>
 
-      <p>Also visit the <a href="https://de.serlo.org/200247" target="_blank">info page</a> or join our <a href="https://discord.gg/9zDMZP9edd" target="_blank">discord server</a>.
+      <p>Also visit the <a href="https://de.serlo.org/200247" target="_blank">info page</a> or join our <a href="https://discord.gg/9zDMZP9edd" target="_blank">discord server</a>.</p>
+      
+      <p>Try it out with this user: <code>demo</code> / <code>1234</code>.
     `,
   })
 

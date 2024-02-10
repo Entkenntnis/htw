@@ -1,7 +1,11 @@
 const seedrandom = require('seedrandom')
 const secrets = require('./secrets-loader.js')
-const crypto = require('crypto')
 const Sequelize = require('sequelize')
+const {
+  capitalizeFirstLetter,
+  generateSHA256,
+  generateToken,
+} = require('./helper')
 
 const levelConfig = {
   0: {},
@@ -189,18 +193,6 @@ const shuffleArray = (array, rng) => {
   }
 }
 
-function generateSHA256(input) {
-  const hash = crypto.createHash('sha256')
-  hash.update(input)
-  return hash.digest('hex')
-}
-
-function generateToken(userId) {
-  return `${userId}-${generateSHA256(
-    `${userId}___${secrets('config_token_secret')}`
-  ).substring(0, 12)}`
-}
-
 module.exports = (App) => {
   async function apiHandler(req, res, next) {
     try {
@@ -235,9 +227,11 @@ module.exports = (App) => {
       req.level = level
       req.userid = id
 
+      const isEditor = req.user && App.config.editors.includes(req.user.name)
+
       const storageKey = `decodeme_${id}`
       const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-      const playerLevel = isNaN(fromDB) ? 0 : fromDB
+      const playerLevel = isEditor ? maxLevel : isNaN(fromDB) ? 0 : fromDB
 
       if (level > playerLevel) {
         return res.send('level not unlocked yet')
@@ -285,10 +279,12 @@ module.exports = (App) => {
 
     const queryLevel = parseInt(req.query.level)
 
+    const isEditor = App.config.editors.includes(req.user.name)
+
     const storageKey = `decodeme_${req.user.id}`
     const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
-    const playerLevel = isNaN(fromDB) ? 0 : fromDB
-    let level = playerLevel
+    const playerLevel = isEditor ? maxLevel : isNaN(fromDB) ? 0 : fromDB
+    let level = isEditor ? 0 : playerLevel
 
     if (
       !isNaN(queryLevel) &&
@@ -299,34 +295,6 @@ module.exports = (App) => {
       level = queryLevel
     }
 
-    const lastActive = await App.db.models.KVPair.findAll({
-      where: {
-        key: {
-          [Sequelize.Op.like]: 'decodeme_%',
-        },
-      },
-      order: [['updatedAt', 'DESC']],
-      limit: 10,
-      raw: true,
-    })
-
-    const userIds = []
-
-    lastActive.forEach((entry) => {
-      entry.id = parseInt(entry.key.split('_')[1])
-      userIds.push(entry.id)
-    })
-
-    const userNames = await App.db.models.User.findAll({
-      where: { id: userIds },
-      raw: true,
-    })
-
-    const userNameIndex = userNames.reduce((res, obj) => {
-      res[obj.id] = obj.name
-      return res
-    }, {})
-
     const stringsDe = {
       back: 'zurück',
       line1:
@@ -336,8 +304,6 @@ module.exports = (App) => {
       line3:
         'Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.',
       go: 'Los',
-      lastSolved: 'Zuletzt gelöst',
-      by: 'von',
       incorrect: 'Das ist nicht die richtige Antwort.',
       statistics: 'Statistik',
       jump: 'springe zu Level',
@@ -352,8 +318,6 @@ module.exports = (App) => {
       line3:
         'There are many levels. Learn in the source code how to automate the task.',
       go: 'Go',
-      lastSolved: 'Last solved',
-      by: 'by',
       incorrect: 'That is not the right answer.',
       statistics: 'Statistics',
       jump: 'jump to level',
@@ -363,13 +327,11 @@ module.exports = (App) => {
 
     res.renderPage({
       page: 'decode-me',
-      heading: 'Decode Me!',
+      heading: 'Decode Me! - Level ' + level,
       backButton: false,
       content: `
-        <h3 style="margin-top:32px;">Level ${level}</h3>
-  
-        <p><a href="/map">${
-          strings.back
+        <p><a href="/map">${strings.back}</a> | <a href="/decode-me/stats">${
+          strings.statistics
         }</a> | <span style="cursor:pointer;color:gray;" id="jump">${
           strings.jump
         } ...</span></p>
@@ -392,23 +354,6 @@ module.exports = (App) => {
         <p id="feedback" class="text-danger" style="margin-top:12px;"></p>
   
         <div style="height:128px;"></div>
-  
-        <p style="line-height:1.1"><small style="color:lightgray">${
-          strings.lastSolved
-        }: <span style="color:gray;">${lastActive
-          .map((entry) => {
-            return `Level ${entry.value} ${strings.by} ${
-              userNameIndex[entry.id]
-            } ${App.moment(new Date(entry.updatedAt))
-              .locale(req.lng)
-              .fromNow()}`
-          })
-          .join(
-            ', '
-          )}</span><br /><span style="margin-top:8px;display:inline-block"><a href="/decode-me/stats">${
-          strings.statistics
-        }</a></span></small></p>
-
   
         <script>
           /***
@@ -489,11 +434,41 @@ module.exports = (App) => {
 
     const entries = Object.entries(count)
 
+    const lastActive = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Sequelize.Op.like]: 'decodeme_%',
+        },
+      },
+      order: [['updatedAt', 'DESC']],
+      limit: 10,
+      raw: true,
+    })
+
+    const userIds = []
+
+    lastActive.forEach((entry) => {
+      entry.id = parseInt(entry.key.split('_')[1])
+      userIds.push(entry.id)
+    })
+
+    const userNames = await App.db.models.User.findAll({
+      where: { id: userIds },
+      raw: true,
+    })
+
+    const userNameIndex = userNames.reduce((res, obj) => {
+      res[obj.id] = obj.name
+      return res
+    }, {})
+
     const stringsDe = {
       statistics: 'Statistik',
       back: 'zurück',
       label: 'Anzahl',
       dataRange: 'Daten ab',
+      lastSolved: 'Zuletzt gelöst',
+      by: 'von',
     }
 
     const stringsEn = {
@@ -501,6 +476,8 @@ module.exports = (App) => {
       back: 'back',
       label: 'Count',
       dataRange: 'Data from',
+      lastSolved: 'Last solved',
+      by: 'by',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -512,7 +489,24 @@ module.exports = (App) => {
       content: `
         <p><a href="/decode-me">${strings.back}</a></p>
 
+        <h4>${strings.lastSolved}</h4>
+
+        <ul>
+          ${lastActive
+            .map((entry) => {
+              return `<li>Level ${entry.value} ${strings.by} ${
+                userNameIndex[entry.id]
+              } ${App.moment(new Date(entry.updatedAt))
+                .locale(req.lng)
+                .fromNow()}</li>`
+            })
+            .join(' ')}
+        </ul>
+
         <div style="height:32px"></div>
+
+        <h4>Verteilung</h4>
+
         <canvas id="myChart"></canvas>
         <div style="height:32px"></div>
 
@@ -552,16 +546,6 @@ module.exports = (App) => {
       `,
     })
   })
-}
-
-function capitalizeFirstLetter(inputString) {
-  // Check if the input is a non-empty string
-  if (typeof inputString !== 'string' || inputString.length === 0) {
-    return inputString // Return the input unchanged
-  }
-
-  // Capitalize the first letter and concatenate the rest of the string
-  return inputString.charAt(0).toUpperCase() + inputString.slice(1)
 }
 
 function aviationPhoneticAlphabet(input) {

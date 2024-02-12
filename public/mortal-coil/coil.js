@@ -74,7 +74,7 @@ $(document).ready(function () {
       const res = await fetch(`/mortal-coil/submit?level=${level}&x=${start.x}&y=${start.y}&path=${path}&token=${token}`)
       const text = await res.text()
       if (text == 'ok') {
-        if (level >= 99) {
+        if (level >= maxLevel - 1) {
           alert(lng == 'de' ? 'Du hast alle Level abgeschlossen.' : 'You have completed all levels.')
         } else {
           window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
@@ -202,7 +202,6 @@ $(document).ready(function () {
         statusMessage.html(count + (lng == 'de' ? ' unbesucht' : ' unvisited'))
       })()
 
-    // return true
     return count == 0;
   }
 

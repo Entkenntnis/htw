@@ -2,7 +2,7 @@ const levels = require('./mortal-coil-levels.json')
 const Sequelize = require('sequelize')
 const { capitalizeFirstLetter, generateToken } = require('./helper')
 
-const maxLevel = 100
+const maxLevel = 200
 
 module.exports = (App) => {
   App.express.get('/mortal-coil/submit', async (req, res) => {
@@ -140,7 +140,7 @@ module.exports = (App) => {
             : ''
         }
 
-        <script>var token = "${generateToken(
+        <script>var maxLevel = ${maxLevel};var token = "${generateToken(
           req.user.id
         )}"; var level = ${level}; var width = ${
           levelData.width
@@ -191,7 +191,7 @@ module.exports = (App) => {
   })
 
   App.express.get('/mortal-coil/stats', async (req, res) => {
-    const cutoff = '2024-01-30'
+    const cutoff = '2024-02-09'
 
     const allUsers = await App.db.models.KVPair.findAll({
       where: {

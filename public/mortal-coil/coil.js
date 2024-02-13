@@ -117,6 +117,7 @@ $(document).ready(function () {
   var history = []
   var start = { x: 0, y: 0, set: false }
   var path = ''
+  var previewPath = ''
 
   checkIfWon()
   updateSuggestions()
@@ -157,6 +158,8 @@ $(document).ready(function () {
     history.push(op)
 
     board[cur.y][cur.x].dom.addClass('player')
+
+    return op.length > 0
   }
 
   $('#coilundo').click(() => {
@@ -200,17 +203,26 @@ $(document).ready(function () {
         board[y][x].visited = true
       }
     } else {
+      let moved = false
       if (cur.x == x) {
         if (y < cur.y) {
-          move('U')
+          moved = move('U')
         } else if (y > cur.y) {
-          move('D')
+          moved = move('D')
         }
       } else if (cur.y == y) {
+        moved = true
         if (x < cur.x) {
-          move('L')
+          moved = move('L')
         } else if (x > cur.x) {
-          move('R')
+          moved = move('R')
+        }
+      }
+      if (!moved) {
+        if (board[y][x].dom.hasClass('preview') && previewPath) {
+          for (const dir of [...previewPath]) {
+            move(dir)
+          }
         }
       }
     }
@@ -389,6 +401,7 @@ $(document).ready(function () {
         board[row][col].dom.removeClass('preview')
       }
     }
+    previewPath = ''
     if (!start.set || !autocomplete) {
       // do nothing if no start is set
       return
@@ -404,9 +417,13 @@ $(document).ready(function () {
       },
     ]
 
+    const baseLineDeadEnds = getNumberOfDeadEnds(board, cur).deadends
+
     while (candidates.some((c) => !c.isDone)) {
       const newCandidates = []
       for (const candidate of candidates) {
+        if (candidate.isDone) continue
+
         // advance one candidate
         const cellHistory = board[candidate.pos.y][candidate.pos.x].history
 
@@ -441,8 +458,22 @@ $(document).ready(function () {
             movePos(pos, dir)
           }
           if (steps != stepCounter) {
+            // console.log('reject candidate because of steps mismatch')
+            c.isDone = true
+            newCandidates.push(c)
             continue
           }
+
+          const deadends = getNumberOfDeadEnds(c.board, {
+            x: targetX,
+            y: targetY,
+          }).deadends
+          if (deadends > baseLineDeadEnds) {
+            c.isDone = true
+            newCandidates.push(c)
+            continue
+          }
+
           c.steps += stepCounter
           c.path += dir
           c.pos = { x: targetX, y: targetY }
@@ -466,6 +497,7 @@ $(document).ready(function () {
           }
         }
       }
+      previewPath = candidates[0].path
     }
   }
 

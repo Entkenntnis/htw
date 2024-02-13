@@ -394,17 +394,77 @@ $(document).ready(function () {
       return
     }
     // do some search
-    console.log(board[cur.y][cur.x].history)
-    for (const entry of board[cur.y][cur.x].history) {
-      const pos = { x: cur.x, y: cur.y }
-      movePos(pos, entry.dir)
-      while (
-        board[pos.y] &&
-        board[pos.y][pos.x] &&
-        !board[pos.y][pos.x].visited
-      ) {
-        board[pos.y][pos.x].dom.addClass('preview')
-        movePos(pos, entry.dir)
+    let candidates = [
+      {
+        board: createCopyOfBoard(board),
+        isDone: false,
+        steps: 0,
+        path: '',
+        pos: { x: cur.x, y: cur.y },
+      },
+    ]
+
+    while (candidates.some((c) => !c.isDone)) {
+      const newCandidates = []
+      for (const candidate of candidates) {
+        // advance one candidate
+        const cellHistory = board[candidate.pos.y][candidate.pos.x].history
+
+        if (cellHistory.length == 0) {
+          candidate.isDone = true
+          newCandidates.push(candidate)
+          continue
+        }
+
+        for (const historyEntry of cellHistory) {
+          const c =
+            cellHistory.length == 1
+              ? candidate
+              : JSON.parse(JSON.stringify(candidate))
+
+          const { dir, steps } = historyEntry
+          const pos = { x: c.pos.x, y: c.pos.y }
+          let stepCounter = 0
+          let targetX = 0,
+            targetY = 0
+
+          movePos(pos, dir)
+          while (
+            c.board[pos.y] &&
+            c.board[pos.y][pos.x] &&
+            !c.board[pos.y][pos.x].visited
+          ) {
+            c.board[pos.y][pos.x].visited = true
+            stepCounter++
+            targetX = pos.x
+            targetY = pos.y
+            movePos(pos, dir)
+          }
+          if (steps != stepCounter) {
+            continue
+          }
+          c.steps += stepCounter
+          c.path += dir
+          c.pos = { x: targetX, y: targetY }
+
+          newCandidates.push(c)
+        }
+      }
+      candidates = newCandidates
+    }
+
+    candidates.sort((a, b) => b.steps - a.steps)
+
+    if (candidates[0]) {
+      for (var row = 0; row < height; ++row) {
+        for (var col = 0; col < width; ++col) {
+          if (
+            !board[row][col].visited &&
+            candidates[0].board[row][col].visited
+          ) {
+            board[row][col].dom.addClass('preview')
+          }
+        }
       }
     }
   }
@@ -422,5 +482,16 @@ $(document).ready(function () {
     if (dir == 'R') {
       pos.x++
     }
+  }
+
+  function createCopyOfBoard(board) {
+    const newBoard = new Array(height)
+    for (var row = 0; row < height; ++row) {
+      newBoard[row] = new Array(width)
+      for (var col = 0; col < width; ++col) {
+        newBoard[row][col] = { visited: board[row][col].visited }
+      }
+    }
+    return newBoard
   }
 })

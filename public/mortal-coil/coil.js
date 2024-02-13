@@ -43,7 +43,12 @@ $(document).ready(function () {
         newcell.addClass('empty')
       }
 
-      board[row][col] = { wall: isWall, visited: isWall, dom: newcell }
+      board[row][col] = {
+        wall: isWall,
+        visited: isWall,
+        dom: newcell,
+        history: [],
+      }
       genClick(newcell, col, row)
     }
   }
@@ -116,21 +121,37 @@ $(document).ready(function () {
   checkIfWon()
   updateSuggestions()
 
-  function move(dx, dy) {
+  function move(dir) {
+    path += dir
     board[cur.y][cur.x].dom.removeClass('player')
-    var y = cur.y + dy
-    var x = cur.x + dx
+    const cellHistory = board[cur.y][cur.x].history
+
+    const pos = { x: cur.x, y: cur.y }
+    movePos(pos, dir)
 
     const op = { previousCur: { x: cur.x, y: cur.y }, visited: [] }
 
-    while (board[y] && board[y][x] && !board[y][x].visited) {
-      cur.x = x
-      cur.y = y
-      op.visited.push({ x, y })
-      board[y][x].dom.addClass('visited')
-      board[y][x].visited = true
-      y += dy
-      x += dx
+    while (
+      board[pos.y] &&
+      board[pos.y][pos.x] &&
+      !board[pos.y][pos.x].visited
+    ) {
+      cur.x = pos.x
+      cur.y = pos.y
+      op.visited.push({ x: pos.x, y: pos.y })
+      board[pos.y][pos.x].dom.addClass('visited')
+      board[pos.y][pos.x].visited = true
+      movePos(pos, dir)
+    }
+    const cellHistoryEntry = { steps: op.visited.length, dir: dir }
+    if (
+      !cellHistory.some(
+        (entry) =>
+          entry.dir == cellHistoryEntry.dir &&
+          entry.steps == cellHistoryEntry.steps
+      )
+    ) {
+      cellHistory.push(cellHistoryEntry)
     }
 
     history.push(op)
@@ -181,19 +202,15 @@ $(document).ready(function () {
     } else {
       if (cur.x == x) {
         if (y < cur.y) {
-          path += 'U'
-          move(0, -1)
+          move('U')
         } else if (y > cur.y) {
-          path += 'D'
-          move(0, 1)
+          move('D')
         }
       } else if (cur.y == y) {
         if (x < cur.x) {
-          path += 'L'
-          move(-1, 0)
+          move('L')
         } else if (x > cur.x) {
-          path += 'R'
-          move(1, 0)
+          move('R')
         }
       }
     }
@@ -376,17 +393,18 @@ $(document).ready(function () {
       // do nothing if no start is set
       return
     }
-    const dirs = listOpenDirs(cur.x, cur.y, board)
-    for (const dir of dirs) {
+    // do some search
+    console.log(board[cur.y][cur.x].history)
+    for (const entry of board[cur.y][cur.x].history) {
       const pos = { x: cur.x, y: cur.y }
-      movePos(pos, dir)
+      movePos(pos, entry.dir)
       while (
         board[pos.y] &&
         board[pos.y][pos.x] &&
         !board[pos.y][pos.x].visited
       ) {
         board[pos.y][pos.x].dom.addClass('preview')
-        movePos(pos, dir)
+        movePos(pos, entry.dir)
       }
     }
   }
@@ -405,86 +423,4 @@ $(document).ready(function () {
       pos.x++
     }
   }
-
-  /*$('#precalculate').click(() => {
-    for (var row = 0; row < height; ++row) {
-      for (var col = 0; col < width; ++col) {
-        if (!board[row][col].visited) {
-          testDirections(col, row)
-        }
-      }
-    }
-  })
-
-  function testDirections(x, y) {
-    if (x !== 0 || y !== 0) {
-      return
-    }
-    console.log(x, y)
-    // board[y][x].dom.html('<span>TODO</span>')
-    // create temporary board
-    var b = new Array(height);
-    for (var row = 0; row < height; ++row) {
-      b[row] = new Array(width);
-      for (var col = 0; col < width; ++col) {
-        b[row][col] = { visited: board[row][col].visited }
-      }
-    }
-
-    const deadEndsBefore = getNumberOfDeadEnds(b, cur).deadends
-    b[y][x].visited = true
-    const dirs = listOpenDirs(x, y, b)
-    for (const dir of dirs) {
-      console.log(dir, move(x, y, dir))
-    }
-
-    function move(x, y, dir) {
-      console.log('move', x, y, dir)
-      let marked = 0
-      if (dir == 'U') {
-        y--
-      }
-      if (dir == 'L') {
-        x--
-      }
-      if (dir == 'D') {
-        y++
-      }
-      if (dir == 'R') {
-        x++
-      }
-
-      let newx = x
-      let newy = y
-      if (b[y] && b[y][x] && !b[y][x].visited) {
-
-        b[y][x].visited = true
-        marked++
-        newx = x
-        newy = y
-
-        if (dir == 'U') {
-          y--
-        }
-        if (dir == 'L') {
-          x--
-        }
-        if (dir == 'D') {
-          y++
-        }
-        if (dir == 'R') {
-          x++
-        }
-      }
-
-      return listOpenDirs(newx, newy, b).map(dir => move(newx, newy, dir)).reduce((a, b) => a + b, 0) + marked
-    }
-
-    //const deadEndsDiff = getNumberOfDeadEnds(b, cur).deadends - deadEndsBefore
-
-    if (deadEndsDiff > 0) {
-      board[y][x].dom.html('<span>dead</span>')
-    }
-
-  }*/
 })

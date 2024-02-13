@@ -123,7 +123,6 @@ $(document).ready(function () {
   updateSuggestions()
 
   function move(dir) {
-    path += dir
     board[cur.y][cur.x].dom.removeClass('player')
     const cellHistory = board[cur.y][cur.x].history
 
@@ -144,22 +143,28 @@ $(document).ready(function () {
       board[pos.y][pos.x].visited = true
       movePos(pos, dir)
     }
-    const cellHistoryEntry = { steps: op.visited.length, dir: dir }
-    if (
-      !cellHistory.some(
-        (entry) =>
-          entry.dir == cellHistoryEntry.dir &&
-          entry.steps == cellHistoryEntry.steps
-      )
-    ) {
-      cellHistory.push(cellHistoryEntry)
-    }
-
-    history.push(op)
 
     board[cur.y][cur.x].dom.addClass('player')
 
-    return op.length > 0
+    const moved = op.visited.length > 0
+
+    if (moved) {
+      const cellHistoryEntry = { steps: op.visited.length, dir: dir }
+      if (
+        !cellHistory.some(
+          (entry) =>
+            entry.dir == cellHistoryEntry.dir &&
+            entry.steps == cellHistoryEntry.steps
+        )
+      ) {
+        cellHistory.push(cellHistoryEntry)
+      }
+
+      path += dir
+      history.push(op)
+    }
+
+    return moved
   }
 
   $('#coilundo').click(() => {
@@ -179,7 +184,7 @@ $(document).ready(function () {
       }
       path = path.slice(0, -1)
       checkIfWon()
-      updateSuggestions()
+      updateSuggestions(true) // skip
     }
   })
 
@@ -211,7 +216,6 @@ $(document).ready(function () {
           moved = move('D')
         }
       } else if (cur.y == y) {
-        moved = true
         if (x < cur.x) {
           moved = move('L')
         } else if (x > cur.x) {
@@ -394,7 +398,7 @@ $(document).ready(function () {
     }
   }
 
-  function updateSuggestions() {
+  function updateSuggestions(skip) {
     // always start with resetting the board
     for (var row = 0; row < height; ++row) {
       for (var col = 0; col < width; ++col) {
@@ -402,7 +406,7 @@ $(document).ready(function () {
       }
     }
     previewPath = ''
-    if (!start.set || !autocomplete) {
+    if (!start.set || !autocomplete || skip) {
       // do nothing if no start is set
       return
     }

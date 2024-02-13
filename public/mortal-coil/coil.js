@@ -100,10 +100,10 @@ $(document).ready(function () {
   $('#autocomplete_toggle').click(() => {
     if (autocomplete) {
       autocomplete = false
-      $('#autocomplete_toggle').html('AUS')
+      $('#autocomplete_toggle').html(lng == 'de' ? 'AUS' : 'OFF')
     } else {
       autocomplete = true
-      $('#autocomplete_toggle').html('AN')
+      $('#autocomplete_toggle').html(lng == 'de' ? 'AN' : 'ON')
     }
     updateSuggestions()
   })

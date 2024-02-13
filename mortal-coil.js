@@ -102,6 +102,8 @@ module.exports = (App) => {
       restart: 'Neustart',
       undo: 'Rückgängig',
       nextLevel: 'Zum nächsten Level',
+      autocomplete: 'Vorschläge aus Verlauf',
+      off: 'AUS',
     }
 
     const stringsEn = {
@@ -113,6 +115,8 @@ module.exports = (App) => {
       restart: 'Restart',
       undo: 'Undo',
       nextLevel: 'Go to next level',
+      autocomplete: 'Suggestions',
+      off: 'OFF',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -166,7 +170,11 @@ module.exports = (App) => {
             Status: <span id="status_message"></span>
           </div>
           <div style="position:absolute; right:24px; bottom: 4px; color: lightgray">
-            Vorschläge aus Verlauf: <strong id="autocomplete_toggle" style="cursor:pointer;user-select:none;text-decoration:underline;">AUS</strong>
+            ${
+              strings.autocomplete
+            }: <strong id="autocomplete_toggle" style="cursor:pointer;user-select:none;text-decoration:underline;">${
+              strings.off
+            }</strong>
           </div>
         </div>
 

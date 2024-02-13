@@ -1,120 +1,141 @@
 $(document).ready(function () {
+  var maxWidth = $('#coilgame').width()
+  var maxHeight = $('#coilgame').height()
+  var maxAspect = maxWidth / maxHeight
 
-  var maxWidth = $("#coilgame").width();
-  var maxHeight = $("#coilgame").height();
-  var maxAspect = maxWidth / maxHeight;
-
-  var coilParent = $("#coilgame_inner");
-  var aspect = width / height;
+  var coilParent = $('#coilgame_inner')
+  var aspect = width / height
   const statusMessage = $('#status_message')
 
   if (aspect <= maxAspect) {
     // too wide
     coilParent.css({
-      "width": maxHeight * aspect,
-      "height": "100%",
-      "grid-template-columns": "repeat(" + width + ", 1fr)"
-    });
+      width: maxHeight * aspect,
+      height: '100%',
+      'grid-template-columns': 'repeat(' + width + ', 1fr)',
+    })
   } else {
     // too tall
     coilParent.css({
-      "width": "100%",
-      "height": maxWidth / aspect,
-      "grid-template-columns": "repeat(" + width + ", 1fr)"
-    });
+      width: '100%',
+      height: maxWidth / aspect,
+      'grid-template-columns': 'repeat(' + width + ', 1fr)',
+    })
   }
 
   function genClick(dom, x, y) {
     dom.click(function () {
-      clicked(x, y);
-    });
+      clicked(x, y)
+    })
   }
 
-  var board = new Array(height);
+  var board = new Array(height)
   for (var row = 0; row < height; ++row) {
-    board[row] = new Array(width);
+    board[row] = new Array(width)
     for (var col = 0; col < width; ++col) {
+      var newcell = $('<div></div>').appendTo(coilParent)
+      isWall = boardStr.charAt(row * width + col) === 'X'
 
-      var newcell = $("<div></div>").appendTo(coilParent);
-      isWall = boardStr.charAt(row * width + col) === "X";
-
-      newcell.addClass("cell");
+      newcell.addClass('cell')
       if (isWall) {
-        newcell.addClass("blocked");
+        newcell.addClass('blocked')
       } else {
-        newcell.addClass("empty");
+        newcell.addClass('empty')
       }
 
-      board[row][col] = { wall: isWall, visited: isWall, dom: newcell };
-      genClick(newcell, col, row);
+      board[row][col] = { wall: isWall, visited: isWall, dom: newcell }
+      genClick(newcell, col, row)
     }
   }
 
-
   function restart() {
-    debounce = false;
-    start.set = false;
-    path = "";
+    debounce = false
+    start.set = false
+    path = ''
     history = []
-    $("#coilcontinue").css("display", "none");
+    $('#coilcontinue').css('display', 'none')
 
     for (var row = 0; row < height; ++row) {
       for (var col = 0; col < width; ++col) {
-        board[row][col].visited = board[row][col].wall;
-        board[row][col].dom.removeClass(["player", "visited", "blockedHit"]);
+        board[row][col].visited = board[row][col].wall
+        board[row][col].dom.removeClass(['player', 'visited', 'blockedHit'])
       }
     }
     checkIfWon()
+    updateSuggestions()
   }
 
-  $("#coilrestart").click(restart);
+  $('#coilrestart').click(restart)
 
-  $("#coilcontinue").click(async function () {
+  $('#coilcontinue').click(async function () {
     try {
-      const res = await fetch(`/mortal-coil/submit?level=${level}&x=${start.x}&y=${start.y}&path=${path}&token=${token}`)
+      const res = await fetch(
+        `/mortal-coil/submit?level=${level}&x=${start.x}&y=${start.y}&path=${path}&token=${token}`
+      )
       const text = await res.text()
       if (text == 'ok') {
         if (level >= maxLevel - 1) {
-          alert(lng == 'de' ? 'Du hast alle Level abgeschlossen.' : 'You have completed all levels.')
+          alert(
+            lng == 'de'
+              ? 'Du hast alle Level abgeschlossen.'
+              : 'You have completed all levels.'
+          )
         } else {
-          window.location.href = window.location.href.split('?')[0] + '?level=' + (level + 1)
+          window.location.href =
+            window.location.href.split('?')[0] + '?level=' + (level + 1)
         }
       } else {
         throw new Error('bad')
       }
     } catch (e) {
-      alert(lng == 'de' ? 'Fehler bei der Überprüfung der Antwort.' : 'There was an error while submitting your solution.')
+      alert(
+        lng == 'de'
+          ? 'Fehler bei der Überprüfung der Antwort.'
+          : 'There was an error while submitting your solution.'
+      )
     }
-  });
+  })
+
+  let autocomplete = false
+  $('#autocomplete_toggle').click(() => {
+    if (autocomplete) {
+      autocomplete = false
+      $('#autocomplete_toggle').html('AUS')
+    } else {
+      autocomplete = true
+      $('#autocomplete_toggle').html('AN')
+    }
+    updateSuggestions()
+  })
 
   var cur = { x: 0, y: 0 }
   var history = []
   var start = { x: 0, y: 0, set: false }
-  var path = "";
+  var path = ''
 
   checkIfWon()
+  updateSuggestions()
 
   function move(dx, dy) {
-    board[cur.y][cur.x].dom.removeClass("player");
-    var y = cur.y + dy;
-    var x = cur.x + dx;
+    board[cur.y][cur.x].dom.removeClass('player')
+    var y = cur.y + dy
+    var x = cur.x + dx
 
     const op = { previousCur: { x: cur.x, y: cur.y }, visited: [] }
 
     while (board[y] && board[y][x] && !board[y][x].visited) {
-      cur.x = x;
-      cur.y = y;
+      cur.x = x
+      cur.y = y
       op.visited.push({ x, y })
-      board[y][x].dom.addClass("visited");
-      board[y][x].visited = true;
-      y += dy;
-      x += dx;
+      board[y][x].dom.addClass('visited')
+      board[y][x].visited = true
+      y += dy
+      x += dx
     }
 
     history.push(op)
 
-    board[cur.y][cur.x].dom.addClass("player");
-
+    board[cur.y][cur.x].dom.addClass('player')
   }
 
   $('#coilundo').click(() => {
@@ -123,89 +144,97 @@ $(document).ready(function () {
       restart()
     } else {
       const op = history.pop()
-      board[cur.y][cur.x].dom.removeClass("player");
+      board[cur.y][cur.x].dom.removeClass('player')
       cur.x = op.previousCur.x
       cur.y = op.previousCur.y
-      board[cur.y][cur.x].dom.addClass("player");
+      board[cur.y][cur.x].dom.addClass('player')
 
       for (const cell of op.visited) {
-        board[cell.y][cell.x].dom.removeClass("visited")
+        board[cell.y][cell.x].dom.removeClass('visited')
         board[cell.y][cell.x].visited = false
       }
       path = path.slice(0, -1)
       checkIfWon()
+      updateSuggestions()
     }
   })
 
   var debounce = false
   function clicked(x, y) {
-    if (debounce) { return; }
-    debounce = true;
+    if (debounce) {
+      return
+    }
+    debounce = true
 
     if (!start.set) {
       if (!board[y][x].wall) {
-        start.x = x;
-        start.y = y;
-        start.set = true;
+        start.x = x
+        start.y = y
+        start.set = true
 
-        cur.x = x;
-        cur.y = y;
+        cur.x = x
+        cur.y = y
 
-        board[y][x].dom.addClass(["visited", "player"]);
-        board[y][x].visited = true;
+        board[y][x].dom.addClass(['visited', 'player'])
+        board[y][x].visited = true
       }
     } else {
       if (cur.x == x) {
         if (y < cur.y) {
-          path += "U";
-          move(0, -1);
+          path += 'U'
+          move(0, -1)
         } else if (y > cur.y) {
-          path += "D";
-          move(0, 1);
+          path += 'D'
+          move(0, 1)
         }
       } else if (cur.y == y) {
         if (x < cur.x) {
-          path += "L";
-          move(-1, 0);
+          path += 'L'
+          move(-1, 0)
         } else if (x > cur.x) {
-          path += "R";
-          move(1, 0);
+          path += 'R'
+          move(1, 0)
         }
       }
     }
 
     if (checkIfWon()) {
-      $("#coilcontinue").css("display", "block");
+      $('#coilcontinue').css('display', 'block')
     } else {
-      debounce = false;
+      updateSuggestions()
+      debounce = false
     }
   }
 
   function checkIfWon() {
     const count = countToVisit()
-    dirs = listOpenDirs(cur.x, cur.y)
-      ; (() => {
-        if (count == 0) {
-          statusMessage.html(lng == 'de' ? 'gelöst' : 'solved')
-          return
-        }
-        if (dirs.length == 0) {
-          statusMessage.html(lng == 'de' ? 'UNLÖSBAR, keine Bewegung mehr möglich' : 'UNSOLVABLE, no movement possible')
-          return
-        }
-        if (analyzeSolvableByFlooding(count, dirs)) {
-          return
-        }
-        if (countDeadEnds()) {
-          return
-        }
-        statusMessage.html(count + (lng == 'de' ? ' unbesucht' : ' unvisited'))
-      })()
+    dirs = listOpenDirs(cur.x, cur.y, board)
+    ;(() => {
+      if (count == 0) {
+        statusMessage.html(lng == 'de' ? 'gelöst' : 'solved')
+        return
+      }
+      if (dirs.length == 0) {
+        statusMessage.html(
+          lng == 'de'
+            ? 'UNLÖSBAR, keine Bewegung mehr möglich'
+            : 'UNSOLVABLE, no movement possible'
+        )
+        return
+      }
+      if (analyzeSolvableByFlooding(count, dirs)) {
+        return
+      }
+      if (countDeadEnds()) {
+        return
+      }
+      statusMessage.html(count + (lng == 'de' ? ' unbesucht' : ' unvisited'))
+    })()
 
-    return count == 0;
+    return count == 0
   }
 
-  function listOpenDirs(x, y) {
+  function listOpenDirs(x, y, board) {
     const dirs = []
     if (y > 0 && !board[y - 1][x].visited) {
       dirs.push('U')
@@ -270,7 +299,7 @@ $(document).ready(function () {
       if (visited[key] || board[y][x].visited) {
         return 0
       }
-      const dirs = listOpenDirs(x, y)
+      const dirs = listOpenDirs(x, y, board)
       visited[key] = true
       let sum = 1
       for (const dir of dirs) {
@@ -282,21 +311,25 @@ $(document).ready(function () {
     const fc = floodCount(cur.x, cur.y, dirs[0])
 
     if (fc < count) {
-      statusMessage.html(lng == 'de' ? 'UNLÖSBAR, nicht mehr zusammenhängend' : 'UNSOLVABLE, board is split')
+      statusMessage.html(
+        lng == 'de'
+          ? 'UNLÖSBAR, nicht mehr zusammenhängend'
+          : 'UNSOLVABLE, board is split'
+      )
       return true
     } else {
       //floodAnalysis.html('ok')
     }
-
   }
 
-  function countDeadEnds() {
+  function getNumberOfDeadEnds(board, cur) {
     let deadends = 0
-    let r = 0, c = 0;
+    let r = 0,
+      c = 0
     for (var row = 0; row < height; ++row) {
       for (var col = 0; col < width; ++col) {
         if (!board[row][col].visited) {
-          const dirs = listOpenDirs(col, row)
+          const dirs = listOpenDirs(col, row, board)
           const distToPlayer = Math.abs(col - cur.x) + Math.abs(row - cur.y)
           if (distToPlayer == 1) {
             dirs.push('X')
@@ -306,20 +339,152 @@ $(document).ready(function () {
             c = col
             deadends++
           }
-          /*if (dirs.length == 0) {
-            statusMessage.html(`UNLÖSBAR, abgeschnittenes Feld bei (${col}|${row})`)
-            return true
-          }*/
         }
       }
     }
+    return { deadends, r, c }
+  }
+
+  function countDeadEnds() {
+    const { deadends, r, c } = getNumberOfDeadEnds(board, cur)
     if (deadends == 0) {
     } else if (deadends == 1) {
-      statusMessage.html(lng == 'de' ? `Ende muss bei (${c}|${r}) sein` : `End must be at (${c}|${r})`)
+      statusMessage.html(
+        lng == 'de'
+          ? `Ende muss bei (${c}|${r}) sein`
+          : `End must be at (${c}|${r})`
+      )
       return true
     } else if (deadends > 0) {
-      statusMessage.html(lng == 'de' ? `UNLÖSBAR, es gibt ${deadends} Sackgassen` : `UNSOLVABLE, there are ${deadends} deadens`)
+      statusMessage.html(
+        lng == 'de'
+          ? `UNLÖSBAR, es gibt ${deadends} Sackgassen`
+          : `UNSOLVABLE, there are ${deadends} deadens`
+      )
       return true
     }
   }
-});
+
+  function updateSuggestions() {
+    // always start with resetting the board
+    for (var row = 0; row < height; ++row) {
+      for (var col = 0; col < width; ++col) {
+        board[row][col].dom.removeClass('preview')
+      }
+    }
+    if (!start.set || !autocomplete) {
+      // do nothing if no start is set
+      return
+    }
+    const dirs = listOpenDirs(cur.x, cur.y, board)
+    for (const dir of dirs) {
+      const pos = { x: cur.x, y: cur.y }
+      movePos(pos, dir)
+      while (
+        board[pos.y] &&
+        board[pos.y][pos.x] &&
+        !board[pos.y][pos.x].visited
+      ) {
+        board[pos.y][pos.x].dom.addClass('preview')
+        movePos(pos, dir)
+      }
+    }
+  }
+
+  function movePos(pos, dir) {
+    if (dir == 'U') {
+      pos.y--
+    }
+    if (dir == 'L') {
+      pos.x--
+    }
+    if (dir == 'D') {
+      pos.y++
+    }
+    if (dir == 'R') {
+      pos.x++
+    }
+  }
+
+  /*$('#precalculate').click(() => {
+    for (var row = 0; row < height; ++row) {
+      for (var col = 0; col < width; ++col) {
+        if (!board[row][col].visited) {
+          testDirections(col, row)
+        }
+      }
+    }
+  })
+
+  function testDirections(x, y) {
+    if (x !== 0 || y !== 0) {
+      return
+    }
+    console.log(x, y)
+    // board[y][x].dom.html('<span>TODO</span>')
+    // create temporary board
+    var b = new Array(height);
+    for (var row = 0; row < height; ++row) {
+      b[row] = new Array(width);
+      for (var col = 0; col < width; ++col) {
+        b[row][col] = { visited: board[row][col].visited }
+      }
+    }
+
+    const deadEndsBefore = getNumberOfDeadEnds(b, cur).deadends
+    b[y][x].visited = true
+    const dirs = listOpenDirs(x, y, b)
+    for (const dir of dirs) {
+      console.log(dir, move(x, y, dir))
+    }
+
+    function move(x, y, dir) {
+      console.log('move', x, y, dir)
+      let marked = 0
+      if (dir == 'U') {
+        y--
+      }
+      if (dir == 'L') {
+        x--
+      }
+      if (dir == 'D') {
+        y++
+      }
+      if (dir == 'R') {
+        x++
+      }
+
+      let newx = x
+      let newy = y
+      if (b[y] && b[y][x] && !b[y][x].visited) {
+
+        b[y][x].visited = true
+        marked++
+        newx = x
+        newy = y
+
+        if (dir == 'U') {
+          y--
+        }
+        if (dir == 'L') {
+          x--
+        }
+        if (dir == 'D') {
+          y++
+        }
+        if (dir == 'R') {
+          x++
+        }
+      }
+
+      return listOpenDirs(newx, newy, b).map(dir => move(newx, newy, dir)).reduce((a, b) => a + b, 0) + marked
+    }
+
+    //const deadEndsDiff = getNumberOfDeadEnds(b, cur).deadends - deadEndsBefore
+
+    if (deadEndsDiff > 0) {
+      board[y][x].dom.html('<span>dead</span>')
+    }
+
+  }*/
+})

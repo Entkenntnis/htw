@@ -165,9 +165,12 @@ module.exports = (App) => {
           <div style="bottom:4px;left:36px;position:absolute;color:lightgray;">
             Status: <span id="status_message"></span>
           </div>
+          <div style="position:absolute; right:24px; bottom: 4px; color: lightgray">
+            Vorschläge aus Verlauf: <strong id="autocomplete_toggle" style="cursor:pointer;user-select:none;text-decoration:underline;">AUS</strong>
+          </div>
         </div>
 
-        <p><small style="color:gray;margin-left:44px;">Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder. Adapted from hacker.org.</small></p>
+        <p style="color:gray;margin-left:44px;line-height:1"><small>Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder. Adapted from hacker.org.</small></p>
 
         <div style="height:200px;"></div>
 

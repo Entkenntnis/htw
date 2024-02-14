@@ -69,6 +69,9 @@
 .visited {
     background-image: url("visited.svg"), url("empty.svg");
 }
+.preview {
+    background-image: url("preview.svg"), url("empty.svg");
+}
 
 .player {
     background-image: url("player.svg"), url("visited.svg"), url("empty.svg");

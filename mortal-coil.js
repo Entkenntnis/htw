@@ -259,7 +259,7 @@ module.exports = (App) => {
       back: 'zurück',
       label: 'Anzahl',
       dataRange: 'Daten ab',
-      lastSolved: 'Zuletzt gelöst',
+      lastSolved: 'Zuletzt erreicht',
       by: 'von',
     }
 
@@ -268,7 +268,7 @@ module.exports = (App) => {
       back: 'back',
       label: 'Count',
       dataRange: 'Data from',
-      lastSolved: 'Last solved',
+      lastSolved: 'Last reached',
       by: 'by',
     }
 

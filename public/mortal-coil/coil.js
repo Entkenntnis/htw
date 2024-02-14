@@ -101,15 +101,32 @@ $(document).ready(function () {
     }
   })
 
-  let autocomplete = false
-  $('#autocomplete_toggle').click(() => {
+  let autocomplete = !!parseInt(
+    sessionStorage.getItem('htw_mortalcoil_autocomplete_enabled')
+  )
+
+  console.log({
+    autocomplete,
+    val: sessionStorage.getItem('htw_mortalcoil_autocomplete_enabled'),
+  })
+
+  updateAutocompleteUI()
+
+  function updateAutocompleteUI() {
     if (autocomplete) {
-      autocomplete = false
-      $('#autocomplete_toggle').html(lng == 'de' ? 'AUS' : 'OFF')
-    } else {
-      autocomplete = true
       $('#autocomplete_toggle').html(lng == 'de' ? 'AN' : 'ON')
+    } else {
+      $('#autocomplete_toggle').html(lng == 'de' ? 'AUS' : 'OFF')
     }
+    sessionStorage.setItem(
+      'htw_mortalcoil_autocomplete_enabled',
+      autocomplete ? '1' : '0'
+    )
+  }
+
+  $('#autocomplete_toggle').click(() => {
+    autocomplete = !autocomplete
+    updateAutocompleteUI()
     updateSuggestions()
   })
 
@@ -232,6 +249,7 @@ $(document).ready(function () {
     }
 
     if (checkIfWon()) {
+      updateSuggestions(true)
       $('#coilcontinue').css('display', 'block')
     } else {
       updateSuggestions()
@@ -449,13 +467,16 @@ $(document).ready(function () {
           let targetX = 0,
             targetY = 0
 
+          const positionsToMark = []
+
           movePos(pos, dir)
           while (
             c.board[pos.y] &&
             c.board[pos.y][pos.x] &&
             !c.board[pos.y][pos.x].visited
           ) {
-            c.board[pos.y][pos.x].visited = true
+            positionsToMark.push({ x: pos.x, y: pos.y })
+
             stepCounter++
             targetX = pos.x
             targetY = pos.y
@@ -467,12 +488,17 @@ $(document).ready(function () {
             newCandidates.push(c)
             continue
           }
-
+          positionsToMark.forEach(
+            (pos) => (c.board[pos.y][pos.x].visited = true)
+          )
           const deadends = getNumberOfDeadEnds(c.board, {
             x: targetX,
             y: targetY,
           }).deadends
           if (deadends > baseLineDeadEnds) {
+            positionsToMark.forEach(
+              (pos) => (c.board[pos.y][pos.x].visited = false)
+            )
             c.isDone = true
             newCandidates.push(c)
             continue

@@ -103,7 +103,6 @@ module.exports = (App) => {
       undo: 'Rückgängig',
       nextLevel: 'Zum nächsten Level',
       autocomplete: 'Vorschläge aus Verlauf',
-      off: 'AUS',
     }
 
     const stringsEn = {
@@ -116,7 +115,6 @@ module.exports = (App) => {
       undo: 'Undo',
       nextLevel: 'Go to next level',
       autocomplete: 'Suggestions',
-      off: 'OFF',
     }
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
@@ -172,9 +170,7 @@ module.exports = (App) => {
           <div style="position:absolute; right:24px; bottom: 4px; color: lightgray">
             ${
               strings.autocomplete
-            }: <strong id="autocomplete_toggle" style="cursor:pointer;user-select:none;text-decoration:underline;">${
-              strings.off
-            }</strong>
+            }: <strong id="autocomplete_toggle" style="cursor:pointer;user-select:none;text-decoration:underline;"></strong>
           </div>
         </div>
 

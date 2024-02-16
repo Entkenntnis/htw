@@ -1,79 +1,82 @@
 #coilframe {
-    background-color: #888888;
-    width: 710px;
-    height: 600px;
-    border-radius: 15px;
-    border-style: solid;
-    position: relative;
-    margin-top: 32px;
-    margin-bottom: 12px;
-    margin-left: 4px;
+  background-color: #888888;
+  width: 710px;
+  height: 600px;
+  border-radius: 15px;
+  border-style: solid;
+  position: relative;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  margin-left: 4px;
 }
 
 #coilrestart {
-    height: 30px;
-    width: 100px;
-    position: absolute;
-    left: 30px;
-    top: 13px;
+  height: 30px;
+  width: 100px;
+  position: absolute;
+  left: 30px;
+  top: 13px;
 }
 #coilgame {
-    width: 650px;
-    height: 510px;
-    background-color: #666666;
-    position: absolute;
-    left: 30px;
-    bottom: 30px;
+  width: 650px;
+  height: 510px;
+  background-color: #666666;
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
 }
 #coilgame_inner {
-    display: grid;
-    justify-content: center;
+  display: grid;
+  justify-content: center;
 
-    /*grid-template-columns: repeat(4, 1fr);
+  /*grid-template-columns: repeat(4, 1fr);
       width: 510px;
       height: 100%; */
 }
 
 #coilcontinue {
-    position: absolute;
-    right: 12px;
-    top: 8px;
-    width: 180px;
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  width: 180px;
 
-    display: none;
+  display: none;
 }
 
 #coilundo {
-    height: 30px;
-    width: 100px;
-    position: absolute;
-    left: 140px;
-    top: 13px;
+  height: 30px;
+  width: 100px;
+  position: absolute;
+  left: 140px;
+  top: 13px;
 }
 
 .cell {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .empty {
-    background-image: url("empty.svg");
+  background-image: url('empty.svg');
 }
 .blocked {
-    background-image: url("blocked.svg");
+  background-image: url('blocked.svg');
 }
 .blockedHit {
-    background-image: url("blocked_hit.svg");
+  background-image: url('blocked_hit.svg');
 }
 .visited {
-    background-image: url("visited.svg"), url("empty.svg");
+  background-image: url('visited.svg'), url('empty.svg');
 }
 .preview {
-    background-image: url("preview.svg"), url("empty.svg");
+  background-image: url('preview.svg'), url('empty.svg');
+}
+.preview-not-history {
+  background-image: url('preview-not-history.svg'), url('empty.svg');
 }
 
 .player {
-    background-image: url("player.svg"), url("visited.svg"), url("empty.svg");
-    background-size: 60%, 100%, 100%;
+  background-image: url('player.svg'), url('visited.svg'), url('empty.svg');
+  background-size: 60%, 100%, 100%;
 }

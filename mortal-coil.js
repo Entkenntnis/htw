@@ -102,7 +102,7 @@ module.exports = (App) => {
       restart: 'Neustart',
       undo: 'Rückgängig',
       nextLevel: 'Zum nächsten Level',
-      autocomplete: 'Vorschläge aus Verlauf',
+      autocomplete: 'Vorschläge',
     }
 
     const stringsEn = {

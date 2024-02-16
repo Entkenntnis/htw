@@ -97,7 +97,7 @@ require(path)((config) => {
     ${
       showDecodeMe
         ? '<a href="/decode-me" style="position:absolute;left:1240px;top:70px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>' +
-          '<a href="/mortal-coil" style="position:absolute;left:99px;top:920px;" class="text-reset text-decoration-none"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:56px;margin-top:6px;margin-left:9px;"></a>'
+          '<a href="/mortal-coil" style="position:absolute;left:99px;top:920px;" class="text-reset text-decoration-none"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>'
         : ''
     }
   `

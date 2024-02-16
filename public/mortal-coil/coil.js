@@ -105,11 +105,6 @@ $(document).ready(function () {
     sessionStorage.getItem('htw_mortalcoil_autocomplete_enabled')
   )
 
-  console.log({
-    autocomplete,
-    val: sessionStorage.getItem('htw_mortalcoil_autocomplete_enabled'),
-  })
-
   updateAutocompleteUI()
 
   function updateAutocompleteUI() {
@@ -240,7 +235,11 @@ $(document).ready(function () {
         }
       }
       if (!moved) {
-        if (board[y][x].dom.hasClass('preview') && previewPath) {
+        if (
+          (board[y][x].dom.hasClass('preview') ||
+            board[y][x].dom.hasClass('preview-not-history')) &&
+          previewPath
+        ) {
           for (const dir of [...previewPath]) {
             move(dir)
           }
@@ -265,19 +264,21 @@ $(document).ready(function () {
         statusMessage.html(lng == 'de' ? 'gelöst' : 'solved')
         return
       }
-      if (dirs.length == 0) {
-        statusMessage.html(
-          lng == 'de'
-            ? 'UNLÖSBAR, keine Bewegung mehr möglich'
-            : 'UNSOLVABLE, no movement possible'
-        )
-        return
-      }
-      if (analyzeSolvableByFlooding(count, dirs)) {
-        return
-      }
-      if (countDeadEnds()) {
-        return
+      if (start.set) {
+        if (dirs.length == 0) {
+          statusMessage.html(
+            lng == 'de'
+              ? 'UNLÖSBAR, keine Bewegung mehr möglich'
+              : 'UNSOLVABLE, no movement possible'
+          )
+          return
+        }
+        if (analyzeSolvableByFlooding(count, dirs)) {
+          return
+        }
+        if (countDeadEnds()) {
+          return
+        }
       }
       statusMessage.html(count + (lng == 'de' ? ' unbesucht' : ' unvisited'))
     })()
@@ -421,6 +422,7 @@ $(document).ready(function () {
     for (var row = 0; row < height; ++row) {
       for (var col = 0; col < width; ++col) {
         board[row][col].dom.removeClass('preview')
+        board[row][col].dom.removeClass('preview-not-history')
       }
     }
     previewPath = ''
@@ -445,9 +447,27 @@ $(document).ready(function () {
       const newCandidates = []
       for (const candidate of candidates) {
         if (candidate.isDone) continue
-
         // advance one candidate
-        const cellHistory = board[candidate.pos.y][candidate.pos.x].history
+        const cellHistory =
+          board[candidate.pos.y][candidate.pos.x].history.slice()
+
+        const dirs = listOpenDirs(
+          candidate.pos.x,
+          candidate.pos.y,
+          candidate.board
+        )
+
+        let fromHistory = true
+
+        if (dirs.length == 1) {
+          const hasAlreadyThisDir = cellHistory.some(
+            (entry) => entry.dir == dirs[0]
+          )
+          if (!hasAlreadyThisDir) {
+            cellHistory.push({ dir: dirs[0], steps: -1 })
+            fromHistory = false
+          }
+        }
 
         if (cellHistory.length == 0) {
           candidate.isDone = true
@@ -482,7 +502,7 @@ $(document).ready(function () {
             targetY = pos.y
             movePos(pos, dir)
           }
-          if (steps != stepCounter) {
+          if (stepCounter == 0 || (steps > 0 && steps != stepCounter)) {
             // console.log('reject candidate because of steps mismatch')
             c.isDone = true
             newCandidates.push(c)
@@ -504,6 +524,12 @@ $(document).ready(function () {
             continue
           }
 
+          if (!fromHistory) {
+            positionsToMark.forEach(
+              (pos) => (c.board[pos.y][pos.x].notFromHistory = true)
+            )
+          }
+
           c.steps += stepCounter
           c.path += dir
           c.pos = { x: targetX, y: targetY }
@@ -523,7 +549,11 @@ $(document).ready(function () {
             !board[row][col].visited &&
             candidates[0].board[row][col].visited
           ) {
-            board[row][col].dom.addClass('preview')
+            if (candidates[0].board[row][col].notFromHistory) {
+              board[row][col].dom.addClass('preview-not-history')
+            } else {
+              board[row][col].dom.addClass('preview')
+            }
           }
         }
       }

@@ -855,26 +855,24 @@ module.exports = [
   {
     id: 23,
     pos: { x: 710, y: 300 },
-    title: { de: '3D', en: '3D' },
+    title: { de: 'Einhorn', en: 'Unicorn' },
     date: '2017-08-25',
     deps: [7, 8],
     html: {
       de: `
-      <p>Mit einem Steoreogramm lassen sich 3D-Objekte in einem speziell präparierten Bild verstecken.
-      </p>
-      
-      <p>Schaue entspannt gerade aus, ohne den Blick zu fokusieren. Suche einen passenden Abstand zum Bildschirm. Dann wird die Antwort in diesem Bild erscheinen.
-      </p>
-      
-      <p><img src="/chals/chal23_2.png" alt="Stereogramm">
-      </p>
+      <p>Das <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a> ist ein ähnliches Projekt wie Hack The Web, nur für Mathematik. Die Hauptrolle spielen dabei ein Einhorn-Geschwisterpaar.</p>
+
+      <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
+
+      <p>Besuche die Webseite. Deine Antwort ist der Name des kleinen Bruders.</p>
     `,
       en: `
-      <p>A steoreogram can be used to hide 3D objects in a specially prepared image.</p>
-      
-      <p>Look straight ahead in a relaxed manner, without focusing your gaze. Find a suitable distance from the screen. The answer will appear in this image.</p>
+      <p>The <a href="https://einhorn.arrrg.de/" target="_blank">Unicorn of Mathematics</a> is a project similar to Hack The Web, but for mathematics. The main characters are a pair of unicorn siblings.</p>
 
-      <p><img src="/chals/chal23_2.png" alt="stereogram"></p>
+      <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Unicorn" width="150px"></p>
+
+      <p>Visit the website. Your answer is the name of the little brother. The website is currently only available in German, but you can of course use a translator.</p>
+
     `,
     },
     solution: secrets('chal_23'),

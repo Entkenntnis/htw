@@ -25,6 +25,7 @@ require(path)((config) => {
       dialect: 'mariadb',
       dialectOptions: {
         timezone: 'Europe/Berlin',
+        connectTimeout: 10000 // increased due to several errors - default value is 1000 (ms) and feels quite short
       },
     }
   } else {

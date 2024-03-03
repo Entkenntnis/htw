@@ -1740,6 +1740,174 @@ RS#1</pre>
     solution: secrets('chal_337'),
   },
 
+  {
+    id: 338,
+    pos: { x: 2160, y: 620 },
+    title: { de: 'Rechensport II', en: 'Mental arithmetic II' },
+    author: 'simonesien',
+    date: '2024-03-03',
+    deps: [303],
+    noScore: true,
+    render: ({ req }) => {
+      const isGerman = req.lng.startsWith('de')
+
+      function generateTask() {
+        let num1
+        let num2
+        let op
+        let result
+        const r = Math.random()
+        if (r < 0.33) {
+          op = '+'
+          num1 = Math.round(Math.random() * 9 + 1)
+          num2 = Math.round(Math.random() * 9 + 1)
+          result = num1 + num2
+        } else if (r < 0.67) {
+          op = '*'
+          num1 = Math.floor(Math.random() * 8 + 2)
+          num2 = Math.floor(Math.random() * 8 + 2)
+          result = num1 * num2
+        } else {
+          op = '-'
+          num1 = Math.floor(Math.random() * 9 + 11)
+          num2 = Math.floor(Math.random() * 9 + 1)
+          result = num1 - num2
+        }
+        return { task: `${num1} ${op} ${num2}`, result }
+      }
+      const data = []
+      for (let i = 0; i < 30; i++) {
+        data.push(generateTask())
+      }
+
+      req.session['chal338_ts'] = new Date().getTime()
+      req.session['chal338_result'] = data.map((task) => task.result).join(';')
+
+      const rows = `
+        <div class="row">
+          <div class="col">
+            <p><span id="task0" style="width:3.5rem;display:inline-block;">${data[0].task} =</span> <input autofocus name="ans0" id="ans0"/></p>
+            <p><span id="task1" style="width:3.5rem;display:inline-block;">${data[1].task} =</span> <input name="ans1" id="ans1"/></p>
+            <p><span id="task2" style="width:3.5rem;display:inline-block;">${data[2].task} =</span> <input name="ans2" id="ans2"/></p>
+            <p><span id="task3" style="width:3.5rem;display:inline-block;">${data[3].task} =</span> <input name="ans3" id="ans3"/></p>
+            <p><span id="task4" style="width:3.5rem;display:inline-block;">${data[4].task} =</span> <input name="ans4" id="ans4"/></p>
+            <p><span id="task5" style="width:3.5rem;display:inline-block;">${data[5].task} =</span> <input name="ans5" id="ans5"/></p>
+            <p><span id="task6" style="width:3.5rem;display:inline-block;">${data[6].task} =</span> <input name="ans6" id="ans6"/></p>
+            <p><span id="task7" style="width:3.5rem;display:inline-block;">${data[7].task} =</span> <input name="ans7" id="ans7"/></p>
+            <p><span id="task8" style="width:3.5rem;display:inline-block;">${data[8].task} =</span> <input name="ans8" id="ans8"/></p>
+            <p><span id="task9" style="width:3.5rem;display:inline-block;">${data[9].task} =</span> <input name="ans9" id="ans9"/></p>
+          </div>
+          <div class="col">
+            <p><span id="task10" style="width:3.5rem;display:inline-block;">${data[10].task} =</span> <input name="ans10" id="ans10"/></p>
+            <p><span id="task11" style="width:3.5rem;display:inline-block;">${data[11].task} =</span> <input name="ans11" id="ans11"/></p>
+            <p><span id="task12" style="width:3.5rem;display:inline-block;">${data[12].task} =</span> <input name="ans12" id="ans12"/></p>
+            <p><span id="task13" style="width:3.5rem;display:inline-block;">${data[13].task} =</span> <input name="ans13" id="ans13"/></p>
+            <p><span id="task14" style="width:3.5rem;display:inline-block;">${data[14].task} =</span> <input name="ans14" id="ans14"/></p>
+            <p><span id="task15" style="width:3.5rem;display:inline-block;">${data[15].task} =</span> <input name="ans15" id="ans15"/></p>
+            <p><span id="task16" style="width:3.5rem;display:inline-block;">${data[16].task} =</span> <input name="ans16" id="ans16"/></p>
+            <p><span id="task17" style="width:3.5rem;display:inline-block;">${data[17].task} =</span> <input name="ans17" id="ans17"/></p>
+            <p><span id="task18" style="width:3.5rem;display:inline-block;">${data[18].task} =</span> <input name="ans18" id="ans18"/></p>
+            <p><span id="task19" style="width:3.5rem;display:inline-block;">${data[19].task} =</span> <input name="ans19" id="ans19"/></p>
+          </div>
+          <div class="col">
+            <p><span id="task20" style="width:3.5rem;display:inline-block;">${data[20].task} =</span> <input name="ans20" id="ans20"/></p>
+            <p><span id="task21" style="width:3.5rem;display:inline-block;">${data[21].task} =</span> <input name="ans21" id="ans21"/></p>
+            <p><span id="task22" style="width:3.5rem;display:inline-block;">${data[22].task} =</span> <input name="ans22" id="ans22"/></p>
+            <p><span id="task23" style="width:3.5rem;display:inline-block;">${data[23].task} =</span> <input name="ans23" id="ans23"/></p>
+            <p><span id="task24" style="width:3.5rem;display:inline-block;">${data[24].task} =</span> <input name="ans24" id="ans24"/></p>
+            <p><span id="task25" style="width:3.5rem;display:inline-block;">${data[25].task} =</span> <input name="ans25" id="ans25"/></p>
+            <p><span id="task26" style="width:3.5rem;display:inline-block;">${data[26].task} =</span> <input name="ans26" id="ans26"/></p>
+            <p><span id="task27" style="width:3.5rem;display:inline-block;">${data[27].task} =</span> <input name="ans27" id="ans27"/></p>
+            <p><span id="task28" style="width:3.5rem;display:inline-block;">${data[28].task} =</span> <input name="ans28" id="ans28"/></p>
+            <p><span id="task29" style="width:3.5rem;display:inline-block;">${data[29].task} =</span> <input name="ans29" id="ans29"/></p>
+          </div>
+        </div>
+      `
+
+      return isGerman
+        ? `
+        <p>Hier ist eine weitere Herausforderung für dich - löse 30 Aufgaben in maximal 15 Sekunden. Jetzt wäre Hilfe gut angesagt ...
+        </p>
+        
+        <form class="container" style="margin-top:32px;margin-bottom:24px;" method="post" autocomplete="off">
+          ${rows}
+          <input type="hidden" name="answer" value="ok" />
+          <p style="margin-top:16px;">Verbleibende Zeit: <span id="timer">15.00</span> Sekunden</p>
+          <p><input type="submit" value="Abschicken" style="margin-top:16px;"/></p>
+        </form>
+        
+        <script>
+          const startTime = new Date().getTime()
+          
+          function callback() {
+            const remaining = Math.max(0, 1000 * 15 - (new Date().getTime() - startTime))
+            document.getElementById('timer').innerHTML = (Math.round(remaining / 10) / 100).toFixed(2)
+            if (remaining > 0) {
+              requestAnimationFrame(callback)
+            }
+          }
+          callback()
+        </script>
+      `
+        : `
+        <p>Here is another challenge: Solve 30 tasks in 15 seconds or less. Now help would be very welcome ...
+        </p>
+        
+        <form class="container" style="margin-top:32px;margin-bottom:24px;" method="post" autocomplete="off">
+          ${rows}
+          <input type="hidden" name="answer" value="ok" />
+          <p style="margin-top:16px;">Remaining time: <span id="timer">15.00</span> Seconds</p>
+          <p><input type="submit" value="Submit" style="margin-top:16px;"/></p>
+        </form>
+        
+        <script>
+          const startTime = new Date().getTime()
+          
+          function callback() {
+            const remaining = Math.max(0, 1000 * 15 - (new Date().getTime() - startTime))
+            document.getElementById('timer').innerHTML = (Math.round(remaining / 10) / 100).toFixed(2)
+            if (remaining > 0) {
+              requestAnimationFrame(callback)
+            }
+          }
+          callback()
+        </script>
+      `
+    },
+    check: (answer, { req }) => {
+      const isGerman = req.lng.startsWith('de')
+      if (!req.session.chal338_ts || !req.session.chal338_result) {
+        return {
+          answer: isGerman ? 'Keine Session gefunden' : 'No session found',
+          correct: false,
+        }
+      }
+
+      const ts = new Date().getTime()
+      const startTs = parseInt(req.session.chal338_ts)
+
+      if (ts - startTs > 1000 * 17) {
+        return {
+          answer: isGerman ? 'Zeit abgelaufen' : 'Time ended',
+          correct: false,
+        }
+      }
+
+      const results = []
+      for (let i = 0; i < 30; i++) {
+        results.push(req.body[`ans${i}`])
+      }
+
+      const resultString = results.join(';')
+
+      return {
+        answer: resultString,
+        correct: resultString === req.session.chal338_result,
+      }
+    },
+    hidesubmit: true,
+  },
+
   /*{
     id: 338,
     pos: { x: 2160, y: 945 },

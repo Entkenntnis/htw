@@ -302,7 +302,7 @@ module.exports = (App) => {
       line2:
         'Ermittle die Antwort aus der empfangenen Nachricht. Alle 5 Level steigert sich die Schwierigkeit.',
       line3:
-        'Es gibt viele Level. Erfahre im Quellcode, wie man die Aufgabe automatisiert.',
+        'Werfe auch einen Blick auf den <a href="https://gist.github.com/Entkenntnis/a0544edafa651500d86aaedc02e66c21" target="_blank">Starter-Code für einen Bot in Javascript</a> / <a href="https://gist.github.com/Entkenntnis/9db3f8810f5b513c5995da7b995bafb9" target="_blank">Python-Version</a>.',
       go: 'Los',
       incorrect: 'Das ist nicht die richtige Antwort.',
       statistics: 'Statistik',
@@ -316,7 +316,7 @@ module.exports = (App) => {
       line2:
         'Determine the answer from the received message. The difficulty increases every 5 levels.',
       line3:
-        'There are many levels. Learn in the source code how to automate the task.',
+        'Also, take a look at the <a href="https://gist.github.com/Entkenntnis/a0544edafa651500d86aaedc02e66c21" target="_blank">starter code for a bot in javascript</a> / <a href="https://gist.github.com/Entkenntnis/9db3f8810f5b513c5995da7b995bafb9" target="_blank">python version</a>.',
       go: 'Go',
       incorrect: 'That is not the right answer.',
       statistics: 'Statistics',

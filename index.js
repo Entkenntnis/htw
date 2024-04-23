@@ -25,7 +25,7 @@ require(path)((config) => {
       dialect: 'mariadb',
       dialectOptions: {
         timezone: 'Europe/Berlin',
-        connectTimeout: 10000 // increased due to several errors - default value is 1000 (ms) and feels quite short
+        connectTimeout: 10000, // increased due to several errors - default value is 1000 (ms) and feels quite short
       },
     }
   } else {
@@ -156,6 +156,64 @@ require(path)((config) => {
         }
       })
       res.json(users)
+    })
+
+    App.express.get('/api/top100', async (req, res) => {
+      const users = await App.db.models.User.findAll({
+        attributes: ['name', 'score', 'updatedAt'],
+        where: {
+          score: { [Sequelize.Op.gt]: 0 },
+        },
+        order: [
+          ['score', 'DESC'],
+          ['updatedAt', 'DESC'],
+        ],
+        limit: 100,
+        raw: true,
+      })
+      users.forEach((user, i) => {
+        if (i > 0 && users[i - 1].score == user.score) {
+          user.rank = users[i - 1].rank
+        } else {
+          user.rank = i + 1
+        }
+      })
+      res.json(users)
+    })
+
+    App.express.post('/api/user-rankings', async (req, res) => {
+      if (!req.body || !req.body.name || !Array.isArray(req.body.name)) {
+        res.send('bad body')
+        return
+      }
+      const names = req.body.name
+
+      try {
+        const users = await App.db.models.User.findAll({
+          attributes: [
+            'name',
+            'score',
+            'updatedAt',
+            [
+              Sequelize.literal(
+                '(SELECT COUNT(*) FROM Users as U WHERE U.score > User.score)'
+              ),
+              'rank',
+            ],
+          ],
+          where: {
+            name: names,
+          },
+          raw: true,
+        })
+        users.forEach((u) => {
+          u.rank += 1
+        })
+        res.json(users)
+      } catch (e) {
+        console.log(e)
+        res.send('db query failed')
+      }
     })
 
     App.express.get('/api/map', async (req, res) => {

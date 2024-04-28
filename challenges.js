@@ -796,6 +796,8 @@ module.exports = [
       
       <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web hast du die Möglichkeit, Hinweise zu finden oder selbst Fragen zu stellen. Klicke auf das Logo, um dem Server beizutreten. Im Forum findest du einen Post mit dem Titel dieser Aufgabe. Dort findest du deine Antwort.
       </p>
+
+      <p style="margin-top:24px;font-size:10px;color:darkgray">Es ist vollkommen kein Problem, wenn du keinen Discord-Account hast oder dich nicht auf Discord registrieren willst. In diesem Fall findest du die Antwort <a href="/chals/21.png">hier</a>.</p>
     `,
       en: `
        <p>
@@ -815,6 +817,8 @@ module.exports = [
        <p>
          Note: Hack the Web is a German website, which is why the Discord server is in German. Please write only in German on the server except the channels labeled as english (e.g., forum-en or general-en). But with the help of a translator, you should be able to find the answer anyway ;)
        </p>
+
+       <p style="margin-top:24px;font-size:10px;color:darkgray">It's completely not a problem if you don't have a Discord account or don't want to register on Discord. In this case, you can find the answer <a href="/chals/21.png">here</a>.</p>
    `,
     },
     solution: secrets('chal_21'),

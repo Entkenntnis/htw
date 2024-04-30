@@ -1618,7 +1618,7 @@ RS#1</pre>
 
   {
     id: 332,
-    pos: { x: 1760, y: 345 },
+    pos: { x: 1530, y: 705 },
     title: { de: 'Social Engineer :)', en: 'Social Engineer :)' },
     date: '2024-01-05',
     deps: [300],
@@ -1910,7 +1910,7 @@ RS#1</pre>
 
   {
     id: 339,
-    pos: { x: 1530, y: 705 },
+    pos: { x: 1760, y: 345 },
     title: { de: 'Mr. Plow', en: 'Mr. Plow' },
     date: '2024-04-30',
     deps: [300],

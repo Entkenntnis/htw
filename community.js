@@ -1908,6 +1908,105 @@ RS#1</pre>
     hidesubmit: true,
   },
 
+  {
+    id: 339,
+    pos: { x: 1530, y: 705 },
+    title: { de: 'Mr. Plow', en: 'Mr. Plow' },
+    date: '2024-04-30',
+    deps: [300],
+    noScore: true,
+    author: 'spaceinvader',
+    html: {
+      de: `
+        <pre>
+
+
+  __  __        _____  _               
+ |  \/  |      |  __ \| |              
+ | \  / |_ __  | |__) | | _____      __
+ | |\/| | '__| |  ___/| |/ _ \ \ /\ / /
+ | |  | | |_   | |    | | (_) \ V  V / 
+ |_|  |_|_(_)  |_|    |_|\___/ \_/\_/  
+                                       
+                                       
+
+
+
+
+Mr. Plow sucht Bär
+doch Schneeflocken stören ihn
+räume auf und SNOW.
+
+
+
+Challenge startet hier:
+	*     	    *	     	    	       
+    	   	 	*       	 	*      	    *	    	   *   	      
+ *     	  	 	   *    	     	       	  	    *   	      	   
+      *	 	 	   	    *   	 	 *     	   	   	      
+  	   	     	  * 	   	   *   	  	     	 *
+	 *      	  	  		       	      	 *    		  
+	*      		  **
+ENDE</pre>
+      `,
+      en: `
+        <pre>
+
+
+  __  __        _____  _               
+ |  \/  |      |  __ \| |              
+ | \  / |_ __  | |__) | | _____      __
+ | |\/| | '__| |  ___/| |/ _ \ \ /\ / /
+ | |  | | |_   | |    | | (_) \ V  V / 
+ |_|  |_|_(_)  |_|    |_|\___/ \_/\_/  
+                                       
+                                       
+
+
+
+
+Mr. Plow seeks bear
+Snowflakes hinder his pursuit
+Clear them up and SNOW.
+
+
+
+Challenge starts here:
+	*     	    *	     	    	       
+    	   	 	*       	 	*      	    *	    	   *   	      
+ *     	  	 	   *    	     	       	  	    *   	      	   
+      *	 	 	   	    *   	 	 *     	   	   	      
+  	   	     	  * 	   	   *   	  	     	 *
+	 *      	  	  		       	      	 *    		  
+	*      		  **
+END</pre>`,
+    },
+    solution: secrets('chal_339'),
+  },
+
+  /*{
+    id: 339,
+    pos: { x: 1530, y: 705 },
+    title: { de: 'Junkfood', en: 'Junkfood' },
+    date: '2024-04-23',
+    deps: [300],
+    noScore: true,
+    author: 'teebee',
+    html: {
+      de: `
+        <p>Nicht so gierig, sonst verschluckst Du es. Immer nur Häppchen für Häppchen!</p>
+          TODO
+       
+      `,
+      en: `
+      <p>Not so greedy, otherwise you'll swallow it. Just bite by bite every time!</p>
+          
+      TODO
+      `,
+    },
+    solution: secrets('chal_339'),
+  },*/
+
   /*{
     id: 338,
     pos: { x: 2160, y: 945 },

@@ -184,11 +184,6 @@ module.exports = (config) => {
       <p>Lokale Accounts werden dauerhaft in deinem Browser gespeichert. Du kannst durch einen Klick <a onclick="resetLocalUsers()" href="#">alle lokale Accounts entfernen</a>.
       </p>
       
-      <h3 class="my-4">Google Fonts</h3>
-      
-      <p>Diese Website verwendet Google Fonts. Für nähere Informationen dazu besuche ihre <a href="https://developers.google.com/fonts/faq" target="_blank">FAQ</a>.
-      </p>
-      
       <script>
         function resetLocalUsers() {
           localStorage.removeItem('htw_local_users')
@@ -229,11 +224,6 @@ module.exports = (config) => {
       
       
       <p>Local accounts are permanently stored in your browser. You can remove all local accounts by clicking <a onclick="resetLocalUsers()" href="#">here</a>.
-      </p>
-      
-      <h3 class="my-4">Google Fonts</h3>
-      
-      <p>This website uses Google Fonts. For more information, please visit their <a href="https://developers.google.com/fonts/faq" target="_blank">FAQ</a>.
       </p>
       
       <script>

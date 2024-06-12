@@ -33,7 +33,7 @@ function buildCircle(i, label) {
     if (!output) output = '0'
     input.innerHTML = output
   })
-  binary.text(label).attr('font-size', '24px').move(25 + 70*i + (i >= 2 ? 8 : 0), 23).style('pointer-events:none')
+  binary.text(label).attr('font-size', '24px').move(25 + 70*i + (i >= 2 ? 8 : 0), 23).style('pointer-events:none;font-family:"Lato";').attr('font-family', 'Lato')
 }
 
 const labels = ['32', '16', '8', '4', '2', '1']

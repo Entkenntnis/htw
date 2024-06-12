@@ -1005,7 +1005,7 @@ module.exports = [
     deps: [29, 66],
     html: {
       de: `
-      <p>Taste vorsichtig über das Feld und lese die Antwort ab:
+      <p>Taste vorsichtig über das Feld und lies die Antwort ab:
       </p>
       
       <p><svg id="chal27"></svg></p>

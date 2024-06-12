@@ -38,7 +38,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: Februar 2024 (<a href="' +
+      'Version: Juni 2024 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -46,9 +46,7 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.version',
     value:
-      'Version: February 2024 (<a href="' +
-      config.urlPrefix +
-      '/news">News</a>)',
+      'Version: June 2024 (<a href="' + config.urlPrefix + '/news">News</a>)',
   })
 
   config.i18nExtend.push({

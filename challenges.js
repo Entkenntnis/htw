@@ -426,7 +426,7 @@ module.exports = [
     pos: { x: 520, y: 280 },
     title: { de: 'Fleißaufgabe', en: 'Hard work' },
     date: '2017-05-17',
-    deps: [55, 84],
+    deps: [55, 69],
     html: {
       de: `
       <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
@@ -2505,7 +2505,7 @@ Doch ich spüre tiefes Beben.</i>
     pos: { x: 355, y: 665 },
     title: { de: 'Elemente', en: 'Elements' },
     date: '2020-08-17',
-    deps: [52, 69],
+    deps: [52, 84],
     html: {
       de: `
       <p>Für dich gibt es keine Grenzen, mit welchen Mitteln man einen Geheimtext schreibt. Du kommst mit allen Methoden klar - auch wenn es ein ganz eigener Code ist.
@@ -2592,7 +2592,7 @@ Doch ich spüre tiefes Beben.</i>
     pos: { x: 450, y: 600 },
     title: { de: 'Scan Mich', en: 'Scan Me' },
     date: '2020-08-17',
-    deps: [31, 69],
+    deps: [31, 84],
     html: {
       de: `
       <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
@@ -3343,10 +3343,10 @@ PIXI.loader
 
   {
     id: 69,
-    pos: { x: 330, y: 480 },
+    pos: { x: 395, y: 200 },
     title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
     date: '2021-03-19',
-    deps: [18],
+    deps: [4, 5],
     html: {
       de: `
       <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
@@ -3723,10 +3723,10 @@ PIXI.loader
 
   {
     id: 84,
-    pos: { x: 395, y: 200 },
+    pos: { x: 330, y: 480 },
     title: { de: 'Inception', en: 'Inception' },
     date: '2023-02-26',
-    deps: [4, 5],
+    deps: [18],
     render: ({ req }) => {
       function renderFrame(w, h, level, lang) {
         return `

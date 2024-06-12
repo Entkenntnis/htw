@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const fromDate = '2024-04-29'
+const fromDate = '2024-06-13'
 
 function escapeHTML(str) {
   return str

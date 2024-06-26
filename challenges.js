@@ -640,12 +640,15 @@ module.exports = [
     check: (answer, { req }) => {
       const text =
         req.lng == 'de' ? 'Zeig, was in dir steckt!' : 'Prove your skill.'
-      const input = answer.trim().split(' ')
+      const input = answer
+        .replace(/[^a-zA-Z ]/g, '')
+        .trim()
+        .split(' ')
       input.reverse()
-      const str = input.join(' ')
+      const str = input.join(' ').toLowerCase()
       return {
         answer: str,
-        correct: str === text,
+        correct: str === text.replace(/[^a-zA-Z ]/g, '').toLowerCase(),
       }
     },
   },

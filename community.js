@@ -1527,10 +1527,10 @@ The compression program bzip2 uses such a method, which this text was prepared f
 <pre>LIBN#10
 PPM#5
 BFS#3
-RA#16
+RA2023#16
 YSS#1
 LATHB#7
-L#18
+L#16
 LIB#3
 RS#1</pre>
  

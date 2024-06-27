@@ -44,7 +44,7 @@ module.exports = [
               : ''
           }
         
-          <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 × 9.</p>
+          <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
         `,
         en: `
           <p>Welcome to Hack The Web! Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or struggle with them.</p>
@@ -63,7 +63,7 @@ module.exports = [
               : ''
           }
 
-          <p>Are you ready? Then let's go! The answer to this first challenge is the result of 6 + 4 × 9.</p>
+          <p>Are you ready? Then let's go! The answer to this first challenge is the result of 6 + 4 · 9.</p>
         `,
       }
     },

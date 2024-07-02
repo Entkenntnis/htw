@@ -284,6 +284,20 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>Juni 2024</h3>
+      
+      <p>Kleine Verbesserungen an den Aufgaben.
+      </p>
+      
+      <div class="my-5"></div>
+      
+      <h3>März 2024</h3>
+      
+      <p>Das neue Puzzle-Spiel "Mortal Coil" lädt zum Knobeln ein. Wer neben den Challenges nach etwas Abwechslung sucht, findet hier Puzzle von super easy bis super schwer.
+      </p>
+      
+      <div class="my-5"></div>
+      
       <h3>Februar 2024</h3>
       
       <p>Kleine Verbesserungen an exisiterenden Aufgaben.
@@ -293,21 +307,26 @@ module.exports = (config) => {
       
       <h3>Januar 2024</h3>
       
-      <p>Es gibt ein neues Mini-Spiel "Decode Me!".
+      <p>Bot-Schreiber aufgepasst: Es gibt ein neues Mini-Spiel "Decode Me!", wo es um die Decodierung geheimer Nachrichten geht. Kann per Hand gespielt werden, aber funktioniert besser mit einem Bot. Ein Starter-Bot steht bereit für den Schnell-Start.
       </p>
       
       <div class="my-5"></div>
       
       <h3>Oktober 2023</h3>
       
-      <p>Ab diesem Release sind alle Aufgaben auf deutsch und englisch spielbar.
+      <p>Es war eine schweißtreibende Arbeit, aber nach einigen Wochen intensiver Arbeit sind jetzt alle Inhalte ins Englische übersetzt.</p>
+
+      <p>Auch in Zukunft werden alle neuen Aufgaben sowohl auf deutsch als auch auf englisch verfügbar sein.
       </p>
       
       <div class="my-5"></div>
       
       <h3>September 2023</h3>
       
-      <p>Es kommt ein neuer Community-Bereich hinzu, dieser ist nach der Passage erreichbar. Dort gibt es regelmäßig neue Aufgaben und ihr könnt eigene Ideen einbringen.
+      <p>Hinter der Passage befindet sich der neue Community-Bereich. Dort gibt es Aufgaben von Euch für Euch. Jeder kann Ideen vorschlagen und wir setzen diese gemeinsam zu einer spannenden Aufgabe um. Die ersten Aufgaben sind bereit, entdeckt zu werden.
+      </p>
+
+      <p>Wenn du eine eigene Idee hast: Schreibe mich dafür am besten privat über Discord an oder nutze den #vorschläge-Channel.
       </p>
       
       <div class="my-5"></div>
@@ -329,11 +348,21 @@ module.exports = (config) => {
       
       <div class="my-5"></div>
       
+      <h3>Mai 2023</h3>
+        
+      <p>Wir starten einen gemeinsamen <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>. Tausche Dich dort mit anderen SpielerInnen aus, frage nach Hilfe, wenn du nicht weiterkommst und werde benachrichtigt, wenn neue Aufgaben freigeschaltet werden.
+      </p>
+
+      <p>Schaue für aktuelle Informationen gerne auf Discord vorbei.
+      </p>
+    
+      <div class="my-5"></div>
+      
       <h3>HTW100</h3>
         
       <p>In den nächsten Wochen wird es das erste Mal über einen längeren Zeitraum regelmäßige Updates geben. Jeden Mittwochabend und jeden Samstagabend wird im Bereich nach der Passage eine neue Aufgabe freigeschaltet. Gestartet wird morgen Abend (5. April), das Ziel ist erreicht, wenn die 100. Aufgabe freigeschaltet ist, was ungefähr Mitte Juni sein sollte.
       </p>
-    
+
       <div class="my-5"></div>
       
       <h3>April 2023</h3>
@@ -463,6 +492,20 @@ module.exports = (config) => {
     key: 'news.content_',
     value: `
       <div class="my-5"></div>
+        
+      <h3>June 2024</h3>
+            
+      <p>Small reworks of existing challenges.
+      </p>
+
+      <div class="my-5"></div>
+      
+      <h3>March 2024</h3>
+      
+      <p>The new puzzle game "Mortal Coil" invites you to solve riddles. For those looking for some variety alongside the challenges, you will find puzzles ranging from super easy to super hard.
+      </p>
+      
+      <div class="my-5"></div>
       
       <h3>Februar 2024</h3>
       
@@ -471,19 +514,20 @@ module.exports = (config) => {
       
       <div class="my-5"></div>
       
-      <div class="my-5"></div>
-      
       <h3>January 2024</h3>
       
-      <p>There is a new mini game "Decode Me!".
+      <p>Attention bot writers: There is a new mini-game "Decode Me!" where the goal is to decode secret messages. It can be played manually, but works better with a bot. A starter bot is available for a easier start.
       </p>
-      
+
       <div class="my-5"></div>
       
       <h3>October 2023</h3>
       
-      <p>From this release on all challenges are playable in English and German.
+      <p>It was hard work, but after several weeks of intensive effort, all content has now been translated into English.</p>
+
+      <p>In the future, all new tasks will be available in both German and English.
       </p>
+
       
       <div class="my-5"></div>
             
@@ -508,6 +552,17 @@ module.exports = (config) => {
       </p>
       
       <div class="my-5"></div>
+      
+      <h3>May 2023</h3>
+        
+      <p>We are launching a <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>. Exchange ideas with other players, ask for help if you get stuck, and get notified when new tasks are unlocked.
+      </p>
+
+      <p>Feel free to check Discord for the latest information.
+      </p>
+    
+      <div class="my-5"></div>
+
       
       <h3>HTW100</h3>
       

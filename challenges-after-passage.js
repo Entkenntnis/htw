@@ -1453,12 +1453,12 @@ print(hex_string)</pre></code>
 }
 
 message = < ??? >
-bytes = ascii_string_to_bytes(message)
+bytes = utf-8_string_to_bytes(message)
 encrypted_bytes = cipher_iii(bytes)
 hex_string = convert_bytes_to_hex_string(encrypted_bytes)
 print(hex_string)</pre></code>
 
-      <p>Die Schlüssel sind Zahl zwischen 0 und 255. Die Ausgabe dieses Programms siehst so aus:
+      <p>Die Schlüssel sind Zahlen zwischen 0 und 255. Die Ausgabe dieses Programms sieht so aus:
       </p>
       
       <p><code>59176f2b4e4f377f1a5f7427431631306d294b066e2749062d7f1d523d3c55187226010051056d27491a317901547f2de578b00e29285619767715573435591d74301b5b2562474609412f2e642b540266354a4b2c6c1247297c5736030f2925101c3a36030f2925</code>
@@ -1489,7 +1489,7 @@ print(hex_string)</pre></code>
 }
 
 message = < ??? >
-bytes = ascii_string_to_bytes(message)
+bytes = utf-8_string_to_bytes(message)
 encrypted_bytes = cipher_iii(bytes)
 hex_string = convert_bytes_to_hex_string(encrypted_bytes)
 print(hex_string)</pre></code>

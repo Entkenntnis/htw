@@ -615,7 +615,8 @@ const part1 = [
     `,
     },
     check: (answer, { req }) => {
-      const input = -parseInt(answer)
+      const normalizedAnswer = answer.replace(/[‐−–—]/, '-')
+      const input = -parseInt(normalizedAnswer)
       return {
         answer: isNaN(input) ? answer : input.toString(),
         correct: input === req.user.score,
@@ -792,15 +793,20 @@ const part1 = [
       
       <p>Gleichzeitig ist es auch kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter.
       </p>
-          
-      <p>
-        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px" alt="discord banner"></a>
+      
+      <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web findest du Antworten auf deine Fragen. Im Forum tauschen sich SpielerInnen zu den Aufgaben aus.
       </p>
       
-      <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web hast du die Möglichkeit, Hinweise zu finden oder selbst Fragen zu stellen. Klicke auf das Logo, um dem Server beizutreten. Im Forum findest du einen Post mit dem Titel dieser Aufgabe. Dort findest du deine Antwort.
+      <p>Hier siehst du einen Screenshot vom Forum. Entdeckst du die Antwort?
       </p>
 
-      <p style="margin-top:24px;font-size:10px;color:darkgray">Es ist vollkommen kein Problem, wenn du keinen Discord-Account hast oder dich nicht auf Discord registrieren willst. In diesem Fall findest du die Antwort <a href="/chals/21.png">hier</a>.</p>
+      <img src="/chals/21.png" width="500px" style="margin-top:12px;margin-bottom:24px;"/>
+
+      <p>Du bist natürlich auch herzlich einladen, dem Server beizutreten!</p>
+
+      <p>
+       <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
+       </p>
     `,
       en: `
        <p>
@@ -1717,7 +1723,7 @@ const part1 = [
       
       <p><img src="/chals/chal50.gif" alt="winkelschrift hint"></p>
       
-      <p>Der erste Buchstabe des Texts wäre damit ein D, der letzte Buchstabe des Texts ein S.
+      <p>Der erste Buchstabe des Texts ist ein D, der letzte Buchstabe des Texts ein S.
       </p>
     `,
       en: `

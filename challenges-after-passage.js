@@ -91,6 +91,509 @@ function runBrainfuck(program) {
 
 module.exports = [
   {
+    id: 36,
+    pos: { x: 1600, y: 1800 },
+    title: { de: 'Benutzername III', en: 'Username III' },
+    date: '2020-05-20',
+    deps: [],
+    html: {
+      de: `
+    <p>Es war noch nie einfacher gewesen, eine eigene Website zu bauen und diese ins Internet zu stellen. Daher die Aufgabe für dich: Erstelle eine Website, die genau deinen Benutzernamen enthält (kein HTML, keine Leerzeichen, nur dein Benutzername!) und gib die URL als Antwort ein:
+    </p>
+  `,
+      en: `
+    <p>It has never been easier to build your own website and put it online. Hence, the task for you: create a website that contains exactly your username (no HTML, no spaces, just your username!) and enter the URL as the answer:
+    </p>
+  `,
+    },
+    check: async (answer, { req }) => {
+      let value = ''
+      try {
+        if (!answer || !answer.startsWith('http')) {
+          return { answer: 'Keine URL: ' + answer, correct: false }
+        }
+        const controller = new AbortController()
+        const timeout = setTimeout(() => {
+          controller.abort()
+        }, 4000)
+        try {
+          const res = await fetch(answer, {
+            size: 1024 * 1024,
+            redirect: 'manual',
+            signal: controller.signal,
+          })
+          value = await res.text()
+          value = value.trim()
+          if (value.length > 1000) {
+            value = value.substring(0, 1000) + '...'
+          }
+        } catch (error) {
+          if (error.message && error.message.includes('aborted')) {
+            value = 'Keine Antwort nach 4 Sekunden'
+          } else {
+            value = error.message
+          }
+        } finally {
+          clearTimeout(timeout)
+        }
+      } catch (e) {
+        value = e.message
+      }
+      return {
+        answer: value,
+        correct: value === req.user.name,
+      }
+    },
+  },
+
+  {
+    id: 38,
+    pos: { x: 1600, y: 1500 },
+    title: { de: 'Metadaten', en: 'Metadata' },
+    date: '2020-05-20',
+    deps: [],
+    html: {
+      de: `
+      <p>Oh wie süß! Schau dir dieses Foto an:
+      </p>
+      
+      <p><img src="/chals/chal38.jpg" alt="hamster"></p>
+      
+      <p>Neben dem, was du auf dem Foto sehen kannst, enthalten viele Bilddateien noch weitere Informationen, wie z.B. das Kameramodell oder die ISO-Zahl. Das sind die sog. <em>EXIF-Tags</em> und diese sind leider nicht sofort sichtbar. Allerdings gibt es einige Tools, die dir dies Tags anzeigen können. Und darin findest sich auch die Antwort.</p>
+    `,
+      en: `
+      <p>Oh, how sweet! Look at this photo:
+      </p>
+      
+      <p><img src="/chals/chal38-en.jpg" alt="chal38-en"></p>
+      
+      <p>In addition to what you can see in the photo, many image files contain other information, such as the camera model or the ISO number. These are the so-called <em>EXIF-Tags</em> and unfortunately these are not immediately visible. However, there are some tools that can show you these tags. And there you will find the answer.</p>
+    `,
+    },
+    solution: secrets('chal_38'),
+  },
+
+  {
+    id: 40,
+    pos: { x: 1600, y: 1700 },
+    title: { de: 'Terminal', en: 'Terminal' },
+    date: '2020-05-20',
+    deps: [],
+    html: {
+      de: `
+      <p>Schwarzer Bildschirm, weiße Schrift, kryptische Zeichen und komplizierte Befehle ... auch bekannt unter dem Namen <em>Terminal</em>.
+      </p>
+      
+      <p>Dahinter steckt eine textbasierte Möglichkeit, mit einem Computer zu interagieren. Anstatt mit der Maus zu klicken, werden die gewünschten Aktionen per Befehl eingegeben und ausgeführt. Und das ist auch gar kein so großes Hexenwerk!
+      </p>
+      
+      <p>Diese Aufgabe enthält ein schlankes Terminal, das ein Dateisystem verwaltet. Es gibt verschiedene Verzeichnisse und Dateien - in einer dieser Dateien findet sich die Antwort zu dieser Aufgabe.
+      </p>
+      
+      <p>Um sich im Dateisystem zu bewegen und zu orientieren, gibt es vier Befehle:
+      <ul>
+        <li><code>ls</code><br>Dieser Befehl zeigt den Inhalt des Verzeichnis, in dem du dich gerade befindest.
+        </li>
+        <li><code>pwd</code><br>Dieser Befehl zeigt dir den Pfad des aktuellen Verzeichnis.
+        </li>
+        <li><code>cd VERZ</code><br>Dieser Befehl bewegt dich in ein neues Verzeichnis, dessen Namen du anstelle von VERZ schreibst. Um wieder eine Ebene hoch zu kommen, gibt es die spezielle Variante <code>cd ..</code>
+        </li>
+        <li><code>cat DATEI</code><br>Dieser Befehl zeigt den Inhalt einer Datei an im aktuellen Verzeichnis. Schreibe anstelle von DATEI den Namen der Datei.
+        </li>
+      </ul>
+      </p>
+      
+      <p>Beginne deine Suche nach der Antwort in der Datei <strong>GOP/053/vjer</strong>:
+      </p>
+      
+      <div id="terminal" class="my-4"></div>
+      
+      <script src="/seedrandom.min.js"></script>
+      <script src="/chals/terminal.js"></script>
+      <script>
+        window.htw_locale = 'de'
+      </script>
+      <script src="/chals/chal40.js"></script>
+      
+      <p>Beispiel: Tippe nacheinander die Befehle<br>
+        <code>cd GOP</code><br>
+        <code>cd 239</code><br>
+        <code>ls</code><br>
+        <code>cat yley</code><br>
+        <code>cd ..</code><br>
+        <code>pwd</code>
+      </p>
+    `,
+      en: `
+      <p>Black screen, white font, cryptic characters and complicated commands...also known by the name <em>Terminal</em>.
+      </p>
+      
+      <p>Behind this is a text-based way to interact with a computer. Instead of clicking with the mouse, the desired actions are entered and carried out using commands. And it's not that big of a rocket science!
+      </p>
+      
+      <p>This task contains a lightweight terminal that manages a file system. There are various directories and files — one of these files contains the answer to this task.
+      </p>
+      
+      <p>To move and orient yourself in the file system, there are four commands:
+      <ul>
+        <li><code>ls</code><br>This command shows the contents of the directory you are currently in.
+        </li>
+        <li><code>pwd</code><br>This command shows you the path of the current directory.
+        </li>
+        <li><code>cd DIR</code><br>This command moves you to a new directory whose name you write instead of DIR. There is a special variant to get back up a level <code>cd ..</code>
+        </li>
+        <li><code>cat FILE</code><br>This command displays the contents of a file in the current directory. Instead of FILE, write the name of the file.
+        </li>
+      </ul>
+      </p>
+      
+      <p>Start your search for the answer in the file<strong>GOP/053/vjer</strong>:
+      </p>
+      
+      <div id="terminal" class="my-4"></div>
+      
+      <script src="/seedrandom.min.js"></script>
+      <script src="/chals/terminal.js"></script>
+      <script>
+        window.htw_locale = 'en'
+      </script>
+      <script src="/chals/chal40.js"></script>
+      
+      <p>Example: Enter the following commands one after the other<br>
+        <code>cd GOP</code><br>
+        <code>cd 239</code><br>
+        <code>ls</code><br>
+        <code>cat yley</code><br>
+        <code>cd ..</code><br>
+        <code>pwd</code>
+      </p>
+    `,
+    },
+    solution: secrets('chal_40'),
+  },
+
+  {
+    id: 43,
+    pos: { x: 1600, y: 1100 },
+    title: { de: 'POST it', en: 'POST it' },
+    date: '2020-05-20',
+    deps: [],
+    html: {
+      de: `
+      <p>Diesmal gibt es keine Umschweife: Die Antwort auf diese Aufgabe lautet Klamauk.
+      </p>
+      
+      <p>Leider gibt es zu dieser Aufgabe kein Eingabefeld. Aber das sollte dich nicht abhalten, der Webseite die Antwort zu schicken!
+      </p>
+    `,
+      en: `
+      <p>This time there is no beating around the bush: the answer to this challenge is "Klamauk".
+      </p>
+      
+      <p>Unfortunately, there is no input field for this challenge. But that shouldn't stop you from sending the answer to the website!
+      </p>
+    `,
+    },
+    solution: secrets('chal_43'),
+    hidesubmit: true,
+  },
+
+  {
+    id: 44,
+    pos: { x: 1600, y: 1200 },
+    title: { de: 'Ladebalken II', en: 'Progressbar II' },
+    date: '2020-05-20',
+    deps: [],
+    html: {
+      de: `
+      <p>Der Klügere gibt nach - und du hast kein Problem nachzugeben, wenn es definitiv nicht weitergeht.
+      </p>
+      
+      <p>Dieser Ladebalken dauert sehr lange. Wirst du ihn bis zum Ende abwarten - oder eine andere Lösung finden?
+      </p>
+      
+      <div class="progress my-4">
+        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
+      </div>
+      
+      <p id="value">SQNLPZWYVNYLZZ</p>
+      
+      <p id="status">...</p>
+      
+      <script>
+        const bar = document.getElementById('44_bar')
+        const valueDiv = document.getElementById('value')
+        const status = document.getElementById('status')
+        
+        const string = "SQNLPZWYVNYLZZ"
+        const steps = 100000
+
+        let step = -steps
+        let value = string
+
+        function forward() {
+          const i = (((step + 1) % string.length) + string.length) % string.length
+          const chars = value.split('')
+          chars[i] = String.fromCharCode(65 + ((chars[i].charCodeAt(0) - 65 + 1) % 26))
+          value = chars.join('')
+          step++
+          //console.log('forward to', value)
+          return value
+        }
+        
+        function work(noTimeout) {
+          if (step >= 0) {
+            bar.style.width = '100%'
+          } else {
+            bar.style.width = (((steps+step)/steps) * 98.9 + 1) + '%'
+            valueDiv.innerHTML = forward(valueDiv.innerHTML)
+            status.innerHTML = '(' + (step+steps) + '/' + steps + ')'
+            if (!noTimeout) {
+              setTimeout(work, 1000)
+            }
+          }
+        }
+        
+        window.onkeydown = () => {
+          work(true)
+        }
+        
+        setTimeout(work, 2000)
+      </script>
+    `,
+      en: `
+      <p>The smarter one gives in — and you have no problem giving in if it definitely doesn't go any further.
+      </p>
+      
+      <p>This loading bar takes a very long time. Will you wait it out until the end — or find another solution?
+      </p>
+      
+      <div class="progress my-4">
+        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
+      </div>
+      
+      <p id="value">SQNLPZWYVNYLZZ</p>
+      
+      <p id="status">...</p>
+      
+      <script>
+        const bar = document.getElementById('44_bar')
+        const valueDiv = document.getElementById('value')
+        const status = document.getElementById('status')
+        
+        const string = "SQNLPZWYVNYLZZ"
+        const steps = 100000
+
+        let step = -steps
+        let value = string
+
+        function forward() {
+          const i = (((step + 1) % string.length) + string.length) % string.length
+          const chars = value.split('')
+          chars[i] = String.fromCharCode(65 + ((chars[i].charCodeAt(0) - 65 + 1) % 26))
+          value = chars.join('')
+          step++
+          return value
+        }
+        
+        function work(noTimeout) {
+          if (step >= 0) {
+            bar.style.width = '100%'
+          } else {
+            bar.style.width = (((steps+step)/steps) * 98.9 + 1) + '%'
+            valueDiv.innerHTML = forward(valueDiv.innerHTML)
+            status.innerHTML = '(' + (step+steps) + '/' + steps + ')'
+            if (!noTimeout) {
+              setTimeout(work, 1000)
+            }
+          }
+        }
+        
+        window.onkeydown = () => {
+          work(true)
+        }
+        
+        setTimeout(work, 2000)
+      </script>
+    `,
+    },
+    solution: secrets('chal_44'),
+  },
+
+  {
+    id: 46,
+    pos: { x: 1600, y: 1300 },
+    title: { de: 'Kopfdaten', en: 'Headers' },
+    date: '2020-05-20',
+    deps: [],
+    html: {
+      de: `
+      <p>Geheime Spuren zu finden ist für dich kein Problem, denn du hast einen scharfen Blick.
+      </p>
+      
+      <p>Wenn du eine Webseite öffnest, passieren hinter den Kulissen viele Dinge, selbst beim Aufruf einer <a href="/chal/chal46">leeren Seite</a>. Doch im Hintergrund wurde bereits die Antwort übertragen.
+      </p>
+      
+      <p>Die Netzwerkanalyse (meist F12) hilft dir, alle Daten im Hintergrund anzuzeigen. Finde darin deine Antwort.
+      </p>
+      
+      <p><img src="/chals/chal46.png" style="max-width:100%"  alt="network tab"/></p>
+    `,
+      en: `
+      <p>Finding secret clues is no problem for you because you have a keen eye.
+      </p>
+      
+      <p>When you open a website, a lot of things happen behind the scenes, even when you open one <a href="/chal/chal46">that is empty</a>. But the answer was already being transmitted in the background.
+      </p>
+      
+      <p>Network analysis (usually F12) helps you view all data in the background. Find your answer there.
+      </p>
+      
+      <p><img src="/chals/chal46.png" style="max-width:100%"  alt="network tab"/></p>
+    `,
+    },
+    solution: secrets('chal_46'),
+  },
+
+  {
+    id: 49,
+    pos: { x: 1600, y: 1600 },
+    title: { de: 'Spielstand II', en: 'Game Save II' },
+    date: '2020-05-21',
+    deps: [],
+    html: {
+      de: `
+      <p>Es gibt Spiele, die machen richtig viel Spaß - und es gibt welche, die am Ende doch nur dein Geld aus der Tasche ziehen wollen.
+      </p>
+      
+      <p>Bei solchen Spielen ist verlockend, durch einen Hack seinen Spielstand zu verbessern. Leider sind sich viele Entwickler dieser Möglichkeit bewusst und verschlüsseln den Spielstand.
+      </p>
+      
+      <p>Doch keine Verschlüsslung ist perfekt! Meist lässt sich der Schlüssel leicht herausfinden und damit die Verschlüsselung knacken.
+      </p>
+      
+      <p>Dein aktueller Spielstand lautet: <code>cc76663b7d1e97ea2455b1c25676f44794fec90b0a9b823f916bf79387de4238</code>
+      </p>
+      
+      <p>Der Schlüssel lautet: <code>786d229b0de877774a2f676d5bd895c3</code>
+      </p>
+      
+      <p>Die Verschlüsselungsmethode ist AES-128 im ECB-Modus mit PKCS-Padding.
+      </p>
+      
+      <p>Deine Aufgabe: Erhöhe deinen Goldbetrag auf 999999 und gib den neuen (verschlüsselten) Spielstand ein.</p>
+    `,
+      en: `
+      <p>There are games that are a lot of fun — and there are those that ultimately just want to take your money out of your pocket.
+      </p>
+      
+      <p>In games like these, it's tempting to use a hack to improve your score. Unfortunately, many developers are aware of this possibility and encrypt the save game.
+      </p>
+      
+      <p>But no encryption is perfect! It is usually easy to find out the key and thus crack the encryption.
+      </p>
+      
+      <p>Your current score is: <code>cc76663b7d1e97ea2455b1c25676f44794fec90b0a9b823f916bf79387de4238</code>
+      </p>
+      
+      <p>The key is: <code>786d229b0de877774a2f676d5bd895c3</code>
+      </p>
+      
+      <p>The encryption method is AES-128 in ECB mode with PKCS padding.
+      </p>
+      
+      <p>Your task: Increase your gold amount to 999999 and enter the new (encrypted) score.</p>
+    `,
+    },
+    check: (input) => {
+      let answer = ''
+      let state = {
+        gold: undefined,
+      }
+      let decipher
+      try {
+        const key = Buffer.from('786d229b0de877774a2f676d5bd895c3', 'hex')
+        const encrypted = Buffer.from(input, 'hex')
+        decipher = crypto.createDecipheriv('aes-128-ecb', key, '')
+        answer = decipher.update(encrypted).toString()
+        answer += decipher.final().toString()
+        state = JSON.parse(answer)
+      } catch (e) {
+        answer = e.message + ': ' + answer
+      }
+      return {
+        answer,
+        correct: state.gold === 999999,
+      }
+    },
+  },
+
+  {
+    id: 65,
+    pos: { x: 1600, y: 1400 },
+    title: { de: 'Spielstand', en: 'Game Save' },
+    date: '2021-03-19',
+    deps: [],
+    html: {
+      de: `
+      <p>Die meisten Spiele speichern ihre Spielstände in einer verschlüsselten Form. Auch dieses kleine Spiel hier auf der Seite. Erreiche 999999 Gold und gibt deinen Spielstand als Antwort ein. Du kannst das Spiel spielen - oder es austricken.
+      </p>
+    
+      <br /><br />
+    
+      <p>Dein Gold: <span id="gold-span">0</span><br /><button onclick="update()">Grind me!</button>
+      </p>
+      <p style="color:rgb(128,128,128)">Spielstand: <span id="spielstand"></span>
+      </p>
+      <script>
+        function update() {
+          let gold = parseInt(document.getElementById('gold-span').innerHTML);
+          gold = gold + 1
+          document.getElementById('gold-span').innerHTML = gold.toString()
+          document.getElementById('spielstand').innerHTML = btoa(JSON.stringify({gold:gold}))
+        }
+      </script>
+    `,
+      en: `
+        <p>Most games save their game states in an encrypted form. Even this little game here on the page. Reach 999999 gold and enter your game state as an answer. You can play the game — or trick it.
+        </p>
+        
+        <br /><br />
+        
+        <p>Your gold: <span id="gold-span">0</span><br /><button onclick="update()">Grind me!</button>
+        </p>
+        <p style="color:rgb(128,128,128)">Game state: <span id="score"></span>
+        </p>
+        <script>
+            function update() {
+                let gold = parseInt(document.getElementById('gold-span').innerHTML);
+                gold = gold + 1
+                document.getElementById('gold-span').innerHTML = gold.toString()
+                document.getElementById('score').innerHTML = btoa(JSON.stringify({gold:gold}))
+            }
+        </script>
+    `,
+    },
+    check: (input) => {
+      let answer = input
+      let state = {}
+      try {
+        const data = Buffer.from(input, 'base64').toString('binary')
+        state = JSON.parse(data)
+        if (state.gold < 999999) {
+          return { answer: state.gold + ' Gold', correct: false }
+        }
+      } catch (e) {
+        answer = e.message
+      }
+      return {
+        answer,
+        correct: state.gold === 999999,
+      }
+    },
+  },
+
+  {
     id: 71,
     pos: { x: 1550, y: 905 },
     title: { de: 'Sag mal', en: 'Say it' },

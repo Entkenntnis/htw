@@ -14,12 +14,12 @@ function calculatorCheck(a) {
   else return a
 }
 
-module.exports = [
+const part1 = [
   {
     id: 1,
     pos: { x: 150, y: 140 },
     title: { de: 'Start', en: 'Start' },
-    date: '2017-03-30',
+    // date: '2017-03-30',
     deps: [],
     render: async ({ req, App }) => {
       if (req.lng === 'en') {
@@ -72,10 +72,10 @@ module.exports = [
 
   {
     id: 2,
-    pos: { x: 585, y: 875 },
+    pos: { x: 1245, y: 535 },
     title: { de: 'Finger-Code', en: 'Finger code' },
-    date: '2017-05-17',
-    deps: [26, 50],
+    // date: '2017-05-17',
+    deps: [28, 81],
     html: {
       de: `
         <p>Der Inhalt einer Nachricht ist ganz unabhängig von seiner Codierung. Man kann lateinische Buchstaben verwenden - oder seine Finger!
@@ -138,10 +138,10 @@ module.exports = [
 
   {
     id: 4,
-    pos: { x: 270, y: 220 },
+    pos: { x: 260, y: 380 },
     title: { de: 'ASCII', en: 'ASCII' },
-    date: '2017-05-17',
-    deps: [1],
+    // date: '2017-05-17',
+    deps: [15, 24],
     render: () => {
       function renderTable(col1, col2) {
         return `
@@ -278,7 +278,7 @@ module.exports = [
     id: 5,
     pos: { x: 300, y: 120 },
     title: { de: 'Zitronentinte', en: 'Lemon juice' },
-    date: '2017-05-17',
+    // date: '2017-05-17',
     deps: [1],
     html: {
       de: `
@@ -423,10 +423,10 @@ module.exports = [
 
   {
     id: 8,
-    pos: { x: 520, y: 280 },
+    pos: { x: 720, y: 420 },
     title: { de: 'Fleißaufgabe', en: 'Hard work' },
-    date: '2017-05-17',
-    deps: [55, 69],
+    // date: '2017-05-17',
+    deps: [55],
     html: {
       de: `
       <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
@@ -454,9 +454,9 @@ module.exports = [
 
   {
     id: 9,
-    pos: { x: 650, y: 370 },
+    pos: { x: 890, y: 370 },
     title: { de: 'Fleißaufgabe II', en: 'Hard work II' },
-    date: '2017-05-17',
+    // date: '2017-05-17',
     deps: [8],
     html: {
       de: `
@@ -477,9 +477,9 @@ module.exports = [
 
   {
     id: 10,
-    pos: { x: 800, y: 410 },
+    pos: { x: 990, y: 440 },
     title: { de: 'Fleißaufgabe III', en: 'Hard work III' },
-    date: '2017-05-18',
+    // date: '2017-05-18',
     deps: [9],
     html: {
       de: `
@@ -577,10 +577,10 @@ module.exports = [
 
   {
     id: 15,
-    pos: { x: 420, y: 90 },
+    pos: { x: 270, y: 220 },
     title: { de: 'Benutzername', en: 'Username' },
-    date: '2017-05-18',
-    deps: [5],
+    // date: '2017-05-18',
+    deps: [1],
     html: {
       de: `
       <p>Die Antwort zu dieser Aufgabe ist ganz einfach dein Benutzername. Allerdings kann es sein, dass deine Eingabe beim Absenden etwas durcheinander gerät. Findest du heraus, was du eingeben musst?
@@ -602,10 +602,10 @@ module.exports = [
 
   {
     id: 16,
-    pos: { x: 550, y: 100 },
+    pos: { x: 340, y: 320 },
     title: { de: 'Punktzahl', en: 'Score' },
-    date: '2017-05-18',
-    deps: [15],
+    // date: '2017-05-18',
+    deps: [15, 24],
     html: {
       de: `
       <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
@@ -625,10 +625,10 @@ module.exports = [
 
   {
     id: 17,
-    pos: { x: 685, y: 70 },
+    pos: { x: 745, y: 310 },
     title: { de: 'Slogan', en: 'Slogan' },
-    date: '2017-05-18',
-    deps: [16],
+    // date: '2017-05-18',
+    deps: [55, 66],
     html: {
       de: `
       <p>Deine Antwort ist der Slogan von Hack The Web. Die Eingabe gerät wieder durcheinander.</p>
@@ -655,10 +655,10 @@ module.exports = [
 
   {
     id: 18,
-    pos: { x: 270, y: 390 },
+    pos: { x: 930, y: 520 },
     title: { de: 'ROT13', en: 'ROT13' },
-    date: '2017-05-18',
-    deps: [24, 110],
+    // date: '2017-05-18',
+    deps: [8, 77],
     html: {
       de: `
       <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Dein Hacker-Blick ist gefragt! Du siehst wunderbar aus, wenn du scharf nachdenkst.
@@ -861,10 +861,10 @@ module.exports = [
 
   {
     id: 23,
-    pos: { x: 710, y: 300 },
+    pos: { x: 650, y: 660 },
     title: { de: 'Einhorn', en: 'Unicorn' },
-    date: '2017-08-25',
-    deps: [7, 8],
+    // date: '2017-08-25',
+    deps: [51, 69],
     html: {
       de: `
       <p>Das <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a> ist ein ähnliches Projekt wie Hack The Web, nur für Mathematik. Die Hauptrolle spielen dabei ein Einhorn-Geschwisterpaar.</p>
@@ -889,7 +889,7 @@ module.exports = [
     id: 24,
     pos: { x: 140, y: 280 },
     title: { de: 'Nicht blinzeln', en: "Don't blink" },
-    date: '2017-08-25',
+    // date: '2017-08-25',
     deps: [1],
     html: {
       de: `
@@ -1002,10 +1002,10 @@ module.exports = [
 
   {
     id: 27,
-    pos: { x: 155, y: 745 },
+    pos: { x: 1085, y: 905 },
     title: { de: 'Fingerspitzengefühl', en: 'Tactility' },
-    date: '2017-08-26',
-    deps: [29, 66],
+    // date: '2017-08-26',
+    deps: [47, 87 /*29, 66*/],
     html: {
       de: `
       <p>Taste vorsichtig über das Feld und lies die Antwort ab:
@@ -1033,10 +1033,10 @@ module.exports = [
 
   {
     id: 28,
-    pos: { x: 945, y: 385 },
+    pos: { x: 1105, y: 475 },
     title: { de: 'Werbung', en: 'Ads' },
-    date: '2017-08-26',
-    deps: [10, 23, 79],
+    // date: '2017-08-26',
+    deps: [18, 58],
     html: {
       de: `
        <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
@@ -1140,9 +1140,9 @@ module.exports = [
 
   {
     id: 31,
-    pos: { x: 430, y: 450 },
+    pos: { x: 780, y: 99 },
     title: { de: 'Taschenrechner III', en: 'Calculator III' },
-    date: '2017-08-26',
+    // date: '2017-08-26',
     deps: [111],
     html: {
       de: `
@@ -1216,9 +1216,9 @@ module.exports = [
 
   {
     id: 32,
-    pos: { x: 550, y: 500 },
+    pos: { x: 930, y: 77 },
     title: { de: 'Taschenrechner IV', en: 'Calculator IV' },
-    date: '2017-08-26',
+    // date: '2017-08-26',
     deps: [31],
     html: {
       de: `
@@ -1339,67 +1339,11 @@ module.exports = [
           },*/
 
   {
-    id: 36,
-    pos: { x: 1005, y: 50 },
-    title: { de: 'Benutzername III', en: 'Username III' },
-    date: '2020-05-20',
-    deps: [56],
-    html: {
-      de: `
-      <p>Es war noch nie einfacher gewesen, eine eigene Website zu bauen und diese ins Internet zu stellen. Daher die Aufgabe für dich: Erstelle eine Website, die genau deinen Benutzernamen enthält (kein HTML, keine Leerzeichen, nur dein Benutzername!) und gib die URL als Antwort ein:
-      </p>
-    `,
-      en: `
-      <p>It has never been easier to build your own website and put it online. Hence, the task for you: create a website that contains exactly your username (no HTML, no spaces, just your username!) and enter the URL as the answer:
-      </p>
-    `,
-    },
-    check: async (answer, { req }) => {
-      let value = ''
-      try {
-        if (!answer || !answer.startsWith('http')) {
-          return { answer: 'Keine URL: ' + answer, correct: false }
-        }
-        const controller = new AbortController()
-        const timeout = setTimeout(() => {
-          controller.abort()
-        }, 4000)
-        try {
-          const res = await fetch(answer, {
-            size: 1024 * 1024,
-            redirect: 'manual',
-            signal: controller.signal,
-          })
-          value = await res.text()
-          value = value.trim()
-          if (value.length > 1000) {
-            value = value.substring(0, 1000) + '...'
-          }
-        } catch (error) {
-          if (error.message && error.message.includes('aborted')) {
-            value = 'Keine Antwort nach 4 Sekunden'
-          } else {
-            value = error.message
-          }
-        } finally {
-          clearTimeout(timeout)
-        }
-      } catch (e) {
-        value = e.message
-      }
-      return {
-        answer: value,
-        correct: value === req.user.name,
-      }
-    },
-  },
-
-  {
     id: 37,
     pos: { x: 935, y: 185 },
     title: { de: 'Emoji', en: 'Emoji' },
-    date: '2020-05-20',
-    deps: [79],
+    // date: '2020-05-20',
+    deps: [17, 31, 53],
     html: {
       de: `
       <p>Nichts auf der Welt ist so schön wie dein Lächeln. Ich könnte es den ganzen Tag anschauen.
@@ -1438,33 +1382,6 @@ module.exports = [
   },
 
   {
-    id: 38,
-    pos: { x: 1250, y: 520 },
-    title: { de: 'Metadaten', en: 'Metadata' },
-    date: '2020-05-20',
-    deps: [48],
-    html: {
-      de: `
-      <p>Oh wie süß! Schau dir dieses Foto an:
-      </p>
-      
-      <p><img src="/chals/chal38.jpg" alt="hamster"></p>
-      
-      <p>Neben dem, was du auf dem Foto sehen kannst, enthalten viele Bilddateien noch weitere Informationen, wie z.B. das Kameramodell oder die ISO-Zahl. Das sind die sog. <em>EXIF-Tags</em> und diese sind leider nicht sofort sichtbar. Allerdings gibt es einige Tools, die dir dies Tags anzeigen können. Und darin findest sich auch die Antwort.</p>
-    `,
-      en: `
-      <p>Oh, how sweet! Look at this photo:
-      </p>
-      
-      <p><img src="/chals/chal38-en.jpg" alt="chal38-en"></p>
-      
-      <p>In addition to what you can see in the photo, many image files contain other information, such as the camera model or the ISO number. These are the so-called <em>EXIF-Tags</em> and unfortunately these are not immediately visible. However, there are some tools that can show you these tags. And there you will find the answer.</p>
-    `,
-    },
-    solution: secrets('chal_38'),
-  },
-
-  {
     id: 39,
     pos: { x: 565, y: 955 },
     title: { de: 'Flaggen', en: 'Flags' },
@@ -1493,110 +1410,11 @@ module.exports = [
   },
 
   {
-    id: 40,
-    pos: { x: 845, y: 725 },
-    title: { de: 'Terminal', en: 'Terminal' },
-    date: '2020-05-20',
-    deps: [81],
-    html: {
-      de: `
-      <p>Schwarzer Bildschirm, weiße Schrift, kryptische Zeichen und komplizierte Befehle ... auch bekannt unter dem Namen <em>Terminal</em>.
-      </p>
-      
-      <p>Dahinter steckt eine textbasierte Möglichkeit, mit einem Computer zu interagieren. Anstatt mit der Maus zu klicken, werden die gewünschten Aktionen per Befehl eingegeben und ausgeführt. Und das ist auch gar kein so großes Hexenwerk!
-      </p>
-      
-      <p>Diese Aufgabe enthält ein schlankes Terminal, das ein Dateisystem verwaltet. Es gibt verschiedene Verzeichnisse und Dateien - in einer dieser Dateien findet sich die Antwort zu dieser Aufgabe.
-      </p>
-      
-      <p>Um sich im Dateisystem zu bewegen und zu orientieren, gibt es vier Befehle:
-      <ul>
-        <li><code>ls</code><br>Dieser Befehl zeigt den Inhalt des Verzeichnis, in dem du dich gerade befindest.
-        </li>
-        <li><code>pwd</code><br>Dieser Befehl zeigt dir den Pfad des aktuellen Verzeichnis.
-        </li>
-        <li><code>cd VERZ</code><br>Dieser Befehl bewegt dich in ein neues Verzeichnis, dessen Namen du anstelle von VERZ schreibst. Um wieder eine Ebene hoch zu kommen, gibt es die spezielle Variante <code>cd ..</code>
-        </li>
-        <li><code>cat DATEI</code><br>Dieser Befehl zeigt den Inhalt einer Datei an im aktuellen Verzeichnis. Schreibe anstelle von DATEI den Namen der Datei.
-        </li>
-      </ul>
-      </p>
-      
-      <p>Beginne deine Suche nach der Antwort in der Datei <strong>GOP/053/vjer</strong>:
-      </p>
-      
-      <div id="terminal" class="my-4"></div>
-      
-      <script src="/seedrandom.min.js"></script>
-      <script src="/chals/terminal.js"></script>
-      <script>
-        window.htw_locale = 'de'
-      </script>
-      <script src="/chals/chal40.js"></script>
-      
-      <p>Beispiel: Tippe nacheinander die Befehle<br>
-        <code>cd GOP</code><br>
-        <code>cd 239</code><br>
-        <code>ls</code><br>
-        <code>cat yley</code><br>
-        <code>cd ..</code><br>
-        <code>pwd</code>
-      </p>
-    `,
-      en: `
-      <p>Black screen, white font, cryptic characters and complicated commands...also known by the name <em>Terminal</em>.
-      </p>
-      
-      <p>Behind this is a text-based way to interact with a computer. Instead of clicking with the mouse, the desired actions are entered and carried out using commands. And it's not that big of a rocket science!
-      </p>
-      
-      <p>This task contains a lightweight terminal that manages a file system. There are various directories and files — one of these files contains the answer to this task.
-      </p>
-      
-      <p>To move and orient yourself in the file system, there are four commands:
-      <ul>
-        <li><code>ls</code><br>This command shows the contents of the directory you are currently in.
-        </li>
-        <li><code>pwd</code><br>This command shows you the path of the current directory.
-        </li>
-        <li><code>cd DIR</code><br>This command moves you to a new directory whose name you write instead of DIR. There is a special variant to get back up a level <code>cd ..</code>
-        </li>
-        <li><code>cat FILE</code><br>This command displays the contents of a file in the current directory. Instead of FILE, write the name of the file.
-        </li>
-      </ul>
-      </p>
-      
-      <p>Start your search for the answer in the file<strong>GOP/053/vjer</strong>:
-      </p>
-      
-      <div id="terminal" class="my-4"></div>
-      
-      <script src="/seedrandom.min.js"></script>
-      <script src="/chals/terminal.js"></script>
-      <script>
-        window.htw_locale = 'en'
-      </script>
-      <script src="/chals/chal40.js"></script>
-      
-      <p>Example: Enter the following commands one after the other<br>
-        <code>cd GOP</code><br>
-        <code>cd 239</code><br>
-        <code>ls</code><br>
-        <code>cat yley</code><br>
-        <code>cd ..</code><br>
-        <code>pwd</code>
-      </p>
-    `,
-    },
-    solution: secrets('chal_40'),
-  },
-
-  {
     id: 41,
-    pos: { x: 655, y: 675 },
+    pos: { x: 1305, y: 725 },
     title: { de: 'Querlesen', en: 'Cross Reading' },
-    date: '2020-05-20',
-    deps: [60],
+    // date: '2020-05-20',
+    deps: [2, 47, 79],
     html: {
       de: `
       <p>Ein schnulziges Gedicht ... oder doch eine geheime Botschaft?
@@ -1701,154 +1519,6 @@ module.exports = [
   },
 
   {
-    id: 43,
-    pos: { x: 1125, y: 195 },
-    title: { de: 'POST it', en: 'POST it' },
-    date: '2020-05-20',
-    deps: [37, 56],
-    html: {
-      de: `
-      <p>Diesmal gibt es keine Umschweife: Die Antwort auf diese Aufgabe lautet Klamauk.
-      </p>
-      
-      <p>Leider gibt es zu dieser Aufgabe kein Eingabefeld. Aber das sollte dich nicht abhalten, der Webseite die Antwort zu schicken!
-      </p>
-    `,
-      en: `
-      <p>This time there is no beating around the bush: the answer to this challenge is "Klamauk".
-      </p>
-      
-      <p>Unfortunately, there is no input field for this challenge. But that shouldn't stop you from sending the answer to the website!
-      </p>
-    `,
-    },
-    solution: secrets('chal_43'),
-    hidesubmit: true,
-  },
-
-  {
-    id: 44,
-    pos: { x: 1120, y: 355 },
-    title: { de: 'Ladebalken II', en: 'Progressbar II' },
-    date: '2020-05-20',
-    deps: [47],
-    html: {
-      de: `
-      <p>Der Klügere gibt nach - und du hast kein Problem nachzugeben, wenn es definitiv nicht weitergeht.
-      </p>
-      
-      <p>Dieser Ladebalken dauert sehr lange. Wirst du ihn bis zum Ende abwarten - oder eine andere Lösung finden?
-      </p>
-      
-      <div class="progress my-4">
-        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
-      </div>
-      
-      <p id="value">SQNLPZWYVNYLZZ</p>
-      
-      <p id="status">...</p>
-      
-      <script>
-        const bar = document.getElementById('44_bar')
-        const valueDiv = document.getElementById('value')
-        const status = document.getElementById('status')
-        
-        const string = "SQNLPZWYVNYLZZ"
-        const steps = 100000
-
-        let step = -steps
-        let value = string
-
-        function forward() {
-          const i = (((step + 1) % string.length) + string.length) % string.length
-          const chars = value.split('')
-          chars[i] = String.fromCharCode(65 + ((chars[i].charCodeAt(0) - 65 + 1) % 26))
-          value = chars.join('')
-          step++
-          //console.log('forward to', value)
-          return value
-        }
-        
-        function work(noTimeout) {
-          if (step >= 0) {
-            bar.style.width = '100%'
-          } else {
-            bar.style.width = (((steps+step)/steps) * 98.9 + 1) + '%'
-            valueDiv.innerHTML = forward(valueDiv.innerHTML)
-            status.innerHTML = '(' + (step+steps) + '/' + steps + ')'
-            if (!noTimeout) {
-              setTimeout(work, 1000)
-            }
-          }
-        }
-        
-        window.onkeydown = () => {
-          work(true)
-        }
-        
-        setTimeout(work, 2000)
-      </script>
-    `,
-      en: `
-      <p>The smarter one gives in — and you have no problem giving in if it definitely doesn't go any further.
-      </p>
-      
-      <p>This loading bar takes a very long time. Will you wait it out until the end — or find another solution?
-      </p>
-      
-      <div class="progress my-4">
-        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
-      </div>
-      
-      <p id="value">SQNLPZWYVNYLZZ</p>
-      
-      <p id="status">...</p>
-      
-      <script>
-        const bar = document.getElementById('44_bar')
-        const valueDiv = document.getElementById('value')
-        const status = document.getElementById('status')
-        
-        const string = "SQNLPZWYVNYLZZ"
-        const steps = 100000
-
-        let step = -steps
-        let value = string
-
-        function forward() {
-          const i = (((step + 1) % string.length) + string.length) % string.length
-          const chars = value.split('')
-          chars[i] = String.fromCharCode(65 + ((chars[i].charCodeAt(0) - 65 + 1) % 26))
-          value = chars.join('')
-          step++
-          return value
-        }
-        
-        function work(noTimeout) {
-          if (step >= 0) {
-            bar.style.width = '100%'
-          } else {
-            bar.style.width = (((steps+step)/steps) * 98.9 + 1) + '%'
-            valueDiv.innerHTML = forward(valueDiv.innerHTML)
-            status.innerHTML = '(' + (step+steps) + '/' + steps + ')'
-            if (!noTimeout) {
-              setTimeout(work, 1000)
-            }
-          }
-        }
-        
-        window.onkeydown = () => {
-          work(true)
-        }
-        
-        setTimeout(work, 2000)
-      </script>
-    `,
-    },
-    solution: secrets('chal_44'),
-  },
-
-  {
     id: 45,
     pos: { x: 415, y: 1005 },
     title: { de: 'Schriftzeichen', en: 'Characters' },
@@ -1872,46 +1542,11 @@ module.exports = [
   },
 
   {
-    id: 46,
-    pos: { x: 1275, y: 405 },
-    title: { de: 'Kopfdaten', en: 'Headers' },
-    date: '2020-05-20',
-    deps: [43, 48, 62],
-    html: {
-      de: `
-      <p>Geheime Spuren zu finden ist für dich kein Problem, denn du hast einen scharfen Blick.
-      </p>
-      
-      <p>Wenn du eine Webseite öffnest, passieren hinter den Kulissen viele Dinge, selbst beim Aufruf einer <a href="/chal/chal46">leeren Seite</a>. Doch im Hintergrund wurde bereits die Antwort übertragen.
-      </p>
-      
-      <p>Die Netzwerkanalyse (meist F12) hilft dir, alle Daten im Hintergrund anzuzeigen. Finde darin deine Antwort.
-      </p>
-      
-      <p><img src="/chals/chal46.png" style="max-width:100%"  alt="network tab"/></p>
-    `,
-      en: `
-      <p>Finding secret clues is no problem for you because you have a keen eye.
-      </p>
-      
-      <p>When you open a website, a lot of things happen behind the scenes, even when you open one <a href="/chal/chal46">that is empty</a>. But the answer was already being transmitted in the background.
-      </p>
-      
-      <p>Network analysis (usually F12) helps you view all data in the background. Find your answer there.
-      </p>
-      
-      <p><img src="/chals/chal46.png" style="max-width:100%"  alt="network tab"/></p>
-    `,
-    },
-    solution: secrets('chal_46'),
-  },
-
-  {
     id: 47,
-    pos: { x: 970, y: 270 },
+    pos: { x: 1060, y: 690 },
     title: { de: 'Ladebalken', en: 'Progressbar' },
-    date: '2020-05-20',
-    deps: [79],
+    // date: '2020-05-20',
+    deps: [18, 60, 84],
     html: {
       de: `
       <p>Ich könnte nicht wie du geduldig sitzen und warten, bis die Antwort lädt ... ich bin immer ungeduldig und drücke auf der Tastatur herum.
@@ -2065,79 +1700,6 @@ module.exports = [
   },
 
   {
-    id: 49,
-    pos: { x: 1015, y: 575 },
-    title: { de: 'Spielstand II', en: 'Game Save II' },
-    date: '2020-05-21',
-    deps: [65],
-    html: {
-      de: `
-      <p>Es gibt Spiele, die machen richtig viel Spaß - und es gibt welche, die am Ende doch nur dein Geld aus der Tasche ziehen wollen.
-      </p>
-      
-      <p>Bei solchen Spielen ist verlockend, durch einen Hack seinen Spielstand zu verbessern. Leider sind sich viele Entwickler dieser Möglichkeit bewusst und verschlüsseln den Spielstand.
-      </p>
-      
-      <p>Doch keine Verschlüsslung ist perfekt! Meist lässt sich der Schlüssel leicht herausfinden und damit die Verschlüsselung knacken.
-      </p>
-      
-      <p>Dein aktueller Spielstand lautet: <code>cc76663b7d1e97ea2455b1c25676f44794fec90b0a9b823f916bf79387de4238</code>
-      </p>
-      
-      <p>Der Schlüssel lautet: <code>786d229b0de877774a2f676d5bd895c3</code>
-      </p>
-      
-      <p>Die Verschlüsselungsmethode ist AES-128 im ECB-Modus mit PKCS-Padding.
-      </p>
-      
-      <p>Deine Aufgabe: Erhöhe deinen Goldbetrag auf 999999 und gib den neuen (verschlüsselten) Spielstand ein.</p>
-    `,
-      en: `
-      <p>There are games that are a lot of fun — and there are those that ultimately just want to take your money out of your pocket.
-      </p>
-      
-      <p>In games like these, it's tempting to use a hack to improve your score. Unfortunately, many developers are aware of this possibility and encrypt the save game.
-      </p>
-      
-      <p>But no encryption is perfect! It is usually easy to find out the key and thus crack the encryption.
-      </p>
-      
-      <p>Your current score is: <code>cc76663b7d1e97ea2455b1c25676f44794fec90b0a9b823f916bf79387de4238</code>
-      </p>
-      
-      <p>The key is: <code>786d229b0de877774a2f676d5bd895c3</code>
-      </p>
-      
-      <p>The encryption method is AES-128 in ECB mode with PKCS padding.
-      </p>
-      
-      <p>Your task: Increase your gold amount to 999999 and enter the new (encrypted) score.</p>
-    `,
-    },
-    check: (input) => {
-      let answer = ''
-      let state = {
-        gold: undefined,
-      }
-      let decipher
-      try {
-        const key = Buffer.from('786d229b0de877774a2f676d5bd895c3', 'hex')
-        const encrypted = Buffer.from(input, 'hex')
-        decipher = crypto.createDecipheriv('aes-128-ecb', key, '')
-        answer = decipher.update(encrypted).toString()
-        answer += decipher.final().toString()
-        state = JSON.parse(answer)
-      } catch (e) {
-        answer = e.message + ': ' + answer
-      }
-      return {
-        answer,
-        correct: state.gold === 999999,
-      }
-    },
-  },
-
-  {
     id: 50,
     pos: { x: 455, y: 825 },
     title: { de: 'Winkelschrift', en: 'Pigpen Cipher' },
@@ -2178,10 +1740,10 @@ module.exports = [
 
   {
     id: 51,
-    pos: { x: 195, y: 405 },
+    pos: { x: 395, y: 535 },
     title: { de: 'Binär', en: 'Binary' },
-    date: '2020-08-01',
-    deps: [24],
+    // date: '2020-08-01',
+    deps: [4, 16],
     html: {
       de: `
       <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
@@ -2248,9 +1810,9 @@ module.exports = [
 
   {
     id: 52,
-    pos: { x: 250, y: 530 },
+    pos: { x: 460, y: 680 },
     title: { de: 'Binär II', en: 'Binary II' },
-    date: '2020-08-01',
+    // date: '2020-08-01',
     deps: [51],
     html: {
       de: `
@@ -2300,10 +1862,10 @@ module.exports = [
 
   {
     id: 53,
-    pos: { x: 265, y: 725 },
+    pos: { x: 760, y: 190 },
     title: { de: 'Quiz', en: 'Quiz' },
-    date: '2020-08-01',
-    deps: [29, 52],
+    // date: '2020-08-01',
+    deps: [66, 111],
     html: {
       de: `
       <p>Bei diesem Quiz ist jemandem doch glatt die Kreativität ausgegangen.
@@ -2372,10 +1934,10 @@ module.exports = [
 
   {
     id: 55,
-    pos: { x: 390, y: 280 },
+    pos: { x: 540, y: 370 },
     title: { de: 'Farbe', en: 'Color' },
-    date: '2020-08-01',
-    deps: [4],
+    // date: '2020-08-01',
+    deps: [16, 68],
     html: {
       de: `
       <p>Die Welt ist voller Farben. Im Internet gibt es für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> feste Name.
@@ -2468,32 +2030,17 @@ module.exports = [
     id: 57,
     pos: { x: 1350, y: 950 },
     title: { de: 'Passage', en: 'Passage' },
-    date: '2020-08-17',
-    deps: [59, 63, 64, 67],
+    // date: '2020-08-17',
+    deps: [27, 41, 64],
     html: {
       de: `
-          <p><i>Durch dunkle Gänge zieht es mich,<br>
-Von Geheimnissen umgeben.<br>
-Was sich verbirgt, ich weiß es nicht,<br>
-Doch ich spüre tiefes Beben.</i>
-          </p>
-          
-          <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst.</p>
+          <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst. Außerdem gibt es den Community-Bereich mit weiteren abwechslungsreichen Herausforderungen.</p>
           
           <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
           
-          <p>Jede Zahl entspricht der Nummer einer Aufgabe. Schaue in die Addressleiste. Dort siehst du, dass diese Aufgabe die Nummer 57 hat. Die Anfangsbuchstaben der Aufgaben bilden die Antwort.</p>
+          <p>Und jetzt noch ein letzter Blick zurück. Schaue dir die verlinkten Aufgaben an. Ihre Anfangsbuchstaben verraten dir die Antwort.</p>
     `,
       en: `
-          <p>
-            <i>
-                Through dark corridors I am drawn,<br>
-                Surrounded by secrets.<br>   
-                What is hidden, I do not know,<br>
-                But I feel deep tremors.
-            </i>
-          </p> 
-          
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
             <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 18</p>
             <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
@@ -2505,10 +2052,10 @@ Doch ich spüre tiefes Beben.</i>
 
   {
     id: 58,
-    pos: { x: 355, y: 665 },
+    pos: { x: 965, y: 285 },
     title: { de: 'Elemente', en: 'Elements' },
-    date: '2020-08-17',
-    deps: [52, 84],
+    // date: '2020-08-17',
+    deps: [17, 53],
     html: {
       de: `
       <p>Für dich gibt es keine Grenzen, mit welchen Mitteln man einen Geheimtext schreibt. Du kommst mit allen Methoden klar - auch wenn es ein ganz eigener Code ist.
@@ -2592,10 +2139,10 @@ Doch ich spüre tiefes Beben.</i>
 
   {
     id: 60,
-    pos: { x: 450, y: 600 },
+    pos: { x: 790, y: 690 },
     title: { de: 'Scan Mich', en: 'Scan Me' },
-    date: '2020-08-17',
-    deps: [31, 84],
+    // date: '2020-08-17',
+    deps: [23],
     html: {
       de: `
       <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
@@ -3041,8 +2588,8 @@ PIXI.loader
     id: 64,
     pos: { x: 1155, y: 840 },
     title: { de: 'Smiley', en: 'Smiley' },
-    date: '2020-08-17',
-    deps: [25, 86, 87],
+    // date: '2020-08-17',
+    deps: [47, 79, 87],
     html: {
       de: `
       <p>Du hast es gleich zur Passage geschafft! Dafür schenke ich dir ein Smiley.
@@ -3101,76 +2648,11 @@ PIXI.loader
   },
 
   {
-    id: 65,
-    pos: { x: 895, y: 555 },
-    title: { de: 'Spielstand', en: 'Game Save' },
-    date: '2021-03-19',
-    deps: [81],
-    html: {
-      de: `
-      <p>Die meisten Spiele speichern ihre Spielstände in einer verschlüsselten Form. Auch dieses kleine Spiel hier auf der Seite. Erreiche 999999 Gold und gibt deinen Spielstand als Antwort ein. Du kannst das Spiel spielen - oder es austricken.
-      </p>
-    
-      <br /><br />
-    
-      <p>Dein Gold: <span id="gold-span">0</span><br /><button onclick="update()">Grind me!</button>
-      </p>
-      <p style="color:rgb(128,128,128)">Spielstand: <span id="spielstand"></span>
-      </p>
-      <script>
-        function update() {
-          let gold = parseInt(document.getElementById('gold-span').innerHTML);
-          gold = gold + 1
-          document.getElementById('gold-span').innerHTML = gold.toString()
-          document.getElementById('spielstand').innerHTML = btoa(JSON.stringify({gold:gold}))
-        }
-      </script>
-    `,
-      en: `
-        <p>Most games save their game states in an encrypted form. Even this little game here on the page. Reach 999999 gold and enter your game state as an answer. You can play the game — or trick it.
-        </p>
-        
-        <br /><br />
-        
-        <p>Your gold: <span id="gold-span">0</span><br /><button onclick="update()">Grind me!</button>
-        </p>
-        <p style="color:rgb(128,128,128)">Game state: <span id="score"></span>
-        </p>
-        <script>
-            function update() {
-                let gold = parseInt(document.getElementById('gold-span').innerHTML);
-                gold = gold + 1
-                document.getElementById('gold-span').innerHTML = gold.toString()
-                document.getElementById('score').innerHTML = btoa(JSON.stringify({gold:gold}))
-            }
-        </script>
-    `,
-    },
-    check: (input) => {
-      let answer = input
-      let state = {}
-      try {
-        const data = Buffer.from(input, 'base64').toString('binary')
-        state = JSON.parse(data)
-        if (state.gold < 999999) {
-          return { answer: state.gold + ' Gold', correct: false }
-        }
-      } catch (e) {
-        answer = e.message
-      }
-      return {
-        answer,
-        correct: state.gold === 999999,
-      }
-    },
-  },
-
-  {
     id: 66,
-    pos: { x: 100, y: 565 },
+    pos: { x: 595, y: 225 },
     title: { de: 'Matrix', en: 'Matrix' },
-    date: '2021-03-19',
-    deps: [68],
+    // date: '2021-03-19',
+    deps: [68, 110],
     html: {
       de: `
       <p>Im Hintergrund der <a href="/chals/chal66/index.html" target="_blank">Matrix</a> ist ein Wort versteckt. Schaue genau hin und achte auf die Schatten.
@@ -3186,10 +2668,10 @@ PIXI.loader
 
   {
     id: 67,
-    pos: { x: 1255, y: 760 },
+    pos: { x: 1105, y: 160 },
     title: { de: 'Anschlüsse', en: 'Ports' },
-    date: '2021-03-19',
-    deps: [87],
+    // date: '2021-03-19',
+    deps: [37],
     html: {
       de: `
       <p>Verbinde die Adern in der richten Reihenfolge mit dem Stecker. Nutze dabei den Standard TIA-568B.</p>
@@ -3207,10 +2689,10 @@ PIXI.loader
 
   {
     id: 68,
-    pos: { x: 100, y: 400 },
+    pos: { x: 430, y: 260 },
     title: { de: 'Gemälde', en: 'Painting' },
-    date: '2021-03-19',
-    deps: [24],
+    // date: '2021-03-19',
+    deps: [5, 15],
     html: {
       de: `
       <p>Kunst überdauert Jahrhunderte - auch weil sie immer wieder neu interpretiert und überarbeitet wird.</p>
@@ -3346,10 +2828,10 @@ PIXI.loader
 
   {
     id: 69,
-    pos: { x: 395, y: 200 },
+    pos: { x: 475, y: 460 },
     title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
-    date: '2021-03-19',
-    deps: [4, 5],
+    // date: '2021-03-19',
+    deps: [4, 16, 68],
     html: {
       de: `
       <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
@@ -3468,10 +2950,10 @@ PIXI.loader
 
   {
     id: 77,
-    pos: { x: 630, y: 155 },
+    pos: { x: 680, y: 555 },
     title: { de: 'Geburtstag', en: 'Birthday' },
-    date: '2022-02-09',
-    deps: [6, 16],
+    // date: '2022-02-09',
+    deps: [51, 55, 69],
     html: {
       de: `
       <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren.</p>
@@ -3546,10 +3028,10 @@ PIXI.loader
 
   {
     id: 79,
-    pos: { x: 755, y: 210 },
+    pos: { x: 1095, y: 620 },
     title: { de: 'Google-Fu', en: 'Googling' },
-    date: '2022-02-24',
-    deps: [7, 77],
+    // date: '2022-02-24',
+    deps: [18, 84],
     html: {
       de: `
       <p>In den weiten des Internets lassen sich so manche Informationen sammeln. Der Name für diese Fähigkeit: Google-Fu.</p>
@@ -3664,10 +3146,10 @@ PIXI.loader
 
   {
     id: 81,
-    pos: { x: 785, y: 615 },
+    pos: { x: 1145, y: 345 },
     title: { de: 'Formulare', en: 'Forms' },
-    date: '2022-12-28',
-    deps: [30, 33, 60],
+    // date: '2022-12-28',
+    deps: [9, 37, 58],
     html: {
       de: `
       <p>Unintuitive Formulare sind ein Schrecken für jeden Internetbenutzer. Zum Beispiel findest du die Antwort zu dieser Aufgabe in diesem viel zu kleinen Textfeld:</p>
@@ -3726,10 +3208,10 @@ PIXI.loader
 
   {
     id: 84,
-    pos: { x: 330, y: 480 },
+    pos: { x: 860, y: 580 },
     title: { de: 'Inception', en: 'Inception' },
-    date: '2023-02-26',
-    deps: [18],
+    // date: '2023-02-26',
+    deps: [8, 23, 77],
     render: ({ req }) => {
       function renderFrame(w, h, level, lang) {
         return `
@@ -3918,10 +3400,10 @@ PIXI.loader
 
   {
     id: 87,
-    pos: { x: 1045, y: 660 },
+    pos: { x: 945, y: 760 },
     title: { de: 'Scratch', en: 'Scratch' },
-    date: '2023-04-02',
-    deps: [81],
+    // date: '2023-04-02',
+    deps: [60, 84],
     html: {
       de: `
       <p>Du hast eine wunderbar entspannte Aura! Das hat mich inspiriert, dieses kleine entspannte Spiel zu entwickeln.
@@ -3953,10 +3435,10 @@ PIXI.loader
 
   {
     id: 110,
-    pos: { x: 300, y: 310 },
+    pos: { x: 440, y: 90 },
     title: { de: 'Taschenrechner', en: 'Calculator' },
-    date: '2023-05-13',
-    deps: [4],
+    // date: '2023-05-13',
+    deps: [5],
     html: {
       de: `
       <p>Schwierigkeiten halten dich nicht von deinen Zielen ab. Im Gegenteil: Du nutzt deine Kreativität, um die Herausforderung zu lösen.
@@ -4045,9 +3527,9 @@ PIXI.loader
 
   {
     id: 111,
-    pos: { x: 380, y: 370 },
+    pos: { x: 600, y: 80 },
     title: { de: 'Taschenrechner II', en: 'Calculator II' },
-    date: '2023-05-13',
+    // date: '2023-05-13',
     deps: [110],
     html: {
       de: `
@@ -4122,6 +3604,18 @@ PIXI.loader
     solution: secrets('chal_111'),
     hidesubmit: true,
   },
+].map((x) => {
+  // TODO REMOVE BEFORE DEPLOY!!!
+  if (x.date) {
+    x.deps = []
+    x.pos.y += 1500
+  }
+  return x
+  // TODO
+})
+
+module.exports = [
+  ...part1,
   ...require('./challenges-after-passage'),
   ...require('./community'),
 ]

@@ -3073,7 +3073,7 @@ PIXI.loader
     deps: [4, 6],
     html: {
       de: `
-      <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken.</p>
+      <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken. Verwende die Farben <code>green</code>, <code>purple</code>, <code>red</code>, <code>yellow</code>, <code>blue</code> und <code>orange</code>. Lade die Seite neu zum zurückzusetzen.</p>
       
       <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
   background-color: green;

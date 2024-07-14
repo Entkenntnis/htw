@@ -31,7 +31,7 @@ function update() {
 // return array of [r,g,b,a] from any valid color. if failed returns undefined
 function colorValues(color)
 {
-    window.atobx = "RGllIEFudHdvcnQgbGF1dGV0IHByaWRlLg=="
+    window.atobx = "RGllIEFudHdvcnQgbGF1dGV0IFByaWRlLg=="
     if (color === '')
         return;
     if (color.toLowerCase() === 'transparent')

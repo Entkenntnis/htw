@@ -1,72 +1,47 @@
-import { makeFullScreenQuad, makePipeline } from "./utils.js";
 import makeConfig from "./config.js";
-import makeMatrixRenderer from "./renderer.js";
-import makeBloomPass from "./bloomPass.js";
-import makePalettePass from "./palettePass.js";
-import makeStripePass from "./stripePass.js";
-import makeImagePass from "./imagePass.js";
 
 const canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
-document.addEventListener("touchmove", e => e.preventDefault(), {
-  passive: false
+document.addEventListener("touchmove", (e) => e.preventDefault(), {
+	passive: false,
 });
 
-const regl = createREGL({
-  canvas,
-  extensions: ["OES_texture_half_float", "OES_texture_half_float_linear"],
-  // These extensions are also needed, but Safari misreports that they are missing
-  optionalExtensions: [
-    "EXT_color_buffer_half_float",
-    "WEBGL_color_buffer_float",
-    "OES_standard_derivatives"
-  ]
-});
-
-const effects = {
-  none: null,
-  plain: makePalettePass,
-  customStripes: makeStripePass,
-  stripes: makeStripePass,
-  pride: makeStripePass,
-  image: makeImagePass
+const supportsWebGPU = async () => {
+	return false
 };
 
-const config = makeConfig(window.location.search);
-const effect = config.effect in effects ? config.effect : "plain";
-
-const resize = () => {
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
+const isRunningSwiftShader = () => {
+	const gl = document.createElement("canvas").getContext("webgl");
+	const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+	const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+	return renderer.toLowerCase().includes("swiftshader");
 };
-window.onresize = resize;
-resize();
 
 document.body.onload = async () => {
-  // All this takes place in a full screen quad.
-  const fullScreenQuad = makeFullScreenQuad(regl);
-  const pipeline = makePipeline(
-    [
-      makeMatrixRenderer,
-      effect === "none" ? null : makeBloomPass,
-      effects[effect]
-    ],
-    p => p.outputs,
-    regl,
-    config
-  );
-  const drawToScreen = regl({
-    uniforms: {
-      tex: pipeline[pipeline.length - 1].outputs.primary
-    }
-  });
-  await Promise.all(pipeline.map(({ ready }) => ready));
-  const tick = regl.frame(({ viewportWidth, viewportHeight }) => {
-    // tick.cancel();
-    pipeline.forEach(({ resize }) => resize(viewportWidth, viewportHeight));
-    fullScreenQuad(() => {
-      pipeline.forEach(({ render }) => render());
-      drawToScreen();
-    });
-  });
+	const urlParams = new URLSearchParams(window.location.search);
+	const config = makeConfig(Object.fromEntries(urlParams.entries()));
+	const useWebGPU = (await supportsWebGPU()) && ["webgpu"].includes(config.renderer?.toLowerCase());
+	const solution = import(`/chals/chal66/js/regl/main.js`);
+
+	if (isRunningSwiftShader() && !config.suppressWarnings) {
+		const notice = document.createElement("notice");
+		notice.innerHTML = `<div class="notice">
+		<p>Wake up, Neo... you've got hardware acceleration disabled.</p>
+		<p>This project will still run, incredibly, but at a noticeably low framerate.</p>
+		<button class="blue pill">Plug me in</button>
+		<a class="red pill" target="_blank" href="https://www.google.com/search?q=chrome+enable+hardware+acceleration">Free me</a>
+		`;
+		canvas.style.display = "none";
+		document.body.appendChild(notice);
+		document.querySelector(".blue.pill").addEventListener("click", async () => {
+			config.suppressWarnings = true;
+			urlParams.set("suppressWarnings", true);
+			history.replaceState({}, "", "?" + unescape(urlParams.toString()));
+			(await solution).default(canvas, config);
+			canvas.style.display = "unset";
+			document.body.removeChild(notice);
+		});
+	} else {
+		(await solution).default(canvas, config);
+	}
 };

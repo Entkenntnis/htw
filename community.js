@@ -9,7 +9,6 @@ module.exports = [
     date: '2023-07-28',
     deps: [57],
     noScore: true,
-    showAboveScore: 155,
     render: async ({ App, req }) => {
       const communityChals = App.challenges.data.filter((chal) => chal.noScore)
       const ids = communityChals.map((chal) => chal.id)

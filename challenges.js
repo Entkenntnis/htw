@@ -105,10 +105,10 @@ const part1 = [
 
   {
     id: 3,
-    pos: { x: 825, y: 1025 },
+    pos: { x: 430, y: 1085 },
     title: { de: 'Auf hoher See', en: 'At sea' },
-    date: '2017-05-17',
-    deps: [2, 39, 45],
+    // date: '2017-05-17',
+    deps: [42, 50],
     html: {
       de: `
         <p>Wie komfortabel heute die Kommunikation geworden ist! Mit WhatsApp und Facebook kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor hundert Jahren die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
@@ -323,10 +323,10 @@ const part1 = [
 
   {
     id: 6,
-    pos: { x: 485, y: 150 },
+    pos: { x: 111, y: 400 },
     title: { de: 'HTML', en: 'HTML' },
-    date: '2017-05-17',
-    deps: [5],
+    // date: '2017-05-17',
+    deps: [24],
     html: {
       de: `
       <p>Wenn du dir eine Website am Computer anschaust, dann siehst du eigentlich nur einen kleinen Teil der Website. Hinter den Kulissen aber gibt es noch eine ganze Welt voller Technik zu entdecken.
@@ -396,9 +396,9 @@ const part1 = [
 
   {
     id: 7,
-    pos: { x: 590, y: 230 },
+    pos: { x: 130, y: 550 },
     title: { en: 'HTML II', de: 'HTML II' },
-    date: '2017-05-17',
+    // date: '2017-05-17',
     deps: [6],
     html: {
       de: `
@@ -780,10 +780,10 @@ const part1 = [
 
   {
     id: 21,
-    pos: { x: 160, y: 485 },
+    pos: { x: 350, y: 665 },
     title: { de: 'Fingerzeig', en: 'Helping hand' },
-    date: '2017-08-25',
-    deps: [51, 68],
+    // date: '2017-08-25',
+    deps: [51, 80],
     html: {
       de: `
       <p>
@@ -928,10 +928,10 @@ const part1 = [
 
   {
     id: 25,
-    pos: { x: 865, y: 855 },
+    pos: { x: 535, y: 1045 },
     title: { de: 'Russische Puppen', en: 'Russian dolls' },
-    date: '2017-08-25',
-    deps: [40, 41, 42],
+    // date: '2017-08-25',
+    deps: [42, 50],
     html: {
       de: `
       <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
@@ -955,10 +955,10 @@ const part1 = [
 
   {
     id: 26,
-    pos: { x: 515, y: 715 },
+    pos: { x: 555, y: 925 },
     title: { de: 'Zeitmaschine', en: 'Time machine' },
-    date: '2017-08-26',
-    deps: [60],
+    // date: '2017-08-26',
+    deps: [30, 78],
     html: {
       de: `
       <p>Du siehst aus wie jemand, der sich für Backstories interessiert! Die Entstehungsgeschichte von Hack The Web hat ein paar spannende Aspekte und hier gibt es eine kleine Geschichtsstunde nur für dich.
@@ -1005,7 +1005,7 @@ const part1 = [
     pos: { x: 1085, y: 905 },
     title: { de: 'Fingerspitzengefühl', en: 'Tactility' },
     // date: '2017-08-26',
-    deps: [47, 87 /*29, 66*/],
+    deps: [45, 47, 48, 87],
     html: {
       de: `
       <p>Taste vorsichtig über das Feld und lies die Antwort ab:
@@ -1082,10 +1082,10 @@ const part1 = [
 
   {
     id: 29,
-    pos: { x: 195, y: 615 },
+    pos: { x: 635, y: 865 },
     title: { de: 'GPS-Code', en: 'GPS code' },
-    date: '2017-08-26',
-    deps: [21],
+    // date: '2017-08-26',
+    deps: [30, 78],
     html: {
       de: `
       <p>Die Anfangsbuchstaben folgender deutscher Orte ergeben die Antwort:
@@ -1121,10 +1121,10 @@ const part1 = [
 
   {
     id: 30,
-    pos: { x: 715, y: 470 },
+    pos: { x: 375, y: 840 },
     title: { de: 'UNIX Zeitstempel', en: 'UNIX timestamp' },
-    date: '2017-08-26',
-    deps: [70],
+    // date: '2017-08-26',
+    deps: [21, 63],
     html: {
       de: `
       <p>Im welchem Jahr liegt der Zeitpunkt 817876800?
@@ -1256,9 +1256,9 @@ const part1 = [
 
   {
     id: 33,
-    pos: { x: 675, y: 525 },
+    pos: { x: 1070, y: 100 },
     title: { de: 'Taschenrechner V', en: 'Calculator V' },
-    date: '2017-08-26',
+    // date: '2017-08-26',
     deps: [32],
     html: {
       de: `
@@ -1383,10 +1383,10 @@ const part1 = [
 
   {
     id: 39,
-    pos: { x: 565, y: 955 },
+    pos: { x: 625, y: 1125 },
     title: { de: 'Flaggen', en: 'Flags' },
-    date: '2020-05-20',
-    deps: [50],
+    // date: '2020-05-20',
+    deps: [3, 25],
     html: {
       de: `
       <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. In der Seefahrt wird dieses Potenzial voll ausgenutzt.
@@ -1485,10 +1485,10 @@ const part1 = [
 
   {
     id: 42,
-    pos: { x: 615, y: 745 },
+    pos: { x: 300, y: 965 },
     title: { de: 'Ohrwurm', en: 'Catchy Tune' },
-    date: '2020-05-20',
-    deps: [60],
+    // date: '2020-05-20',
+    deps: [70],
     html: {
       de: `
       <p>Wer kennt ihn nicht: Der Wurm, der uns ins Gehör kriegt und uns Tag und Nacht verfolgt?
@@ -1520,13 +1520,13 @@ const part1 = [
 
   {
     id: 45,
-    pos: { x: 415, y: 1005 },
+    pos: { x: 900, y: 905 },
     title: { de: 'Schriftzeichen', en: 'Characters' },
-    date: '2020-05-20',
-    deps: [50, 78],
+    // date: '2020-05-20',
+    deps: [56, 59, 60, 62],
     html: {
       de: `
-      <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich nun hinter folgenden Schriftzeichen?
+      <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich hinter folgenden Schriftzeichen?
       </p>
       
       <p><img src="/chals/chal45.png" alt="japanese characters"></p>
@@ -1666,10 +1666,10 @@ const part1 = [
 
   {
     id: 48,
-    pos: { x: 1111, y: 420 },
+    pos: { x: 890, y: 1000 },
     title: { de: 'Stille', en: 'Silence' },
-    date: '2020-05-21',
-    deps: [28, 47],
+    // date: '2020-05-21',
+    deps: [56, 62],
     html: {
       de: `
       <p>Zur Ruhe kommen und in sich hineinhören - das brauche ich immer wieder, um mich mit mir selbst zu verbinden und so ausgeglichen sein zu können wie du.
@@ -1701,10 +1701,10 @@ const part1 = [
 
   {
     id: 50,
-    pos: { x: 455, y: 825 },
+    pos: { x: 425, y: 935 },
     title: { de: 'Winkelschrift', en: 'Pigpen Cipher' },
-    date: '2020-05-21',
-    deps: [53, 58, 60],
+    // date: '2020-05-21',
+    deps: [30, 70],
     html: {
       de: `
       <p>Was diese winkeligen Zeichen wohl sagen mögen?
@@ -1960,10 +1960,10 @@ const part1 = [
 
   {
     id: 56,
-    pos: { x: 865, y: 105 },
+    pos: { x: 705, y: 1015 },
     title: { de: 'Benutzername II', en: 'Username II' },
-    date: '2020-08-01',
-    deps: [17],
+    // date: '2020-08-01',
+    deps: [25, 26],
     html: {
       de: `
       <p>Es ist wieder dein Benutzername gefragt. Diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
@@ -2084,10 +2084,10 @@ const part1 = [
 
   {
     id: 59,
-    pos: { x: 1075, y: 985 },
+    pos: { x: 745, y: 795 },
     title: { de: 'Geheimtext', en: 'Secret Text' },
-    date: '2020-08-17',
-    deps: [3, 25],
+    // date: '2020-08-17',
+    deps: [23, 78],
     html: {
       de: `
       <p>Schon als Kind hat es super viel Spaß gemacht, einen Geheimtext Stück für Stück zu entschlüsseln. Hier kannst das auf interaktive Art nacherleben.
@@ -2168,10 +2168,10 @@ const part1 = [
 
   {
     id: 62,
-    pos: { x: 1130, y: 300 },
+    pos: { x: 740, y: 930 },
     title: { de: 'Datei', en: 'File' },
-    date: '2020-08-17',
-    deps: [37, 47],
+    // date: '2020-08-17',
+    deps: [26, 29],
     html: {
       de: `
       <p>Ich möchte dir sagen: Du bist wunderbar <3.
@@ -2249,10 +2249,10 @@ const part1 = [
 
   {
     id: 63,
-    pos: { x: 1335, y: 650 },
+    pos: { x: 230, y: 690 },
     title: { de: 'Cheater', en: 'Cheater' },
-    date: '2020-08-17',
-    deps: [38, 46, 80],
+    // date: '2020-08-17',
+    deps: [7, 80],
     html: {
       de: `
       <p>Anleitung: Klicke auf das Spielfeld. Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet.</p>
@@ -2269,7 +2269,7 @@ const part1 = [
       <button onclick="handleUp()">Up</button>
       <button onclick="handleRight()">Right</button>
 
-      <p><button onclick="update()" style="margin-top:20px">Code aktualisieren</button></p>
+      <p><button onclick="update()" style="margin-top:20px">Spiel aktualisieren</button></p>
       
       <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">if (app) app.ticker.stop();
 var app = new PIXI.Application(800,600,{backgroundColor:0x1099bb});
@@ -2668,7 +2668,7 @@ PIXI.loader
 
   {
     id: 67,
-    pos: { x: 1105, y: 160 },
+    pos: { x: 1105, y: 210 },
     title: { de: 'Anschlüsse', en: 'Ports' },
     // date: '2021-03-19',
     deps: [37],
@@ -2895,10 +2895,10 @@ PIXI.loader
 
   {
     id: 70,
-    pos: { x: 560, y: 410 },
+    pos: { x: 190, y: 850 },
     title: { de: 'Karol', en: 'Karol' },
-    date: '2021-03-19',
-    deps: [55, 111],
+    // date: '2021-03-19',
+    deps: [63, 86],
     html: {
       de: `
       <p>Wenn wir heute in einem LEGO-Wettbewerb gegeneinander antreten würde, dann hätte ich gegen dich keine Chance. Irgendwie war ich kreativer, als ich noch jung war.
@@ -2975,10 +2975,10 @@ PIXI.loader
 
   {
     id: 78,
-    pos: { x: 255, y: 885 },
+    pos: { x: 535, y: 785 },
     title: { de: 'Papier', en: 'Paper' },
-    date: '2022-02-09',
-    deps: [27],
+    // date: '2022-02-09',
+    deps: [21, 63],
     html: {
       de: `
       <p>Die meisten Webseiten können sich an die Größe des Bildschirms anpassen, sei es ein Handy, Tablet oder großer Monitor. In der analogen Welt gibt es diese Möglichkeiten nicht. Dort findet sich häufig nur das Format DIN A4.
@@ -3061,13 +3061,13 @@ PIXI.loader
 
   {
     id: 80,
-    pos: { x: 1105, y: 535 },
+    pos: { x: 250, y: 535 },
     title: { de: 'Stylesheet', en: 'Stylesheet' },
-    date: '2022-02-24',
-    deps: [28],
+    // date: '2022-02-24',
+    deps: [4, 6],
     html: {
       de: `
-      <p>ARRRRG! Irgendeine <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen:</p>
+      <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken.</p>
       
       <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
   background-color: green;
@@ -3329,10 +3329,10 @@ PIXI.loader
 
   {
     id: 86,
-    pos: { x: 965, y: 766 },
+    pos: { x: 90, y: 706 },
     title: { de: 'Fragil', en: 'Fragile' },
-    date: '2023-04-02',
-    deps: [81],
+    // date: '2023-04-02',
+    deps: [7, 80],
     html: {
       de: `
       <p>Diese Seite ist leicht zerbrechlich. Probiere es aus: Du kannst alle Inhalte verändern.</p>
@@ -3403,7 +3403,7 @@ PIXI.loader
     pos: { x: 945, y: 760 },
     title: { de: 'Scratch', en: 'Scratch' },
     // date: '2023-04-02',
-    deps: [60, 84],
+    deps: [59, 60, 84],
     html: {
       de: `
       <p>Du hast eine wunderbar entspannte Aura! Das hat mich inspiriert, dieses kleine entspannte Spiel zu entwickeln.
@@ -3604,15 +3604,7 @@ PIXI.loader
     solution: secrets('chal_111'),
     hidesubmit: true,
   },
-].map((x) => {
-  // TODO REMOVE BEFORE DEPLOY!!!
-  if (x.date) {
-    x.deps = []
-    x.pos.y += 1500
-  }
-  return x
-  // TODO
-})
+]
 
 module.exports = [
   ...part1,

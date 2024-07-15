@@ -115,7 +115,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.invite_',
     value: `
-      </p>
+      <!--</p>
       
       <div class="jumbotron" style="padding-top:24px;margin-top:48px;border:#009670 solid 1px;background-image:url('background.jpg');">
         <p>Neu hier? Starte deine Reise in die Welt des Hacking:
@@ -127,7 +127,58 @@ module.exports = (config) => {
 
       <p>Besuche auch die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.</p>
       
-      <p>Zugangsdaten zum Ausprobieren: <code>demo</code> / <code>1234</code>.
+      <p>Zugangsdaten zum Ausprobieren: <code>demo</code> / <code>1234</code>.-->
+
+      <!--<h2 style="margin-top:48px;">Was ist ein Hacker?</h2>
+
+      <p>Ein Hacker ist eine Person, die sehr gerne mit Technik spielt. Sie nutzt ihr Wissen und ihre Kreativität, um neue und spannende Dinge zu tun. Sie arbeitet aus der Freude heraus und vermeiden es, Menschen mit ihren Tätigkeiten zu schaden, was sie von Crackern unterscheidet, die gezielt Sicherheitslücken zu ihren Vorteilen ausnutzen.</p>
+
+      <h2 style="margin-top:48px;">Wie wird man Hacker?</h2>
+
+      <p>Sei neugierig, probiere Dinge aus, lernde die Grundlagen von Computern und dem Internet kennen. Hack The Web ist aus dem Wunsch entstanden, dir auf diesem Weg zu helfen. Es geht weniger darum, in Systeme einzudringen. Vielmehr steht der kreative Prozess im Vordergrund. Du findest hier einen spielerischen Einstieg, anhand vieler praktischer Rätsel kannst du direkt dein Können und deine Kreativität unter Beweis stellen.</p>
+      
+      <h3 style="margin-top:48px;margin-bottom:16px;">Das bietet Hack The Web:</h3>
+
+      <p>Für den Einstieg ist kein Vorwissen notwendig, empfohlen ab der 7. Jahrgangsstufe. Für den Anfang reichen 30 - 90 Minuten, danach kann open end weitergespielt werden. Die Registrierung reicht selbstgewählter Name und Passwort.</p>
+
+      <p>Die Community erreichst du über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>. Um die Inhalte auszuprobieren, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
+
+      <p style="margin-top:32px;margin-bottom:32px;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>-->
+
+      <div class="container" style="margin-top:48px;">
+        <div class="row">
+          <div class="col-lg" style="margin-left:-15px;">
+            <div style="padding:24px;" class="jumbotron">
+
+              <p>Mit 13 Jahren beschloss ich, Hackerin zu werden.</p>
+
+              <p>Ich bewunderte diese Menschen. Diejenigen, die sich bis ins kleinste Detail mit einem System auskennen. Und die, die mit ihrer Vorstellungskraft und Kreativität zeigen: Da draußen gibt es noch so viel mehr zu entdecken.</p>
+
+              <p>Mir ging es nie darum, in Systeme einzudringen oder Dinge zu zerstören. Ich wollte Neues schaffen und Menschen verbinden. Ich wollte Menschen Hoffnung geben, dass die Grenzen des Machbaren sich eines Tages verschieben können.</p>
+
+              <p>Und so, wie mich diese Menschen geprägt haben, möchte ich auch dich begleiten, zumindest ein kleines Stück, auf deiner Reise. Ich möchte dir die Dinge weitergeben, die mich damals wie heute noch faszinieren.
+              </p>
+
+              <p style="text-align:right;">Anna42</p>
+
+            </div>
+          </div>
+          <div class="col-lg">
+            <p>Auf Hack The Web findest du einen spielerischen Einstieg in die Welt des Hackings. In vielfältigen Rätseln kannst du dein Wissen und deine Kreativität unter Beweis stellen. Der kreative Umgang mit Technologie steht im Vordergrund - du findest hier keine Anleitungen zum Knacken einer Webseite.</p>
+            
+            <p>Der Einstieg ist ohne Vorwissen möglich und ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Für die Registrierung reicht ein selbstgewählter Name und ein Passwort.
+            </p>
+
+            <p>Die Community erreichst du über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>. Um die Inhalte auszuprobieren, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
+
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
     `,
   })
   config.i18nExtend.push({

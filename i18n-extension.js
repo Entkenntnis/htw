@@ -152,26 +152,27 @@ module.exports = (config) => {
 
               <p>Mit 13 Jahren beschloss ich, Hackerin zu werden.</p>
 
-              <p>Ich bewunderte diese Menschen. Diejenigen, die sich bis ins kleinste Detail mit einem System auskennen. Und die, die mit ihrer Vorstellungskraft und Kreativität zeigen: Da draußen gibt es noch so viel mehr zu entdecken.</p>
+              <p>Ich bewunderte diese Menschen. Diejenigen, die sich bis ins kleinste Detail mit einem System auskennen. Und die, die mit ihrer Kreativität und Ausdauer auch das scheinbar Unmögliche möglich machen.</p>
 
-              <p>Mir ging es nie darum, in Systeme einzudringen oder Dinge zu zerstören. Ich wollte Neues schaffen und Menschen verbinden. Ich wollte Menschen Hoffnung geben, dass die Grenzen des Machbaren sich eines Tages verschieben können.</p>
+              <p>Ich schätze mich glücklich, von guten Vorbildern gelernt zu haben. Das hat damals für mich einen großen Unterschied gemacht.
+              </p>
 
-              <p>Und so, wie mich diese Menschen geprägt haben, möchte ich auch dich begleiten, zumindest ein kleines Stück, auf deiner Reise. Ich möchte dir die Dinge weitergeben, die mich damals wie heute noch faszinieren.
+              <p>Und so möchte ich auch dich ein kleines Stück auf deiner Reise begleiten. Hier habe ich die Dinge zusammengetragen, die mich damals wie heute faszinieren. Ich hoffe, sie werden dir von Nutzen sein.
               </p>
 
               <p style="text-align:right;">Anna42</p>
 
             </div>
           </div>
-          <div class="col-lg">
+          <div class="col-lg" style="padding:24px;">
             <p>Auf Hack The Web findest du einen spielerischen Einstieg in die Welt des Hackings. In vielfältigen Rätseln kannst du dein Wissen und deine Kreativität unter Beweis stellen. Der kreative Umgang mit Technologie steht im Vordergrund - du findest hier keine Anleitungen zum Knacken einer Webseite.</p>
             
             <p>Der Einstieg ist ohne Vorwissen möglich und ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Für die Registrierung reicht ein selbstgewählter Name und ein Passwort.
             </p>
 
-            <p>Die Community erreichst du über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>. Um die Inhalte auszuprobieren, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
-
             <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>
+
+            <p>Über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> kommst du mit der Community in Kontakt. Um einen Überblick zu erhalten, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
           </div>
         </div>
       </div>

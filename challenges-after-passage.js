@@ -2011,8 +2011,8 @@ print(hex_string)</pre></code>
     id: 103,
     pos: { x: 698, y: 1671 },
     title: { de: 'Hintergrund', en: 'Background' },
-    date: '2023-05-27',
-    deps: [98, 99, 100, 101],
+    // date: '2023-05-27',
+    deps: [],
     html: {
       de: `
       <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
@@ -2243,4 +2243,11 @@ print(hex_string)</pre></code>
       }
     },
   },
-]
+].map((x) => {
+  if (x.date) {
+    x.deps = []
+    x.pos.x += 1000
+    x.pos.y += 300
+  }
+  return x
+})

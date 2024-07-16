@@ -124,10 +124,10 @@ module.exports = (config) => {
 
               <p>Ich bewunderte diese Menschen. Diejenigen, die sich bis ins kleinste Detail mit einem System auskennen. Und die, die mit ihrer Kreativität und Ausdauer auch das scheinbar Unmögliche möglich machen.</p>
 
-              <p>Ich schätze mich glücklich, von guten Vorbildern gelernt zu haben. Das hat damals für mich einen großen Unterschied gemacht.
+              <p>Großartige Vorbilder zeigten mir den Weg und begleiteten mich durch viele Herausforderungen. Ich lernte sehr viel und dafür schätze ich mich glücklich.
               </p>
 
-              <p>Und so möchte ich auch dich ein kleines Stück auf deiner Reise begleiten. Hier habe ich die Dinge zusammengetragen, die mich damals wie heute faszinieren. Ich hoffe, sie werden dir von Nutzen sein.
+              <p>So möchte ich auch dich ein kleines Stück auf deiner Reise begleiten. Hier findest du Dinge, die mich damals wie heute faszinieren. Ich hoffe, sie werden dir von Nutzen sein.
               </p>
 
               <p style="text-align:right;">Anna42</p>
@@ -142,7 +142,7 @@ module.exports = (config) => {
 
             <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>
 
-            <p>Über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> kommst du mit der Community in Kontakt. Um einen Überblick zu erhalten, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
+            <p>Über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
           </div>
         </div>
       </div>
@@ -152,19 +152,35 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.invite_',
     value: `
-      </p>
-      
-      <div class="jumbotron" style="padding-top:24px;margin-top:48px;border:#009670 solid 1px;background-image:url('background.jpg');">
-        <p>New here? Begin your journey into the world of hacking:
-        </p>
-        <p class="text-center" style="margin-top:48px;">
-          <a href="/register" class="btn btn-success btn-lg">Get started</a>
-        </p>
+      <div class="container" style="margin-top:48px;">
+        <div class="row">
+          <div class="col-lg" style="margin-left:-15px;">
+            <div style="padding:24px;padding-bottom:1px" class="jumbotron">
+
+              <p>At the age of 13, I decided to become a hacker.</p>
+
+              <p>I admired these people. Those who know a system down to the smallest detail. And those who, with their creativity and perseverance, make even the seemingly impossible possible.</p>
+
+              <p>Great role models showed me the way and accompanied me through many challenges. I learned a lot, and for that, I consider myself lucky.</p>
+
+              <p>So I would like to accompany you a little on your journey. Here you will find things that fascinate me then and now. I hope they will be useful to you.</p>
+
+              <p style="text-align:right;">Anna42</p>
+
+            </div>
+          </div>
+          <div class="col-lg" style="padding:24px;">
+            <p>On Hack The Web, you will find a playful introduction to the world of hacking. In various puzzles, you can demonstrate your knowledge and creativity. The creative use of technology is the focus here - you won't find instructions on how to hack a website.</p>
+            
+            <p>Entry is possible without prior knowledge and is suitable from the 7th grade. It is best to take 30 - 90 minutes. A self-chosen name and a password are sufficient for registration.</p>
+
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Register now</a></p>
+
+            <p>Through our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> you can get in touch with the community. To get a quick look, use the login data <code>demo</code> / <code>1234</code>.</p>
+          </div>
+        </div>
       </div>
 
-      <p>Also visit the <a href="https://de.serlo.org/200247" target="_blank">info page</a> or join our <a href="https://discord.gg/9zDMZP9edd" target="_blank">discord server</a>.</p>
-      
-      <p>Try it out with this user: <code>demo</code> / <code>1234</code>.
     `,
   })
 

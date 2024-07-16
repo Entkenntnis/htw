@@ -318,6 +318,19 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>Juli 2024</h3>
+      
+      <p>In diesem Update wurden zwei Bereiche von Hack The Web grundlegend überarbeitet: Die Startseite erhält mehr informative Texte und ein kleines Vorwort. Außerdem wurde die Karte einmal neu sortiert, um das Spielerlebnis flüssiger zu gestalten.
+      </p>
+
+      <p>Es kann daher sein, dass deine Karte etwas durcheinander aussieht nach dem Login - das liegt an der Überarbeitung. Du kannst aber in deinem Spielstand einfach weiterspielen.
+      </p>
+
+      <p>Entsprechend ändern sich auch die Punktzahlen. Die neue Höchstpunktzahl beträgt 17XX.
+      </p>
+      
+      <div class="my-5"></div>
+      
       <h3>Juni 2024</h3>
       
       <p>Kleine Verbesserungen an den Aufgaben.

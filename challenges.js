@@ -1389,10 +1389,10 @@ const part1 = [
 
   {
     id: 39,
-    pos: { x: 625, y: 1125 },
+    pos: { x: 1305, y: 365 },
     title: { de: 'Flaggen', en: 'Flags' },
     // date: '2020-05-20',
-    deps: [3, 25],
+    deps: [81],
     html: {
       de: `
       <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. In der Seefahrt wird dieses Potenzial voll ausgenutzt.

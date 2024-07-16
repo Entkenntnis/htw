@@ -38,7 +38,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: Juni 2024 (<a href="' +
+      'Version: Juli 2024 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -46,7 +46,7 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.version',
     value:
-      'Version: June 2024 (<a href="' + config.urlPrefix + '/news">News</a>)',
+      'Version: July 2024 (<a href="' + config.urlPrefix + '/news">News</a>)',
   })
 
   config.i18nExtend.push({
@@ -115,38 +115,72 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.invite_',
     value: `
-      </p>
-      
-      <div class="jumbotron" style="padding-top:24px;margin-top:48px;border:#009670 solid 1px;background-image:url('background.jpg');">
-        <p>Neu hier? Starte deine Reise in die Welt des Hacking:
-        </p>
-        <p class="text-center" style="margin-top:48px;">
-          <a href="/register" class="btn btn-success btn-lg">Jetzt loslegen</a>
-        </p>
-      </div>
+      <div class="container" style="margin-top:48px;">
+        <div class="row">
+          <div class="col-lg" style="margin-left:-15px;">
+            <div style="padding:24px;padding-bottom:1px" class="jumbotron">
 
-      <p>Besuche auch die <a href="https://de.serlo.org/200247" target="_blank">Info-Seite</a> oder schaue auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> vorbei.</p>
-      
-      <p>Zugangsdaten zum Ausprobieren: <code>demo</code> / <code>1234</code>.
+              <p>Mit 13 Jahren beschloss ich, Hackerin zu werden.</p>
+
+              <p>Ich bewunderte diese Menschen. Diejenigen, die sich bis ins kleinste Detail mit einem System auskennen. Und die, die mit ihrer Kreativität und Ausdauer auch das scheinbar Unmögliche möglich machen.</p>
+
+              <p>Großartige Vorbilder zeigten mir den Weg und begleiteten mich durch viele Herausforderungen. Ich lernte sehr viel und dafür schätze ich mich glücklich.
+              </p>
+
+              <p>So möchte ich auch dich ein kleines Stück auf deiner Reise begleiten. Hier findest du Dinge, die mich damals wie heute faszinieren. Ich hoffe, sie werden dir von Nutzen sein.
+              </p>
+
+              <p style="text-align:right;">Anna42</p>
+
+            </div>
+          </div>
+          <div class="col-lg" style="padding:24px;">
+            <p>Auf Hack The Web findest du einen spielerischen Einstieg in die Welt des Hackings. In vielfältigen Rätseln kannst du dein Wissen und deine Kreativität unter Beweis stellen. Der kreative Umgang mit Technologie steht im Vordergrund - du findest hier keine Anleitungen zum Knacken einer Webseite.</p>
+            
+            <p>Der Einstieg ist ohne Vorwissen möglich und ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Für die Registrierung reicht ein selbstgewählter Name und ein Passwort.
+            </p>
+
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>
+
+            <p>Über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
+          </div>
+        </div>
+      </div>
     `,
   })
   config.i18nExtend.push({
     lng: 'en',
     key: 'home.invite_',
     value: `
-      </p>
-      
-      <div class="jumbotron" style="padding-top:24px;margin-top:48px;border:#009670 solid 1px;background-image:url('background.jpg');">
-        <p>New here? Begin your journey into the world of hacking:
-        </p>
-        <p class="text-center" style="margin-top:48px;">
-          <a href="/register" class="btn btn-success btn-lg">Get started</a>
-        </p>
+      <div class="container" style="margin-top:48px;">
+        <div class="row">
+          <div class="col-lg" style="margin-left:-15px;">
+            <div style="padding:24px;padding-bottom:1px" class="jumbotron">
+
+              <p>At the age of 13, I decided to become a hacker.</p>
+
+              <p>I admired these people. Those who know a system down to the smallest detail. And those who, with their creativity and perseverance, make even the seemingly impossible possible.</p>
+
+              <p>Great role models showed me the way and accompanied me through many challenges. I learned a lot, and for that, I consider myself lucky.</p>
+
+              <p>So I would like to accompany you a little on your journey. Here you will find things that fascinate me then and now. I hope they will be useful to you.</p>
+
+              <p style="text-align:right;">Anna42</p>
+
+            </div>
+          </div>
+          <div class="col-lg" style="padding:24px;">
+            <p>On Hack The Web, you will find a playful introduction to the world of hacking. In various puzzles, you can demonstrate your knowledge and creativity. The creative use of technology is the focus here - you won't find instructions on how to hack a website.</p>
+            
+            <p>Entry is possible without prior knowledge and is suitable from the 7th grade. It is best to take 30 - 90 minutes. A self-chosen name and a password are sufficient for registration.</p>
+
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Register now</a></p>
+
+            <p>Through our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> you can get in touch with the community. To get a quick look, use the login data <code>demo</code> / <code>1234</code>.</p>
+          </div>
+        </div>
       </div>
 
-      <p>Also visit the <a href="https://de.serlo.org/200247" target="_blank">info page</a> or join our <a href="https://discord.gg/9zDMZP9edd" target="_blank">discord server</a>.</p>
-      
-      <p>Try it out with this user: <code>demo</code> / <code>1234</code>.
     `,
   })
 
@@ -282,6 +316,19 @@ module.exports = (config) => {
     lng: 'de',
     key: 'news.content_',
     value: `
+      <div class="my-5"></div>
+      
+      <h3>Juli 2024</h3>
+      
+      <p>In diesem Update wurden zwei Bereiche von Hack The Web neu überarbeitet: Die Startseite erhält mehr informative Texte und ein kleines Vorwort. Außerdem wurde die Karte neu sortiert, um das Spielerlebnis flüssiger zu gestalten.
+      </p>
+
+      <p>Es kann daher sein, dass deine Karte etwas durcheinander aussieht nach dem Login - das liegt an der Überarbeitung. Du kannst aber in deinem Spielstand einfach weiterspielen.
+      </p>
+
+      <p>Entsprechend ändern sich auch die Punktzahlen. Die neue Höchstpunktzahl beträgt 1768.
+      </p>
+      
       <div class="my-5"></div>
       
       <h3>Juni 2024</h3>
@@ -491,6 +538,19 @@ module.exports = (config) => {
     lng: 'en',
     key: 'news.content_',
     value: `
+      <div class="my-5"></div>
+
+      <h3>July 2024</h3>
+
+      <p>In this update, two areas of Hack The Web have been revised: The homepage now includes more informative texts and a small foreword. Additionally, the map has been reorganized to make the gameplay smoother.
+      </p>
+      
+      <p>As a result, your map may look a bit jumbled after logging in - this is due to the reorganization. However, you can continue playing from your saved game.
+      </p>
+
+      <p>Accordingly, the scores have also changed. The new high score is 1768.
+      </p>
+      
       <div class="my-5"></div>
         
       <h3>June 2024</h3>

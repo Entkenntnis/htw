@@ -92,10 +92,10 @@ function runBrainfuck(program) {
 module.exports = [
   {
     id: 36,
-    pos: { x: 1600, y: 1800 },
+    pos: { x: 630, y: 1835 },
     title: { de: 'Benutzername III', en: 'Username III' },
-    date: '2020-05-20',
-    deps: [],
+    // date: '2020-05-20',
+    deps: [103],
     html: {
       de: `
     <p>Es war noch nie einfacher gewesen, eine eigene Website zu bauen und diese ins Internet zu stellen. Daher die Aufgabe für dich: Erstelle eine Website, die genau deinen Benutzernamen enthält (kein HTML, keine Leerzeichen, nur dein Benutzername!) und gib die URL als Antwort ein:
@@ -148,10 +148,10 @@ module.exports = [
 
   {
     id: 38,
-    pos: { x: 1600, y: 1500 },
+    pos: { x: 540, y: 1470 },
     title: { de: 'Metadaten', en: 'Metadata' },
-    date: '2020-05-20',
-    deps: [],
+    // date: '2020-05-20',
+    deps: [40],
     html: {
       de: `
       <p>Oh wie süß! Schau dir dieses Foto an:
@@ -175,10 +175,10 @@ module.exports = [
 
   {
     id: 40,
-    pos: { x: 1600, y: 1700 },
+    pos: { x: 680, y: 1290 },
     title: { de: 'Terminal', en: 'Terminal' },
-    date: '2020-05-20',
-    deps: [],
+    // date: '2020-05-20',
+    deps: [85, 94],
     html: {
       de: `
       <p>Schwarzer Bildschirm, weiße Schrift, kryptische Zeichen und komplizierte Befehle ... auch bekannt unter dem Namen <em>Terminal</em>.
@@ -274,10 +274,10 @@ module.exports = [
 
   {
     id: 43,
-    pos: { x: 1600, y: 1100 },
+    pos: { x: 510, y: 1700 },
     title: { de: 'POST it', en: 'POST it' },
-    date: '2020-05-20',
-    deps: [],
+    // date: '2020-05-20',
+    deps: [103],
     html: {
       de: `
       <p>Diesmal gibt es keine Umschweife: Die Antwort auf diese Aufgabe lautet Klamauk.
@@ -300,10 +300,10 @@ module.exports = [
 
   {
     id: 44,
-    pos: { x: 1600, y: 1200 },
+    pos: { x: 1390, y: 1460 },
     title: { de: 'Ladebalken II', en: 'Progressbar II' },
-    date: '2020-05-20',
-    deps: [],
+    // date: '2020-05-20',
+    deps: [65],
     html: {
       de: `
       <p>Der Klügere gibt nach - und du hast kein Problem nachzugeben, wenn es definitiv nicht weitergeht.
@@ -422,10 +422,10 @@ module.exports = [
 
   {
     id: 46,
-    pos: { x: 1600, y: 1300 },
+    pos: { x: 590, y: 1220 },
     title: { de: 'Kopfdaten', en: 'Headers' },
-    date: '2020-05-20',
-    deps: [],
+    // date: '2020-05-20',
+    deps: [85],
     html: {
       de: `
       <p>Geheime Spuren zu finden ist für dich kein Problem, denn du hast einen scharfen Blick.
@@ -457,10 +457,10 @@ module.exports = [
 
   {
     id: 49,
-    pos: { x: 1600, y: 1600 },
+    pos: { x: 1590, y: 1410 },
     title: { de: 'Spielstand II', en: 'Game Save II' },
-    date: '2020-05-21',
-    deps: [],
+    // date: '2020-05-21',
+    deps: [65],
     html: {
       de: `
       <p>Es gibt Spiele, die machen richtig viel Spaß - und es gibt welche, die am Ende doch nur dein Geld aus der Tasche ziehen wollen.
@@ -530,10 +530,10 @@ module.exports = [
 
   {
     id: 65,
-    pos: { x: 1600, y: 1400 },
+    pos: { x: 1500, y: 1280 },
     title: { de: 'Spielstand', en: 'Game Save' },
-    date: '2021-03-19',
-    deps: [],
+    // date: '2021-03-19',
+    deps: [89],
     html: {
       de: `
       <p>Die meisten Spiele speichern ihre Spielstände in einer verschlüsselten Form. Auch dieses kleine Spiel hier auf der Seite. Erreiche 999999 Gold und gibt deinen Spielstand als Antwort ein. Du kannst das Spiel spielen - oder es austricken.
@@ -595,10 +595,10 @@ module.exports = [
 
   {
     id: 71,
-    pos: { x: 1550, y: 905 },
+    pos: { x: 550, y: 1785 },
     title: { de: 'Sag mal', en: 'Say it' },
-    date: '2022-02-09',
-    deps: [57],
+    // date: '2022-02-09',
+    deps: [103],
     html: {
       de: `
       <p>Manche Missverständnisse sind ärgerlich. Zum Beispiel hast du gefragt, was im Bild zu sehen ist - und hast als Antwort <a href="/chals/sagmal.mp3">diese Sprachnachricht</a> erhalten:</p>
@@ -622,10 +622,10 @@ module.exports = [
 
   {
     id: 72,
-    pos: { x: 1570, y: 985 },
+    pos: { x: 530, y: 1585 },
     title: { de: 'Labyrinth', en: 'Maze' },
-    date: '2022-02-09',
-    deps: [57],
+    // date: '2022-02-09',
+    deps: [103],
     html: {
       de: `
       <p>In den Tiefen dieser Website ist ein <a href="/chal/maze" target="_blank">Labyrinth</a> versteckt. Erforsche es und komme zurück, wenn du den Schatz gefunden hast.</p>
@@ -639,10 +639,10 @@ module.exports = [
 
   {
     id: 73,
-    pos: { x: 1510, y: 1055 },
+    pos: { x: 1060, y: 1805 },
     title: { de: 'Rufnummer', en: 'Phone number' },
-    date: '2022-02-09',
-    deps: [57],
+    // date: '2022-02-09',
+    deps: [96],
     html: {
       de: `
       <p>Das Festnetz wird heute nur noch wenig genutzt, andere Technologien haben es verdrängt. Aber halten wir für einen Moment die Zeit an und erinnern uns an <a href="/chals/chal73.wav">diese Töne</a>:</p>
@@ -663,10 +663,10 @@ module.exports = [
 
   {
     id: 74,
-    pos: { x: 1430, y: 1135 },
+    pos: { x: 410, y: 1285 },
     title: { de: 'Blockchain', en: 'Blockchain' },
-    date: '2022-02-09',
-    deps: [57],
+    // date: '2022-02-09',
+    deps: [46],
     html: {
       de: `
       <p>Heute werden Bitcoins meist zur Spekulation verwendet. Dafür gedacht waren sie nicht. Stattdessen sollte das Konzept einer Blockchain dazu beitragen, eine Währung ohne Zentralbank zu ermöglichen. Eine große Herausforderung dabei ist es, Manipulationen durch Einzelne zu verhindern. Wer schreibt sich selber nicht gerne ein paar Euro auf das eigene Konto?</p>
@@ -718,10 +718,10 @@ module.exports = [
 
   {
     id: 75,
-    pos: { x: 1180, y: 1065 },
+    pos: { x: 1260, y: 1385 },
     title: { de: 'Verlosung', en: 'Raffle' },
-    date: '2022-02-09',
-    deps: [57],
+    // date: '2022-02-09',
+    deps: [65, 101],
     html: {
       de: `
       <p>Bei einer Verlosung gibt es immer viele Nieten und wenige Preise. In <a href="/chals/lostrommel.zip">dieser Lostrommel</a> finden sich 1000 Lose. Eine davon ist dein Hauptgewinn.</p>
@@ -735,10 +735,10 @@ module.exports = [
 
   {
     id: 76,
-    pos: { x: 1280, y: 1095 },
+    pos: { x: 1100, y: 1200 },
     title: { de: 'Zeitraum', en: 'Timeframe' },
-    date: '2022-02-09',
-    deps: [57],
+    // date: '2022-02-09',
+    deps: [88, 105],
     html: {
       de: `<p>Schön, dass du schon so lange dabei bist. Nun, sage mir: Seit wie vielen Minuten genau bist du auf dieser Seite registriert?</p>`,
       en: `<p>It's nice that you've been here for so long. Now, tell me: How many minutes exactly have you been registered on this site?</p>`,
@@ -757,10 +757,10 @@ module.exports = [
 
   {
     id: 82,
-    pos: { x: 1155, y: 1155 },
+    pos: { x: 1030, y: 1100 },
     title: { de: 'Wegweiser', en: 'Guide' },
-    date: '2022-12-28',
-    deps: [75, 76],
+    // date: '2022-12-28',
+    deps: [88],
     html: {
       de: `
       <p>Im Internet existiert mit dem DNS ein großes Wegweiser-System, welches dafür sorgt, dass zum Beispiel dein Browser über die Eingabe <code>hack.arrrg.de</code> meinen Server findet.</p>
@@ -788,10 +788,10 @@ module.exports = [
 
   {
     id: 83,
-    pos: { x: 1300, y: 1215 },
+    pos: { x: 460, y: 1625 },
     title: { de: 'Freiheit', en: 'Freedom' },
-    date: '2022-12-28',
-    deps: [76],
+    // date: '2022-12-28',
+    deps: [103],
     html: {
       de: `
       <p>Die Karte von Hack The Web gibt dir die Freiheit, deinen eigenen Weg zu gehen. Und diese Freiheit wird hier auch gerne genutzt. Dadurch entstehen sehr viele individuelle Spielstände, die schön anzuschauen sind.</p>
@@ -851,10 +851,10 @@ module.exports = [
 
   {
     id: 85,
-    pos: { x: 1185, y: 1230 },
+    pos: { x: 850, y: 1170 },
     title: { de: 'Schneehase', en: 'Snow hare' },
-    date: '2023-02-26',
-    deps: [76],
+    // date: '2023-02-26',
+    deps: [76, 82],
     html: {
       de: `
       <p><img src="/chals/chal85.png" alt="rabbit"></p>
@@ -868,10 +868,10 @@ module.exports = [
 
   {
     id: 88,
-    pos: { x: 1066, y: 1269 },
+    pos: { x: 1200, y: 1060 },
     title: { de: 'Summe', en: 'Sum' },
-    date: '2023-04-05',
-    deps: [82, 85],
+    // date: '2023-04-05',
+    deps: [57],
     html: {
       de: `
       <p>Du hast viele tolle Eigenschaften, wie hübsch, attraktiv und Computer Genius.</p>
@@ -1049,10 +1049,10 @@ module.exports = [
 
   {
     id: 89,
-    pos: { x: 933, y: 1233 },
+    pos: { x: 1460, y: 1100 },
     title: { de: 'Lesezeichen', en: 'Bookmarks' },
-    date: '2023-04-08',
-    deps: [82],
+    // date: '2023-04-08',
+    deps: [57],
     render: ({ req }) => {
       const isGerman = req.lng === 'de'
       function generateSection(title, id, letter, next, isBroken) {
@@ -1249,10 +1249,10 @@ module.exports = [
 
   {
     id: 90,
-    pos: { x: 1415, y: 1310 },
+    pos: { x: 1215, y: 1560 },
     title: { de: 'Orakel', en: 'Oracle' },
-    date: '2023-04-12',
-    deps: [73, 74, 76],
+    // date: '2023-04-12',
+    deps: [44, 75],
     html: {
       de: `
       <p>Ich spüre bei dir so viel Energie! Ich bewundere Menschen, die eine solche Ausstrahlung haben.
@@ -1280,10 +1280,10 @@ module.exports = [
 
   {
     id: 91,
-    pos: { x: 1115, y: 1330 },
+    pos: { x: 760, y: 1340 },
     title: { de: 'Kekse', en: 'Cookies' },
-    date: '2023-04-15',
-    deps: [82, 85],
+    // date: '2023-04-15',
+    deps: [94],
     html: {
       de: `
       <p>Es gibt Kekse, frisch aus dem Backofen - nur für dich persönlich gebacken, my dear friend! Sie sind gleich fertig:
@@ -1373,10 +1373,10 @@ module.exports = [
 
   {
     id: 92,
-    pos: { x: 1225, y: 1410 },
+    pos: { x: 1060, y: 1510 },
     title: { de: 'Grundgesetz', en: 'Constitution' },
-    date: '2023-04-19',
-    deps: [83, 85, 90],
+    // date: '2023-04-19',
+    deps: [75, 99, 109],
     html: {
       de: `
       <p>Erst wenn ich mich sicher fühle, kann ich meine spielerische Seite zum Vorschein bringen. Oft werde ich dafür nur schräg angeschaut. Bei dir muss ich mir keine Sorgen machen. Hier fühle ich mich sicher.
@@ -1500,10 +1500,10 @@ Art 8 
 
   {
     id: 93,
-    pos: { x: 1155, y: 1570 },
+    pos: { x: 450, y: 1770 },
     title: { de: 'Cipher', en: 'Cipher' },
-    date: '2023-04-22',
-    deps: [91, 92],
+    // date: '2023-04-22',
+    deps: [103],
     html: {
       de: `
       <p>Du bist weit gekommen und längst kein Scriptkiddie mehr. Nein, du bist eher 1337 und hast voll Skill drauf 💪!
@@ -1579,10 +1579,10 @@ print(hex_string)</pre></code>
 
   {
     id: 94,
-    pos: { x: 885, y: 1410 },
+    pos: { x: 940, y: 1220 },
     title: { de: 'Original', en: 'Original' },
-    date: '2023-04-26',
-    deps: [88, 89, 91],
+    // date: '2023-04-26',
+    deps: [76],
     html: {
       de: `
       <p>Du bist ein Original und kein Fake. Lasse dich nicht in eine andere Identität drängen, als du bist.
@@ -1614,10 +1614,10 @@ print(hex_string)</pre></code>
 
   {
     id: 95,
-    pos: { x: 1059, y: 1530 },
+    pos: { x: 500, y: 1360 },
     title: { de: 'Handschrift', en: 'Handwriting' },
-    date: '2023-04-29',
-    deps: [91, 92],
+    // date: '2023-04-29',
+    deps: [40, 46],
     html: {
       de: `
       <p>Hilfe! Ich brauche deinen technischen Rat. Wie macht man es nochmal, dass man eine Schriftart im Browser einbindet?</p>
@@ -1639,10 +1639,10 @@ print(hex_string)</pre></code>
 
   {
     id: 96,
-    pos: { x: 980, y: 1460 },
+    pos: { x: 1040, y: 1670 },
     title: { de: 'TikTok', en: 'TikTok' },
-    date: '2023-05-03',
-    deps: [88, 89],
+    // date: '2023-05-03',
+    deps: [90, 92],
     html: {
       de: `
       <p>Hast du heute etwas geschafft, worauf du stolz bist? Herzlichen Glückwunsch. Und wenn nicht, halb so wild. Morgen ist auch noch ein Tag.
@@ -1674,9 +1674,9 @@ print(hex_string)</pre></code>
 
   {
     id: 97,
-    pos: { x: 1194, y: 1650 },
+    pos: { x: 370, y: 1850 },
     title: { de: 'Cipher II', en: 'Cipher II' },
-    date: '2023-05-06',
+    // date: '2023-05-06',
     deps: [93],
     html: {
       de: `
@@ -1755,10 +1755,10 @@ print(hex_string)</pre></code>
 
   {
     id: 98,
-    pos: { x: 680, y: 1460 },
+    pos: { x: 900, y: 1660 },
     title: { de: 'SQL Tutorial', en: 'SQL Tutorial' },
-    date: '2023-05-10',
-    deps: [94, 96],
+    // date: '2023-05-10',
+    deps: [92],
     html: {
       de: `
       <p>Stark von dir, dass du dich immer wieder an neue Herausforderung herantraust und bereit bist, neue Dinge zu lernen. Das erfordert viel Motivation und Mut.
@@ -1805,10 +1805,10 @@ print(hex_string)</pre></code>
 
   {
     id: 99,
-    pos: { x: 790, y: 1540 },
+    pos: { x: 1020, y: 1300 },
     title: { de: 'Regeln', en: 'Rules' },
-    date: '2023-05-13',
-    deps: [94, 95],
+    // date: '2023-05-13',
+    deps: [76, 108],
     html: {
       de: `
       <p>Ich spüre, dass heute was anders ist: Hast du eine neue Frisur oder einen neuen Pulli? Etwas ist heute anders und das gefällt mir!
@@ -1841,10 +1841,10 @@ print(hex_string)</pre></code>
 
   {
     id: 100,
-    pos: { x: 920, y: 1590 },
+    pos: { x: 650, y: 1490 },
     title: { de: 'Nostalgie', en: 'Nostalgia' },
-    date: '2023-05-17',
-    deps: [93, 96],
+    // date: '2023-05-17',
+    deps: [40, 91, 106],
     render: ({ req }) => {
       const isGerman = req.lng == 'de'
       return isGerman
@@ -1899,10 +1899,10 @@ print(hex_string)</pre></code>
 
   {
     id: 101,
-    pos: { x: 950, y: 1700 },
+    pos: { x: 1350, y: 1270 },
     title: { de: 'Faktoren', en: 'Factors' },
-    date: '2023-05-20',
-    deps: [93, 95],
+    // date: '2023-05-20',
+    deps: [89, 105],
     html: {
       de: `
       <p>Ich weiß, dass Tools wie Wolfram Alpha viel besser geeignet wären für diese Aufgabe. Trotzdem wollte ich mal sehen wie ChatGPT auf diese Frage antwortet. Und das Ergebnis ist ... ernüchternd.
@@ -1926,9 +1926,9 @@ print(hex_string)</pre></code>
 
   {
     id: 102,
-    pos: { x: 1294, y: 1700 },
+    pos: { x: 230, y: 1920 },
     title: { de: 'Cipher III', en: 'Cipher III' },
-    date: '2023-05-24',
+    // date: '2023-05-24',
     deps: [97],
     html: {
       de: `
@@ -2012,7 +2012,7 @@ print(hex_string)</pre></code>
     pos: { x: 698, y: 1671 },
     title: { de: 'Hintergrund', en: 'Background' },
     // date: '2023-05-27',
-    deps: [],
+    deps: [98, 100, 104],
     html: {
       de: `
       <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
@@ -2034,10 +2034,10 @@ print(hex_string)</pre></code>
 
   {
     id: 104,
-    pos: { x: 560, y: 1777 },
+    pos: { x: 840, y: 1550 },
     title: { de: 'Übergang', en: 'Transition' },
-    date: '2023-05-31',
-    deps: [103],
+    // date: '2023-05-31',
+    deps: [91, 106],
     html: {
       de: `
       <p>Kann es sein, dass du heute etwas braungebrannter aussiehst, als noch bei unserem letzen Treffen? Ha, ich weiß es: Du bist gerade von einer Reise zurückgekehrt.
@@ -2068,10 +2068,10 @@ print(hex_string)</pre></code>
 
   {
     id: 105,
-    pos: { x: 560, y: 1710 },
+    pos: { x: 1320, y: 1110 },
     title: { de: '1337', en: '1337' },
-    date: '2023-06-03',
-    deps: [103],
+    // date: '2023-06-03',
+    deps: [57],
     html: {
       de: `
       <p>Was hast du mit dem Isartor in München gemeinsam? Ihr seid beide Elite:
@@ -2105,22 +2105,21 @@ print(hex_string)</pre></code>
 
   {
     id: 106,
-    pos: { x: 633, y: 1827 },
+    pos: { x: 860, y: 1390 },
     title: { de: 'Leet', en: 'Leet' },
-    date: '2023-06-07',
-    deps: [103],
+    // date: '2023-06-07',
+    deps: [94, 99, 109],
     html: {
       de: `
       <p>Wenn du einen Raum betrittst, dann ist für alle klar, dass du was drauf hast. Du musst dich dafür nicht anstrengen.
       </p>
+        
+      <p style="font-family:monospace;">4nd3r3 M3n5ch3n w0ll3n 1hr Könn3n ab3r s1ch7b4r m4ch3n - und schr31b3n d4h3r ihr3 N4chr1ch73n in l337.</p>
       
-      <p>bu7 07h3r p30pl3 w4n7 70 m4k3 7h31r 5k1ll5 v151bl3 - 4nd 7h3r3f0r3 wr173 7h31r m3554635 1n l337.
+      <p style="font-family:monospace;">35 9!|37 \\/3|25(|-|!3|)3|\\|3 57(_)|=3|\\| (_)|\\||) \\/4|2!4|\\|73|\\| \\/0|\\| |_337 - \\/0|\\| |_3!(|-|7 |_35|34|2 |3!5 7074|_ |<|2\`/|D7!5(|-|.
       </p>
       
-      <p>35 9!|37 \\/3|25(|-|!3|)3|\\|3 57(_)|=3|\\| (_)|\\||) \\/4|2!4|\\|73|\\| \\/0|\\| |_337 - \\/0|\\| |_3!(|-|7 |_35|34|2 |3!5 7074|_ |<|2\`/|D7!5(|-|.
-      </p>
-      
-      <p>|)3!|\\|3 4|\\|+\\|/0|2+ 14|_|+3+ |_|1+!|\\/|4+!\\/.
+      <p style="font-family:monospace;">|)3!|\\|3 4|\\|+\\|/0|2+ 14|_|+3+ |_|1+!|\\/|4+!\\/.
       </p>
       
       <p><small><a href="https://www.robertecker.com/hp/research/leet-converter.php?lang=de" target="_blank">Hinweis</a></small></p>
@@ -2128,12 +2127,13 @@ print(hex_string)</pre></code>
       en: `
         <p>When you enter a room, everyone knows you've got what it takes. You don't have to try for that.
         </p>
+      
+        <p style="font-family:monospace;">bu7 07h3r p30pl3 w4n7 70 m4k3 7h31r 5k1ll5 v151bl3 - 4nd 7h3r3f0r3 wr173 7h31r m3554635 1n l337.
+        </p>
         
-        <p>4nd3r3 M3n5ch3n w0ll3n 1hr Könn3n ab3r s1ch7b4r m4ch3n - und schr31b3n d4h3r ihr3 N4chr1ch73n in l337.
+        <p style="font-family:monospace;">7|-|3|23 4|23 |)!|=|=3|23|\\\\|7 |_3\\\\/3|_5 4|\\\\||) \\\\/4|2!4|\\\\|75 0|= |_337 - |=|20/\\\\/\\\\ 345!|_\`/ |234|)4|3|_3 70 7074|_|_\`/ (|2\`/|D7!(.</p>
         
-        <p>7|-|3|23 4|23 |)!|=|=3|23|\\\\|7 |_3\\\\/3|_5 4|\\\\||) \\\\/4|2!4|\\\\|75 0|= |_337 - |=|20/\\\\/\\\\ 345!|_\`/ |234|)4|3|_3 70 7074|_|_\`/ (|2\`/|D7!(.
-        
-        <p>\`/0|_||2 4|\\\\|5\\\\|/3|2 !5 |_|1+!|\\\\/|4+!\\\\/.
+        <p style="font-family:monospace;">\`/0|_||2 4|\\\\|5\\\\|/3|2 !5 |_|1+!|\\\\/|4+!\\\\/.
         </p>
         
         <p><small><a href="https://www.robertecker.com/hp/research/leet-converter.php?lang=en" target="_blank">Hint</a></small></p>
@@ -2144,10 +2144,10 @@ print(hex_string)</pre></code>
 
   {
     id: 107,
-    pos: { x: 530, y: 1627 },
+    pos: { x: 930, y: 1727 },
     title: { de: 'Neuland', en: 'New Territory' },
-    date: '2023-06-10',
-    deps: [103],
+    // date: '2023-06-10',
+    deps: [96],
     html: {
       de: `
       <p>Ich sehe, du bist heute gut ausgerüstet und bereit für deine Expedition in unbekanntes Neuland. Ich bewundere deinen Mut.
@@ -2178,10 +2178,10 @@ print(hex_string)</pre></code>
 
   {
     id: 108,
-    pos: { x: 800, y: 1790 },
+    pos: { x: 1200, y: 1230 },
     title: { de: 'Sprache', en: 'Language' },
-    date: '2023-06-14',
-    deps: [103],
+    // date: '2023-06-14',
+    deps: [88, 89, 105],
     render: ({ req }) => `${
       req.lng == 'de'
         ? `<p>Dieser Inhalt ist nur für NutzerInnen verfügbar, die Französisch als ihre Sprache eingestellt haben.
@@ -2209,10 +2209,10 @@ print(hex_string)</pre></code>
 
   {
     id: 109,
-    pos: { x: 721, y: 1800 },
+    pos: { x: 1140, y: 1340 },
     title: { de: 'Brainfuck', en: 'Brainfuck' },
-    date: '2023-06-17',
-    deps: [103],
+    // date: '2023-06-17',
+    deps: [101],
     html: {
       de: `
       <p>Mensch, wie nervig sind Diskussionen darüber, welche Programmiersprache besser ist! Zum Glück bist du jemand, der es besser weiß: Alle Programmiersprachen sind im Kern gleich mächtig - eine Erkenntnis, die Turing wesentlich mitentwickelt hat.
@@ -2243,11 +2243,4 @@ print(hex_string)</pre></code>
       }
     },
   },
-].map((x) => {
-  if (x.date) {
-    x.deps = []
-    x.pos.x += 1000
-    x.pos.y += 300
-  }
-  return x
-})
+]

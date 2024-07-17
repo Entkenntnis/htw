@@ -11,7 +11,7 @@ function escapeHTML(str) {
 }
 
 module.exports = function (App) {
-  App.express.get('/yearly', async (req, res) => {
+  App.express.get('/longtime-players', async (req, res) => {
     const usersDB = await App.db.models.User.findAll()
 
     usersDB.sort((a, b) => {

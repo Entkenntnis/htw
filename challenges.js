@@ -1146,7 +1146,7 @@ const part1 = [
 
   {
     id: 31,
-    pos: { x: 780, y: 99 },
+    pos: { x: 780, y: 85 },
     title: { de: 'Taschenrechner III', en: 'Calculator III' },
     // date: '2017-08-26',
     deps: [111],
@@ -3609,6 +3609,100 @@ PIXI.loader
     },
     solution: secrets('chal_111'),
     hidesubmit: true,
+  },
+
+  {
+    id: 112,
+    pos: { x: 747, y: 249 },
+    title: { de: 'Minecraft III', en: 'Minecraft III' },
+    deps: [337],
+    html: {
+      de: `
+        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, aber die Schaltung funktioniert nicht.</p>
+
+        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:100%"></p>
+
+        <p>Mein Kumpel erkennt das Problem sofort: "Du musst nur einen Block hinzufügen!". Diese Block-ID ist deine Antwort.</p>
+      `,
+      en: `
+        <p>I want to turn the lamp on and off with a switch, but the circuit isn't working.</p>
+
+        <p><img src="/chals/chal112.jpg" alt="View of Redstone circuit" style="max-width:100%"></p>
+
+        <p>My buddy immediately spots the problem: "You just need to add a block!" This block ID is your answer.</p>
+
+      `,
+    },
+    solution: secrets('chal_112'),
+  },
+
+  {
+    id: 113,
+    pos: { x: 797, y: 139 },
+    title: { de: 'Minecraft IV', en: 'Minecraft IV' },
+    deps: [337],
+    html: {
+      de: `
+        <p>Ich sehne mich nach der Nacht und möchte, dass es jetzt Mitternacht ist.</p>
+
+        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:100%"></p>
+
+        <p>Der passende Befehl dazu ist deine Antwort.</p>
+      `,
+      en: `
+        <p>I long for the night and want it to be midnight now.</p>
+
+        <p><img src="/chals/chal113.png" alt="Moon at midnight" style="max-width:100%"></p>
+
+        <p>The appropriate command for this is your answer.</p>
+
+      `,
+    },
+    solution: [secrets('chal_113_1'), secrets('chal_113_2')],
+  },
+
+  {
+    id: 336,
+    pos: { x: 455, y: 175 },
+    title: { de: 'Minecraft', en: 'Minecraft' },
+    // date: '2024-02-01',
+    deps: [5, 15],
+    // author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Was ist die Block-ID von diesem Block?</p>
+        
+        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
+      `,
+      en: `
+        <p>What is the block-ID for this block?</p>
+          
+        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
+      `,
+    },
+    solution: secrets('chal_336'),
+  },
+
+  {
+    id: 337,
+    pos: { x: 611, y: 165 },
+    title: { de: 'Minecraft II', en: 'Minecraft II' },
+    // date: '2024-02-01',
+    deps: [336],
+    // author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Welches Konzept wird hier dargestellt?</p>
+          
+        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
+      `,
+      en: `
+        <p>Which concept is presented here?</p>
+            
+        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
+      `,
+    },
+    solution: secrets('chal_337'),
   },
 ]
 

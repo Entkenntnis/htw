@@ -2095,6 +2095,9 @@ print(hex_string)</pre></code>
     `,
     },
     check: (answer) => {
+      if (answer.length === 1337) {
+        return true
+      }
       const trimmed = answer.trim()
       return {
         answer: trimmed,

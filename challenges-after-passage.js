@@ -1049,7 +1049,7 @@ module.exports = [
 
   {
     id: 89,
-    pos: { x: 1460, y: 1100 },
+    pos: { x: 1410, y: 1100 },
     title: { de: 'Lesezeichen', en: 'Bookmarks' },
     // date: '2023-04-08',
     deps: [57],
@@ -2245,5 +2245,101 @@ print(hex_string)</pre></code>
         correct: output === secrets('chal_109'),
       }
     },
+  },
+
+  {
+    id: 115,
+    pos: { x: 1495, y: 1149 },
+    title: { de: 'B (TODO)', en: 'TODO' },
+    deps: [57],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
+  },
+
+  {
+    id: 116,
+    pos: { x: 1538, y: 1052 },
+    title: { de: 'C (TODO)', en: 'TODO' },
+    deps: [57],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
+  },
+
+  {
+    id: 117,
+    pos: { x: 1538, y: 983 },
+    title: { de: 'D (TODO)', en: 'TODO' },
+    deps: [57],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
+  },
+
+  {
+    id: 118,
+    pos: { x: 1608, y: 1031 },
+    title: { de: 'E (TODO)', en: 'TODO' },
+    deps: [57],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
+  },
+
+  {
+    id: 119,
+    pos: { x: 1578, y: 1117 },
+    title: { de: 'Mein Passwort', en: 'TODO' },
+    deps: [57],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
+  },
+
+  {
+    id: 120,
+    pos: { x: 1700, y: 1151 },
+    title: { de: 'Mein Passwort II', en: 'TODO' },
+    deps: [119],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
   },
 ]

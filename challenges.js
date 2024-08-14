@@ -426,7 +426,7 @@ const part1 = [
     pos: { x: 720, y: 420 },
     title: { de: 'Fleißaufgabe', en: 'Hard work' },
     // date: '2017-05-17',
-    deps: [55],
+    deps: [55, 114],
     html: {
       de: `
       <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
@@ -629,7 +629,7 @@ const part1 = [
     pos: { x: 745, y: 310 },
     title: { de: 'Slogan', en: 'Slogan' },
     // date: '2017-05-18',
-    deps: [55, 66],
+    deps: [55, 66, 114],
     html: {
       de: `
       <p>Deine Antwort ist der Slogan von Hack The Web. Die Eingabe gerät wieder durcheinander.</p>
@@ -3659,6 +3659,22 @@ PIXI.loader
       `,
     },
     solution: [secrets('chal_113_1'), secrets('chal_113_2')],
+  },
+
+  {
+    id: 114,
+    pos: { x: 588, y: 313 },
+    title: { de: 'A (TODO)', en: 'TODO' },
+    deps: [68, 336],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
   },
 
   {

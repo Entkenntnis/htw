@@ -3664,17 +3664,25 @@ PIXI.loader
   {
     id: 114,
     pos: { x: 588, y: 313 },
-    title: { de: 'A (TODO)', en: 'TODO' },
+    title: { de: 'Bäume', en: 'Trees' },
     deps: [68, 336],
     html: {
       de: `
-        <p>TODO</p>
+        <p>Computer und Natur sind zwei verschiedene Welten. Ich verbringe gerne Zeit in beiden. Und beide können sich gegenseitig bereichern.</p>
+
+        <p><img src="/chals/chal114_Birken_im_Herbst.jpg" alt="Baumgattung bestimmen"></p>
+
+        <p>Welche Baumgattung ist auf dem Bild zu sehen?</p>
       `,
       en: `
-        <p>TODO</p>
+        <p>Computers and nature are two different worlds. I enjoy spending time in both. And both can enrich each other.</p>
+
+        <p><img src="/chals/chal114_Birken_im_Herbst.jpg" alt="Identify the tree species"></p>
+
+        <p>What tree species is shown in the picture? Your answer is the German word for it.</p>
       `,
     },
-    solution: '42',
+    solution: secrets('chal_114'),
   },
 
   {

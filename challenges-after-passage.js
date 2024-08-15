@@ -2012,7 +2012,7 @@ print(hex_string)</pre></code>
     pos: { x: 698, y: 1671 },
     title: { de: 'Hintergrund', en: 'Background' },
     // date: '2023-05-27',
-    deps: [98, 100, 104],
+    deps: [38, 98, 100, 104],
     html: {
       de: `
       <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
@@ -2314,32 +2314,68 @@ print(hex_string)</pre></code>
   {
     id: 119,
     pos: { x: 1578, y: 1117 },
-    title: { de: 'Mein Passwort', en: 'TODO' },
+    title: { de: 'Passwort', en: 'Password' },
     deps: [57],
     html: {
       de: `
-        <p>TODO</p>
+        <p>Viele Menschen verwenden Passwörter, die mit ihren Interessen und Hobbies zusammenhängen. Dadurch sind diese Passwörter leicht zu erraten. Bei dieser Aufgabe findest du den Steckbrief einer Person. Errate das Passwort. Das Passwort besteht nur aus Kleinbuchstaben und enthält keine Zahlen, Leerzeichen oder Sonderzeichen.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Steckbrief von Marie</strong></p>
+
+          <p>Hallo!</p>
+
+          <p>Ich bin ein großer Fan von Taylor Swift. Ich kann mich gut mit ihrer Musik identifzieren und sie enthält viele Easter Eggs. Meine Lieblingsongs sind Betty, Cowboy Like Me und Love Story.</p>
+
+          <p>Ich konnte leider keine Karten für ihr Konzert in München besorgen, aber ich konnte auf dem Hügel gut mithören und in der Menge mitviben.</p>
+
+          <p>I remember it all too well :)</p>
+        </div>
       `,
       en: `
-        <p>TODO</p>
+        <p>Many people use passwords that are related to their interests and hobbies. As a result, these passwords are easy to guess. In this task, you will find the profile of a person. Guess the password. The password consists only of lowercase letters and contains no numbers, spaces, or special characters.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Profile of Marie</strong></p>
+
+          <p>Hello!</p>
+
+          <p>I am a big fan of Taylor Swift. I can really relate to her music, and it contains many Easter eggs. My favorite songs are Betty, Cowboy Like Me, and Love Story.</p>
+
+          <p>Unfortunately, I couldn't get tickets for her concert in Munich, but I could hear well from the hill and vibe with the crowd.</p>
+
+          <p>I remember it all too well :)</p>
+        </div>
+
       `,
     },
-    solution: '42',
+    solution: secrets('chal_119'),
   },
 
   {
     id: 120,
     pos: { x: 1700, y: 1151 },
-    title: { de: 'Mein Passwort II', en: 'TODO' },
+    title: { de: 'Passwort II', en: 'Password II' },
     deps: [119],
     html: {
       de: `
-        <p>TODO</p>
+        <p>Hier ist wieder ein Steckbrief. Errate das Passwort. Das Passwort besteht nur aus Kleinbuchstaben und enthält keine Zahlen, Leerzeichen oder Sonderzeichen.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Steckbrief von Jojo</strong></p>
+
+          <p>Hey!</p>
+
+          <p>Ich spiele in der Freizeit gerne Schach. Ich bin zwar nicht so gut, aber ich kenne zumindest die Regeln. Ich freue mich immer, wenn Leute nicht nur die normalen Bewegungen der Figuren kennen, sondern auch die Sonderbewegungen wie mit König und Turm kennen.</p>
+
+          <p>Ich schaue auch gerne online Youtuber, v.a. eine schwedische Spielerin.
+          </p>
+        </div>
       `,
       en: `
         <p>TODO</p>
       `,
     },
-    solution: '42',
+    solution: secrets('chal_120'),
   },
 ]

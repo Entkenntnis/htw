@@ -2366,14 +2366,27 @@ print(hex_string)</pre></code>
 
           <p>Hey!</p>
 
-          <p>Ich spiele in der Freizeit gerne Schach. Ich bin zwar nicht so gut, aber ich kenne zumindest die Regeln. Ich freue mich immer, wenn Leute nicht nur die normalen Bewegungen der Figuren kennen, sondern auch die Sonderbewegungen wie mit König und Turm kennen.</p>
+          <p>In meiner Jugend habe ich ein natürlich die Regeln von Schach gelernt, wie z.B. die Rochade oder die 50-Züge-Regel. Aber ich habe lange Zeit keinen wirklichen Bezug zum Schachspiel gehabt.</p>
 
-          <p>Ich schaue auch gerne online Youtuber, v.a. eine schwedische Spielerin.
-          </p>
+          <p>Das hat sich erst geändert, als ich über eine schwedische Schach-Youtuberin mehr in die Welt der SchachspielerInnen eingetaucht bin und verstanden habe, welche Art von Gemeinschaft dadurch erlebbar wird. Und natürlich habe ich mich schlau gemacht über all die Top-Spieler und ihre Dramen.</p>
+
+          <p>Seitdem spiele ich auch in meiner Freizeit gerne die eine oder andere Runde Schach, v.a. auf einem richtigen Schachbrett. Mit Online-Schach konnte ich mich bisher noch nicht so gut anfreunden.</p>
         </div>
       `,
       en: `
-        <p>TODO</p>
+        <p>Here is another profile. Guess the password. The password consists only of lowercase letters and does not contain any numbers, spaces, or special characters.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Profile of Jojo</strong></p>
+
+          <p>Hey!</p>
+
+          <p>In my youth, I naturally learned the rules of chess, like castling or the 50-move rule. But for a long time, I didn't really have a connection to the game.</p>
+
+          <p>That changed when I discovered a Swedish chess YouTuber and dove deeper into the world of chess players, understanding the kind of community that can be experienced through it. And of course, I educated myself about all the top players and their dramas.</p>
+
+          <p>Since then, I've enjoyed playing a game of chess in my free time, especially on a real chessboard. I haven't yet warmed up to online chess.</p>
+        </div>
       `,
     },
     solution: secrets('chal_120'),

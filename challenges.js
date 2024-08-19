@@ -3664,22 +3664,23 @@ PIXI.loader
   {
     id: 114,
     pos: { x: 588, y: 313 },
-    title: { de: 'Bäume', en: 'Trees' },
+    title: { de: 'Baum', en: 'Tree' },
     deps: [68, 336],
     html: {
       de: `
         <p>Computer und Natur sind zwei verschiedene Welten. Ich verbringe gerne Zeit in beiden. Und beide können sich gegenseitig bereichern.</p>
 
-        <p><img src="/chals/chal114_Birken_im_Herbst.jpg" alt="Baumgattung bestimmen"></p>
+        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-width:500px"></p>
 
-        <p>Welche Baumgattung ist auf dem Bild zu sehen?</p>
+        <p>Der wissenschaftliche Name dieser Baumgattung ist deine Antwort. Keine Sorge, wenn du dich wenig mit Bäumen auskennst: Im Quellcode findet sich hier und da ein Hinweis.</p>
       `,
       en: `
         <p>Computers and nature are two different worlds. I enjoy spending time in both. And both can enrich each other.</p>
 
-        <p><img src="/chals/chal114_Birken_im_Herbst.jpg" alt="Identify the tree species"></p>
+        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Identify tree genus" style="max-width:500px"></p>
 
-        <p>What tree species is shown in the picture? Your answer is the German word for it.</p>
+        <p>The scientific name of this tree genus is your answer. Don't worry if you're not familiar with trees: there are hints here and there in the source code.</p>
+
       `,
     },
     solution: secrets('chal_114'),

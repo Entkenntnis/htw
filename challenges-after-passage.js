@@ -2250,17 +2250,21 @@ print(hex_string)</pre></code>
   {
     id: 115,
     pos: { x: 1495, y: 1149 },
-    title: { de: 'B (TODO)', en: 'TODO' },
+    title: { de: 'r/place', en: 'r/place' },
     deps: [57],
     html: {
       de: `
-        <p>TODO</p>
+        <p>Im Jahr 2023 kamen viele Menschen zusammen, um gemeinsam ein Bild zu zeichnen - Pixel für Pixel. Aus dem Chaos heraus organisierten sich die Menschen und es entstanden einige Kunstwerke.</p>
+
+        <p>Im Bereich (2786,1225) bis (2879,1394) hat sich eine Fan-Gemeinschaft verewigt. Der Name der Computerspiel-Reihe ist deine Antwort.</p>
       `,
       en: `
-        <p>TODO</p>
+        <p>In 2023, many people came together to draw a picture, pixel by pixel. Out of the chaos, people organized themselves, and several artworks emerged.</p>
+
+        <p>In the area (2786,1225) to (2879,1394), a fan community has immortalized itself. The name of the video game series is your answer.</p>
       `,
     },
-    solution: '42',
+    solution: secrets('chal_115'),
   },
 
   {
@@ -2282,11 +2286,17 @@ print(hex_string)</pre></code>
   {
     id: 117,
     pos: { x: 1538, y: 983 },
-    title: { de: 'D (TODO)', en: 'TODO' },
+    title: { de: 'Schatzkammer', en: 'TODO' },
     deps: [57],
     html: {
       de: `
-        <p>TODO</p>
+        <p>Liebe Abenteuerlustige,</p>
+
+        <p>ich habe einen Auftrag für dich: Begib dich in diese verfluchte Schatzkammer und berge die Gedenkplatte. Im Tageslicht wird sich dir die Antwort offenbaren.</p>
+
+        <p>Doch achte auf deine geistige Gesundheit!</p>
+
+        <iframe width="360" height="240" src="/chal117/dungeon" style="border: 1px solid white;"></iframe>
       `,
       en: `
         <p>TODO</p>

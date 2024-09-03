@@ -3672,7 +3672,7 @@ PIXI.loader
 
         <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-width:500px"></p>
 
-        <p>Der wissenschaftliche Name dieser Baumgattung ist deine Antwort. Keine Sorge, wenn du dich wenig mit Bäumen auskennst: Im Quellcode findet sich hier und da ein Hinweis.</p>
+        <p>Der wissenschaftliche Name dieser Baumgattung ist deine Antwort. Keine Sorge, wenn du dich wenig mit Bäumen auskennst: Im Quellcode findet sich vielleicht ein Hinweis.</p>
       `,
       en: `
         <p>Computers and nature are two different worlds. I enjoy spending time in both. And both can enrich each other.</p>

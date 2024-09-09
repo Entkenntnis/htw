@@ -3643,14 +3643,14 @@ PIXI.loader
     deps: [337],
     html: {
       de: `
-        <p>Ich sehne mich nach der Nacht und möchte, dass es jetzt Mitternacht ist.</p>
+        <p>Ich liebe den Mond bei Mitternacht. Am liebsten würde ich gerne immer, wenn ich will, zu diesem Zeitpunkt springen können.</p>
 
         <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:100%"></p>
 
         <p>Der passende Befehl dazu ist deine Antwort.</p>
       `,
       en: `
-        <p>I long for the night and want it to be midnight now.</p>
+        <p>I love the moon at midnight. I wish I could jump to that moment whenever I want.</p>
 
         <p><img src="/chals/chal113.png" alt="Moon at midnight" style="max-width:100%"></p>
 

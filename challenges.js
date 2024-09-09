@@ -1147,7 +1147,7 @@ const part1 = [
   {
     id: 31,
     pos: { x: 780, y: 85 },
-    title: { de: 'Taschenrechner III', en: 'Calculator III' },
+    title: { de: 'Röhre', en: 'Tube' },
     // date: '2017-08-26',
     deps: [111],
     html: {
@@ -1223,7 +1223,7 @@ const part1 = [
   {
     id: 32,
     pos: { x: 930, y: 77 },
-    title: { de: 'Taschenrechner IV', en: 'Calculator IV' },
+    title: { de: 'Röhre II', en: 'Tube II' },
     // date: '2017-08-26',
     deps: [31],
     html: {
@@ -1263,7 +1263,7 @@ const part1 = [
   {
     id: 33,
     pos: { x: 1070, y: 100 },
-    title: { de: 'Taschenrechner V', en: 'Calculator V' },
+    title: { de: 'Röhre III', en: 'Tube III' },
     // date: '2017-08-26',
     deps: [32],
     html: {
@@ -3684,6 +3684,22 @@ PIXI.loader
       `,
     },
     solution: secrets('chal_114'),
+  },
+
+  {
+    id: 116,
+    pos: { x: 740, y: 52 },
+    title: { de: 'Taschenrechner III (TODO)', en: 'TODO' },
+    deps: [111],
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: '42',
   },
 
   {

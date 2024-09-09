@@ -106,7 +106,7 @@ module.exports = function (App) {
         res,
         `
       <div style="right:5px;top:5px;position:absolute"><a class="btn btn-sm btn-secondary" href="/chal117/dungeon/reset">↺ ${s[2]}</a></div>
-      <div style="top:5px;left:12px;position:absolute">${s[0]}: ${session.health}</div>
+      <div style="top:5px;left:12px;position:absolute;color:gray;">${s[0]}: ${session.health}</div>
       <div style="bottom:10px;left:0px;right:0px;position:absolute;text-align:center">
         <p>${s[3]}</p>
         <a class="btn btn-sm btn-primary" style="margin-right:24px;" href="/chal117/dungeon/left">${s[4]}</a>
@@ -121,7 +121,7 @@ module.exports = function (App) {
         req,
         res,
         `
-      <div style="top:5px;left:12px;position:absolute">${s[0]}: ${session.health}</div>
+      <div style="top:5px;left:12px;position:absolute;color:gray;">${s[0]}: ${session.health}</div>
       <div style="bottom:10px;left:0px;right:0px;position:absolute;text-align:center">
         <p>${s[6]}</p>
         <a class="btn btn-sm btn-primary" href="/chal117/dungeon/continue">${s[7]}</a>
@@ -135,7 +135,7 @@ module.exports = function (App) {
         req,
         res,
         `
-      <div style="top:5px;left:12px;position:absolute">${s[0]}: ${session.health}</div>
+      <div style="top:5px;left:12px;position:absolute;color:gray;">${s[0]}: ${session.health}</div>
       <div style="bottom:10px;left:0px;right:0px;position:absolute;text-align:center">
         <p style="margin-bottom:8px;">${s[8]}</p>
         <a class="btn btn-sm btn-primary" href="/chal117/dungeon/return">${s[9]}</a>

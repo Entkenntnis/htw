@@ -2254,52 +2254,51 @@ print(hex_string)</pre></code>
     deps: [57],
     html: {
       de: `
-        <p>Im Jahr 2023 kamen viele Menschen zusammen, um gemeinsam ein Bild zu zeichnen - Pixel für Pixel. Aus dem Chaos heraus organisierten sich die Menschen und es entstanden einige Kunstwerke.</p>
+        <p>Im Jahr 2023 kamen viele Menschen zusammen, um gemeinsam ein Bild zu zeichnen - Pixel für Pixel. Aus dem Chaos heraus organisierten sich die Menschen und es entstanden einige Kunstwerke (und manche Beleidigung).</p>
 
-        <p>Im Bereich (2786,1225) bis (2879,1394) hat sich eine Fan-Gemeinschaft verewigt. Der Name der Computerspiel-Reihe ist deine Antwort.</p>
+        <p><img src="https://placedata.reddit.com/data/final_2023_place.png" style="max-width:100%" width="600" /></p>
+
+        <p>Um sich zu navigieren, brauchen die Pixel natürlich Koordinaten. Es gibt ein offizielles Koordinatensystem, dessen Ursprung in der Mitte der Leinwand liegt, die positive x-Achse verläuft nach rechts, die positive y-Achse verläuft nach unten.</p>
+
+        <p>Im Bereich 1286,225 bis 1379,394 hat sich eine Fan-Gemeinschaft verewigt. Der Name der Computerspiel-Reihe ist deine Antwort.</p>
+
       `,
       en: `
-        <p>In 2023, many people came together to draw a picture, pixel by pixel. Out of the chaos, people organized themselves, and several artworks emerged.</p>
+       <p>In 2023, many people came together to draw a picture, pixel by pixel. From the chaos, people organized themselves, creating some artworks (and some insults).</p>
 
-        <p>In the area (2786,1225) to (2879,1394), a fan community has immortalized itself. The name of the video game series is your answer.</p>
+      <p><img src="https://placedata.reddit.com/data/final_2023_place.png" style="max-width:100%" width="600" /></p>
+
+      <p>To navigate, the pixels naturally need coordinates. There is an official coordinate system, with its origin at the center of the canvas, the positive x-axis running to the right, and the positive y-axis running downward.</p>
+
+      <p>In the area from 1286,225 to 1379,394, a fan community has immortalized itself. The name of the video game series is your answer.</p>
+
       `,
     },
     solution: secrets('chal_115'),
   },
 
   {
-    id: 116,
-    pos: { x: 1538, y: 1052 },
-    title: { de: 'C (TODO)', en: 'TODO' },
-    deps: [57],
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
-    },
-    solution: '42',
-  },
-
-  {
     id: 117,
     pos: { x: 1538, y: 983 },
-    title: { de: 'Schatzkammer', en: 'Dungeon' },
+    title: { de: 'Schatzkammer', en: 'Treasure chamber' },
     deps: [57],
     html: {
       de: `
-        <p>Liebe Abenteuerlustige,</p>
+        <p>Beim Hacken wirst du dich regelmäßig auf unbekanntes Gebiet bewegen. Hinter jeder Ecke könnte eine Überraschung lauern. Nichts ist vorhersehbar oder planbar. Du arbeitest dich Schritt für Schritt vor und versuchst, so viel wie möglich zu lernen.</p>
 
-        <p>ich habe einen Auftrag für dich: Begib dich in diese verfluchte Schatzkammer und berge die Gedenkplatte. Im Tageslicht wird sich dir die Antwort offenbaren.</p>
+        <p>Bist du bereit für ein solches Abenteuer? Begib dich in diese verfluchte Schatzkammer und berge die Gedenkplatte. Sobald du der Kammer entkommst, wird sich dir die Antwort offenbaren.</p>
 
-        <p>Doch achte auf deine geistige Gesundheit!</p>
+        <p>Es lauern überall Gefahren. Achte auf deine geistige Gesundheit.</p>
 
         <iframe width="360" height="240" src="/chal117/dungeon" style="border: 1px solid white;"></iframe>
       `,
       en: `
-        <p>TODO</p>
+        <p>When hacking, you will regularly venture into unknown territory. Surprises could be lurking around every corner. Nothing is predictable or planable. You advance step by step, trying to learn as much as possible.</p>
+
+        <p>Are you ready for such an adventure? Enter this cursed treasure chamber and retrieve the memorial plate. Once you escape the chamber, the answer will reveal itself to you.</p>
+
+        <p>Dangers lurk everywhere. Watch your mental health.</p>
+
 
         <iframe width="360" height="240" src="/chal117/dungeon" style="border: 1px solid white;"></iframe>
       `,
@@ -2309,7 +2308,7 @@ print(hex_string)</pre></code>
 
   {
     id: 118,
-    pos: { x: 1608, y: 1031 },
+    pos: { x: 1580, y: 1047 },
     title: { de: 'E (TODO)', en: 'TODO' },
     deps: [57],
     html: {

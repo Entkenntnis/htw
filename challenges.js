@@ -14,6 +14,42 @@ function calculatorCheck(a) {
   else return a
 }
 
+function calculator(lng = 'de') {
+  return `
+    <div class="calculator">
+      <div class="calculator__display">0</div>
+
+      <div class="calculator__keys">
+        <button class="key--operator" data-action="add">+</button>
+        <button class="key--operator" data-action="subtract">-</button>
+        <button class="key--operator" data-action="multiply">&times;</button>
+        <button class="key--operator" data-action="divide">÷</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>0</button>
+        <button data-action="decimal">,</button>
+        <button data-action="clear">AC</button>
+        <button class="key--equal" data-action="calculate">=</button>
+      </div>
+    </div>
+
+    <p style="margin-top:32px;" id="submit"><button>${
+      lng == 'de' ? 'Ergebnis abschicken' : 'Submit result'
+    }</button></p>
+
+    <link rel="stylesheet" href="/chals/chal110.css">
+
+    <script src="/chals/chal110.js"></script>
+  `
+}
+
 const part1 = [
   {
     id: 1,
@@ -3455,36 +3491,8 @@ PIXI.loader
       
       <p>Deine Kreativität ist nun gefragt. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
       </p>
-      
-      <div class="calculator">
-        <div class="calculator__display">0</div>
 
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
-      
-      <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator()}
     `,
       en: `
       <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
@@ -3496,38 +3504,11 @@ PIXI.loader
       <p>Your creativity is now required. Calculate the number <strong>256</strong> and submit the result.
       </p>
       
-      <div class="calculator">
-        <div class="calculator__display">0</div>
-
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
       
-      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator('en')}
     `,
     },
-    solution: secrets('chal_110'),
+    solution: '256',
     hidesubmit: true,
   },
 
@@ -3542,72 +3523,17 @@ PIXI.loader
       <p>Berechne diesmal die Zahl <strong>10240</strong>.
       </p>
       
-      <div class="calculator">
-        <div class="calculator__display">0</div>
-
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
-      
-      <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator()}
     `,
       en: `
       <p>This time calculate the number <strong>10240</strong>.
       </p>
       
-      <div class="calculator">
-        <div class="calculator__display">0</div>
-
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
       
-      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator('en')}
     `,
     },
-    solution: secrets('chal_111'),
+    solution: '10240',
     hidesubmit: true,
   },
 
@@ -3689,17 +3615,82 @@ PIXI.loader
   {
     id: 116,
     pos: { x: 740, y: 52 },
-    title: { de: 'Taschenrechner III (TODO)', en: 'TODO' },
+    title: { de: 'Taschenrechner III', en: 'Calculator III' },
     deps: [111],
     html: {
       de: `
-        <p>TODO</p>
+        <p>Blindes Probieren führt dich hier nicht zum Ziel. Wähle eine weise Strategie.</p>
+
+        <p>Berechne die Zahl <strong>15876000</strong>.</p>
+      
+        <div class="calculator">
+          <div class="calculator__display">0</div>
+
+          <div class="calculator__keys">
+            <button class="key--operator invisible" data-action="add">+</button>
+            <button class="key--operator invisible" data-action="subtract">-</button>
+            <button class="key--operator" data-action="multiply">&times;</button>
+            <button class="key--operator invisible" data-action="divide">÷</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>0</button>
+            <button data-action="decimal">,</button>
+            <button data-action="clear">AC</button>
+            <button class="key--equal" data-action="calculate">=</button>
+          </div>
+        </div>
+        
+        <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
+        
+        <link rel="stylesheet" href="/chals/chal110.css">
+        
+        <script src="/chals/chal110.js"></script>
       `,
       en: `
-        <p>TODO</p>
+        <p>Blind guessing will not lead you to success here. Choose a wise strategy.</p>
+
+        <p>Calculate the number <strong>15876000</strong>.</p>
+
+        <div class="calculator">
+          <div class="calculator__display">0</div>
+
+          <div class="calculator__keys">
+            <button class="key--operator invisible" data-action="add">+</button>
+            <button class="key--operator invisible" data-action="subtract">-</button>
+            <button class="key--operator" data-action="multiply">&times;</button>
+            <button class="key--operator invisible" data-action="divide">÷</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>0</button>
+            <button data-action="decimal">,</button>
+            <button data-action="clear">AC</button>
+            <button class="key--equal" data-action="calculate">=</button>
+          </div>
+        </div>
+        
+        <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
+        
+        <link rel="stylesheet" href="/chals/chal110.css">
+        
+        <script src="/chals/chal110.js"></script>
       `,
     },
-    solution: '42',
+    solution: '15876000',
+    hidesubmit: true,
   },
 
   {

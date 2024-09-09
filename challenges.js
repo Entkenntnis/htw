@@ -1146,7 +1146,7 @@ const part1 = [
 
   {
     id: 31,
-    pos: { x: 780, y: 85 },
+    pos: { x: 780, y: 95 },
     title: { de: 'Röhre', en: 'Tube' },
     // date: '2017-08-26',
     deps: [111],
@@ -3638,7 +3638,7 @@ PIXI.loader
 
   {
     id: 113,
-    pos: { x: 797, y: 139 },
+    pos: { x: 797, y: 144 },
     title: { de: 'Minecraft IV', en: 'Minecraft IV' },
     deps: [337],
     html: {

@@ -24,6 +24,24 @@ const strings = [
     `Du entkommst. Die Antwort lautet ${secrets('chal_117')}.`,
     `You escape. The answer is ${secrets('chal_117')}.`,
   ],
+  [
+    'Ein böser Geist greift dich an. Würfle eine 1, um zu entfliehen.',
+    'An evil ghost is attacking you. Roll an 1 to escape.',
+  ],
+  ['Würfeln', 'Roll'],
+  ['Du entfliehst.', 'You escape'],
+  [
+    'Der Geist versetzt dich in Wahn. Du verlierst eine geistige Gesundheit.',
+    'The ghost is messing with your head. You lose one sanity.',
+  ],
+  [
+    'Du verfällst dem Wahnsinn und wirst nie wieder gesehen.',
+    'You become insane. Nobody ever saw you again.',
+  ],
+  [
+    'Der böse Geist sieht die Gedenktafel. Alles wird schwarz. Du bist gestorben.',
+    'The evil ghost sees the plate. Everything goes black. You died.',
+  ],
 ]
 
 function checkLogin(req, res, next) {
@@ -103,7 +121,7 @@ module.exports = function (App) {
         req,
         res,
         `
-      <div style="top:5px;left:12px;position:absolute">Geistige Gesundheit: ${session.health}</div>
+      <div style="top:5px;left:12px;position:absolute">${s[0]}: ${session.health}</div>
       <div style="bottom:10px;left:0px;right:0px;position:absolute;text-align:center">
         <p>${s[6]}</p>
         <a class="btn btn-sm btn-primary" href="/chal117/dungeon/continue">${s[7]}</a>
@@ -117,7 +135,7 @@ module.exports = function (App) {
         req,
         res,
         `
-      <div style="top:5px;left:12px;position:absolute">Geistige Gesundheit: ${session.health}</div>
+      <div style="top:5px;left:12px;position:absolute">${s[0]}: ${session.health}</div>
       <div style="bottom:10px;left:0px;right:0px;position:absolute;text-align:center">
         <p style="margin-bottom:8px;">${s[8]}</p>
         <a class="btn btn-sm btn-primary" href="/chal117/dungeon/return">${s[9]}</a>
@@ -145,8 +163,8 @@ module.exports = function (App) {
         res,
         `
       <div style="bottom:13px;left:0px;right:0px;position:absolute;text-align:center">
-        <p>Ein böser Geist greift dich an. Würfle eine 1, um zu entfliehen.</p>
-        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/roll">Würfeln</a>
+        <p>${s[11]}</p>
+        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/roll">${s[12]}</a>
       </div>
       <div style="top:10px;position:absolute;display:flex;justify-content:center;width:100%"><img src="/chals/117/ghost.jpg" height="120px"></div> 
     `
@@ -159,12 +177,16 @@ module.exports = function (App) {
         `  
       <div id="dice-box"></div>
       <div style="bottom:13px;left:0px;right:0px;position:absolute;text-align:center;display:none" id="success">
-        <p>Du bist entflohen</p>
-        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/continue">weiter</a>
+        <p>${s[13]}</p>
+        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/continue">${
+          s[7]
+        }</a>
       </div>
       <div style="bottom:13px;left:0px;right:0px;position:absolute;text-align:center;display:none" id="fail">
-        <p>Du verlierst eine geistige Gesundheit</p>
-        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/continue">weiter</a>
+        <p>${s[14]}</p>
+        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/continue">${
+          s[7]
+        }</a>
       </div>
       <script src="/chals/117/roll-a-die.js"></script>
       <script>
@@ -179,6 +201,32 @@ module.exports = function (App) {
     `
       )
     }
+    if (session.state == 'death') {
+      return render(
+        req,
+        res,
+        `
+      <div style="bottom:13px;left:0px;right:0px;position:absolute;text-align:center">
+        <p>${s[15]}</p>
+        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/reset">${s[2]}</a>
+      </div>
+      <div style="top:10px;position:absolute;display:flex;justify-content:center;width:100%"><img src="/chals/117/rip.jpg" height="120px"></div> 
+    `
+      )
+    }
+    if (session.state == 'instadeath') {
+      return render(
+        req,
+        res,
+        `
+      <div style="bottom:13px;left:0px;right:0px;position:absolute;text-align:center">
+        <p>${s[16]}</p>
+        <a class="btn btn-sm btn-primary" href="/chal117/dungeon/reset">${s[2]}</a>
+      </div>
+      <div style="top:10px;position:absolute;display:flex;justify-content:center;width:100%"><img src="/chals/117/ghost.jpg" height="120px"></div> 
+    `
+      )
+    }
 
     res.send('undefined')
   })
@@ -187,9 +235,9 @@ module.exports = function (App) {
     '/chal117/dungeon/start',
     checkLogin,
     updateSession((session) => {
-      session.health = 4
+      session.health = 3
       session.state = 'choice'
-      session.hall = 1
+      session.hall = 0
       session.isReturn = false
       const choices = []
       for (let i = 0; i < 5; i++) {
@@ -213,8 +261,11 @@ module.exports = function (App) {
     updateSession((session) => {
       const isSafe =
         session.choices[session.hall] == (session.isReturn ? 'r' : 'l')
-      console.log(isSafe, session.choices)
-      session.state = isSafe ? 'safe' : 'combat'
+      session.state = isSafe
+        ? 'safe'
+        : session.isReturn
+        ? 'instadeath'
+        : 'combat'
     })
   )
 
@@ -224,7 +275,11 @@ module.exports = function (App) {
     updateSession((session) => {
       const isSafe =
         session.choices[session.hall] == (session.isReturn ? 'l' : 'r')
-      session.state = isSafe ? 'safe' : 'combat'
+      session.state = isSafe
+        ? 'safe'
+        : session.isReturn
+        ? 'instadeath'
+        : 'combat'
     })
   )
 
@@ -232,8 +287,12 @@ module.exports = function (App) {
     '/chal117/dungeon/continue',
     checkLogin,
     updateSession((session) => {
+      if (session.health == 0) {
+        session.state = 'death'
+        return
+      }
       session.state = 'choice'
-      if (session.hall == 5) {
+      if (session.hall == 4 && !session.isReturn) {
         session.state = 'chamber'
       }
       if (session.hall == 0 && session.isReturn) {

@@ -2286,7 +2286,7 @@ print(hex_string)</pre></code>
   {
     id: 117,
     pos: { x: 1538, y: 983 },
-    title: { de: 'Schatzkammer', en: 'TODO' },
+    title: { de: 'Schatzkammer', en: 'Dungeon' },
     deps: [57],
     html: {
       de: `
@@ -2300,9 +2300,11 @@ print(hex_string)</pre></code>
       `,
       en: `
         <p>TODO</p>
+
+        <iframe width="360" height="240" src="/chal117/dungeon" style="border: 1px solid white;"></iframe>
       `,
     },
-    solution: '42',
+    solution: secrets('chal_117'),
   },
 
   {

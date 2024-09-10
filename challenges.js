@@ -3706,7 +3706,7 @@ PIXI.loader
     id: 118,
     pos: { x: 668, y: 480 },
     title: { de: ' [Umfrage]', en: '[Survey]' },
-    deps: [55, 69],
+    deps: [51, 55, 69],
     render: () => {
       const reverse = Math.random() < 0.5
       function buildLikert5(lower, higher, name) {
@@ -3821,6 +3821,10 @@ PIXI.loader
       `,
         en: `
         <p>The survey is currently only available in German.</p>
+        <form autocomplete="off" method="post">
+          <input type="hidden" name="answer" value="skip">
+          <button type="submit" class="btn btn-primary">Skip</button>
+        </form>
       `,
       }
     },

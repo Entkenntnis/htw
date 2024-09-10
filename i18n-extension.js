@@ -320,15 +320,19 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>September 2024</h3>
+      
+      <p>Es gibt neue Aufgaben! Die Anzahl der Aufgaben erhöht sich auf 111. Die neue Höchstpunktzahl beträgt 1939.
+      </p>
+      
+      <div class="my-5"></div>
+      
       <h3>Juli 2024</h3>
       
       <p>In diesem Update wurden zwei Bereiche von Hack The Web neu überarbeitet: Die Startseite erhält mehr informative Texte und ein kleines Vorwort. Außerdem wurde die Karte neu sortiert, um das Spielerlebnis flüssiger zu gestalten.
       </p>
 
       <p>Es kann daher sein, dass deine Karte etwas durcheinander aussieht nach dem Login - das liegt an der Überarbeitung. Du kannst aber in deinem Spielstand einfach weiterspielen.
-      </p>
-
-      <p>Entsprechend ändern sich auch die Punktzahlen. Die neue Höchstpunktzahl beträgt 1768.
       </p>
       
       <div class="my-5"></div>
@@ -541,6 +545,12 @@ module.exports = (config) => {
     key: 'news.content_',
     value: `
       <div class="my-5"></div>
+      
+      <h3>September 2024</h3>
+      
+      <p>There are new challenges! The number of challenges increases to 111. The new high score is 1939.</p>
+
+      <div class="my-5"></div>
 
       <h3>July 2024</h3>
 
@@ -548,9 +558,6 @@ module.exports = (config) => {
       </p>
       
       <p>As a result, your map may look a bit jumbled after logging in - this is due to the reorganization. However, you can continue playing from your saved game.
-      </p>
-
-      <p>Accordingly, the scores have also changed. The new high score is 1768.
       </p>
       
       <div class="my-5"></div>

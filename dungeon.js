@@ -89,12 +89,11 @@ module.exports = function (App) {
   App.express.get('/chal117/dungeon', checkLogin, (req, res) => {
     const s = strings.map((el) => el[req.lng == 'de' ? 0 : 1])
     const session = req.session.chal117
-    if (!session.state) {
+    if (!session || !session.state) {
       return render(
         req,
         res,
         `
-      <!-- <div style="top:8px;left:12px;position:absolute">${s[0]}: ${session.health}</div> -->
       <div style="bottom:20px;left:0px;right:0px;position:absolute;text-align:center"><a class="btn btn-sm btn-primary" href="/chal117/dungeon/start">${s[1]}</a></div>
       <div style="top:20px;left:80px;position:absolute"><img src="/chals/117/start.png"></div> 
     `

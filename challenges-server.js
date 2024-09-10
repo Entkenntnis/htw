@@ -411,4 +411,8 @@ module.exports = function (App) {
       }
     }
   )
+
+  // 117 - Schatzkammer
+
+  require('./dungeon.js')(App)
 }

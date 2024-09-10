@@ -1049,7 +1049,7 @@ module.exports = [
 
   {
     id: 89,
-    pos: { x: 1460, y: 1100 },
+    pos: { x: 1410, y: 1100 },
     title: { de: 'Lesezeichen', en: 'Bookmarks' },
     // date: '2023-04-08',
     deps: [57],
@@ -2012,7 +2012,7 @@ print(hex_string)</pre></code>
     pos: { x: 698, y: 1671 },
     title: { de: 'Hintergrund', en: 'Background' },
     // date: '2023-05-27',
-    deps: [98, 100, 104],
+    deps: [38, 98, 100, 104],
     html: {
       de: `
       <p>Es gibt Menschen, die sind einfach immer da. Auf diese Menschen kann man sich verlassen.
@@ -2095,6 +2095,9 @@ print(hex_string)</pre></code>
     `,
     },
     check: (answer) => {
+      if (answer.length === 1337) {
+        return true
+      }
       const trimmed = answer.trim()
       return {
         answer: trimmed,
@@ -2242,5 +2245,145 @@ print(hex_string)</pre></code>
         correct: output === secrets('chal_109'),
       }
     },
+  },
+
+  {
+    id: 115,
+    pos: { x: 1495, y: 1149 },
+    title: { de: 'r/place', en: 'r/place' },
+    deps: [57],
+    html: {
+      de: `
+        <p>Im Jahr 2023 kamen viele Menschen zusammen, um gemeinsam ein Bild zu zeichnen - Pixel für Pixel. Aus dem Chaos heraus organisierten sich die Menschen und es entstanden einige Kunstwerke (und manche Beleidigung).</p>
+
+        <p><img src="https://placedata.reddit.com/data/final_2023_place.png" style="max-width:100%" width="600" /></p>
+
+        <p>Um sich zu navigieren, brauchen die Pixel natürlich Koordinaten. Es gibt ein offizielles Koordinatensystem, dessen Ursprung in der Mitte der Leinwand liegt, die positive x-Achse verläuft nach rechts, die positive y-Achse verläuft nach unten.</p>
+
+        <p>Im Bereich 1286,225 bis 1379,394 hat sich eine Fan-Gemeinschaft verewigt. Der Name der Computerspiel-Reihe ist deine Antwort.</p>
+
+      `,
+      en: `
+       <p>In 2023, many people came together to draw a picture, pixel by pixel. From the chaos, people organized themselves, creating some artworks (and some insults).</p>
+
+      <p><img src="https://placedata.reddit.com/data/final_2023_place.png" style="max-width:100%" width="600" /></p>
+
+      <p>To navigate, the pixels naturally need coordinates. There is an official coordinate system, with its origin at the center of the canvas, the positive x-axis running to the right, and the positive y-axis running downward.</p>
+
+      <p>In the area from 1286,225 to 1379,394, a fan community has immortalized itself. The name of the video game series is your answer.</p>
+
+      `,
+    },
+    solution: secrets('chal_115'),
+  },
+
+  {
+    id: 117,
+    pos: { x: 1538, y: 983 },
+    title: { de: 'Schatzkammer', en: 'Treasure chamber' },
+    deps: [57],
+    html: {
+      de: `
+        <p>Beim Hacken wirst du dich regelmäßig auf unbekanntes Gebiet bewegen. Hinter jeder Ecke könnte eine Überraschung lauern. Nichts ist vorhersehbar oder planbar. Du arbeitest dich Schritt für Schritt vor und versuchst, so viel wie möglich zu lernen.</p>
+
+        <p>Bist du bereit für ein solches Abenteuer? Begib dich in diese verfluchte Schatzkammer und berge die Gedenkplatte. Sobald du der Kammer entkommst, wird sich dir die Antwort offenbaren.</p>
+
+        <p>Es lauern überall Gefahren. Achte auf deine geistige Gesundheit.</p>
+
+        <iframe width="360" height="240" src="/chal117/dungeon" style="border: 1px solid white;"></iframe>
+      `,
+      en: `
+        <p>When hacking, you will regularly venture into unknown territory. Surprises could be lurking around every corner. Nothing is predictable or planable. You advance step by step, trying to learn as much as possible.</p>
+
+        <p>Are you ready for such an adventure? Enter this cursed treasure chamber and retrieve the memorial plate. Once you escape the chamber, the answer will reveal itself to you.</p>
+
+        <p>Dangers lurk everywhere. Watch your mental health.</p>
+
+
+        <iframe width="360" height="240" src="/chal117/dungeon" style="border: 1px solid white;"></iframe>
+      `,
+    },
+    solution: secrets('chal_117'),
+  },
+
+  {
+    id: 119,
+    pos: { x: 1578, y: 1117 },
+    title: { de: 'Passwort', en: 'Password' },
+    deps: [57],
+    html: {
+      de: `
+        <p>Viele Menschen verwenden Passwörter, die mit ihren Interessen und Hobbies zusammenhängen. Dadurch sind diese Passwörter leicht zu erraten. Bei dieser Aufgabe findest du den Steckbrief einer Person. Errate das Passwort. Das Passwort besteht nur aus Kleinbuchstaben und enthält keine Zahlen, Leerzeichen oder Sonderzeichen.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Steckbrief von Marie</strong></p>
+
+          <p>Hallo!</p>
+
+          <p>Ich bin ein großer Fan von Taylor Swift. Ich kann mich gut mit ihrer Musik identifzieren und sie enthält viele Easter Eggs. Meine Lieblingsongs sind Betty, Cowboy Like Me und Love Story.</p>
+
+          <p>Ich konnte leider keine Karten für ihr Konzert in München besorgen, aber ich konnte auf dem Hügel gut mithören und in der Menge mitviben.</p>
+
+          <p>I remember it all too well :)</p>
+        </div>
+      `,
+      en: `
+        <p>Many people use passwords that are related to their interests and hobbies. As a result, these passwords are easy to guess. In this task, you will find the profile of a person. Guess the password. The password consists only of lowercase letters and contains no numbers, spaces, or special characters.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Profile of Marie</strong></p>
+
+          <p>Hello!</p>
+
+          <p>I am a big fan of Taylor Swift. I can really relate to her music, and it contains many Easter eggs. My favorite songs are Betty, Cowboy Like Me, and Love Story.</p>
+
+          <p>Unfortunately, I couldn't get tickets for her concert in Munich, but I could hear well from the hill and vibe with the crowd.</p>
+
+          <p>I remember it all too well :)</p>
+        </div>
+
+      `,
+    },
+    solution: secrets('chal_119'),
+  },
+
+  {
+    id: 120,
+    pos: { x: 1700, y: 1151 },
+    title: { de: 'Passwort II', en: 'Password II' },
+    deps: [119],
+    html: {
+      de: `
+        <p>Hier ist wieder ein Steckbrief. Errate das Passwort. Das Passwort besteht nur aus Kleinbuchstaben und enthält keine Zahlen, Leerzeichen oder Sonderzeichen.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Steckbrief von Jojo</strong></p>
+
+          <p>Hey!</p>
+
+          <p>In meiner Jugend habe ich ein natürlich die Regeln von Schach gelernt, wie z.B. die Rochade oder die 50-Züge-Regel. Aber ich habe lange Zeit keinen wirklichen Bezug zum Schachspiel gehabt.</p>
+
+          <p>Das hat sich erst geändert, als ich über eine schwedische Schach-Youtuberin mehr in die Welt der SchachspielerInnen eingetaucht bin und verstanden habe, welche Art von Gemeinschaft dadurch erlebbar wird. Und natürlich habe ich mich schlau gemacht über all die Top-Spieler und ihre Dramen.</p>
+
+          <p>Seitdem spiele ich auch in meiner Freizeit gerne die eine oder andere Runde Schach, v.a. auf einem richtigen Schachbrett. Mit Online-Schach konnte ich mich bisher noch nicht so gut anfreunden.</p>
+        </div>
+      `,
+      en: `
+        <p>Here is another profile. Guess the password. The password consists only of lowercase letters and does not contain any numbers, spaces, or special characters.</p>
+
+        <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
+          <p><strong>Profile of Jojo</strong></p>
+
+          <p>Hey!</p>
+
+          <p>In my youth, I naturally learned the rules of chess, like castling or the 50-move rule. But for a long time, I didn't really have a connection to the game.</p>
+
+          <p>That changed when I discovered a Swedish chess YouTuber and dove deeper into the world of chess players, understanding the kind of community that can be experienced through it. And of course, I educated myself about all the top players and their dramas.</p>
+
+          <p>Since then, I've enjoyed playing a game of chess in my free time, especially on a real chessboard. I haven't yet warmed up to online chess.</p>
+        </div>
+      `,
+    },
+    solution: secrets('chal_120'),
   },
 ]

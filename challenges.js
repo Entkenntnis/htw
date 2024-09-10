@@ -14,6 +14,42 @@ function calculatorCheck(a) {
   else return a
 }
 
+function calculator(lng = 'de') {
+  return `
+    <div class="calculator">
+      <div class="calculator__display">0</div>
+
+      <div class="calculator__keys">
+        <button class="key--operator" data-action="add">+</button>
+        <button class="key--operator" data-action="subtract">-</button>
+        <button class="key--operator" data-action="multiply">&times;</button>
+        <button class="key--operator" data-action="divide">÷</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>0</button>
+        <button data-action="decimal">,</button>
+        <button data-action="clear">AC</button>
+        <button class="key--equal" data-action="calculate">=</button>
+      </div>
+    </div>
+
+    <p style="margin-top:32px;" id="submit"><button>${
+      lng == 'de' ? 'Ergebnis abschicken' : 'Submit result'
+    }</button></p>
+
+    <link rel="stylesheet" href="/chals/chal110.css">
+
+    <script src="/chals/chal110.js"></script>
+  `
+}
+
 const part1 = [
   {
     id: 1,
@@ -426,7 +462,7 @@ const part1 = [
     pos: { x: 720, y: 420 },
     title: { de: 'Fleißaufgabe', en: 'Hard work' },
     // date: '2017-05-17',
-    deps: [55],
+    deps: [55, 114],
     html: {
       de: `
       <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
@@ -629,7 +665,7 @@ const part1 = [
     pos: { x: 745, y: 310 },
     title: { de: 'Slogan', en: 'Slogan' },
     // date: '2017-05-18',
-    deps: [55, 66],
+    deps: [55, 66, 114],
     html: {
       de: `
       <p>Deine Antwort ist der Slogan von Hack The Web. Die Eingabe gerät wieder durcheinander.</p>
@@ -1146,8 +1182,8 @@ const part1 = [
 
   {
     id: 31,
-    pos: { x: 780, y: 99 },
-    title: { de: 'Taschenrechner III', en: 'Calculator III' },
+    pos: { x: 780, y: 95 },
+    title: { de: 'Röhre', en: 'Tube' },
     // date: '2017-08-26',
     deps: [111],
     html: {
@@ -1223,7 +1259,7 @@ const part1 = [
   {
     id: 32,
     pos: { x: 930, y: 77 },
-    title: { de: 'Taschenrechner IV', en: 'Calculator IV' },
+    title: { de: 'Röhre II', en: 'Tube II' },
     // date: '2017-08-26',
     deps: [31],
     html: {
@@ -1263,7 +1299,7 @@ const part1 = [
   {
     id: 33,
     pos: { x: 1070, y: 100 },
-    title: { de: 'Taschenrechner V', en: 'Calculator V' },
+    title: { de: 'Röhre III', en: 'Tube III' },
     // date: '2017-08-26',
     deps: [32],
     html: {
@@ -1986,9 +2022,17 @@ const part1 = [
       try {
         if (!answer || !answer.startsWith('http')) {
           if (req.lng.startsWith('de')) {
-            return { answer: 'Keine URL: ' + answer, correct: false }
+            return {
+              answer: 'Keine URL: ' + answer,
+              correct: false,
+              rawAnswer: true,
+            }
           } else {
-            return { answer: 'No URL: ' + answer, correct: false }
+            return {
+              answer: 'No URL: ' + answer,
+              correct: false,
+              rawAnswer: true,
+            }
           }
         }
         const controller = new AbortController()
@@ -2028,6 +2072,7 @@ const part1 = [
       return {
         answer: value,
         correct: containsUsername,
+        rawAnswer: !containsUsername,
       }
     },
   },
@@ -3455,36 +3500,8 @@ PIXI.loader
       
       <p>Deine Kreativität ist nun gefragt. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
       </p>
-      
-      <div class="calculator">
-        <div class="calculator__display">0</div>
 
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
-      
-      <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator()}
     `,
       en: `
       <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
@@ -3496,38 +3513,11 @@ PIXI.loader
       <p>Your creativity is now required. Calculate the number <strong>256</strong> and submit the result.
       </p>
       
-      <div class="calculator">
-        <div class="calculator__display">0</div>
-
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
       
-      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator('en')}
     `,
     },
-    solution: secrets('chal_110'),
+    solution: '256',
     hidesubmit: true,
   },
 
@@ -3542,73 +3532,372 @@ PIXI.loader
       <p>Berechne diesmal die Zahl <strong>10240</strong>.
       </p>
       
-      <div class="calculator">
-        <div class="calculator__display">0</div>
-
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
-      
-      <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator()}
     `,
       en: `
       <p>This time calculate the number <strong>10240</strong>.
       </p>
       
-      <div class="calculator">
-        <div class="calculator__display">0</div>
-
-        <div class="calculator__keys">
-          <button class="key--operator" data-action="add">+</button>
-          <button class="key--operator" data-action="subtract">-</button>
-          <button class="key--operator" data-action="multiply">&times;</button>
-          <button class="key--operator" data-action="divide">÷</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>0</button>
-          <button data-action="decimal">,</button>
-          <button data-action="clear">AC</button>
-          <button class="key--equal" data-action="calculate">=</button>
-        </div>
-      </div>
       
-      <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
-      
-      <link rel="stylesheet" href="/chals/chal110.css">
-      
-      <script src="/chals/chal110.js"></script>
+      ${calculator('en')}
     `,
     },
-    solution: secrets('chal_111'),
+    solution: '10240',
     hidesubmit: true,
+  },
+
+  {
+    id: 112,
+    pos: { x: 747, y: 249 },
+    title: { de: 'Minecraft III', en: 'Minecraft III' },
+    deps: [337],
+    html: {
+      de: `
+        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, aber die Schaltung funktioniert nicht.</p>
+
+        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:100%"></p>
+
+        <p>Mein Kumpel erkennt das Problem sofort: "Du musst nur einen Block hinzufügen!". Diese Block-ID ist deine Antwort.</p>
+      `,
+      en: `
+        <p>I want to turn the lamp on and off with a switch, but the circuit isn't working.</p>
+
+        <p><img src="/chals/chal112.jpg" alt="View of Redstone circuit" style="max-width:100%"></p>
+
+        <p>My buddy immediately spots the problem: "You just need to add a block!" This block ID is your answer.</p>
+
+      `,
+    },
+    solution: secrets('chal_112'),
+  },
+
+  {
+    id: 113,
+    pos: { x: 797, y: 144 },
+    title: { de: 'Minecraft IV', en: 'Minecraft IV' },
+    deps: [337],
+    html: {
+      de: `
+        <p>Ich liebe den Mond bei Mitternacht. Am liebsten würde ich gerne immer, wenn ich will, zu diesem Zeitpunkt springen können.</p>
+
+        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:100%"></p>
+
+        <p>Der passende Befehl dazu ist deine Antwort.</p>
+      `,
+      en: `
+        <p>I love the moon at midnight. I wish I could jump to that moment whenever I want.</p>
+
+        <p><img src="/chals/chal113.png" alt="Moon at midnight" style="max-width:100%"></p>
+
+        <p>The appropriate command for this is your answer.</p>
+
+      `,
+    },
+    solution: [secrets('chal_113_1'), secrets('chal_113_2')],
+  },
+
+  {
+    id: 114,
+    pos: { x: 588, y: 313 },
+    title: { de: 'Baum', en: 'Tree' },
+    deps: [68, 336],
+    html: {
+      de: `
+        <p>Computer und Natur sind zwei verschiedene Welten. Ich verbringe gerne Zeit in beiden. Und beide können sich gegenseitig bereichern.</p>
+
+        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-width:500px"></p>
+
+        <p>Der wissenschaftliche Name dieser Baumgattung ist deine Antwort. Keine Sorge, wenn du dich wenig mit Bäumen auskennst: Im Quellcode findet sich vielleicht ein Hinweis.</p>
+      `,
+      en: `
+        <p>Computers and nature are two different worlds. I enjoy spending time in both. And both can enrich each other.</p>
+
+        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Identify tree genus" style="max-width:500px"></p>
+
+        <p>The scientific name of this tree genus is your answer. Don't worry if you're not familiar with trees: there are hints here and there in the source code.</p>
+
+      `,
+    },
+    solution: secrets('chal_114'),
+  },
+
+  {
+    id: 116,
+    pos: { x: 740, y: 52 },
+    title: { de: 'Taschenrechner III', en: 'Calculator III' },
+    deps: [111],
+    html: {
+      de: `
+        <p>Blindes Probieren führt dich hier nicht zum Ziel. Wähle eine weise Strategie.</p>
+
+        <p>Berechne die Zahl <strong>15876000</strong>.</p>
+      
+        <div class="calculator">
+          <div class="calculator__display">0</div>
+
+          <div class="calculator__keys">
+            <button class="key--operator invisible" data-action="add">+</button>
+            <button class="key--operator invisible" data-action="subtract">-</button>
+            <button class="key--operator" data-action="multiply">&times;</button>
+            <button class="key--operator invisible" data-action="divide">÷</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>0</button>
+            <button data-action="decimal">,</button>
+            <button data-action="clear">AC</button>
+            <button class="key--equal" data-action="calculate">=</button>
+          </div>
+        </div>
+        
+        <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
+        
+        <link rel="stylesheet" href="/chals/chal110.css">
+        
+        <script src="/chals/chal110.js"></script>
+      `,
+      en: `
+        <p>Blind guessing will not lead you to success here. Choose a wise strategy.</p>
+
+        <p>Calculate the number <strong>15876000</strong>.</p>
+
+        <div class="calculator">
+          <div class="calculator__display">0</div>
+
+          <div class="calculator__keys">
+            <button class="key--operator invisible" data-action="add">+</button>
+            <button class="key--operator invisible" data-action="subtract">-</button>
+            <button class="key--operator" data-action="multiply">&times;</button>
+            <button class="key--operator invisible" data-action="divide">÷</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>0</button>
+            <button data-action="decimal">,</button>
+            <button data-action="clear">AC</button>
+            <button class="key--equal" data-action="calculate">=</button>
+          </div>
+        </div>
+        
+        <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
+        
+        <link rel="stylesheet" href="/chals/chal110.css">
+        
+        <script src="/chals/chal110.js"></script>
+      `,
+    },
+    solution: '15876000',
+    hidesubmit: true,
+  },
+
+  {
+    id: 118,
+    pos: { x: 668, y: 480 },
+    title: { de: ' [Umfrage]', en: '[Survey]' },
+    deps: [51, 55, 69],
+    render: () => {
+      const reverse = Math.random() < 0.5
+      function buildLikert5(lower, higher, name) {
+        const values = [
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-1" value="1" required="required">
+            <label class="form-check-label" for="${name}-1">1 - ${lower}</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-2" value="2">
+            <label class="form-check-label" for="${name}-2">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-3" value="3">
+            <label class="form-check-label" for="${name}-3">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-4" value="4">
+            <label class="form-check-label" for="${name}-4">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-5" value="5">
+            <label class="form-check-label" for="${name}-5">5 - ${higher}</label>
+          </div>
+          `,
+        ]
+        if (reverse) values.reverse()
+        return values.join('')
+      }
+      function buildYesNo(name) {
+        const values = [
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-yes" value="yes" required="required">
+            <label class="form-check-label" for="${name}-yes">Ja&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-no" value="no" required="required">
+            <label class="form-check-label" for="${name}-no">Nein&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+        ]
+        if (reverse) values.reverse()
+        return values.join('')
+      }
+      return {
+        de: `
+        <p>Ich weiß: eine Umfrage ist nicht das spannenste Abenteuer auf dieser Welt (ja, ja, keiner liebt sie), aber hey ... diese hier dauert nur 3 Minuten, versprochen. Deine Meinung hilft sehr, Hack The Web noch besser zu machen. Unsere Zeit ist wertvoll und ich möchte diese Zeit daher auch wirklich nur mit den besten Inhalten füllen.</p>
+
+        <details>
+          <summary>
+              <span><strong>Umfrage starten</strong></span>
+          </summary>
+          <hr />
+          <form autocomplete="off" method="post">
+
+            <p>Auf einer Skala von 1 bis 5: Wie sehr hat Hack The Web dein Interesse am Thema Hacking und Technologie geweckt?</p>
+            ${buildLikert5(
+              'kein Interesse geweckt',
+              'sehr viel Interesse geweckt',
+              'interest'
+            )}
+
+            <p style="margin-top:32px;">Auf einer Skala von 1 bis 5: Wie herausfordernd fandest du die Aufgaben auf Hack The Web?</p>
+            ${buildLikert5(
+              'nicht herausfordernd',
+              'sehr herausfordernd',
+              'challenge'
+            )}
+
+            <p style="margin-top:32px;">Auf einer Skala von 1 bis 5: Wie viel Spaß hattest du beim Lösen der Aufgaben auf Hack The Web?</p>
+            ${buildLikert5('kein Spaß', 'sehr viel Spaß', 'fun')}
+
+            <p style="margin-top:32px;">Würdest du nach dieser Erfahrung mehr über Hacking und IT-Sicherheit lernen wollen?</p>
+            ${buildYesNo('learnmore')}
+
+            <p style="margin-top:32px;">Hast du das Gefühl, dass du durch die Rätsel kreativer geworden bist oder deine Problemlösungsfähigkeiten verbessert hast?</p>
+            ${buildYesNo('morecreative')}
+
+            <p style="margin-top:32px;">Hattest du das Gefühl, dass du die Aufgaben auch ohne Vorwissen lösen konntest?</p>
+            ${buildYesNo('easystart')}
+
+            <p style="margin-top:32px;">Würdest du Hack The Web weiterempfehlen?</p>
+            ${buildYesNo('recommend')}
+
+            <p style="margin-top:32px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (optional, max. 300 Zeichen)</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="good"></textarea>
+
+            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (optional, max. 300 Zeichen)</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300 name="improve"></textarea>
+
+            <p style="margin-top:32px;">Ich willige ein, dass meine Antworten in der Auswertung berücksichtigt werden.</p>
+            ${buildYesNo('agree')}
+            <p style="margin-top:10px;"><small>Wähle Nein, wenn du die Aufgabe lösen willst, aber deine Antworten nicht in die anonyme Auswertung einfließen lassen möchtest.</small></p>
+
+            <p style="margin-top:32px;"><button type="submit" class="btn btn-primary">Abschicken</button></p>
+            
+            <input type="hidden" name="answer" value="_">
+          </form>
+        </details>
+      `,
+        en: `
+        <p>The survey is currently only available in German.</p>
+        <form autocomplete="off" method="post">
+          <input type="hidden" name="answer" value="skip">
+          <button type="submit" class="btn btn-primary">Skip</button>
+        </form>
+      `,
+      }
+    },
+    check: async (answer, { App, req }) => {
+      if (answer == 'skip') {
+        return {
+          answer: 'skip',
+          correct: true,
+        }
+      }
+      const result = JSON.stringify(req.body).slice(0, 10000)
+      await App.storage.setItem(
+        'survey_v1_' + req.user.id + '_' + new Date().getTime(),
+        result
+      )
+      if (!req.body.agree) {
+        return {
+          answer: 'Keine Formulardaten erhalten',
+          correct: false,
+          rawAnswer: true,
+        }
+      }
+      return {
+        answer: 'Vielen Dank für die Teilnahme an der Umfrage.',
+        correct: true,
+        rawAnswer: true,
+      }
+    },
+    hidesubmit: true,
+  },
+
+  {
+    id: 336,
+    pos: { x: 455, y: 175 },
+    title: { de: 'Minecraft', en: 'Minecraft' },
+    // date: '2024-02-01',
+    deps: [5, 15],
+    // author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Was ist die Block-ID von diesem Block?</p>
+        
+        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
+      `,
+      en: `
+        <p>What is the block-ID for this block?</p>
+          
+        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
+      `,
+    },
+    solution: secrets('chal_336'),
+  },
+
+  {
+    id: 337,
+    pos: { x: 611, y: 165 },
+    title: { de: 'Minecraft II', en: 'Minecraft II' },
+    // date: '2024-02-01',
+    deps: [336],
+    // author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Welches Konzept wird hier dargestellt?</p>
+          
+        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
+      `,
+      en: `
+        <p>Which concept is presented here?</p>
+            
+        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
+      `,
+    },
+    solution: secrets('chal_337'),
   },
 ]
 

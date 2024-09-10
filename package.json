@@ -7,13 +7,14 @@
     "dev": "nodemon index.js",
     "save2local": "bash save2local",
     "save2local:powershell": "powershell $env:SAVE2LOCAL='1';$env:LIVE='1';npm start;$env:SAVE2LOCAL=$null;$env:LIVE=$null",
+    "recalculateScore:powershell": "powershell $env:RECALCULATESCORE='1';npm start;$env:RECALCULATESCORE=$null",
     "format": "prettier . --write"
   },
   "main": "index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
   "license": "MIT",
   "dependencies": {
-    "@entkenntnis/challenges-server": "2.4.3",
+    "@entkenntnis/challenges-server": "2.5.0",
     "escape-html": "^1.0.3",
     "jsqr": "^1.4.0",
     "mariadb": "^2.4.1",

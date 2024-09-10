@@ -3704,7 +3704,7 @@ PIXI.loader
 
   {
     id: 118,
-    pos: { x: 688, y: 480 },
+    pos: { x: 668, y: 480 },
     title: { de: ' [Umfrage]', en: '[Survey]' },
     deps: [55, 69],
     render: () => {
@@ -3825,6 +3825,12 @@ PIXI.loader
       }
     },
     check: async (answer, { App, req }) => {
+      if (answer == 'skip') {
+        return {
+          answer: 'skip',
+          correct: true,
+        }
+      }
       const result = JSON.stringify(req.body).slice(0, 10000)
       await App.storage.setItem(
         'survey_v1_' + req.user.id + '_' + new Date().getTime(),

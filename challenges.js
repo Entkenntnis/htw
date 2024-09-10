@@ -2022,9 +2022,17 @@ const part1 = [
       try {
         if (!answer || !answer.startsWith('http')) {
           if (req.lng.startsWith('de')) {
-            return { answer: 'Keine URL: ' + answer, correct: false }
+            return {
+              answer: 'Keine URL: ' + answer,
+              correct: false,
+              rawAnswer: true,
+            }
           } else {
-            return { answer: 'No URL: ' + answer, correct: false }
+            return {
+              answer: 'No URL: ' + answer,
+              correct: false,
+              rawAnswer: true,
+            }
           }
         }
         const controller = new AbortController()
@@ -2064,6 +2072,7 @@ const part1 = [
       return {
         answer: value,
         correct: containsUsername,
+        rawAnswer: !containsUsername,
       }
     },
   },

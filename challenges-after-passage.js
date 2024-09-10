@@ -2313,13 +2313,19 @@ print(hex_string)</pre></code>
     deps: [57],
     html: {
       de: `
-        <p>TODO</p>
+        <p>Umfrage</p>
       `,
       en: `
         <p>TODO</p>
       `,
     },
-    solution: '42',
+    check: async (answer, { App, req }) => {
+      return {
+        answer: 'Vielen Dank für die Teilnahme an der Umfrage',
+        correct: true,
+        rawAnswer: true,
+      }
+    },
   },
 
   {

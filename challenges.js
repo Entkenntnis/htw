@@ -3703,6 +3703,150 @@ PIXI.loader
   },
 
   {
+    id: 118,
+    pos: { x: 688, y: 480 },
+    title: { de: ' [Umfrage]', en: '[Survey]' },
+    deps: [55, 69],
+    render: () => {
+      const reverse = Math.random() < 0.5
+      function buildLikert5(lower, higher, name) {
+        const values = [
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-1" value="1" required="required">
+            <label class="form-check-label" for="${name}-1">1 - ${lower}</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-2" value="2">
+            <label class="form-check-label" for="${name}-2">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-3" value="3">
+            <label class="form-check-label" for="${name}-3">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-4" value="4">
+            <label class="form-check-label" for="${name}-4">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-5" value="5">
+            <label class="form-check-label" for="${name}-5">5 - ${higher}</label>
+          </div>
+          `,
+        ]
+        if (reverse) values.reverse()
+        return values.join('')
+      }
+      function buildYesNo(name) {
+        const values = [
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-yes" value="yes" required="required">
+            <label class="form-check-label" for="${name}-yes">Ja&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+          `
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-no" value="no" required="required">
+            <label class="form-check-label" for="${name}-no">Nein&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          `,
+        ]
+        if (reverse) values.reverse()
+        return values.join('')
+      }
+      return {
+        de: `
+        <p>Ich weiß: eine Umfrage ist nicht das spannenste Abenteuer auf dieser Welt (ja, ja, keiner liebt sie), aber hey ... diese hier dauert nur 3 Minuten, versprochen. Deine Meinung hilft sehr, Hack The Web noch besser zu machen. Unsere Zeit ist wertvoll und ich möchte diese Zeit daher auch wirklich nur mit den besten Inhalten füllen.</p>
+
+        <details>
+          <summary>
+              <span><strong>Umfrage starten</strong></span>
+          </summary>
+          <hr />
+          <form autocomplete="off" method="post">
+
+            <p>Auf einer Skala von 1 bis 5: Wie sehr hat Hack The Web dein Interesse am Thema Hacking und Technologie geweckt?</p>
+            ${buildLikert5(
+              'kein Interesse geweckt',
+              'sehr viel Interesse geweckt',
+              'interest'
+            )}
+
+            <p style="margin-top:32px;">Auf einer Skala von 1 bis 5: Wie herausfordernd fandest du die Aufgaben auf Hack The Web?</p>
+            ${buildLikert5(
+              'nicht herausfordernd',
+              'sehr herausfordernd',
+              'challenge'
+            )}
+
+            <p style="margin-top:32px;">Auf einer Skala von 1 bis 5: Wie viel Spaß hattest du beim Lösen der Aufgaben auf Hack The Web?</p>
+            ${buildLikert5('kein Spaß', 'sehr viel Spaß', 'fun')}
+
+            <p style="margin-top:32px;">Würdest du nach dieser Erfahrung mehr über Hacking und IT-Sicherheit lernen wollen?</p>
+            ${buildYesNo('learnmore')}
+
+            <p style="margin-top:32px;">Hast du das Gefühl, dass du durch die Rätsel kreativer geworden bist oder deine Problemlösungsfähigkeiten verbessert hast?</p>
+            ${buildYesNo('morecreative')}
+
+            <p style="margin-top:32px;">Hattest du das Gefühl, dass du die Aufgaben auch ohne Vorwissen lösen konntest?</p>
+            ${buildYesNo('easystart')}
+
+            <p style="margin-top:32px;">Würdest du Hack The Web weiterempfehlen?</p>
+            ${buildYesNo('recommend')}
+
+            <p style="margin-top:32px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (optional, max. 300 Zeichen)</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="good"></textarea>
+
+            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (optional, max. 300 Zeichen)</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300 name="improve"></textarea>
+
+            <p style="margin-top:32px;">Ich willige ein, dass meine Antworten in der Auswertung berücksichtigt werden.</p>
+            ${buildYesNo('agree')}
+            <p style="margin-top:10px;"><small>Wähle Nein, wenn du die Aufgabe lösen willst, aber deine Antworten nicht in die anonyme Auswertung einfließen lassen möchtest.</small></p>
+
+            <p style="margin-top:32px;"><button type="submit" class="btn btn-primary">Abschicken</button></p>
+            
+            <input type="hidden" name="answer" value="_">
+          </form>
+        </details>
+      `,
+        en: `
+        <p>The survey is currently only available in German.</p>
+      `,
+      }
+    },
+    check: async (answer, { App, req }) => {
+      const result = JSON.stringify(req.body).slice(0, 10000)
+      await App.storage.setItem(
+        'survey_v1_' + req.user.id + '_' + new Date().getTime(),
+        result
+      )
+      if (!req.body.agree) {
+        return {
+          answer: 'Keine Formulardaten erhalten',
+          correct: false,
+          rawAnswer: true,
+        }
+      }
+      return {
+        answer: 'Vielen Dank für die Teilnahme an der Umfrage.',
+        correct: true,
+        rawAnswer: true,
+      }
+    },
+    hidesubmit: true,
+  },
+
+  {
     id: 336,
     pos: { x: 455, y: 175 },
     title: { de: 'Minecraft', en: 'Minecraft' },

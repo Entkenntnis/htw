@@ -2307,28 +2307,6 @@ print(hex_string)</pre></code>
   },
 
   {
-    id: 118,
-    pos: { x: 1580, y: 1047 },
-    title: { de: 'E (TODO)', en: 'TODO' },
-    deps: [57],
-    html: {
-      de: `
-        <p>Umfrage</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
-    },
-    check: async (answer, { App, req }) => {
-      return {
-        answer: 'Vielen Dank für die Teilnahme an der Umfrage',
-        correct: true,
-        rawAnswer: true,
-      }
-    },
-  },
-
-  {
     id: 119,
     pos: { x: 1578, y: 1117 },
     title: { de: 'Passwort', en: 'Password' },

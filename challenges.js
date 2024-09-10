@@ -3807,7 +3807,7 @@ PIXI.loader
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="good"></textarea>
 
             <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (optional, max. 300 Zeichen)</p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300 name="improve"></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="improve"></textarea>
 
             <p style="margin-top:32px;">Ich willige ein, dass meine Antworten in der Auswertung berücksichtigt werden.</p>
             ${buildYesNo('agree')}

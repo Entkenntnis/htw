@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize')
-const escapeHtml = require('escape-html')
+// const escapeHtml = require('escape-html')
 const setupChallengesServer = require('./challenges-server.js')
 const secrets = require('./secrets-loader.js')
 const decodeMe = require('./decode-me.js')
 const mortalCoil = require('./mortal-coil.js')
+const survey = require('./survey.js')
 
 const path = process.env.SERVERDEV
   ? '../challenges-server'
@@ -116,6 +117,7 @@ require(path)((config) => {
     setupChallengesServer(App)
     decodeMe(App)
     mortalCoil(App)
+    survey(App)
 
     App.express.get('/news', (req, res) => {
       res.renderPage({

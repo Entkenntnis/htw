@@ -217,6 +217,9 @@ module.exports = (App) => {
         }
       })
 
+      goodTexts.reverse()
+      improveTexts.reverse()
+
       // Generieren der HTML-Ausgabe für die Freitext-Antworten
       let html = `<div style="margin-top:36px;">`
 

@@ -50,6 +50,29 @@ function calculator(lng = 'de') {
   `
 }
 
+const kiwi = `
+<style>
+  .avatar-container {
+    display:flex;
+    justify-content:end;
+    margin-top:-20px;
+    margin-bottom:32px;
+  }
+  @media (min-width: 480px) {
+    .avatar-container {
+      margin-top:-90px;
+    }
+  }
+
+</style>
+<div class="avatar-container">
+  <div>
+    <img src="/story/kiwi.jpg" alt="Kiwi Avatar" style="height:80px;">
+    <div style="text-align:center;">Kiwi</div>
+  </div>
+</div>
+`
+
 const part1 = [
   {
     id: 1,
@@ -66,21 +89,17 @@ const part1 = [
       }
       return {
         de: `
-          <p>Herzlich willkommen bei Hack The Web! Hier beginnt deine spannende Reise durch die Welt des Hackings. Es wird eine Reise voller Abenteuer sein. Herausforderungen aus ganz verschiedenen Themenbereichen warten auf dich. An ihnen kannst du dein Können unter Beweis stellen oder dir die Zähne ausbeißen.</p>
-        
-          <p>Bei den meisten Aufgaben geht es darum, aus den Angaben heraus eine Antwort zu finden. Allerdings findet sich diese meist nur, wenn man die Aufgabe aus der richtigen Perspektive betrachtet - eben aus der Perspektive einer Hacker*in.</p>
-        
-          <p>Bei der Bearbeitung der Aufgaben sind ausdrücklich alle Hilfsmittel erlaubt. Du darfst im Internet suchen, einen Taschenrechner oder Chatbot verwenden, mit Stift und Papier Notizen machen... Fühl dich frei und nutze die Tools, die dir bei der Bearbeitung der Aufgaben am meisten helfen.
-          </p>
-          
-          ${
-            req.user.RoomId !== null
-              ? `<p>Falls du einem Raum beigetreten bist und an einer Hacking-Session teilnimmst: Nach der Bearbeitung dieser Aufgabe starten die 30 Minuten. Innerhalb dieser Zeit ist es dein Ziel, so viele Aufgaben wie möglich zu bearbeiten. Deine Punktzahl für diese 30 Minuten wird in die Highscore des Raums eingetragen.
-          </p>`
-              : ''
-          }
-        
-          <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
+          ${kiwi}
+
+          <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
+
+          <p>Keine Angst, du bist jetzt in guten Händen. Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden noch neblig sein, das ist eine typische Nebenwirkung von längeren Gefängnisaufenthalten. Wir haben jetzt das Jahr 2077. Du warst zwei Jahre inhaftiert.</p>
+
+          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir akzeptieren nicht, was unsere aktuelle Regierung macht und stellen uns gegen das Technik-Dekret. Es kann nicht richtig sein, Menschen zu bestrafen, weil sie Technik zu einem anderen Zweck als vorgesehen nutzen. Welchen Sinn hat es denn Menschen viele Jahre wegzusperren, weil sie eine Kaffeemaschine zu einem Wecker umgebaut haben? Das geht zu weit und richtet aus unserer Sicht großen Schaden an.</p>
+
+          <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Nur noch die wenigsten Menschen sind in der Lage, eigenständige Gedanken zu formen. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
+
+          <p>Erhole dich erstmal. Du hast sicherlich viele Fragen, diese kann ich dir später beantworten. Für den Moment habe ich nur eine Bitte: Wenn du meine Worte verstanden hast, dann berechne 6 + 4 · 9 und gib die Antwort in das Eingabefeld ein.</p>
         `,
         en: `
           <p>Welcome to Hack The Web! Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or struggle with them.</p>

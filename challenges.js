@@ -60,7 +60,7 @@ const kiwi = `
   }
   @media (min-width: 480px) {
     .avatar-container {
-      margin-top:-90px;
+      margin-top:-120px;
     }
   }
 
@@ -337,14 +337,14 @@ const part1 = [
     deps: [1],
     html: {
       de: `
-        <p>Diese Aufgabe hier funktioniert wie das Schreiben mit Zitronentinte: Man nimmt einen Füller und taucht ihn in den Saft einer frischgepressten Zitrone. Damit schreibt man seine geheime Nachricht auf ein weißes Blatt Papier. Weil der Saft transparent ist, schreibt man sozusagen "weiß auf weiß" und ein Anderer kann die Nachricht nicht lesen. Die Person, die die Nachricht empfängt, hält das Papier über eine Flamme. Durch die Hitze verfärbt sich der Zitronensaft und die Nachricht wird sichtbar.
-        </p>
-        
-        <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort:
-        </p>
-        
+        ${kiwi}
+
+        <p>Na, schon wach? Komm, ich möchte dir was zeigen.</p>
+
+        <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text unsichtbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
+
+        <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort:</p>
         <br>
-        
         <p>--- Hier fängt das Blatt an ---</p>
         
         <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
@@ -638,8 +638,11 @@ const part1 = [
     deps: [1],
     html: {
       de: `
-      <p>Die Antwort zu dieser Aufgabe ist ganz einfach dein Benutzername. Allerdings kann es sein, dass deine Eingabe beim Absenden etwas durcheinander gerät. Findest du heraus, was du eingeben musst?
-      </p>
+        ${kiwi}
+
+        <p>Die Menschen heute haben verlernt, auf neue, unbekannte Situationen zu reagieren. Wenn etwas nicht so funktioniert, wie sie es erwarten, dann geben sie schnell auf.</p>
+
+        <p>Bei dieser Aufgabe geht es darum, dass du deinen Benutzernamen eingibst. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
     `,
       en: `
       <p>The answer to this challenge is simply your username. However, it may be that your input gets a little mixed up when you submit it. Can you find out what you have to enter?
@@ -954,6 +957,16 @@ const part1 = [
     deps: [1],
     html: {
       de: `
+        ${kiwi}
+
+        <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns fortsetzen willst. Wir können es sehr gut nachvollziehen, wenn du uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
+
+        <p>Oder du schließt dich unserer Gruppe an. Wir können dir keine Sicherheit oder Ansehen bieten. Doch dafür kannst du bei uns Abenteuer erleben. Auch so kleine wie dieses hier.</p>
+
+        <p>Ich habe einen kleinen Text gebaut, der beim Laden der Seite kurz erscheint und dann verschwindet. Zeig mal, ob dir was einfällt, die Antwort doch zu lesen.</p>
+
+        <br>
+
         <p id="poper">Achtung, nicht blinzeln!
         </p>
         

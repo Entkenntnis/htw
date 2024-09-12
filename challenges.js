@@ -50,28 +50,49 @@ function calculator(lng = 'de') {
   `
 }
 
-const kiwi = `
-<style>
-  .avatar-container {
-    display:flex;
-    justify-content:end;
-    margin-top:-20px;
-    margin-bottom:32px;
-  }
-  @media (min-width: 480px) {
-    .avatar-container {
-      margin-top:-120px;
-    }
-  }
+function story(name, intro, task) {
+  return `
+    <style>
+      .story-container {
+        display: flex;
+        justify-content: start;
+        flex-direction: column-reverse;
+        align-items:end;
+        margin-top: -40px;
+      }
+      .story-content :last-child {
+        margin-bottom:0px
+      }
+      @media (min-width: 768px) {
+        .story-container {
+          flex-direction: row;
+          align-items:start;
+          margin-top: 0px;
+        }
+        .avatar {
+          margin-top: -40px
+        }
+      }
+      .avatar {
+        margin-left: 48px;
+        padding-bottom: 6px;
+      }
+    </style>
 
-</style>
-<div class="avatar-container">
-  <div>
-    <img src="/story/kiwi.jpg" alt="Kiwi Avatar" style="height:80px;">
-    <div style="text-align:center;">Kiwi</div>
-  </div>
-</div>
+    <div class="story-container">
+      <div style="max-width:65ch" class="story-content">
+        ${intro}
+        ${task ? `<hr><br>` : ''}
+      </div>
+      <div class="avatar">
+        <img src="/story/${name.toLowerCase()}.jpg" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
+        <div style="text-align:center;">${name}</div>
+      </div>
+    </div>
+
+    ${task ? task : ''}
 `
+}
 
 const part1 = [
   {
@@ -88,9 +109,9 @@ const part1 = [
         )
       }
       return {
-        de: `
-          ${kiwi}
-
+        de: story(
+          'Kiwi',
+          `
           <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
 
           <p>Keine Angst, du bist jetzt in guten Händen. Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden noch neblig sein, das ist eine typische Nebenwirkung von längeren Gefängnisaufenthalten. Wir haben jetzt das Jahr 2077. Du warst zwei Jahre inhaftiert.</p>
@@ -99,8 +120,9 @@ const part1 = [
 
           <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Nur noch die wenigsten Menschen sind in der Lage, eigenständige Gedanken zu formen. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
 
-          <p>Erhole dich erstmal. Du hast sicherlich viele Fragen, diese kann ich dir später beantworten. Für den Moment habe ich nur eine Bitte: Wenn du meine Worte verstanden hast, dann berechne 6 + 4 · 9 und gib die Antwort in das Eingabefeld ein.</p>
-        `,
+          <p>Erhole dich erstmal. Du hast sicherlich viele Fragen, diese kann ich dir später beantworten. Für den Moment habe ich nur eine Bitte: Wenn du meine Worte verstanden hast, dann berechne 6 + 4 · 9 und gib die Antwort in das Eingabefeld ein.</p>  
+        `
+        ),
         en: `
           <p>Welcome to Hack The Web! Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or struggle with them.</p>
     
@@ -336,24 +358,26 @@ const part1 = [
     // date: '2017-05-17',
     deps: [1],
     html: {
-      de: `
-        ${kiwi}
+      de: story(
+        'Kiwi',
+        `
+          <p>Na, schon wach? Komm, ich möchte dir was zeigen.</p>
 
-        <p>Na, schon wach? Komm, ich möchte dir was zeigen.</p>
+          <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text für das Auge nicht erkennbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
 
-        <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text unsichtbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
-
-        <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort:</p>
-        <br>
-        <p>--- Hier fängt das Blatt an ---</p>
+          <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort.</p>
+        `,
+        `
+          <p>--- Hier fängt das Blatt an ---</p>
         
-        <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
-          'chal_5'
-        )}</span><br><br>
-        </p>
-        
-        <p>--- Hier endet das Blatt ---</p>
-      `,
+          <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
+            'chal_5'
+          )}</span><br><br>
+          </p>
+          
+          <p>--- Hier endet das Blatt ---</p>
+        `
+      ),
       en: `
         <p>This challenge here works like writing with lemon juice: You take a fountain pen and dip it in the juice of a freshly squeezed lemon. With it, you write your secret message on a white sheet of paper. Because the juice is transparent, you write "white on white" and another person cannot read the message. The person who receives the message holds the paper over a flame. The heat colors the lemon juice and the message becomes visible.
         </p>
@@ -637,13 +661,14 @@ const part1 = [
     // date: '2017-05-18',
     deps: [1],
     html: {
-      de: `
-        ${kiwi}
-
+      de: story(
+        'Kiwi',
+        `
         <p>Die Menschen heute haben verlernt, auf neue, unbekannte Situationen zu reagieren. Wenn etwas nicht so funktioniert, wie sie es erwarten, dann geben sie schnell auf.</p>
 
         <p>Bei dieser Aufgabe geht es darum, dass du deinen Benutzernamen eingibst. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
-    `,
+      `
+      ),
       en: `
       <p>The answer to this challenge is simply your username. However, it may be that your input gets a little mixed up when you submit it. Can you find out what you have to enter?
       </p>
@@ -956,31 +981,31 @@ const part1 = [
     // date: '2017-08-25',
     deps: [1],
     html: {
-      de: `
-        ${kiwi}
+      de: story(
+        'Kiwi',
+        `
+          <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns fortsetzen willst. Wir können es sehr gut nachvollziehen, wenn du uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
 
-        <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns fortsetzen willst. Wir können es sehr gut nachvollziehen, wenn du uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
+          <p>Oder du schließt dich unserer Gruppe an. Wir können dir keine Sicherheit oder Ansehen bieten. Doch dafür kannst du bei uns Abenteuer erleben. Auch so kleine wie dieses hier.</p>
 
-        <p>Oder du schließt dich unserer Gruppe an. Wir können dir keine Sicherheit oder Ansehen bieten. Doch dafür kannst du bei uns Abenteuer erleben. Auch so kleine wie dieses hier.</p>
-
-        <p>Ich habe einen kleinen Text gebaut, der beim Laden der Seite kurz erscheint und dann verschwindet. Zeig mal, ob dir was einfällt, die Antwort doch zu lesen.</p>
-
-        <br>
-
-        <p id="poper">Achtung, nicht blinzeln!
-        </p>
-        
-        <script>
-          setTimeout(function(){
-            document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets(
-              'chal_24'
-            )}"
+          <p>Ich habe einen kleinen Text gebaut, der beim Laden der Seite kurz erscheint und dann verschwindet. Zeig mal, ob dir was einfällt, die Antwort doch zu lesen.</p>
+        `,
+        `
+          <p id="poper">Achtung, nicht blinzeln!
+          </p>
+          
+          <script>
             setTimeout(function(){
-              document.getElementById("poper").innerHTML = "Ups, das ging schnell."
-            }, 150)
-          }, 1500)
-        </script>
-      `,
+              document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets(
+                'chal_24'
+              )}"
+              setTimeout(function(){
+                document.getElementById("poper").innerHTML = "Ups, das ging schnell."
+              }, 150)
+            }, 1500)
+          </script>
+        `
+      ),
       en: `
         <p id="poper">Don't blink!</p>
         </p>

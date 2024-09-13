@@ -216,16 +216,16 @@ const part1 = [
   {
     id: 4,
     pos: { x: 260, y: 380 },
-    title: { de: 'ASCII', en: 'ASCII' },
+    title: { de: 'Codes', en: 'Codes' },
     // date: '2017-05-17',
     deps: [15, 24],
     render: () => {
       function renderTable(col1, col2) {
         return `
-         <div class="container" style="margin-top:24px;margin-bottom:24px;">
+         <div class="container" style="margin-top:24px;margin-bottom:24px">
           <div class="row">
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -247,7 +247,7 @@ const part1 = [
               </table>
             </div>
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -269,7 +269,7 @@ const part1 = [
               </table>
             </div>
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -296,19 +296,16 @@ const part1 = [
       }
 
       return {
-        de: `
-          <p>Du bist eine mutige Person! Du hast dich von den kryptischen Buchstaben im Titel dieser Aufgabe nicht abschrecken lassen.
-          </p>
+        de: story(
+          'Josh',
+          `
+          <p>Das Technik-Dekret verbietet uns Menschen, die Sprache der Computer zu lernen. Den meisten Menschen ist das egal. Aber für mich geht damit etwas sehr wertvolles verloren.</p>
           
-          <p>
-            Viele Dinge in der Informatik sehen auf den ersten Blick verwirrend aus. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
-            wo man Dinge nachschauen kann, werden diese weniger fremd.
-          </p>
+          <p>Mache es dir gemütlich, du lernst jetzt das ABC der Informatik, oder besser das 1-2-3.</p>
           
-          <p>
-            So ist es auch mit dem ASCII-Code. Weil Computer nur mit Zahlen arbeiten können, gibt es zu jedem Schriftzeichen einen einheitlichen Code. Einen Auszug davon
-            findest du in dieser Tabelle.
-          </p>
+          <p>Zahlen sind Zahlen. Damit lassen sich Größen beschreiben, aber keine Texte. Doch was passiert, wenn wir jedem Zeichen eine Nummer geben? Tada - wir können im Computer Texte darstellen.</p>
+
+          <p>In dieser Tabelle siehst du die Zuordnungen für einige Buchstaben. Diese Zuordnung ist schon über 100 Jahre alt und bis heute in Gebrauch!</p>
           
           ${renderTable('Code', 'Zeichen')}
           
@@ -317,7 +314,8 @@ const part1 = [
           
           <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
           </p>
-        `,
+        `
+        ),
         en: `
           <p>You are a brave person! You were not deterred by the cryptic letters in the title of this challenge.
           </p>
@@ -984,11 +982,11 @@ const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns fortsetzen willst. Wir können es sehr gut nachvollziehen, wenn du uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
+          <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns machen willst. Wir können es sehr gut nachvollziehen, wenn du uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
 
           <p>Oder du schließt dich unserer Gruppe an. Wir können dir keine Sicherheit oder Ansehen bieten. Doch dafür kannst du bei uns Abenteuer erleben. Auch so kleine wie dieses hier.</p>
 
-          <p>Ich habe einen kleinen Text gebaut, der beim Laden der Seite kurz erscheint und dann verschwindet. Zeig mal, ob dir was einfällt, die Antwort doch zu lesen.</p>
+          <p>Ich habe einen Text gebaut, der beim Laden der Seite kurz erscheint und dann verschwindet. Zeig mal, ob dir was einfällt, die Antwort zu lesen.</p>
         `,
         `
           <p id="poper">Achtung, nicht blinzeln!
@@ -3921,11 +3919,21 @@ PIXI.loader
     deps: [5, 15],
     // author: 'QWERTZ',
     html: {
-      de: `
+      de: story(
+        'Bex',
+        `
+        <p>Kiwi hat mich beordert, dir paar Dinge zu zeigen. Hey: nur weil ich jung bin heißt es nicht, dass ich nicht ordentlich was drauf habe!</p>
+
+        <p>Meine Eltern waren schockiert, dass ich ein so altes Spiel wie Minecraft spiele - und noch dazu ein Spiel, das offiziell verboten ist. Aber es ist gut und man kann da sehr viele kreative Dinge machen.</p>
+
+        <p>Ich habe eine Aufgabe für dich. Kiwi könnte viel besser erklären, warum das eine sinnvolle Aufgabe ist, das spare ich mir. Mach und zeig mir, dass Kiwi mit der Entscheidung, dich auszubilden, Recht hatte.</p>
+      `,
+        `
         <p>Was ist die Block-ID von diesem Block?</p>
         
-        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
-      `,
+        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+      `
+      ),
       en: `
         <p>What is the block-ID for this block?</p>
           

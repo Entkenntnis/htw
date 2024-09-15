@@ -664,7 +664,7 @@ const part1 = [
         `
         <p>Die Menschen heute haben verlernt, auf neue, unbekannte Situationen zu reagieren. Wenn etwas nicht so funktioniert, wie sie es erwarten, dann geben sie schnell auf.</p>
 
-        <p>Bei dieser Aufgabe geht es darum, dass du deinen Benutzernamen eingibst. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
+        <p>Die Antwort auf diese Aufgabe ist dein Benutzername. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
       `
       ),
       en: `

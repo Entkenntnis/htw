@@ -3607,13 +3607,16 @@ PIXI.loader
     title: { de: 'Minecraft III', en: 'Minecraft III' },
     deps: [337],
     html: {
-      de: `
-        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, aber die Schaltung funktioniert nicht.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Nehmen wir mal an, ich baue eine Schaltung, die nicht funktioniert. Das passiert in der Realität natürlich nicht. Schaue dir diese Situation an:</p>
 
-        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:100%"></p>
-
-        <p>Mein Kumpel erkennt das Problem sofort: "Du musst nur einen Block hinzufügen!". Diese Block-ID ist deine Antwort.</p>
-      `,
+        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:65ch"></p>
+        
+        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, doch die Lampe leuchtet nicht. Mit nur einen Block kann ich die Schaltung reparieren. Diese Block-ID ist deine Antwort.</p>
+      `
+      ),
       en: `
         <p>I want to turn the lamp on and off with a switch, but the circuit isn't working.</p>
 
@@ -3632,13 +3635,18 @@ PIXI.loader
     title: { de: 'Minecraft IV', en: 'Minecraft IV' },
     deps: [337],
     html: {
-      de: `
-        <p>Ich liebe den Mond bei Mitternacht. Am liebsten würde ich gerne immer, wenn ich will, zu diesem Zeitpunkt springen können.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Ich liebe den Mond bei Mitternacht. Der Mond hat etwas trauriges und einsames an sich, mit dem ich mich ...</p>
 
-        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:100%"></p>
-
-        <p>Der passende Befehl dazu ist deine Antwort.</p>
-      `,
+        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:65ch"></p>
+        
+        <p>Was rede ich da für einen Unsinn! Vergiss sofort, was ich gerade gesagt habe. Wir gehen jetzt zur nächsten Aufgabe.</p>
+        
+        <p>In Minecraft ist es möglich, die Zeit zu ändern. Deine Antwort ist der Befehl, um die Zeit auf Mitternacht zu setzen.</p>
+      `
+      ),
       en: `
         <p>I love the moon at midnight. I wish I could jump to that moment whenever I want.</p>
 
@@ -3951,11 +3959,16 @@ PIXI.loader
     deps: [336],
     // author: 'QWERTZ',
     html: {
-      de: `
-        <p>Welches Konzept wird hier dargestellt?</p>
-          
-        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
-      `,
+      de: story(
+        'Bex',
+        `
+        <p>Die erste Aufgabe hast du gemeistert. Anscheinend hast du doch was auf dem Kasten.</p>
+
+        <p>Ich frage dich als nächstes: Welches Konzept wird hier dargestellt?
+
+        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
+        `
+      ),
       en: `
         <p>Which concept is presented here?</p>
             

@@ -405,37 +405,45 @@ const part1 = [
     // date: '2017-05-17',
     deps: [24],
     html: {
-      de: `
-      <p>Wenn du dir eine Website am Computer anschaust, dann siehst du eigentlich nur einen kleinen Teil der Website. Hinter den Kulissen aber gibt es noch eine ganze Welt voller Technik zu entdecken.
-      </p>
-      
-      <p>Ähnlich wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film gibt es auch den Code zu einer Website. Und darin finden sich Informationen, die sonst nicht zu sehen sind. Im Quelltext der Website wird die Antwort in diesem Kasten sichtbar:</p>
-      
-      <pre>
-      
-      __________________________________________
-      |                                        |
-      |<!-- Die Antwort lautet ${secrets(
-        'chal_6'
-      )}. -->                                        |
-      |________________________________________|
-      
-      </pre>
-      
-      <p><button onclick="transform()">Quelltext anzeigen</button></p>
-      
-      <script>
-        function transform() {
-          const code = document.body.outerHTML
-          document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
-          document.body.style.lineHeight = '1.2'
-          document.body.style.fontFamily = 'monospace'
-          document.body.style.marginLeft = '4px'
-          history.pushState({}, '')
-          onpopstate = (_) => { window.location.reload() };
-        }
-      </script>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Höre mir gut zu. Ich zeige dir jetzt eine der wichtigsten Techniken, die du als HackerIn beherrschen solltest.</p>
+
+        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil der Website. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Website.</p>
+
+        <p>Dieser Quelltext enthält viele Informationen - und Wissen ist Macht. Doch die Informationen können dich auch von der Menge her überfordern.</p>
+
+        <p>Ich biete dir einen Orientierungspunkt. Diesen Kasten wirst du im Quelltext wiederfinden. Innerhalb von diesem Kasten ist deine Antwort versteckt.</p>
+        
+        <pre>
+        
+        __________________________________________
+        |                                        |
+        |<!-- Die Antwort lautet ${secrets(
+          'chal_6'
+        )}. -->                                        |
+        |________________________________________|
+        
+        </pre>
+
+        <p>Bist du bereit? Dann klicke auf diese Schaltfläche, um den Quelltext dieser Seite zu sehen. Scrolle dort nach unten, um den Kasten zu finden.</p>
+        
+        <p><button onclick="transform()" class="btn btn-sm btn-primary" style="margin-bottom:24px;">Quelltext anzeigen</button></p>
+
+        <script>
+          function transform() {
+            const code = document.body.outerHTML
+            document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
+            document.body.style.lineHeight = '1.2'
+            document.body.style.fontFamily = 'monospace'
+            document.body.style.marginLeft = '4px'
+            history.pushState({}, '')
+            onpopstate = (_) => { window.location.reload() };
+          }
+        </script>
+    `
+      ),
       en: `
       <p>When you look at a website on your computer, you actually only see a small part of the website. But behind the scenes, there is a whole world full of technology to discover.
       </p>

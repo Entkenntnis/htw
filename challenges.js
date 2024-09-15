@@ -305,7 +305,7 @@ const part1 = [
           
           <p>Zahlen sind Zahlen. Damit lassen sich Größen beschreiben, aber keine Texte. Doch was passiert, wenn wir jedem Zeichen eine Nummer geben? Tada - wir können im Computer Texte darstellen.</p>
 
-          <p>In dieser Tabelle siehst du die Zuordnungen für einige Buchstaben. Diese Zuordnung ist schon über 100 Jahre alt und bis heute in Gebrauch!</p>
+          <p>In dieser Tabelle siehst du die Zuordnungen für einige Buchstaben. Diese Zuordnung mit dem Namen ASCII ist schon über 100 Jahre alt und bis heute in Gebrauch!</p>
           
           ${renderTable('Code', 'Zeichen')}
           
@@ -982,11 +982,11 @@ const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns machen willst. Wir können es sehr gut nachvollziehen, wenn du uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
+          <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns machen willst. Wir können es sehr gut nachvollziehen, wenn du dich uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
 
-          <p>Oder du schließt dich unserer Gruppe an. Wir können dir keine Sicherheit oder Ansehen bieten. Doch dafür kannst du bei uns Abenteuer erleben. Auch so kleine wie dieses hier.</p>
+          <p>Oder du schließt dich unserer Gruppe an. Wir können dir keine Sicherheit oder Ansehen bieten. Doch dafür kannst du bei uns Abenteuer erleben.</p>
 
-          <p>Ich habe einen Text gebaut, der beim Laden der Seite kurz erscheint und dann verschwindet. Zeig mal, ob dir was einfällt, die Antwort zu lesen.</p>
+          <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
         `,
         `
           <p id="poper">Achtung, nicht blinzeln!
@@ -998,8 +998,8 @@ const part1 = [
                 'chal_24'
               )}"
               setTimeout(function(){
-                document.getElementById("poper").innerHTML = "Ups, das ging schnell."
-              }, 150)
+                document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
+              }, 300)
             }, 1500)
           </script>
         `
@@ -1015,7 +1015,7 @@ const part1 = [
             )}"
             setTimeout(function(){
               document.getElementById("poper").innerHTML = "Oh. This was fast."
-            }, 150)
+            }, 300)
           }, 1500)
         </script>
       `,

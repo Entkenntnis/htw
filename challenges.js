@@ -114,9 +114,9 @@ const part1 = [
           `
           <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
 
-          <p>Keine Angst, du bist jetzt in guten Händen. Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden noch neblig sein, das ist eine typische Nebenwirkung von längeren Gefängnisaufenthalten. Wir haben jetzt das Jahr 2077. Du warst zwei Jahre inhaftiert.</p>
+          <p>Keine Angst, du bist jetzt in guten Händen. Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden noch neblig sein, das ist normal nach deinen zwei Jahren Haft. Wir haben jetzt das Jahr 2077.
 
-          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir akzeptieren nicht, was unsere aktuelle Regierung macht und stellen uns gegen das Technik-Dekret. Es kann nicht richtig sein, Menschen zu bestrafen, weil sie Technik zu einem anderen Zweck als vorgesehen nutzen. Welchen Sinn hat es denn Menschen viele Jahre wegzusperren, weil sie eine Kaffeemaschine zu einem Wecker umgebaut haben? Das geht zu weit und richtet aus unserer Sicht großen Schaden an.</p>
+          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir stellen uns gegen das Technik-Dekret der Regierung und akzeptieren nicht die Bestrafung von Menschen, die Technik zu einem anderen Zweck als vorgesehen nutzen. Es ist absurd, Menschen viele Jahre wegzusperren, weil sie eine Kaffeemaschine zu einem Wecker umgebaut haben. Das geht zu weit und richtet aus unserer Sicht großen Schaden an.</p>
 
           <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Nur noch die wenigsten Menschen sind in der Lage, eigenständige Gedanken zu formen. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
 

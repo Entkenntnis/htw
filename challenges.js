@@ -699,6 +699,8 @@ const part1 = [
       de: story(
         'Kiwi',
         `
+        <p>Haben dir Bex und Josh schon was gezeigt? Ich hab den beiden gesagt, sie sollen auch ihr Wissen weitergeben. Man kann von jedem Mensch was Neues lernen.</p>
+
         <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
     `
       ),
@@ -3187,8 +3189,12 @@ PIXI.loader
     // date: '2022-02-24',
     deps: [4, 6],
     html: {
-      de: `
-      <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken. Verwende die Farben <code>green</code>, <code>purple</code>, <code>red</code>, <code>yellow</code>, <code>blue</code> und <code>orange</code>. Lade die Seite neu zum zurückzusetzen.</p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Das Technik-Dekret war auch ein großer Rückschlag für queere Menschen. Die Gesellschaft ist hartherziger geworden. Und darunter leiden die, die eh schon mehr Last zu tragen haben.</p>
+
+        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>. Lade die Seite neu zum zurückzusetzen.</p>
       
       <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
   background-color: green;
@@ -3222,8 +3228,10 @@ PIXI.loader
       
       <div id="result" style="margin-top:10px"></div>
       
+      <script>lng='de'</script>
       <script src="/chals/chal80_2.js"></script>
-    `,
+    `
+      ),
       en: `
       <p>ARRRRG! Some <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> person messed up the colors of the rainbow flag! It's now up to you to put the colors back in the correct order:</p>
       
@@ -3259,6 +3267,7 @@ PIXI.loader
       
       <div id="result" style="margin-top:10px"></div>
       
+      <script>lng='en'</script>
       <script src="/chals/chal80_2.js"></script>
     `,
     },

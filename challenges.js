@@ -3702,8 +3702,12 @@ PIXI.loader
     title: { de: 'Taschenrechner III', en: 'Calculator III' },
     deps: [111],
     html: {
-      de: `
-        <p>Blindes Probieren führt dich hier nicht zum Ziel. Wähle eine weise Strategie.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Ich gebe zu, du hast mehr Ausdauer als ich dachte. Lasse mich kurz überlegen. Hier ist noch eine Aufgabe, die viel schwieriger ist. Ich habe damals sehr lange gebraucht, sie zu lösen.</p>
+        
+        <p>Josh meinte, wenn ich die Primfaktorzerlegung genutzt hätte, wäre ich in wenigen Minuten fertig gewesen. Keine Ahnung, was er damit sagen wollte.</p>
 
         <p>Berechne die Zahl <strong>15876000</strong>.</p>
       
@@ -3736,7 +3740,8 @@ PIXI.loader
         <link rel="stylesheet" href="/chals/chal110.css">
         
         <script src="/chals/chal110.js"></script>
-      `,
+      `
+      ),
       en: `
         <p>Blind guessing will not lead you to success here. Choose a wise strategy.</p>
 

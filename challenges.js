@@ -696,9 +696,12 @@ const part1 = [
     // date: '2017-05-18',
     deps: [15, 24],
     html: {
-      de: `
-      <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
+    `
+      ),
       en: `
       <p>The answer to this task is your current score. Similar to before, your input is a bit jumbled.</p>
     `,
@@ -2808,13 +2811,18 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [5, 15],
     html: {
-      de: `
-      <p>Kunst überdauert Jahrhunderte - auch weil sie immer wieder neu interpretiert und überarbeitet wird.</p>
-      
-      <p>Dein Freund Normand zeigt dir stolz sein neustes Kunstwerk:
-      </p>
-      
-      <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
+      de: story(
+        'Kiwi',
+        `
+        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Wenn mir das alles zu viel ist, mit dem Widerstand und all den anderen Sorgen - dann tröste ich mich mit Kunst.</p>
+
+        <p>Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs. Normand würde für die Zweckentfremdung der Buchstaben und Satzzeichen sicherlich im Gefängnis landen.</p>
+
+        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
+        `,
+        `
+        
+        <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
                             _,,ad8888888888bba,_
                          ,ad88888I888888888888888ba,
                        ,88888888I88888888888888888888a,
@@ -2869,9 +2877,8 @@ PIXI.loader
  8888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888 Normand  88
  88888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888 Veilleux 88
  8888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888888</pre>
-    
-    <p>Die Umsetzung ist kreativ und modern, doch das Motiv selber ist schon sehr alt. In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
-    `,
+    `
+      ),
       en: `
       <p>Art lasts for centuries — also because it is constantly reinterpreted and revised.</p>
       

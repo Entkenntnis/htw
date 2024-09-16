@@ -3554,18 +3554,16 @@ PIXI.loader
     // date: '2023-05-13',
     deps: [5],
     html: {
-      de: `
-      <p>Schwierigkeiten halten dich nicht von deinen Zielen ab. Im Gegenteil: Du nutzt deine Kreativität, um die Herausforderung zu lösen.
-      </p>
-      
-      <p>Hier ist ein Taschenrechner aus einem Tutorial. Ich bin dem Tutorial gefolgt, muss aber irgendwo einen Fehler gemacht - man kann keine mehrstelligen Zahlen eingeben.
-      </p>
-      
-      <p>Deine Kreativität ist nun gefragt. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
-      </p>
+      de: story(
+        'Bex',
+        `
+        <p>Du bist also neu hier. Nett. Erwarte nicht, dass du deshalb besonders behandelt wirst. Jeder trägt seinen Teil bei und für dich gilt keine Ausnahme.</p>
 
-      ${calculator()}
-    `,
+        <p>Ich möchte sehen, wie du mit Herausforderungen umgehst. Das ist ein defekter Taschenrechner. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.</p>
+
+        ${calculator()}
+    `
+      ),
       en: `
       <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
       </p>
@@ -3591,12 +3589,18 @@ PIXI.loader
     // date: '2023-05-13',
     deps: [110],
     html: {
-      de: `
-      <p>Berechne diesmal die Zahl <strong>10240</strong>.
-      </p>
-      
-      ${calculator()}
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich sehe, du bist nicht ganz unbeholfen. Nicht schlecht. Aber ich will, ehm, noch mehr Beweise sehen. </p>
+
+
+        <p>Berechne diesmal die Zahl <strong>10240</strong>.
+        </p>
+        
+        ${calculator()}
+    `
+      ),
       en: `
       <p>This time calculate the number <strong>10240</strong>.
       </p>

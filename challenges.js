@@ -1000,9 +1000,7 @@ const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Du hast immer noch die Wahl, ob du die Ausbildung bei uns machen willst. Wir können es sehr gut nachvollziehen, wenn du dich uns nicht anschließen willst. Dann können wir dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn.</p>
-
-          <p>Oder du schließt dich unserer Gruppe an. Wir können dir keine Sicherheit oder Ansehen bieten. Doch dafür kannst du bei uns Abenteuer erleben.</p>
+          <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Wir können dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
 
           <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
         `,

@@ -486,14 +486,19 @@ const part1 = [
     // date: '2017-05-17',
     deps: [6],
     html: {
-      de: `
-      <p>Auch diesmal braucht es einen Blick in den Quelltext der Seite. Allerdings musst du das Portal selber finden. Die Antwort befindet sich direkt unter dieser Zeile ...
-      </p>
-      
-      <!-- ... und lautet ${secrets('chal_7')}. -->
-      
-      <p><small><a href="/chals/chal7_hint1.png" target="_blank">Tipp 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Tipp 2</a></small></p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Du machst gute Fortschritte. Jetzt bist du bereit, auch selbstständig den Quelltext der Seite zu öffnen und dich dort zurechtzufinden.</p>
+
+        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>. Browser haben sich in den letzten 50 Jahren kaum verändert :)</p> 
+
+        <p>Die Antwort befindet sich direkt unter dieser Zeile ...
+        </p>
+        
+        <!-- ... und lautet ${secrets('chal_7')}. -->
+    `
+      ),
       en: `
         <p>This time, too, it takes a look at the source code of the page. However, you have to find the portal yourself. The answer is directly below this line ...
         </p>
@@ -1855,35 +1860,35 @@ const part1 = [
     // date: '2020-08-01',
     deps: [4, 16],
     html: {
-      de: `
-      <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
-      </p>
-      
-      <p>Selbst wenn du noch nie damit gearbeitet hast - mit ein wenig logischem Denken findest du schnell den Einstieg.
-      </p>
-      
-      <p>Als Hilfestellung siehst du hier die ersten 6 Zweierpotenzen. Du kannst sie an- oder ausschalten, wenn du sie anklickst. Alle aktiven Zahlen werden zum Ergebnis addiert.
-      </p>
-      
-      <p>Stelle die Zahl 7 ein und schicke sie ab.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Unsere gesamte Technik ist gebaut von Menschen, die über den Tellerrand geblickt haben. Menschen, die sich gefragt haben: Wir haben Schalter (AN/AUS) - wie können wir damit Zahlen darstellen?</p>
+        
+        <p>Ich weise dir die Richtung: Es hat was mit Zweierpotenzen zu tun. Hier findest du die ersten sechs Zweierpotenzen. Jede Zweierpotenz ist ein Schalter. Klicke auf die Zahl, um den Schalter an- und auszuschalten. Rechts siehst du die Zahl, die du gerade darstellt.</p>
+
+        <p>Jetzt bist du dran. Selbst wenn du noch nichts vom Binärsystem gehört hast - mit bisschen Logik wirst du schnell den Einstieg finden.</p>
+        
+        <p>Stelle die Zahl 7 ein und schicke sie ab.
+        </p>
+        
+        <p style="margin-top:24px;"><svg id="binary"></svg></p>
+        
+        <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
+        
+        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal51_2.js"></script>
+        
+        <style>
+          .hoverEffect:hover {
+            cursor:pointer;
+            opacity: 0.9;
+          }
+        </style>
+    `
+      ),
       en: `
       <p>You've probably heard of the binary system. It is the language of computers, which consists of 1s and 0s.
       </p>
@@ -1925,26 +1930,29 @@ const part1 = [
     // date: '2020-08-01',
     deps: [51],
     html: {
-      de: `
-      <p>Das hast du sehr gut gemacht! Stelle nun die Zahl 45 ein.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Dein Kopf ist jetzt warm. Stelle die Zahl 45 ein.
+        </p>
+        
+        <p><svg id="binary"></svg></p>
+        
+        <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
+        
+        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal51_2.js"></script>
+        
+        <style>
+          .hoverEffect:hover {
+            cursor:pointer;
+            opacity: 0.9;
+          }
+        </style>
+    `
+      ),
       en: `
       <p>Well done! Now set the number 45.
       </p>
@@ -3194,7 +3202,7 @@ PIXI.loader
         `
         <p>Das Technik-Dekret war auch ein großer Rückschlag für queere Menschen. Die Gesellschaft ist hartherziger geworden. Und darunter leiden die, die eh schon mehr Last zu tragen haben.</p>
 
-        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>. Lade die Seite neu zum zurückzusetzen.</p>
+        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>
       
       <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
   background-color: green;

@@ -105,6 +105,12 @@ require(path)((config) => {
   `
   }
 
+  /*
+  wip
+  config.items = {
+    1: { name: 'Kaffeewecker', image: '/items/1.png' },
+  }*/
+
   config.onSubmit = async ({ App, id, correct, solved, isEditor, answer }) => {
     if (!isEditor) {
       // disable protocols

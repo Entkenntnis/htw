@@ -1260,35 +1260,39 @@ const part1 = [
     // date: '2017-08-26',
     deps: [111],
     html: {
-      de: `
-      <p>Es wird Zeit für einen neuen Taschenrechner:
-      </p>
-      
-      <br>
-      
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <br>
-      
-      <p>Dieser Taschenrechner besteht aus einer "Röhre", die rechts offen ist. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
-      </p>
-      
-      <p>Um weitere Zahlen zu erzeugen, musst du rechnen. Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
-      </p>
-      
-      <p>Es gibt zwei Sonderbefehle: <strong>drop</strong> entfernt die letzte Zahl aus der Röhre (also die Zahl ganz rechts), <strong>dup</strong> fügt die letzte Zahl noch einmal hinzu (duplizieren).
-      </p>
-      
-      <p>Berechne das Ergebnis 1000:
-      </p>
-      
-      <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Bex hat eine schwere Zeit hinter sind - verzeih ihm, wenn er manchmal etwas ... aufgedreht ist. Er hat ein gutes Herz.</p>
+
+        <p>Aber erstmal zurück zum Taschenrechner. Ich möchte dir auch eine Variante zeigen. Und diese funktioniert mit einer Röhre:</p>
+        
+        <br>
+        
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+        
+        <br>
+        
+        <p>Die Röhre ist rechts offen. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
+        </p>
+        
+        <p>Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
+        </p>
+        
+        <p>Es gibt zwei Sonderbefehle: <strong>drop</strong> entfernt die letzte Zahl aus der Röhre (also die Zahl ganz rechts), <strong>dup</strong> fügt die letzte Zahl noch einmal hinzu (duplizieren).
+        </p>
+        
+        <p>Berechne das Ergebnis 1000 und klicke submit:
+        </p>
+        
+        <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
+    `
+      ),
       en: `
       <p>It's time for a new calculator:
       </p>
@@ -1336,17 +1340,22 @@ const part1 = [
     // date: '2017-08-26',
     deps: [31],
     html: {
-      de: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <p>Berechne diesmal die Zahl 1337.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Berechne die Zahl 1337.
+        </p>
+        
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+    `
+      ),
       en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
@@ -1376,17 +1385,22 @@ const part1 = [
     // date: '2017-08-26',
     deps: [32],
     html: {
-      de: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal33.js"></script>
-      
-      <p>Berechne die Zahl 100. Allerdings fehlen diesmal ein paar Tasten.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Berechne die Zahl 100. Allerdings fehlen ein paar Tasten.
+        </p>
+        
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal33.js"></script>
+    `
+      ),
       en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
@@ -2160,13 +2174,20 @@ const part1 = [
     // date: '2020-08-17',
     deps: [27, 41, 64],
     html: {
-      de: `
-          <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst. Außerdem gibt es den Community-Bereich mit weiteren abwechslungsreichen Herausforderungen.</p>
-          
-          <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
-          
-          <p>Und jetzt noch ein letzter Blick zurück. Schaue dir die verlinkten Aufgaben an. Ihre Anfangsbuchstaben verraten dir die Antwort.</p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Wir sind aufgeflogen. Ich werde mit Kiwi un Josh zu fliehen versuchen. Du kannst hier in diesem Unterschlupf bleiben</p>
+
+        <p>Du bist cool, wir werden dich vermissen. Auf diesem Stick kannst du deine Ausbildung fortsetzen.</p>
+
+        <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst. Außerdem gibt es den Community-Bereich mit weiteren abwechslungsreichen Herausforderungen.</p>
+        
+        <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
+        
+        <p>Und jetzt noch ein letzter Blick zurück. Schaue dir die verlinkten Aufgaben an. Ihre Anfangsbuchstaben verraten dir die Antwort.</p>
+    `
+      ),
       en: `
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
             <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 18</p>

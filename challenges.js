@@ -50,6 +50,50 @@ function calculator(lng = 'de') {
   `
 }
 
+function story(name, intro, task) {
+  return `
+    <style>
+      .story-container {
+        display: flex;
+        justify-content: start;
+        flex-direction: column-reverse;
+        align-items:end;
+        margin-top: -40px;
+      }
+      .story-content :last-child {
+        margin-bottom:0px
+      }
+      @media (min-width: 768px) {
+        .story-container {
+          flex-direction: row;
+          align-items:start;
+          margin-top: 0px;
+        }
+        .avatar {
+          margin-top: -40px
+        }
+      }
+      .avatar {
+        margin-left: 48px;
+        padding-bottom: 6px;
+      }
+    </style>
+
+    <div class="story-container">
+      <div style="max-width:65ch" class="story-content">
+        ${intro}
+        ${task ? `<hr><br>` : ''}
+      </div>
+      <div class="avatar">
+        <img src="/story/${name.toLowerCase()}.jpg" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
+        <div style="text-align:center;">${name}</div>
+      </div>
+    </div>
+
+    ${task ? task : ''}
+`
+}
+
 const part1 = [
   {
     id: 1,
@@ -65,23 +109,20 @@ const part1 = [
         )
       }
       return {
-        de: `
-          <p>Herzlich willkommen bei Hack The Web! Hier beginnt deine spannende Reise durch die Welt des Hackings. Es wird eine Reise voller Abenteuer sein. Herausforderungen aus ganz verschiedenen Themenbereichen warten auf dich. An ihnen kannst du dein Können unter Beweis stellen oder dir die Zähne ausbeißen.</p>
-        
-          <p>Bei den meisten Aufgaben geht es darum, aus den Angaben heraus eine Antwort zu finden. Allerdings findet sich diese meist nur, wenn man die Aufgabe aus der richtigen Perspektive betrachtet - eben aus der Perspektive einer Hacker*in.</p>
-        
-          <p>Bei der Bearbeitung der Aufgaben sind ausdrücklich alle Hilfsmittel erlaubt. Du darfst im Internet suchen, einen Taschenrechner oder Chatbot verwenden, mit Stift und Papier Notizen machen... Fühl dich frei und nutze die Tools, die dir bei der Bearbeitung der Aufgaben am meisten helfen.
-          </p>
-          
-          ${
-            req.user.RoomId !== null
-              ? `<p>Falls du einem Raum beigetreten bist und an einer Hacking-Session teilnimmst: Nach der Bearbeitung dieser Aufgabe starten die 30 Minuten. Innerhalb dieser Zeit ist es dein Ziel, so viele Aufgaben wie möglich zu bearbeiten. Deine Punktzahl für diese 30 Minuten wird in die Highscore des Raums eingetragen.
-          </p>`
-              : ''
-          }
-        
-          <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
-        `,
+        de: story(
+          'Kiwi',
+          `
+          <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
+
+          <p>Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden neblig sein, das ist normal nach deinen zwei Jahren Haft. Wir haben jetzt das Jahr 2077.
+
+          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir stellen uns gegen das Technik-Dekret der Regierung. Menschen soll nicht bestraft werden, nur weil sie Technik zu einem anderen Zweck als vorgesehen nutzen. Es ist absurd, Menschen wegen dem Umbau einer Kaffeemaschine zu einem Wecker für viele Jahre wegzusperren.</p>
+
+          <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
+
+          <p>Wenn du meine Worte verstanden hast, dann berechne 6 + 4 · 9 und gib die Antwort in das Eingabefeld ein.</p>  
+        `
+        ),
         en: `
           <p>Welcome to Hack The Web! Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or struggle with them.</p>
     
@@ -175,16 +216,16 @@ const part1 = [
   {
     id: 4,
     pos: { x: 260, y: 380 },
-    title: { de: 'ASCII', en: 'ASCII' },
+    title: { de: 'Codes', en: 'Codes' },
     // date: '2017-05-17',
     deps: [15, 24],
     render: () => {
       function renderTable(col1, col2) {
         return `
-         <div class="container" style="margin-top:24px;margin-bottom:24px;">
+         <div class="container" style="margin-top:24px;margin-bottom:24px">
           <div class="row">
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -206,7 +247,7 @@ const part1 = [
               </table>
             </div>
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -228,7 +269,7 @@ const part1 = [
               </table>
             </div>
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -255,19 +296,16 @@ const part1 = [
       }
 
       return {
-        de: `
-          <p>Du bist eine mutige Person! Du hast dich von den kryptischen Buchstaben im Titel dieser Aufgabe nicht abschrecken lassen.
-          </p>
+        de: story(
+          'Josh',
+          `
+          <p>Das Technik-Dekret verbietet uns Menschen, die Sprache der Computer zu lernen. Den meisten Menschen ist das egal. Aber für mich geht damit etwas sehr wertvolles verloren.</p>
           
-          <p>
-            Viele Dinge in der Informatik sehen auf den ersten Blick verwirrend aus. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
-            wo man Dinge nachschauen kann, werden diese weniger fremd.
-          </p>
+          <p>Mache es dir gemütlich, du lernst jetzt das ABC der Informatik, oder besser das 1-2-3.</p>
           
-          <p>
-            So ist es auch mit dem ASCII-Code. Weil Computer nur mit Zahlen arbeiten können, gibt es zu jedem Schriftzeichen einen einheitlichen Code. Einen Auszug davon
-            findest du in dieser Tabelle.
-          </p>
+          <p>Zahlen sind Zahlen. Damit lassen sich Größen beschreiben, aber keine Texte. Doch was passiert, wenn wir jedem Zeichen eine Nummer geben? Tada - wir können im Computer Texte darstellen.</p>
+
+          <p>In dieser Tabelle siehst du die Zuordnungen für einige Buchstaben. Diese Zuordnung mit dem Namen ASCII ist schon über 100 Jahre alt und bis heute in Gebrauch!</p>
           
           ${renderTable('Code', 'Zeichen')}
           
@@ -276,7 +314,8 @@ const part1 = [
           
           <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
           </p>
-        `,
+        `
+        ),
         en: `
           <p>You are a brave person! You were not deterred by the cryptic letters in the title of this challenge.
           </p>
@@ -317,24 +356,26 @@ const part1 = [
     // date: '2017-05-17',
     deps: [1],
     html: {
-      de: `
-        <p>Diese Aufgabe hier funktioniert wie das Schreiben mit Zitronentinte: Man nimmt einen Füller und taucht ihn in den Saft einer frischgepressten Zitrone. Damit schreibt man seine geheime Nachricht auf ein weißes Blatt Papier. Weil der Saft transparent ist, schreibt man sozusagen "weiß auf weiß" und ein Anderer kann die Nachricht nicht lesen. Die Person, die die Nachricht empfängt, hält das Papier über eine Flamme. Durch die Hitze verfärbt sich der Zitronensaft und die Nachricht wird sichtbar.
-        </p>
+      de: story(
+        'Kiwi',
+        `
+          <p>Na, schon wach? Komm, ich möchte dir was zeigen.</p>
+
+          <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text für das Auge nicht erkennbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
+
+          <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort.</p>
+        `,
+        `
+          <p>--- Hier fängt das Blatt an ---</p>
         
-        <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort:
-        </p>
-        
-        <br>
-        
-        <p>--- Hier fängt das Blatt an ---</p>
-        
-        <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
-          'chal_5'
-        )}</span><br><br>
-        </p>
-        
-        <p>--- Hier endet das Blatt ---</p>
-      `,
+          <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
+            'chal_5'
+          )}</span><br><br>
+          </p>
+          
+          <p>--- Hier endet das Blatt ---</p>
+        `
+      ),
       en: `
         <p>This challenge here works like writing with lemon juice: You take a fountain pen and dip it in the juice of a freshly squeezed lemon. With it, you write your secret message on a white sheet of paper. Because the juice is transparent, you write "white on white" and another person cannot read the message. The person who receives the message holds the paper over a flame. The heat colors the lemon juice and the message becomes visible.
         </p>
@@ -364,37 +405,45 @@ const part1 = [
     // date: '2017-05-17',
     deps: [24],
     html: {
-      de: `
-      <p>Wenn du dir eine Website am Computer anschaust, dann siehst du eigentlich nur einen kleinen Teil der Website. Hinter den Kulissen aber gibt es noch eine ganze Welt voller Technik zu entdecken.
-      </p>
-      
-      <p>Ähnlich wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film gibt es auch den Code zu einer Website. Und darin finden sich Informationen, die sonst nicht zu sehen sind. Im Quelltext der Website wird die Antwort in diesem Kasten sichtbar:</p>
-      
-      <pre>
-      
-      __________________________________________
-      |                                        |
-      |<!-- Die Antwort lautet ${secrets(
-        'chal_6'
-      )}. -->                                        |
-      |________________________________________|
-      
-      </pre>
-      
-      <p><button onclick="transform()">Quelltext anzeigen</button></p>
-      
-      <script>
-        function transform() {
-          const code = document.body.outerHTML
-          document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
-          document.body.style.lineHeight = '1.2'
-          document.body.style.fontFamily = 'monospace'
-          document.body.style.marginLeft = '4px'
-          history.pushState({}, '')
-          onpopstate = (_) => { window.location.reload() };
-        }
-      </script>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Höre mir gut zu. Ich zeige dir jetzt eine der wichtigsten Techniken, die du als HackerIn beherrschen solltest.</p>
+
+        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil der Website. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Website.</p>
+
+        <p>Dieser Quelltext enthält viele Informationen - und Wissen ist Macht. Doch die Informationen können dich auch von der Menge her überfordern.</p>
+
+        <p>Ich biete dir einen Orientierungspunkt. Diesen Kasten wirst du im Quelltext wiederfinden. Innerhalb von diesem Kasten ist deine Antwort versteckt.</p>
+        
+        <pre>
+        
+        __________________________________________
+        |                                        |
+        |<!-- Die Antwort lautet ${secrets(
+          'chal_6'
+        )}. -->                                        |
+        |________________________________________|
+        
+        </pre>
+
+        <p>Bist du bereit? Dann klicke auf diese Schaltfläche, um den Quelltext dieser Seite zu sehen. Scrolle dort nach unten, um den Kasten zu finden.</p>
+        
+        <p><button onclick="transform()" class="btn btn-sm btn-primary" style="margin-bottom:24px;">Quelltext anzeigen</button></p>
+
+        <script>
+          function transform() {
+            const code = document.body.outerHTML
+            document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
+            document.body.style.lineHeight = '1.2'
+            document.body.style.fontFamily = 'monospace'
+            document.body.style.marginLeft = '4px'
+            history.pushState({}, '')
+            onpopstate = (_) => { window.location.reload() };
+          }
+        </script>
+    `
+      ),
       en: `
       <p>When you look at a website on your computer, you actually only see a small part of the website. But behind the scenes, there is a whole world full of technology to discover.
       </p>
@@ -437,14 +486,19 @@ const part1 = [
     // date: '2017-05-17',
     deps: [6],
     html: {
-      de: `
-      <p>Auch diesmal braucht es einen Blick in den Quelltext der Seite. Allerdings musst du das Portal selber finden. Die Antwort befindet sich direkt unter dieser Zeile ...
-      </p>
-      
-      <!-- ... und lautet ${secrets('chal_7')}. -->
-      
-      <p><small><a href="/chals/chal7_hint1.png" target="_blank">Tipp 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Tipp 2</a></small></p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Du machst gute Fortschritte. Jetzt bist du bereit, auch selbstständig den Quelltext der Seite zu öffnen und dich dort zurechtzufinden.</p>
+
+        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>. Browser haben sich in den letzten 50 Jahren kaum verändert :)</p> 
+
+        <p>Die Antwort befindet sich direkt unter dieser Zeile ...
+        </p>
+        
+        <!-- ... und lautet ${secrets('chal_7')}. -->
+    `
+      ),
       en: `
         <p>This time, too, it takes a look at the source code of the page. However, you have to find the portal yourself. The answer is directly below this line ...
         </p>
@@ -618,10 +672,14 @@ const part1 = [
     // date: '2017-05-18',
     deps: [1],
     html: {
-      de: `
-      <p>Die Antwort zu dieser Aufgabe ist ganz einfach dein Benutzername. Allerdings kann es sein, dass deine Eingabe beim Absenden etwas durcheinander gerät. Findest du heraus, was du eingeben musst?
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Die Menschen heute haben verlernt, auf neue, unbekannte Situationen zu reagieren. Wenn etwas nicht so funktioniert, wie sie es erwarten, dann geben sie schnell auf.</p>
+
+        <p>Die Antwort auf diese Aufgabe ist dein Benutzername. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
+      `
+      ),
       en: `
       <p>The answer to this challenge is simply your username. However, it may be that your input gets a little mixed up when you submit it. Can you find out what you have to enter?
       </p>
@@ -643,9 +701,14 @@ const part1 = [
     // date: '2017-05-18',
     deps: [15, 24],
     html: {
-      de: `
-      <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Haben dir Bex und Josh schon was gezeigt? Ich hab den beiden gesagt, sie sollen auch ihr Wissen weitergeben. Man kann von jedem Mensch was Neues lernen.</p>
+
+        <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
+    `
+      ),
       en: `
       <p>The answer to this task is your current score. Similar to before, your input is a bit jumbled.</p>
     `,
@@ -934,7 +997,14 @@ const part1 = [
     // date: '2017-08-25',
     deps: [1],
     html: {
-      de: `
+      de: story(
+        'Kiwi',
+        `
+        <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Wir können dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
+
+        <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
+        `,
+        `
         <p id="poper">Achtung, nicht blinzeln!
         </p>
         
@@ -944,11 +1014,12 @@ const part1 = [
               'chal_24'
             )}"
             setTimeout(function(){
-              document.getElementById("poper").innerHTML = "Ups, das ging schnell."
-            }, 150)
+              document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
+            }, 300)
           }, 1500)
         </script>
-      `,
+        `
+      ),
       en: `
         <p id="poper">Don't blink!</p>
         </p>
@@ -960,7 +1031,7 @@ const part1 = [
             )}"
             setTimeout(function(){
               document.getElementById("poper").innerHTML = "Oh. This was fast."
-            }, 150)
+            }, 300)
           }, 1500)
         </script>
       `,
@@ -1187,35 +1258,39 @@ const part1 = [
     // date: '2017-08-26',
     deps: [111],
     html: {
-      de: `
-      <p>Es wird Zeit für einen neuen Taschenrechner:
-      </p>
-      
-      <br>
-      
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <br>
-      
-      <p>Dieser Taschenrechner besteht aus einer "Röhre", die rechts offen ist. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
-      </p>
-      
-      <p>Um weitere Zahlen zu erzeugen, musst du rechnen. Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
-      </p>
-      
-      <p>Es gibt zwei Sonderbefehle: <strong>drop</strong> entfernt die letzte Zahl aus der Röhre (also die Zahl ganz rechts), <strong>dup</strong> fügt die letzte Zahl noch einmal hinzu (duplizieren).
-      </p>
-      
-      <p>Berechne das Ergebnis 1000:
-      </p>
-      
-      <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Bex hat eine schwere Zeit hinter sind - verzeih ihm, wenn er manchmal etwas ... aufgedreht ist. Er hat ein gutes Herz.</p>
+
+        <p>Aber erstmal zurück zum Taschenrechner. Ich möchte dir auch eine Variante zeigen. Und diese funktioniert mit einer Röhre:</p>
+        
+        <br>
+        
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+        
+        <br>
+        
+        <p>Die Röhre ist rechts offen. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
+        </p>
+        
+        <p>Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
+        </p>
+        
+        <p>Es gibt zwei Sonderbefehle: <strong>drop</strong> entfernt die letzte Zahl aus der Röhre (also die Zahl ganz rechts), <strong>dup</strong> fügt die letzte Zahl noch einmal hinzu (duplizieren).
+        </p>
+        
+        <p>Berechne das Ergebnis 1000 und klicke submit:
+        </p>
+        
+        <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
+    `
+      ),
       en: `
       <p>It's time for a new calculator:
       </p>
@@ -1263,17 +1338,22 @@ const part1 = [
     // date: '2017-08-26',
     deps: [31],
     html: {
-      de: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <p>Berechne diesmal die Zahl 1337.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Berechne die Zahl 1337.
+        </p>
+        
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+    `
+      ),
       en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
@@ -1303,17 +1383,22 @@ const part1 = [
     // date: '2017-08-26',
     deps: [32],
     html: {
-      de: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal33.js"></script>
-      
-      <p>Berechne die Zahl 100. Allerdings fehlen diesmal ein paar Tasten.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Berechne die Zahl 100. Allerdings fehlen ein paar Tasten.
+        </p>
+        
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal33.js"></script>
+    `
+      ),
       en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
@@ -1787,35 +1872,35 @@ const part1 = [
     // date: '2020-08-01',
     deps: [4, 16],
     html: {
-      de: `
-      <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
-      </p>
-      
-      <p>Selbst wenn du noch nie damit gearbeitet hast - mit ein wenig logischem Denken findest du schnell den Einstieg.
-      </p>
-      
-      <p>Als Hilfestellung siehst du hier die ersten 6 Zweierpotenzen. Du kannst sie an- oder ausschalten, wenn du sie anklickst. Alle aktiven Zahlen werden zum Ergebnis addiert.
-      </p>
-      
-      <p>Stelle die Zahl 7 ein und schicke sie ab.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Unsere gesamte Technik ist gebaut von Menschen, die über den Tellerrand geblickt haben. Menschen, die sich gefragt haben: Wir haben Schalter (AN/AUS) - wie können wir damit Zahlen darstellen?</p>
+        
+        <p>Ich weise dir die Richtung: Es hat was mit Zweierpotenzen zu tun. Hier findest du die ersten sechs Zweierpotenzen. Jede Zweierpotenz ist ein Schalter. Klicke auf die Zahl, um den Schalter an- und auszuschalten. Rechts siehst du die Zahl, die du gerade darstellt.</p>
+
+        <p>Jetzt bist du dran. Selbst wenn du noch nichts vom Binärsystem gehört hast - mit bisschen Logik wirst du schnell den Einstieg finden.</p>
+        
+        <p>Stelle die Zahl 7 ein und schicke sie ab.
+        </p>
+        
+        <p style="margin-top:24px;"><svg id="binary"></svg></p>
+        
+        <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
+        
+        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal51_2.js"></script>
+        
+        <style>
+          .hoverEffect:hover {
+            cursor:pointer;
+            opacity: 0.9;
+          }
+        </style>
+    `
+      ),
       en: `
       <p>You've probably heard of the binary system. It is the language of computers, which consists of 1s and 0s.
       </p>
@@ -1857,26 +1942,29 @@ const part1 = [
     // date: '2020-08-01',
     deps: [51],
     html: {
-      de: `
-      <p>Das hast du sehr gut gemacht! Stelle nun die Zahl 45 ein.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Dein Kopf ist jetzt warm. Stelle die Zahl 45 ein.
+        </p>
+        
+        <p><svg id="binary"></svg></p>
+        
+        <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
+        
+        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal51_2.js"></script>
+        
+        <style>
+          .hoverEffect:hover {
+            cursor:pointer;
+            opacity: 0.9;
+          }
+        </style>
+    `
+      ),
       en: `
       <p>Well done! Now set the number 45.
       </p>
@@ -2084,13 +2172,20 @@ const part1 = [
     // date: '2020-08-17',
     deps: [27, 41, 64],
     html: {
-      de: `
-          <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst. Außerdem gibt es den Community-Bereich mit weiteren abwechslungsreichen Herausforderungen.</p>
-          
-          <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
-          
-          <p>Und jetzt noch ein letzter Blick zurück. Schaue dir die verlinkten Aufgaben an. Ihre Anfangsbuchstaben verraten dir die Antwort.</p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Wir sind aufgeflogen. Ich werde mit Kiwi un Josh zu fliehen versuchen. Du kannst hier in diesem Unterschlupf bleiben</p>
+
+        <p>Du bist cool, wir werden dich vermissen. Auf diesem Stick kannst du deine Ausbildung fortsetzen.</p>
+
+        <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst. Außerdem gibt es den Community-Bereich mit weiteren abwechslungsreichen Herausforderungen.</p>
+        
+        <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
+        
+        <p>Und jetzt noch ein letzter Blick zurück. Schaue dir die verlinkten Aufgaben an. Ihre Anfangsbuchstaben verraten dir die Antwort.</p>
+    `
+      ),
       en: `
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
             <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 18</p>
@@ -2745,13 +2840,18 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [5, 15],
     html: {
-      de: `
-      <p>Kunst überdauert Jahrhunderte - auch weil sie immer wieder neu interpretiert und überarbeitet wird.</p>
-      
-      <p>Dein Freund Normand zeigt dir stolz sein neustes Kunstwerk:
-      </p>
-      
-      <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
+      de: story(
+        'Kiwi',
+        `
+        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Wenn mir das alles zu viel ist, mit dem Widerstand und all den anderen Sorgen - dann tröste ich mich mit Kunst.</p>
+
+        <p>Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs. Normand würde für die Zweckentfremdung der Buchstaben und Satzzeichen sicherlich im Gefängnis landen.</p>
+
+        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
+        `,
+        `
+        
+        <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
                             _,,ad8888888888bba,_
                          ,ad88888I888888888888888ba,
                        ,88888888I88888888888888888888a,
@@ -2806,9 +2906,8 @@ PIXI.loader
  8888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888 Normand  88
  88888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888 Veilleux 88
  8888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888888</pre>
-    
-    <p>Die Umsetzung ist kreativ und modern, doch das Motiv selber ist schon sehr alt. In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
-    `,
+    `
+      ),
       en: `
       <p>Art lasts for centuries — also because it is constantly reinterpreted and revised.</p>
       
@@ -3080,34 +3179,31 @@ PIXI.loader
   {
     id: 79,
     pos: { x: 1095, y: 620 },
-    title: { de: 'Google-Fu', en: 'Googling' },
+    title: { de: 'Recherche', en: 'Googling' },
     // date: '2022-02-24',
     deps: [18, 84],
     html: {
-      de: `
-      <p>In den weiten des Internets lassen sich so manche Informationen sammeln. Der Name für diese Fähigkeit: Google-Fu.</p>
-      
-      <p>Die Frage an dich lautet:  Wie viele Aufgaben hat Hack The Web insgesamt zum jetzigen Zeitpunkt?</p>
-      
-      <p>Hole dein ganzes Google-Fu heraus und zeige, was du drauf hast!</p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Weißt du noch, wie ich dir den HTML-Quellcode gezeigt habe? Vor ganz vielen Jahren gab es in den USA einen Governor, der einen Journalist wegen &quot;Hacking&quot; anklagen wollte. Der Journalist hat sich den Quellcode einer Regierungswebsite angeschaut hat und dort persönliche Informationen vieler Lehrkräfte gefunden.</p>
+        
+        <p>Ganz wilde Geschichte, denn im Grund hat der Staats selbst ausversehen persönliche Informationen in der Website mitgeliefert, die jeder mit bisschen technischen Wissen herauslesen konnte. Es gab dazu ein <a href="https://pbs.twimg.com/media/FBrT2wWX0AQ4zkQ?format=jpg&name=small" target="_blank">nettes Meme</a>. Wenn die Leute nur wüssten, ich schlecht dieser Witz gealtert ist ...</p>
+
+        <p>Wann war das nochmal? Ich glaube das war 2021. Kannst du mir bitte heraussuchen, in welchem US-Bundesstaat das passierte?
+        </p>
+    `
+      ),
       en: `
-        <p>There is a lot of information to be found on the Internet. The name for this skill: Googling.</p>
-        
-        <p>The question for you is: How many challenges does Hack The Web have in total at the moment?</p>
-        
-        <p>Use all your Googling skills and show what you've got!</p>
+        <p>Do you remember when the HTML source code was shown? Many years ago, there was a case in the USA where a governor wanted to charge a journalist with "hacking." The journalist had looked at the source code of a government website and found personal information about many teachers.</p>
+
+        <p>It was quite a wild situation, because essentially, the state had accidentally included personal information in the website, which anyone with some technical knowledge could access.</p>
+
+        <p>When did this happen again? I believe it was in 2021. Could you look up in which US state this took place?</p>
+
     `,
     },
-    check: (answer, { App }) => {
-      return {
-        answer,
-        correct:
-          parseInt(answer) ===
-            App.challenges.data.filter((data) => !data.noScore).length ||
-          parseInt(answer) === App.challenges.data.length,
-      }
-    },
+    solution: secrets('chal_79'),
   },
 
   {
@@ -3117,8 +3213,12 @@ PIXI.loader
     // date: '2022-02-24',
     deps: [4, 6],
     html: {
-      de: `
-      <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken. Verwende die Farben <code>green</code>, <code>purple</code>, <code>red</code>, <code>yellow</code>, <code>blue</code> und <code>orange</code>. Lade die Seite neu zum zurückzusetzen.</p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Das Technik-Dekret war auch ein großer Rückschlag für queere Menschen. Die Gesellschaft ist hartherziger geworden. Und darunter leiden die, die eh schon mehr Last zu tragen haben.</p>
+
+        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>
       
       <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
   background-color: green;
@@ -3152,8 +3252,10 @@ PIXI.loader
       
       <div id="result" style="margin-top:10px"></div>
       
+      <script>lng='de'</script>
       <script src="/chals/chal80_2.js"></script>
-    `,
+    `
+      ),
       en: `
       <p>ARRRRG! Some <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> person messed up the colors of the rainbow flag! It's now up to you to put the colors back in the correct order:</p>
       
@@ -3189,6 +3291,7 @@ PIXI.loader
       
       <div id="result" style="margin-top:10px"></div>
       
+      <script>lng='en'</script>
       <script src="/chals/chal80_2.js"></script>
     `,
     },
@@ -3491,18 +3594,16 @@ PIXI.loader
     // date: '2023-05-13',
     deps: [5],
     html: {
-      de: `
-      <p>Schwierigkeiten halten dich nicht von deinen Zielen ab. Im Gegenteil: Du nutzt deine Kreativität, um die Herausforderung zu lösen.
-      </p>
-      
-      <p>Hier ist ein Taschenrechner aus einem Tutorial. Ich bin dem Tutorial gefolgt, muss aber irgendwo einen Fehler gemacht - man kann keine mehrstelligen Zahlen eingeben.
-      </p>
-      
-      <p>Deine Kreativität ist nun gefragt. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
-      </p>
+      de: story(
+        'Bex',
+        `
+        <p>Du bist also neu hier. Nett. Erwarte nicht, dass du deshalb besonders behandelt wirst. Jeder trägt seinen Teil bei und für dich gilt keine Ausnahme.</p>
 
-      ${calculator()}
-    `,
+        <p>Ich möchte sehen, wie du mit Herausforderungen umgehst. Das ist ein defekter Taschenrechner. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.</p>
+
+        ${calculator()}
+    `
+      ),
       en: `
       <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
       </p>
@@ -3528,12 +3629,18 @@ PIXI.loader
     // date: '2023-05-13',
     deps: [110],
     html: {
-      de: `
-      <p>Berechne diesmal die Zahl <strong>10240</strong>.
-      </p>
-      
-      ${calculator()}
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich sehe, du bist nicht ganz unbeholfen. Nicht schlecht. Aber ich will, ehm, noch mehr Beweise sehen. </p>
+
+
+        <p>Berechne diesmal die Zahl <strong>10240</strong>.
+        </p>
+        
+        ${calculator()}
+    `
+      ),
       en: `
       <p>This time calculate the number <strong>10240</strong>.
       </p>
@@ -3552,13 +3659,16 @@ PIXI.loader
     title: { de: 'Minecraft III', en: 'Minecraft III' },
     deps: [337],
     html: {
-      de: `
-        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, aber die Schaltung funktioniert nicht.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Nehmen wir mal an, ich baue eine Schaltung, die nicht funktioniert. Das passiert in der Realität natürlich nicht. Schaue dir diese Situation an:</p>
 
-        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:100%"></p>
-
-        <p>Mein Kumpel erkennt das Problem sofort: "Du musst nur einen Block hinzufügen!". Diese Block-ID ist deine Antwort.</p>
-      `,
+        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:65ch"></p>
+        
+        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, doch die Lampe leuchtet nicht. Mit nur einen Block kann ich die Schaltung reparieren. Diese Block-ID ist deine Antwort.</p>
+      `
+      ),
       en: `
         <p>I want to turn the lamp on and off with a switch, but the circuit isn't working.</p>
 
@@ -3577,13 +3687,18 @@ PIXI.loader
     title: { de: 'Minecraft IV', en: 'Minecraft IV' },
     deps: [337],
     html: {
-      de: `
-        <p>Ich liebe den Mond bei Mitternacht. Am liebsten würde ich gerne immer, wenn ich will, zu diesem Zeitpunkt springen können.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Ich liebe den Mond bei Mitternacht. Der Mond hat etwas trauriges und einsames an sich, mit dem ich mich ...</p>
 
-        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:100%"></p>
-
-        <p>Der passende Befehl dazu ist deine Antwort.</p>
-      `,
+        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:65ch"></p>
+        
+        <p>Was rede ich da für einen Unsinn! Vergiss sofort, was ich gerade gesagt habe. Wir gehen jetzt zur nächsten Aufgabe.</p>
+        
+        <p>In Minecraft ist es möglich, die Zeit zu ändern. Deine Antwort ist der Befehl, um die Zeit auf Mitternacht zu setzen.</p>
+      `
+      ),
       en: `
         <p>I love the moon at midnight. I wish I could jump to that moment whenever I want.</p>
 
@@ -3627,8 +3742,12 @@ PIXI.loader
     title: { de: 'Taschenrechner III', en: 'Calculator III' },
     deps: [111],
     html: {
-      de: `
-        <p>Blindes Probieren führt dich hier nicht zum Ziel. Wähle eine weise Strategie.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Ich gebe zu, du hast mehr Ausdauer als ich dachte. Lasse mich kurz überlegen. Hier ist noch eine Aufgabe, die viel schwieriger ist. Ich habe damals sehr lange gebraucht, sie zu lösen.</p>
+        
+        <p>Josh meinte, wenn ich die Primfaktorzerlegung genutzt hätte, wäre ich in wenigen Minuten fertig gewesen. Keine Ahnung, was er damit sagen wollte.</p>
 
         <p>Berechne die Zahl <strong>15876000</strong>.</p>
       
@@ -3661,7 +3780,8 @@ PIXI.loader
         <link rel="stylesheet" href="/chals/chal110.css">
         
         <script src="/chals/chal110.js"></script>
-      `,
+      `
+      ),
       en: `
         <p>Blind guessing will not lead you to success here. Choose a wise strategy.</p>
 
@@ -3864,11 +3984,21 @@ PIXI.loader
     deps: [5, 15],
     // author: 'QWERTZ',
     html: {
-      de: `
+      de: story(
+        'Bex',
+        `
+        <p>Kiwi hat mich beordert, dir paar Dinge zu zeigen. Hey: nur weil ich jung bin heißt es nicht, dass ich nicht ordentlich was drauf habe!</p>
+
+        <p>Meine Eltern waren schockiert, dass ich ein so altes Spiel wie Minecraft spiele - und noch dazu ein Spiel, das offiziell verboten ist. Aber es ist gut und man kann da sehr viele kreative Dinge machen.</p>
+
+        <p>Ich habe eine Aufgabe für dich. Kiwi könnte viel besser erklären, warum das eine sinnvolle Aufgabe ist, das spare ich mir. Mach und zeig mir, dass Kiwi mit der Entscheidung, dich auszubilden, Recht hatte.</p>
+      `,
+        `
         <p>Was ist die Block-ID von diesem Block?</p>
         
-        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
-      `,
+        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+      `
+      ),
       en: `
         <p>What is the block-ID for this block?</p>
           
@@ -3886,11 +4016,16 @@ PIXI.loader
     deps: [336],
     // author: 'QWERTZ',
     html: {
-      de: `
-        <p>Welches Konzept wird hier dargestellt?</p>
-          
-        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
-      `,
+      de: story(
+        'Bex',
+        `
+        <p>Die erste Aufgabe hast du gemeistert. Anscheinend hast du doch was auf dem Kasten.</p>
+
+        <p>Ich frage dich als nächstes: Welches Konzept wird hier dargestellt?
+
+        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
+        `
+      ),
       en: `
         <p>Which concept is presented here?</p>
             

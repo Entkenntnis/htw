@@ -1000,24 +1000,24 @@ const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Wir können dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
+        <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Wir können dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
 
-          <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
+        <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
         `,
         `
-          <p id="poper">Achtung, nicht blinzeln!
-          </p>
-          
-          <script>
+        <p id="poper">Achtung, nicht blinzeln!
+        </p>
+        
+        <script>
+          setTimeout(function(){
+            document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets(
+              'chal_24'
+            )}"
             setTimeout(function(){
-              document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets(
-                'chal_24'
-              )}"
-              setTimeout(function(){
-                document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
-              }, 300)
-            }, 1500)
-          </script>
+              document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
+            }, 300)
+          }, 1500)
+        </script>
         `
       ),
       en: `
@@ -3179,34 +3179,31 @@ PIXI.loader
   {
     id: 79,
     pos: { x: 1095, y: 620 },
-    title: { de: 'Google-Fu', en: 'Googling' },
+    title: { de: 'Recherche', en: 'Googling' },
     // date: '2022-02-24',
     deps: [18, 84],
     html: {
-      de: `
-      <p>In den weiten des Internets lassen sich so manche Informationen sammeln. Der Name für diese Fähigkeit: Google-Fu.</p>
-      
-      <p>Die Frage an dich lautet:  Wie viele Aufgaben hat Hack The Web insgesamt zum jetzigen Zeitpunkt?</p>
-      
-      <p>Hole dein ganzes Google-Fu heraus und zeige, was du drauf hast!</p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Weißt du noch, wie ich dir den HTML-Quellcode gezeigt habe? Vor ganz vielen Jahren gab es in den USA einen Governor, der einen Journalist wegen &quot;Hacking&quot; anklagen wollte. Der Journalist hat sich den Quellcode einer Regierungswebsite angeschaut hat und dort persönliche Informationen vieler Lehrkräfte gefunden.</p>
+        
+        <p>Ganz wilde Geschichte, denn im Grund hat der Staats selbst ausversehen persönliche Informationen in der Website mitgeliefert, die jeder mit bisschen technischen Wissen herauslesen konnte. Es gab dazu ein <a href="https://pbs.twimg.com/media/FBrT2wWX0AQ4zkQ?format=jpg&name=small" target="_blank">nettes Meme</a>. Wenn die Leute nur wüssten, ich schlecht dieser Witz gealtert ist ...</p>
+
+        <p>Wann war das nochmal? Ich glaube das war 2021. Kannst du mir bitte heraussuchen, in welchem US-Bundesstaat das passierte?
+        </p>
+    `
+      ),
       en: `
-        <p>There is a lot of information to be found on the Internet. The name for this skill: Googling.</p>
-        
-        <p>The question for you is: How many challenges does Hack The Web have in total at the moment?</p>
-        
-        <p>Use all your Googling skills and show what you've got!</p>
+        <p>Do you remember when the HTML source code was shown? Many years ago, there was a case in the USA where a governor wanted to charge a journalist with "hacking." The journalist had looked at the source code of a government website and found personal information about many teachers.</p>
+
+        <p>It was quite a wild situation, because essentially, the state had accidentally included personal information in the website, which anyone with some technical knowledge could access.</p>
+
+        <p>When did this happen again? I believe it was in 2021. Could you look up in which US state this took place?</p>
+
     `,
     },
-    check: (answer, { App }) => {
-      return {
-        answer,
-        correct:
-          parseInt(answer) ===
-            App.challenges.data.filter((data) => !data.noScore).length ||
-          parseInt(answer) === App.challenges.data.length,
-      }
-    },
+    solution: secrets('chal_79'),
   },
 
   {

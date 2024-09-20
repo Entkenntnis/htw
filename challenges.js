@@ -3179,7 +3179,7 @@ PIXI.loader
   {
     id: 79,
     pos: { x: 1095, y: 620 },
-    title: { de: 'Recherche', en: 'Googling' },
+    title: { de: 'Recherche', en: 'Research' },
     // date: '2022-02-24',
     deps: [18, 84],
     html: {

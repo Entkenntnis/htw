@@ -2069,14 +2069,16 @@ const part1 = [
     // date: '2020-08-01',
     deps: [16, 68],
     html: {
-      de: `
-      <p>Die Welt ist voller Farben. Im Internet gibt es für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> feste Name.
-      </p>
+      de: story(
+        'Josh',
+        `
+        <p>Die Welt ist voller Farben. Doch im Internet gibt es nur für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> einen offiziellen Name.</p>
 
-      <p>Deine Antwort ist der Name dieser Farbe.</p>
+        <div style="height:80px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
 
-      <div style="height:80px;width:250px;background-color:#663399;position:relative"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
-    `,
+        <p>Der Name dieser Farbe ist deine Antwort.</p>
+    `
+      ),
       en: `
       <p>The world is full of colors. On the internet, there are fixed names for <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 colors</a>.</p>
 

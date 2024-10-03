@@ -2307,9 +2307,16 @@ const part1 = [
     // date: '2020-08-17',
     deps: [23],
     html: {
-      de: `
-      <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>QR Codes werden meist verwendet, um eine Webseite zu verlinken. Doch es gibt keinen Grund, sie nicht auch für andere Dinge zu verwenden.</p>
+
+        <p>In diesem Code ist ein Rätsel gespeichert, das dir den Weg zur Antwort weist.</p>
+
+        <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px; margin-top: 16px;" alt="qr"></p>
+    `
+      ),
       en: `
         <p><img src="/chals/chal60-en-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
     `,

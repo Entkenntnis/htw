@@ -3416,11 +3416,11 @@ PIXI.loader
           return story(
             'Kiwi',
             `
-          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet wie im Film Inception.</p>
-        
-          <p>Diese Seite ist von Inception inspiriert. Scrolle dich durch alle Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
+            <p>Hat dir der Film gestern gefallen? Ich finde ihn inspirierend. Wobei ich zugeben muss: Manchmal habe ich wie im Film die Angst nicht zu wissen, ob ich mich in der Realität befinde oder nur in einem Traum. Vor allem wenn man lange Zeit so isoliert lebt.</p>
+            
+            <p>Im Computer kann man relativ leicht Realitäten ineinander verschachteln. Ich kann auf dieser Seite nochmal die selbe Seite einbinden. Du findest hier drei Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
         `,
-            renderFrame(1110, 700, 1)
+            renderFrame(500, 700, 1)
           )
         }
 
@@ -3438,7 +3438,7 @@ PIXI.loader
             }, 100)
           </script>
           
-          ${renderFrame(1000, 500, 3)}
+          ${renderFrame(450, 500, 3)}
         `
         }
 
@@ -3446,7 +3446,9 @@ PIXI.loader
           return `
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
           
-          <p>Die Antwort lautet ${secrets('chal_84')}.</p>
+          <p style="margin-top:150px">Die Antwort lautet ${secrets(
+            'chal_84'
+          )}.</p>
           
           <script>
             setTimeout(() => {

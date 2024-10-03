@@ -2175,15 +2175,17 @@ const part1 = [
       de: story(
         'Bex',
         `
-        <p>Wir sind aufgeflogen. Ich werde mit Kiwi un Josh zu fliehen versuchen. Du kannst hier in diesem Unterschlupf bleiben</p>
+        <p>Hey du, bad news. Kiwi und Josh wurden in eine Falle gelockt. Sie sind von der letzten Mission nicht zurückgekehrt.</p>
 
-        <p>Du bist cool, wir werden dich vermissen. Auf diesem Stick kannst du deine Ausbildung fortsetzen.</p>
+        <p>Ich habe sie gebeten, vorsichtig zu sein! Sie sind alles, was ich habe. Ich kann sie nicht in Stich lassen. Ich werde sie befreien.</p>
 
-        <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst. Außerdem gibt es den Community-Bereich mit weiteren abwechslungsreichen Herausforderungen.</p>
+        <p>Bleib du erstmal hier, dieser Ort ist für dich sicher. Auf diesem Stick findest du deine weitere Ausbildung - arbeite dich soweit vor wie du kannst, wir brauchen jede Hilfe. Das Passwort für den Stick sind die Anfangsbuchstaben dieser verlinkten Aufgaben. Als Backup findest du die Antwort im Quelltext dieser Seite.</p>
         
         <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
-        
-        <p>Und jetzt noch ein letzter Blick zurück. Schaue dir die verlinkten Aufgaben an. Ihre Anfangsbuchstaben verraten dir die Antwort.</p>
+
+        <!-- Die Antwort lautet ${secrets('chal_57')}. -->
+
+        <p>Pass auf dich auf! Wir sehen uns bald wieder.</p>
     `
       ),
       en: `

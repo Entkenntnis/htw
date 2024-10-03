@@ -756,44 +756,52 @@ const part1 = [
   {
     id: 18,
     pos: { x: 930, y: 520 },
-    title: { de: 'ROT13', en: 'ROT13' },
+    title: { de: 'Verschiebung', en: 'ROT13' },
     // date: '2017-05-18',
     deps: [8, 77],
     html: {
-      de: `
-      <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Dein Hacker-Blick ist gefragt! Du siehst wunderbar aus, wenn du scharf nachdenkst.
-      </p>
-      
-      <p>Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben.</p>
-      
-      <p style="word-wrap:break-word" class="my-4" id="cipher">
-      </p>
-      
-      <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
-      
-      <script>
-        const message = 'fhcre qh unfg qra grkg resbytervpu ragfpuyhrffryg nyf orybuahat reunryfg qh aha qvr nagjbeg haq fvr ynhgrg fcvrtryovyq'
+      de: story(
+        'Josh',
+        `
+        <p>Was ich dir hier zeige, ist schon Jahrtausende alt. Es ist eine Verschlüsslung aus einer Zeit, wo es keine Computer oder ähnliche Maschinen gab. Lesen und Schreiben war nur einer kleinen Gruppe vorbehalten. Schriftliche Texte waren an sich schon eine Geheimsprache.</p>
         
-        const slider = document.getElementById('slider')
+        <p>Doch selbst dann wollte man vielleicht eine Nachricht im Geheimen übermitteln. Eine pragmatische Lösung bestand darin, die Buchstaben im Alphabet zu verschieben. Es ist eine Verschlüsslung, die für die damalige Zeit ausgereicht hat. Mit dem Blick von heute bietet sie keine ernsthafte Sicherheit mehr.</p>
+
+        <p>Überzeuge dich selbst und entschlüssle die Nachricht. Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben.</p>
+        `,
+        `
+        <p style="word-wrap:break-word" class="my-4" id="cipher">
+        </p>
+
+        <p>Verschiebung: <span id="display">0</span></p>
         
-        const cipher = document.getElementById('cipher')
+        <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
         
-        function translate(n) {
-          cipher.innerHTML = message.split('').map(c => {
-            if (c === ' ') return c
-            return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
-          }).join('')
-        }
-        
-        function change() {
-          translate(parseInt(slider.value))
-        }
-        
-        change()
-        
-        
-      </script>
-    `,
+        <script>
+          const message = 'fhcre qh unfg qra grkg resbytervpu ragfpuyhrffryg nyf orybuahat reunryfg qh aha qvr nagjbeg haq fvr ynhgrg fcvrtryovyq'
+          
+          const slider = document.getElementById('slider')
+          
+          const cipher = document.getElementById('cipher')
+          
+          function translate(n) {
+            cipher.innerHTML = message.split('').map(c => {
+              if (c === ' ') return c
+              return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
+            }).join('')
+          }
+          
+          function change() {
+            translate(parseInt(slider.value))
+            document.getElementById('display').innerHTML = slider.value
+          }
+          
+          change()
+          
+          
+        </script>
+    `
+      ),
       en: `
       <p>You have received an encrypted message! It looks like complete nonsense. Your hacker's eye is in demand! You look wonderful when you think hard.
       </p>
@@ -971,13 +979,18 @@ const part1 = [
     // date: '2017-08-25',
     deps: [51, 69],
     html: {
-      de: `
-      <p>Das <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a> ist ein ähnliches Projekt wie Hack The Web, nur für Mathematik. Die Hauptrolle spielen dabei ein Einhorn-Geschwisterpaar.</p>
+      de: story(
+        'Josh',
+        `
+        <p>Früher wurde Mathematik viel mehr unterrichtet. Einige sind darin richtig aufgeblüht, für andere war das eher eine lästige Pflicht. Aus dieser Zeit stammt auch ein altes Projekt, das eine Freundin von mir entwickelt hat.</p>
+        
+        <p>Es heißt <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a>. Schaue da mal rein. </p>
 
-      <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
+        <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
 
-      <p>Besuche die Webseite. Deine Antwort ist der Name des kleinen Bruders.</p>
-    `,
+        <p>In der Hauptrolle spielt ein Einhorn-Geschwisterpaar. Deine Antwort ist der Name des kleinen Bruders.</p>
+    `
+      ),
       en: `
       <p>The <a href="https://einhorn.arrrg.de/" target="_blank">Unicorn of Mathematics</a> is a project similar to Hack The Web, but for mathematics. The main characters are a pair of unicorn siblings.</p>
 
@@ -2987,34 +3000,40 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [4, 16, 68],
     html: {
-      de: `
-      <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
-      </p>
-      
-      <div style="display:flex;flex-wrap:wrap;">
-      <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
-      <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
-      <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
-      <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
-      <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
-      <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
-      </div>
-      
-      <script src="/jquery-3.6.0.js"></script>
-      <script src="/jquery-ui.js"></script>
-      
-      <style>
-        .draggable {
-          margin: 12px;
-        }
-      </style>
-      
-      <script>
-          $( function() {
-            $( ".draggable" ).draggable()
-          } )
-      </script>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich habe schon früh verstanden, dass einige Dinge um uns herum nicht stimmen. Das ist ja nicht so schwer, man muss nur die einzelnen Teile übereinander legen und sieht dann das Muster.</p>
+
+        <p>Probier das aus. Schiebe die sechs Bilder übereinander und erhalte deine Antwort.</p>
+        `,
+        `
+        
+        <div style="display:flex;flex-wrap:wrap;">
+        <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
+        <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
+        <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
+        <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
+        <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
+        <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
+        </div>
+        
+        <script src="/jquery-3.6.0.js"></script>
+        <script src="/jquery-ui.js"></script>
+        
+        <style>
+          .draggable {
+            margin: 12px;
+          }
+        </style>
+        
+        <script>
+            $( function() {
+              $( ".draggable" ).draggable()
+            } )
+        </script>
+      `
+      ),
       en: `
       <p>I couldn't be so precise with the mouse because you have great sensitivity! The 6 images can be moved with the mouse. When placed one on top of the other, they provide the answer.
       </p>
@@ -3109,13 +3128,14 @@ PIXI.loader
     // date: '2022-02-09',
     deps: [51, 55, 69],
     html: {
-      de: `
-      <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren.</p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren. Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
 
-      <p>Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
-
-      <p>Deine Antwort ist der Nachname dieser Person.</p>
-    `,
+        <p>Ich möchte, dass du diesen Menschen kennenlernst. Wie lautet dessen Nachname?</p>
+    `
+      ),
       en: `
         <p>Even people from a completely different era can inspire us today.</p>
 
@@ -3393,13 +3413,15 @@ PIXI.loader
       }
       if (req.lng === 'de') {
         if (!req.query.level) {
-          return `
+          return story(
+            'Kiwi',
+            `
           <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet wie im Film Inception.</p>
         
           <p>Diese Seite ist von Inception inspiriert. Scrolle dich durch alle Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
-          
-          ${renderFrame(1110, 700, 1)}
-        `
+        `,
+            renderFrame(1110, 700, 1)
+          )
         }
 
         const level = parseInt(req.query.level)

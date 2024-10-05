@@ -1688,62 +1688,67 @@ const part1 = [
     // date: '2020-05-20',
     deps: [18, 60, 84],
     html: {
-      de: `
-      <p>Ich könnte nicht wie du geduldig sitzen und warten, bis die Antwort lädt ... ich bin immer ungeduldig und drücke auf der Tastatur herum.
-      </p>
-      
-      <p>Aber kann es sein, dass der Ladebalken dadurch tatsächlich schneller wird?
-      </p>
-      
-      <p>Die Antwort erhälst du, sobald der Ladebalken voll ist.
-      </p>
-      
-      <div class="progress my-4">
-        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
-      </div>
-      
-      <p id="value"></p>
-      
-      <p id="status"></p>
-      
-      <script>
-        const bar = document.getElementById('44_bar')
-        const value = document.getElementById('value')
-        const status = document.getElementById('status')
+      de: story(
+        'Bex',
+        `
+        <p>Ich verrate dir eine kleine peinliche Geschichte von mir. Erzähle sie ja nicht weiter!</p>
+
+        <p>Aus irgendeinem Grund glaubte ich lange Zeit, dass Ladebalken am Computer schneller laufen, wenn ich auf der Tastatur tippe. Das machte ich also jedes Mal, während ich auf etwas wartete. Einmal fragte mich Kiwi, was ich denn da mache und ich erzählte ihr den Grund. Sie lachte mich einfach aus und mein Kopf lief total rot an als ich meinen Aberglauben bemerkte.</p>
+
+        <p>Um mich besser zu fühlen programmierte ich dann einen Ladebalken, der tatsächlich schneller läuft wenn man auf Tasten drückt. An dem darfst du dich jetzt ausprobieren. Sobald der Balken voll ist, erhältst du deine Antwort.</p>
+        `,
+        `
+        <div class="progress my-4">
+          <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
+        </div>
         
-        let step = 1
-        let steps = 1000
-        let x = 3
+        <p id="value"></p>
         
-        function transform(x) {
-          return (x * 11) % 10000
-        }
+        <p id="status"></p>
         
-        function work(noTimeout) {
-          if (step >= steps) {
-            bar.style.width = '100%'
-          } else {
-            step++
-            bar.style.width = ((step/steps) * 98.9 + 1) + '%'
-            x = transform(x)
-            value.innerHTML = x.toString()
-            status.innerHTML = '(' + step + '/' + steps + ')'
-            if (!noTimeout) {
-              setTimeout(work, 1000)
+        <script>
+          const bar = document.getElementById('44_bar')
+          const value = document.getElementById('value')
+          const status = document.getElementById('status')
+          
+          let step = 1
+          let steps = 1000
+          let x = 3
+          
+          function transform(x) {
+            return (x * 11) % 10000
+          }
+          
+          function work(noTimeout) {
+            if (step >= steps) {
+              bar.style.width = '100%'
+            } else {
+              step++
+              bar.style.width = ((step/steps) * 98.9 + 1) + '%'
+              x = transform(x)
+              value.innerHTML = x.toString()
+              if (step == steps) {
+                value.innerHTML = 'Die Antwortet lautet: ' + value.innerHTML
+              }
+              status.innerHTML = '(' + step + '/' + steps + ')'
+              if (!noTimeout) {
+                setTimeout(work, 1000)
+              }
             }
           }
-        }
-        
-        window.onkeydown = () => {
-          work(true)
-        }
-        
-        value.innerHTML = x
-        status.innerHTML = '(1/' + steps + ')'
-        
-        setTimeout(work, 1000)
-      </script>
-    `,
+          
+          window.onkeydown = (e) => {
+            if (e.repeat) return
+            work(true)
+          }
+          
+          value.innerHTML = x
+          status.innerHTML = '(1/' + steps + ')'
+          
+          setTimeout(work, 1000)
+        </script>
+    `
+      ),
       en: `
       <p>II couldn't sit patiently like you and wait for the answer to load... I'm always impatient and fidgeting on the keyboard.
       </p>
@@ -3594,18 +3599,21 @@ PIXI.loader
     // date: '2023-04-02',
     deps: [59, 60, 84],
     html: {
-      de: `
-      <p>Du hast eine wunderbar entspannte Aura! Das hat mich inspiriert, dieses kleine entspannte Spiel zu entwickeln.
-      </p>
-      
-      <p>Steuere mit den <code>Pfeiltasten</code>.
-      </p>
-      
-      <iframe src="https://scratch.mit.edu/projects/829930955/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
-      
-      <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich finde, du hast eine wunderbar entspannte Aura :) Das hat mich zu diesem sehr entspannten kleinen Spiel inspiriert.</p>
+
+        <p>Steuere mit den <code>Pfeiltasten</code>.</p>
+        `,
+        `
+        
+        <iframe src="https://scratch.mit.edu/projects/829930955/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
+        
+        <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
+        </p>
+    `
+      ),
       en: `
         <p>You have a wonderfully relaxed aura! That inspired me to develop this little relaxed game.
         </p>

@@ -2773,11 +2773,16 @@ PIXI.loader
     // date: '2020-08-17',
     deps: [47, 79, 87],
     html: {
-      de: `
-      <p>Du hast es gleich zur Passage geschafft! Dafür schenke ich dir ein Smiley.
-      </p>
-      
-      <pre class="bg-dark p-3"><code>                  const d = [68,
+      de: story(
+        'Kiwi',
+        `
+        <p>Wenn wir genug Zeit haben, würde ich dir auch unbedingt Programmieren beibringen wollen. Ausnahmsweise ist das keine verbotene Aktivität, denn solange man sich an den Auftrag hält, sieht das Technik-Dekret kein Problem.</p>
+
+        <p>Aber sei dir bewusst, mein Unterricht wird nicht so ganz orthodox sein. Ich schreibe meine Programme auf eine etwas ... kreativere Art.</p>
+
+        <p>Dieser Smiley ist ein Programm, das dir die Antwort sagt. Kopiere es auf eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> oder in die Browser-Konsole und führe es aus.</p>`,
+        `
+        <pre class="bg-dark p-3" style="width:400px;"><code>                  const d = [68,
              105,               101,
          32,                         65,
       110,                             116,
@@ -2796,9 +2801,8 @@ PIXI.loader
         x                             x
            xxxxx                xxx*/
                  window.alert(e)</code></pre>
-                 
-      <p>Wenn du das Smiley als Programm ausführst, erhältst du die Antwort auf diese Aufgabe. Eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> hilft.</p>
-    `,
+    `
+      ),
       en: `
       <p>You're already very close to the passage! Here is a small gift for you.
       </p>

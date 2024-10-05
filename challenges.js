@@ -1133,15 +1133,20 @@ const part1 = [
     // date: '2017-08-26',
     deps: [45, 47, 48, 87],
     html: {
-      de: `
-      <p>Taste vorsichtig über das Feld und lies die Antwort ab:
-      </p>
-      
-      <p><svg id="chal27"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal27.js"></script>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Ich werde alt, daran kann keine Technik was verändern. Kein Grund zu verzweifeln. Ich mache, was ich kann. Vor kurzem habe ich angefangen, die Blindenschrift zu lernen. Das hält meine grauen Zellen auf Trapp.</p>
+
+        <p>Taste vorsichtig über das Feld und lies die Antwort ab:
+        </p>
+        
+        <p><svg id="chal27"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal27.js"></script>
+    `
+      ),
       en: `
      <p>Carefully key over the field and read the answer:
      </p>

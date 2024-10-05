@@ -1556,38 +1556,40 @@ const part1 = [
     // date: '2020-05-20',
     deps: [2, 47, 79],
     html: {
-      de: `
-      <p>Ein schnulziges Gedicht ... oder doch eine geheime Botschaft?
-      </p>
-      
-      <p><em>
-        <strong>D</strong>ie langen Stunden vor dem Rechner<br>
-        <strong>i</strong>m dunklen oder hellen Zimmer,<br>
-        <strong>e</strong>rgeben doch einen Sinn<br>
-        <strong>a</strong>m Ende der Zeit!<br>
-        <br>
-        <strong>N</strong>icht verzagen ist das Motto<br>
-        <strong>t</strong>reuen Herzens weitergehen!<br>
-        "<strong>W</strong>ohin des Wegs", so mancher fragt,<br>
-        <strong>O</strong>, es ist ein weiter!<br>
-        <br>
-        <strong>R</strong>astet nicht, ihr Hackerhelden<br>
-        <strong>t</strong>reten nicht dem Rennen aus.<br>
-        <strong>L</strong>asst uns gemeinsam durch dieses Feuer:<br>
-        <strong>A</strong>lle für einen und einer für alle.<br>
-        <br>
-        <strong>U</strong>nd wenn uns doch mal Mühsal packt<br>
-        <strong>t</strong>raut euch auch im Hilfe zu bitten.<br>
-        <strong>E</strong>ine Schande ist es nicht, zu fragen,<br>
-        <strong>t</strong>raurig wär's, wenn es das wäre.<br>
-        <br>
-        <strong>S</strong>o ist das ganze Leben wohl<br>
-        <strong>t</strong>rotz all der müßigen Momente<br>
-        <strong>e</strong>in Fest des Lebens! Jawohl, das ist es.<br>
-        <strong>N</strong>icht zu vergessen,<br>
-        <strong>O</strong>stern und Weihnachten.</em>
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Ich habe eine gewisse Schwäche für schnulzige Gedichte. Aber lasse dich davon nicht täuschen! Wenn du jemals ein solches Gedicht von mir erhältst, solltest du immer deine Augen für geheime Botschaften offen halten.
+        </p>`,
+        `<p><em>
+          <strong>D</strong>u fragst mich: Bin ich glücklich?<br>
+          <strong>I</strong>mmer auf der Hut, auf Mission,<br>
+          <strong>e</strong>in kleiner Fehler und alles ist vorbei -<br>
+          <strong>a</strong>m Ende doch vergebens?<br>
+          <br>
+          <strong>N</strong>ein, es ist nicht vergebens.<br>
+          <strong>T</strong>aten sprechen für sich.<br>
+          <strong>W</strong>er seinem Herzen folgt wird<br>
+          <strong>o</strong>hne Zweifel ein Leuchtturm sein.<br>
+          <br>
+          <strong>R</strong>uhe ich auch mal? - fragst du mich.<br>
+          <strong>T</strong>ag für Tag bin ich unterwegs.<br>
+          <strong>L</strong>ache nur noch selten diese Jahre,<br>
+          <strong>a</strong>lles ist so kalt geworden.<br>
+          <br>
+          <strong>U</strong>nd du hast Recht, es ist<br>
+          <strong>t</strong>rostlos manchmal, fast verzweifelnd vor<br>
+          <strong>e</strong>iner so großeren Herausforderung zu stehen:<br>
+          <strong>T</strong>rostlos und erschreckend<br>
+          <br>
+          <strong>S</strong>chön doch hier zu sein bei dir, wir<br>
+          <strong>t</strong>rotzen dem gemeinsam,<br>
+          <strong>e</strong>ine kleine Familie, hier die<br>
+          <strong>n</strong>iemand erwartet, die uns verbindet.<br>
+          <strong>O</strong>h, ich frage mich: Ist das schon Glück?<br>
+        </em></p>
+    `
+      ),
       en: `
        <p>A just a bad poem... or a secret message?
        </p>

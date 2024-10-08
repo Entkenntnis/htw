@@ -515,16 +515,18 @@ const part1 = [
     // date: '2017-05-17',
     deps: [55, 114],
     html: {
-      de: `
-      <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
-      </p>
-      
-      <p>Das glaubst du nicht? Hier ein Beispiel: Deine Antwort ist das Ergebnis von 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.
-      </p>
-      
-      <p>Warte kurz, ich hole schnell meinen Taschenrechner ...
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Es gibt Menschen, die gut Kopfrechnen können - und es gibt mich: Jemand, der mehr Spaß daran hat, Muster zu finden und mit denen zu spielen. Kurz gesagt: Ich bin sehr langsam im Kopfrechnen, mir macht Mathe trotzdem Spaß.</p>
+
+        <p>Schauen wir uns die Rechnung 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = ? an.</p>
+
+        <p>Und ich denke: Hey, die 1 und die 9 passen doch gut zusammen! Und die 3 und die 7 sind auch ein gutes Paar ... so könnte ich die ganze Zeit weitermachen ...</p>
+
+        <p>Sei du produktiver. Das Ergebnis der Rechnung ist deine Antwort.</p>
+    `
+      ),
       en: `
       <p>Hello, mental arithmetic artist! You solve tasks faster than I can enter them in the calculator.
       </p>
@@ -546,17 +548,18 @@ const part1 = [
     // date: '2017-05-17',
     deps: [8],
     html: {
-      de: `
-      <p>Du bist nicht nur gut im Kopfrechnen, sondern auch gut in Mustererkennung. Mit bisschen Geschick kannst du dir viel Arbeit sparen.
-      </p>
-      
-      <p>Deine Antwort ist das Ergebnis von 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Es gibt gewöhnliche Muster - und es gibt Zahlen, die einfach nur zusammengehören, wie die 1 und die 99, selbst wenn sie an zwei verschiedenen Enden der Rechnung stehen.</p>
+
+        <p>Mit einem Blick für Muster hast du 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99 schnell berechnet.</p>
+    `
+      ),
       en: `
       <p>You are not only good at mental math but also skilled in pattern recognition. With a bit of skill, you can save a lot of work.</p>
 
-      <p>Your answer is the result of 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.</p>
+      <p>Your answer is the result of 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99.</p>
     `,
     },
     solution: secrets('chal_9'),
@@ -569,13 +572,15 @@ const part1 = [
     // date: '2017-05-18',
     deps: [9],
     html: {
-      de: `
-      <p>Kopfrechen-Genius, geschickt - und dazu mit guter Vorstellungskraft. Damit löst du auch komplexe Probleme auf elegante Art und Weise.
-      </p>
-      
-      <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Es ist am Ende dir überlassen, wie du rechnest, sei es im Kopf, mit dem Computer oder durch geschicktes Zusammenfassen. Am Ende zählt das Ergebnis und jeder Weg dahin hat einen Sinn.</p>
+        
+        <p>Berechne das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
+        </p>
+    `
+      ),
       en: `
       <p>Mental math genius, skilled - and with a good imagination. With that, you solve complex problems in an elegant manner.</p>
 

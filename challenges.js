@@ -299,18 +299,15 @@ const part1 = [
         de: story(
           'Josh',
           `
-          <p>Das Technik-Dekret verbietet uns Menschen, die Sprache der Computer zu lernen. Den meisten Menschen ist das egal. Aber für mich geht damit etwas sehr wertvolles verloren.</p>
+          <p>Das Technik-Dekret verbietet uns Menschen, die interne Sprache der Computer zu lernen. Den meisten Menschen ist das egal. Aber für mich geht damit etwas sehr wertvolles verloren.</p>
           
           <p>Mache es dir gemütlich, du lernst jetzt das ABC der Informatik, oder besser das 1-2-3.</p>
           
-          <p>Zahlen sind Zahlen. Damit lassen sich Größen beschreiben, aber keine Texte. Doch was passiert, wenn wir jedem Zeichen eine Nummer geben? Tada - wir können im Computer Texte darstellen.</p>
+          <p>Schau dir diese Tabelle an. Du findest Zeichen und links daneben ihre Computer-Codes. Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
 
-          <p>In dieser Tabelle siehst du die Zuordnungen für einige Buchstaben. Diese Zuordnung mit dem Namen ASCII ist schon über 100 Jahre alt und bis heute in Gebrauch!</p>
-          
           ${renderTable('Code', 'Zeichen')}
           
-          <p>Ein Beispiel: Das Dollar-Zeichen wird im Computer mit der Zahl 36 gespeichert. Voila, jetzt bist du dran. Deine Antwort in Codes lautet:
-          </p>
+          <p>Jetzt bist du dran. Deine Antwort in Codes lautet:</p>
           
           <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
           </p>

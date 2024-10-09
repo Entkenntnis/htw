@@ -2842,10 +2842,13 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [68, 110],
     html: {
-      de: `
-      <p>Im Hintergrund der <a href="/chals/chal66/index.html" target="_blank">Matrix</a> ist ein Wort versteckt. Schaue genau hin und achte auf die Schatten.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Im Hintergrund der <a href="/chals/chal66/index.html" target="_blank">Matrix</a> ist ein Wort versteckt. Schaue genau hin und achte auf die Schatten.
+        </p>
+    `
+      ),
       en: `
       <p>There is a word hidden in the background of the <a href="/chals/chal66/index.html" target="_blank">Matrix</a>. Look closely and pay attention to the shadows.
       </p>

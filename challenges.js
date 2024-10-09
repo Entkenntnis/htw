@@ -3773,13 +3773,16 @@ PIXI.loader
     title: { de: 'Baum', en: 'Tree' },
     deps: [68, 336],
     html: {
-      de: `
-        <p>Computer und Natur sind zwei verschiedene Welten. Ich verbringe gerne Zeit in beiden. Und beide können sich gegenseitig bereichern.</p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, etwas mit Natur einzubauen.</p>
 
-        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-width:500px"></p>
+        <p>Du weißt, wie man in den <a href="https://www.seo-kueche.de/blog/quelltext-einer-webseite-anzeigen-lassen/" target="_blank">Quelltext einer Seite</a> kommt? Sehr gut, dann bist du vorbereitet. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung.</p>
 
-        <p>Der wissenschaftliche Name dieser Baumgattung ist deine Antwort. Keine Sorge, wenn du dich wenig mit Bäumen auskennst: Im Quellcode findet sich vielleicht ein Hinweis.</p>
-      `,
+        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></p>
+      `
+      ),
       en: `
         <p>Computers and nature are two different worlds. I enjoy spending time in both. And both can enrich each other.</p>
 

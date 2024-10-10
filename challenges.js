@@ -732,25 +732,30 @@ const part1 = [
     // date: '2017-05-18',
     deps: [55, 66, 114],
     html: {
-      de: `
-      <p>Deine Antwort ist der Slogan von Hack The Web. Die Eingabe gerät wieder durcheinander.</p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich wollte Kiwi vorschlagen, dass wir uns als Gruppe einen Slogan zulegen. Mein Vorschlag ist &quot;Beweise dein Können!&quot;, weil mich das am meisten mit Hack The Web verbindet. Kiwi ist davon noch nicht ganz überzeugt, sie meint das wäre zu wenig politisch oder so ...</p>
+
+        <p>Hey, hast du mir überhaupt zugehört? Deine Antwort ist mein Vorschlag für einen Slogan. Bei der Eingabe gerät aber etwas durcheinander.</p>
+    `
+      ),
       en: `
       <p>The answer is the slogan of Hack The Web. Your input is jumbled again.</p>
     `,
     },
     check: (answer, { req }) => {
       const text =
-        req.lng == 'de' ? 'Zeig, was in dir steckt!' : 'Prove your skill.'
+        req.lng == 'de' ? 'Beweise dein Können!' : 'Prove your skill.'
       const input = answer
-        .replace(/[^a-zA-Z ]/g, '')
+        .replace(/[^a-zA-ZäöüÄÖÜß ]/g, '')
         .trim()
         .split(' ')
       input.reverse()
       const str = input.join(' ').toLowerCase()
       return {
         answer: str,
-        correct: str === text.replace(/[^a-zA-Z ]/g, '').toLowerCase(),
+        correct: str === text.replace(/[^a-zA-ZäüöÄÜÖß ]/g, '').toLowerCase(),
       }
     },
   },
@@ -2024,29 +2029,31 @@ const part1 = [
     // date: '2020-08-01',
     deps: [66, 111],
     html: {
-      de: `
-      <p>Bei diesem Quiz ist jemandem doch glatt die Kreativität ausgegangen.
-      </p>
-      
-      <hr />
-      
-      <p class="my-4">Klicke auf das X:</p>
-      
-      <p>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1">X</button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2">.</button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3">.</button>
-      </p>
-      
-      <div class="progress my-4">
-        <div class="progress-bar" role="progressbar" style="width: 0;" id="progress"></div>
-      </div>
-      
-      <p id="status"></p>
-      
-      
-      <script src="/chals/chal53.js"></script>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich möchte noch ganz gerne meine Base fertig bauen. Beschäftige dich doch in der Zwischenzeit mit diesem Quiz. In ungefähr einer Stunde bin ich bei dir.</p>
+        
+        <hr />
+        
+        <p class="my-4">Klicke auf das X:</p>
+        
+        <p>
+          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1">X</button>
+          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2">.</button>
+          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3">.</button>
+        </p>
+        
+        <div class="progress my-4">
+          <div class="progress-bar" role="progressbar" style="width: 0;" id="progress"></div>
+        </div>
+        
+        <p id="status"></p>
+        
+        
+        <script src="/chals/chal53.js"></script>
+    `
+      ),
       en: `
       <p>Someone just ran out of creativity with this quiz.
       </p>

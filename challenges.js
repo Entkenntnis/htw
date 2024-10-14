@@ -1179,14 +1179,13 @@ const part1 = [
       de: story(
         'Josh',
         `
-        <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
-        </p>
-        
-        <p>Zum Glück bieten moderne Browser Werkzeuge an, mit denen man eine Website bearbeiten kann und damit auch das eine oder andere nervige Element verschwinden lässt. (Falls diese nicht zur Verfügung stehen: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='/webxray/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri',document.location.origin + '/webxray');document.body.appendChild(script);}())">X-Ray laden</a>)
-        </p>
-        
-        <div style="position:absolute;width:1000px;height:1000px;background-color:green" id="banner">
-          <span style="font-size:100px" id="text">Herzlichen Glückwunsch! Sie haben gewonnen!</span>
+        <p>Werbung hat eine große Macht auf uns. Durch die konstante Ablenkung wird unsere Aufmerksamkeit manipuliert. Aber wird sind nicht hilflos! Im Browser haben wir die Möglichkeit, gegen Werbung vorzugehen und diese zu blockieren.</p>
+
+        <p>Das geht auch per Hand. Schaue dir diese Seite an. Eine Werbung verdeckt die Aufgabe. Du kannst den Inspektor des Browsers öffnen (meist F12) und das störende Element entfernen. Falls das nicht verfügbar ist: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='/webxray/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri',document.location.origin + '/webxray');document.body.appendChild(script);}())">die Alternative "X-Ray" laden</a>.</p>
+        `,
+        `
+        <div style="position:absolute;width:1000px;height:1000px;background-color:green;padding-left:16px;" id="banner">
+          <span style="font-size:100px;" id="text">Hacken gefährdet unsere Sicherheit! Halten Sie sich an das Technik-Dekret!</span>
           <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
         </div>
         

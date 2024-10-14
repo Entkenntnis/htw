@@ -1497,15 +1497,17 @@ const part1 = [
     // date: '2020-05-20',
     deps: [17, 31, 53],
     html: {
-      de: `
-      <p>Nichts auf der Welt ist so schön wie dein Lächeln. Ich könnte es den ganzen Tag anschauen.
-      </p>
-      
-      <p>Schicke mir ein Lächeln. Deine Antwort ist dieses Emoji:
-      </p>
-      
-      <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich mag Emojis. Selbst wenn ich mal nicht gut drauf bin, kann ich Menschen ein Lächeln schicken. Ich finde das ziemlich praktisch.</p>
+        
+        <p>Schicke mir ein Lächeln. Deine Antwort ist dieses Emoji:
+        </p>
+        
+        <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
+    `
+      ),
       en: `
       <p>Nothing in the world is as beautiful as your smile. I could look at it all day.
       </p>
@@ -2241,17 +2243,18 @@ const part1 = [
     // date: '2020-08-17',
     deps: [17, 53],
     html: {
-      de: `
-      <p>Für dich gibt es keine Grenzen, mit welchen Mitteln man einen Geheimtext schreibt. Du kommst mit allen Methoden klar - auch wenn es ein ganz eigener Code ist.
-      </p>
-      
-      <p>Die Anfangsbuchstaben folgender Elemente aus Teyvat ergeben deine Antwort.
-      </p>
-      
-      <p><img src="/chals/chal58_2.png" alt="genshin"></p>
-      
-      <p><small><a href="https://genshin-impact.fandom.com/wiki/Element" target="_blank">Hinweis</a></small></p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Es könnte der Eindruck entstehen, dass ich außer Minecraft nichts anderes spiele. Aber das stimmt nicht. Früher habe ich auch viel Zeit in der Welt von Teyvat verbracht.</p>
+
+        <p>Ich beweise es dir. Hier ist ein Geheimtext. Die Anfangsbuchstaben folgender Elemente ergeben deine Antwort.</p>
+        
+        <p><img src="/chals/chal58_2.png" alt="genshin" width="540"></p>
+        
+        <p><small><a href="https://game8.co/games/Genshin-Impact/archives/384388" target="_blank">Hinweis</a></small></p>
+    `
+      ),
       en: `
         <p>There are no limits for you when it comes to writing a secret text. You can handle all methods — even if it is a very special code.
         </p>
@@ -2871,11 +2874,16 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [37],
     html: {
-      de: `
-      <p>Verbinde die Adern in der richten Reihenfolge mit dem Stecker. Nutze dabei den Standard TIA-568B.</p>
-    
-      <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Hacken kann man wirklich alles, sei es Software, Hardware oder andere Systeme. Der menschlichen Kreativität sind keine Grenzen gesetzt, zumindest nicht so enge, wie die Regierung es uns vorschreiben möchte.</p>
+        
+        <p>Es kann passieren, dass du auch mal eine Internet-Leitung selber bauen musst. Nutze den Standard <a href="https://de.wikipedia.org/wiki/TIA-568A/B" target="_blank">TIA-568B</a> und verbinde die Adern. Die Buchstaben ergeben deine Antwort.</p>
+      
+        <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
+    `
+      ),
       en: `
       <p>Connect the wires in the right order with the plug. Use the TIA-568B standard.</p>
       
@@ -3364,31 +3372,36 @@ PIXI.loader
     // date: '2022-12-28',
     deps: [9, 37, 58],
     html: {
-      de: `
-      <p>Unintuitive Formulare sind ein Schrecken für jeden Internetbenutzer. Zum Beispiel findest du die Antwort zu dieser Aufgabe in diesem viel zu kleinen Textfeld:</p>
-      
-      <p><input size="5" value="-> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> Die Antwort lautet ${secrets(
-        'chal_81'
-      )}"/>
-      </p>
-      
-      <p>Wir kommen zum witzigen Teil. Nur eines der Eingabefelder funktioniert:</p>
-      
-      ${(() => {
-        let output = ''
-        for (let i = 0; i < 25; i++) {
-          output += `
-            <form autocomplete="off" method="post" id="challenge_form"${
-              i !== 18 ? ' action="/falsches_Eingabefeld"' : ''
-            }>
-              <input id="challenge_answer" type="text" name="answer" style="height:32px">
-              <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
-            </form>
-          `
-        }
-        return output
-      })()}
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Willkommen zum Hindernislauf von Hack The Web mit zwei Hürden 🏃‍♀️. Mache dich bereit für nervige Formulare im Internet.</p>
+        
+        <p>Finde als erstes deine Antwort in diesem viel zu kleinen Textfeld:</p>
+        
+        <p><input size="5" value="-> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> Die Antwort lautet ${secrets(
+          'chal_81'
+        )}"/>
+        </p>
+        
+        <p>Schicke jetzt die Antwort ab. Nur eines der Eingabefelder funktioniert:</p>
+        
+        ${(() => {
+          let output = ''
+          for (let i = 0; i < 15; i++) {
+            output += `
+              <form autocomplete="off" method="post" id="challenge_form"${
+                i !== 11 ? ' action="/falsches_Eingabefeld"' : ''
+              }>
+                <input id="challenge_answer" type="text" name="answer" style="height:32px">
+                <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+              </form>
+            `
+          }
+          return output
+        })()}
+    `
+      ),
       en: `
       <p>Unintuitive forms are a nightmare for every internet user. For example, you can find the answer to this task in this much too small text field:</p>
       

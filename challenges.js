@@ -154,17 +154,18 @@ const part1 = [
     // date: '2017-05-17',
     deps: [28, 81],
     html: {
-      de: `
-        <p>Der Inhalt einer Nachricht ist ganz unabhängig von seiner Codierung. Man kann lateinische Buchstaben verwenden - oder seine Finger!
-        </p>
-        
-        <p>Die Antwort zu dieser Aufgabe findet sich im folgenden Bild:
-        </p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Ich bin Hackerin aus Notwendigkeit. Es ist mein Weg, mich auszudrücken in dieser Gesellschaft. Sich mitteilen zu können ist ein wichtiges Bedürfnis. Wir Menschen haben uns dafür so viele unterschiedliche Methoden einfallen lassen. Ich finde das inspirierend.</p>
+
+        <p>Finger sind alles, was man zum Sprechen braucht. Deine Antwort findest du in diesen Gesten:</p>
         
         <p><img src="/chals/chal2.gif" alt="fingercode"></p>
         
         <small><a href="https://gebaerdenlernen.ch/woerterbuch" target="_blank">Quelle</a></small>
-      `,
+      `
+      ),
       en: `
          <p>The content of a message is completely independent of its encoding. You can use Latin letters — or your fingers!
          </p>

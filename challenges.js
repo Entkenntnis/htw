@@ -1176,25 +1176,28 @@ const part1 = [
     // date: '2017-08-26',
     deps: [18, 58],
     html: {
-      de: `
-       <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
-       </p>
-       
-       <p>Zum Glück bieten moderne Browser Werkzeuge an, mit denen man eine Website bearbeiten kann und damit auch das eine oder andere nervige Element verschwinden lässt. (Falls diese nicht zur Verfügung stehen: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='https://x-ray-goggles.mouse.org/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri','https://x-ray-goggles.mouse.org');document.body.appendChild(script);}())">X-Ray laden</a>)
-       </p>
-       
-       <div style="position:absolute;width:1000px;height:1000px;background-color:green" id="banner">
-         <span style="font-size:100px" id="text">Herzlichen Glückwunsch! Sie haben gewonnen!</span>
-         <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
-       </div>
-       
-       <p>Die Antwort zu dieser Aufgabe lautet <span id="solution"></span>.
-       </p>
-       
-       <script src="/chals/chal28.js"></script>
-       <!--suppress JSDeprecatedSymbols -->
-       <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
-     `,
+      de: story(
+        'Josh',
+        `
+        <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
+        </p>
+        
+        <p>Zum Glück bieten moderne Browser Werkzeuge an, mit denen man eine Website bearbeiten kann und damit auch das eine oder andere nervige Element verschwinden lässt. (Falls diese nicht zur Verfügung stehen: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='/webxray/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri',document.location.origin + '/webxray');document.body.appendChild(script);}())">X-Ray laden</a>)
+        </p>
+        
+        <div style="position:absolute;width:1000px;height:1000px;background-color:green" id="banner">
+          <span style="font-size:100px" id="text">Herzlichen Glückwunsch! Sie haben gewonnen!</span>
+          <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
+        </div>
+        
+        <p>Die Antwort zu dieser Aufgabe lautet <span id="solution"></span>.
+        </p>
+        
+        <script src="/chals/chal28.js"></script>
+        <!--suppress JSDeprecatedSymbols -->
+        <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
+     `
+      ),
       en: `
       <p>Annoying advertising banners that block the content - who hasn't seen that? In this case too, an advertisement obscures the answer to the challenge.
       </p>
@@ -1542,13 +1545,16 @@ const part1 = [
     // date: '2020-05-20',
     deps: [81],
     html: {
-      de: `
-      <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. In der Seefahrt wird dieses Potenzial voll ausgenutzt.
-      </p>
-      
-      <p>Schau dir <a href="/chals/chal39.mp4">dieses Video</a> an. Welches Wort ergeben die Buchstaben der Signalflaggen?
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. Das ist praktisch, wenn man ganz unauffällig eine Nachricht übermitteln möchte. Viele kennen das <a href="https://de.wikipedia.org/wiki/Flaggenalphabet" target="_blank">Flaggenalphabet</a> aus der Seefahrt nicht.
+        </p>
+        
+        <p>Schau dir <a href="/chals/chal39.mp4">dieses Video</a> an. Finde die Antwort.
+        </p>
+    `
+      ),
       en: `
       <p>Flags can have many meanings: They exist for countries and territories, but you can also use them as signals and alphabets. This potential is fully exploited in shipping.
       </p>

@@ -64,7 +64,7 @@ module.exports = (App) => {
     // Helper function to calculate mean
     function calculateMean(values) {
       const sum = values.reduce((acc, val) => acc + val, 0)
-      return (sum / values.length).toLocaleString()
+      return (sum / values.length).toLocaleString('de-DE')
     }
 
     // Helper function to calculate frequency of each Likert scale (1-5)

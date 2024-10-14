@@ -901,28 +901,24 @@ const part1 = [
     // date: '2017-08-25',
     deps: [51, 80],
     html: {
-      de: `
-      <p>
-        Es ist super cool, hilfsbereite Menschen wie dich zu haben. Das macht den Alltag so viel angenehmer, wenn man mal den Weg nicht weiß oder an der Kasse seinen Geldbeutel vergessen hat :)
-      </p>
-      
-      <p>Gleichzeitig ist es auch kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter.
-      </p>
-      
-      <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web findest du Antworten auf deine Fragen. Im Forum tauschen sich SpielerInnen zu den Aufgaben aus.
-      </p>
-      
-      <p>Hier siehst du einen Screenshot vom Forum. Entdeckst du die Antwort?
-      </p>
+      de: story(
+        'Bex',
+        `
+        <p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
 
-      <img src="/chals/21.png" width="500px" style="margin-top:12px;margin-bottom:24px;"/>
+        <p>Falls wir mal nicht erreichbar, kannst du auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web Fragen stellen und dir Tipps zu den Aufgaben holen.</p>
 
-      <p>Du bist natürlich auch herzlich einladen, dem Server beizutreten!</p>
+        <p>So sieht das Forum aus. In diesem Screenshot findest du die Antwort zu dieser Aufgabe.</p>
 
-      <p>
-       <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
-       </p>
-    `,
+        <a href="/chals/21.png" target="_blank"><img src="/chals/21.png" width="500px" style="margin-top:12px;margin-bottom:24px;"/></a>
+
+        <p>Du bist herzlich einladen, dem Server beizutreten!</p>
+
+        <p>
+        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
+        </p>
+    `
+      ),
       en: `
        <p>
            It is super cool to have helpful people like you. It makes everyday life so much more pleasant when you don't know the way or forget your wallet at the checkout :)
@@ -1021,7 +1017,7 @@ const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Wir können dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
+        <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Hier können wir dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
 
         <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
         `,
@@ -2454,169 +2450,175 @@ const part1 = [
     // date: '2020-08-17',
     deps: [7, 80],
     html: {
-      de: `
-      <p>Anleitung: Klicke auf das Spielfeld. Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet.</p>
-      
-      <p>Du sieht die Antwort, sobald du 1000 Punkte erreichst. Das Spiel hat keine Cheats eingebaut - du musst es daher selber hacken.
-      </p>
-      
-      <div id="game" tabindex="1"></div>
-      
-      <script src="/pixi.min.js"></script>
-      <script src="/chals/chal63/matter.js"></script>
-      
-      <button onclick="handleLeft()">Left</button>
-      <button onclick="handleUp()">Up</button>
-      <button onclick="handleRight()">Right</button>
+      de: story(
+        'Kiwi',
+        `
+        <p>So ist das Spiel gedacht: Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet. Du siehst die Antwort, sobald du 100 Punkte erreichst.</p>
 
-      <p><button onclick="update()" style="margin-top:20px">Spiel aktualisieren</button></p>
-      
-      <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">if (app) app.ticker.stop();
-var app = new PIXI.Application(800,600,{backgroundColor:0x1099bb});
-document.getElementById('game').innerHTML = ''
-document.getElementById('game').appendChild(app.view);
+        <p>Wie man das Spiel auch gewinnen kann: Unter dem Spiel findest du den Quellcode. Diesen kannst du verändern und das Spiel aktualiseren. In der Funktion <code>initGame()</code> wird ziemlich am Anfang <code>updateScore(0)</code> ausgeführt. Ändere diese Zeile zu einer hohen Zahl und gewinne das Spiel sofort.</p>
+        
+        <p>Wähle deinen Weg.</p>`,
+        `
+        <div id="game" tabindex="1" style="outline:none;"></div>
+        
+        <script src="/pixi.min.js"></script>
+        <script src="/chals/chal63/matter.js"></script>
+        
+        <button onclick="handleLeft()">Left</button>
+        <button onclick="handleUp()">Up</button>
+        <button onclick="handleRight()">Right</button>
 
-var engine = Matter.Engine.create(),
-world = engine.world;
+        <p><button onclick="update()" style="margin-top:20px">Spiel aktualisieren</button></p>
+        
+        <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">const HOLZ = '/chals/chal63/holz.jpg'
+const BALL = '/chals/chal63/ball.png'
 
-var HOLZ = "/chals/chal63/holz.jpg"
-var BALL = "/chals/chal63/ball.png"
+const gameEl = document.getElementById('game')
 
-PIXI.loader.reset()
+if (window.app) app.ticker.stop()
+window.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb })
+gameEl.innerHTML = ''
+gameEl.appendChild(app.view)
 
-PIXI.loader
-.add(HOLZ)
-.add(BALL)
-.load(() => {
+const engine = Matter.Engine.create()
+const world = engine.world
 
-  var basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
+function initGame() {
+  const basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
   window.basicText = basicText
   basicText.x = 30
   basicText.y = 90
-  
-  var woodTexture = PIXI.loader.resources[HOLZ].texture
-  
+
+  function updateScore(newScore) {
+    window.score = newScore
+    basicText.text = window.score.toString()
+  }
+
+  updateScore(0)
+
+  const woodTexture = PIXI.loader.resources[HOLZ].texture
+
   function buildWoodBlock(x, y, w, h, id) {
     var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
     app.stage.addChild(block)
-    Matter.World.add(world, Matter.Bodies.rectangle(x+w/2, y+h/2, w, h, {isStatic:true, id}))
+    Matter.World.add(
+      world,
+      Matter.Bodies.rectangle(x + w / 2, y + h / 2, w, h, {
+        isStatic: true,
+        id,
+      })
+    )
     block.x = x
     block.y = y
   }
-  
+
   buildWoodBlock(0, 570, 800, 30, 1)
   buildWoodBlock(0, 170, 30, 400, 2)
   buildWoodBlock(770, 170, 30, 400, 3)
-  buildWoodBlock(350,50,100,100, 4)
-  
-  
-  var ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
+  buildWoodBlock(350, 50, 100, 100, 4)
+
+  const ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
   ball.x = 300
   ball.y = 200
   ball.width = 100
   ball.height = 100
   ball.anchor.set(0.5)
   app.stage.addChild(ball)
-  
-  var border = undefined
-  
-  if (window.score === undefined) {
-    window.score = 0
-    basicText.text = window.score.toString()
-  }
-  
-  var circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
+
+  let border = undefined
+
+  const circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
   Matter.World.add(world, circle)
-  Matter.Events.on(engine, "collisionStart", data => {
+  Matter.Events.on(engine, 'collisionStart', (data) => {
     if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
-      window.score = 0
-      basicText.text = window.score.toString()
-    }
-    else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined)
-        border = 2
-      
+      updateScore(0)
+    } else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined) border = 2
+
       if (data.pairs[0].bodyA.id == border) {
-        window.score++
-        basicText.text = window.score.toString()
+        updateScore(window.score + 1)
         border = 3
       }
-    }
-    else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined)
-        border = 3
-      
+    } else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined) border = 3
+
       if (data.pairs[0].bodyA.id == border) {
-        window.score++
-        basicText.text = window.score.toString()
+        updateScore(window.score + 1)
         border = 2
       }
     }
   })
-  
+
   function handleUp() {
-    var angle = Math.random()*40-20-90
-    var r = angle/180*Math.PI
-    Matter.Body.applyForce(circle, circle.position, {x:Math.cos(r)*0.24,y:Math.sin(r)*0.24})
+    const angle = Math.random() * 40 - 20 - 90
+    const r = (angle / 180) * Math.PI
+    Matter.Body.applyForce(circle, circle.position, {
+      x: Math.cos(r) * 0.24,
+      y: Math.sin(r) * 0.24,
+    })
   }
-  
+
   function handleLeft() {
-    Matter.Body.applyForce(circle, circle.position, {x:-0.2,y:-0.05})
+    Matter.Body.applyForce(circle, circle.position, { x: -0.2, y: -0.05 })
   }
-  
+
   function handleRight() {
-    Matter.Body.applyForce(circle, circle.position, {x:+0.2,y:-0.05})
+    Matter.Body.applyForce(circle, circle.position, { x: +0.2, y: -0.05 })
   }
-  
+
   document.handleLeft = handleLeft
   document.handleUp = handleUp
   document.handleRight = handleRight
-  
-  
+
   document.getElementById('game').onkeydown = (key) => {
-    if (key.keyCode == 38) {
+    if (key.code == 'ArrowUp') {
       handleUp()
       key.preventDefault()
     }
-    
-    if (key.keyCode == 37) {
+
+    if (key.code == 'ArrowLeft') {
       handleLeft()
       key.preventDefault()
     }
-    
-    if (key.keyCode == 39) {
+
+    if (key.code == 'ArrowRight') {
       handleRight()
       key.preventDefault()
     }
   }
-  
-  app.ticker.add(delta => {
+
+  gameEl.focus()
+
+  app.ticker.add(() => {
     Matter.Engine.update(engine)
     ball.x = circle.position.x
     ball.y = circle.position.y
   })
-})
+}
+
+PIXI.loader.reset().add(HOLZ).add(BALL).load(initGame)
 </textarea></p>
     
-    <script>
-      function update() {
-        eval(document.getElementById('code').value)
-      }
-      
-      function checkDone() {
-        if (window.score >= 1000) {
-          window.basicText.text = 'Die Antwort lautet ' + (![]+[])[!+[]+!+[]+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]
+      <script>
+        function update() {
+          eval(document.getElementById('code').value)
         }
-        setTimeout(checkDone, 10)
-      }
-      
-      window.onload = () => {
-        update()
-        checkDone()
-      }
-    </script>
+        
+        function checkDone() {
+          if (window.score >= 100) {
+            window.basicText.text = 'Die Antwort lautet ' + ((+[]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]) + '.'
+          }
+          setTimeout(checkDone, 10)
+        }
+        
+        window.onload = () => {
+          update()
+          checkDone()
+        }
+      </script>
 
-    `,
+    `
+      ),
       en: `
       <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
       
@@ -2913,7 +2915,7 @@ PIXI.loader
 
         <p>Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs. Normand würde für die Zweckentfremdung der Buchstaben und Satzzeichen sicherlich im Gefängnis landen.</p>
 
-        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
+        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren? Du darfst für alle Aufgaben auf Hack The Web eine Suchmaschine verwenden.</p>
         `,
         `
         
@@ -3570,36 +3572,41 @@ PIXI.loader
     // date: '2023-04-02',
     deps: [7, 80],
     html: {
-      de: `
-      <p>Diese Seite ist leicht zerbrechlich. Probiere es aus: Du kannst alle Inhalte verändern.</p>
-      
-      <p>Ein kleiner Auftrag: Ändere den Slogan zu "Schau, was ich alles kann!"
-      </p>
-      
-      <p id="output">&nbsp;</p>
-      
-      <script>
-        document.documentElement.contentEditable = true
-          document.body.spellcheck = false
-        setTimeout(() => {
-          document.getElementById('challenge_form').contentEditable = false
-          check()
-        }, 100)
+      de: story(
+        'Josh',
+        `
+        <p>Nicht viele Menschen wissen, dass es für Webseiten einen Bearbeitungsmodus gibt. Ein Schalter genügt und und schon kann man die Seite nach Belieben verändern. Ich bin immer wieder erstaunt, was für geheime Funktion es zu entdecken gibt.</p>
+
+        <p>Den Schalter habe ich hier aktiviert. Probiere es aus. Du kannst an jeder Stelle deinen Cursor setzen und den Inhalt verändern.</p>
         
-        function check() {
-          const lead = document.querySelector('p[class="lead"]')
-          if (lead) {
-            if (lead.textContent.trim().toLowerCase() === 'schau, was ich alles kann!') {
-              document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
-                secrets('chal_86')
-              ).toString('base64')}') + '.'
-              return // don't run check anymore
+        <p>Ein kleiner Auftrag: Ändere meinen Namen zu "Yoshi" und erhalte die Antwort.
+        </p>
+        
+        <p id="output">&nbsp;</p>
+        
+        <script>
+          document.documentElement.contentEditable = true
+            document.body.spellcheck = false
+          setTimeout(() => {
+            document.getElementById('challenge_form').contentEditable = false
+            check()
+          }, 100)
+          
+          function check() {
+            const lead = document.querySelector('.avatar > div')
+            if (lead) {
+              if (lead.textContent.trim().toLowerCase() === 'yoshi') {
+                document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
+                  secrets('chal_86')
+                ).toString('base64')}') + '.'
+                return // don't run check anymore
+              }
             }
+            setTimeout(check, 500)
           }
-          setTimeout(check, 500)
-        }
-      </script>
-    `,
+        </script>
+    `
+      ),
       en: `
       <p>This site is easily fragile. Try it out: You can edit all content.</p>
       

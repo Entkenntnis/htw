@@ -578,7 +578,7 @@ const part1 = [
         `
         <p>Es ist am Ende dir überlassen, wie du rechnest, sei es im Kopf, mit dem Computer oder durch geschicktes Zusammenfassen. Am Ende zählt das Ergebnis und jeder Weg dahin hat einen Sinn.</p>
         
-        <p>Berechne das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
+        <p>Berechne das Ergebnis von 1 + 2 + 3 + ... + 97 + 98 + 99 + 100.
         </p>
     `
       ),
@@ -2221,7 +2221,7 @@ const part1 = [
 
         <p>Bleib du erstmal hier, dieser Ort ist für dich sicher. Auf diesem Stick findest du deine weitere Ausbildung - arbeite dich soweit vor wie du kannst, wir brauchen jede Hilfe. Das Passwort für den Stick sind die Anfangsbuchstaben dieser verlinkten Aufgaben. Als Backup findest du die Antwort im Quelltext dieser Seite.</p>
         
-        <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
+        <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/18" target="_blank">18</a></p>
 
         <!-- Die Antwort lautet ${secrets('chal_57')}. -->
 
@@ -3814,9 +3814,9 @@ PIXI.loader
         `
         <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, etwas mit Natur einzubauen.</p>
 
-        <p>Du weißt, wie man in den <a href="https://www.seo-kueche.de/blog/quelltext-einer-webseite-anzeigen-lassen/" target="_blank">Quelltext einer Seite</a> kommt? Sehr gut, dann bist du vorbereitet. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung.</p>
+        <p>Also dann, schaue dir diesen Baum an. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung.</p>
 
-        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></p>
+        <p><a href="/chals/chal114_rosskastanie_aesculus.jpg" target="_blank"><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>
       `
       ),
       en: `

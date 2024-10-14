@@ -51,6 +51,7 @@ require(path)((config) => {
   config.styles.hrColor = '#313030'
   config.styles.solutionClass_correct = 'primary'
   config.styles.tableHighlightClass = 'secondary'
+  config.styles.fontSize = '15.5px'
   config.map.centeringOffset = 0.5
   config.map.width = 3000
   config.map.height = 2400

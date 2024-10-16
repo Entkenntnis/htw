@@ -1144,8 +1144,8 @@ const part1 = [
 
         <details style="margin-top:24px;margin-bottom:24px">
           <summary>Deutsche Blindenschrift</summary>
-          <p><img src="/chals/27.png" /></p>
-          <p><small>Quelle: fakoo.de</small></p>
+          <p style="margin-top:8px"><img src="/chals/27.png" /></p>
+          <p style="margin-top:-12px"><small>Quelle: fakoo.de</small></p>
         </details>
         
         <p>Taste vorsichtig über das Feld und lies die Antwort ab:

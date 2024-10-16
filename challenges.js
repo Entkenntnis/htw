@@ -120,7 +120,7 @@ const part1 = [
 
           <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
 
-          <p>Wenn du meine Worte verstanden hast, dann berechne 6 + 4 · 9 und gib die Antwort in das Eingabefeld ein.</p>  
+          <p>Hast du meine Worte verstanden? Gut. Berechne bitte 6 + 4 · 9 und gib die Antwort in das Eingabefeld ein.</p>  
         `
         ),
         en: `
@@ -163,7 +163,7 @@ const part1 = [
         
         <p><img src="/chals/chal2.gif" alt="fingercode"></p>
         
-        <small><a href="https://gebaerdenlernen.ch/woerterbuch" target="_blank">Quelle</a></small>
+        <small><a href="https://gebaerdenlernen.ch/fingeralphabet" target="_blank">Quelle</a></small>
       `
       ),
       en: `
@@ -1140,8 +1140,14 @@ const part1 = [
       de: story(
         'Josh',
         `
-        <p>Ich werde alt, daran kann keine Technik was verändern. Kein Grund zu verzweifeln. Ich mache, was ich kann. Vor kurzem habe ich angefangen, die Blindenschrift zu lernen. Das hält meine grauen Zellen auf Trapp.</p>
+        <p>Ich werde alt, daran kann keine Technik was verändern. Kein Grund zu verzweifeln. Ich mache, was ich kann. Vor Kurzem habe ich angefangen, die Blindenschrift zu lernen. Das hält meine grauen Zellen auf Trapp.</p>
 
+        <details style="margin-top:24px;margin-bottom:24px">
+          <summary>Deutsche Blindenschrift</summary>
+          <p><img src="/chals/27.png" /></p>
+          <p><small>Quelle: fakoo.de</small></p>
+        </details>
+        
         <p>Taste vorsichtig über das Feld und lies die Antwort ab:
         </p>
         
@@ -1263,12 +1269,16 @@ const part1 = [
     // date: '2017-08-26',
     deps: [21, 63],
     html: {
-      de: `
-      <p>Im welchem Jahr liegt der Zeitpunkt 817876800?
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Die meisten Computerprogramme speichern Zeitpunkte nicht als Datum. Stattdessen werden sie eine einzelne Zahl. Wenn man das System dafür kennt - in diesem Fall <a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">UNIX</a> - kann man das Datum wieder zurückrechnen.</p>
+        
+        <p>Mein Geburtstag war zum Zeitpunkt 1417499338. In welchem Jahr bin ich geboren?</p>
+    `
+      ),
       en: `
-      <p>In which year is the point in time 817876800?
+      <p>In which year is the point in time 1417499338?
       </p>
     `,
     },
@@ -1648,18 +1658,17 @@ const part1 = [
     // date: '2020-05-20',
     deps: [70],
     html: {
-      de: `
-      <p>Wer kennt ihn nicht: Der Wurm, der uns ins Gehör kriegt und uns Tag und Nacht verfolgt?
-      </p>
-      
-      <p>Hier ein Beispiel dafür:
-      </p>
-      
-      <audio src="/chals/chal_42.mp3" controls loop></audio>
-      
-      <p>Die Frage ist nun: Wie heißt der Song?
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich habe seit ein paar Tagen diesen Ohrwurm. Ich weiß nicht woher er kommt, doch irgendwie erinnert mich dieser Song an meine Vergangenheit.</p>
+        
+        <audio src="/chals/chal_42.mp3" controls loop style="margin-bottom:12px;"></audio>
+        
+        <p>Bitte schaue nach und sage mir den Titel des Songs. Ich traue mich nicht, es selbst zu tun.
+        </p>
+    `
+      ),
       en: `
       <p>Who doesn't know him: the song that gets into our ears and haunts us day and night?
       </p>
@@ -3124,23 +3133,21 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [63, 86],
     html: {
-      de: `
-      <p>Wenn wir heute in einem LEGO-Wettbewerb gegeneinander antreten würde, dann hätte ich gegen dich keine Chance. Irgendwie war ich kreativer, als ich noch jung war.
-      </p>
-      
-      <p>Zum Glück braucht Programmieren nicht so viel Kreativität, sondern man kann sich mehr auf das Problemlösen konzentrieren. Robot Karol versucht, einen Mittelweg zu finden und an die LEGO-Welt anzuschließen. Hier findest du eine <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">Online-Version</a> von Robot Karol.
-      </p>
-      
-      <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
-      </iframe>
-      
-      <p>Baue folgenden Code mit Karol und führe das Programm aus.
-      </p>
-      
-      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
-      
-      <p>Die Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Aus scheinbar einfachen Systemen können komplexe und schöne Strukturen entstehen, die man gar nicht erwartet hätte. So ist es mit Algorithmen. Diese bestehen aus ein paar wenigen Bausteinen, doch erlauben erstaunlich viele Kombinationen. Sich mit solchen Systemen auszukennen ist sehr mächtig. Denn dann kannst du überall mit ganz wenigen Mitteln deine eigenen Systeme bauen ...</p>
+
+        <p>So weit sind wir noch nicht. Nimm dir erstmal eine <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">3x9-Welt</a> und schaue dir dieses Programm an:</p>
+
+        <p><img src="/chals/chal70_2.png" alt="blockly"></p>
+
+        <p>Schwer vorherzusagen, was das Ergebnis ist. Baue es nach und starte das Programm. Deine Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>`,
+        `
+        <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
+        </iframe>
+    `
+      ),
       en: `
       <p>If we competed against each other in a LEGO competition today, I wouldn't stand a chance against you. Somehow, I was more creative when I was young.
       </p>
@@ -3154,7 +3161,6 @@ PIXI.loader
       <p>Build the following code with Karol and run the program.
       </p>
       
-      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
       
       <p>The answer is the number of yellow tokens at the end.</p>
       
@@ -3205,27 +3211,28 @@ PIXI.loader
     // date: '2022-02-09',
     deps: [21, 63],
     html: {
-      de: `
-      <p>Die meisten Webseiten können sich an die Größe des Bildschirms anpassen, sei es ein Handy, Tablet oder großer Monitor. In der analogen Welt gibt es diese Möglichkeiten nicht. Dort findet sich häufig nur das Format DIN A4.
-      </p>
-      
-      <p>Eine Webseite lässt sich auch in das DIN-A4-Format bringen, zum Beispiel durch die Druckvorschau. Dort findest du die Antwort zu dieser Aufgabe.
-      </p>
-      
-      <p class="print-only">Die Antwort lautet ${secrets('chal_78')}.</p>
-      
-      <style>
-        .print-only {
-          display: none;
-        }
-        @media print { 
+      de: story(
+        'Kiwi',
+        `
+        <p>Es gibt super viele Möglichkeiten, Nachrichten zu verstecken. Kaum jemand druckt heute noch Webseiten aus. Und das ist eine Chance, eine geheime Nachricht in der Druckvorschau zu verstecken.</p>
+
+        <p>In der Druckvorschau zu dieser Seite findest du deine Antwort.</p>
+        
+        <p class="print-only">Die Antwort lautet ${secrets('chal_78')}.</p>
+        
+        <style>
           .print-only {
-            display: block;
-            font-size: 4em;
+            display: none;
           }
-        }
-      </style>
-    `,
+          @media print { 
+            .print-only {
+              display: block;
+              font-size: 4em;
+            }
+          }
+        </style>
+    `
+      ),
       en: `
       <p>Most websites can adapt to the size of the screen, be it a mobile phone, tablet or large monitor. In the analog world, these options do not exist. There you will often only find the DIN A4 format.
       </p>
@@ -3814,7 +3821,7 @@ PIXI.loader
         `
         <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, etwas mit Natur einzubauen.</p>
 
-        <p>Also dann, schaue dir diesen Baum an. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung.</p>
+        <p>Also dann, schaue dir diesen Baum an. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung. Und pssst, ich habe dir einen Tipp versteckt.</p>
 
         <p><a href="/chals/chal114_rosskastanie_aesculus.jpg" target="_blank"><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>
       `

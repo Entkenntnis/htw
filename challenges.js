@@ -1090,24 +1090,19 @@ const part1 = [
     // date: '2017-08-26',
     deps: [30, 78],
     html: {
-      de: `
-      <p>Du siehst aus wie jemand, der sich für Backstories interessiert! Die Entstehungsgeschichte von Hack The Web hat ein paar spannende Aspekte und hier gibt es eine kleine Geschichtsstunde nur für dich.
-      </p>
-      
-      <p>Das Konzept von Aufgaben (<em>Challenges</em>), die in einer Karte angeordnet sind, hat Hack The Web von <a href="https://hacker.org/" target="_blank">Hacker.org</a> übernommen. Diese Seite ist eine großartige Inspiration, aber auch sie ist nicht vom Himmel gefallen. Als die Challenges im Jahr 2008 veröffentlicht wurden, fand sich auf der Domain schon viele Jahre ein Projekt, dass als Hacker-Community beschrieben werden könnte.
-      </p>
-      
-      <p>Dank des Internet Archives können wir in der Zeit zurückreisen und du kannst erleben, wie sich diese Community verstanden hat.
-      </p>
-      
-      <p>Hier siehst du eine Version von hacker.org vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>.
-      </p>
-      
-      <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
-      
-      <p>Deine Antwort ist die E-Mail-Adresse des Betreibers.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Josh meinte, Hacker gab es schon, seitdem das Internet erfunden wurde. Ich habe ihm das nicht geglaubt. Doch als ich in den Archiven gesucht habe, bin ich auf interessante Seiten gestoßen.</p>
+        
+        <p>Hier ist eine Website vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>. Ich muss sagen, sie ist ... speziell. Ich verstehe vielleicht einen Bruchteil der Abkürzungen, doch ich bin erleichtert, dass auch die Hacker damals nicht perfekt waren in englischer Rechtschreibung :)</p>
+
+        <p>Im Begrüßungstext (&quot;Hi every one ...&quot;) gibt es vier fehlerhaft geschriebene Worte. Nutze eines davon deiner Wahl in der fehlerhaften Form als deine Antwort.</p>
+        `,
+        `
+        <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
+    `
+      ),
       en: `
       <p>You look like someone who is interested in backstories! There are a few exciting aspects to Hack The Web's origin story, and here's a little history lesson just for you.
       </p>
@@ -1123,11 +1118,11 @@ const part1 = [
       
       <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
       
-      <p>Your answer is the operator's email address.
+      <p>Your answer is any one of the misspelled words in the greeting text.
       </p>
     `,
     },
-    solution: secrets('chal_26'),
+    solution: secrets('chal_26').split(','),
   },
 
   {
@@ -1878,20 +1873,19 @@ const part1 = [
     // date: '2020-05-21',
     deps: [30, 70],
     html: {
-      de: `
-      <p>Was diese winkeligen Zeichen wohl sagen mögen?
-      </p>
-      
-      <p><img src="/chals/chal50.png" alt="winkelschrift"></p>
-      
-      <p>Zum Glück gibt es folgenden Hinweis:
-      </p>
-      
-      <p><img src="/chals/chal50.gif" alt="winkelschrift hint"></p>
-      
-      <p>Der erste Buchstabe des Texts ist ein D, der letzte Buchstabe des Texts ein S.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Ich schmeiße dich ins kalte Wasser. Mach dich einmal mit dieser Anleitung vertraut. Du siehst die Buchstaben des Alphabets an verschiedenen Orten untergebracht, mal mit Punkt und mal ohne Punkte.</p>
+
+        <p><img src="/chals/chal50.gif" alt="winkelschrift hint"></p>
+
+        <p>Hier ist deine Nachricht. Du erkennst sicherlich gewisse Ähnlichkeiten: Die Punkte sind wieder da, einige bekannte Formen ... das ist deine Antwort in der Winkelschrift, entschlüssle sie!
+        </p>
+        
+        <p class="my-4"><img src="/chals/chal50.png" alt="winkelschrift"></p>
+    `
+      ),
       en: `
       <p>What do these angular signs mean?
       </p>

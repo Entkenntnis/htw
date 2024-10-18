@@ -188,17 +188,99 @@ const part1 = [
     // date: '2017-05-17',
     deps: [42, 50],
     html: {
-      de: `
-        <p>Wie komfortabel heute die Kommunikation geworden ist! Mit WhatsApp und Facebook kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor hundert Jahren die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
+      de: story(
+        'Josh',
+        `
+        <p>Wie komfortabel heute die Kommunikation geworden ist! Mit einem Messenger kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor wenigen Jahrzehnten die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
+        </p>
+
+        <details style="margin-top:16px;margin-bottom:24px;">
+          <summary>Morse-Alphabet</summary>
+          <table style="border-collapse: collapse; width: 100%; text-align: center;">
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">A</td>
+              <td style="border: 1px solid black; padding: 4px;">• −</td>
+              <td style="border: 1px solid black; padding: 4px;">J</td>
+              <td style="border: 1px solid black; padding: 4px;">• − − −</td>
+              <td style="border: 1px solid black; padding: 4px;">S</td>
+              <td style="border: 1px solid black; padding: 4px;">• • •</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">B</td>
+              <td style="border: 1px solid black; padding: 4px;">− • • •</td>
+              <td style="border: 1px solid black; padding: 4px;">K</td>
+              <td style="border: 1px solid black; padding: 4px;">− • −</td>
+              <td style="border: 1px solid black; padding: 4px;">T</td>
+              <td style="border: 1px solid black; padding: 4px;">−</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">C</td>
+              <td style="border: 1px solid black; padding: 4px;">− • − •</td>
+              <td style="border: 1px solid black; padding: 4px;">L</td>
+              <td style="border: 1px solid black; padding: 4px;">• − • •</td>
+              <td style="border: 1px solid black; padding: 4px;">U</td>
+              <td style="border: 1px solid black; padding: 4px;">• • −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">D</td>
+              <td style="border: 1px solid black; padding: 4px;">− • •</td>
+              <td style="border: 1px solid black; padding: 4px;">M</td>
+              <td style="border: 1px solid black; padding: 4px;">− −</td>
+              <td style="border: 1px solid black; padding: 4px;">V</td>
+              <td style="border: 1px solid black; padding: 4px;">• • • −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">E</td>
+              <td style="border: 1px solid black; padding: 4px;">•</td>
+              <td style="border: 1px solid black; padding: 4px;">N</td>
+              <td style="border: 1px solid black; padding: 4px;">− •</td>
+              <td style="border: 1px solid black; padding: 4px;">W</td>
+              <td style="border: 1px solid black; padding: 4px;">• − −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">F</td>
+              <td style="border: 1px solid black; padding: 4px;">• • − •</td>
+              <td style="border: 1px solid black; padding: 4px;">O</td>
+              <td style="border: 1px solid black; padding: 4px;">− − −</td>
+              <td style="border: 1px solid black; padding: 4px;">X</td>
+              <td style="border: 1px solid black; padding: 4px;">− • • −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">G</td>
+              <td style="border: 1px solid black; padding: 4px;">− − •</td>
+              <td style="border: 1px solid black; padding: 4px;">P</td>
+              <td style="border: 1px solid black; padding: 4px;">• − − •</td>
+              <td style="border: 1px solid black; padding: 4px;">Y</td>
+              <td style="border: 1px solid black; padding: 4px;">− • − −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">H</td>
+              <td style="border: 1px solid black; padding: 4px;">• • • •</td>
+              <td style="border: 1px solid black; padding: 4px;">Q</td>
+              <td style="border: 1px solid black; padding: 4px;">− − • −</td>
+              <td style="border: 1px solid black; padding: 4px;">Z</td>
+              <td style="border: 1px solid black; padding: 4px;">− − • •</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">I</td>
+              <td style="border: 1px solid black; padding: 4px;">• •</td>
+              <td style="border: 1px solid black; padding: 4px;">R</td>
+              <td style="border: 1px solid black; padding: 4px;">• − •</td>
+              <td style="border: 1px solid black; padding: 4px;"> </td>
+              <td style="border: 1px solid black; padding: 4px;"> </td>
+            </tr>
+          </table>
+
+        </details>
+        
+        <p>Das sollte für uns kein Hindernis sein. Höre dir dieses Audio-Datei an. Darin findest du die Antwort zu dieser Aufgabe.
         </p>
         
-        <p>Aber das sollte auch für dich kein Hindernis sein. Höre dir <a href ="/chals/chal3.wav">diese Datei</a> an. Darin findest du die Antwort zu dieser Aufgabe.
-        </p>
+        <audio src="/chals/chal3.wav" controls style="margin-bottom:16px;"></audio>
         
-        <audio src="/chals/chal3.wav" controls></audio>
-        
-        <p>Dein PC hat keine Lautsprecher? Scanne <a href="/chals/chal3_code.png">diesen QR-Code</a>, um dir die Datei auf dem Handy anzuhören.</p>
-      `,
+        <p>Dein PC hat keine Lautsprecher? Scanne <a href="/chals/chal3_code.png">diesen QR-Code</a>, um dir <a href ="/chals/chal3.wav">die Datei</a> auf dem Handy anzuhören.</p>
+      `
+      ),
       en: `
         <p>How comfortable communication has become today! With WhatsApp and Facebook, you can easily send and receive messages all over the world — it is easy to forget that a hundred years ago the situation was completely different. At that time, for example, in seafaring, one had nothing more than a beep and the Morse alphabet to communicate!
         </p>
@@ -1225,20 +1307,24 @@ const part1 = [
     // date: '2017-08-26',
     deps: [30, 78],
     html: {
-      de: `
-      <p>Die Anfangsbuchstaben folgender deutscher Orte ergeben die Antwort:
-      </p>
-      
-      <p>
-        52.7073, 8.5031<br>
-        48.63253, 12.85515<br>
-        50.9761, 8.8677<br>
-        53.2724, 12.824<br>
-        48.0336, 7.7649<br>
-        49.59637, 11.11833<br>
-        53.679, 10.6947
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich würde gerne mehr Orte sehen. Als Teil einer Widerstandsgruppe müssen wir leider sehr aufpassen und vermeiden viele Gebiete.</p>
+
+        <p>Für diese Aufgabe habe ich ein paar GPS-Koordinaten herausgesucht. Die Anfangsbuchstaben dieser deutschen Orte ergeben deine Antwort. Das hat leider mein Fernweh nur noch verschlimmert ...</p>
+        
+        <p>
+          52.7073, 8.5031<br>
+          48.63253, 12.85515<br>
+          50.9761, 8.8677<br>
+          53.2724, 12.824<br>
+          48.0336, 7.7649<br>
+          49.59637, 11.11833<br>
+          53.679, 10.6947
+        </p>
+      `
+      ),
       en: `
       <p>The first letters of these towns are the answer to this challenge:  
       </p>
@@ -2281,29 +2367,34 @@ const part1 = [
     // date: '2020-08-17',
     deps: [23, 78],
     html: {
-      de: `
-      <p>Schon als Kind hat es super viel Spaß gemacht, einen Geheimtext Stück für Stück zu entschlüsseln. Hier kannst das auf interaktive Art nacherleben.
-      </p>
-      
-      <p>Anleitung: Drücke zwei Buchstaben <strong>gleichzeitig</strong> auf der Tastatur, diese werden hervorgehoben und vertauscht.
-      </p>
-    
-      <pre id="output" style="font-size:16px;white-space:pre-wrap;margin-top:48px">
-      </pre>
-      
-      <div id="debug" style="text-align:right"></div>
-      
-      
-      <script>
-        window.htw_locale = 'de'
-      </script>
-      <script src="/chals/chal59.js"></script>
-      
-      <div style="height:40px"></div>
-      
-      <p>Die Antwort ist der Name der Person, die den ersten Satz sagt.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Geheimtexte haben eine magische Anziehung auf mich. Hier kannst das auf interaktive Art nacherleben.
+        </p>
+        
+        <p>Anleitung: Drücke zwei Buchstaben <strong>gleichzeitig</strong> auf der Tastatur, diese werden hervorgehoben und vertauscht.
+        </p>
+        
+        <p>Du kannst immer wieder Worte erraten. Hangle dich an diesen entlang, bis zu den gesamten Text entschlüsselt hast.</p>`,
+        `
+        <pre id="output" style="font-size:16px;white-space:pre-wrap;margin-top:48px">
+        </pre>
+        
+        <div id="debug" style="text-align:right"></div>
+        
+        
+        <script>
+          window.htw_locale = 'de'
+        </script>
+        <script src="/chals/chal59.js"></script>
+        
+        <div style="height:40px"></div>
+        
+        <p>Die Antwort ist der Name der Person, die den ersten Satz sagt.
+        </p>
+    `
+      ),
       en: `
         <p>Even as a child, it was a lot of fun to decipher a secret text piece by piece. Here you can relive this in an interactive way.
         </p>
@@ -3294,9 +3385,12 @@ PIXI.loader
         `
         <p>Das Technik-Dekret war auch ein großer Rückschlag für queere Menschen. Die Gesellschaft ist hartherziger geworden. Und darunter leiden die, die eh schon mehr Last zu tragen haben.</p>
 
-        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>
-      
-      <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
+        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
+        `
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <textarea class="form-control" style="height:425px;font-family:monospace;" id="css-input" oninput="update()">#bar1 {
   background-color: green;
 }
 #bar2 {
@@ -3314,19 +3408,24 @@ PIXI.loader
 #bar6 {
   background-color: orange;
 }</textarea>
-      
-      <div style="width:389px;border:1px solid black">
-        <div style="height:40px" id="bar1"></div>
-        <div style="height:40px" id="bar2"></div>
-        <div style="height:40px" id="bar3"></div>
-        <div style="height:40px" id="bar4"></div>
-        <div style="height:40px" id="bar5"></div>
-        <div style="height:40px" id="bar6"></div>
+          </div>
+
+          <div class="col-lg-6 col-md-12">
+            <div style="max-width:390px;border:1px solid black">
+              <div style="height:40px" id="bar1"></div>
+              <div style="height:40px" id="bar2"></div>
+              <div style="height:40px" id="bar3"></div>
+              <div style="height:40px" id="bar4"></div>
+              <div style="height:40px" id="bar5"></div>
+              <div style="height:40px" id="bar6"></div>
+            </div>
+            <style id="injector"></style>
+            
+            <div id="result" style="margin-top:10px"></div>
+          </div>
+        </div>
       </div>
-      
-      <style id="injector"></style>
-      
-      <div id="result" style="margin-top:10px"></div>
+          
       
       <script>lng='de'</script>
       <script src="/chals/chal80_2.js"></script>

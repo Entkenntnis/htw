@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const escapeHtml = require('escape-html')
 
-const cutoff = '2024-09-10'
+const cutoff = '2024-10-20'
 
 module.exports = (App) => {
   App.express.get('/survey', async (req, res) => {
@@ -64,7 +64,7 @@ module.exports = (App) => {
     // Helper function to calculate mean
     function calculateMean(values) {
       const sum = values.reduce((acc, val) => acc + val, 0)
-      return (sum / values.length).toLocaleString()
+      return (sum / values.length).toLocaleString('de-DE')
     }
 
     // Helper function to calculate frequency of each Likert scale (1-5)

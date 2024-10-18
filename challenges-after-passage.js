@@ -1817,7 +1817,7 @@ print(hex_string)</pre></code>
       <p>Schön, dass du so regelmäßig hier vorbeischaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
       </p>
       
-      <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur drei Regeln. Wie lautet die zweite Regel?
+      <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur vier Regeln. Wie lautet die zweite Regel?
       </p>
     `,
       en: `
@@ -1827,7 +1827,7 @@ print(hex_string)</pre></code>
       <p>It's nice that you stop by here so regularly. Well, rules: They help us to organize our interactions better. Many rules probably don't make much sense, but there are some that are valuable.
       </p>
       
-      <p>On our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> we only have three rules. What is the second rule (in the german rule channel)?
+      <p>On our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> we only have four rules. What is the second rule (in the german rule channel)?
       </p>
       
       
@@ -2313,7 +2313,7 @@ print(hex_string)</pre></code>
     deps: [57],
     html: {
       de: `
-        <p>Viele Menschen verwenden Passwörter, die mit ihren Interessen und Hobbies zusammenhängen. Dadurch sind diese Passwörter leicht zu erraten. Bei dieser Aufgabe findest du den Steckbrief einer Person. Errate das Passwort. Das Passwort besteht nur aus Kleinbuchstaben und enthält keine Zahlen, Leerzeichen oder Sonderzeichen.</p>
+        <p>Viele Menschen verwenden Passwörter, die mit ihren Interessen und Hobbies zusammenhängen. Dadurch sind diese Passwörter leicht zu erraten. Bei dieser Aufgabe findest du den Steckbrief einer Person. Errate das Passwort. Das Passwort besteht nur aus Kleinbuchstaben und enthält keine Zahlen, Leerzeichen oder Sonderzeichen. Beispiele: <code>taylorswift</code>, <code>taytay</code>, <code>munich</code> ...</p>
 
         <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
           <p><strong>Steckbrief von Marie</strong></p>
@@ -2328,7 +2328,7 @@ print(hex_string)</pre></code>
         </div>
       `,
       en: `
-        <p>Many people use passwords that are related to their interests and hobbies. As a result, these passwords are easy to guess. In this task, you will find the profile of a person. Guess the password. The password consists only of lowercase letters and contains no numbers, spaces, or special characters.</p>
+        <p>Many people use passwords that are related to their interests and hobbies. As a result, these passwords are easy to guess. In this task, you will find the profile of a person. Guess the password. The password consists only of lowercase letters and contains no numbers, spaces, or special characters. Examples: <code>taylorswift</code>, <code>taytay</code>, <code>munich</code> ...</p></p>
 
         <div style="padding:24px;padding-bottom:10px;max-width:65ch;" class="jumbotron">
           <p><strong>Profile of Marie</strong></p>

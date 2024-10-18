@@ -50,6 +50,50 @@ function calculator(lng = 'de') {
   `
 }
 
+function story(name, intro, task) {
+  return `
+    <style>
+      .story-container {
+        display: flex;
+        justify-content: start;
+        flex-direction: column-reverse;
+        align-items:end;
+        margin-top: -40px;
+      }
+      .story-content :last-child {
+        margin-bottom:0px
+      }
+      @media (min-width: 768px) {
+        .story-container {
+          flex-direction: row;
+          align-items:start;
+          margin-top: 0px;
+        }
+        .avatar {
+          margin-top: -40px
+        }
+      }
+      .avatar {
+        margin-left: 48px;
+        padding-bottom: 6px;
+      }
+    </style>
+
+    <div class="story-container">
+      <div style="max-width:65ch" class="story-content">
+        ${intro}
+        ${task ? `<hr><br>` : ''}
+      </div>
+      <div class="avatar">
+        <img src="/story/${name.toLowerCase()}.jpg" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
+        <div style="text-align:center;">${name}</div>
+      </div>
+    </div>
+
+    ${task ? task : ''}
+`
+}
+
 const part1 = [
   {
     id: 1,
@@ -65,23 +109,20 @@ const part1 = [
         )
       }
       return {
-        de: `
-          <p>Herzlich willkommen bei Hack The Web! Hier beginnt deine spannende Reise durch die Welt des Hackings. Es wird eine Reise voller Abenteuer sein. Herausforderungen aus ganz verschiedenen Themenbereichen warten auf dich. An ihnen kannst du dein Können unter Beweis stellen oder dir die Zähne ausbeißen.</p>
-        
-          <p>Bei den meisten Aufgaben geht es darum, aus den Angaben heraus eine Antwort zu finden. Allerdings findet sich diese meist nur, wenn man die Aufgabe aus der richtigen Perspektive betrachtet - eben aus der Perspektive einer Hacker*in.</p>
-        
-          <p>Bei der Bearbeitung der Aufgaben sind ausdrücklich alle Hilfsmittel erlaubt. Du darfst im Internet suchen, einen Taschenrechner oder Chatbot verwenden, mit Stift und Papier Notizen machen... Fühl dich frei und nutze die Tools, die dir bei der Bearbeitung der Aufgaben am meisten helfen.
-          </p>
-          
-          ${
-            req.user.RoomId !== null
-              ? `<p>Falls du einem Raum beigetreten bist und an einer Hacking-Session teilnimmst: Nach der Bearbeitung dieser Aufgabe starten die 30 Minuten. Innerhalb dieser Zeit ist es dein Ziel, so viele Aufgaben wie möglich zu bearbeiten. Deine Punktzahl für diese 30 Minuten wird in die Highscore des Raums eingetragen.
-          </p>`
-              : ''
-          }
-        
-          <p>Bist du bereit? Dann lasst uns anfangen! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
-        `,
+        de: story(
+          'Kiwi',
+          `
+          <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
+
+          <p>Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden neblig sein, das ist normal nach deinen zwei Jahren Haft. Wir haben jetzt das Jahr 2077.
+
+          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir stellen uns gegen das Technik-Dekret der Regierung. Menschen wie du soll nicht bestraft werden, nur weil sie Technik zu einem anderen Zweck als vorgesehen nutzen. Es ist absurd, jemanden wegen dem Umbau einer Kaffeemaschine zu einem Wecker für viele Jahre wegzusperren.</p>
+
+          <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
+
+          <p>Fühl dich hier wie zu Hause. Du bist unser Gast. Das Ergebnis von 6 + 4 · 9 ist der PIN für die meisten Türen in diesem Gebäude. Tippe den PIN in das Eingabefeld.</p>
+        `
+        ),
         en: `
           <p>Welcome to Hack The Web! Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or struggle with them.</p>
     
@@ -113,17 +154,18 @@ const part1 = [
     // date: '2017-05-17',
     deps: [28, 81],
     html: {
-      de: `
-        <p>Der Inhalt einer Nachricht ist ganz unabhängig von seiner Codierung. Man kann lateinische Buchstaben verwenden - oder seine Finger!
-        </p>
-        
-        <p>Die Antwort zu dieser Aufgabe findet sich im folgenden Bild:
-        </p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Ich bin Hackerin aus Notwendigkeit. Es ist mein Weg, mich auszudrücken in dieser Gesellschaft. Sich mitteilen zu können ist ein wichtiges Bedürfnis. Wir Menschen haben uns dafür so viele unterschiedliche Methoden einfallen lassen. Ich finde das inspirierend.</p>
+
+        <p>Finger sind alles, was man zum Sprechen braucht. Deine Antwort findest du in diesen Gesten:</p>
         
         <p><img src="/chals/chal2.gif" alt="fingercode"></p>
         
-        <small><a href="https://gebaerdenlernen.ch/woerterbuch" target="_blank">Quelle</a></small>
-      `,
+        <small><a href="https://gebaerdenlernen.ch/fingeralphabet" target="_blank">Quelle</a></small>
+      `
+      ),
       en: `
          <p>The content of a message is completely independent of its encoding. You can use Latin letters — or your fingers!
          </p>
@@ -146,17 +188,99 @@ const part1 = [
     // date: '2017-05-17',
     deps: [42, 50],
     html: {
-      de: `
-        <p>Wie komfortabel heute die Kommunikation geworden ist! Mit WhatsApp und Facebook kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor hundert Jahren die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
+      de: story(
+        'Josh',
+        `
+        <p>Wie komfortabel heute die Kommunikation geworden ist! Mit einem Messenger kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor wenigen Jahrzehnten die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
+        </p>
+
+        <details style="margin-top:16px;margin-bottom:24px;">
+          <summary>Morse-Alphabet</summary>
+          <table style="border-collapse: collapse; width: 100%; text-align: center;">
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">A</td>
+              <td style="border: 1px solid black; padding: 4px;">• −</td>
+              <td style="border: 1px solid black; padding: 4px;">J</td>
+              <td style="border: 1px solid black; padding: 4px;">• − − −</td>
+              <td style="border: 1px solid black; padding: 4px;">S</td>
+              <td style="border: 1px solid black; padding: 4px;">• • •</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">B</td>
+              <td style="border: 1px solid black; padding: 4px;">− • • •</td>
+              <td style="border: 1px solid black; padding: 4px;">K</td>
+              <td style="border: 1px solid black; padding: 4px;">− • −</td>
+              <td style="border: 1px solid black; padding: 4px;">T</td>
+              <td style="border: 1px solid black; padding: 4px;">−</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">C</td>
+              <td style="border: 1px solid black; padding: 4px;">− • − •</td>
+              <td style="border: 1px solid black; padding: 4px;">L</td>
+              <td style="border: 1px solid black; padding: 4px;">• − • •</td>
+              <td style="border: 1px solid black; padding: 4px;">U</td>
+              <td style="border: 1px solid black; padding: 4px;">• • −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">D</td>
+              <td style="border: 1px solid black; padding: 4px;">− • •</td>
+              <td style="border: 1px solid black; padding: 4px;">M</td>
+              <td style="border: 1px solid black; padding: 4px;">− −</td>
+              <td style="border: 1px solid black; padding: 4px;">V</td>
+              <td style="border: 1px solid black; padding: 4px;">• • • −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">E</td>
+              <td style="border: 1px solid black; padding: 4px;">•</td>
+              <td style="border: 1px solid black; padding: 4px;">N</td>
+              <td style="border: 1px solid black; padding: 4px;">− •</td>
+              <td style="border: 1px solid black; padding: 4px;">W</td>
+              <td style="border: 1px solid black; padding: 4px;">• − −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">F</td>
+              <td style="border: 1px solid black; padding: 4px;">• • − •</td>
+              <td style="border: 1px solid black; padding: 4px;">O</td>
+              <td style="border: 1px solid black; padding: 4px;">− − −</td>
+              <td style="border: 1px solid black; padding: 4px;">X</td>
+              <td style="border: 1px solid black; padding: 4px;">− • • −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">G</td>
+              <td style="border: 1px solid black; padding: 4px;">− − •</td>
+              <td style="border: 1px solid black; padding: 4px;">P</td>
+              <td style="border: 1px solid black; padding: 4px;">• − − •</td>
+              <td style="border: 1px solid black; padding: 4px;">Y</td>
+              <td style="border: 1px solid black; padding: 4px;">− • − −</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">H</td>
+              <td style="border: 1px solid black; padding: 4px;">• • • •</td>
+              <td style="border: 1px solid black; padding: 4px;">Q</td>
+              <td style="border: 1px solid black; padding: 4px;">− − • −</td>
+              <td style="border: 1px solid black; padding: 4px;">Z</td>
+              <td style="border: 1px solid black; padding: 4px;">− − • •</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid black; padding: 4px;">I</td>
+              <td style="border: 1px solid black; padding: 4px;">• •</td>
+              <td style="border: 1px solid black; padding: 4px;">R</td>
+              <td style="border: 1px solid black; padding: 4px;">• − •</td>
+              <td style="border: 1px solid black; padding: 4px;"> </td>
+              <td style="border: 1px solid black; padding: 4px;"> </td>
+            </tr>
+          </table>
+
+        </details>
+        
+        <p>Das sollte für uns kein Hindernis sein. Höre dir dieses Audio-Datei an. Darin findest du die Antwort zu dieser Aufgabe.
         </p>
         
-        <p>Aber das sollte auch für dich kein Hindernis sein. Höre dir <a href ="/chals/chal3.wav">diese Datei</a> an. Darin findest du die Antwort zu dieser Aufgabe.
-        </p>
+        <audio src="/chals/chal3.wav" controls style="margin-bottom:16px;"></audio>
         
-        <audio src="/chals/chal3.wav" controls></audio>
-        
-        <p>Dein PC hat keine Lautsprecher? Scanne <a href="/chals/chal3_code.png">diesen QR-Code</a>, um dir die Datei auf dem Handy anzuhören.</p>
-      `,
+        <p>Dein PC hat keine Lautsprecher? Scanne <a href="/chals/chal3_code.png">diesen QR-Code</a>, um dir <a href ="/chals/chal3.wav">die Datei</a> auf dem Handy anzuhören.</p>
+      `
+      ),
       en: `
         <p>How comfortable communication has become today! With WhatsApp and Facebook, you can easily send and receive messages all over the world — it is easy to forget that a hundred years ago the situation was completely different. At that time, for example, in seafaring, one had nothing more than a beep and the Morse alphabet to communicate!
         </p>
@@ -175,16 +299,16 @@ const part1 = [
   {
     id: 4,
     pos: { x: 260, y: 380 },
-    title: { de: 'ASCII', en: 'ASCII' },
+    title: { de: 'Codes', en: 'Codes' },
     // date: '2017-05-17',
     deps: [15, 24],
     render: () => {
       function renderTable(col1, col2) {
         return `
-         <div class="container" style="margin-top:24px;margin-bottom:24px;">
+         <div class="container" style="margin-top:24px;margin-bottom:24px">
           <div class="row">
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -206,7 +330,7 @@ const part1 = [
               </table>
             </div>
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -228,7 +352,7 @@ const part1 = [
               </table>
             </div>
             <div class="col">
-              <table class="table table-bordered table-hover table-sm table-dark justify-content-between">
+              <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>
                   <tr>
                     <th scope="col">${col1}</th>
@@ -255,28 +379,23 @@ const part1 = [
       }
 
       return {
-        de: `
-          <p>Du bist eine mutige Person! Du hast dich von den kryptischen Buchstaben im Titel dieser Aufgabe nicht abschrecken lassen.
-          </p>
+        de: story(
+          'Josh',
+          `
+          <p>Das Technik-Dekret verbietet uns Menschen, die interne Sprache der Computer zu lernen. Den meisten Menschen ist das egal. Aber für mich geht damit etwas sehr wertvolles verloren.</p>
           
-          <p>
-            Viele Dinge in der Informatik sehen auf den ersten Blick verwirrend aus. Vor allem, wenn man keine Übersetzungshilfe hat. Aber sobald man weiß,
-            wo man Dinge nachschauen kann, werden diese weniger fremd.
-          </p>
+          <p>Mache es dir gemütlich, du lernst jetzt das ABC der Informatik, oder besser das 1-2-3.</p>
           
-          <p>
-            So ist es auch mit dem ASCII-Code. Weil Computer nur mit Zahlen arbeiten können, gibt es zu jedem Schriftzeichen einen einheitlichen Code. Einen Auszug davon
-            findest du in dieser Tabelle.
-          </p>
-          
+          <p>Schau dir diese Tabelle an. Du findest Zeichen und links daneben ihre Computer-Codes. Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
+
           ${renderTable('Code', 'Zeichen')}
           
-          <p>Ein Beispiel: Das Dollar-Zeichen wird im Computer mit der Zahl 36 gespeichert. Voila, jetzt bist du dran. Deine Antwort in Codes lautet:
-          </p>
+          <p>Jetzt bist du dran. Deine Antwort in Codes lautet:</p>
           
           <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
           </p>
-        `,
+        `
+        ),
         en: `
           <p>You are a brave person! You were not deterred by the cryptic letters in the title of this challenge.
           </p>
@@ -317,24 +436,26 @@ const part1 = [
     // date: '2017-05-17',
     deps: [1],
     html: {
-      de: `
-        <p>Diese Aufgabe hier funktioniert wie das Schreiben mit Zitronentinte: Man nimmt einen Füller und taucht ihn in den Saft einer frischgepressten Zitrone. Damit schreibt man seine geheime Nachricht auf ein weißes Blatt Papier. Weil der Saft transparent ist, schreibt man sozusagen "weiß auf weiß" und ein Anderer kann die Nachricht nicht lesen. Die Person, die die Nachricht empfängt, hält das Papier über eine Flamme. Durch die Hitze verfärbt sich der Zitronensaft und die Nachricht wird sichtbar.
-        </p>
+      de: story(
+        'Kiwi',
+        `
+          <p>Na, bereit? Komm, ich möchte dir was zeigen.</p>
+
+          <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text für das Auge nicht erkennbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
+
+          <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier. Finde die Antwort.</p>
+        `,
+        `
+          <p>--- Hier fängt das Blatt an ---</p>
         
-        <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort:
-        </p>
-        
-        <br>
-        
-        <p>--- Hier fängt das Blatt an ---</p>
-        
-        <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
-          'chal_5'
-        )}</span><br><br>
-        </p>
-        
-        <p>--- Hier endet das Blatt ---</p>
-      `,
+          <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
+            'chal_5'
+          )}</span><br><br>
+          </p>
+          
+          <p>--- Hier endet das Blatt ---</p>
+        `
+      ),
       en: `
         <p>This challenge here works like writing with lemon juice: You take a fountain pen and dip it in the juice of a freshly squeezed lemon. With it, you write your secret message on a white sheet of paper. Because the juice is transparent, you write "white on white" and another person cannot read the message. The person who receives the message holds the paper over a flame. The heat colors the lemon juice and the message becomes visible.
         </p>
@@ -364,37 +485,45 @@ const part1 = [
     // date: '2017-05-17',
     deps: [24],
     html: {
-      de: `
-      <p>Wenn du dir eine Website am Computer anschaust, dann siehst du eigentlich nur einen kleinen Teil der Website. Hinter den Kulissen aber gibt es noch eine ganze Welt voller Technik zu entdecken.
-      </p>
-      
-      <p>Ähnlich wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film gibt es auch den Code zu einer Website. Und darin finden sich Informationen, die sonst nicht zu sehen sind. Im Quelltext der Website wird die Antwort in diesem Kasten sichtbar:</p>
-      
-      <pre>
-      
-      __________________________________________
-      |                                        |
-      |<!-- Die Antwort lautet ${secrets(
-        'chal_6'
-      )}. -->                                        |
-      |________________________________________|
-      
-      </pre>
-      
-      <p><button onclick="transform()">Quelltext anzeigen</button></p>
-      
-      <script>
-        function transform() {
-          const code = document.body.outerHTML
-          document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
-          document.body.style.lineHeight = '1.2'
-          document.body.style.fontFamily = 'monospace'
-          document.body.style.marginLeft = '4px'
-          history.pushState({}, '')
-          onpopstate = (_) => { window.location.reload() };
-        }
-      </script>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Höre mir gut zu. Ich zeige dir jetzt eine der wichtigsten Techniken, die du als HackerIn beherrschen solltest.</p>
+
+        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil der Website. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Website.</p>
+
+        <p>Dieser Quelltext enthält viele Informationen - und Wissen ist Macht. Doch die Informationen können dich auch von der Menge her überfordern.</p>
+
+        <p>Ich biete dir einen Orientierungspunkt. Diesen Kasten wirst du im Quelltext wiederfinden. Innerhalb von diesem Kasten ist deine Antwort versteckt.</p>
+        
+        <pre>
+        
+        __________________________________________
+        |                                        |
+        |<!-- Die Antwort lautet ${secrets(
+          'chal_6'
+        )}. -->                                        |
+        |________________________________________|
+        
+        </pre>
+
+        <p>Bist du bereit? Dann klicke auf diese Schaltfläche, um den Quelltext dieser Seite zu sehen. Scrolle dort nach unten, um den Kasten zu finden.</p>
+        
+        <p><button onclick="transform()" class="btn btn-sm btn-primary" style="margin-bottom:24px;">Quelltext anzeigen</button></p>
+
+        <script>
+          function transform() {
+            const code = document.body.outerHTML
+            document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
+            document.body.style.lineHeight = '1.2'
+            document.body.style.fontFamily = 'monospace'
+            document.body.style.marginLeft = '4px'
+            history.pushState({}, '')
+            onpopstate = (_) => { window.location.reload() };
+          }
+        </script>
+    `
+      ),
       en: `
       <p>When you look at a website on your computer, you actually only see a small part of the website. But behind the scenes, there is a whole world full of technology to discover.
       </p>
@@ -437,14 +566,19 @@ const part1 = [
     // date: '2017-05-17',
     deps: [6],
     html: {
-      de: `
-      <p>Auch diesmal braucht es einen Blick in den Quelltext der Seite. Allerdings musst du das Portal selber finden. Die Antwort befindet sich direkt unter dieser Zeile ...
-      </p>
-      
-      <!-- ... und lautet ${secrets('chal_7')}. -->
-      
-      <p><small><a href="/chals/chal7_hint1.png" target="_blank">Tipp 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Tipp 2</a></small></p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Du machst gute Fortschritte. Jetzt bist du bereit, auch selbstständig den Quelltext der Seite zu öffnen und dich dort zurechtzufinden.</p>
+
+        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>. Browser haben sich in den letzten 50 Jahren kaum verändert :)</p> 
+
+        <p>Die Antwort befindet sich direkt unter dieser Zeile ...
+        </p>
+        
+        <!-- ... und lautet ${secrets('chal_7')}. -->
+    `
+      ),
       en: `
         <p>This time, too, it takes a look at the source code of the page. However, you have to find the portal yourself. The answer is directly below this line ...
         </p>
@@ -464,16 +598,18 @@ const part1 = [
     // date: '2017-05-17',
     deps: [55, 114],
     html: {
-      de: `
-      <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.
-      </p>
-      
-      <p>Das glaubst du nicht? Hier ein Beispiel: Deine Antwort ist das Ergebnis von 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.
-      </p>
-      
-      <p>Warte kurz, ich hole schnell meinen Taschenrechner ...
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Es gibt Menschen, die gut Kopfrechnen können - und es gibt mich: Jemand, der mehr Spaß daran hat, Muster zu finden und mit denen zu spielen. Kurz gesagt: Ich bin sehr langsam im Kopfrechnen, mir macht Mathe trotzdem Spaß.</p>
+
+        <p>Schauen wir uns die Rechnung 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = ? an.</p>
+
+        <p>Und ich denke: Hey, die 1 und die 9 passen doch gut zusammen! Und die 3 und die 7 sind auch ein gutes Paar ... so könnte ich die ganze Zeit weitermachen ...</p>
+
+        <p>Sei du produktiver. Das Ergebnis der Rechnung ist deine Antwort.</p>
+    `
+      ),
       en: `
       <p>Hello, mental arithmetic artist! You solve tasks faster than I can enter them in the calculator.
       </p>
@@ -495,17 +631,18 @@ const part1 = [
     // date: '2017-05-17',
     deps: [8],
     html: {
-      de: `
-      <p>Du bist nicht nur gut im Kopfrechnen, sondern auch gut in Mustererkennung. Mit bisschen Geschick kannst du dir viel Arbeit sparen.
-      </p>
-      
-      <p>Deine Antwort ist das Ergebnis von 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Es gibt gewöhnliche Muster - und es gibt Zahlen, die einfach nur zusammengehören, wie die 1 und die 99, selbst wenn sie an zwei verschiedenen Enden der Rechnung stehen.</p>
+
+        <p>Mit einem Blick für Muster hast du 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99 schnell berechnet.</p>
+    `
+      ),
       en: `
       <p>You are not only good at mental math but also skilled in pattern recognition. With a bit of skill, you can save a lot of work.</p>
 
-      <p>Your answer is the result of 1 + 99 + 2 + 98 + 3 + 97 + 4 + 96 + 5 + 95.</p>
+      <p>Your answer is the result of 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99.</p>
     `,
     },
     solution: secrets('chal_9'),
@@ -518,13 +655,15 @@ const part1 = [
     // date: '2017-05-18',
     deps: [9],
     html: {
-      de: `
-      <p>Kopfrechen-Genius, geschickt - und dazu mit guter Vorstellungskraft. Damit löst du auch komplexe Probleme auf elegante Art und Weise.
-      </p>
-      
-      <p>Berechne diesmal das Ergebnis von 1 + 2 + 3 + ... + 98 + 99 + 100.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Es ist am Ende dir überlassen, wie du rechnest, sei es im Kopf, mit dem Computer oder durch geschicktes Zusammenfassen. Am Ende zählt das Ergebnis und jeder Weg dahin hat einen Sinn.</p>
+        
+        <p>Berechne das Ergebnis von 1 + 2 + 3 + ... + 97 + 98 + 99 + 100.
+        </p>
+    `
+      ),
       en: `
       <p>Mental math genius, skilled - and with a good imagination. With that, you solve complex problems in an elegant manner.</p>
 
@@ -618,10 +757,14 @@ const part1 = [
     // date: '2017-05-18',
     deps: [1],
     html: {
-      de: `
-      <p>Die Antwort zu dieser Aufgabe ist ganz einfach dein Benutzername. Allerdings kann es sein, dass deine Eingabe beim Absenden etwas durcheinander gerät. Findest du heraus, was du eingeben musst?
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Die Menschen heute haben verlernt, auf neue, unbekannte Situationen zu reagieren. Wenn etwas nicht so funktioniert, wie sie es erwarten, dann geben sie schnell auf.</p>
+
+        <p>Die Antwort auf diese Aufgabe ist dein Benutzername. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
+      `
+      ),
       en: `
       <p>The answer to this challenge is simply your username. However, it may be that your input gets a little mixed up when you submit it. Can you find out what you have to enter?
       </p>
@@ -643,9 +786,14 @@ const part1 = [
     // date: '2017-05-18',
     deps: [15, 24],
     html: {
-      de: `
-      <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Haben dir Bex und Josh schon was gezeigt? Ich hab den beiden gesagt, sie sollen auch ihr Wissen weitergeben. Man kann von jedem Mensch was Neues lernen.</p>
+
+        <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
+    `
+      ),
       en: `
       <p>The answer to this task is your current score. Similar to before, your input is a bit jumbled.</p>
     `,
@@ -667,25 +815,30 @@ const part1 = [
     // date: '2017-05-18',
     deps: [55, 66, 114],
     html: {
-      de: `
-      <p>Deine Antwort ist der Slogan von Hack The Web. Die Eingabe gerät wieder durcheinander.</p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich wollte Kiwi vorschlagen, dass wir uns als Gruppe einen Slogan zulegen. Mein Vorschlag ist &quot;Beweise dein Können!&quot;, weil mich das am meisten mit Hack The Web verbindet. Kiwi ist davon noch nicht ganz überzeugt, sie meint das wäre zu wenig politisch oder so ...</p>
+
+        <p>Hey, hast du mir überhaupt zugehört? Deine Antwort ist mein Vorschlag für einen Slogan. Bei der Eingabe gerät aber etwas durcheinander.</p>
+    `
+      ),
       en: `
       <p>The answer is the slogan of Hack The Web. Your input is jumbled again.</p>
     `,
     },
     check: (answer, { req }) => {
       const text =
-        req.lng == 'de' ? 'Zeig, was in dir steckt!' : 'Prove your skill.'
+        req.lng == 'de' ? 'Beweise dein Können!' : 'Prove your skill.'
       const input = answer
-        .replace(/[^a-zA-Z ]/g, '')
+        .replace(/[^a-zA-ZäöüÄÖÜß ]/g, '')
         .trim()
         .split(' ')
       input.reverse()
       const str = input.join(' ').toLowerCase()
       return {
         answer: str,
-        correct: str === text.replace(/[^a-zA-Z ]/g, '').toLowerCase(),
+        correct: str === text.replace(/[^a-zA-ZäüöÄÜÖß ]/g, '').toLowerCase(),
       }
     },
   },
@@ -693,44 +846,52 @@ const part1 = [
   {
     id: 18,
     pos: { x: 930, y: 520 },
-    title: { de: 'ROT13', en: 'ROT13' },
+    title: { de: 'Verschiebung', en: 'ROT13' },
     // date: '2017-05-18',
     deps: [8, 77],
     html: {
-      de: `
-      <p>Du hast eine verschlüsselte Nachricht erhalten! Sie sieht wie kompletter Nonsens aus. Dein Hacker-Blick ist gefragt! Du siehst wunderbar aus, wenn du scharf nachdenkst.
-      </p>
-      
-      <p>Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben.</p>
-      
-      <p style="word-wrap:break-word" class="my-4" id="cipher">
-      </p>
-      
-      <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
-      
-      <script>
-        const message = 'fhcre qh unfg qra grkg resbytervpu ragfpuyhrffryg nyf orybuahat reunryfg qh aha qvr nagjbeg haq fvr ynhgrg fcvrtryovyq'
+      de: story(
+        'Josh',
+        `
+        <p>Was ich dir hier zeige, ist schon Jahrtausende alt. Es ist eine Verschlüsslung aus einer Zeit, wo es keine Computer oder ähnliche Maschinen gab. Lesen und Schreiben war nur einer kleinen Gruppe vorbehalten. Schriftliche Texte waren an sich schon eine Geheimsprache.</p>
         
-        const slider = document.getElementById('slider')
+        <p>Doch selbst dann wollte man vielleicht eine Nachricht im Geheimen übermitteln. Eine pragmatische Lösung bestand darin, die Buchstaben im Alphabet zu verschieben. Es ist eine Verschlüsslung, die für die damalige Zeit ausgereicht hat. Mit dem Blick von heute bietet sie keine ernsthafte Sicherheit mehr.</p>
+
+        <p>Überzeuge dich selbst und entschlüssle die Nachricht. Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben.</p>
+        `,
+        `
+        <p style="word-wrap:break-word" class="my-4" id="cipher">
+        </p>
+
+        <p>Verschiebung: <span id="display">0</span></p>
         
-        const cipher = document.getElementById('cipher')
+        <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
         
-        function translate(n) {
-          cipher.innerHTML = message.split('').map(c => {
-            if (c === ' ') return c
-            return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
-          }).join('')
-        }
-        
-        function change() {
-          translate(parseInt(slider.value))
-        }
-        
-        change()
-        
-        
-      </script>
-    `,
+        <script>
+          const message = 'fhcre qh unfg qra grkg resbytervpu ragfpuyhrffryg nyf orybuahat reunryfg qh aha qvr nagjbeg haq fvr ynhgrg fcvrtryovyq'
+          
+          const slider = document.getElementById('slider')
+          
+          const cipher = document.getElementById('cipher')
+          
+          function translate(n) {
+            cipher.innerHTML = message.split('').map(c => {
+              if (c === ' ') return c
+              return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
+            }).join('')
+          }
+          
+          function change() {
+            translate(parseInt(slider.value))
+            document.getElementById('display').innerHTML = slider.value
+          }
+          
+          change()
+          
+          
+        </script>
+    `
+      ),
       en: `
       <p>You have received an encrypted message! It looks like complete nonsense. Your hacker's eye is in demand! You look wonderful when you think hard.
       </p>
@@ -822,28 +983,24 @@ const part1 = [
     // date: '2017-08-25',
     deps: [51, 80],
     html: {
-      de: `
-      <p>
-        Es ist super cool, hilfsbereite Menschen wie dich zu haben. Das macht den Alltag so viel angenehmer, wenn man mal den Weg nicht weiß oder an der Kasse seinen Geldbeutel vergessen hat :)
-      </p>
-      
-      <p>Gleichzeitig ist es auch kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter.
-      </p>
-      
-      <p>Auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web findest du Antworten auf deine Fragen. Im Forum tauschen sich SpielerInnen zu den Aufgaben aus.
-      </p>
-      
-      <p>Hier siehst du einen Screenshot vom Forum. Entdeckst du die Antwort?
-      </p>
+      de: story(
+        'Bex',
+        `
+        <p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
 
-      <img src="/chals/21.png" width="500px" style="margin-top:12px;margin-bottom:24px;"/>
+        <p>Falls wir mal nicht erreichbar, kannst du auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web Fragen stellen und dir Tipps zu den Aufgaben holen.</p>
 
-      <p>Du bist natürlich auch herzlich einladen, dem Server beizutreten!</p>
+        <p>So sieht das Forum aus. In diesem Screenshot findest du die Antwort zu dieser Aufgabe.</p>
 
-      <p>
-       <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
-       </p>
-    `,
+        <a href="/chals/21.png" target="_blank"><img src="/chals/21.png" width="500px" style="margin-top:12px;margin-bottom:24px;"/></a>
+
+        <p>Du bist herzlich einladen, dem Server beizutreten!</p>
+
+        <p>
+        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
+        </p>
+    `
+      ),
       en: `
        <p>
            It is super cool to have helpful people like you. It makes everyday life so much more pleasant when you don't know the way or forget your wallet at the checkout :)
@@ -908,13 +1065,18 @@ const part1 = [
     // date: '2017-08-25',
     deps: [51, 69],
     html: {
-      de: `
-      <p>Das <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a> ist ein ähnliches Projekt wie Hack The Web, nur für Mathematik. Die Hauptrolle spielen dabei ein Einhorn-Geschwisterpaar.</p>
+      de: story(
+        'Josh',
+        `
+        <p>Früher wurde Mathematik viel mehr unterrichtet. Einige sind darin richtig aufgeblüht, für andere war das eher eine lästige Pflicht. Aus dieser Zeit stammt auch ein altes Projekt, das eine Freundin von mir entwickelt hat.</p>
+        
+        <p>Es heißt <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a>. Schaue da mal rein. </p>
 
-      <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
+        <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
 
-      <p>Besuche die Webseite. Deine Antwort ist der Name des kleinen Bruders.</p>
-    `,
+        <p>In der Hauptrolle spielt ein Einhorn-Geschwisterpaar. Deine Antwort ist der Name des kleinen Bruders.</p>
+    `
+      ),
       en: `
       <p>The <a href="https://einhorn.arrrg.de/" target="_blank">Unicorn of Mathematics</a> is a project similar to Hack The Web, but for mathematics. The main characters are a pair of unicorn siblings.</p>
 
@@ -934,7 +1096,14 @@ const part1 = [
     // date: '2017-08-25',
     deps: [1],
     html: {
-      de: `
+      de: story(
+        'Kiwi',
+        `
+        <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Hier können wir dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
+
+        <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
+        `,
+        `
         <p id="poper">Achtung, nicht blinzeln!
         </p>
         
@@ -944,11 +1113,12 @@ const part1 = [
               'chal_24'
             )}"
             setTimeout(function(){
-              document.getElementById("poper").innerHTML = "Ups, das ging schnell."
-            }, 150)
+              document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
+            }, 300)
           }, 1500)
         </script>
-      `,
+        `
+      ),
       en: `
         <p id="poper">Don't blink!</p>
         </p>
@@ -960,7 +1130,7 @@ const part1 = [
             )}"
             setTimeout(function(){
               document.getElementById("poper").innerHTML = "Oh. This was fast."
-            }, 150)
+            }, 300)
           }, 1500)
         </script>
       `,
@@ -975,13 +1145,16 @@ const part1 = [
     // date: '2017-08-25',
     deps: [42, 50],
     html: {
-      de: `
-      <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
-      </p>
-      
-      <p>Warum nicht ausprobieren? Ich habe die Antwort mal ordentlich gezipt: Hier ist die <a href="/chals/antwort25.zip">Datei</a>. Darin findet sich die Lösung zu dieser Aufgabe. Und nein, mehrfaches Zippen bringt nichts und macht die Datei sogar größer.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
+        </p>
+        
+        <p>Warum nicht ausprobieren? Ich habe die Antwort mal ordentlich gezipt: Hier ist die <a href="/chals/antwort25.zip">Datei</a>. Darin findet sich die Lösung zu dieser Aufgabe. Und nein, mehrfaches Zippen bringt nichts und macht die Datei sogar größer.
+        </p>
+      `
+      ),
       en: `
       <p>When you zip a file, it becomes smaller and requires less space. When you zip it again, does it become even smaller?</p>
       </p>
@@ -1002,24 +1175,19 @@ const part1 = [
     // date: '2017-08-26',
     deps: [30, 78],
     html: {
-      de: `
-      <p>Du siehst aus wie jemand, der sich für Backstories interessiert! Die Entstehungsgeschichte von Hack The Web hat ein paar spannende Aspekte und hier gibt es eine kleine Geschichtsstunde nur für dich.
-      </p>
-      
-      <p>Das Konzept von Aufgaben (<em>Challenges</em>), die in einer Karte angeordnet sind, hat Hack The Web von <a href="https://hacker.org/" target="_blank">Hacker.org</a> übernommen. Diese Seite ist eine großartige Inspiration, aber auch sie ist nicht vom Himmel gefallen. Als die Challenges im Jahr 2008 veröffentlicht wurden, fand sich auf der Domain schon viele Jahre ein Projekt, dass als Hacker-Community beschrieben werden könnte.
-      </p>
-      
-      <p>Dank des Internet Archives können wir in der Zeit zurückreisen und du kannst erleben, wie sich diese Community verstanden hat.
-      </p>
-      
-      <p>Hier siehst du eine Version von hacker.org vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>.
-      </p>
-      
-      <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
-      
-      <p>Deine Antwort ist die E-Mail-Adresse des Betreibers.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Josh meinte, Hacker gab es schon, seitdem das Internet erfunden wurde. Ich habe ihm das nicht geglaubt. Doch als ich in den Archiven gesucht habe, bin ich auf interessante Seiten gestoßen.</p>
+        
+        <p>Hier ist eine Website vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>. Ich muss sagen, sie ist ... speziell. Ich verstehe vielleicht einen Bruchteil der Abkürzungen, doch ich bin erleichtert, dass auch die Hacker damals nicht perfekt waren in englischer Rechtschreibung :)</p>
+
+        <p>Im Begrüßungstext (&quot;Hi every one ...&quot;) gibt es vier fehlerhaft geschriebene Worte. Nutze eines davon deiner Wahl in der fehlerhaften Form als deine Antwort.</p>
+        `,
+        `
+        <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
+    `
+      ),
       en: `
       <p>You look like someone who is interested in backstories! There are a few exciting aspects to Hack The Web's origin story, and here's a little history lesson just for you.
       </p>
@@ -1035,11 +1203,11 @@ const part1 = [
       
       <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
       
-      <p>Your answer is the operator's email address.
+      <p>Your answer is any one of the misspelled words in the greeting text.
       </p>
     `,
     },
-    solution: secrets('chal_26'),
+    solution: secrets('chal_26').split(','),
   },
 
   {
@@ -1049,15 +1217,26 @@ const part1 = [
     // date: '2017-08-26',
     deps: [45, 47, 48, 87],
     html: {
-      de: `
-      <p>Taste vorsichtig über das Feld und lies die Antwort ab:
-      </p>
-      
-      <p><svg id="chal27"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal27.js"></script>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Ich werde alt, daran kann keine Technik was verändern. Kein Grund zu verzweifeln. Ich mache, was ich kann. Vor Kurzem habe ich angefangen, die Blindenschrift zu lernen. Das hält meine grauen Zellen auf Trapp.</p>
+
+        <details style="margin-top:24px;margin-bottom:24px">
+          <summary>Deutsche Blindenschrift</summary>
+          <p style="margin-top:8px"><img src="/chals/27.png" /></p>
+          <p style="margin-top:-12px"><small>Quelle: fakoo.de</small></p>
+        </details>
+        
+        <p>Taste vorsichtig über das Feld und lies die Antwort ab:
+        </p>
+        
+        <p><svg id="chal27"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal27.js"></script>
+    `
+      ),
       en: `
      <p>Carefully key over the field and read the answer:
      </p>
@@ -1080,25 +1259,27 @@ const part1 = [
     // date: '2017-08-26',
     deps: [18, 58],
     html: {
-      de: `
-       <p>Nervige Werbebanner, die einen den Inhalt versperren - wer kennt das nicht? Auch in diesem Fall verdeckt eine Werbung die Antwort auf die Aufgabe.
-       </p>
-       
-       <p>Zum Glück bieten moderne Browser Werkzeuge an, mit denen man eine Website bearbeiten kann und damit auch das eine oder andere nervige Element verschwinden lässt. (Falls diese nicht zur Verfügung stehen: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='https://x-ray-goggles.mouse.org/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri','https://x-ray-goggles.mouse.org');document.body.appendChild(script);}())">X-Ray laden</a>)
-       </p>
-       
-       <div style="position:absolute;width:1000px;height:1000px;background-color:green" id="banner">
-         <span style="font-size:100px" id="text">Herzlichen Glückwunsch! Sie haben gewonnen!</span>
-         <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
-       </div>
-       
-       <p>Die Antwort zu dieser Aufgabe lautet <span id="solution"></span>.
-       </p>
-       
-       <script src="/chals/chal28.js"></script>
-       <!--suppress JSDeprecatedSymbols -->
-       <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
-     `,
+      de: story(
+        'Josh',
+        `
+        <p>Werbung hat eine große Macht auf uns. Durch die konstante Ablenkung wird unsere Aufmerksamkeit manipuliert. Aber wird sind nicht hilflos! Im Browser haben wir die Möglichkeit, gegen Werbung vorzugehen und diese zu blockieren.</p>
+
+        <p>Das geht auch per Hand. Schaue dir diese Seite an. Eine Werbung verdeckt die Aufgabe. Du kannst den Inspektor des Browsers öffnen (meist F12) und das störende Element entfernen. Falls das nicht verfügbar ist: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='/webxray/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri',document.location.origin + '/webxray');document.body.appendChild(script);}())">die Alternative "X-Ray" laden</a>.</p>
+        `,
+        `
+        <div style="position:absolute;width:1000px;height:1000px;background-color:green;padding-left:16px;" id="banner">
+          <span style="font-size:100px;" id="text">Hacken gefährdet unsere Sicherheit! Halten Sie sich an das Technik-Dekret!</span>
+          <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
+        </div>
+        
+        <p>Die Antwort zu dieser Aufgabe lautet <span id="solution"></span>.
+        </p>
+        
+        <script src="/chals/chal28.js"></script>
+        <!--suppress JSDeprecatedSymbols -->
+        <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
+     `
+      ),
       en: `
       <p>Annoying advertising banners that block the content - who hasn't seen that? In this case too, an advertisement obscures the answer to the challenge.
       </p>
@@ -1129,20 +1310,24 @@ const part1 = [
     // date: '2017-08-26',
     deps: [30, 78],
     html: {
-      de: `
-      <p>Die Anfangsbuchstaben folgender deutscher Orte ergeben die Antwort:
-      </p>
-      
-      <p>
-        52.7073, 8.5031<br>
-        48.63253, 12.85515<br>
-        50.9761, 8.8677<br>
-        53.2724, 12.824<br>
-        48.0336, 7.7649<br>
-        49.59637, 11.11833<br>
-        53.679, 10.6947
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich würde gerne mehr Orte sehen. Als Teil einer Widerstandsgruppe müssen wir leider sehr aufpassen und vermeiden viele Gebiete.</p>
+
+        <p>Für diese Aufgabe habe ich ein paar GPS-Koordinaten herausgesucht. Die Anfangsbuchstaben dieser deutschen Orte ergeben deine Antwort. Das hat leider mein Fernweh nur noch verschlimmert ...</p>
+        
+        <p>
+          52.7073, 8.5031<br>
+          48.63253, 12.85515<br>
+          50.9761, 8.8677<br>
+          53.2724, 12.824<br>
+          48.0336, 7.7649<br>
+          49.59637, 11.11833<br>
+          53.679, 10.6947
+        </p>
+      `
+      ),
       en: `
       <p>The first letters of these towns are the answer to this challenge:  
       </p>
@@ -1168,12 +1353,16 @@ const part1 = [
     // date: '2017-08-26',
     deps: [21, 63],
     html: {
-      de: `
-      <p>Im welchem Jahr liegt der Zeitpunkt 817876800?
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Die meisten Computerprogramme speichern Zeitpunkte nicht als Datum. Stattdessen werden sie eine einzelne Zahl. Wenn man das System dafür kennt - in diesem Fall <a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">UNIX</a> - kann man das Datum wieder zurückrechnen.</p>
+        
+        <p>Mein Geburtstag war zum Zeitpunkt 1417499338. In welchem Jahr bin ich geboren?</p>
+    `
+      ),
       en: `
-      <p>In which year is the point in time 817876800?
+      <p>In which year is the point in time 1417499338?
       </p>
     `,
     },
@@ -1187,35 +1376,39 @@ const part1 = [
     // date: '2017-08-26',
     deps: [111],
     html: {
-      de: `
-      <p>Es wird Zeit für einen neuen Taschenrechner:
-      </p>
-      
-      <br>
-      
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <br>
-      
-      <p>Dieser Taschenrechner besteht aus einer "Röhre", die rechts offen ist. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
-      </p>
-      
-      <p>Um weitere Zahlen zu erzeugen, musst du rechnen. Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
-      </p>
-      
-      <p>Es gibt zwei Sonderbefehle: <strong>drop</strong> entfernt die letzte Zahl aus der Röhre (also die Zahl ganz rechts), <strong>dup</strong> fügt die letzte Zahl noch einmal hinzu (duplizieren).
-      </p>
-      
-      <p>Berechne das Ergebnis 1000:
-      </p>
-      
-      <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Bex hat eine schwere Zeit hinter sind - verzeih ihm, wenn er manchmal etwas ... aufgedreht ist. Er hat ein gutes Herz.</p>
+
+        <p>Aber erstmal zurück zum Taschenrechner. Ich möchte dir auch eine Variante zeigen. Und diese funktioniert mit einer Röhre:</p>
+        
+        <br>
+        
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+        
+        <br>
+        
+        <p>Die Röhre ist rechts offen. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
+        </p>
+        
+        <p>Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
+        </p>
+        
+        <p>Es gibt zwei Sonderbefehle: <strong>drop</strong> entfernt die letzte Zahl aus der Röhre (also die Zahl ganz rechts), <strong>dup</strong> fügt die letzte Zahl noch einmal hinzu (duplizieren).
+        </p>
+        
+        <p>Berechne das Ergebnis 1000 und klicke submit:
+        </p>
+        
+        <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
+    `
+      ),
       en: `
       <p>It's time for a new calculator:
       </p>
@@ -1263,17 +1456,22 @@ const part1 = [
     // date: '2017-08-26',
     deps: [31],
     html: {
-      de: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <p>Berechne diesmal die Zahl 1337.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Berechne die Zahl 1337.
+        </p>
+        
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+    `
+      ),
       en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
@@ -1303,17 +1501,22 @@ const part1 = [
     // date: '2017-08-26',
     deps: [32],
     html: {
-      de: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal33.js"></script>
-      
-      <p>Berechne die Zahl 100. Allerdings fehlen diesmal ein paar Tasten.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Berechne die Zahl 100. Allerdings fehlen ein paar Tasten.
+        </p>
+        
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal33.js"></script>
+    `
+      ),
       en: `
       <p id="op-buttons"></p>
       <p id="num-buttons"></p>
@@ -1387,15 +1590,17 @@ const part1 = [
     // date: '2020-05-20',
     deps: [17, 31, 53],
     html: {
-      de: `
-      <p>Nichts auf der Welt ist so schön wie dein Lächeln. Ich könnte es den ganzen Tag anschauen.
-      </p>
-      
-      <p>Schicke mir ein Lächeln. Deine Antwort ist dieses Emoji:
-      </p>
-      
-      <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich mag Emojis. Selbst wenn ich mal nicht gut drauf bin, kann ich Menschen ein Lächeln schicken. Ich finde das ziemlich praktisch.</p>
+        
+        <p>Schicke mir ein Lächeln. Deine Antwort ist dieses Emoji:
+        </p>
+        
+        <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
+    `
+      ),
       en: `
       <p>Nothing in the world is as beautiful as your smile. I could look at it all day.
       </p>
@@ -1430,13 +1635,16 @@ const part1 = [
     // date: '2020-05-20',
     deps: [81],
     html: {
-      de: `
-      <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. In der Seefahrt wird dieses Potenzial voll ausgenutzt.
-      </p>
-      
-      <p>Schau dir <a href="/chals/chal39.mp4">dieses Video</a> an. Welches Wort ergeben die Buchstaben der Signalflaggen?
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Flaggen können viele Bedeutungen haben: Es gibt sie für Länder und Gebiete, aber man kann sie auch als Signal und Alphabet nutzen. Das ist praktisch, wenn man ganz unauffällig eine Nachricht übermitteln möchte. Viele kennen das <a href="https://de.wikipedia.org/wiki/Flaggenalphabet" target="_blank">Flaggenalphabet</a> aus der Seefahrt nicht.
+        </p>
+        
+        <p>Schau dir <a href="/chals/chal39.mp4">dieses Video</a> an. Finde die Antwort.
+        </p>
+    `
+      ),
       en: `
       <p>Flags can have many meanings: They exist for countries and territories, but you can also use them as signals and alphabets. This potential is fully exploited in shipping.
       </p>
@@ -1458,38 +1666,40 @@ const part1 = [
     // date: '2020-05-20',
     deps: [2, 47, 79],
     html: {
-      de: `
-      <p>Ein schnulziges Gedicht ... oder doch eine geheime Botschaft?
-      </p>
-      
-      <p><em>
-        <strong>D</strong>ie langen Stunden vor dem Rechner<br>
-        <strong>i</strong>m dunklen oder hellen Zimmer,<br>
-        <strong>e</strong>rgeben doch einen Sinn<br>
-        <strong>a</strong>m Ende der Zeit!<br>
-        <br>
-        <strong>N</strong>icht verzagen ist das Motto<br>
-        <strong>t</strong>reuen Herzens weitergehen!<br>
-        "<strong>W</strong>ohin des Wegs", so mancher fragt,<br>
-        <strong>O</strong>, es ist ein weiter!<br>
-        <br>
-        <strong>R</strong>astet nicht, ihr Hackerhelden<br>
-        <strong>t</strong>reten nicht dem Rennen aus.<br>
-        <strong>L</strong>asst uns gemeinsam durch dieses Feuer:<br>
-        <strong>A</strong>lle für einen und einer für alle.<br>
-        <br>
-        <strong>U</strong>nd wenn uns doch mal Mühsal packt<br>
-        <strong>t</strong>raut euch auch im Hilfe zu bitten.<br>
-        <strong>E</strong>ine Schande ist es nicht, zu fragen,<br>
-        <strong>t</strong>raurig wär's, wenn es das wäre.<br>
-        <br>
-        <strong>S</strong>o ist das ganze Leben wohl<br>
-        <strong>t</strong>rotz all der müßigen Momente<br>
-        <strong>e</strong>in Fest des Lebens! Jawohl, das ist es.<br>
-        <strong>N</strong>icht zu vergessen,<br>
-        <strong>O</strong>stern und Weihnachten.</em>
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Ich habe eine gewisse Schwäche für schnulzige Gedichte. Aber lasse dich davon nicht täuschen! Wenn du jemals ein solches Gedicht von mir erhältst, solltest du immer deine Augen für geheime Botschaften offen halten.
+        </p>`,
+        `<p><em>
+          <strong>D</strong>u fragst mich: Bin ich glücklich?<br>
+          <strong>I</strong>mmer auf der Hut, auf Mission,<br>
+          <strong>e</strong>in kleiner Fehler und alles ist vorbei -<br>
+          <strong>a</strong>m Ende doch vergebens?<br>
+          <br>
+          <strong>N</strong>ein, es ist nicht vergebens.<br>
+          <strong>T</strong>aten sprechen für sich.<br>
+          <strong>W</strong>er seinem Herzen folgt wird<br>
+          <strong>o</strong>hne Zweifel ein Leuchtturm sein.<br>
+          <br>
+          <strong>R</strong>uhe ich auch mal? - fragst du mich.<br>
+          <strong>T</strong>ag für Tag bin ich unterwegs.<br>
+          <strong>L</strong>ache nur noch selten diese Jahre,<br>
+          <strong>a</strong>lles ist so kalt geworden.<br>
+          <br>
+          <strong>U</strong>nd du hast Recht, es ist<br>
+          <strong>t</strong>rostlos manchmal, fast verzweifelnd vor<br>
+          <strong>e</strong>iner so großeren Herausforderung zu stehen:<br>
+          <strong>T</strong>rostlos und erschreckend<br>
+          <br>
+          <strong>S</strong>chön doch hier zu sein bei dir, wir<br>
+          <strong>t</strong>rotzen dem gemeinsam,<br>
+          <strong>e</strong>ine kleine Familie, hier die<br>
+          <strong>n</strong>iemand erwartet, die uns verbindet.<br>
+          <strong>O</strong>h, ich frage mich: Ist das schon Glück?<br>
+        </em></p>
+    `
+      ),
       en: `
        <p>A just a bad poem... or a secret message?
        </p>
@@ -1532,18 +1742,17 @@ const part1 = [
     // date: '2020-05-20',
     deps: [70],
     html: {
-      de: `
-      <p>Wer kennt ihn nicht: Der Wurm, der uns ins Gehör kriegt und uns Tag und Nacht verfolgt?
-      </p>
-      
-      <p>Hier ein Beispiel dafür:
-      </p>
-      
-      <audio src="/chals/chal_42.mp3" controls loop></audio>
-      
-      <p>Die Frage ist nun: Wie heißt der Song?
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich habe seit ein paar Tagen diesen Ohrwurm. Ich weiß nicht woher er kommt, doch irgendwie erinnert mich dieser Song an meine Vergangenheit.</p>
+        
+        <audio src="/chals/chal_42.mp3" controls loop style="margin-bottom:12px;"></audio>
+        
+        <p>Bitte schaue nach und sage mir den Titel des Songs. Ich traue mich nicht, es selbst zu tun.
+        </p>
+    `
+      ),
       en: `
       <p>Who doesn't know him: the song that gets into our ears and haunts us day and night?
       </p>
@@ -1567,12 +1776,15 @@ const part1 = [
     // date: '2020-05-20',
     deps: [56, 59, 60, 62],
     html: {
-      de: `
-      <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich hinter folgenden Schriftzeichen?
-      </p>
-      
-      <p><img src="/chals/chal45.png" alt="japanese characters"></p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich hinter folgenden Schriftzeichen?
+        </p>
+        
+        <p><img src="/chals/chal45.png" alt="japanese characters"></p>
+    `
+      ),
       en: `
       <p>We live in an international world and hackers also speak many languages. Some languages differ greatly from our language and thus present us with challenges. What delicacy is hidden behind the following characters?
       </p>
@@ -1590,62 +1802,67 @@ const part1 = [
     // date: '2020-05-20',
     deps: [18, 60, 84],
     html: {
-      de: `
-      <p>Ich könnte nicht wie du geduldig sitzen und warten, bis die Antwort lädt ... ich bin immer ungeduldig und drücke auf der Tastatur herum.
-      </p>
-      
-      <p>Aber kann es sein, dass der Ladebalken dadurch tatsächlich schneller wird?
-      </p>
-      
-      <p>Die Antwort erhälst du, sobald der Ladebalken voll ist.
-      </p>
-      
-      <div class="progress my-4">
-        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
-      </div>
-      
-      <p id="value"></p>
-      
-      <p id="status"></p>
-      
-      <script>
-        const bar = document.getElementById('44_bar')
-        const value = document.getElementById('value')
-        const status = document.getElementById('status')
+      de: story(
+        'Bex',
+        `
+        <p>Ich verrate dir eine kleine peinliche Geschichte von mir. Erzähle sie ja nicht weiter!</p>
+
+        <p>Aus irgendeinem Grund glaubte ich lange Zeit, dass Ladebalken am Computer schneller laufen, wenn ich auf der Tastatur tippe. Das machte ich also jedes Mal, während ich auf etwas wartete. Einmal fragte mich Kiwi, was ich denn da mache und ich erzählte ihr den Grund. Sie lachte mich einfach aus und mein Kopf lief total rot an als ich meinen Aberglauben bemerkte.</p>
+
+        <p>Um mich besser zu fühlen programmierte ich dann einen Ladebalken, der tatsächlich schneller läuft wenn man auf Tasten drückt. An dem darfst du dich jetzt ausprobieren. Sobald der Balken voll ist, erhältst du deine Antwort.</p>
+        `,
+        `
+        <div class="progress my-4">
+          <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
+        </div>
         
-        let step = 1
-        let steps = 1000
-        let x = 3
+        <p id="value"></p>
         
-        function transform(x) {
-          return (x * 11) % 10000
-        }
+        <p id="status"></p>
         
-        function work(noTimeout) {
-          if (step >= steps) {
-            bar.style.width = '100%'
-          } else {
-            step++
-            bar.style.width = ((step/steps) * 98.9 + 1) + '%'
-            x = transform(x)
-            value.innerHTML = x.toString()
-            status.innerHTML = '(' + step + '/' + steps + ')'
-            if (!noTimeout) {
-              setTimeout(work, 1000)
+        <script>
+          const bar = document.getElementById('44_bar')
+          const value = document.getElementById('value')
+          const status = document.getElementById('status')
+          
+          let step = 1
+          let steps = 1000
+          let x = 3
+          
+          function transform(x) {
+            return (x * 11) % 10000
+          }
+          
+          function work(noTimeout) {
+            if (step >= steps) {
+              bar.style.width = '100%'
+            } else {
+              step++
+              bar.style.width = ((step/steps) * 98.9 + 1) + '%'
+              x = transform(x)
+              value.innerHTML = x.toString()
+              if (step == steps) {
+                value.innerHTML = 'Die Antwortet lautet: ' + value.innerHTML
+              }
+              status.innerHTML = '(' + step + '/' + steps + ')'
+              if (!noTimeout) {
+                setTimeout(work, 1000)
+              }
             }
           }
-        }
-        
-        window.onkeydown = () => {
-          work(true)
-        }
-        
-        value.innerHTML = x
-        status.innerHTML = '(1/' + steps + ')'
-        
-        setTimeout(work, 1000)
-      </script>
-    `,
+          
+          window.onkeydown = (e) => {
+            if (e.repeat) return
+            work(true)
+          }
+          
+          value.innerHTML = x
+          status.innerHTML = '(1/' + steps + ')'
+          
+          setTimeout(work, 1000)
+        </script>
+    `
+      ),
       en: `
       <p>II couldn't sit patiently like you and wait for the answer to load... I'm always impatient and fidgeting on the keyboard.
       </p>
@@ -1709,22 +1926,20 @@ const part1 = [
   {
     id: 48,
     pos: { x: 890, y: 1000 },
-    title: { de: 'Stille', en: 'Silence' },
+    title: { de: 'Meditation', en: 'Silence' },
     // date: '2020-05-21',
     deps: [56, 62],
     html: {
-      de: `
-      <p>Zur Ruhe kommen und in sich hineinhören - das brauche ich immer wieder, um mich mit mir selbst zu verbinden und so ausgeglichen sein zu können wie du.
-      </p>
-      
-      <p>Manche Menschen finden es hilfreich, dabei eine akustische Untermalung zu haben.
-      </p>
-      
-      <audio src="/chals/chal48_2.mp3" controls></audio>
-      
-      <p>Doch du bist nicht alleine. Deine Antwort findet sich zwischen dem Zwischern der Vögel.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Komm zur Ruhe und höre in dich hinein. Verbinde dich mit dir selbst und sei ausgeglichen ...</p>
+
+        <p>Haha, kleiner Spaß. Ich bin die letzte Person auf dieser Welt, die meditieren würde. Was ich viel lieber mache ist es, Menschen zu erschrecken. Ich habe in diesem Meditationstrack eine kleine Überraschung vorbereitet. Diese ist deine Antwort.</p>
+        
+        <audio src="/chals/chal48_2.mp3" controls></audio>
+    `
+      ),
       en: `
       <p>Finding peace and listening to yourself - I need that again and again in order to connect with myself and be as balanced as you.
       </p>
@@ -1748,20 +1963,19 @@ const part1 = [
     // date: '2020-05-21',
     deps: [30, 70],
     html: {
-      de: `
-      <p>Was diese winkeligen Zeichen wohl sagen mögen?
-      </p>
-      
-      <p><img src="/chals/chal50.png" alt="winkelschrift"></p>
-      
-      <p>Zum Glück gibt es folgenden Hinweis:
-      </p>
-      
-      <p><img src="/chals/chal50.gif" alt="winkelschrift hint"></p>
-      
-      <p>Der erste Buchstabe des Texts ist ein D, der letzte Buchstabe des Texts ein S.
-      </p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Ich schmeiße dich ins kalte Wasser. Mach dich einmal mit dieser Anleitung vertraut. Du siehst die Buchstaben des Alphabets an verschiedenen Orten untergebracht, mal mit Punkt und mal ohne Punkte.</p>
+
+        <p><img src="/chals/chal50.gif" alt="winkelschrift hint"></p>
+
+        <p>Hier ist deine Nachricht. Du erkennst sicherlich gewisse Ähnlichkeiten: Die Punkte sind wieder da, einige bekannte Formen ... das ist deine Antwort in der Winkelschrift, entschlüssle sie!
+        </p>
+        
+        <p class="my-4"><img src="/chals/chal50.png" alt="winkelschrift"></p>
+    `
+      ),
       en: `
       <p>What do these angular signs mean?
       </p>
@@ -1787,35 +2001,35 @@ const part1 = [
     // date: '2020-08-01',
     deps: [4, 16],
     html: {
-      de: `
-      <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
-      </p>
-      
-      <p>Selbst wenn du noch nie damit gearbeitet hast - mit ein wenig logischem Denken findest du schnell den Einstieg.
-      </p>
-      
-      <p>Als Hilfestellung siehst du hier die ersten 6 Zweierpotenzen. Du kannst sie an- oder ausschalten, wenn du sie anklickst. Alle aktiven Zahlen werden zum Ergebnis addiert.
-      </p>
-      
-      <p>Stelle die Zahl 7 ein und schicke sie ab.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Unsere gesamte Technik ist gebaut von Menschen, die über den Tellerrand geblickt haben. Menschen, die sich gefragt haben: Wir haben Schalter (AN/AUS) - wie können wir damit Zahlen darstellen?</p>
+        
+        <p>Ich weise dir die Richtung: Es hat was mit Zweierpotenzen zu tun. Hier findest du die ersten sechs Zweierpotenzen. Jede Zweierpotenz ist ein Schalter. Klicke auf die Zahl, um den Schalter an- und auszuschalten. Rechts siehst du die Zahl, die du gerade darstellt.</p>
+
+        <p>Jetzt bist du dran. Selbst wenn du noch nichts vom Binärsystem gehört hast - mit bisschen Logik wirst du schnell den Einstieg finden.</p>
+        
+        <p>Stelle die Zahl 7 ein und schicke sie ab.
+        </p>
+        
+        <p style="margin-top:24px;"><svg id="binary"></svg></p>
+        
+        <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
+        
+        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal51_2.js"></script>
+        
+        <style>
+          .hoverEffect:hover {
+            cursor:pointer;
+            opacity: 0.9;
+          }
+        </style>
+    `
+      ),
       en: `
       <p>You've probably heard of the binary system. It is the language of computers, which consists of 1s and 0s.
       </p>
@@ -1857,26 +2071,29 @@ const part1 = [
     // date: '2020-08-01',
     deps: [51],
     html: {
-      de: `
-      <p>Das hast du sehr gut gemacht! Stelle nun die Zahl 45 ein.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Dein Kopf ist jetzt warm. Stelle die Zahl 45 ein.
+        </p>
+        
+        <p><svg id="binary"></svg></p>
+        
+        <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
+        
+        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal51_2.js"></script>
+        
+        <style>
+          .hoverEffect:hover {
+            cursor:pointer;
+            opacity: 0.9;
+          }
+        </style>
+    `
+      ),
       en: `
       <p>Well done! Now set the number 45.
       </p>
@@ -1909,29 +2126,31 @@ const part1 = [
     // date: '2020-08-01',
     deps: [66, 111],
     html: {
-      de: `
-      <p>Bei diesem Quiz ist jemandem doch glatt die Kreativität ausgegangen.
-      </p>
-      
-      <hr />
-      
-      <p class="my-4">Klicke auf das X:</p>
-      
-      <p>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1">X</button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2">.</button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3">.</button>
-      </p>
-      
-      <div class="progress my-4">
-        <div class="progress-bar" role="progressbar" style="width: 0;" id="progress"></div>
-      </div>
-      
-      <p id="status"></p>
-      
-      
-      <script src="/chals/chal53.js"></script>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich möchte noch ganz gerne meine Base fertig bauen. Beschäftige dich doch in der Zwischenzeit mit diesem Quiz. In ungefähr einer Stunde bin ich bei dir.</p>
+        
+        <hr />
+        
+        <p class="my-4">Klicke auf das X:</p>
+        
+        <p>
+          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1">X</button>
+          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2">.</button>
+          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3">.</button>
+        </p>
+        
+        <div class="progress my-4">
+          <div class="progress-bar" role="progressbar" style="width: 0;" id="progress"></div>
+        </div>
+        
+        <p id="status"></p>
+        
+        
+        <script src="/chals/chal53.js"></script>
+    `
+      ),
       en: `
       <p>Someone just ran out of creativity with this quiz.
       </p>
@@ -1981,14 +2200,16 @@ const part1 = [
     // date: '2020-08-01',
     deps: [16, 68],
     html: {
-      de: `
-      <p>Die Welt ist voller Farben. Im Internet gibt es für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> feste Name.
-      </p>
+      de: story(
+        'Josh',
+        `
+        <p>Die Welt ist voller Farben. Doch im Internet gibt es nur für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> einen offiziellen Name.</p>
 
-      <p>Deine Antwort ist der Name dieser Farbe.</p>
+        <div style="height:80px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
 
-      <div style="height:80px;width:250px;background-color:#663399;position:relative"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
-    `,
+        <p>Der Name dieser Farbe ist deine Antwort.</p>
+    `
+      ),
       en: `
       <p>The world is full of colors. On the internet, there are fixed names for <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 colors</a>.</p>
 
@@ -2007,10 +2228,13 @@ const part1 = [
     // date: '2020-08-01',
     deps: [25, 26],
     html: {
-      de: `
-      <p>Es ist wieder dein Benutzername gefragt. Diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Es ist wieder dein Benutzername gefragt. Diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
+        </p>
+    `
+      ),
       en: `
         <p>It's your username again. This time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
         </p>
@@ -2055,6 +2279,12 @@ const part1 = [
           if (value.length > 1000) {
             value = value.substring(0, 1000) + '...'
           }
+          if (!containsUsername) {
+            value =
+              (req.lng.startsWith('de')
+                ? 'Benutzername nicht gefunden: '
+                : 'Username not found: ') + value
+          }
         } catch (error) {
           if (error.message && error.message.includes('aborted')) {
             value = req.lng.startsWith('de')
@@ -2084,13 +2314,22 @@ const part1 = [
     // date: '2020-08-17',
     deps: [27, 41, 64],
     html: {
-      de: `
-          <p>Hinter dieser Passage findest du den zweiten Teil von Hack The Web - noch mehr Welten zu entdecken und Aufgaben, an denen du dir die Zähne ausbeißen kannst. Außerdem gibt es den Community-Bereich mit weiteren abwechslungsreichen Herausforderungen.</p>
-          
-          <p><a href="/challenge/24">24</a> &nbsp; <a href="/challenge/37">37</a> &nbsp; <a href="/challenge/30">30</a> &nbsp; <a href="/challenge/68">68</a> &nbsp; <a href="/challenge/84">84</a> &nbsp; <a href="/challenge/58">58</a> &nbsp; <a href="/challenge/18">18</a></p>
-          
-          <p>Und jetzt noch ein letzter Blick zurück. Schaue dir die verlinkten Aufgaben an. Ihre Anfangsbuchstaben verraten dir die Antwort.</p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Scheiße. Scheiße hoch Scheiße. Kiwi und Josh wurden in eine Falle gelockt. Sie sind von der letzten Mission nicht zurückgekehrt.</p>
+
+        <p>Ich habe sie gebeten, vorsichtig zu sein! Sie sind alles, was ich habe. Ich kann sie nicht in Stich lassen. Ich werde sie befreien.</p>
+
+        <p>Bleib du erstmal hier, dieser Ort ist für dich sicher. Auf diesem Stick findest du deine weitere Ausbildung - arbeite dich soweit vor wie du kannst, wir brauchen jede Hilfe. Das Passwort für den Stick sind die Anfangsbuchstaben dieser verlinkten Aufgaben. Als Backup findest du die Antwort im Quelltext dieser Seite.</p>
+        
+        <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/18" target="_blank">18</a></p>
+
+        <!-- Die Antwort lautet ${secrets('chal_57')}. -->
+
+        <p>Pass auf dich auf! Wir sehen uns bald wieder.</p>
+    `
+      ),
       en: `
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
             <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 18</p>
@@ -2108,17 +2347,18 @@ const part1 = [
     // date: '2020-08-17',
     deps: [17, 53],
     html: {
-      de: `
-      <p>Für dich gibt es keine Grenzen, mit welchen Mitteln man einen Geheimtext schreibt. Du kommst mit allen Methoden klar - auch wenn es ein ganz eigener Code ist.
-      </p>
-      
-      <p>Die Anfangsbuchstaben folgender Elemente aus Teyvat ergeben deine Antwort.
-      </p>
-      
-      <p><img src="/chals/chal58_2.png" alt="genshin"></p>
-      
-      <p><small><a href="https://genshin-impact.fandom.com/wiki/Element" target="_blank">Hinweis</a></small></p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Es könnte der Eindruck entstehen, dass ich außer Minecraft nichts anderes spiele. Aber das stimmt nicht. Früher habe ich auch viel Zeit in der Welt von Teyvat verbracht.</p>
+
+        <p>Ich beweise es dir. Hier ist ein Geheimtext. Die Anfangsbuchstaben folgender Elemente ergeben deine Antwort.</p>
+        
+        <p><img src="/chals/chal58_2.png" alt="genshin" width="540"></p>
+        
+        <p><small><a href="https://game8.co/games/Genshin-Impact/archives/384388" target="_blank">Hinweis</a></small></p>
+    `
+      ),
       en: `
         <p>There are no limits for you when it comes to writing a secret text. You can handle all methods — even if it is a very special code.
         </p>
@@ -2140,29 +2380,34 @@ const part1 = [
     // date: '2020-08-17',
     deps: [23, 78],
     html: {
-      de: `
-      <p>Schon als Kind hat es super viel Spaß gemacht, einen Geheimtext Stück für Stück zu entschlüsseln. Hier kannst das auf interaktive Art nacherleben.
-      </p>
-      
-      <p>Anleitung: Drücke zwei Buchstaben <strong>gleichzeitig</strong> auf der Tastatur, diese werden hervorgehoben und vertauscht.
-      </p>
-    
-      <pre id="output" style="font-size:16px;white-space:pre-wrap;margin-top:48px">
-      </pre>
-      
-      <div id="debug" style="text-align:right"></div>
-      
-      
-      <script>
-        window.htw_locale = 'de'
-      </script>
-      <script src="/chals/chal59.js"></script>
-      
-      <div style="height:40px"></div>
-      
-      <p>Die Antwort ist der Name der Person, die den ersten Satz sagt.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Geheimtexte haben eine magische Anziehung auf mich. Hier kannst das auf interaktive Art nacherleben.
+        </p>
+        
+        <p>Anleitung: Drücke zwei Buchstaben <strong>gleichzeitig</strong> auf der Tastatur, diese werden hervorgehoben und vertauscht.
+        </p>
+        
+        <p>Du kannst immer wieder Worte erraten. Hangle dich an diesen entlang, bis zu den gesamten Text entschlüsselt hast.</p>`,
+        `
+        <pre id="output" style="font-size:16px;white-space:pre-wrap;margin-top:48px">
+        </pre>
+        
+        <div id="debug" style="text-align:right"></div>
+        
+        
+        <script>
+          window.htw_locale = 'de'
+        </script>
+        <script src="/chals/chal59.js"></script>
+        
+        <div style="height:40px"></div>
+        
+        <p>Die Antwort ist der Name der Person, die den ersten Satz sagt.
+        </p>
+    `
+      ),
       en: `
         <p>Even as a child, it was a lot of fun to decipher a secret text piece by piece. Here you can relive this in an interactive way.
         </p>
@@ -2195,9 +2440,16 @@ const part1 = [
     // date: '2020-08-17',
     deps: [23],
     html: {
-      de: `
-      <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>QR Codes werden meist verwendet, um eine Webseite zu verlinken. Doch es gibt keinen Grund, sie nicht auch für andere Dinge zu verwenden.</p>
+
+        <p>In diesem Code ist ein Rätsel gespeichert, das dir den Weg zur Antwort weist.</p>
+
+        <p><img src="/chals/chal60-2.png" style="max-width: 400px; max-height: 400px; margin-top: 16px;" alt="qr"></p>
+    `
+      ),
       en: `
         <p><img src="/chals/chal60-en-2.png" style="max-width: 400px; max-height: 400px" alt="qr"></p>
     `,
@@ -2224,41 +2476,42 @@ const part1 = [
     // date: '2020-08-17',
     deps: [26, 29],
     html: {
-      de: `
-      <p>Ich möchte dir sagen: Du bist wunderbar <3.
-      </p>
-      
-      <p>Mit diesem Prompt habe ich ein Bild generiert, um die Nachricht anschaulicher zu gestalten. Hier kannst du es herunterladen:
-      </p>
-      
-      <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
-      
-      <p>Dateiname: <strong id="filename">bild.txt</strong> [<a href="#" onclick="changeName()">ändern</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Herunterladen</button>
-      </p>
-    
-      <p>Irgendwas stimmt aber nicht mit der Datei-Endung, das musst du vor dem Herunterladen reparieren. Auf dem Bild findest du die Antwort.
-      </p>
-      
-      
-      <script>
-        const filename = document.getElementById('filename')
+      de: story(
+        'Kiwi',
+        `
+        <p>Hacker geben nicht auf, wenn sie vor einer Herausforderung stehen. Als ich mir deine Strafakte durchgelesen habe, war mir sofort klar: Du bist ein wunderbar. Dich möchte ich ausbilden.</p>
+
+        <p>Auf zur nächsten Lektion. Ich habe ein unspektakuläres Bild generiert. Lade es herunter:</p>
         
-        function download() {
-          fetch('/chals/chal62.data')
-            .then(response => response.blob())
-            .then(blob => {
-              const link = document.createElement("a");
-              link.href = URL.createObjectURL(blob);
-              link.download = filename.innerHTML;
-              link.click();
-          })
-        }
+        <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
         
-        function changeName() {
-          filename.innerHTML = prompt('Neuer Dateiname:', filename.innerHTML)
-        }
-      </script>
-    `,
+        <p>Dateiname: <strong id="filename">bild.txt</strong> [<a href="#" onclick="changeName()">ändern</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Herunterladen</button>
+        </p>
+      
+        <p>Eine Kleinigkeit habe ich dir in den Weg gestellt - die Dateiendung ist falsch. Korrigiere sie und das Bild wird sichtbar. Auf dem Bild findest du die Antwort.
+        </p>
+        
+        
+        <script>
+          const filename = document.getElementById('filename')
+          
+          function download() {
+            fetch('/chals/chal62.data')
+              .then(response => response.blob())
+              .then(blob => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename.innerHTML;
+                link.click();
+            })
+          }
+          
+          function changeName() {
+            filename.innerHTML = prompt('Neuer Dateiname:', filename.innerHTML)
+          }
+        </script>
+    `
+      ),
       en: `
       <p>I want to tell you: you are wonderful <3.
       </p>
@@ -2305,169 +2558,175 @@ const part1 = [
     // date: '2020-08-17',
     deps: [7, 80],
     html: {
-      de: `
-      <p>Anleitung: Klicke auf das Spielfeld. Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet.</p>
-      
-      <p>Du sieht die Antwort, sobald du 1000 Punkte erreichst. Das Spiel hat keine Cheats eingebaut - du musst es daher selber hacken.
-      </p>
-      
-      <div id="game" tabindex="1"></div>
-      
-      <script src="/pixi.min.js"></script>
-      <script src="/chals/chal63/matter.js"></script>
-      
-      <button onclick="handleLeft()">Left</button>
-      <button onclick="handleUp()">Up</button>
-      <button onclick="handleRight()">Right</button>
+      de: story(
+        'Kiwi',
+        `
+        <p>So ist das Spiel gedacht: Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet. Du siehst die Antwort, sobald du 100 Punkte erreichst.</p>
 
-      <p><button onclick="update()" style="margin-top:20px">Spiel aktualisieren</button></p>
-      
-      <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">if (app) app.ticker.stop();
-var app = new PIXI.Application(800,600,{backgroundColor:0x1099bb});
-document.getElementById('game').innerHTML = ''
-document.getElementById('game').appendChild(app.view);
+        <p>Wie man das Spiel auch gewinnen kann: Unter dem Spiel findest du den Quellcode. Diesen kannst du verändern und das Spiel aktualiseren. In der Funktion <code>initGame()</code> wird ziemlich am Anfang <code>updateScore(0)</code> ausgeführt. Ändere diese Zeile zu einer hohen Zahl und gewinne das Spiel sofort.</p>
+        
+        <p>Wähle deinen Weg.</p>`,
+        `
+        <div id="game" tabindex="1" style="outline:none;"></div>
+        
+        <script src="/pixi.min.js"></script>
+        <script src="/chals/chal63/matter.js"></script>
+        
+        <button onclick="handleLeft()">Left</button>
+        <button onclick="handleUp()">Up</button>
+        <button onclick="handleRight()">Right</button>
 
-var engine = Matter.Engine.create(),
-world = engine.world;
+        <p><button onclick="update()" style="margin-top:20px">Spiel aktualisieren</button></p>
+        
+        <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">const HOLZ = '/chals/chal63/holz.jpg'
+const BALL = '/chals/chal63/ball.png'
 
-var HOLZ = "/chals/chal63/holz.jpg"
-var BALL = "/chals/chal63/ball.png"
+const gameEl = document.getElementById('game')
 
-PIXI.loader.reset()
+if (window.app) app.ticker.stop()
+window.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb })
+gameEl.innerHTML = ''
+gameEl.appendChild(app.view)
 
-PIXI.loader
-.add(HOLZ)
-.add(BALL)
-.load(() => {
+const engine = Matter.Engine.create()
+const world = engine.world
 
-  var basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
+function initGame() {
+  const basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
   window.basicText = basicText
   basicText.x = 30
   basicText.y = 90
-  
-  var woodTexture = PIXI.loader.resources[HOLZ].texture
-  
+
+  function updateScore(newScore) {
+    window.score = newScore
+    basicText.text = window.score.toString()
+  }
+
+  updateScore(0)
+
+  const woodTexture = PIXI.loader.resources[HOLZ].texture
+
   function buildWoodBlock(x, y, w, h, id) {
     var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
     app.stage.addChild(block)
-    Matter.World.add(world, Matter.Bodies.rectangle(x+w/2, y+h/2, w, h, {isStatic:true, id}))
+    Matter.World.add(
+      world,
+      Matter.Bodies.rectangle(x + w / 2, y + h / 2, w, h, {
+        isStatic: true,
+        id,
+      })
+    )
     block.x = x
     block.y = y
   }
-  
+
   buildWoodBlock(0, 570, 800, 30, 1)
   buildWoodBlock(0, 170, 30, 400, 2)
   buildWoodBlock(770, 170, 30, 400, 3)
-  buildWoodBlock(350,50,100,100, 4)
-  
-  
-  var ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
+  buildWoodBlock(350, 50, 100, 100, 4)
+
+  const ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
   ball.x = 300
   ball.y = 200
   ball.width = 100
   ball.height = 100
   ball.anchor.set(0.5)
   app.stage.addChild(ball)
-  
-  var border = undefined
-  
-  if (window.score === undefined) {
-    window.score = 0
-    basicText.text = window.score.toString()
-  }
-  
-  var circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
+
+  let border = undefined
+
+  const circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
   Matter.World.add(world, circle)
-  Matter.Events.on(engine, "collisionStart", data => {
+  Matter.Events.on(engine, 'collisionStart', (data) => {
     if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
-      window.score = 0
-      basicText.text = window.score.toString()
-    }
-    else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined)
-        border = 2
-      
+      updateScore(0)
+    } else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined) border = 2
+
       if (data.pairs[0].bodyA.id == border) {
-        window.score++
-        basicText.text = window.score.toString()
+        updateScore(window.score + 1)
         border = 3
       }
-    }
-    else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined)
-        border = 3
-      
+    } else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined) border = 3
+
       if (data.pairs[0].bodyA.id == border) {
-        window.score++
-        basicText.text = window.score.toString()
+        updateScore(window.score + 1)
         border = 2
       }
     }
   })
-  
+
   function handleUp() {
-    var angle = Math.random()*40-20-90
-    var r = angle/180*Math.PI
-    Matter.Body.applyForce(circle, circle.position, {x:Math.cos(r)*0.24,y:Math.sin(r)*0.24})
+    const angle = Math.random() * 40 - 20 - 90
+    const r = (angle / 180) * Math.PI
+    Matter.Body.applyForce(circle, circle.position, {
+      x: Math.cos(r) * 0.24,
+      y: Math.sin(r) * 0.24,
+    })
   }
-  
+
   function handleLeft() {
-    Matter.Body.applyForce(circle, circle.position, {x:-0.2,y:-0.05})
+    Matter.Body.applyForce(circle, circle.position, { x: -0.2, y: -0.05 })
   }
-  
+
   function handleRight() {
-    Matter.Body.applyForce(circle, circle.position, {x:+0.2,y:-0.05})
+    Matter.Body.applyForce(circle, circle.position, { x: +0.2, y: -0.05 })
   }
-  
+
   document.handleLeft = handleLeft
   document.handleUp = handleUp
   document.handleRight = handleRight
-  
-  
+
   document.getElementById('game').onkeydown = (key) => {
-    if (key.keyCode == 38) {
+    if (key.code == 'ArrowUp') {
       handleUp()
       key.preventDefault()
     }
-    
-    if (key.keyCode == 37) {
+
+    if (key.code == 'ArrowLeft') {
       handleLeft()
       key.preventDefault()
     }
-    
-    if (key.keyCode == 39) {
+
+    if (key.code == 'ArrowRight') {
       handleRight()
       key.preventDefault()
     }
   }
-  
-  app.ticker.add(delta => {
+
+  gameEl.focus()
+
+  app.ticker.add(() => {
     Matter.Engine.update(engine)
     ball.x = circle.position.x
     ball.y = circle.position.y
   })
-})
+}
+
+PIXI.loader.reset().add(HOLZ).add(BALL).load(initGame)
 </textarea></p>
     
-    <script>
-      function update() {
-        eval(document.getElementById('code').value)
-      }
-      
-      function checkDone() {
-        if (window.score >= 1000) {
-          window.basicText.text = 'Die Antwort lautet ' + (![]+[])[!+[]+!+[]+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]
+      <script>
+        function update() {
+          eval(document.getElementById('code').value)
         }
-        setTimeout(checkDone, 10)
-      }
-      
-      window.onload = () => {
-        update()
-        checkDone()
-      }
-    </script>
+        
+        function checkDone() {
+          if (window.score >= 100) {
+            window.basicText.text = 'Die Antwort lautet ' + ((+[]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]) + '.'
+          }
+          setTimeout(checkDone, 10)
+        }
+        
+        window.onload = () => {
+          update()
+          checkDone()
+        }
+      </script>
 
-    `,
+    `
+      ),
       en: `
       <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
       
@@ -2642,11 +2901,16 @@ PIXI.loader
     // date: '2020-08-17',
     deps: [47, 79, 87],
     html: {
-      de: `
-      <p>Du hast es gleich zur Passage geschafft! Dafür schenke ich dir ein Smiley.
-      </p>
-      
-      <pre class="bg-dark p-3"><code>                  const d = [68,
+      de: story(
+        'Kiwi',
+        `
+        <p>Wenn wir genug Zeit haben, würde ich dir auch unbedingt Programmieren beibringen wollen. Ausnahmsweise ist das keine verbotene Aktivität, denn solange man sich an den Auftrag hält, sieht das Technik-Dekret kein Problem.</p>
+
+        <p>Aber sei dir bewusst, mein Unterricht wird nicht so ganz orthodox sein. Ich schreibe meine Programme auf eine etwas ... kreativere Art.</p>
+
+        <p>Dieser Smiley ist ein Programm, das dir die Antwort sagt. Kopiere es auf eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> oder in die Browser-Konsole und führe es aus.</p>`,
+        `
+        <pre class="bg-dark p-3" style="width:420px;"><code>                  const d = [68,
              105,               101,
          32,                         65,
       110,                             116,
@@ -2665,9 +2929,8 @@ PIXI.loader
         x                             x
            xxxxx                xxx*/
                  window.alert(e)</code></pre>
-                 
-      <p>Wenn du das Smiley als Programm ausführst, erhältst du die Antwort auf diese Aufgabe. Eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> hilft.</p>
-    `,
+    `
+      ),
       en: `
       <p>You're already very close to the passage! Here is a small gift for you.
       </p>
@@ -2705,10 +2968,13 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [68, 110],
     html: {
-      de: `
-      <p>Im Hintergrund der <a href="/chals/chal66/index.html" target="_blank">Matrix</a> ist ein Wort versteckt. Schaue genau hin und achte auf die Schatten.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Im Hintergrund der <a href="/chals/chal66/index.html" target="_blank">Matrix</a> ist ein Wort versteckt. Schaue genau hin und achte auf die Schatten.
+        </p>
+    `
+      ),
       en: `
       <p>There is a word hidden in the background of the <a href="/chals/chal66/index.html" target="_blank">Matrix</a>. Look closely and pay attention to the shadows.
       </p>
@@ -2724,11 +2990,16 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [37],
     html: {
-      de: `
-      <p>Verbinde die Adern in der richten Reihenfolge mit dem Stecker. Nutze dabei den Standard TIA-568B.</p>
-    
-      <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Hacken kann man wirklich alles, sei es Software, Hardware oder andere Systeme. Der menschlichen Kreativität sind keine Grenzen gesetzt, zumindest nicht so enge, wie die Regierung es uns vorschreiben möchte.</p>
+        
+        <p>Es kann passieren, dass du auch mal eine Internet-Leitung selber bauen musst. Nutze den Standard <a href="https://de.wikipedia.org/wiki/TIA-568A/B" target="_blank">TIA-568B</a> und verbinde die Adern. Die Buchstaben ergeben deine Antwort.</p>
+      
+        <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
+    `
+      ),
       en: `
       <p>Connect the wires in the right order with the plug. Use the TIA-568B standard.</p>
       
@@ -2745,13 +3016,18 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [5, 15],
     html: {
-      de: `
-      <p>Kunst überdauert Jahrhunderte - auch weil sie immer wieder neu interpretiert und überarbeitet wird.</p>
-      
-      <p>Dein Freund Normand zeigt dir stolz sein neustes Kunstwerk:
-      </p>
-      
-      <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
+      de: story(
+        'Kiwi',
+        `
+        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Wenn mir das alles zu viel ist, mit dem Widerstand und all den anderen Sorgen - dann tröste ich mich mit Kunst.</p>
+
+        <p>Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs. Normand würde für die Zweckentfremdung der Buchstaben und Satzzeichen sicherlich im Gefängnis landen.</p>
+
+        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren? Du darfst für alle Aufgaben auf Hack The Web eine Suchmaschine verwenden.</p>
+        `,
+        `
+        
+        <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
                             _,,ad8888888888bba,_
                          ,ad88888I888888888888888ba,
                        ,88888888I88888888888888888888a,
@@ -2806,9 +3082,8 @@ PIXI.loader
  8888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888 Normand  88
  88888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888 Veilleux 88
  8888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888888</pre>
-    
-    <p>Die Umsetzung ist kreativ und modern, doch das Motiv selber ist schon sehr alt. In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
-    `,
+    `
+      ),
       en: `
       <p>Art lasts for centuries — also because it is constantly reinterpreted and revised.</p>
       
@@ -2884,34 +3159,40 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [4, 16, 68],
     html: {
-      de: `
-      <p>Ich könnte nicht so präzise mit der Maus umgehen, denn du hast ein super Feingefühl! Die 6 Bilder lassen sich mit der Maus verschieben. Übereinander gelegt ergeben sie die Antwort.
-      </p>
-      
-      <div style="display:flex;flex-wrap:wrap;">
-      <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
-      <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
-      <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
-      <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
-      <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
-      <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
-      </div>
-      
-      <script src="/jquery-3.6.0.js"></script>
-      <script src="/jquery-ui.js"></script>
-      
-      <style>
-        .draggable {
-          margin: 12px;
-        }
-      </style>
-      
-      <script>
-          $( function() {
-            $( ".draggable" ).draggable()
-          } )
-      </script>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich habe schon früh verstanden, dass einige Dinge um uns herum nicht stimmen. Das ist ja nicht so schwer, man muss nur die einzelnen Teile übereinander legen und sieht dann das Muster.</p>
+
+        <p>Probier das aus. Schiebe die sechs Bilder übereinander und erhalte deine Antwort.</p>
+        `,
+        `
+        
+        <div style="display:flex;flex-wrap:wrap;">
+        <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
+        <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
+        <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
+        <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
+        <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
+        <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
+        </div>
+        
+        <script src="/jquery-3.6.0.js"></script>
+        <script src="/jquery-ui.js"></script>
+        
+        <style>
+          .draggable {
+            margin: 12px;
+          }
+        </style>
+        
+        <script>
+            $( function() {
+              $( ".draggable" ).draggable()
+            } )
+        </script>
+      `
+      ),
       en: `
       <p>I couldn't be so precise with the mouse because you have great sensitivity! The 6 images can be moved with the mouse. When placed one on top of the other, they provide the answer.
       </p>
@@ -2951,23 +3232,21 @@ PIXI.loader
     // date: '2021-03-19',
     deps: [63, 86],
     html: {
-      de: `
-      <p>Wenn wir heute in einem LEGO-Wettbewerb gegeneinander antreten würde, dann hätte ich gegen dich keine Chance. Irgendwie war ich kreativer, als ich noch jung war.
-      </p>
-      
-      <p>Zum Glück braucht Programmieren nicht so viel Kreativität, sondern man kann sich mehr auf das Problemlösen konzentrieren. Robot Karol versucht, einen Mittelweg zu finden und an die LEGO-Welt anzuschließen. Hier findest du eine <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">Online-Version</a> von Robot Karol.
-      </p>
-      
-      <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
-      </iframe>
-      
-      <p>Baue folgenden Code mit Karol und führe das Programm aus.
-      </p>
-      
-      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
-      
-      <p>Die Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Aus scheinbar einfachen Systemen können komplexe und schöne Strukturen entstehen, die man gar nicht erwartet hätte. So ist es mit Algorithmen. Diese bestehen aus ein paar wenigen Bausteinen, doch erlauben erstaunlich viele Kombinationen. Sich mit solchen Systemen auszukennen ist sehr mächtig. Denn dann kannst du überall mit ganz wenigen Mitteln deine eigenen Systeme bauen ...</p>
+
+        <p>So weit sind wir noch nicht. Nimm dir erstmal eine <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">3x9-Welt</a> und schaue dir dieses Programm an:</p>
+
+        <p><img src="/chals/chal70_2.png" alt="blockly"></p>
+
+        <p>Schwer vorherzusagen, was das Ergebnis ist. Baue es nach und starte das Programm. Deine Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>`,
+        `
+        <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
+        </iframe>
+    `
+      ),
       en: `
       <p>If we competed against each other in a LEGO competition today, I wouldn't stand a chance against you. Somehow, I was more creative when I was young.
       </p>
@@ -2981,7 +3260,6 @@ PIXI.loader
       <p>Build the following code with Karol and run the program.
       </p>
       
-      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
       
       <p>The answer is the number of yellow tokens at the end.</p>
       
@@ -3006,13 +3284,14 @@ PIXI.loader
     // date: '2022-02-09',
     deps: [51, 55, 69],
     html: {
-      de: `
-      <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren.</p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren. Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
 
-      <p>Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
-
-      <p>Deine Antwort ist der Nachname dieser Person.</p>
-    `,
+        <p>Ich möchte, dass du diesen Menschen kennenlernst. Wie lautet dessen Nachname?</p>
+    `
+      ),
       en: `
         <p>Even people from a completely different era can inspire us today.</p>
 
@@ -3031,27 +3310,28 @@ PIXI.loader
     // date: '2022-02-09',
     deps: [21, 63],
     html: {
-      de: `
-      <p>Die meisten Webseiten können sich an die Größe des Bildschirms anpassen, sei es ein Handy, Tablet oder großer Monitor. In der analogen Welt gibt es diese Möglichkeiten nicht. Dort findet sich häufig nur das Format DIN A4.
-      </p>
-      
-      <p>Eine Webseite lässt sich auch in das DIN-A4-Format bringen, zum Beispiel durch die Druckvorschau. Dort findest du die Antwort zu dieser Aufgabe.
-      </p>
-      
-      <p class="print-only">Die Antwort lautet ${secrets('chal_78')}.</p>
-      
-      <style>
-        .print-only {
-          display: none;
-        }
-        @media print { 
+      de: story(
+        'Kiwi',
+        `
+        <p>Es gibt super viele Möglichkeiten, Nachrichten zu verstecken. Kaum jemand druckt heute noch Webseiten aus. Und das ist eine Chance, eine geheime Nachricht in der Druckvorschau zu verstecken.</p>
+
+        <p>In der Druckvorschau zu dieser Seite findest du deine Antwort.</p>
+        
+        <p class="print-only">Die Antwort lautet ${secrets('chal_78')}.</p>
+        
+        <style>
           .print-only {
-            display: block;
-            font-size: 4em;
+            display: none;
           }
-        }
-      </style>
-    `,
+          @media print { 
+            .print-only {
+              display: block;
+              font-size: 4em;
+            }
+          }
+        </style>
+    `
+      ),
       en: `
       <p>Most websites can adapt to the size of the screen, be it a mobile phone, tablet or large monitor. In the analog world, these options do not exist. There you will often only find the DIN A4 format.
       </p>
@@ -3080,34 +3360,31 @@ PIXI.loader
   {
     id: 79,
     pos: { x: 1095, y: 620 },
-    title: { de: 'Google-Fu', en: 'Googling' },
+    title: { de: 'Recherche', en: 'Research' },
     // date: '2022-02-24',
     deps: [18, 84],
     html: {
-      de: `
-      <p>In den weiten des Internets lassen sich so manche Informationen sammeln. Der Name für diese Fähigkeit: Google-Fu.</p>
-      
-      <p>Die Frage an dich lautet:  Wie viele Aufgaben hat Hack The Web insgesamt zum jetzigen Zeitpunkt?</p>
-      
-      <p>Hole dein ganzes Google-Fu heraus und zeige, was du drauf hast!</p>
-    `,
+      de: story(
+        'Josh',
+        `
+        <p>Weißt du noch, wie ich dir den HTML-Quellcode gezeigt habe? Vor ganz vielen Jahren gab es in den USA einen Governor, der einen Journalist wegen &quot;Hacking&quot; anklagen wollte. Der Journalist hat sich den Quellcode einer Regierungswebsite angeschaut hat und dort persönliche Informationen vieler Lehrkräfte gefunden.</p>
+        
+        <p>Ganz wilde Geschichte, denn im Grund hat der Staats selbst ausversehen persönliche Informationen in der Website mitgeliefert, die jeder mit bisschen technischen Wissen herauslesen konnte. Es gab dazu ein <a href="https://pbs.twimg.com/media/FBrT2wWX0AQ4zkQ?format=jpg&name=small" target="_blank">nettes Meme</a>. Wenn die Leute nur wüssten, ich schlecht dieser Witz gealtert ist ...</p>
+
+        <p>Wann war das nochmal? Ich glaube das war 2021. Kannst du mir bitte heraussuchen, in welchem US-Bundesstaat das passierte?
+        </p>
+    `
+      ),
       en: `
-        <p>There is a lot of information to be found on the Internet. The name for this skill: Googling.</p>
-        
-        <p>The question for you is: How many challenges does Hack The Web have in total at the moment?</p>
-        
-        <p>Use all your Googling skills and show what you've got!</p>
+        <p>Do you remember when the HTML source code was shown? Many years ago, there was a case in the USA where a governor wanted to charge a journalist with "hacking." The journalist had looked at the source code of a government website and found personal information about many teachers.</p>
+
+        <p>It was quite a wild situation, because essentially, the state had accidentally included personal information in the website, which anyone with some technical knowledge could access.</p>
+
+        <p>When did this happen again? I believe it was in 2021. Could you look up in which US state this took place?</p>
+
     `,
     },
-    check: (answer, { App }) => {
-      return {
-        answer,
-        correct:
-          parseInt(answer) ===
-            App.challenges.data.filter((data) => !data.noScore).length ||
-          parseInt(answer) === App.challenges.data.length,
-      }
-    },
+    solution: secrets('chal_79'),
   },
 
   {
@@ -3117,10 +3394,17 @@ PIXI.loader
     // date: '2022-02-24',
     deps: [4, 6],
     html: {
-      de: `
-      <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken. Verwende die Farben <code>green</code>, <code>purple</code>, <code>red</code>, <code>yellow</code>, <code>blue</code> und <code>orange</code>. Lade die Seite neu zum zurückzusetzen.</p>
-      
-      <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
+      de: story(
+        'Kiwi',
+        `
+        <p>Das Technik-Dekret war auch ein großer Rückschlag für queere Menschen. Die Gesellschaft ist hartherziger geworden. Und darunter leiden die, die eh schon mehr Last zu tragen haben.</p>
+
+        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
+        `
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <textarea class="form-control" style="height:425px;font-family:monospace;" id="css-input" oninput="update()">#bar1 {
   background-color: green;
 }
 #bar2 {
@@ -3138,22 +3422,29 @@ PIXI.loader
 #bar6 {
   background-color: orange;
 }</textarea>
-      
-      <div style="width:389px;border:1px solid black">
-        <div style="height:40px" id="bar1"></div>
-        <div style="height:40px" id="bar2"></div>
-        <div style="height:40px" id="bar3"></div>
-        <div style="height:40px" id="bar4"></div>
-        <div style="height:40px" id="bar5"></div>
-        <div style="height:40px" id="bar6"></div>
+          </div>
+
+          <div class="col-lg-6 col-md-12">
+            <div style="max-width:390px;border:1px solid black">
+              <div style="height:40px" id="bar1"></div>
+              <div style="height:40px" id="bar2"></div>
+              <div style="height:40px" id="bar3"></div>
+              <div style="height:40px" id="bar4"></div>
+              <div style="height:40px" id="bar5"></div>
+              <div style="height:40px" id="bar6"></div>
+            </div>
+            <style id="injector"></style>
+            
+            <div id="result" style="margin-top:10px"></div>
+          </div>
+        </div>
       </div>
+          
       
-      <style id="injector"></style>
-      
-      <div id="result" style="margin-top:10px"></div>
-      
+      <script>lng='de'</script>
       <script src="/chals/chal80_2.js"></script>
-    `,
+    `
+      ),
       en: `
       <p>ARRRRG! Some <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> person messed up the colors of the rainbow flag! It's now up to you to put the colors back in the correct order:</p>
       
@@ -3189,6 +3480,7 @@ PIXI.loader
       
       <div id="result" style="margin-top:10px"></div>
       
+      <script>lng='en'</script>
       <script src="/chals/chal80_2.js"></script>
     `,
     },
@@ -3202,31 +3494,36 @@ PIXI.loader
     // date: '2022-12-28',
     deps: [9, 37, 58],
     html: {
-      de: `
-      <p>Unintuitive Formulare sind ein Schrecken für jeden Internetbenutzer. Zum Beispiel findest du die Antwort zu dieser Aufgabe in diesem viel zu kleinen Textfeld:</p>
-      
-      <p><input size="5" value="-> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> Die Antwort lautet ${secrets(
-        'chal_81'
-      )}"/>
-      </p>
-      
-      <p>Wir kommen zum witzigen Teil. Nur eines der Eingabefelder funktioniert:</p>
-      
-      ${(() => {
-        let output = ''
-        for (let i = 0; i < 25; i++) {
-          output += `
-            <form autocomplete="off" method="post" id="challenge_form"${
-              i !== 18 ? ' action="/falsches_Eingabefeld"' : ''
-            }>
-              <input id="challenge_answer" type="text" name="answer" style="height:32px">
-              <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
-            </form>
-          `
-        }
-        return output
-      })()}
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Willkommen zum Hindernislauf von Hack The Web mit zwei Hürden 🏃‍♀️. Mache dich bereit für nervige Formulare im Internet.</p>
+        
+        <p>Finde als erstes deine Antwort in diesem viel zu kleinen Textfeld:</p>
+        
+        <p><input size="5" value="-> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> scroll weiter -> -> -> -> -> -> -> -> -> -> -> -> Die Antwort lautet ${secrets(
+          'chal_81'
+        )}"/>
+        </p>
+        
+        <p>Schicke jetzt die Antwort ab. Nur eines der Eingabefelder funktioniert:</p>
+        
+        ${(() => {
+          let output = ''
+          for (let i = 0; i < 15; i++) {
+            output += `
+              <form autocomplete="off" method="post" id="challenge_form"${
+                i !== 11 ? ' action="/falsches_Eingabefeld"' : ''
+              }>
+                <input id="challenge_answer" type="text" name="answer" style="height:32px">
+                <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+              </form>
+            `
+          }
+          return output
+        })()}
+    `
+      ),
       en: `
       <p>Unintuitive forms are a nightmare for every internet user. For example, you can find the answer to this task in this much too small text field:</p>
       
@@ -3286,13 +3583,15 @@ PIXI.loader
       }
       if (req.lng === 'de') {
         if (!req.query.level) {
-          return `
-          <p>Hast du gestern gut geschlafen? Ich hoffe, dir sind im Traum keine seltsamen Personen begegnet wie im Film Inception.</p>
-        
-          <p>Diese Seite ist von Inception inspiriert. Scrolle dich durch alle Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
-          
-          ${renderFrame(1110, 700, 1)}
-        `
+          return story(
+            'Kiwi',
+            `
+            <p>Hat dir der Film gestern gefallen? Ich finde ihn inspirierend. Wobei ich zugeben muss: Manchmal habe ich wie im Film die Angst nicht zu wissen, ob ich mich in der Realität befinde oder nur in einem Traum. Vor allem wenn man lange Zeit so isoliert lebt.</p>
+            
+            <p>Im Computer kann man relativ leicht Realitäten ineinander verschachteln. Ich kann auf dieser Seite nochmal die selbe Seite einbinden. Du findest hier drei Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
+        `,
+            renderFrame(500, 700, 1)
+          )
         }
 
         const level = parseInt(req.query.level)
@@ -3309,7 +3608,7 @@ PIXI.loader
             }, 100)
           </script>
           
-          ${renderFrame(1000, 500, 3)}
+          ${renderFrame(450, 500, 3)}
         `
         }
 
@@ -3317,7 +3616,9 @@ PIXI.loader
           return `
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
           
-          <p>Die Antwort lautet ${secrets('chal_84')}.</p>
+          <p style="margin-top:150px">Die Antwort lautet ${secrets(
+            'chal_84'
+          )}.</p>
           
           <script>
             setTimeout(() => {
@@ -3385,36 +3686,41 @@ PIXI.loader
     // date: '2023-04-02',
     deps: [7, 80],
     html: {
-      de: `
-      <p>Diese Seite ist leicht zerbrechlich. Probiere es aus: Du kannst alle Inhalte verändern.</p>
-      
-      <p>Ein kleiner Auftrag: Ändere den Slogan zu "Schau, was ich alles kann!"
-      </p>
-      
-      <p id="output">&nbsp;</p>
-      
-      <script>
-        document.documentElement.contentEditable = true
-          document.body.spellcheck = false
-        setTimeout(() => {
-          document.getElementById('challenge_form').contentEditable = false
-          check()
-        }, 100)
+      de: story(
+        'Josh',
+        `
+        <p>Nicht viele Menschen wissen, dass es für Webseiten einen Bearbeitungsmodus gibt. Ein Schalter genügt und und schon kann man die Seite nach Belieben verändern. Ich bin immer wieder erstaunt, was für geheime Funktion es zu entdecken gibt.</p>
+
+        <p>Den Schalter habe ich hier aktiviert. Probiere es aus. Du kannst an jeder Stelle deinen Cursor setzen und den Inhalt verändern.</p>
         
-        function check() {
-          const lead = document.querySelector('p[class="lead"]')
-          if (lead) {
-            if (lead.textContent.trim().toLowerCase() === 'schau, was ich alles kann!') {
-              document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
-                secrets('chal_86')
-              ).toString('base64')}') + '.'
-              return // don't run check anymore
+        <p>Ein kleiner Auftrag: Ändere meinen Namen zu "Yoshi" und erhalte die Antwort.
+        </p>
+        
+        <p id="output">&nbsp;</p>
+        
+        <script>
+          document.documentElement.contentEditable = true
+            document.body.spellcheck = false
+          setTimeout(() => {
+            document.getElementById('challenge_form').contentEditable = false
+            check()
+          }, 100)
+          
+          function check() {
+            const lead = document.querySelector('.avatar > div')
+            if (lead) {
+              if (lead.textContent.trim().toLowerCase() === 'yoshi') {
+                document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
+                  secrets('chal_86')
+                ).toString('base64')}') + '.'
+                return // don't run check anymore
+              }
             }
+            setTimeout(check, 500)
           }
-          setTimeout(check, 500)
-        }
-      </script>
-    `,
+        </script>
+    `
+      ),
       en: `
       <p>This site is easily fragile. Try it out: You can edit all content.</p>
       
@@ -3456,18 +3762,21 @@ PIXI.loader
     // date: '2023-04-02',
     deps: [59, 60, 84],
     html: {
-      de: `
-      <p>Du hast eine wunderbar entspannte Aura! Das hat mich inspiriert, dieses kleine entspannte Spiel zu entwickeln.
-      </p>
-      
-      <p>Steuere mit den <code>Pfeiltasten</code>.
-      </p>
-      
-      <iframe src="https://scratch.mit.edu/projects/829930955/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
-      
-      <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich finde, du hast eine wunderbar entspannte Aura :) Das hat mich zu diesem sehr entspannten kleinen Spiel inspiriert.</p>
+
+        <p>Steuere mit den <code>Pfeiltasten</code>.</p>
+        `,
+        `
+        
+        <iframe src="https://scratch.mit.edu/projects/829930955/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
+        
+        <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
+        </p>
+    `
+      ),
       en: `
         <p>You have a wonderfully relaxed aura! That inspired me to develop this little relaxed game.
         </p>
@@ -3491,18 +3800,16 @@ PIXI.loader
     // date: '2023-05-13',
     deps: [5],
     html: {
-      de: `
-      <p>Schwierigkeiten halten dich nicht von deinen Zielen ab. Im Gegenteil: Du nutzt deine Kreativität, um die Herausforderung zu lösen.
-      </p>
-      
-      <p>Hier ist ein Taschenrechner aus einem Tutorial. Ich bin dem Tutorial gefolgt, muss aber irgendwo einen Fehler gemacht - man kann keine mehrstelligen Zahlen eingeben.
-      </p>
-      
-      <p>Deine Kreativität ist nun gefragt. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
-      </p>
+      de: story(
+        'Bex',
+        `
+        <p>Du bist also neu hier. Nett. Erwarte nicht, dass du deshalb besonders behandelt wirst. Jeder trägt seinen Teil bei und für dich gilt keine Ausnahme.</p>
 
-      ${calculator()}
-    `,
+        <p>Ich möchte sehen, wie du mit Herausforderungen umgehst. Das ist ein defekter Taschenrechner. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.</p>
+
+        ${calculator()}
+    `
+      ),
       en: `
       <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
       </p>
@@ -3528,12 +3835,18 @@ PIXI.loader
     // date: '2023-05-13',
     deps: [110],
     html: {
-      de: `
-      <p>Berechne diesmal die Zahl <strong>10240</strong>.
-      </p>
-      
-      ${calculator()}
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Ich sehe, du bist nicht ganz unbeholfen. Nicht schlecht. Aber ich will, ehm, noch mehr Beweise sehen. </p>
+
+
+        <p>Berechne diesmal die Zahl <strong>10240</strong>.
+        </p>
+        
+        ${calculator()}
+    `
+      ),
       en: `
       <p>This time calculate the number <strong>10240</strong>.
       </p>
@@ -3552,13 +3865,16 @@ PIXI.loader
     title: { de: 'Minecraft III', en: 'Minecraft III' },
     deps: [337],
     html: {
-      de: `
-        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, aber die Schaltung funktioniert nicht.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Nehmen wir mal an, ich baue eine Schaltung, die nicht funktioniert. Das passiert in der Realität natürlich nicht. Schaue dir diese Situation an:</p>
 
-        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:100%"></p>
-
-        <p>Mein Kumpel erkennt das Problem sofort: "Du musst nur einen Block hinzufügen!". Diese Block-ID ist deine Antwort.</p>
-      `,
+        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:65ch"></p>
+        
+        <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, doch die Lampe leuchtet nicht. Mit nur einen Block kann ich die Schaltung reparieren. Diese Block-ID ist deine Antwort.</p>
+      `
+      ),
       en: `
         <p>I want to turn the lamp on and off with a switch, but the circuit isn't working.</p>
 
@@ -3577,13 +3893,18 @@ PIXI.loader
     title: { de: 'Minecraft IV', en: 'Minecraft IV' },
     deps: [337],
     html: {
-      de: `
-        <p>Ich liebe den Mond bei Mitternacht. Am liebsten würde ich gerne immer, wenn ich will, zu diesem Zeitpunkt springen können.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Ich liebe den Mond bei Mitternacht. Der Mond hat etwas trauriges und einsames an sich, mit dem ich mich ...</p>
 
-        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:100%"></p>
-
-        <p>Der passende Befehl dazu ist deine Antwort.</p>
-      `,
+        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:65ch"></p>
+        
+        <p>Was rede ich da für einen Unsinn! Vergiss sofort, was ich gerade gesagt habe. Wir gehen jetzt zur nächsten Aufgabe.</p>
+        
+        <p>In Minecraft ist es möglich, die Zeit zu ändern. Deine Antwort ist der Befehl, um die Zeit auf Mitternacht zu setzen.</p>
+      `
+      ),
       en: `
         <p>I love the moon at midnight. I wish I could jump to that moment whenever I want.</p>
 
@@ -3602,13 +3923,16 @@ PIXI.loader
     title: { de: 'Baum', en: 'Tree' },
     deps: [68, 336],
     html: {
-      de: `
-        <p>Computer und Natur sind zwei verschiedene Welten. Ich verbringe gerne Zeit in beiden. Und beide können sich gegenseitig bereichern.</p>
+      de: story(
+        'Kiwi',
+        `
+        <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, etwas mit Natur einzubauen.</p>
 
-        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-width:500px"></p>
+        <p>Also dann, schaue dir diesen Baum an. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung. Und pssst, ich habe dir einen Tipp versteckt.</p>
 
-        <p>Der wissenschaftliche Name dieser Baumgattung ist deine Antwort. Keine Sorge, wenn du dich wenig mit Bäumen auskennst: Im Quellcode findet sich vielleicht ein Hinweis.</p>
-      `,
+        <p><a href="/chals/chal114_rosskastanie_aesculus.jpg" target="_blank"><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>
+      `
+      ),
       en: `
         <p>Computers and nature are two different worlds. I enjoy spending time in both. And both can enrich each other.</p>
 
@@ -3627,8 +3951,12 @@ PIXI.loader
     title: { de: 'Taschenrechner III', en: 'Calculator III' },
     deps: [111],
     html: {
-      de: `
-        <p>Blindes Probieren führt dich hier nicht zum Ziel. Wähle eine weise Strategie.</p>
+      de: story(
+        'Bex',
+        `
+        <p>Ich gebe zu, du hast mehr Ausdauer als ich dachte. Lasse mich kurz überlegen. Hier ist noch eine Aufgabe, die viel schwieriger ist. Ich habe damals sehr lange gebraucht, sie zu lösen.</p>
+        
+        <p>Josh meinte, wenn ich die Primfaktorzerlegung genutzt hätte, wäre ich in wenigen Minuten fertig gewesen. Keine Ahnung, was er damit sagen wollte.</p>
 
         <p>Berechne die Zahl <strong>15876000</strong>.</p>
       
@@ -3661,7 +3989,8 @@ PIXI.loader
         <link rel="stylesheet" href="/chals/chal110.css">
         
         <script src="/chals/chal110.js"></script>
-      `,
+      `
+      ),
       en: `
         <p>Blind guessing will not lead you to success here. Choose a wise strategy.</p>
 
@@ -3864,11 +4193,21 @@ PIXI.loader
     deps: [5, 15],
     // author: 'QWERTZ',
     html: {
-      de: `
+      de: story(
+        'Bex',
+        `
+        <p>Kiwi hat mich beordert, dir paar Dinge zu zeigen. Hey: nur weil ich jung bin heißt es nicht, dass ich nicht ordentlich was drauf habe!</p>
+
+        <p>Meine Eltern waren schockiert, dass ich ein so altes Spiel wie Minecraft spiele - und noch dazu ein Spiel, das offiziell verboten ist. Aber es ist gut und man kann da sehr viele kreative Dinge machen.</p>
+
+        <p>Ich habe eine Aufgabe für dich. Kiwi könnte viel besser erklären, warum das eine sinnvolle Aufgabe ist, das spare ich mir. Mach und zeig mir, dass Kiwi mit der Entscheidung, dich auszubilden, Recht hatte.</p>
+      `,
+        `
         <p>Was ist die Block-ID von diesem Block?</p>
         
-        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
-      `,
+        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+      `
+      ),
       en: `
         <p>What is the block-ID for this block?</p>
           
@@ -3886,11 +4225,16 @@ PIXI.loader
     deps: [336],
     // author: 'QWERTZ',
     html: {
-      de: `
-        <p>Welches Konzept wird hier dargestellt?</p>
-          
-        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
-      `,
+      de: story(
+        'Bex',
+        `
+        <p>Die erste Aufgabe hast du gemeistert. Anscheinend hast du doch was auf dem Kasten.</p>
+
+        <p>Ich frage dich als nächstes: Welches Konzept wird hier dargestellt?
+
+        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
+        `
+      ),
       en: `
         <p>Which concept is presented here?</p>
             

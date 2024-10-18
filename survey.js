@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const escapeHtml = require('escape-html')
 
-const cutoff = '2024-09-10'
+const cutoff = '2024-10-20'
 
 module.exports = (App) => {
   App.express.get('/survey', async (req, res) => {

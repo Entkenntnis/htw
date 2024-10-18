@@ -38,7 +38,7 @@ module.exports = (config) => {
     lng: 'de',
     key: 'home.version',
     value:
-      'Version: September 2024 (<a href="' +
+      'Version: Oktober 2024 (<a href="' +
       config.urlPrefix +
       '/news">Neuigkeiten</a>)',
   })
@@ -46,7 +46,7 @@ module.exports = (config) => {
     lng: 'en',
     key: 'home.version',
     value:
-      'Version: September 2024 (<a href="' +
+      'Version: October 2024 (<a href="' +
       config.urlPrefix +
       '/news">News</a>)',
   })
@@ -320,6 +320,13 @@ module.exports = (config) => {
     value: `
       <div class="my-5"></div>
       
+      <h3>Oktober 2024</h3>
+      
+      <p>Die Aufgaben von Hack The Web erhalten eine Storyline. Lerne Hacken mit Kiwi, Bex und Josh.
+      </p>
+      
+      <div class="my-5"></div>
+      
       <h3>September 2024</h3>
       
       <p>Es gibt neue Aufgaben! Die Anzahl der Aufgaben erhöht sich auf 111. Die neue Höchstpunktzahl beträgt 1939.
@@ -544,6 +551,13 @@ module.exports = (config) => {
     lng: 'en',
     key: 'news.content_',
     value: `
+      <div class="my-5"></div>
+      
+      <h3>October 2024</h3>
+      
+      <p>There is a new storyline in the German version.
+      </p>
+      
       <div class="my-5"></div>
       
       <h3>September 2024</h3>

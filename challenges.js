@@ -1145,13 +1145,16 @@ const part1 = [
     // date: '2017-08-25',
     deps: [42, 50],
     html: {
-      de: `
-      <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
-      </p>
-      
-      <p>Warum nicht ausprobieren? Ich habe die Antwort mal ordentlich gezipt: Hier ist die <a href="/chals/antwort25.zip">Datei</a>. Darin findet sich die Lösung zu dieser Aufgabe. Und nein, mehrfaches Zippen bringt nichts und macht die Datei sogar größer.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Wenn man eine Datei zipt, dann wird sie kleiner und braucht weniger Speicherplatz. Wenn man eine Zip-Datei nochmal zipt, wird sie dann noch kleiner?
+        </p>
+        
+        <p>Warum nicht ausprobieren? Ich habe die Antwort mal ordentlich gezipt: Hier ist die <a href="/chals/antwort25.zip">Datei</a>. Darin findet sich die Lösung zu dieser Aufgabe. Und nein, mehrfaches Zippen bringt nichts und macht die Datei sogar größer.
+        </p>
+      `
+      ),
       en: `
       <p>When you zip a file, it becomes smaller and requires less space. When you zip it again, does it become even smaller?</p>
       </p>
@@ -1773,12 +1776,15 @@ const part1 = [
     // date: '2020-05-20',
     deps: [56, 59, 60, 62],
     html: {
-      de: `
-      <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich hinter folgenden Schriftzeichen?
-      </p>
-      
-      <p><img src="/chals/chal45.png" alt="japanese characters"></p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich hinter folgenden Schriftzeichen?
+        </p>
+        
+        <p><img src="/chals/chal45.png" alt="japanese characters"></p>
+    `
+      ),
       en: `
       <p>We live in an international world and hackers also speak many languages. Some languages differ greatly from our language and thus present us with challenges. What delicacy is hidden behind the following characters?
       </p>
@@ -1920,22 +1926,20 @@ const part1 = [
   {
     id: 48,
     pos: { x: 890, y: 1000 },
-    title: { de: 'Stille', en: 'Silence' },
+    title: { de: 'Meditation', en: 'Silence' },
     // date: '2020-05-21',
     deps: [56, 62],
     html: {
-      de: `
-      <p>Zur Ruhe kommen und in sich hineinhören - das brauche ich immer wieder, um mich mit mir selbst zu verbinden und so ausgeglichen sein zu können wie du.
-      </p>
-      
-      <p>Manche Menschen finden es hilfreich, dabei eine akustische Untermalung zu haben.
-      </p>
-      
-      <audio src="/chals/chal48_2.mp3" controls></audio>
-      
-      <p>Doch du bist nicht alleine. Deine Antwort findet sich zwischen dem Zwischern der Vögel.
-      </p>
-    `,
+      de: story(
+        'Bex',
+        `
+        <p>Komm zur Ruhe und höre in dich hinein. Verbinde dich mit dir selbst und sei ausgeglichen ...</p>
+
+        <p>Haha, kleiner Spaß. Ich bin die letzte Person auf dieser Welt, die meditieren würde. Was ich viel lieber mache ist es, Menschen zu erschrecken. Ich habe in diesem Meditationstrack eine kleine Überraschung vorbereitet. Diese ist deine Antwort.</p>
+        
+        <audio src="/chals/chal48_2.mp3" controls></audio>
+    `
+      ),
       en: `
       <p>Finding peace and listening to yourself - I need that again and again in order to connect with myself and be as balanced as you.
       </p>
@@ -2224,10 +2228,13 @@ const part1 = [
     // date: '2020-08-01',
     deps: [25, 26],
     html: {
-      de: `
-      <p>Es ist wieder dein Benutzername gefragt. Diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
-      </p>
-    `,
+      de: story(
+        'Kiwi',
+        `
+        <p>Es ist wieder dein Benutzername gefragt. Diesmal soll dein Benutzername auf einer Website enthalten sein. Gib als Antwort den vollständigen Link zu dieser Website ein, z.B. <code>https://www.wikipedia.de</code>. Der Server ruft dann die Website auf und durchsucht sie nach deinem Namen.
+        </p>
+    `
+      ),
       en: `
         <p>It's your username again. This time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
         </p>
@@ -2271,6 +2278,12 @@ const part1 = [
           if (value.includes(req.user.name)) containsUsername = true
           if (value.length > 1000) {
             value = value.substring(0, 1000) + '...'
+          }
+          if (!containsUsername) {
+            value =
+              (req.lng.startsWith('de')
+                ? 'Benutzername nicht gefunden: '
+                : 'Username not found: ') + value
           }
         } catch (error) {
           if (error.message && error.message.includes('aborted')) {
@@ -2463,41 +2476,42 @@ const part1 = [
     // date: '2020-08-17',
     deps: [26, 29],
     html: {
-      de: `
-      <p>Ich möchte dir sagen: Du bist wunderbar <3.
-      </p>
-      
-      <p>Mit diesem Prompt habe ich ein Bild generiert, um die Nachricht anschaulicher zu gestalten. Hier kannst du es herunterladen:
-      </p>
-      
-      <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
-      
-      <p>Dateiname: <strong id="filename">bild.txt</strong> [<a href="#" onclick="changeName()">ändern</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Herunterladen</button>
-      </p>
-    
-      <p>Irgendwas stimmt aber nicht mit der Datei-Endung, das musst du vor dem Herunterladen reparieren. Auf dem Bild findest du die Antwort.
-      </p>
-      
-      
-      <script>
-        const filename = document.getElementById('filename')
+      de: story(
+        'Kiwi',
+        `
+        <p>Hacker geben nicht auf, wenn sie vor einer Herausforderung stehen. Als ich mir deine Strafakte durchgelesen habe, war mir sofort klar: Du bist ein wunderbar. Dich möchte ich ausbilden.</p>
+
+        <p>Auf zur nächsten Lektion. Ich habe ein unspektakuläres Bild generiert. Lade es herunter:</p>
         
-        function download() {
-          fetch('/chals/chal62.data')
-            .then(response => response.blob())
-            .then(blob => {
-              const link = document.createElement("a");
-              link.href = URL.createObjectURL(blob);
-              link.download = filename.innerHTML;
-              link.click();
-          })
-        }
+        <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
         
-        function changeName() {
-          filename.innerHTML = prompt('Neuer Dateiname:', filename.innerHTML)
-        }
-      </script>
-    `,
+        <p>Dateiname: <strong id="filename">bild.txt</strong> [<a href="#" onclick="changeName()">ändern</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Herunterladen</button>
+        </p>
+      
+        <p>Eine Kleinigkeit habe ich dir in den Weg gestellt - die Dateiendung ist falsch. Korrigiere sie und das Bild wird sichtbar. Auf dem Bild findest du die Antwort.
+        </p>
+        
+        
+        <script>
+          const filename = document.getElementById('filename')
+          
+          function download() {
+            fetch('/chals/chal62.data')
+              .then(response => response.blob())
+              .then(blob => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename.innerHTML;
+                link.click();
+            })
+          }
+          
+          function changeName() {
+            filename.innerHTML = prompt('Neuer Dateiname:', filename.innerHTML)
+          }
+        </script>
+    `
+      ),
       en: `
       <p>I want to tell you: you are wonderful <3.
       </p>

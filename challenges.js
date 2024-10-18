@@ -116,11 +116,11 @@ const part1 = [
 
           <p>Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden neblig sein, das ist normal nach deinen zwei Jahren Haft. Wir haben jetzt das Jahr 2077.
 
-          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir stellen uns gegen das Technik-Dekret der Regierung. Menschen soll nicht bestraft werden, nur weil sie Technik zu einem anderen Zweck als vorgesehen nutzen. Es ist absurd, Menschen wegen dem Umbau einer Kaffeemaschine zu einem Wecker für viele Jahre wegzusperren.</p>
+          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir stellen uns gegen das Technik-Dekret der Regierung. Menschen wie du soll nicht bestraft werden, nur weil sie Technik zu einem anderen Zweck als vorgesehen nutzen. Es ist absurd, jemanden wegen dem Umbau einer Kaffeemaschine zu einem Wecker für viele Jahre wegzusperren.</p>
 
           <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
 
-          <p>Hast du meine Worte verstanden? Gut. Berechne bitte 6 + 4 · 9 und gib die Antwort in das Eingabefeld ein.</p>  
+          <p>Fühl dich hier wie zu Hause. Du bist unser Gast. Das Ergebnis von 6 + 4 · 9 ist der PIN für die meisten Türen in diesem Gebäude. Tippe den PIN in das Eingabefeld.</p>
         `
         ),
         en: `
@@ -439,11 +439,11 @@ const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Na, schon wach? Komm, ich möchte dir was zeigen.</p>
+          <p>Na, bereit? Komm, ich möchte dir was zeigen.</p>
 
           <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text für das Auge nicht erkennbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
 
-          <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier mit der Antwort.</p>
+          <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier. Finde die Antwort.</p>
         `,
         `
           <p>--- Hier fängt das Blatt an ---</p>
@@ -2317,7 +2317,7 @@ const part1 = [
       de: story(
         'Bex',
         `
-        <p>Hey du, bad news. Kiwi und Josh wurden in eine Falle gelockt. Sie sind von der letzten Mission nicht zurückgekehrt.</p>
+        <p>Scheiße. Scheiße hoch Scheiße. Kiwi und Josh wurden in eine Falle gelockt. Sie sind von der letzten Mission nicht zurückgekehrt.</p>
 
         <p>Ich habe sie gebeten, vorsichtig zu sein! Sie sind alles, was ich habe. Ich kann sie nicht in Stich lassen. Ich werde sie befreien.</p>
 
@@ -2910,7 +2910,7 @@ PIXI.loader
 
         <p>Dieser Smiley ist ein Programm, das dir die Antwort sagt. Kopiere es auf eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> oder in die Browser-Konsole und führe es aus.</p>`,
         `
-        <pre class="bg-dark p-3" style="width:400px;"><code>                  const d = [68,
+        <pre class="bg-dark p-3" style="width:420px;"><code>                  const d = [68,
              105,               101,
          32,                         65,
       110,                             116,

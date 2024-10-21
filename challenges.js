@@ -85,8 +85,12 @@ function story(name, intro, task) {
         ${task ? `<hr><br>` : ''}
       </div>
       <div class="avatar">
-        <img src="/story/${name.toLowerCase()}.jpg" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
-        <div style="text-align:center;">${name}</div>
+        ${
+          name
+            ? `<img src="/story/${name.toLowerCase()}.jpg" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
+        <div style="text-align:center;">${name}</div>`
+            : ''
+        }
       </div>
     </div>
 
@@ -110,17 +114,15 @@ const part1 = [
       }
       return {
         de: story(
-          'Kiwi',
+          '',
           `
-          <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
+          <p>Es ist das Jahr 2077. In einer dystopischen Welt werden Hacker streng verfolgt. Im Technik-Dekret wurde festgelegt, dass jedes technische Gerät einen festgelegten Zweck hat. Wer dagegen verstößst, wird hart bestraft. Du baust eine Kaffeemaschine zu einem Wecker um? Das reicht für viele Jahre Gefängnis.</p>
 
-          <p>Wir haben dich aus dem Jugend-Gefängnis befreit. Deine Erinnerungen werden neblig sein, das ist normal nach deinen zwei Jahren Haft. Wir haben jetzt das Jahr 2077.
+          <p>Hacken, und alles was nur ansatzweise in diese Richtung geht, wird als Gefahr gesehen. Die meisten Menschen sind glücklich damit. Doch es regt sich Widerstand. Die Widerstandsgruppe Hack The Web und ihre Anführerin Kiwi akzeptieren diesen Einschnitt in die persönliche Freiheit nicht. In einer riskanten Mission hat Kiwi dich aus einem Jugend-Gefängnis befreit und möchte dich zur HackerIn ausbilden. Sie sieht in dir großes Potenzial - und nebenbei kann die Gruppe jede Hilfe gebrauchen.</p>
 
-          <p>Ich bin Teil der Widerstandsgruppe Hack The Web. Wir stellen uns gegen das Technik-Dekret der Regierung. Menschen wie du soll nicht bestraft werden, nur weil sie Technik zu einem anderen Zweck als vorgesehen nutzen. Es ist absurd, jemanden wegen dem Umbau einer Kaffeemaschine zu einem Wecker für viele Jahre wegzusperren.</p>
-
-          <p>Seit der Erlassung des Dekrets beobachten wir, wie die Menschen immer mehr an Kreativität verlieren. Doch du scheinst anders zu sein. Wir sehen in dir eine aussichtsreiche KandidatIn und würden dich gerne ausbilden - wenn du willst.</p>
-
-          <p>Fühl dich hier wie zu Hause. Du bist unser Gast. Das Ergebnis von 6 + 4 · 9 ist der PIN für die meisten Türen in diesem Gebäude. Tippe den PIN in das Eingabefeld.</p>
+          <p>Die Ausbildung beginnt mit einer Reihe von Aufgaben. Zeig, dass du das Zeug zu einer HackerIn hast!</p>
+          
+          <p>Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
         `
         ),
         en: `

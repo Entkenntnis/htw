@@ -116,13 +116,11 @@ const part1 = [
         de: story(
           '',
           `
-          <p>Es ist das Jahr 2077. In einer dystopischen Welt werden Hacker streng verfolgt. Im Technik-Dekret wurde festgelegt, dass jedes technische Gerät einen festgelegten Zweck hat. Wer dagegen verstößst, wird hart bestraft. Du baust eine Kaffeemaschine zu einem Wecker um? Das reicht für viele Jahre Gefängnis.</p>
+          <p>Es ist das Jahr 2077. Der Umgang mit Technologie ist streng reguliert. Jedes technische Gerät besitzt einen festgelegten Zweck und darf nicht für andere Zwecke verwendet werden. Du baust eine Kaffeemaschine zu einem Wecker um? Dafür drohen viele Jahre Gefängnis.</p>
 
-          <p>Hacken, und alles was nur ansatzweise in diese Richtung geht, wird als Gefahr gesehen. Die meisten Menschen sind glücklich damit. Doch es regt sich Widerstand. Die Widerstandsgruppe Hack The Web und ihre Anführerin Kiwi akzeptieren diesen Einschnitt in die persönliche Freiheit nicht. In einer riskanten Mission hat Kiwi dich aus einem Jugend-Gefängnis befreit und möchte dich zur HackerIn ausbilden. Sie sieht in dir großes Potenzial - und nebenbei kann die Gruppe jede Hilfe gebrauchen.</p>
+          <p>Hacken ist streng verboten - selbst wenn dabei niemanden geschadet wird. Die meisten Menschen sind damit glücklich. Doch es regt sich Widerstand. Die Gruppe Hack The Web und ihre Anführerin Kiwi akzeptieren diesen Einschnitt in die persönliche Freiheit nicht und wollen ein Ende des Technik-Dekrets erwirken. Dafür braucht die Gruppe kreative HackerInnen - die aber in der Gesellschaft schwer zu finden sind.  In einer riskanten Mission hat Kiwi dich aus einem Jugend-Gefängnis befreit. Sie sieht in dir großes Potenzial und möchte dich zur HackerIn ausbilden.</p>
 
-          <p>Die Ausbildung beginnt mit einer Reihe von Aufgaben. Zeig, dass du das Zeug zu einer HackerIn hast!</p>
-          
-          <p>Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
+          <p>Die Ausbildung beginnt mit einer Reihe von Aufgaben. Zeig, was du drauf hast! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p> 
         `
         ),
         en: `

@@ -114,13 +114,65 @@ const part1 = [
       }
       return {
         de: story(
-          '',
+          'Kiwi',
           `
-          <p>Es ist das Jahr 2077. Der Umgang mit Technologie ist streng reguliert. Jedes technische Gerät besitzt einen festgelegten Zweck und darf nicht für andere Zwecke verwendet werden. Du baust eine Kaffeemaschine zu einem Wecker um? Dafür drohen viele Jahre Gefängnis.</p>
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #000000; color: white; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index:1000;" id="intro-div">
+    <img style="width: 500px; margin-bottom: 60px;" id="image-el" src="/story/intro1.jpg">
+    <div style="text-align: center; font-size: 1.2rem; max-width: 80%; margin-bottom: 20px; max-width: 65ch;" id="text-div">
+    Es ist das Jahr 2077. Der Umgang mit Technologie ist streng reguliert. Jedes technische Gerät besitzt einen festgelegten Zweck und darf nicht für andere Zwecke verwendet werden. Du baust eine Kaffeemaschine zu einem Wecker um? Dafür drohen viele Jahre Gefängnis.
+    </div>
+    <button style="margin-bottom: 40px;" class="btn btn-success continue-btn" onclick="continueIntro()" id="button-el">
+        Weiter
+    </button>
+    <button style="position: absolute; bottom: 20px; left: 20px; background-color: transparent; color: #888; border: none; font-size: 0.8rem; cursor: pointer;" onClick="skipIntro()" id="skip-button">
+        Intro überspringen
+    </button>
+</div>
 
-          <p>Hacken ist streng verboten - selbst wenn dabei niemanden geschadet wird. Die meisten Menschen sind damit glücklich. Doch es regt sich Widerstand. Die Gruppe Hack The Web und ihre Anführerin Kiwi akzeptieren diesen Einschnitt in die persönliche Freiheit nicht und wollen ein Ende des Technik-Dekrets erwirken. Dafür braucht die Gruppe kreative HackerInnen - die aber in der Gesellschaft schwer zu finden sind.  In einer riskanten Mission hat Kiwi dich aus einem Jugend-Gefängnis befreit. Sie sieht in dir großes Potenzial und möchte dich zur HackerIn ausbilden.</p>
 
-          <p>Die Ausbildung beginnt mit einer Reihe von Aufgaben. Zeig, was du drauf hast! Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p> 
+<script src="/powerglitch.min.js"></script>
+
+<script>    
+  var slide = 0
+  
+  PowerGlitch.glitch('#image-el')
+
+  function continueIntro() {
+    if (slide == 0) {
+      slide++
+      document.getElementById('text-div').innerHTML = 'Hacken ist streng verboten - selbst wenn dabei niemanden geschadet wird. Die meisten Menschen sind damit glücklich. Doch es regt sich Widerstand. Die Gruppe Hack The Web und ihre Anführerin Kiwi akzeptieren diesen Einschnitt in die persönliche Freiheit nicht und wollen ein Ende des Technik-Dekrets erwirken.'
+      document.getElementById('image-el').src = "/story/intro2.jpg"
+      PowerGlitch.glitch('#image-el')
+    }
+    else if (slide == 1) {
+      slide++
+      document.getElementById('text-div').innerHTML = 'Dafür braucht die Gruppe kreative HackerInnen - die aber in der Gesellschaft schwer zu finden sind.  In einer riskanten Mission befreit Kiwi dich aus einem Jugend-Gefängnis. Sie sieht in dir großes Potenzial und möchte dich zur HackerIn ausbilden.'
+      document.getElementById('image-el').src = "/story/intro3.jpg"
+      PowerGlitch.glitch('#image-el')
+    }
+    else if (slide == 2) {
+      slide++
+      document.getElementById('text-div').innerHTML = 'Du bist jetzt mittendrin im Abenteuer. Zeig, was du drauf hast!'
+      document.getElementById('image-el').src = "/story/intro4.jpg"
+      document.getElementById('button-el').innerHTML = "Loslegen"
+      document.getElementById('skip-button').style.display = "none"
+      PowerGlitch.glitch('#image-el')
+    }
+    else if (slide == 3) {
+      skipIntro()
+    }
+  }
+
+  function skipIntro() {
+    document.getElementById('intro-div').style.display = 'none'
+  }
+</script>
+          
+          <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
+
+          <p>Deine Gedanken werden neblig sein. Das ist leider normal nach einer so langen Haft. Es ist traurig wie unsere Gesellschaft mit kreativen jungen Menschen umgeht. Ich kämpfe für eine bessere Zukunft, für eine Zukunft mit weniger Unterdrückung!</p>
+
+          <p>Wir können deine Hilfe gut gebrauchen. Doch es ist deine Entscheidung. Wenn du dich bereit fühlst, dann berechne 6 + 4 · 9 und tippe das Ergebnis in das Eingabefeld ein.</p>
         `
         ),
         en: `
@@ -439,7 +491,7 @@ const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Na, bereit? Komm, ich möchte dir was zeigen.</p>
+          <p>Komm, ich möchte dir was zeigen.</p>
 
           <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text für das Auge nicht erkennbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
 

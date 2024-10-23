@@ -1,0 +1,40 @@
+<% if (users.length == 0) { %>
+  <p><%= t('highscore.empty') %></p>
+<% } else { %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <% if (!hideRank) { %>
+          <th scope="col"><%= t('highscore.rank') %></th>
+        <% } %>
+        <th scope="col"><%= t('highscore.name') %></th>
+        <th scope="col"><%= t('highscore.score') %></th>
+        <th scope="col"><%= t('highscore.lastActive') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const row of users) { %>
+        <tr <%- (user && row.name === user.name) ? `class="table-${App.config.styles.tableHighlightClass} user-own-row"` : '' %>>
+          <% if (!hideRank) { %>
+            <td><%=row.rank%></td>
+          <% } %>
+          <td title="<%=t('highscore.joined')%> <%=row.age%>"><%=row.name%></td>
+          <td><%=row.score%></td>
+          <td><%=row.lastActive%></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+  <% if (user) { %>
+    <script>
+      const el = document.querySelector('.user-own-row')
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+          inline: 'center'
+        })
+      }
+    </script>
+  <% } %>
+<% } %> 

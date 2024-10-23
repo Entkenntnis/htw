@@ -1,0 +1,69 @@
+
+<%- include('../languagePicker', {t, App, locale}) %>
+
+
+<p><%= t('username') %> <%= user.name %></p>
+<p><%= t('score') %> <%= user.score %></p>
+<% if (props.rank) { %>
+  <p><%= t('rank') %>: <%= props.rank %> <span style="color:#dddddd;margin-left:12px;">(von <%= props.sum %>, Top <%= Math.ceil(props.rank * 100 / props.sum) %>%)</span></p>
+<% } %>
+<p><%= t('solved') %> <%= props.solved%></p>
+<p><%= t('registered') %> <%= App.moment(user.createdAt).locale(locale).fromNow() %> (<%= App.moment(user.createdAt).locale(locale).format("LLLL") %>)</p>
+<p><%= t('lastActive') %> <%= App.moment(props.lastActive).locale(locale).fromNow() %> (<%= App.moment(props.lastActive).locale(locale).format("LLLL") %>)</p>
+<% if (props.lastChal) { %>
+  <p><%= t('lastSolved') %>: <%= props.lastChal %></p>
+<% } %>
+
+<% if (props.room) { %>
+  <hr />
+
+  <p><%= t('room') %> <%= props.room%></p>
+  <% if (user.session_phase === 'READY') { %>
+    <p><%= t('sessionReady') %></p>
+    <p><a href="<%=prefix%>/startsession"><%= t('startSession') %></a></p>
+  <% } %>
+  <% if (user.session_phase === 'ACTIVE') { %>
+    <p><%= t('sessionActive') %></p>
+    <p><a href="<%=prefix%>/endsession"><%= t('endSession') %></a></p>
+  <% } %>
+  <% if (user.session_phase === 'DONE') { %>
+    <p><%= t('sessionDone') %></p>
+    <p><%= t('sessionScore') %> <%= user.session_score %></p>
+  <% } %>
+<% } %>
+
+<% if (!App.config.noSelfAdmin.includes(user.name)) { %>
+
+  <div class="alert alert-warning d-none my-4" role="alert" id="password-hint">
+    Empfohlen: Setze ein Passwort, um dich auf weiteren Geräten anzumelden: <a href="<%=prefix%>/changepw" class="alert-link">Passwort festlegen</a>
+  </div>
+
+  <p style="text-align:right" id="change-pw"><a href="<%=prefix%>/changepw"><%= t('changepw') %></a></p>
+  
+  <p class="d-none" id="remove-user" style="text-align:right;"><a href="#" onclick="removeMe()">Account von lokal entfernen</a></p>
+
+  <p style="text-align:right"><a href="<%=prefix%>/delete"><%= t('delete') %></a></p>
+
+<% } %>
+
+<% if (App.config.autoPassword) { %>
+  <script>
+    const username = '<%-user.name.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')%>'
+    let user = JSON.parse(localStorage.getItem('htw_local_users') || '[]').filter(function(entry){ return entry.name == username })
+    if (user.length == 1 && !user[0].password) {
+      document.getElementById('remove-user').className = ''
+    }
+    if (user.length == 1 && user[0].password) {
+      document.getElementById('password-hint').classList.remove('d-none')
+      document.getElementById('change-pw').classList.add('d-none')
+    }
+    
+    function removeMe() {
+      let data = JSON.parse(localStorage.getItem('htw_local_users') || '[]')
+      data = data.filter(entry => entry.name != username)
+      localStorage.setItem('htw_local_users', JSON.stringify(data))
+      alert('Account von lokal entfernt')
+      window.location.reload()
+    }
+  </script>
+<% } %>

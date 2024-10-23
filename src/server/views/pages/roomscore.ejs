@@ -1,0 +1,30 @@
+
+<p class="my-4">[<a href="<%=prefix%>/highscore"><%= t('highscore.showGlobalScore') %></a>]</p>
+
+<% if (props.users.length == 0) { %>
+  <p><%= t('highscore.empty') %></p>
+<% } else { %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"><%= t('highscore.rank') %></th>
+        <th scope="col"><%= t('highscore.name') %></th>
+        <th scope="col"><%= t('highscore.sessionScore') %></th>
+        <th scope="col">(<%= t('highscore.score') %>)</th>
+        <th scope="col"><%= t('highscore.lastActive') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const u of props.users) { %>
+        <tr <%-user &&u.name === user.name ? `class="table-${App.config.styles.tableHighlightClass}"` : '' %>>
+          <td><%=u.rank%></td>
+          <td><%=u.name%></td>
+          <td><%=u.sessionScore%></td>
+          <td>(<%=u.score%>)</td>
+          <td><%=u.lastActive%></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+  
+<% } %>

@@ -1,20 +1,12 @@
 const Sequelize = require('sequelize')
 // const escapeHtml = require('escape-html')
-const setupChallengesServer = require('./challenges-server.js')
-const secrets = require('./secrets-loader.js')
-const decodeMe = require('./decode-me.js')
-const mortalCoil = require('./mortal-coil.js')
-const survey = require('./survey.js')
+const setupChallengesServer = require('./content/challenges-server.js')
+const secrets = require('./helper/secrets-loader.js')
+const decodeMe = require('./content/decode-me.js')
+const mortalCoil = require('./content/mortal-coil.js')
+const survey = require('./server/routes/survey.js')
 
-const path = process.env.SERVERDEV
-  ? '../challenges-server'
-  : '@entkenntnis/challenges-server'
-
-if (process.env.SERVERDEV) {
-  console.log('SERVERDEV enabled')
-}
-
-require(path)((config) => {
+require('./server/index.js')((config) => {
   config.theme = 'darkly'
 
   if (process.env.UBERSPACE || process.env.LIVE) {
@@ -40,7 +32,7 @@ require(path)((config) => {
 
   config.brand = 'Hack The Web'
 
-  require('./i18n-extension')(config)
+  require('./content/i18n-extension.js')(config)
 
   config.port = process.env.HTWPORT ? parseInt(process.env.HTWPORT) : 3000
   config.accounts.highscoreLimit = 250
@@ -333,7 +325,7 @@ require(path)((config) => {
     }
 
     if (!process.env.UBERSPACE) {
-      require('./analyze.js')(App)
+      require('./server/routes/analyze.js')(App)
     }
 
     if (process.env.RECALCULATESCORE) {

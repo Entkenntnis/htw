@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 const crypto = require('crypto')
-const secrets = require('./secrets-loader.js')
+const secrets = require('../helper/secrets-loader.js')
 
 function stringreverse(s) {
   return s.split('').reverse().join('')
@@ -4297,8 +4297,4 @@ PIXI.loader
   },
 ]
 
-module.exports = [
-  ...part1,
-  ...require('./challenges-after-passage'),
-  ...require('./community'),
-]
+module.exports = { part1 }

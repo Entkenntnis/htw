@@ -1,0 +1,45 @@
+
+<style type="text/css">
+  .no-underline {
+    text-decoration: none !important;
+  }
+  body {
+    background-image:url(<%- App.config.map.background %>);
+  }
+  .drawing {
+    width: <%= App.config.map.width %>px;
+    height: <%= App.config.map.height %>px;
+    position: relative;
+  }
+  .license {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+  <% if (App.config.fullscreenMap) { %>
+    .page-header {
+      display: none
+    }
+    .container hr {
+      display: none
+    }
+    .container .status {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      margin-top: 0;
+      padding-left: 3px;
+      padding-right: 3px;
+      background-color: <%=App.config.statusBackgroundColor%>;
+    }
+  <% } %>
+</style>
+
+<div class="drawing">
+  <%- props.map %>
+  <span class="license">
+    <%= t('background') %>
+    <%- App.config.map.backgroundLicenseHtml %>
+  </span>
+  <%- props.customMapHtml %>
+</div>

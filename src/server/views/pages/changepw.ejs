@@ -1,0 +1,83 @@
+
+<% if (props.messages.length > 0) { %>
+  <div class="alert alert-danger"><%-props.messages.join('<br>')%></div>
+<% } %>
+
+<form method="post" autocomplete="off" id="change-pw">
+  <fieldset>
+    <div class="form-group row">
+      <label for="pw" class="col-md-2 col-form-label"><%= t('existingPassword') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="pw"
+          type="password"
+          name="pw"
+          value=""
+          required
+          maxlength="<%=App.config.accounts.maxPw%>"
+        >
+      </div>
+    </div>
+    <br>
+    <div class="form-group row">
+      <label for="newp1" class="col-md-2 col-form-label"><%= t('newPassword') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="newp1"
+          type="password"
+          name="newpw1"
+          value=""
+          required
+          maxlength="<%=App.config.accounts.maxPw%>"
+        >
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="newpw2" class="col-md-2 col-form-label"><%= t('register.repeatPassword') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="newpw2"
+          type="password"
+          name="newpw2"
+          value=""
+          required
+          maxlength="<%=App.config.accounts.maxPw%>"
+        >
+        <small><%= t('register.passwordNote', {minPassword: App.config.accounts.minPw}) %></small>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-5 offset-md-2">
+        <button type="submit" class="btn btn-success"><%= t('go') %></button>
+      </div>
+    </div>
+    <input type="hidden" name="csrf" value="<%=props.token%>"/>
+  </fieldset>
+</form>
+
+<% if (App.config.autoPassword) { %>
+  <script>
+    const username = '<%-user.name.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')%>'
+    let user = JSON.parse(localStorage.getItem('htw_local_users') || '[]').filter(function(entry){ return entry.name == username })
+    if (user.length == 1) {
+      document.getElementById('pw').value = user[0].password
+      document.getElementById('pw').setAttribute('type', 'text')
+      document.getElementById('change-pw').onsubmit = function() {
+        const pw1 = document.getElementById('newp1').value
+        const pw2 = document.getElementById('newpw2').value
+        if (pw1 == pw2 && pw1.length >= 4) {
+          let data = JSON.parse(localStorage.getItem('htw_local_users') || '[]')
+          for (const entry of data) {
+            if (entry.name == username) {
+              entry.password = ''
+            }
+          }
+          localStorage.setItem('htw_local_users', JSON.stringify(data))
+        }
+      }
+    }
+  </script>
+<% } %>

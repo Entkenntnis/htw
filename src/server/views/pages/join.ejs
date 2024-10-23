@@ -1,0 +1,21 @@
+
+<% if (props.messages.length > 0) { %>
+  <div class="alert alert-danger"><%-props.messages.join('<br>')%></div>
+<% } %>
+
+<form method="post" autocomplete="off">
+  <fieldset>
+    <div class="form-group row">
+      <label for="inputName" class="col-md-2 col-form-label"><%= t('key') %></label>
+      <div class="col-md-5">
+        <input class="form-control" id="inputName" type="text" name="room" value="<%=props.values.room%>" autofocus>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-5 offset-md-2">
+        <button type="submit" class="btn btn-success"><%= t('go') %></button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+   

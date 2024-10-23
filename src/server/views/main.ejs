@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="<%= locale %>">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="<%=App.config.urlPrefix%>/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<%=App.config.urlPrefix%>/favicon.ico" type="image/x-icon"/>
+
+    <!-- Bootstrap -->
+    <link href="<%=App.config.urlPrefix%>/theme/<%= App.config.theme %>.min.css" rel="stylesheet">
+
+    <title><%= title %></title>
+    
+    <style>
+      <% if (App.config.styles.fontSize) { %>
+      body {
+        font-size: <%-App.config.styles.fontSize%>;
+      }
+      <% } %>
+      h1 {
+        font-size: 3em;
+        margin: 40px 0 20px 0;
+      }
+      .page-header {
+        margin-bottom: 30px;
+      }
+      .lead {
+        font-size: 1.5em;
+      }
+      .table th {
+        border-top: none;
+      }
+      h2 {
+        margin-bottom: 16px;
+      }
+      form {
+        margin-top: 30px;
+      }
+      <% if (App.config.styles.hrColor) { %>
+      hr {
+        border-color: <%-App.config.styles.hrColor%>;
+      }
+      <% } %>
+      
+      <%- App.config.customCSS %>
+      
+    </style>
+  </head>
+  <body>
+    <div class="container">
+    
+      <% if (user) { %>
+        <%- include('./statusBar', {user, t, prefix: App.config.urlPrefix, App}) %>
+      <% } %>
+      
+      <div class="page-header">
+        <h1><a href="<%=App.config.urlPrefix%>/"><%= brand %></a></h1>
+        <p class="lead"><%= t('home.slogan') %></p>
+      </div>
+      
+      <hr class="my-4"/>
+      
+      <% if (heading) { %>
+        <h2><%= heading %></h2>
+      <% } %>
+    
+      <% const contentHtml = content ? content : include(pagePath, {props, t, user, App, prefix: App.config.urlPrefix}) %>
+    
+    <% if (!outsideOfContainer) { %>
+      <%- contentHtml %>
+      
+      <% if (backButton) { %>
+        <p style="margin-top:40px;margin-bottom:40px;" id="back-button">
+          <a href="<%=App.config.urlPrefix%><%-backHref%>" class="btn btn-primary btn-sm"><%= t('back') %></a>
+        </p>
+      <% } %>
+    </div>
+    <% } else { %>
+    </div>
+    <%- contentHtml %>
+    <% } %>
+  </body>
+</html>
+ 

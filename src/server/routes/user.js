@@ -13,12 +13,14 @@ module.exports = function (App) {
     delete req.session.registerValues
     const token = App.csrf.create(req)
     // save session to avoid racing of requests
-    await new Promise((res, rej) => {
-      req.session.save((err) => {
-        if (err) rej(err)
-        else res()
+    await /** @type {Promise<void>} */ (
+      new Promise((res, rej) => {
+        req.session.save((err) => {
+          if (err) rej(err)
+          else res()
+        })
       })
-    })
+    )
     const i18n = App.i18n.get(req.lng)
     res.renderPage({
       page: 'register',

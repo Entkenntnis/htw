@@ -10,8 +10,10 @@ try {
   )
 }
 
+/** @type {{[key: string]: string}} */
 const secrets = require('../../secrets.js')
 
+/** @type {{[key: string]: string}} */
 const secretsPlaceholder = require('../../secrets.placeholder.js')
 
 // check for consistency
@@ -29,7 +31,7 @@ for (const key in secrets) {
   }
 }
 
-module.exports = function (key) {
+module.exports = function (/** @type {string} */ key) {
   if (!secrets[key]) {
     console.log('Trying to access unknown key:', key)
   }

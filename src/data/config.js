@@ -1,111 +1,425 @@
-module.exports = function () {
-  const config = {
-    database: {
-      dialect: 'sqlite',
-      storage: './.data/db.sqlite',
-    },
-    sync: {
-      //force: true,
-      //alter: true,
-    },
-    logdb: false,
-    logprefix: '[challenges-server] ',
-    port: 3000,
-    sessionSecret: 'keyboard cat',
-    languages: ['en'],
-    detectLanguage: false,
-    theme: 'sketchy',
-    reloadChallenges: true,
-    configRoutes: true,
-    challengesDir: process.cwd() + '/src/content',
-    staticFolder: './public',
-    bcryptRounds: 10,
-    accounts: {
-      minUsername: 3,
-      maxUsername: 40,
-      minPw: 4,
-      maxPw: 100,
-      regex: /^[ -~äöüÄÖÜß]+$/,
-      maxRatePerHour: 500,
-      roomRegex: /^[a-zA-Z0-9]+$/,
-      minRoom: 3,
-      maxRoom: 20,
-      maxRoomPerHour: 50,
-      highscoreLimit: 2000,
-      topHackersLimit: 10,
-      solveRateLimit: 20,
-      solveRateTimeout: 30,
-    },
-    map: {
-      background: '/background.jpg',
-      backgroundLicenseHtml:
-        '<a href="https://paintingvalley.com/sketch-paper-texture#sketch-paper-texture-37.jpg">paintingvalley.com</a> (<a href="https://creativecommons.org/licenses/by-nc/4.0/deed.en">CC BY-NC 4.0</a>)',
-      centeringOffset: 1,
-      width: '1600',
-      height: '1200',
-      customMapHtml: '',
-    },
-    brand: 'challenges-server',
-    periodic: {
-      startupDelay: 2000,
-      baseInterval: 10000,
-    },
-    session: {
-      cleanupInterval: 5, // minutes
-      allowUnderexpire: 10, // minutes
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
-    },
-    urlPrefix: '',
-    i18nConfig: {
-      debug: false,
-      fallbackLng: 'en',
-      backend: {
-        loadPath: __dirname + '/lang/{{lng}}.json',
-      },
-    },
-    i18nExtend: [
-      /*{
-        lng: 'de',
-        key: 'home.version',
-        value: 'Version: Juni 2020'
-      },*/
-    ],
-    styles: {
-      mapTextColor: 'black',
-      mapTextWeight: 'normal',
-      connectionColor: 'var(--gray)',
-      pointColor: 'var(--success)',
-      pointColor_solved: 'var(--gray-dark)',
-      hrColor: undefined,
-      solutionClass_correct: 'success',
-      solutionClass_wrong: 'danger',
-      tableHighlightClass: 'primary',
-      fontSize: undefined,
-    },
-    editors: [],
-    noSelfAdmin: [],
-    customCSS: '',
-    callback: undefined,
-    masterPassword: undefined,
-    githubHref: 'https://github.com/Entkenntnis/challenges-server',
-    githubTargetBlank: true,
-    fullscreenMap: false,
-    statusBackgroundColor: '',
-    prefixPlaceholder: '{{PREFIX}}',
-    scoreMode: 'time',
-    assetsMaxAge: '2d',
-    historyBack: false,
-    slowRequestWarning: false,
-    slowRequestThreshold: 10000,
-    autoPassword: false,
-    allowNewAutoPassword: false,
-    tokenSecret: 'mouse dog',
-    rateLimit: {
-      enabled: false,
-      timespan: 5, // min
-      requests: 400,
-    },
-  }
+const secrets = require('../helper/secrets-loader.js')
+const i18nExtension = require('../content/i18n-extension.js')
 
-  return config
+const Sequelize = require('sequelize')
+// const escapeHtml = require('escape-html')
+const setupChallengesServer = require('../content/challenges-server.js')
+const decodeMe = require('../content/decode-me.js')
+const mortalCoil = require('../content/mortal-coil.js')
+const survey = require('../server/routes/survey.js')
+
+module.exports = {
+  database: (() => {
+    if (process.env.UBERSPACE || process.env.LIVE) {
+      console.log('using live database\n')
+      return {
+        database: 'arrrg_hacktheweb',
+        username: 'arrrg',
+        password: secrets('config_db_password'),
+        dialect: 'mariadb',
+        dialectOptions: {
+          timezone: 'Europe/Berlin',
+          connectTimeout: 10000, // increased due to several errors - default value is 1000 (ms) and feels quite short
+        },
+      }
+    }
+    return {
+      dialect: 'sqlite',
+      storage: './db.sqlite',
+    }
+  })(),
+  sync: {
+    //force: true,
+    //alter: true,
+  },
+  logdb: false,
+  logprefix: '[htw] ',
+  port: process.env.HTWPORT ? parseInt(process.env.HTWPORT) : 3000,
+  sessionSecret: 'keyboard cat',
+  languages: ['de', 'en'],
+  detectLanguage: false,
+  theme: 'darkly',
+  reloadChallenges: !process.env.UBERSPACE,
+  configRoutes: false,
+  challengesDir: process.cwd() + '/src/content',
+  staticFolder: './public',
+  bcryptRounds: 10,
+  accounts: {
+    minUsername: 3,
+    maxUsername: 40,
+    minPw: 4,
+    maxPw: 100,
+    regex: /^[ -~äöüÄÖÜß]+$/,
+    maxRatePerHour: 500,
+    roomRegex: /^[a-zA-Z0-9]+$/,
+    minRoom: 3,
+    maxRoom: 20,
+    maxRoomPerHour: 50,
+    highscoreLimit: 250,
+    topHackersLimit: 10,
+    solveRateLimit: 20,
+    solveRateTimeout: 30,
+  },
+  map: {
+    background: '/background.jpg',
+    backgroundLicenseHtml: `
+    <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>
+    (<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>), Satellit: <a href="https://www.freepik.com/free-vector/illustration-satellite_2606121.htm" target="_blank">Image by rawpixel.com</a> on Freepik
+  `,
+    centeringOffset: 0.5,
+    width: 3000,
+    height: 2400,
+    customMapHtml: (
+      /** @type {{App: import('./types.js').App, req: any}} */ { App, req }
+    ) => {
+      const showDecodeMe =
+        req.user &&
+        (req.user.score >= 100 || App.config.editors.includes(req.user.name))
+
+      return `
+    <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
+    <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
+    <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
+    <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
+    ${
+      showDecodeMe
+        ? '<a href="/decode-me" style="position:absolute;left:1240px;top:70px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>' +
+          '<a href="/mortal-coil" style="position:absolute;left:99px;top:920px;" class="text-reset text-decoration-none"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>'
+        : ''
+    }
+  `
+    },
+  },
+  brand: 'Hack The Web',
+  periodic: {
+    startupDelay: 2000,
+    baseInterval: 10000,
+  },
+  session: {
+    cleanupInterval: 5, // minutes
+    allowUnderexpire: 10, // minutes
+    maxAge: 1000 * 60 * 60 * 24, // 24 hours
+  },
+  urlPrefix: '',
+  i18nConfig: {
+    debug: false,
+    fallbackLng: 'en',
+    backend: {
+      loadPath: __dirname + '/lang/{{lng}}.json',
+    },
+  },
+  i18nExtend: i18nExtension(),
+  styles: {
+    mapTextColor: 'white',
+    mapTextWeight: 'normal',
+    connectionColor: '#464545',
+    pointColor: 'var(--success)',
+    pointColor_solved: '#666699',
+    hrColor: '#313030',
+    solutionClass_correct: 'primary',
+    solutionClass_wrong: 'danger',
+    tableHighlightClass: 'secondary',
+    fontSize: '15.5px',
+  },
+  editors: ['editor', 'demo'],
+  noSelfAdmin: ['demo'],
+  customCSS: '',
+  callback: function (/** @type {import('./types.js').App} */ App) {
+    setupChallengesServer(App)
+    decodeMe(App)
+    mortalCoil(App)
+    survey(App)
+
+    App.express.get('/news', (req, res) => {
+      res.renderPage({
+        page: 'news',
+      })
+    })
+
+    App.express.get('/hints', (req, res) => {
+      res.renderPage({
+        page: 'hints',
+      })
+    })
+
+    App.express.get('/links', (req, res) => {
+      res.renderPage({
+        page: 'links',
+      })
+    })
+
+    App.express.get('/api/top100', async (req, res) => {
+      const users = await App.db.models.User.findAll({
+        attributes: ['name', 'score', 'updatedAt'],
+        where: {
+          score: { [Sequelize.Op.gt]: 0 },
+        },
+        order: [
+          ['score', 'DESC'],
+          ['updatedAt', 'DESC'],
+        ],
+        limit: 100,
+        raw: true,
+      })
+      users.forEach((user, i) => {
+        if (i > 0 && users[i - 1].score == user.score) {
+          user.rank = users[i - 1].rank
+        } else {
+          user.rank = i + 1
+        }
+      })
+      res.json(users)
+    })
+
+    App.express.post('/api/user-rankings', async (req, res) => {
+      if (!req.body || !req.body.name || !Array.isArray(req.body.name)) {
+        res.send('bad body')
+        return
+      }
+      const names = req.body.name
+
+      try {
+        const users = await App.db.models.User.findAll({
+          attributes: [
+            'name',
+            'score',
+            'updatedAt',
+            [
+              Sequelize.literal(
+                '(SELECT COUNT(*) FROM Users as U WHERE U.score > User.score)'
+              ),
+              'rank',
+            ],
+          ],
+          where: {
+            name: names,
+          },
+          raw: true,
+        })
+        users.forEach((u) => {
+          u.rank += 1
+        })
+        res.json(users)
+      } catch (e) {
+        console.log(e)
+        res.send('db query failed')
+      }
+    })
+
+    App.express.get('/api/map', async (req, res) => {
+      res.json(
+        Object.keys(App.challenges.distance).filter(
+          (x) =>
+            x != secrets('secret_chal_1_id') && x != secrets('secret_chal_2_id')
+        )
+      )
+    })
+
+    /*App.express.get('/experiment', async (req, res) => {
+      const currentSolutions = await App.db.models.Solution.findAll({
+        where: {
+          updatedAt: {
+            [Sequelize.Op.gte]: App.moment().subtract(29, 'days').toDate(),
+          },
+        },
+        order: [['updatedAt']],
+        raw: true,
+      })
+
+      const persistenceScore = currentSolutions.reduce((result, obj) => {
+        const key = obj.UserId
+        const entry = (result[key] = result[key] ?? { mins: 0, lastSolved: -1 })
+        const ts = new Date(obj.updatedAt).getTime()
+        if (entry.lastSolved > 0) {
+          const diff = ts - entry.lastSolved
+          entry.mins += Math.min(30, Math.round(diff / 1000 / 60))
+        }
+        entry.lastSolved = ts
+        return result
+      }, {})
+
+      const persistenceArr = Object.entries(persistenceScore)
+
+      persistenceArr.sort((a, b) => b[1].mins - a[1].mins)
+
+      const top10 = persistenceArr.slice(0, 10)
+
+      for (const entry of top10) {
+        const user = await App.db.models.User.findOne({
+          where: { id: entry[0] },
+        })
+        console.log(user)
+        entry.name = user.name
+      }
+
+      console.log(top10)
+
+      res.send('hi')
+    })*/
+
+    /*App.express.get('/internal/newusers', async (req, res) => {
+      const usersFromDB = await App.db.models.User.findAll({
+        limit: 2000,
+        order: [['createdAt', 'DESC']],
+      })
+
+      function renderName(user) {
+        let output = escapeHtml(user.name)
+        if (user.score > 0) {
+          output = `<b>${output}</b>`
+        }
+        return output
+      }
+
+      const userStrings = usersFromDB.map(
+        (user) =>
+          `${App.moment(user.createdAt).format(
+            'DD.MM.YYYY HH:mm'
+          )}: ${renderName(user)}, ${user.score} Punkte`
+      )
+      res.send(userStrings.join('<br>'))
+    })*/
+
+    if (process.env.SAVE2LOCAL && !process.env.UBERSPACE) {
+      run()
+
+      async function run() {
+        if (!process.env.LIVE) throw 'NOT CONNECTED TO LIVE SERVER'
+        const LOCALAPP = {}
+
+        LOCALAPP.db = new Sequelize({
+          dialect: 'sqlite',
+          storage: './db.sqlite',
+          logging: false,
+        })
+        await require('../server/lib/dbModel.js')(LOCALAPP)
+        await LOCALAPP.db.authenticate()
+
+        // Es ist viel schneller, die gesamte Datenbank neu aufzusetzen
+        await LOCALAPP.db.sync({ force: true })
+
+        console.log('Lokale Datenbank synchronisiert')
+
+        console.log('Starte Import Räume ...')
+
+        const rooms = await App.db.models.Room.findAll({ raw: true })
+        await LOCALAPP.db.models.Room.bulkCreate(rooms, { silent: true })
+
+        console.log('Starte Import Benutzer und gelöste Aufgaben ...')
+
+        console.log('  Lade Nutzer von Server')
+        const users = await App.db.models.User.findAll({ raw: true })
+
+        console.log('  Lade Lösungen vom Server')
+        const solutions = await App.db.models.Solution.findAll({ raw: true })
+
+        console.log(`  Füge ${users.length} Nutzer lokal ein`)
+        await LOCALAPP.db.models.User.bulkCreate(users)
+
+        console.log(`  Füge ${solutions.length} Lösungen lokal ein`)
+        await LOCALAPP.db.models.Solution.bulkCreate(solutions)
+
+        console.log('Starte Import KVPairs ...')
+
+        const kvpairs = await App.db.models.KVPair.findAll({ raw: true })
+
+        // sqlite not supporting null bytes in strings
+        for (const pair of kvpairs) {
+          pair.value = pair.value.replace(/\0/g, '')
+        }
+
+        await LOCALAPP.db.models.KVPair.bulkCreate(kvpairs)
+
+        console.log('  KVPAirs vollständig')
+
+        process.exit()
+      }
+    }
+
+    if (!process.env.UBERSPACE) {
+      require('../server/routes/analyze.js')(App)
+    }
+
+    if (process.env.RECALCULATESCORE) {
+      void (async () => {
+        console.log('\nStart recalculating scores')
+        const users = await App.db.models.User.findAll()
+
+        const solutions = await App.db.models.Solution.findAll({ raw: true })
+
+        // make sure data is consistent by retrieving scores again and compare
+        const users2 = await App.db.models.User.findAll({ raw: true })
+        const userScores1 = {}
+        for (const user of users) {
+          userScores1[user.id] = user.score
+        }
+        for (const user of users2) {
+          if (user.score !== userScores1[user.id]) {
+            console.log(
+              `user ${user.name} solved a challenge while retrieving data, making data inconsistent. Please rerun.`
+            )
+            process.exit(1)
+          }
+        }
+
+        const byUser = {}
+
+        solutions.forEach((sol) => {
+          if (!byUser[sol.UserId]) byUser[sol.UserId] = []
+
+          byUser[sol.UserId].push(sol.cid)
+        })
+
+        let hasChange = false
+
+        for (const user of users) {
+          const solutions = byUser[user.id] ?? []
+          let score = 0
+          for (const solution of solutions) {
+            if (App.challenges.data.some((c) => c.id == solution)) {
+              score += 10 + (App.challenges.distance[solution] || 0)
+            }
+          }
+          if (user.score != score) {
+            hasChange = true
+            console.log(`${user.score} -> ${score}`)
+          }
+          user.score = score
+          await user.save({ silent: true })
+        }
+        console.log('completed')
+
+        if (hasChange) {
+          console.log(
+            'changes saved. to make sure data is consistent, please rerun'
+          )
+          process.exit(1)
+        }
+        process.exit()
+      })()
+    }
+  },
+  masterPassword: secrets('config_master_password'),
+  githubHref: '/links',
+  githubTargetBlank: false,
+  fullscreenMap: false,
+  statusBackgroundColor: '',
+  prefixPlaceholder: '{{PREFIX}}',
+  scoreMode: 'distance',
+  assetsMaxAge: '2d',
+  historyBack: true,
+  slowRequestWarning: true,
+  slowRequestThreshold: 5000,
+  autoPassword: false,
+  allowNewAutoPassword: false,
+  tokenSecret: secrets('config_token_secret'),
+  rateLimit: {
+    enabled: true,
+    timespan: 3, // min
+    requests: 250,
+  },
+  hintPage: {
+    url: '/hints',
+    label: 'Hinweise',
+  },
 }

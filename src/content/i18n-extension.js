@@ -1,79 +1,74 @@
 const secrets = require('../helper/secrets-loader.js')
 
-module.exports = (config) => {
-  config.i18nExtend.push({
+module.exports = () => {
+  const values = []
+  values.push({
     lng: 'de',
     key: 'home.slogan',
     value: 'Zeig, was in dir steckt!',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'home.slogan',
     value: 'Prove your skill.',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'home.language',
     value: 'Sprache/Language',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'home.language',
     value: 'Sprache/Language',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'home.github',
     value: 'Links',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'home.github',
     value: 'Links',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'home.version',
-    value:
-      'Version: Oktober 2024 (<a href="' +
-      config.urlPrefix +
-      '/news">Neuigkeiten</a>)',
+    value: 'Version: Oktober 2024 (<a href="/news">Neuigkeiten</a>)',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'home.version',
-    value:
-      'Version: October 2024 (<a href="' +
-      config.urlPrefix +
-      '/news">News</a>)',
+    value: 'Version: October 2024 (<a href="/news">News</a>)',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'home.top10',
     value: 'Hacker*innen des Monats',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'home.top10',
     value: 'Hackers of the Month',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'contact.heading',
     value: 'Kontakt / Impressum',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'contact.heading',
     value: 'Contact / Imprint',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'contact.content_',
     value: `
@@ -84,7 +79,7 @@ module.exports = (config) => {
       </p>
     `,
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'contact.content_',
     value: `
@@ -96,7 +91,7 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'home.supporter_',
     value: `
@@ -104,7 +99,7 @@ module.exports = (config) => {
       <hr class="my-5"/>
     `,
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'home.supporter_',
     value: `
@@ -113,7 +108,7 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'home.invite_',
     value: `
@@ -150,7 +145,7 @@ module.exports = (config) => {
       </div>
     `,
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'home.invite_',
     value: `
@@ -186,7 +181,7 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'privacy.content_',
     value: `
@@ -227,7 +222,7 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'privacy.content_',
     value: `
@@ -269,18 +264,18 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'finish.heading',
     value: 'Herzlichen Glückwunsch!',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'finish.heading',
     value: 'Congratulations!',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'finish.content_',
     value: `
@@ -291,7 +286,7 @@ module.exports = (config) => {
       <p>Vielen Dank für die Teilnahme. Wir wünschen dir alles Gute für deine Zukunft als Hacker!</p>
     `,
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'finish.content_',
     value: `
@@ -303,18 +298,18 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'news.heading',
     value: 'Neuigkeiten',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'news.heading',
     value: 'News',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'news.content_',
     value: `
@@ -547,7 +542,7 @@ module.exports = (config) => {
       </p>
     `,
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'news.content_',
     value: `
@@ -780,18 +775,18 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'links.heading',
     value: 'Externe Links',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'links.heading',
     value: 'External links',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'links.content_',
     value: `
@@ -844,7 +839,7 @@ module.exports = (config) => {
       <p><a href="https://informatik.schule.de/comments.php?material_id=503" target="_blank">Informatik.Schule.de - Hack The Web</a></p>
     `,
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'links.content_',
     value: `
@@ -891,18 +886,18 @@ module.exports = (config) => {
     `,
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'hints.heading',
     value: 'Hinweise',
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'hints.heading',
     value: 'Hints',
   })
 
-  config.i18nExtend.push({
+  values.push({
     lng: 'de',
     key: 'hints.content_',
     value: `
@@ -954,7 +949,7 @@ module.exports = (config) => {
       </p>
     `,
   })
-  config.i18nExtend.push({
+  values.push({
     lng: 'en',
     key: 'hints.content_',
     value: `
@@ -1004,4 +999,5 @@ module.exports = (config) => {
       </p>
     `,
   })
+  return values
 }

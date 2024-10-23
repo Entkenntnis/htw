@@ -5,7 +5,7 @@ const cutoff = '2024-10-20'
 
 module.exports = (App) => {
   App.express.get('/survey', async (req, res) => {
-    if (!req.user || !req.user.name == 'editor')
+    if (!req.user || req.user.name != 'editor')
       return res.send('Zugriff nur für Editor')
 
     const entries = (

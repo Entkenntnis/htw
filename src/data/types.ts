@@ -1,7 +1,9 @@
 import Moment from 'moment'
+import config from './config'
+import express from 'express'
 
 export interface App {
-  config: any
+  config: typeof config
   entry: {
     add(fn: () => void): void
     start(): Promise<void>
@@ -11,4 +13,6 @@ export interface App {
     warn(msg: string): void
   }
   moment: typeof Moment
+  express: ReturnType<typeof express>
+  db: any
 }

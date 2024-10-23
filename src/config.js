@@ -17,7 +17,7 @@ module.exports = function () {
     theme: 'sketchy',
     reloadChallenges: true,
     configRoutes: true,
-    challengesDir: process.cwd(),
+    challengesDir: process.cwd() + '/src/content',
     staticFolder: './public',
     bcryptRounds: 10,
     accounts: {

@@ -129,7 +129,7 @@ module.exports = function (App) {
           const previous = App.challenges.data.filter((c) => c.id === dep)[0]
           if (solved.includes(previous.id)) {
             svgLines.push(
-              `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round"></line>`,
+              `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round"></line>`
             )
           }
         })
@@ -155,7 +155,7 @@ module.exports = function (App) {
           point.pos.x
         }" y="${point.pos.y - 17}" text-anchor="middle">${
           point.title
-        }</text></g></a>`,
+        }</text></g></a>`
       )
     }
 
@@ -277,7 +277,7 @@ module.exports = function (App) {
             ? challenge.solution
             : [challenge.solution]
           const correct = solutions.some(
-            (solution) => solution && answer === solution.toLowerCase().trim(),
+            (solution) => solution && answer === solution.toLowerCase().trim()
           )
           return {
             answer,
@@ -376,7 +376,7 @@ module.exports = function (App) {
                 // console.log('waiting 20 seconds before commit')
                 // await new Promise((res) => setTimeout(res, 20000))
               }
-            },
+            }
           )
           // console.log('transaction successful')
         }
@@ -388,7 +388,7 @@ module.exports = function (App) {
           try {
             // random wait for 2 - 5 secs
             await new Promise((res) =>
-              setTimeout(res, 2000 + Math.random() * 3000),
+              setTimeout(res, 2000 + Math.random() * 3000)
             )
             await transact() // second try
           } catch (e) {
@@ -438,7 +438,7 @@ module.exports = function (App) {
         title: challengeTitle,
         heading: challengeTitle,
       })
-    },
+    }
   )
 
   App.express.get('/profile', checkUser, checkSession, async (req, res) => {
@@ -492,7 +492,7 @@ module.exports = function (App) {
   App.express.get('/token', checkUser, async (req, res) => {
     if (req.user.score == 0) {
       res.send(
-        'Du musst mindestens eine Aufgabe lösen, um diese Funktion zu nutzen.',
+        'Du musst mindestens eine Aufgabe lösen, um diese Funktion zu nutzen.'
       )
       return
     }
@@ -501,10 +501,10 @@ module.exports = function (App) {
     const hashToken = `${ts}|${await bcrypt.hash(clearToken, 10)}`
     res.send(
       `Mit diesen Token kannst du dich auf Discord authentifizieren:<br><br><code style="font-size:16px;border: solid gray 2px; padding: 8px;">${encodeURIComponent(
-        hashToken,
+        hashToken
       )}</code><br><br>Der Token ist 15 Minuten gültig bis ${new Date(
-        ts + 1000 * 60 * 15,
-      ).toLocaleString()}.`,
+        ts + 1000 * 60 * 15
+      ).toLocaleString()}.`
     )
   })
 

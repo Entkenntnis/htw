@@ -3,14 +3,13 @@
   "version": "0.0.0",
   "description": "hack.arrrg.de",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "save2local": "bash save2local",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "save2local:powershell": "powershell $env:SAVE2LOCAL='1';$env:LIVE='1';npm start;$env:SAVE2LOCAL=$null;$env:LIVE=$null",
     "recalculateScore:powershell": "powershell $env:RECALCULATESCORE='1';npm start;$env:RECALCULATESCORE=$null",
-    "format": "prettier . --write"
+    "format": "prettier src --write"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
   "license": "MIT",
   "dependencies": {
@@ -36,9 +35,11 @@
     "sequelize": "^6.33.0"
   },
   "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
     "eslint": "^9.13.0",
     "nodemon": "^3.0.1",
     "prettier": "3.0.3",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "typescript": "^5.6.3"
   }
 }

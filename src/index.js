@@ -4,7 +4,7 @@ const setupChallengesServer = require('./content/challenges-server.js')
 const secrets = require('./secrets-loader.js')
 const decodeMe = require('./content/decode-me.js')
 const mortalCoil = require('./content/mortal-coil.js')
-const survey = require('./survey.js')
+const survey = require('./server/survey.js')
 
 require('./server/index.js')((config) => {
   config.theme = 'darkly'
@@ -32,7 +32,7 @@ require('./server/index.js')((config) => {
 
   config.brand = 'Hack The Web'
 
-  require('./i18n-extension')(config)
+  require('./content/i18n-extension.js')(config)
 
   config.port = process.env.HTWPORT ? parseInt(process.env.HTWPORT) : 3000
   config.accounts.highscoreLimit = 250
@@ -325,7 +325,7 @@ require('./server/index.js')((config) => {
     }
 
     if (!process.env.UBERSPACE) {
-      require('./analyze.js')(App)
+      require('./server/analyze.js')(App)
     }
 
     if (process.env.RECALCULATESCORE) {

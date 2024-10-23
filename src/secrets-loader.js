@@ -1,5 +1,5 @@
 try {
-  require('./secrets.js')
+  require('../secrets.js')
 } catch (e) {
   console.log(
     'The file secrets.js is missing. Make a copy of secrets.placeholder.js and rename it.'
@@ -10,9 +10,9 @@ try {
   )
 }
 
-const secrets = require('./secrets.js')
+const secrets = require('../secrets.js')
 
-const secretsPlaceholder = require('./secrets.placeholder.js')
+const secretsPlaceholder = require('../secrets.placeholder.js')
 
 // check for consistency
 for (const key in secretsPlaceholder) {

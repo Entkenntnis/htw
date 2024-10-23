@@ -1,4 +1,4 @@
-const secrets = require('./secrets-loader.js')
+const secrets = require('../secrets-loader.js')
 
 module.exports = (config) => {
   config.i18nExtend.push({

@@ -1,6 +1,6 @@
 module.exports = function (extend = (config) => config) {
   const App = {
-    config: extend(require('./config')()),
+    config: extend(require('../config')()),
   }
 
   require('./server/withEntry')(App)

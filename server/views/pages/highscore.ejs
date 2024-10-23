@@ -1,0 +1,35 @@
+
+<% if (user && user.RoomId) { %>
+  <p class="my-4">[<a href="<%=prefix%>/roomscore"><%= t('showRoomScore') %></a>]</p>
+<% } %>
+
+<p class="mt-4 mb-5 text-right"><%= t('orderby') %>:
+<select onchange="window.location.href = this.value; return false;">
+  <option value="/highscore"><%= t('points') %></option>
+  <option value="/highscore?sort=new" <%= props.sort == 'new' ? 'selected' : ''%>><%= t('lastActive') %></option>
+</select></p>
+
+<%- include('../highscoreTable', {users:props.users, t, user, hideRank:props.sort == 'new'}) %>
+
+<% if (props.pagination) { %>
+  <p style="text-align:center">
+    <% if (props.pagination.prevLink) { %>
+      <a style="font-size:24px;" href="<%=props.pagination.prevLink%>">⬅</a> 
+    <% } %>
+    <span style="inline-block;margin-left:24px;margin-right:24px">
+      <input style="width:48px;display:inline-block;margin-right:8px;text-align:center;" value="<%=props.pagination.page%>" onkeydown="handleEnter(event, this)"> <%=t('of')%> <%=props.pagination.pages%>
+    </span>
+    <% if (props.pagination.nextLink) { %>
+      <a style="font-size:24px;" href="<%=props.pagination.nextLink%>">➡</a>  
+    <% } %>
+  </p>
+<% } %>
+
+<script>
+  function handleEnter(event, inputElement) {
+    if (event.key === 'Enter') {
+      const pageNumber = inputElement.value;
+      window.location.href = `/highscore?page=${pageNumber}`;
+    }
+  }
+</script>

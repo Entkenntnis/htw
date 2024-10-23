@@ -1,0 +1,33 @@
+
+<p><%= t('message') %></p>
+
+<% if (App.config.autoPassword && App.config.allowNewAutoPassword) { %>
+  <p id="info-p" style="display:none">Du wirst angemeldet ...</p>
+  
+  <form action="/login" method="post" autocomplete="off" style="display:none" id="auto-login">
+
+    <input id="auto-name" type="text" name="username" value=""/>
+    <input id="auto-pw" type="password" name="password" value=""/>
+    <button type="submit">Los</button>
+  </form>
+  
+  <script>
+    window.onload = function() {
+      try {
+        const data = JSON.parse(sessionStorage.getItem('htw_temp_local_user'))
+        if (data.name && data.password) {
+          const localUsers = JSON.parse(localStorage.getItem('htw_local_users') || '[]')
+          localUsers.push(data)
+          localStorage.setItem('htw_local_users', JSON.stringify(localUsers))
+          document.getElementById('back-button').style.display = 'none'
+          document.getElementById('info-p').style.display = 'block'
+          document.getElementById('auto-name').value= data.name
+          document.getElementById('auto-pw').value = data.password
+          document.getElementById('auto-login').submit()
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  </script>
+<% } %>

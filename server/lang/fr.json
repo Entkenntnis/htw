@@ -1,0 +1,168 @@
+{
+  "share": {
+    "go": "Allez",
+    "back": "Retour"
+  },
+  "home": {
+    "loginHeading": "Login",
+    "invalid": "Données d'accès erronées.",
+    "name": "Nom:",
+    "password": "Mot de passe:",
+    "invite_": "Vous êtes nouveau ici? Créez un compte gratuit et commencez: {{-link}}",
+    "registerLink": "Inscription",
+    "joinRoom": "Rejoindre une salle",
+    "top10": "Top 10 du Mois",
+    "showHighscore": "tout afficher",
+    "rooms": "Salles",
+    "inviteOrga_": "Vous organisez un événement? Ici, vous pouvez {{-link}}.",
+    "createRoom": "créer votre propre chambre",
+    "contactLink": "Contact",
+    "privacyLink": "Politique de confidentialité",
+    "github": "GitHub",
+    "version": "version: mai 2020",
+    "supporter_": ""
+  },
+  "register": {
+    "normalHeading": "Inscription",
+    "joinRoomHeading": "Rejoignez \"{{room}}\"",
+    "username": "Nom",
+    "password": "Mot de passe",
+    "repeatPassword": "Répéter le mot de passe",
+    "usernameNote": "Min. {{minUsername}} lettres",
+    "passwordNote": "Min. {{minPassword}} lettres",
+    "noteOn_": "Note sur la {{-link}}",
+    "dataProtection": "protection des données",
+    "nameTooShort": "Nom d'utilisateur trop court.",
+    "nameTooLong": "Nom d'utilisateur trop long, max. {{max}} lettres.",
+    "nameInvalidChars": "Le nom d'utilisateur contient des caractères non valides.",
+    "pwTooShort": "Mot de passe trop court.",
+    "pwTooLong": "Mot de passe trop long.",
+    "pwMismatch": "Les mots de passe ne correspondent pas.",
+    "invalidToken": "Les données transmises n'appartiennent pas à cette session. Veuillez réessayer.",
+    "failure": "L'enregistrement a échoué. Veuillez réessayer.",
+    "nameExists": "Le nom d'utilisateur existe déjà.",
+    "serverCrowded": "Il y a un grand nombre d'inscriptions en ce moment, essayez à nouveau dans 15 minutes.",
+    "submit": "Submit"
+  },
+  "join": {
+    "heading": "Rejoignez",
+    "key": "Clé de la chambre:",
+    "roomNotFound": "Chambre non trouvée!"
+  },
+  "highscore": {
+    "heading": "Highscore",
+    "empty": "Le highscore ne contient encore aucune entrée. Soyez les premiers!",
+    "rank": "Position",
+    "name": "Nom",
+    "score": "Score",
+    "sessionScore": "Session Score",
+    "lastActive": "dernier actif",
+    "showRoomScore": "seulement la chambre",
+    "showGlobalScore": "tout afficher",
+    "orderby": "ordonner par",
+    "points": "Points",
+    "pointsMonth": "Points (ce mois-ci)",
+    "entries": "{{count}} entrée",
+    "entries_plural": "{{count}} entrées",
+    "rank": "Position",
+    "lastSolved": "Résolu pour la dernière fois"
+  },
+  "create": {
+    "title": "Créer une chambre",
+    "yourRooms": "Mes chambres",
+    "key": "Nouvelle clé de chambre:",
+    "go": "Créer",
+    "information": "Via une salle, vous pouvez participer avec un groupe et utiliser le système de session. Une séance dure 30 minutes. Pendant ce temps, vous pouvez travailler sur des tâches et collecter des points. Une fois les 30 minutes écoulées, le score est enregistré dans un classement local. Après la session, les participants peuvent continuer à travailler sur les tâches en tant qu'utilisateurs normaux.",
+    "keyInvalid": "La clé de la chambre ne peut contenir que des lettres et des chiffres.",
+    "keyTooShort": "Clé de chambre trop court.",
+    "keyTooLong": "Clé de chambre trop long.",
+    "keyExists": "Clé de chambre existe déjà.",
+    "failure": "La création de salles a échoué. Veuillez réessayer.",
+    "keyNote": "{{minRoom}} - {{maxRoom}} lettres, alpha-numérique",
+    "serverCrowded": "Il y a un grand volume de créations de salles en ce moment, essayez de nouveau dans 15 minutes.",
+    "invalidToken": "Les données transmises n'appartiennent pas à cette session. Veuillez réessayer."
+  },
+  "contact": {
+    "heading": "Contact",
+    "content_": "<p>Veuillez fournir les coordonnées appropriées à la législation de votre pays.</p>"
+  },
+  "privacy": {
+    "heading": "Politique de confidentialité",
+    "content_": "<p>Veuillez fournir une politique de confidentialité adaptée à la législation de votre pays.</p>"
+  },
+  "success": {
+    "title": "Inscription réussie",
+    "message": "Votre inscription a été réussie.",
+    "back": "login"
+  },
+  "map": {
+    "background": "Fond d'écran:"
+  },
+  "statusBar": {
+    "name": "Nom:",
+    "score": "Score:",
+    "sessionReady": "Session: prêt",
+    "session": "Session:",
+    "highscore": "Highscore",
+    "profile": "Profil",
+    "logout": "Déconnexion"
+  },
+  "profile": {
+    "heading": "Profil",
+    "username": "Nom:",
+    "score": "Score:",
+    "solved": "Tâches résolues:",
+    "registered": "A rejoint:",
+    "lastActive": "dernier actif:",
+    "room": "Chambre:",
+    "sessionReady": "La session est prête. Résolvez une tâche pour la démarrer.",
+    "startSession": "Démarrer la session maintenant!",
+    "sessionActive": "Déroulement de la session...",
+    "endSession": "Fin de la session!",
+    "sessionDone": "La session est terminée.",
+    "sessionScore": "Session score:",
+    "delete": "Supprimer le compte ...",
+    "changepw": "Changer de mot de passe ...",
+    "rank": "Position",
+    "lastSolved": "Résolu pour la dernière fois"
+  },
+  "challenge": {
+    "back": "retour",
+    "solvedBy": "touchés par {{count}} personne",
+    "solvedBy_plural": "touchés par {{count}} personnes",
+    "continue": "en savoir plus",
+    "correct": "est correcte",
+    "wrong": "est erronée",
+    "locked": "Vous devez faire une pause de 30 secondes après 20 tentatives. Veuillez patienter {{sec}}s."
+  },
+  "roomscore": {
+    "title": "Highscore",
+    "heading": "Highscore: {{room}}"
+  },
+  "finish": {
+    "heading": "Fin de la session",
+    "content_": "<p>Bien joué!</p>",
+    "back": "OK"
+  },
+  "delete": {
+    "heading": "Supprimer le compte",
+    "confirm_": "Vous pouvez ici supprimer <strong>irrévocablement</strong> votre compte et votre progression. Ce processus ne peut être défait. Veuillez le confirmer en entrant votre nom d'utilisateur:",
+    "wrongUsername": "Nom d'utilisateur erroné"
+  },
+  "deleteSuccess": {
+    "title": "Compte supprimé",
+    "content_": "Compte supprimé avec succès.",
+    "back": "Retour à la page d'accueil"
+  },
+  "changepw": {
+    "heading": "Changer de mot de passe",
+    "wrongpw": "Mot de passe erroné",
+    "existingPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe"
+  },
+  "changepwSuccess": {
+    "title": "Changement de mot de passe",
+    "content_": "Changement de mot de passe réussi.",
+    "back": "OK"
+  }
+}

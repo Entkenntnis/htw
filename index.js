@@ -6,15 +6,7 @@ const decodeMe = require('./decode-me.js')
 const mortalCoil = require('./mortal-coil.js')
 const survey = require('./survey.js')
 
-const path = process.env.SERVERDEV
-  ? '../challenges-server'
-  : '@entkenntnis/challenges-server'
-
-if (process.env.SERVERDEV) {
-  console.log('SERVERDEV enabled')
-}
-
-require(path)((config) => {
+require('./server/index.js')((config) => {
   config.theme = 'darkly'
 
   if (process.env.UBERSPACE || process.env.LIVE) {

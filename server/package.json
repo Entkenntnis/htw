@@ -1,0 +1,38 @@
+{
+  "name": "@entkenntnis/challenges-server",
+  "version": "2.5.3",
+  "description": "plattform inspired by hacker.org",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Entkenntnis/challenges-server.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write --end-of-line=auto index.js config.js ./{server,routes}/**/*.js",
+    "lint": "eslint index.js config.js ./{server,routes}/**/*.js"
+  },
+  "author": "Entkenntnis <hack@arrrg.de>",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.0",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.0",
+    "connect-gzip-static": "^2.1.0",
+    "cookie-parser": "^1.4.6",
+    "csrf": "^3.1.0",
+    "ejs": "^3.1.0",
+    "express": "^4.17.0",
+    "express-session": "^1.17.0",
+    "i18next": "^19.4.0",
+    "i18next-fs-backend": "^2.1.1",
+    "moment": "^2.29.4",
+    "sequelize": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "prettier": "2.6.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

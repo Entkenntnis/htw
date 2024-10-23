@@ -1,11 +1,11 @@
 const seedrandom = require('seedrandom')
-const secrets = require('../secrets-loader.js')
+const secrets = require('../helper/secrets-loader.js')
 const Sequelize = require('sequelize')
 const {
   capitalizeFirstLetter,
   generateSHA256,
   generateToken,
-} = require('../helper.js')
+} = require('../helper/helper.js')
 
 const levelConfig = {
   0: {},

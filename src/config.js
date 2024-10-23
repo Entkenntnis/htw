@@ -60,7 +60,7 @@ module.exports = function () {
       debug: false,
       fallbackLng: 'en',
       backend: {
-        loadPath: __dirname + '/lang/{{lng}}.json',
+        loadPath: __dirname + '/server/lang/{{lng}}.json',
       },
     },
     i18nExtend: [

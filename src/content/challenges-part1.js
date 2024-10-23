@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 const crypto = require('crypto')
-const secrets = require('../secrets-loader.js')
+const secrets = require('../helper/secrets-loader.js')
 
 function stringreverse(s) {
   return s.split('').reverse().join('')

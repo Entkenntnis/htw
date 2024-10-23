@@ -11,11 +11,11 @@ module.exports = function (App) {
     )
   }
 
-  App.express.use(
+  /*App.express.use(
     gzipStatic(require('path').join(__dirname, '../public'), {
       maxAge: App.config.assetsMaxAge,
     })
-  )
+  )*/
 
   App.express.use(require('body-parser').urlencoded({ extended: true }))
 

@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize')
 // const escapeHtml = require('escape-html')
-const setupChallengesServer = require('./challenges-server.js')
+const setupChallengesServer = require('./content/challenges-server.js')
 const secrets = require('./secrets-loader.js')
-const decodeMe = require('./decode-me.js')
-const mortalCoil = require('./mortal-coil.js')
+const decodeMe = require('./content/decode-me.js')
+const mortalCoil = require('./content/mortal-coil.js')
 const survey = require('./survey.js')
 
 require('./server/index.js')((config) => {

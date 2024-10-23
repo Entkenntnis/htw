@@ -1,4 +1,4 @@
-const secrets = require('./secrets-loader.js')
+const secrets = require('../secrets-loader.js')
 const crypto = require('crypto')
 
 const multer = require('multer')

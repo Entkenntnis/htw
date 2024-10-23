@@ -1,6 +1,6 @@
 const levels = require('./mortal-coil-levels.json')
 const Sequelize = require('sequelize')
-const { capitalizeFirstLetter, generateToken } = require('./helper')
+const { capitalizeFirstLetter, generateToken } = require('../helper')
 
 const maxLevel = 200
 

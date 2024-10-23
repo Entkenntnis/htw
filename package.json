@@ -7,7 +7,8 @@
     "dev": "nodemon src/index.js",
     "save2local:powershell": "powershell $env:SAVE2LOCAL='1';$env:LIVE='1';npm start;$env:SAVE2LOCAL=$null;$env:LIVE=$null",
     "recalculateScore:powershell": "powershell $env:RECALCULATESCORE='1';npm start;$env:RECALCULATESCORE=$null",
-    "format": "prettier src --write"
+    "format": "prettier src --write",
+    "tsc": "tsc"
   },
   "main": "src/index.js",
   "author": "Entkenntnis <hack@arrrg.de>",

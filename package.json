@@ -1,6 +1,6 @@
 {
   "name": "hacktheweb",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "hack.arrrg.de",
   "scripts": {
     "start": "node src/index.js",

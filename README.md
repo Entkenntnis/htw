@@ -12,7 +12,6 @@ Install git and node.js (incl. npm) on your computer. Go to a directory of your 
 git clone https://github.com/Entkenntnis/htw.git
 cd htw
 npm install
-npm install sqlite3
 ```
 
 Copy `secrets.placeholder.js` and rename it to `secrets.js`.
@@ -30,3 +29,9 @@ In production mode, the project uses a separate database. The password for this 
 ## Step 4: Adaptations
 
 Depending on how you host the project, other requirements may arise. Feel free to adapt the source code accordingly.
+
+# Changelog
+
+### 1.0.0
+
+Moving challenges-server into this repo and remove separation

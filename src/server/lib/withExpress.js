@@ -34,11 +34,13 @@ module.exports = function (App) {
 
   App.entry.add(async () => {
     // REMARK: express.listen only provides a callback interface
-    await new Promise((res) => {
-      App.express.listen(App.config.port, () => {
-        App.logger.info('Server started on port ' + App.config.port)
-        res()
+    await /** @type {Promise<void>} */ (
+      new Promise((res) => {
+        App.express.listen(App.config.port, () => {
+          App.logger.info('Server started on port ' + App.config.port)
+          res()
+        })
       })
-    })
+    )
   })
 }

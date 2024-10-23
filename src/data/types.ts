@@ -15,4 +15,5 @@ export interface App {
   moment: typeof Moment
   express: ReturnType<typeof express>
   db: any
+  challenges: any // todo
 }

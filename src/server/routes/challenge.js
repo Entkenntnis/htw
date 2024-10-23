@@ -286,6 +286,7 @@ module.exports = function (App) {
         }
 
       let answer = ''
+      /** @type {boolean | 'none'} */
       let correct = false
       let rawAnswer = false
 

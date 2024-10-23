@@ -70,7 +70,9 @@ module.exports = function (App) {
     entries.sort((a, b) => (a.count < b.count ? 1 : -1))
 
     entries.slice(0, 30).forEach((e) => {
-      console.log(`Um ${App.moment(e.start * 1000)} mit ${e.count} Aufrufen.`)
+      console.log(
+        `Um ${App.moment(parseInt(e.start) * 1000)} mit ${e.count} Aufrufen.`
+      )
     })
 
     res.send('ok')

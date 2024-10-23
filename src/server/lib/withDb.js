@@ -5,6 +5,7 @@ module.exports = function (/** @type {import('../../data/types').App} */ App) {
     ? (/** @type {string} */ msg) => console.info('[db] ' + msg)
     : false
 
+  // @ts-ignore
   App.db = new Sequelize({
     logging,
     ...App.config.database,

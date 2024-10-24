@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "hack.arrrg.de",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
     "save2local:powershell": "powershell $env:SAVE2LOCAL='1';$env:LIVE='1';npm start;$env:SAVE2LOCAL=$null;$env:LIVE=$null",
     "recalculateScore:powershell": "powershell $env:RECALCULATESCORE='1';npm start;$env:RECALCULATESCORE=$null",
     "format": "prettier src --write",
     "tsc": "tsc"
   },
+  "type": "module",
   "main": "src/index.js",
   "author": "Entkenntnis <hack@arrrg.de>",
   "license": "MIT",
@@ -37,7 +38,10 @@
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
+    "@types/escape-html": "^1.0.4",
     "@types/express": "^4.17.0",
+    "@types/multer": "^1.4.12",
+    "@types/pngjs": "^6.0.5",
     "eslint": "^9.13.0",
     "nodemon": "^3.0.1",
     "prettier": "3.0.3",

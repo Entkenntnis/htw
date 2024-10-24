@@ -1,39 +1,27 @@
-try {
-  require('../../secrets.js')
-} catch (e) {
-  console.log(
-    'The file secrets.js is missing. Make a copy of secrets.placeholder.js and rename it.'
-  )
-  console.log('Fill the file with the correct content.')
-  console.log(
-    'Warning: same parts of the app could be broken if secrets contains wrong values!'
-  )
-}
-
-/** @type {{[key: string]: string}} */
-const secrets = require('../../secrets.js')
-
-/** @type {{[key: string]: string}} */
-const secretsPlaceholder = require('../../secrets.placeholder.js')
+import { secretValues } from '../../secrets.js'
+import { secretValuesPlaceholders } from '../../secrets.placeholder.js'
 
 // check for consistency
-for (const key in secretsPlaceholder) {
-  if (typeof secrets[key] != 'string') {
+for (const key in secretValuesPlaceholders) {
+  if (typeof secretValues[key] != 'string') {
     console.log('secrets.js is missing key:', key)
     process.exit(1)
   }
 }
 
-for (const key in secrets) {
-  if (typeof secretsPlaceholder[key] != 'string') {
+for (const key in secretValues) {
+  if (typeof secretValuesPlaceholders[key] != 'string') {
     console.log('secrets.js has unused key:', key)
     process.exit(1)
   }
 }
 
-module.exports = function (/** @type {string} */ key) {
-  if (!secrets[key]) {
+/**
+ * @param {string} key
+ */
+export function secrets(key) {
+  if (!secretValues[key]) {
     console.log('Trying to access unknown key:', key)
   }
-  return secrets[key]
+  return secretValues[key]
 }

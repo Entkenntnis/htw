@@ -1,4 +1,4 @@
-module.exports = {
+export const secretValuesPlaceholders = {
   config_db_password: '42',
   config_master_password: '42',
   config_address: '42',

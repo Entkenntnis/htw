@@ -1,14 +1,13 @@
-const secrets = require('../helper/secrets-loader.js')
-const i18nExtension = require('../content/i18n-extension.js')
+import { Sequelize } from 'sequelize'
+import { getI18nExtension } from '../content/i18n-extension.js'
+import { secrets } from '../helper/secrets-loader.js'
+import { setupChallengesServer } from '../content/challenges-server.js'
 
-const Sequelize = require('sequelize')
-// const escapeHtml = require('escape-html')
-const setupChallengesServer = require('../content/challenges-server.js')
 const decodeMe = require('../content/decode-me.js')
 const mortalCoil = require('../content/mortal-coil.js')
 const survey = require('../server/routes/survey.js')
 
-module.exports = {
+export const appConfig = {
   database: (() => {
     if (process.env.UBERSPACE || process.env.LIVE) {
       console.log('using live database\n')
@@ -108,7 +107,7 @@ module.exports = {
       loadPath: __dirname + '/lang/{{lng}}.json',
     },
   },
-  i18nExtend: i18nExtension(),
+  i18nExtend: getI18nExtension(),
   styles: {
     mapTextColor: 'white',
     mapTextWeight: 'normal',

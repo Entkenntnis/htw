@@ -3,7 +3,8 @@
   "compilerOptions": {
     "checkJs": true,
     "noEmit": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "esModuleInterop": true
   },
-  "include": ["./src/**/*.js", "./src/**/*.ts"]
+  "include": ["./src/**/*.js", "./src/**/*.ts", "src/helper/secrets-loader.js"]
 }

@@ -1,7 +1,6 @@
-const secrets = require('../helper/secrets-loader.js')
-const crypto = require('crypto')
-
-const multer = require('multer')
+import { secrets } from '../helper/secrets-loader.js'
+import crypto from 'node:crypto'
+import multer from 'multer'
 
 const storage = multer.memoryStorage()
 const upload = multer({
@@ -19,9 +18,10 @@ const upload = multer({
   },
 })
 
-const PNG = require('pngjs').PNG
-const jsQR = require('jsqr')
-const escape = require('escape-html')
+import { PNG } from 'pngjs'
+
+import escape from 'escape-html'
+import { jsQR } from '../external-wrapper/jsQR.js'
 
 const mazeStr = `
 xxxxxxxxxxxxxxxxxxxxxxx
@@ -107,7 +107,7 @@ const orakelMsgEn = [
   'You are speaking to the secretary.',
 ]
 
-module.exports = function (App) {
+export function setupChallengesServer(App) {
   App.express.get('/chal/chal46', (req, res) => {
     res.set('X-ANTWORT', secrets('chal_46'))
     res.send('')
@@ -369,7 +369,11 @@ module.exports = function (App) {
           return
         }
         const png = PNG.sync.read(req.file.buffer)
-        const code = jsQR(png.data, png.width, png.height)
+        const code = jsQR(
+          /** @type {any} the buffer is rebuild anyways */ (png.data),
+          png.width,
+          png.height
+        )
         if (!code || !code.data || typeof code.data !== 'string') {
           res.send(
             req.lng === 'de' ? 'Kein QR Code erkannt.' : 'No QR code detected.'

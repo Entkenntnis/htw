@@ -1,6 +1,6 @@
-const secrets = require('../helper/secrets-loader.js')
+import { secrets } from '../helper/secrets-loader.js'
 
-module.exports = () => {
+export function getI18nExtension() {
   const values = []
   values.push({
     lng: 'de',

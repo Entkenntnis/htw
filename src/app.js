@@ -1,8 +1,8 @@
-const config = require('./data/config')
+import { appConfig } from './data/config.js'
 
 /** @type {any} */
 const preApp = {
-  config,
+  config: appConfig,
 }
 
 require('./server/lib/withEntry')(preApp)
@@ -31,7 +31,7 @@ require('./server/routes/user')(preApp)
 require('./server/routes/challenge')(preApp)
 require('./server/routes/setConfig')(preApp)
 
-/** @type {import('./data/types').App} */
+/** @type {import('./data/types.js').App} */
 const App = preApp
 
 App.entry.start().then(() => {

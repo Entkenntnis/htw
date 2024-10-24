@@ -1,27 +1,28 @@
 import { secrets } from '../helper/secrets-loader.js'
 import crypto from 'node:crypto'
 import multer from 'multer'
+import { PNG } from 'pngjs'
+import escape from 'escape-html'
+import { jsQR } from '../external-wrapper/jsQR.js'
+import { getLng } from '../helper/helper.js'
 
 const storage = multer.memoryStorage()
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    const shouldAccept = req.headers['content-length'] <= 96 * 1024
+    const shouldAccept =
+      parseInt(req.headers['content-length'] ?? '') <= 96 * 1024
     shouldAccept
       ? cb(null, true)
       : cb(
-          req.lng == 'de'
-            ? 'Datei zu groß, maximal 96KiB erlaubt'
-            : 'Maximal filesize of 96KiB exceeded.',
-          false
+          new Error(
+            getLng(req) == 'de'
+              ? 'Datei zu groß, maximal 96KiB erlaubt'
+              : 'Maximal filesize of 96KiB exceeded.'
+          )
         )
   },
 })
-
-import { PNG } from 'pngjs'
-
-import escape from 'escape-html'
-import { jsQR } from '../external-wrapper/jsQR.js'
 
 const mazeStr = `
 xxxxxxxxxxxxxxxxxxxxxxx

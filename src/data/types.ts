@@ -1,9 +1,9 @@
 import Moment from 'moment'
-import config from './config'
 import express from 'express'
+import { appConfig } from './config.js'
 
 export interface App {
-  config: typeof config
+  config: typeof appConfig
   entry: {
     add(fn: () => void): void
     start(): Promise<void>

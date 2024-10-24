@@ -1,7 +1,7 @@
-const crypto = require('crypto')
-const secrets = require('./secrets-loader.js')
+import { secrets } from './secrets-loader.js'
+import crypto from 'node:crypto'
 
-function capitalizeFirstLetter(inputString) {
+export function capitalizeFirstLetter(inputString) {
   // Check if the input is a non-empty string
   if (typeof inputString !== 'string' || inputString.length === 0) {
     return inputString // Return the input unchanged
@@ -11,16 +11,22 @@ function capitalizeFirstLetter(inputString) {
   return inputString.charAt(0).toUpperCase() + inputString.slice(1)
 }
 
-function generateSHA256(input) {
+export function generateSHA256(input) {
   const hash = crypto.createHash('sha256')
   hash.update(input)
   return hash.digest('hex')
 }
 
-function generateToken(userId) {
+export function generateToken(userId) {
   return `${userId}-${generateSHA256(
     `${userId}___${secrets('config_token_secret')}`
   ).substring(0, 12)}`
 }
 
-module.exports = { capitalizeFirstLetter, generateSHA256, generateToken }
+/**
+ * @param {import('express').Request} req
+ * @returns {'de' | 'en'}
+ */
+export function getLng(req) {
+  return /** @type {any} */ (req).lng
+}

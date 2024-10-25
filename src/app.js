@@ -28,6 +28,7 @@ import { expressRateLimit } from './server/lib/expressRateLimit.js'
 import { staticPages } from './server/routes/staticPages.js'
 import { user } from './server/routes/user.js'
 import { challenge } from './server/routes/challenge.js'
+import { setupPleaseFixMe } from './content/please-fix-me.js'
 
 /** @type {any} App will be assembled step-wise*/
 const preApp = {
@@ -70,6 +71,8 @@ setupDecodeMe(App)
 setupMortalCoil(App)
 setupSurvey(App)
 htw(App)
+
+setupPleaseFixMe(App)
 
 App.entry.start().then(() => {
   App.logger.info(App.moment().locale('en').format('LLLL'))

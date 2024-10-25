@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize')
-const escapeHtml = require('escape-html')
+import Sequelize from 'sequelize'
+import escapeHtml from 'escape-html'
 
 const cutoff = '2024-10-20'
 
-module.exports = (App) => {
+export function setupSurvey(App) {
   App.express.get('/survey', async (req, res) => {
     if (!req.user || req.user.name != 'editor')
       return res.send('Zugriff nur für Editor')

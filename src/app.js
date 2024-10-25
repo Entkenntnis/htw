@@ -2,7 +2,7 @@ import { appConfig } from './data/config.js'
 
 import { setupChallengesServer } from './content/challenges-server.js'
 import { setupDecodeMe } from './content/decode-me.js'
-import survey from './server/routes/survey.cjs'
+import { setupSurvey } from './server/routes/survey.js'
 import { htw } from './server/routes/htw.js'
 
 import { expressViews } from './server/lib/expressViews.js'
@@ -68,7 +68,7 @@ challenge(preApp)
 setupChallengesServer(App)
 setupDecodeMe(App)
 setupMortalCoil(App)
-survey(App)
+setupSurvey(App)
 htw(App)
 
 App.entry.start().then(() => {

@@ -105,7 +105,7 @@ export function htw(App) {
         storage: './db.sqlite',
         logging: false,
       })
-      await require('../lib/dbModel.js')(LOCALAPP)
+      await (await import('../lib/dbModel.js')).dbModel(LOCALAPP)
       await LOCALAPP.db.authenticate()
 
       // Es ist viel schneller, die gesamte Datenbank neu aufzusetzen

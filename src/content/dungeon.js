@@ -1,4 +1,4 @@
-const secrets = require('../helper/secrets-loader.js')
+import { secrets } from '../helper/secrets-loader.js'
 
 const strings = [
   ['Geistige Gesundheit', 'Sanity'],
@@ -85,7 +85,7 @@ function render(req, res, html) {
 // choices ('l'|'r')[]
 // isReturn undefined | true
 
-module.exports = function (App) {
+export function setupDungeon(App) {
   App.express.get('/chal117/dungeon', checkLogin, (req, res) => {
     const s = strings.map((el) => el[req.lng == 'de' ? 0 : 1])
     const session = req.session.chal117

@@ -1,7 +1,7 @@
-const { Op, Transaction } = require('sequelize')
-const bcrypt = require('bcryptjs')
+import { Op, Transaction } from 'sequelize'
+import bcrypt from 'bcryptjs'
 
-module.exports = function (App) {
+export function challenge(App) {
   async function checkUser(req, res, next) {
     if (req.session.userId && req.user) {
       next()

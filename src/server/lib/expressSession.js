@@ -1,7 +1,7 @@
-const session = require('express-session')
-const Op = require('sequelize').Op
+import session from 'express-session'
+import { Op } from 'sequelize'
 
-module.exports = function (App) {
+export function expressSession(App) {
   class SessionStore extends session.Store {
     constructor() {
       super()

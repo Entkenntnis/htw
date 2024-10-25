@@ -1,16 +1,8 @@
-const { Op } = require('sequelize')
+import { Op } from 'sequelize'
+import escapeHTML from 'escape-html'
 const fromDate = '2024-10-20'
 
-function escapeHTML(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-}
-
-module.exports = function (App) {
+export function setupAnalyze(App) {
   App.express.get('/longtime-players', async (req, res) => {
     const usersDB = await App.db.models.User.findAll()
 

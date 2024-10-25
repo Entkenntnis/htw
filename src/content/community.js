@@ -1,7 +1,7 @@
-const secrets = require('../helper/secrets-loader.js')
-const crypto = require('crypto')
+import { secrets } from '../helper/secrets-loader.js'
+import crypto from 'node:crypto'
 
-module.exports = [
+export const communityChallenges = [
   {
     id: 300,
     pos: { x: 1750, y: 600 },

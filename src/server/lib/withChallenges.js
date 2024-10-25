@@ -1,16 +1,10 @@
-module.exports = function (App) {
-  let challenges = require(App.config.challengesDir + '/challenges')
+import { htwChallenges } from '../../content/challenges.js'
+
+export function withChallenges(App) {
+  let challenges = htwChallenges
 
   function reloadChallenges() {
-    if (App.config.reloadChallenges) {
-      delete require.cache[
-        require.resolve(App.config.challengesDir + '/challenges.js')
-      ]
-      App.challenges.data = require(App.config.challengesDir + '/challenges')
-      if (App.config.scoreMode == 'distance') {
-        calculateDistance()
-      }
-    }
+    // using node-dev instead
   }
 
   function calculateDistance() {

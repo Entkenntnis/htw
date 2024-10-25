@@ -1,6 +1,6 @@
 let cache = {}
 
-module.exports = function (App) {
+export function withChallengeStats(App) {
   async function getData(cid) {
     if (!cache[cid]) {
       await refreshData(cid)

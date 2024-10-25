@@ -98,7 +98,7 @@ export const appConfig = {
     debug: false,
     fallbackLng: 'en',
     backend: {
-      loadPath: process.cwd() + 'src/server/lang/{{lng}}.json',
+      loadPath: process.cwd() + '/src/server/lang/{{lng}}.json',
     },
   },
   i18nExtend: getI18nExtension(),

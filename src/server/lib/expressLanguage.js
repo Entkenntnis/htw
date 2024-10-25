@@ -1,6 +1,6 @@
 const cookieKey = 'htw_language_preference'
 
-module.exports = function (App) {
+export function expressLanguage(App) {
   App.express.use((req, res, next) => {
     let lng = req.cookies[cookieKey]
 

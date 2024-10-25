@@ -5,6 +5,7 @@ import { PNG } from 'pngjs'
 import escape from 'escape-html'
 import { jsQR } from '../external-wrapper/jsQR.js'
 import { getLng } from '../helper/helper.js'
+import { setupDungeon } from './dungeon.js'
 
 const storage = multer.memoryStorage()
 const upload = multer({
@@ -419,5 +420,5 @@ export function setupChallengesServer(App) {
 
   // 117 - Schatzkammer
 
-  require('./dungeon.js')(App)
+  setupDungeon(App)
 }

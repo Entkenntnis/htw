@@ -1,6 +1,7 @@
 import { Sequelize, Op } from 'sequelize'
 import { secrets } from '../../helper/secrets-loader.js'
 import { renderPage } from '../../helper/render-page.js'
+import { setupAnalyze } from './analyze.js'
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -149,7 +150,7 @@ export function htw(App) {
   }
 
   if (!process.env.UBERSPACE) {
-    require('./analyze.js')(App)
+    setupAnalyze(App)
   }
 
   if (process.env.RECALCULATESCORE) {

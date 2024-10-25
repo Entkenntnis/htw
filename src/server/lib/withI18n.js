@@ -1,12 +1,10 @@
-var i18next = require('i18next')
-// @ts-ignore
-var Backend = require('i18next-fs-backend')
+import i18next from 'i18next'
+import Backend from 'i18next-fs-backend'
 
-module.exports = function (App) {
+export function withI18n(App) {
   const i18nInstances = {}
 
   for (const lng of App.config.languages) {
-    // @ts-ignore
     i18nInstances[lng] = i18next.createInstance()
     i18nInstances[lng].use(Backend)
   }

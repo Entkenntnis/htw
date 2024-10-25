@@ -1,7 +1,7 @@
 let requestCounter = {}
 let lastReset = 0
 
-module.exports = (App) => {
+export function expressRateLimit(App) {
   if (App.config.rateLimit.enabled) {
     App.express.use(async (req, res, next) => {
       if (req.user) {

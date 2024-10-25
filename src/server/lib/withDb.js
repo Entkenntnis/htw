@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize')
+import { Sequelize } from 'sequelize'
 
-module.exports = function (/** @type {import('../../data/types').App} */ App) {
+export function withDb(/** @type {import('../../data/types.js').App} */ App) {
   const logging = App.config.logdb
     ? (/** @type {string} */ msg) => console.info('[db] ' + msg)
     : false

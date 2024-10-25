@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize')
+import { DataTypes } from 'sequelize'
 
-module.exports = function (App) {
+export function dbModel(App) {
   const User = App.db.define('User', {
     id: {
       type: DataTypes.INTEGER,

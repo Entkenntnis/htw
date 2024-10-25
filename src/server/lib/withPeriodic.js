@@ -1,4 +1,4 @@
-module.exports = function (App) {
+export function withPeriodic(App) {
   const tasks = []
 
   App.periodic = {

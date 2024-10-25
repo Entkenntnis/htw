@@ -1,4 +1,4 @@
-module.exports = (App) => {
+export function expressLoadUser(App) {
   App.express.use(async (req, res, next) => {
     if (req.session.userId) {
       const user = await App.db.models.User.findOne({

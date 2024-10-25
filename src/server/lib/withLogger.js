@@ -1,4 +1,6 @@
-module.exports = function (/** @type {import("../../data/types").App}*/ App) {
+export function withLogger(
+  /** @type {import("../../data/types.js").App}*/ App
+) {
   App.logger = {
     info: (msg) => {
       console.info(App.config.logprefix + msg)

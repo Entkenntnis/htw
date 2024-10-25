@@ -1,7 +1,7 @@
-const Op = require('sequelize').Op
-const bcrypt = require('bcryptjs')
+import { Op } from 'sequelize'
+import bcrypt from 'bcryptjs'
 
-module.exports = function (App) {
+export function user(App) {
   App.express.get('/register', async (req, res) => {
     if (req.session.userId) {
       res.redirect('/map')

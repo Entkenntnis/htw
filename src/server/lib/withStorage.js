@@ -1,4 +1,4 @@
-module.exports = function (App) {
+export function withStorage(App) {
   async function setItem(key, value) {
     if (key.length > 255) {
       App.logger.warn(

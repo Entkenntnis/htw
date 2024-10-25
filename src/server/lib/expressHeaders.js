@@ -1,4 +1,4 @@
-module.exports = function (App) {
+export function expressHeaders(App) {
   App.express.use((req, res, next) => {
     // REMARK: safe headers from 'helmet'
     res.setHeader('X-DNS-Prefetch-Control', 'off')

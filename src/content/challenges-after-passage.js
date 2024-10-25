@@ -1,5 +1,5 @@
-const secrets = require('../helper/secrets-loader.js')
-const crypto = require('crypto')
+import { secrets } from '../helper/secrets-loader.js'
+import crypto from 'crypto'
 
 function runBrainfuck(program) {
   /** Interpreter variables */
@@ -89,7 +89,7 @@ function runBrainfuck(program) {
   return output
 }
 
-module.exports = [
+export const challengesAfterPassage = [
   {
     id: 36,
     pos: { x: 630, y: 1835 },

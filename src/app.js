@@ -1,10 +1,33 @@
 import { appConfig } from './data/config.js'
 
 import { setupChallengesServer } from './content/challenges-server.js'
-import decodeMe from './content/decode-me.cjs'
-import mortalCoil from './content/mortal-coil.cjs'
+import { setupDecodeMe } from './content/decode-me.js'
 import survey from './server/routes/survey.cjs'
 import { htw } from './server/routes/htw.js'
+
+import { expressViews } from './server/lib/expressViews.js'
+import { setupMortalCoil } from './content/mortal-coil.js'
+import { withEntry } from './server/lib/withEntry.js'
+import { withLogger } from './server/lib/withLogger.js'
+import { withDb } from './server/lib/withDb.js'
+import { withI18n } from './server/lib/withI18n.js'
+import { withExpress } from './server/lib/withExpress.js'
+import { withCsrf } from './server/lib/withCsrf.js'
+import { withMoment } from './server/lib/withMoment.js'
+import { withPeriodic } from './server/lib/withPeriodic.js'
+import { withChallenges } from './server/lib/withChallenges.js'
+import { withStorage } from './server/lib/withStorage.js'
+import { withChallengeStats } from './server/lib/withChallengeStats.js'
+import { dbModel } from './server/lib/dbModel.js'
+import { expressHeaders } from './server/lib/expressHeaders.js'
+import { expressSession } from './server/lib/expressSession.js'
+import { expressPerfMonitor } from './server/lib/expressPerfMonitor.js'
+import { expressLanguage } from './server/lib/expressLanguage.js'
+import { expressLoadUser } from './server/lib/expressLoadUser.js'
+import { expressRateLimit } from './server/lib/expressRateLimit.js'
+import { staticPages } from './server/routes/staticPages.js'
+import { user } from './server/routes/user.js'
+import { challenge } from './server/routes/challenge.js'
 
 /** @type {any} App will be assembled step-wise*/
 const preApp = {
@@ -12,40 +35,39 @@ const preApp = {
 }
 
 // load parts of app
-require('./server/lib/withEntry')(preApp)
-require('./server/lib/withLogger')(preApp)
-require('./server/lib/withDb')(preApp)
-require('./server/lib/withI18n')(preApp)
-require('./server/lib/withExpress')(preApp)
-require('./server/lib/withCsrf')(preApp)
-require('./server/lib/withMoment')(preApp)
-require('./server/lib/withPeriodic')(preApp)
-require('./server/lib/withChallenges')(preApp)
-require('./server/lib/withStorage')(preApp)
-require('./server/lib/withChallengeStats')(preApp)
+withEntry(preApp)
+withLogger(preApp)
+withDb(preApp)
+withI18n(preApp)
+withExpress(preApp)
+withCsrf(preApp)
+withMoment(preApp)
+withPeriodic(preApp)
+withChallenges(preApp)
+withStorage(preApp)
+withChallengeStats(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp
 
 // load common functionality
-require('./server/lib/dbModel')(preApp)
-require('./server/lib/expressHeaders')(preApp)
-require('./server/lib/expressSession')(preApp)
-require('./server/lib/expressPerfMonitor')(preApp)
-require('./server/lib/expressLanguage')(preApp)
-require('./server/lib/expressLoadUser')(preApp)
-require('./server/lib/expressRateLimit')(preApp)
-require('./server/lib/expressViews')(preApp)
+dbModel(preApp)
+expressHeaders(preApp)
+expressSession(preApp)
+expressPerfMonitor(preApp)
+expressLanguage(preApp)
+expressLoadUser(preApp)
+expressRateLimit(preApp)
+expressViews(preApp)
 
-require('./server/routes/staticPages')(preApp)
-require('./server/routes/user')(preApp)
-require('./server/routes/challenge')(preApp)
-require('./server/routes/setConfig')(preApp)
+staticPages(preApp)
+user(preApp)
+challenge(preApp)
 
 // htw routes/modules
 setupChallengesServer(App)
-decodeMe(App)
-mortalCoil(App)
+setupDecodeMe(App)
+setupMortalCoil(App)
 survey(App)
 htw(App)
 

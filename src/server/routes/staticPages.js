@@ -1,4 +1,4 @@
-module.exports = function (App) {
+export function staticPages(App) {
   App.express.get('/contact', (req, res) => {
     res.renderPage('contact')
   })

@@ -1,11 +1,11 @@
-const seedrandom = require('seedrandom')
-const secrets = require('../helper/secrets-loader.js')
-const Sequelize = require('sequelize')
-const {
+import seedrandom from 'seedrandom'
+import { secrets } from '../helper/secrets-loader.js'
+import { Sequelize } from 'sequelize'
+import {
   capitalizeFirstLetter,
   generateSHA256,
   generateToken,
-} = require('../helper/helper.js')
+} from '../helper/helper.js'
 
 const levelConfig = {
   0: {},
@@ -193,7 +193,10 @@ const shuffleArray = (array, rng) => {
   }
 }
 
-module.exports = (App) => {
+/**
+ * @param {import('../data/types.js').App} App
+ */
+export function setupDecodeMe(App) {
   async function apiHandler(req, res, next) {
     try {
       const level = parseInt(req.query.level)

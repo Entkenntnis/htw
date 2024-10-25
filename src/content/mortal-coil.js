@@ -1,10 +1,16 @@
-const levels = require('./mortal-coil-levels.json')
-const Sequelize = require('sequelize')
-const { capitalizeFirstLetter, generateToken } = require('../helper/helper')
+import fs from 'node:fs'
+import { Sequelize } from 'sequelize'
+import { capitalizeFirstLetter, generateToken } from '../helper/helper.js'
 
 const maxLevel = 200
 
-module.exports = (App) => {
+const levels = JSON.parse(
+  fs.readFileSync('./src/content/mortal-coil-levels.json', 'utf-8')
+)
+/**
+ * @param {import('../data/types.js').App} App
+ */
+export function setupMortalCoil(App) {
   App.express.get('/mortal-coil/submit', async (req, res) => {
     try {
       const level = parseInt(req.query.level)

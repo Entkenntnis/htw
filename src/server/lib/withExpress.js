@@ -1,7 +1,10 @@
-const express = require('express')
-const gzipStatic = require('connect-gzip-static')
+import express from 'express'
+import gzipStatic from 'connect-gzip-static'
+import bodyParser from 'body-parser'
+import connectFlash from 'connect-flash'
+import cookieParser from 'cookie-parser'
 
-module.exports = function (App) {
+export function withExpress(App) {
   App.express = express()
 
   // REMARK: allow data directory to override static assets
@@ -17,11 +20,11 @@ module.exports = function (App) {
     })
   )*/
 
-  App.express.use(require('body-parser').urlencoded({ extended: true }))
+  App.express.use(bodyParser.urlencoded({ extended: true }))
 
-  App.express.use(require('connect-flash')())
+  App.express.use(connectFlash())
 
-  App.express.use(require('cookie-parser')())
+  App.express.use(cookieParser())
 
   // COMPAT: allow prefixing redirects
   App.express.use((req, res, next) => {

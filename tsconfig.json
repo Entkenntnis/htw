@@ -5,12 +5,5 @@
     "noEmit": true,
     "noImplicitAny": false
   },
-  "include": [
-    "./src/**/*.js",
-    "./src/**/*.ts",
-    "src/helper/secrets-loader.js",
-    "src/content/decode-me.cjs",
-    "src/content/mortal-coil.cjs",
-    "src/server/routes/survey.cjs"
-  ]
+  "include": ["./src/**/*.js", "./src/**/*.ts"]
 }

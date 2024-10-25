@@ -1,6 +1,6 @@
-const Tokens = require('csrf')
+import Tokens from 'csrf'
 
-module.exports = function (App) {
+export function withCsrf(App) {
   const instance = new Tokens()
 
   App.csrf = {

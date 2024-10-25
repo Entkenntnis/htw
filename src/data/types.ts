@@ -17,4 +17,5 @@ export interface App {
   db: any
   challenges: any // todo
   i18n: any // todo
+  storage: any
 }

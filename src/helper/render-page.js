@@ -31,7 +31,7 @@ export function renderPage(App, req, res, opts) {
     return key
   }
 
-  const locale = req.lng
+  const locale = getLng(req)
   const brand = App.config.brand
 
   const user = opts.user || req.user

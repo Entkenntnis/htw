@@ -16,4 +16,5 @@ export interface App {
   express: ReturnType<typeof express>
   db: any
   challenges: any // todo
+  i18n: any // todo
 }

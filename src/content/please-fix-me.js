@@ -1,5 +1,50 @@
 import { renderPage } from '../helper/render-page.js'
 
+const levels = [
+  {
+    id: 1,
+    name: 'A01',
+    ranks: [1, 2, 4],
+    value: `// Zahlen sind Zahlen, Texte sind Texte
+const zahl: number = 10
+
+const text: string = "htw"
+
+///* \` Die Mischung funktioniert nicht \`*/\`
+const unentschlossen: number = "42"
+
+console.log(unentschlossen)`,
+  },
+  {
+    id: 2,
+    name: 'A02',
+    ranks: [1, 2, 3],
+    value: `// Schrödingers Text
+const vielleichtText: string | null = Math.random() < 0.5 ? 'juhu!' : null
+
+/* \` Aber ich will sicher einen Text haben! \`*/
+const sicherText: string = vielleichtText
+
+console.log(sicherText)`,
+  },
+  {
+    id: 3,
+    name: 'A03',
+    ranks: [1, 3, 6],
+    value: `interface Datum {
+  tag: number
+  monat: number
+  jahr: number
+}
+
+// \` So alt, dass schon Teile fehlen \`
+const damals: Datum = {
+  tag: 2,
+  jahr: 1995,
+}`,
+  },
+]
+
 /**
  * @param {import("../data/types.js").App} App
  */
@@ -22,25 +67,29 @@ export function setupPleaseFixMe(App) {
           }
         </style>
 
-        <div style="height: 30px"></div>
+        <div style="padding-bottom: 16px;"><select style="height: 36px; width: 300px;" onchange="setLevel(parseInt(this.value))">${levels
+          .map((l) => {
+            return `<option value="${l.id}" id="option-level-${l.id}">Level ${l.name}</option>`
+          })
+          .join('')}</select></div>
 
         <div style="position: relative; margin-top: 16px;">
-          <div style="position: absolute; left: calc(20% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;"></div>
+          <div style="position: absolute; left: calc(20% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker"></div>
           <div style="position: absolute; left: calc(20% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
           
-          <div style="position: absolute; left: calc(40% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;"></div>
+          <div style="position: absolute; left: calc(40% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker"></div>
           <div style="position: absolute; left: calc(40% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
           
-          <div style="position: absolute; left: calc(80% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;"></div>
+          <div style="position: absolute; left: calc(80% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker"></div>
           <div style="position: absolute; left: calc(80% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
         </div>
         <div class="progress" style="margin-top: 56px; margin-bottom: 36px;">
-          <div class="progress-bar bg-warning progress-bar-striped" role="progressbar" style="width: 0%;"id="bar"></div>
+          <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 2.5%;" id="bar"></div>
         </div>
 
         <div id="container" style="height: 400px"></div>
         
-        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb">Korrigiere die Fehler im Code mit so wenigen Änderungen wie möglich.<br />Aktuelle Änderungen: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset()" href="#">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb">Der Editor ist erst glücklich, wenn das Programm keine Probleme mehr enthält. Ändere dafür so wenige Zeichen wie möglich. Der Sinn des Programms darf verändert werden.<br />Aktuelle Änderungen: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
 
         <link
           rel="stylesheet"
@@ -159,23 +208,19 @@ var levenshtein = (function()
         </script>
 
         <script>
-const value = \`// Zahlen und Texte werden in Typescript unterschieden
-
-const zahl: number = 10
-
-const text: string = "htw"
-
-const x: number = "42"
-
-// Dekoration :) \\\`*/\\\`
-console.log(x)\`
+          const levels = JSON.parse(decodeURIComponent(atob("${Buffer.from(
+            encodeURIComponent(JSON.stringify(levels))
+          ).toString('base64')}")))
           const myEditor = monaco.editor.create(document.getElementById("container"), {
-            value,
+            value: '',
             language: "typescript",
             automaticLayout: true,
             minimap: { enabled: false },
             theme: 'vs-dark',
             scrollBeyondLastLine: false,
+            padding: {
+              top: 10
+            }
           });
 
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
@@ -183,41 +228,91 @@ console.log(x)\`
             target: 99,
             strict: true,
           })
-          
-          let record = -1
 
-          function reset() {
-            window.location.reload()
+          let value = ''
+          let records = JSON.parse(sessionStorage.getItem('htw_please_fix_me_records') || '{}')
+          let levelId = -1
+          let name = ''
+          let ranks = []
+          let barLength = -1
+          let distance = 0
+
+          Object.keys(records).forEach(id => {
+            const l = levels.find(l => l.id == id)
+            document.getElementById('option-level-' + id).innerHTML = 'Level ' + l.name + (records[id] <= l.ranks[0] ? ' [Hacker]' : records[id] <= l.ranks[1] ? ' [Gold]' : ' [Holz]')  
+          })
+          
+          function setLevel(n) {
+            if (n == levelId) return
+            const l = levels.find(l => l.id == n)
+            value = l.value
+            barLength = l.ranks[2]+1
+            ranks = l.ranks
+            name = l.name
+            levelId = n
+            if (!records[levelId])
+              records[levelId] = -1
+            myEditor.setValue(value)
+            
+            document.getElementById('record').innerHTML = records[levelId] == -1 ? '--' : records[levelId]
+            document.getElementById('holz').classList.remove('checkmark')
+            document.getElementById('gold').classList.remove('checkmark')
+            document.getElementById('hacker').classList.remove('checkmark')
+            if (records[levelId] > 0) {
+              if (records[levelId] <= ranks[2]) {
+                document.getElementById('holz').classList.add('checkmark')
+              }
+              if (records[levelId] <= ranks[1]) {
+                document.getElementById('gold').classList.add('checkmark')
+              }
+              if (records[levelId] <= ranks[0]) {
+                document.getElementById('hacker').classList.add('checkmark')
+              }
+            }
+
+            document.getElementById('holz-marker').style.setProperty('left', \`calc(\${Math.round(l.ranks[2] * 100 / barLength)}% - 2px)\`)
+            document.getElementById('holz').style.setProperty('left', \`calc(\${Math.round(l.ranks[2] * 100 / barLength)}% - 16px)\`)
+
+            document.getElementById('gold-marker').style.setProperty('left', \`calc(\${Math.round(l.ranks[1] * 100 / barLength)}% - 2px)\`)
+            document.getElementById('gold').style.setProperty('left', \`calc(\${Math.round(l.ranks[1] * 100 / barLength)}% - 18px)\`)
+
+            document.getElementById('hacker-marker').style.setProperty('left', \`calc(\${Math.round(l.ranks[0] * 100 / barLength)}% - 2px)\`)
+            document.getElementById('hacker').style.setProperty('left', \`calc(\${Math.round(l.ranks[0] * 100 / barLength)}% - 24px)\`)
+          }
+            
+          setLevel(1)
+
+          function reset(e) {
+            e.preventDefault()
+            myEditor.setValue(levels.find(l => l.id == levelId).value)
             return false
           }
 
-          function check() {
-            // 2. Get the content of the editor as a string
-            const codeContent = myEditor.getValue();
+          let checkHandler
+          let debounceTime = 500
 
-            // 3. Get all warnings and errors
+          function check() {
+            document.getElementById('bar').classList.remove('progress-bar-striped')
             const model = myEditor.getModel();
             const markers = monaco.editor.getModelMarkers({ owner: model.uri });
 
-            // document.getElementById('diagnostics').innerHTML = markers.length
-
-            const distance = levenshtein(value, codeContent)
-            document.getElementById('distance').innerHTML = distance
-            document.getElementById('bar').style.width = (distance * 20) + "%"
             if (markers.length == 0) {
-              if (distance > 0 && (record == -1 || distance < record)) {
-                record = distance
-                document.getElementById('record').innerHTML = record
+              if (distance > 0 && distance <= ranks[2] && (records[levelId] == -1 || distance < records[levelId])) {
+                alert('Neuer Rekord!')
+                records[levelId] = distance
+                sessionStorage.setItem('htw_please_fix_me_records', JSON.stringify(records))
+                document.getElementById('option-level-' + levelId).innerHTML = 'Level ' + name + (distance <= ranks[0] ? ' [Hacker]' : distance <= ranks[1] ? ' [Gold]' : ' [Holz]')
+                document.getElementById('record').innerHTML = records[levelId]
               }
               document.getElementById('bar').classList.remove('bg-warning')
               document.getElementById('bar').classList.add('bg-success')
-              if (distance > 0 && distance <= 4) {
+              if (distance > 0 && distance <= ranks[2]) {
                 document.getElementById('holz').classList.add('checkmark')
               }
-              if (distance > 0 && distance <= 2) {
+              if (distance > 0 && distance <= ranks[1]) {
                 document.getElementById('gold').classList.add('checkmark')
               }
-              if (distance > 0 && distance <= 1) {
+              if (distance > 0 && distance <= ranks[0]) {
                 document.getElementById('hacker').classList.add('checkmark')
               }
             } else {
@@ -227,18 +322,23 @@ console.log(x)\`
           }
 
           myEditor.onDidChangeModelContent(() => {
-            check()
-            setTimeout(check, 1000)
-            setTimeout(check, 2000)
-            setTimeout(check, 3000)
-            setTimeout(check, 4000)
-          })
+            document.getElementById('bar').classList.add('progress-bar-striped')
+            document.getElementById('bar').classList.add('bg-warning')
+            document.getElementById('bar').classList.remove('bg-success')
+            clearTimeout(checkHandler)
+            checkHandler = setTimeout(check, debounceTime * 3) // fallback
 
-        
-          setTimeout(check, 1000)
-          setTimeout(check, 2000)
-          setTimeout(check, 3000)
-          setTimeout(check, 4000)
+            // update distance immediately
+            const codeContent = myEditor.getValue();
+            distance = levenshtein(value, codeContent)
+            document.getElementById('distance').innerHTML = distance
+            document.getElementById('bar').style.width = Math.max(2.5, Math.round(distance * 100 / barLength)) + "%"
+          })
+          
+          monaco.editor.onDidChangeMarkers(() => {
+            clearTimeout(checkHandler)
+            checkHandler = setTimeout(check, debounceTime) // fallback
+          })
         </script>
       
       `,

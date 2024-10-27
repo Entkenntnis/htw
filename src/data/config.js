@@ -76,8 +76,10 @@ export const appConfig = {
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
     ${
       showDecodeMe
-        ? '<a href="/decode-me" style="position:absolute;left:1240px;top:70px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a>' +
-          '<a href="/mortal-coil" style="position:absolute;left:99px;top:920px;" class="text-reset text-decoration-none"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>'
+        ? '<!-- <a href="/decode-me" style="position:absolute;left:1740px;top:1200px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a> -->' +
+          '<a href="/mortal-coil" style="position:absolute;left:2250px;top:500px;" class="text-reset text-decoration-none"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
+          '<a href="/enough" style="position:absolute;left:97px;top:935px;" class="text-reset text-decoration-none"><div>&nbsp;&nbsp;&nbsp;Enough</div><img src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
+          '<a href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none"><div>Worms</div><img src="/worms.png" style="width:46px"></a>'
         : ''
     }
   `

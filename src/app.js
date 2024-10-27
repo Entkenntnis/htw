@@ -29,6 +29,8 @@ import { staticPages } from './server/routes/staticPages.js'
 import { user } from './server/routes/user.js'
 import { challenge } from './server/routes/challenge.js'
 import { setupPleaseFixMe } from './content/please-fix-me.js'
+import { setupEnough } from './content/enough.js'
+import { setupWorms } from './content/worms.js'
 
 /** @type {any} App will be assembled step-wise*/
 const preApp = {
@@ -73,6 +75,8 @@ setupSurvey(App)
 htw(App)
 
 setupPleaseFixMe(App)
+setupEnough(App)
+setupWorms(App)
 
 App.entry.start().then(() => {
   App.logger.info(App.moment().locale('en').format('LLLL'))

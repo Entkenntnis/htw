@@ -49,5 +49,5 @@ export function getLng(req) {
  * @returns {any} <---- Please type this yourself!
  */
 export function getSession(req) {
-  return /** @type {any} */ (req).lng
+  return /** @type {any} */ (req).session
 }

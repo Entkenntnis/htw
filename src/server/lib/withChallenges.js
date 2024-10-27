@@ -4,10 +4,9 @@ import { htwChallenges } from '../../content/challenges.js'
  * @param {import('../../data/types.js').App} App
  */
 export function withChallenges(App) {
-  let challenges = htwChallenges
+  App.challenges = { distance: {}, data: htwChallenges }
 
   function calculateDistance() {
-    App.challenges.distance = {}
     const result = App.challenges.distance
     let todo = App.challenges.data.filter((chal) => {
       if (chal.deps.length == 0) {
@@ -46,8 +45,6 @@ export function withChallenges(App) {
     }
     App.challenges.distance = result
   }
-
-  App.challenges.data = challenges
 
   if (App.config.scoreMode == 'distance') {
     calculateDistance()

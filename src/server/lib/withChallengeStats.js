@@ -12,23 +12,28 @@ export function withChallengeStats(App) {
       })
       let lastSolvedUserName = null
 
-      const lastSolved = /** @type {null | string} */ (
-        await App.db.models.Solution.max('createdAt', {
-          where: {
-            cid,
-          },
-        })
-      )
-      const lastSolvedSolution = /** @type {null | {UserId: number}} */ (
-        await App.db.models.Solution.findOne({
-          where: { createdAt: lastSolved },
-        })
-      )
+      /** @type {null | string | Date} */
+      const lastSolved = await App.db.models.Solution.max('createdAt', {
+        where: {
+          cid,
+        },
+      })
+
+      const lastSolvedSolution =
+        /** @type {null | Pick<import("../../data/types.js").ISolution, 'UserId'>} */ (
+          await App.db.models.Solution.findOne({
+            where: { createdAt: lastSolved },
+            raw: true,
+            attributes: ['UserId'],
+          })
+        )
       if (lastSolvedSolution) {
         const lastSolvedUser =
-          /** @type {null | import("../../data/types.js").IUser} */ (
+          /** @type {null | Pick<import("../../data/types.js").IUser, 'name'>} */ (
             await App.db.models.User.findOne({
               where: { id: lastSolvedSolution.UserId },
+              raw: true,
+              attributes: ['name'],
             })
           )
         if (lastSolvedUser) {

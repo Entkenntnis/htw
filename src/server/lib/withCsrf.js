@@ -1,5 +1,5 @@
 import Tokens from 'csrf'
-import { getSession } from '../../helper/helper.js'
+import { getSession_any } from '../../helper/helper.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -10,7 +10,7 @@ export function withCsrf(App) {
   App.csrf = {
     create: (req) => {
       /** @type {{csrfSecret?: string}} */
-      const session = getSession(req)
+      const session = getSession_any(req)
       if (!session.csrfSecret) {
         session.csrfSecret = instance.secretSync()
       }
@@ -18,7 +18,7 @@ export function withCsrf(App) {
     },
     verify: (req, token) => {
       /** @type {{csrfSecret?: string}} */
-      const session = getSession(req)
+      const session = getSession_any(req)
       return instance.verify(session?.csrfSecret ?? '', token)
     },
   }

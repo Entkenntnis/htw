@@ -1,12 +1,5 @@
 import { appConfig } from './data/config.js'
 
-import { setupChallengesServer } from './content/challenges-server.js'
-import { setupDecodeMe } from './content/decode-me.js'
-import { setupSurvey } from './server/routes/survey.js'
-import { htw } from './server/routes/htw.js'
-
-import { expressViews } from './server/lib/expressViews.js'
-import { setupMortalCoil } from './content/mortal-coil.js'
 import { withEntry } from './server/lib/withEntry.js'
 import { withLogger } from './server/lib/withLogger.js'
 import { withDb } from './server/lib/withDb.js'
@@ -18,6 +11,15 @@ import { withPeriodic } from './server/lib/withPeriodic.js'
 import { withChallenges } from './server/lib/withChallenges.js'
 import { withStorage } from './server/lib/withStorage.js'
 import { withChallengeStats } from './server/lib/withChallengeStats.js'
+
+// ----
+import { setupChallengesServer } from './content/challenges-server.js'
+import { setupDecodeMe } from './content/decode-me.js'
+import { setupSurvey } from './server/routes/survey.js'
+import { htw } from './server/routes/htw.js'
+
+import { expressViews } from './server/lib/expressViews.js'
+import { setupMortalCoil } from './content/mortal-coil.js'
 import { dbModel } from './server/lib/dbModel.js'
 import { expressHeaders } from './server/lib/expressHeaders.js'
 import { expressSession } from './server/lib/expressSession.js'
@@ -32,7 +34,7 @@ import { setupPleaseFixMe } from './content/please-fix-me.js'
 import { setupEnough } from './content/enough.js'
 import { setupWorms } from './content/worms.js'
 
-/** @type {any} App will be assembled step-wise*/
+/** @type {any} App will be assembled step-wise */
 const preApp = {
   config: appConfig,
 }
@@ -78,10 +80,6 @@ setupPleaseFixMe(App)
 setupEnough(App)
 setupWorms(App)
 
-App.entry.start().then(() => {
-  App.logger.info(App.moment().locale('en').format('LLLL'))
-})
-
 if (process.env.UPTEST) {
   console.log(
     'UPTEST enabled: server will automatically exit after 10 seconds\n'
@@ -90,3 +88,12 @@ if (process.env.UPTEST) {
     process.exit()
   }, 10000)
 }
+
+// REMARK: terminate process on unhandled rejection
+process.on('unhandledRejection', (up) => {
+  throw up
+})
+
+App.entry.start().then(() => {
+  App.logger.info(App.moment().locale('en').format('LLLL'))
+})

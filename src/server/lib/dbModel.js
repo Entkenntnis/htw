@@ -71,6 +71,13 @@ export function dbModel(App) {
   User.belongsTo(Room)
 
   User.hasMany(Solution, {
+    foreignKey: {
+      // @ts-ignore Sometimes, types lie. This is the case here
+      // The solution table is using a composite primary key consisting of the cid, and THIS column, so mark the colums as a primary key as well
+      // The documentation in v7 is clearer, but it should also work in v6.
+      // The database is relying on this! Don't remove.
+      primaryKey: true,
+    },
     onDelete: 'cascade',
   })
   Solution.belongsTo(User)

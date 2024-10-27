@@ -1,6 +1,7 @@
-export function withLogger(
-  /** @type {import("../../data/types.js").App}*/ App
-) {
+/**
+ * @param {import("../../data/types.js").App} App
+ */
+export function withLogger(App) {
   App.logger = {
     info: (msg) => {
       console.info(App.config.logprefix + msg)
@@ -10,8 +11,3 @@ export function withLogger(
     },
   }
 }
-
-// REMARK: terminate process on unhandled rejection
-process.on('unhandledRejection', (up) => {
-  throw up
-})

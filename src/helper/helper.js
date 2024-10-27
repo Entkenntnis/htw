@@ -48,6 +48,6 @@ export function getLng(req) {
  * @param {import('express').Request} req
  * @returns {any} <---- Please type this yourself!
  */
-export function getSession(req) {
+export function getSession_any(req) {
   return /** @type {any} */ (req).session
 }

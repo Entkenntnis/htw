@@ -12,7 +12,7 @@ export function setupEnough(App) {
       content: `
         <p><a href="/map">zurück</a></p>
 
-        <p style="margin-bottom:48px; margin-top:36px;">Erlebe eine magische Reise.</p>
+        <p style="margin-bottom:48px; margin-top:36px; max-width: 65ch; ">Du gehst in die Bibliothek von Hack The Web. Dort nimmst du ein Buch aus dem Regel und öffnest es. Eine magische Reise beginnt.</p>
 
         <script>
 

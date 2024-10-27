@@ -20,8 +20,20 @@ export function withI18n(App) {
   }
 
   App.entry.add(async () => {
+    let hasError = false
     for (const lng of App.config.languages) {
-      await i18nInstances[lng].init({ ...App.config.i18nConfig, lng })
+      await i18nInstances[lng].init(
+        {
+          ...App.config.i18nConfig,
+          lng,
+        },
+        (err) => {
+          if (err) {
+            App.logger.warn(err)
+            hasError = true
+          }
+        }
+      )
       for (const extend of App.config.i18nExtend) {
         i18nInstances[lng].addResource(
           extend.lng,
@@ -32,6 +44,10 @@ export function withI18n(App) {
       }
     }
 
-    App.logger.info('Translations ready')
+    if (!hasError) {
+      App.logger.info('Translations ready')
+    } else {
+      process.exit(1)
+    }
   })
 }

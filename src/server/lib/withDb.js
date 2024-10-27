@@ -1,12 +1,11 @@
 import { Sequelize } from 'sequelize'
 
-export function withDb(/** @type {import('../../data/types.js').App} */ App) {
-  const logging = App.config.logdb
-    ? (/** @type {string} */ msg) => console.info('[db] ' + msg)
-    : false
-
+/**
+ * @param {import('../../data/types.js').App} App
+ */
+export function withDb(App) {
   App.db = new Sequelize({
-    logging,
+    logging: App.config.logdb ? defaultDbLogger : false,
     ...App.config.database,
   })
 
@@ -16,4 +15,11 @@ export function withDb(/** @type {import('../../data/types.js').App} */ App) {
     await App.db.sync(App.config.sync)
     App.logger.info('Database synchronized')
   })
+}
+
+/**
+ * @param {string} msg
+ */
+function defaultDbLogger(msg) {
+  console.info('[db] ' + msg)
 }

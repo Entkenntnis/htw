@@ -1,9 +1,8 @@
 import express from 'express'
-// @ts-ignore No types unfortunately
-import gzipStatic from 'connect-gzip-static'
 import bodyParser from 'body-parser'
 import connectFlash from 'connect-flash'
 import cookieParser from 'cookie-parser'
+import { connectGzipStatic } from '../../external-wrapper/connectGzipStatic.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -11,18 +10,14 @@ import cookieParser from 'cookie-parser'
 export function withExpress(App) {
   App.express = express()
 
-  // REMARK: allow data directory to override static assets
+  // Caching is still not optimal, a fixed max age is maybe not the best
   if (App.config.staticFolder) {
     App.express.use(
-      gzipStatic(App.config.staticFolder, { maxAge: App.config.assetsMaxAge })
+      connectGzipStatic(App.config.staticFolder, {
+        cacheControl: false, // using etag is sufficient for browsers to effectively cache assets
+      })
     )
   }
-
-  /*App.express.use(
-    gzipStatic(require('path').join(__dirname, '../public'), {
-      maxAge: App.config.assetsMaxAge,
-    })
-  )*/
 
   App.express.use(bodyParser.urlencoded({ extended: true }))
 

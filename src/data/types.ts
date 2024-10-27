@@ -8,7 +8,7 @@ import { htwChallenges } from '../content/challenges.js'
 export interface App {
   config: typeof appConfig
   entry: {
-    add(fn: () => void): void
+    add(fn: () => void | Promise<void>): void
     start(): Promise<void>
   }
   logger: {
@@ -77,17 +77,51 @@ export interface HtwChallenge {
 
 export interface ChallengeStatsData {
   solvedBy: number
-  lastSolved: string | null
+  lastSolved: string | Date | null
   lastSolvedUserName: string | null
 }
 
-// TODO: check if this typing is matching
+// Dates are a bit messy, sometimes, they are strings, sometimes they are dates
+// depending on the backend and/or wether the query is raw
+// assume it's not parsed
 export interface IUser {
   id: number
   name: string
   password: string
   score: number
-  session_startTime: string | null
+  session_startTime: string | Date | null
   session_phase: string | null
   session_score: number | null
+  createdAt: string | Date
+  updatedAt: string | Date
+  RoomId: number | null
+}
+
+export interface ISolution {
+  cid: number
+  UserId: number
+  createdAt: string | Date
+  updatedAt: string | Date
+}
+
+export interface ISession {
+  sid: string
+  data: string
+  expires: string | Date
+  createdAt: string | Date
+  updatedAt: string | Date
+}
+
+export interface IRoom {
+  id: number
+  name: string
+  createdAt: string | Date
+  updatedAt: string | Date
+}
+
+export interface IKVPair {
+  key: string
+  value: string
+  createdAt: string | Date
+  updatedAt: string | Date
 }

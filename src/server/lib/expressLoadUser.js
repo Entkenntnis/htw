@@ -1,3 +1,6 @@
+/**
+ * @param {import("../../data/types.js").App} App
+ */
 export function expressLoadUser(App) {
   App.express.use(async (req, res, next) => {
     if (req.session.userId) {

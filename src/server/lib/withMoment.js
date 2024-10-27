@@ -1,7 +1,8 @@
 import moment from 'moment'
 
-export function withMoment(
-  /** @type {import("../../data/types.js").App} */ App
-) {
+/**
+ * @param {import('../../data/types.js').App} App
+ */
+export function withMoment(App) {
   App.moment = moment
 }

@@ -99,7 +99,6 @@ export function htw(App) {
       if (!process.env.LIVE) throw 'NOT CONNECTED TO LIVE SERVER'
       const LOCALAPP = {}
 
-      // @ts-ignore
       LOCALAPP.db = new Sequelize({
         dialect: 'sqlite',
         storage: './db.sqlite',

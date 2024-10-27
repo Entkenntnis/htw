@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import { secrets } from '../helper/secrets-loader.js'
+import { getLng } from '../helper/helper.js'
 
 function stringreverse(s) {
   return s.split('').reverse().join('')
@@ -97,6 +98,7 @@ function story(name, intro, task) {
 `
 }
 
+/** @type {import('../data/types.js').HtwChallenge[]} */
 export const part1 = [
   {
     id: 1,
@@ -105,7 +107,7 @@ export const part1 = [
     // date: '2017-03-30',
     deps: [],
     render: async ({ req, App }) => {
-      if (req.lng === 'en') {
+      if (getLng(req) === 'en') {
         await App.storage.setItem(
           'visit_english_' + new Date().getTime(),
           req.user.name

@@ -89,6 +89,7 @@ function runBrainfuck(program) {
   return output
 }
 
+/** @type {import('../data/types.js').HtwChallenge[]} */
 export const challengesAfterPassage = [
   {
     id: 36,

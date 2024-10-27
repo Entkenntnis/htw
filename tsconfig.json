@@ -2,8 +2,7 @@
   "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "checkJs": true,
-    "noEmit": true,
-    "noImplicitAny": false
+    "noEmit": true
   },
   "include": ["./src/**/*.js", "./src/**/*.ts"]
 }

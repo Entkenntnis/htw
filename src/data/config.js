@@ -9,7 +9,7 @@ export const appConfig = {
         database: 'arrrg_hacktheweb',
         username: 'arrrg',
         password: secrets('config_db_password'),
-        dialect: 'mariadb',
+        dialect: /** @type {'mariadb'} */ ('mariadb'),
         dialectOptions: {
           timezone: 'Europe/Berlin',
           connectTimeout: 10000, // increased due to several errors - default value is 1000 (ms) and feels quite short
@@ -17,7 +17,8 @@ export const appConfig = {
       }
     }
     return {
-      dialect: 'sqlite',
+      database: 'local_db',
+      dialect: /** @type {'sqlite'} */ ('sqlite'),
       storage: './db.sqlite',
     }
   })(),
@@ -29,7 +30,7 @@ export const appConfig = {
   logprefix: '[htw] ',
   port: process.env.HTWPORT ? parseInt(process.env.HTWPORT) : 3000,
   sessionSecret: 'keyboard cat',
-  languages: ['de', 'en'],
+  languages: /** @type {['de' , 'en']} */ (['de', 'en']),
   detectLanguage: false,
   theme: 'darkly',
   reloadChallenges: !process.env.UBERSPACE,

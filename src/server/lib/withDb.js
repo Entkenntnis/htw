@@ -5,7 +5,6 @@ export function withDb(/** @type {import('../../data/types.js').App} */ App) {
     ? (/** @type {string} */ msg) => console.info('[db] ' + msg)
     : false
 
-  // @ts-ignore
   App.db = new Sequelize({
     logging,
     ...App.config.database,

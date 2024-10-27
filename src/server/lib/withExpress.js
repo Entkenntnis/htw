@@ -1,9 +1,13 @@
 import express from 'express'
+// @ts-ignore No types unfortunately
 import gzipStatic from 'connect-gzip-static'
 import bodyParser from 'body-parser'
 import connectFlash from 'connect-flash'
 import cookieParser from 'cookie-parser'
 
+/**
+ * @param {import('../../data/types.js').App} App
+ */
 export function withExpress(App) {
   App.express = express()
 

@@ -1,14 +1,14 @@
 import { htwChallenges } from '../../content/challenges.js'
 
+/**
+ * @param {import('../../data/types.js').App} App
+ */
 export function withChallenges(App) {
   let challenges = htwChallenges
 
-  function reloadChallenges() {
-    // using node-dev instead
-  }
-
   function calculateDistance() {
-    const result = {}
+    App.challenges.distance = {}
+    const result = App.challenges.distance
     let todo = App.challenges.data.filter((chal) => {
       if (chal.deps.length == 0) {
         result[chal.id] = 0
@@ -23,6 +23,7 @@ export function withChallenges(App) {
     while (todo.length > 0) {
       const preTodoLength = todo.length
       todo = todo.filter((chal) => {
+        /** @type {number[]} */
         const pre = []
         let ready = true
         chal.deps.forEach((dep) => {
@@ -46,10 +47,7 @@ export function withChallenges(App) {
     App.challenges.distance = result
   }
 
-  App.challenges = {
-    data: challenges,
-    reload: reloadChallenges,
-  }
+  App.challenges.data = challenges
 
   if (App.config.scoreMode == 'distance') {
     calculateDistance()

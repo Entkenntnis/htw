@@ -1,17 +1,25 @@
 import Tokens from 'csrf'
+import { getSession } from '../../helper/helper.js'
 
+/**
+ * @param {import('../../data/types.js').App} App
+ */
 export function withCsrf(App) {
   const instance = new Tokens()
 
   App.csrf = {
     create: (req) => {
-      if (!req.session.csrfSecret) {
-        req.session.csrfSecret = instance.secretSync()
+      /** @type {{csrfSecret?: string}} */
+      const session = getSession(req)
+      if (!session.csrfSecret) {
+        session.csrfSecret = instance.secretSync()
       }
-      return instance.create(req.session.csrfSecret)
+      return instance.create(session.csrfSecret)
     },
     verify: (req, token) => {
-      return instance.verify(req.session.csrfSecret, token)
+      /** @type {{csrfSecret?: string}} */
+      const session = getSession(req)
+      return instance.verify(session?.csrfSecret ?? '', token)
     },
   }
 }

@@ -1,13 +1,17 @@
-import i18next from 'i18next'
 import Backend from 'i18next-fs-backend'
+import { i18next } from '../../external-wrapper/i18next.js'
 
+/**
+ * @param {import('../../data/types.js').App} App
+ */
 export function withI18n(App) {
-  const i18nInstances = {}
-
-  for (const lng of App.config.languages) {
-    i18nInstances[lng] = i18next.createInstance()
-    i18nInstances[lng].use(Backend)
+  const i18nInstances = {
+    de: i18next.createInstance(),
+    en: i18next.createInstance(),
   }
+
+  i18nInstances['de'].use(Backend)
+  i18nInstances['en'].use(Backend)
 
   App.i18n = {
     get: (lng) => {

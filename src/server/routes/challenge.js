@@ -79,8 +79,6 @@ export function challenge(App) {
   }
 
   App.express.get('/map', checkUser, checkSession, async (req, res) => {
-    App.challenges.reload()
-
     const solvedDb = await App.db.models.Solution.findAll({
       where: { UserId: req.user.id },
     })
@@ -222,8 +220,6 @@ export function challenge(App) {
     checkUser,
     checkSession,
     async (req, res) => {
-      App.challenges.reload()
-
       const id = parseInt(req.params.id)
       const isEditor = App.config.editors.includes(req.user.name)
 

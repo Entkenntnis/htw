@@ -6,7 +6,7 @@ The source code should not spoil the tasks - therefore I made sure to put all se
 
 ### Step 1: Setup
 
-Install git and node.js (incl. npm) on your computer. Go to a directory of your choice and execute the following commands:
+Install git and node.js v20+ (incl. npm) on your computer. Go to a directory of your choice and execute the following commands:
 
 ```
 git clone https://github.com/Entkenntnis/htw.git

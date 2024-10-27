@@ -1,5 +1,8 @@
 import { DataTypes } from 'sequelize'
 
+/**
+ * @param {import('../../data/types.js').App} App
+ */
 export function dbModel(App) {
   const User = App.db.define('User', {
     id: {
@@ -68,9 +71,6 @@ export function dbModel(App) {
   User.belongsTo(Room)
 
   User.hasMany(Solution, {
-    foreignKey: {
-      primaryKey: true,
-    },
     onDelete: 'cascade',
   })
   Solution.belongsTo(User)

@@ -1,6 +1,7 @@
 import { secrets } from '../helper/secrets-loader.js'
 import crypto from 'node:crypto'
 
+/** @type {import('../data/types.js').HtwChallenge[]} */
 export const communityChallenges = [
   {
     id: 300,

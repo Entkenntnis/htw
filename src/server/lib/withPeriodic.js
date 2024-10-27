@@ -1,4 +1,10 @@
+/**
+ * @param {import("../../data/types.js").App} App
+ */
 export function withPeriodic(App) {
+  /**
+   * @type {{ interval: number, fn: () => void; lastRun?: import('moment').Moment }[]}
+   */
   const tasks = []
 
   App.periodic = {

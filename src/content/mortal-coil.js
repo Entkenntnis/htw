@@ -1,6 +1,7 @@
 import fs from 'node:fs'
-import { Sequelize } from 'sequelize'
+import { Sequelize, Op } from 'sequelize'
 import { capitalizeFirstLetter, generateToken } from '../helper/helper.js'
+import { renderPage } from '../helper/render-page.js'
 
 const maxLevel = 200
 
@@ -13,7 +14,7 @@ const levels = JSON.parse(
 export function setupMortalCoil(App) {
   App.express.get('/mortal-coil/submit', async (req, res) => {
     try {
-      const level = parseInt(req.query.level)
+      const level = parseInt(req.query.level?.toString() ?? '-1')
       const token = typeof req.query.token === 'string' ? req.query.token : ''
 
       if (!token) {
@@ -40,7 +41,7 @@ export function setupMortalCoil(App) {
       const isEditor = req.user && App.config.editors.includes(req.user.name)
 
       const storageKey = `mortalcoil_${userid}`
-      const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
+      const fromDB = parseInt((await App.storage.getItem(storageKey)) ?? '-1') // should be fine
       const playerLevel = isEditor
         ? maxLevel - 1
         : isNaN(fromDB)
@@ -53,16 +54,16 @@ export function setupMortalCoil(App) {
 
       let isCorrect = verifyLevel(
         level,
-        parseInt(req.query.x),
-        parseInt(req.query.y),
-        req.query.path
+        parseInt(req.query.x?.toString() ?? '-1'),
+        parseInt(req.query.y?.toString() ?? '-1'),
+        req.query.path?.toString() ?? ''
       )
 
       if (isCorrect) {
         const unlockedLevel = level + 1
         if (unlockedLevel > playerLevel) {
           const storageKey = `mortalcoil_${userid}`
-          await App.storage.setItem(storageKey, playerLevel + 1)
+          await App.storage.setItem(storageKey, (playerLevel + 1).toString())
         }
         return res.send('ok')
       }
@@ -77,12 +78,12 @@ export function setupMortalCoil(App) {
       return res.redirect('/')
     }
 
-    const queryLevel = parseInt(req.query.level)
+    const queryLevel = parseInt(req.query.level?.toString() ?? '-1')
 
     const isEditor = App.config.editors.includes(req.user.name)
 
     const storageKey = `mortalcoil_${req.user.id}`
-    const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine
+    const fromDB = parseInt((await App.storage.getItem(storageKey)) ?? '-1') // should be fine
     const playerLevel = isEditor
       ? maxLevel - 1
       : isNaN(fromDB)
@@ -127,7 +128,7 @@ export function setupMortalCoil(App) {
 
     const levelData = levels[level]
 
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'mortal-coil',
       heading: 'Mortal Coil - Level ' + level,
       backButton: false,
@@ -209,10 +210,10 @@ export function setupMortalCoil(App) {
     const allUsers = await App.db.models.KVPair.findAll({
       where: {
         key: {
-          [Sequelize.Op.like]: 'mortalcoil_%',
+          [Op.like]: 'mortalcoil_%',
         },
         updatedAt: {
-          [Sequelize.Op.gte]: new Date(cutoff),
+          [Op.gte]: new Date(cutoff),
         },
       },
       raw: true,
@@ -222,6 +223,7 @@ export function setupMortalCoil(App) {
       return parseInt(entry.value)
     })
 
+    /** @type {{[key: number]: number}} */
     const count = {}
 
     for (let i = 1; i <= maxLevel; i++) {
@@ -232,17 +234,21 @@ export function setupMortalCoil(App) {
 
     const entries = Object.entries(count)
 
-    const lastActive = await App.db.models.KVPair.findAll({
-      where: {
-        key: {
-          [Sequelize.Op.like]: 'mortalcoil_%',
-        },
-      },
-      order: [['updatedAt', 'DESC']],
-      limit: 10,
-      raw: true,
-    })
+    const lastActive =
+      /** @type {(import('../data/types.js').KVPairModel & {id?: number})[]} */ (
+        await App.db.models.KVPair.findAll({
+          where: {
+            key: {
+              [Op.like]: 'mortalcoil_%',
+            },
+          },
+          order: [['updatedAt', 'DESC']],
+          limit: 10,
+          raw: true,
+        })
+      )
 
+    /** @type {number[]} */
     const userIds = []
 
     lastActive.forEach((entry) => {
@@ -258,7 +264,7 @@ export function setupMortalCoil(App) {
     const userNameIndex = userNames.reduce((res, obj) => {
       res[obj.id] = obj.name
       return res
-    }, {})
+    }, /** @type {{[key: number]: string}} */ ({}))
 
     const stringsDe = {
       statistics: 'Statistik',
@@ -280,7 +286,7 @@ export function setupMortalCoil(App) {
 
     const strings = req.lng == 'de' ? stringsDe : stringsEn
 
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'decode-me-stats',
       heading: 'Mortal Coil - ' + strings.statistics,
       backButton: false,
@@ -293,7 +299,7 @@ export function setupMortalCoil(App) {
           ${lastActive
             .map((entry) => {
               return `<li>Level ${entry.value} ${strings.by} ${
-                userNameIndex[entry.id]
+                userNameIndex[entry.id ?? 0]
               } ${App.moment(new Date(entry.updatedAt))
                 .locale(req.lng)
                 .fromNow()}</li>`
@@ -346,6 +352,12 @@ export function setupMortalCoil(App) {
   })
 }
 
+/**
+ * @param {number} level
+ * @param {number} x
+ * @param {number} y
+ * @param {string} path
+ */
 function verifyLevel(level, x, y, path) {
   const { height, width, boardStr } = levels[level]
 
@@ -357,7 +369,7 @@ function verifyLevel(level, x, y, path) {
   for (let row = 0; row < height; ++row) {
     board[row] = new Array(width)
     for (let col = 0; col < width; ++col) {
-      isWall = boardStr.charAt(row * width + col) === 'X'
+      let isWall = boardStr.charAt(row * width + col) === 'X'
       board[row][col] = { wall: isWall, visited: isWall }
     }
   }
@@ -383,6 +395,10 @@ function verifyLevel(level, x, y, path) {
     }
   }
 
+  /**
+   * @param {number} dx
+   * @param {number} dy
+   */
   function move(dx, dy) {
     let x = cur.x + dx
     let y = cur.y + dy

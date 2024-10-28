@@ -108,6 +108,9 @@ const orakelMsgEn = [
   'You are speaking to the secretary.',
 ]
 
+/**
+ * @param {import("../data/types.js").App} App
+ */
 export function setupChallengesServer(App) {
   App.express.get('/chal/chal46', (req, res) => {
     res.set('X-ANTWORT', secrets('chal_46'))
@@ -141,7 +144,9 @@ export function setupChallengesServer(App) {
       }
     }
 
-    const mazeMessages = req.lng === 'de' ? mazeMessagesDe : mazeMessagesEn
+    const mazeMessages = /** @type {{[key: string]: string}} */ (
+      req.lng === 'de' ? mazeMessagesDe : mazeMessagesEn
+    )
     if (mazeMessages[key]) message = mazeMessages[key]
 
     if (!message)
@@ -183,7 +188,7 @@ export function setupChallengesServer(App) {
   })
 
   App.express.get('/chal/maze/east', (req, res) => {
-    if (!req.session || !req.session.userId)
+    if (!req.session || !req.session.userId || !req.session.maze)
       return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
     if (pos && maze[pos.y][pos.x + 1] !== 'x') {
@@ -193,7 +198,7 @@ export function setupChallengesServer(App) {
   })
 
   App.express.get('/chal/maze/south', (req, res) => {
-    if (!req.session || !req.session.userId)
+    if (!req.session || !req.session.userId || !req.session.maze)
       return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
     if (pos && maze[pos.y + 1][pos.x] !== 'x') {
@@ -203,7 +208,7 @@ export function setupChallengesServer(App) {
   })
 
   App.express.get('/chal/maze/west', (req, res) => {
-    if (!req.session || !req.session.userId)
+    if (!req.session || !req.session.userId || !req.session.maze)
       return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
     if (pos && maze[pos.y][pos.x - 1] !== 'x') {
@@ -213,7 +218,7 @@ export function setupChallengesServer(App) {
   })
 
   App.express.get('/chal/maze/north', (req, res) => {
-    if (!req.session || !req.session.userId)
+    if (!req.session || !req.session.userId || !req.session.maze)
       return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
     const pos = req.session.maze
     if (pos && maze[pos.y - 1][pos.x] !== 'x') {
@@ -287,6 +292,7 @@ export function setupChallengesServer(App) {
     if (!req.headers.authorization)
       return res.status(401).send('No authorization header provided')
     // Check if the authorization header is valid
+    /** @param {string} value */
     function checkAuthorization(value) {
       const parts = value.split(' ')
       if (parts.length !== 2) return false

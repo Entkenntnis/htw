@@ -1,5 +1,3 @@
-import { getLng } from '../../helper/helper.js'
-
 const cookieKey = 'htw_language_preference'
 
 /**
@@ -17,12 +15,10 @@ export function expressLanguage(App) {
     }
 
     if (App.config.languages.includes(lng)) {
-      // @ts-expect-error Monkey patching request
       req.lng = lng
     } else {
-      // @ts-expect-error Monkey patching request
       req.lng = detectLanguage(req.headers['accept-language'])
-      setCookie(res, getLng(req))
+      setCookie(res, req.lng)
     }
     next()
   })

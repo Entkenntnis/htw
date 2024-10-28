@@ -6,7 +6,7 @@ import { setupAnalyze } from './analyze.js'
 /**
  * @param {import("../../data/types.js").App} App
  */
-export function htw(App) {
+export function setupHtw(App) {
   App.express.get('/news', (req, res) => {
     renderPage(App, req, res, {
       page: 'news',

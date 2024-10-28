@@ -16,7 +16,7 @@ import { withChallengeStats } from './server/lib/withChallengeStats.js'
 import { setupChallengesServer } from './content/challenges-server.js'
 import { setupDecodeMe } from './content/decode-me.js'
 import { setupSurvey } from './server/routes/survey.js'
-import { htw } from './server/routes/htw.js'
+import { setupHtw } from './server/routes/htw.js'
 
 import { expressViews } from './server/lib/expressViews.js'
 import { setupMortalCoil } from './content/mortal-coil.js'
@@ -27,9 +27,9 @@ import { expressPerfMonitor } from './server/lib/expressPerfMonitor.js'
 import { expressLanguage } from './server/lib/expressLanguage.js'
 import { expressLoadUser } from './server/lib/expressLoadUser.js'
 import { expressRateLimit } from './server/lib/expressRateLimit.js'
-import { staticPages } from './server/routes/staticPages.js'
-import { user } from './server/routes/user.js'
-import { challenge } from './server/routes/challenge.js'
+import { setupStaticPages } from './server/routes/staticPages.js'
+import { setupUser } from './server/routes/user.js'
+import { setupChallenges } from './server/routes/challenge.js'
 import { setupPleaseFixMe } from './content/please-fix-me.js'
 import { setupEnough } from './content/enough.js'
 import { setupWorms } from './content/worms.js'
@@ -66,18 +66,20 @@ expressRateLimit(preApp)
 expressViews(preApp)
 
 // setup routes
-staticPages(preApp)
-user(preApp)
-challenge(preApp)
-setupChallengesServer(App)
-setupDecodeMe(App)
-setupMortalCoil(App)
+setupStaticPages(preApp)
+setupUser(preApp)
+setupChallenges(preApp)
 setupSurvey(App)
-htw(App)
+setupHtw(App)
+
+setupChallengesServer(App)
+setupMortalCoil(App)
 
 setupPleaseFixMe(App)
 setupEnough(App)
 setupWorms(App)
+
+setupDecodeMe(App)
 
 if (process.env.UPTEST) {
   console.log(

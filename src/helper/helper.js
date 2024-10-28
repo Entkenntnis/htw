@@ -34,29 +34,3 @@ export function generateToken(userId) {
     `${userId}___${secrets('config_token_secret')}`
   ).substring(0, 12)}`
 }
-
-/**
- * @param {import('express').Request} req
- * @returns {'de' | 'en'}
- */
-export function getLng(req) {
-  return /** @type {any} */ (req).lng
-}
-
-/**
- *
- * @param {import('express').Request} req
- * @returns {any} <---- Please type this yourself!
- */
-export function getSession_any(req) {
-  return /** @type {any} */ (req).session
-}
-
-/**
- *
- * @param {import('express').Request} req
- * @returns {import('../data/types.js').IUser | null}
- */
-export function getUser(req) {
-  return /** @type {any} */ (req).user
-}

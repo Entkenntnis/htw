@@ -3,6 +3,9 @@ import escapeHtml from 'escape-html'
 
 const cutoff = '2024-10-20'
 
+/**
+ * @param {import("../../data/types.js").App} App
+ */
 export function setupSurvey(App) {
   App.express.get('/survey', async (req, res) => {
     if (!req.user || req.user.name != 'editor')

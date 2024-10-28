@@ -1,5 +1,3 @@
-import { getLng, getUser } from '../../helper/helper.js'
-
 /** @type {{[key: number]:number}} */
 let requestCounter = {}
 let lastReset = 0
@@ -10,7 +8,7 @@ let lastReset = 0
 export function expressRateLimit(App) {
   if (App.config.rateLimit.enabled) {
     App.express.use(async (req, res, next) => {
-      const user = getUser(req)
+      const user = req.user
       if (user) {
         const key = user.id
         if (!requestCounter[key]) {
@@ -18,7 +16,7 @@ export function expressRateLimit(App) {
         }
         requestCounter[key]++
         if (requestCounter[key] > App.config.rateLimit.requests) {
-          const i18n = App.i18n.get(getLng(req))
+          const i18n = App.i18n.get(req.lng)
           res.send(
             i18n.t('challenge.ratelimit', {
               name: user.name,

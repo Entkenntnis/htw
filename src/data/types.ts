@@ -125,3 +125,23 @@ export interface IKVPair {
   createdAt: string | Date
   updatedAt: string | Date
 }
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser
+      lng: 'de' | 'en'
+    }
+  }
+}
+
+declare module 'express-session' {
+  interface SessionData {
+    userId?: number
+    __start_ts?: number
+    __path?: string
+    csrfSecret?: string
+    joinRoom?: string
+    registerValues?: object
+  }
+}

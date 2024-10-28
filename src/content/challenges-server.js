@@ -4,7 +4,6 @@ import multer from 'multer'
 import { PNG } from 'pngjs'
 import escape from 'escape-html'
 import { jsQR } from '../external-wrapper/jsQR.js'
-import { getLng } from '../helper/helper.js'
 import { setupDungeon } from './dungeon.js'
 
 const storage = multer.memoryStorage()
@@ -17,7 +16,7 @@ const upload = multer({
       ? cb(null, true)
       : cb(
           new Error(
-            getLng(req) == 'de'
+            req.lng == 'de'
               ? 'Datei zu groß, maximal 96KiB erlaubt'
               : 'Maximal filesize of 96KiB exceeded.'
           )

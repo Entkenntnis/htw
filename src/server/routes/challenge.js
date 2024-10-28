@@ -1,7 +1,10 @@
 import { Op, Transaction } from 'sequelize'
 import bcrypt from 'bcryptjs'
 
-export function challenge(App) {
+/**
+ * @param {import('../../data/types.js').App} App
+ */
+export function setupChallenges(App) {
   async function checkUser(req, res, next) {
     if (req.session.userId && req.user) {
       next()

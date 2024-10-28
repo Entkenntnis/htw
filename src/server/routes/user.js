@@ -1,7 +1,11 @@
 import { Op } from 'sequelize'
 import bcrypt from 'bcryptjs'
+import { renderPage } from '../../helper/render-page.js'
 
-export function user(App) {
+/**
+ * @param {import('../../data/types.js').App} App
+ */
+export function setupUser(App) {
   App.express.get('/register', async (req, res) => {
     if (req.session.userId) {
       res.redirect('/map')
@@ -22,7 +26,7 @@ export function user(App) {
       })
     )
     const i18n = App.i18n.get(req.lng)
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'register',
       props: {
         messages: req.flash('register'),
@@ -38,16 +42,25 @@ export function user(App) {
   })
 
   App.express.post('/register', async (req, res) => {
+    /** @type {string} */
     const username = (req.body.username || '').trim()
+    /** @type {string} */
     const pw1 = req.body.pw1 || ''
+    /** @type {string} */
     const pw2 = req.body.pw2 || ''
+    /** @type {string} */
     const room = req.body.room
     let roomId
 
     const i18n = App.i18n.get(req.lng)
 
     if (room) {
-      const dbRoom = await App.db.models.Room.findOne({ where: { name: room } })
+      const dbRoom = /** @type {import('../../data/types.js').IRoom | null} */ (
+        await App.db.models.Room.findOne({
+          where: { name: room },
+          raw: true,
+        })
+      )
       if (!dbRoom) {
         // REMARK: this is not expected to happen
         req.flash('join', i18n.t('join.roomNotFound'))

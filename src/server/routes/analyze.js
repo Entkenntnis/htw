@@ -2,6 +2,9 @@ import { Op } from 'sequelize'
 import escapeHTML from 'escape-html'
 const fromDate = '2024-10-20'
 
+/**
+ * @param {import("../../data/types.js").App} App
+ */
 export function setupAnalyze(App) {
   App.express.get('/longtime-players', async (req, res) => {
     const usersDB = await App.db.models.User.findAll()

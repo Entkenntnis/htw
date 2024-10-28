@@ -1,5 +1,3 @@
-import { getLng, getUser } from './helper.js'
-
 /**
  * Helper around setting up everything
  *
@@ -12,7 +10,7 @@ export function renderPage(App, req, res, opts) {
   // REMARK: allow passing in string only
   const page = typeof opts == 'string' ? opts : opts.page
 
-  const i18n = App.i18n.get(getLng(req))
+  const i18n = App.i18n.get(req.lng)
 
   // REMARK: automatically prefix page or 'share'
   const t = function (/** @type {string} */ key, /** @type {any} */ opts) {
@@ -31,10 +29,10 @@ export function renderPage(App, req, res, opts) {
     return key
   }
 
-  const locale = getLng(req)
+  const locale = req.lng
   const brand = App.config.brand
 
-  const user = (typeof opts == 'object' && opts.user) || getUser(req)
+  const user = (typeof opts == 'object' && opts.user) || req.user
   const backHref = (typeof opts == 'object' && opts.backHref) || '/'
   const props = (typeof opts == 'object' && opts.props) || {}
 

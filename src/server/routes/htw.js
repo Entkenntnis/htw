@@ -38,14 +38,19 @@ export function setupHtw(App) {
       limit: 100,
       raw: true,
     })
-    users.forEach((user, i) => {
+
+    const usersOut =
+      /** @type {(import('../../data/types.js').UserModel & {rank: number})[]} */ (
+        users
+      )
+    usersOut.forEach((user, i) => {
       if (i > 0 && users[i - 1].score == user.score) {
-        user.rank = users[i - 1].rank
+        user.rank = usersOut[i - 1].rank
       } else {
         user.rank = i + 1
       }
     })
-    res.json(users)
+    res.json(usersOut)
   })
 
   App.express.post('/api/user-rankings', async (req, res) => {
@@ -74,7 +79,9 @@ export function setupHtw(App) {
         raw: true,
       })
       users.forEach((u) => {
-        u.rank += 1
+        if ('rank' in u && typeof u.rank == 'number') {
+          u.rank += 1
+        }
       })
       res.json(users)
     } catch (e) {
@@ -97,8 +104,9 @@ export function setupHtw(App) {
 
     async function run() {
       if (!process.env.LIVE) throw 'NOT CONNECTED TO LIVE SERVER'
-      const LOCALAPP = {}
+      const LOCALAPP = /** @type {App} */ ({})
 
+      // @ts-expect-error Typings for models
       LOCALAPP.db = new Sequelize({
         dialect: 'sqlite',
         storage: './db.sqlite',
@@ -161,6 +169,7 @@ export function setupHtw(App) {
 
       // make sure data is consistent by retrieving scores again and compare
       const users2 = await App.db.models.User.findAll({ raw: true })
+      /** @type {{[key: number]: number}} */
       const userScores1 = {}
       for (const user of users) {
         userScores1[user.id] = user.score
@@ -174,6 +183,7 @@ export function setupHtw(App) {
         }
       }
 
+      /** @type {{[key: number]: number[]}} */
       const byUser = {}
 
       solutions.forEach((sol) => {

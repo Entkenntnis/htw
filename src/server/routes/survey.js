@@ -36,6 +36,7 @@ export function setupSurvey(App) {
 
     entries.sort((a, b) => b.ts - a.ts)
 
+    /** @type {{[key: number]: {name: string, score: number}}} */
     const userIndex = {}
 
     void (
@@ -47,7 +48,7 @@ export function setupSurvey(App) {
       userIndex[user.id] = {
         name: user.name,
         score: user.score,
-        createdAt: user.createdAt,
+        //createdAt: user.createdAt,
       }
     })
 
@@ -65,16 +66,22 @@ export function setupSurvey(App) {
     })
 
     // Helper function to calculate mean
+    /**
+     * @param {number[]} values
+     */
     function calculateMean(values) {
       const sum = values.reduce((acc, val) => acc + val, 0)
       return (sum / values.length).toLocaleString('de-DE')
     }
 
     // Helper function to calculate frequency of each Likert scale (1-5)
+    /**
+     * @param {number[]} values
+     */
     function calculateFrequency(values) {
       const frequency = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
       values.forEach((val) => {
-        frequency[val]++
+        frequency[/** @type {1 | 2 | 3 | 4 | 5} */ (val)]++
       })
       return frequency
     }
@@ -138,6 +145,9 @@ export function setupSurvey(App) {
       </table>
     `
 
+    /**
+     * @param {{ obj: {learnmore: 'yes'|'no', morecreative: 'yes'|'no', easystart: 'yes'|'no', recommend: 'yes'|'no'}}[]} entries
+     */
     function generateBinaryAspectReport(entries) {
       // Initialisiere die Zähler für Ja/Nein für jeden Aspekt
       const counts = {
@@ -200,9 +210,18 @@ export function setupSurvey(App) {
       return html
     }
 
+    /**
+     * @param {{obj: {good: string, improve: string}}[]} entries
+     */
     function generateFreitextReport(entries) {
       // Listen für die Freitext-Antworten
+      /**
+       * @type {string[]}
+       */
       let goodTexts = []
+      /**
+       * @type {string[]}
+       */
       let improveTexts = []
 
       // Durchlaufen der Einträge und Sammeln der Freitext-Antworten
@@ -274,9 +293,7 @@ export function setupSurvey(App) {
           <h2 style="margin-top:32px;">Einzelansicht</h2>
           ${entries
             .map((entry) => {
-              return `<p>${new Date(
-                parseInt(entry.ts)
-              ).toLocaleString()} / ${escapeHtml(
+              return `<p>${new Date(entry.ts).toLocaleString()} / ${escapeHtml(
                 userIndex[entry.userId].name
               )} (${userIndex[entry.userId].score})<br />Interesse: ${
                 entry.obj.interest

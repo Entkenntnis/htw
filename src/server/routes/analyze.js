@@ -1,12 +1,14 @@
 import { Op } from 'sequelize'
 import escapeHTML from 'escape-html'
+import { renderPage } from '../../helper/render-page.js'
+
 const fromDate = '2024-10-20'
 
 /**
  * @param {import("../../data/types.js").App} App
  */
 export function setupAnalyze(App) {
-  App.express.get('/longtime-players', async (req, res) => {
+  /*App.express.get('/longtime-players', async (req, res) => {
     const usersDB = await App.db.models.User.findAll()
 
     usersDB.sort((a, b) => {
@@ -26,116 +28,116 @@ export function setupAnalyze(App) {
     )
 
     res.send('ok')
-  })
+  })*/
 
-  App.express.get('/peakStats', async (req, res) => {
-    const attempts = (await App.db.models.KVPair.findAll()).map((a) =>
-      App.moment(a.createdAt).unix()
-    )
+  // App.express.get('/peakStats', async (req, res) => {
+  //   const attempts = (await App.db.models.KVPair.findAll()).map((a) =>
+  //     App.moment(a.createdAt).unix()
+  //   )
 
-    attempts.sort((a, b) => (a < b ? -1 : 1))
-    const start = attempts[0]
-    const end = attempts[attempts.length - 1]
+  //   attempts.sort((a, b) => (a < b ? -1 : 1))
+  //   const start = attempts[0]
+  //   const end = attempts[attempts.length - 1]
 
-    console.log(start, end)
+  //   console.log(start, end)
 
-    let spans = {}
+  //   let spans = {}
 
-    for (let i = start; i < end; i++) {
-      /*// 5 sec span
-      const inSpan = attempts.filter((a) => a >= i && a < i + 5)
-      if (inSpan.length > 0) {
-        entries.push({ start: i, count: inSpan.length, data: inSpan })
-      }*/
-      spans[i] = 0
-    }
+  //   for (let i = start; i < end; i++) {
+  //     /*// 5 sec span
+  //     const inSpan = attempts.filter((a) => a >= i && a < i + 5)
+  //     if (inSpan.length > 0) {
+  //       entries.push({ start: i, count: inSpan.length, data: inSpan })
+  //     }*/
+  //     spans[i] = 0
+  //   }
 
-    attempts.forEach((a) => {
-      for (let i = a; i < a + 5; i++) {
-        spans[i]++
-      }
-    })
+  //   attempts.forEach((a) => {
+  //     for (let i = a; i < a + 5; i++) {
+  //       spans[i]++
+  //     }
+  //   })
 
-    const entries = Object.entries(spans).map(([key, val]) => {
-      return { start: key, count: val }
-    })
+  //   const entries = Object.entries(spans).map(([key, val]) => {
+  //     return { start: key, count: val }
+  //   })
 
-    console.log(entries)
+  //   console.log(entries)
 
-    entries.sort((a, b) => (a.count < b.count ? 1 : -1))
+  //   entries.sort((a, b) => (a.count < b.count ? 1 : -1))
 
-    entries.slice(0, 30).forEach((e) => {
-      console.log(
-        `Um ${App.moment(parseInt(e.start) * 1000)} mit ${e.count} Aufrufen.`
-      )
-    })
+  //   entries.slice(0, 30).forEach((e) => {
+  //     console.log(
+  //       `Um ${App.moment(parseInt(e.start) * 1000)} mit ${e.count} Aufrufen.`
+  //     )
+  //   })
 
-    res.send('ok')
-  })
+  //   res.send('ok')
+  // })
 
-  App.express.get('/averages', async (req, res) => {
-    const solutions = await App.db.models.Solution.findAll()
-    const solvers = solutions.map((s) => ({
-      user: s.UserId,
-      date: App.moment.utc(s.createdAt),
-    }))
+  // App.express.get('/averages', async (req, res) => {
+  //   const solutions = await App.db.models.Solution.findAll()
+  //   const solvers = solutions.map((s) => ({
+  //     user: s.UserId,
+  //     date: App.moment.utc(s.createdAt),
+  //   }))
 
-    const usersDB = await App.db.models.User.findAll()
-    const userCreated = usersDB
-      .filter((u) => u.score > 0)
-      .map((u) => App.moment.utc(u.createdAt))
+  //   const usersDB = await App.db.models.User.findAll()
+  //   const userCreated = usersDB
+  //     .filter((u) => u.score > 0)
+  //     .map((u) => App.moment.utc(u.createdAt))
 
-    //console.log(userCreated)
+  //   //console.log(userCreated)
 
-    let output = ''
+  //   let output = ''
 
-    solvers.sort((a, b) => (b.date.isBefore(a.date) ? 1 : -1))
-    const start = solvers[0].date
-    const end = App.moment(solvers[solvers.length - 1].date)
+  //   solvers.sort((a, b) => (b.date.isBefore(a.date) ? 1 : -1))
+  //   const start = solvers[0].date
+  //   const end = App.moment(solvers[solvers.length - 1].date)
 
-    const average = []
-    let current = App.moment(start).add(29, 'days')
-    const knowUsers = {}
-    while (current.isBefore(end)) {
-      const windowStart = App.moment(current).subtract(28, 'days')
-      const dayEnd = App.moment(current).add(1, 'days')
-      const users = {}
-      const guardForDaily = {}
-      let dailyNewUsers = 0
-      let dailyReccuringUsers = 0
-      solvers.forEach((s) => {
-        if (
-          s.date.isAfter(current) &&
-          s.date.isBefore(dayEnd) &&
-          !guardForDaily[s.user]
-        ) {
-          guardForDaily[s.user] = true
-          if (knowUsers[s.user]) {
-            dailyReccuringUsers++
-          } else {
-            dailyNewUsers++
-            knowUsers[s.user] = true
-          }
-        }
-        if (s.date.isBefore(dayEnd) && s.date.isAfter(windowStart)) {
-          users[s.user] = true
-        }
-      })
-      let newUsers = 0
-      userCreated.forEach((u) => {
-        if (u.isBefore(dayEnd) && u.isAfter(windowStart)) {
-          newUsers++
-        }
-      })
-      //console.log(newUsers)
-      output += `${current.toString()},${
-        Object.keys(users).length
-      },${newUsers}<br>`
-      current.add(1, 'day')
-    }
+  //   const average = []
+  //   let current = App.moment(start).add(29, 'days')
+  //   const knowUsers = {}
+  //   while (current.isBefore(end)) {
+  //     const windowStart = App.moment(current).subtract(28, 'days')
+  //     const dayEnd = App.moment(current).add(1, 'days')
+  //     const users = {}
+  //     const guardForDaily = {}
+  //     let dailyNewUsers = 0
+  //     let dailyReccuringUsers = 0
+  //     solvers.forEach((s) => {
+  //       if (
+  //         s.date.isAfter(current) &&
+  //         s.date.isBefore(dayEnd) &&
+  //         !guardForDaily[s.user]
+  //       ) {
+  //         guardForDaily[s.user] = true
+  //         if (knowUsers[s.user]) {
+  //           dailyReccuringUsers++
+  //         } else {
+  //           dailyNewUsers++
+  //           knowUsers[s.user] = true
+  //         }
+  //       }
+  //       if (s.date.isBefore(dayEnd) && s.date.isAfter(windowStart)) {
+  //         users[s.user] = true
+  //       }
+  //     })
+  //     let newUsers = 0
+  //     userCreated.forEach((u) => {
+  //       if (u.isBefore(dayEnd) && u.isAfter(windowStart)) {
+  //         newUsers++
+  //       }
+  //     })
+  //     //console.log(newUsers)
+  //     output += `${current.toString()},${
+  //       Object.keys(users).length
+  //     },${newUsers}<br>`
+  //     current.add(1, 'day')
+  //   }
 
-    res.send(output)
-  })
+  //   res.send(output)
+  // })
 
   App.express.get('/kpi', async (req, res) => {
     const solutions = await App.db.models.Solution.findAll({ raw: true })
@@ -153,7 +155,7 @@ export function setupAnalyze(App) {
       const entry = (result[key] = result[key] || [])
       entry.push(obj.UserId)
       return result
-    }, {})
+    }, /** @type {{[key: string]: number[]}} */ ({}))
 
     console.log('KPI: Daten nach Tag gruppiert')
 
@@ -298,6 +300,7 @@ export function setupAnalyze(App) {
         kvpair.key.startsWith('attempt_') &&
         !App.moment(kvpair.createdAt).isBefore(fromDate)
     )
+    /** @type {{[key: string]: string[]}} */
     const attempts = {}
     for (const attempt of attemptsFromDB) {
       const key = attempt.key
@@ -409,7 +412,7 @@ export function setupAnalyze(App) {
         maxAmount = entry.count
       }
       return result
-    }, {})
+    }, /** @type {{[key: string]: {count: number}}} */ ({}))
 
     const solvedArr = Object.values(solvedByUser).map((x) => x.count)
 
@@ -453,8 +456,12 @@ export function setupAnalyze(App) {
 
     challengesData.sort((a, b) => b.solvedBy - a.solvedBy)
 
+    /**
+     * @param {number} id
+     */
     function generateAttemptsList(id) {
       if (!attempts[id]) return ''
+      /** @type {{[key: string]: number}} */
       const obj = {}
       for (const att of attempts[id]) {
         if (!obj[att]) obj[att] = 0
@@ -534,6 +541,9 @@ export function setupAnalyze(App) {
       return { userSolutions }
     })
 
+    /**
+     * @type {number[]}
+     */
     const solved = []
 
     App.challenges.data.map((c) => solved.push(c.id))
@@ -541,9 +551,15 @@ export function setupAnalyze(App) {
     const svgStart =
       '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="100%" height="100%">'
     const svgEnd = '</svg>'
+    /**
+     * @type {string[]}
+     */
     const svgLines = []
     const svgCircles = []
 
+    /**
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; isSolved: boolean; }[]}
+     */
     const points = []
 
     App.challenges.data.map((challenge) => {
@@ -574,11 +590,10 @@ export function setupAnalyze(App) {
     // COMPAT: draw points after connections to show the above
     for (const point of points) {
       const solvedBy = solutions.filter((s) => s.cid == point.id).length
-      const seenBy = userHistory.filter((h) =>
-        h.userSolutions.some((s) =>
-          App.challenges.data.find((x) => x.id == point.id).deps.includes(s.cid)
-        )
-      ).length
+      const seenBy = userHistory.filter((h) => {
+        const c = App.challenges.data.find((x) => x.id == point.id)
+        return c && h.userSolutions.some((s) => c.deps.includes(s.cid))
+      }).length
       const subtext =
         solvedBy + ' / ' + Math.round((100 * solvedBy) / seenBy) + '%'
       svgCircles.push(
@@ -602,7 +617,7 @@ export function setupAnalyze(App) {
       )
     }
 
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'map',
       props: {
         map:

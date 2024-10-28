@@ -34,4 +34,6 @@ Depending on how you host the project, other requirements may arise. Feel free t
 
 ### 1.0.0
 
-Moving challenges-server into this repo and remove separation
+- Moving challenges-server into this repo and remove separation
+- Add Enough and Worms
+- Typescript

@@ -1,3 +1,6 @@
+// @ts-nocheck
+// THIS IS ON THE WAY OUT
+
 import seedrandom from 'seedrandom'
 import { secrets } from '../helper/secrets-loader.js'
 import { Sequelize } from 'sequelize'
@@ -196,7 +199,7 @@ const shuffleArray = (array, rng) => {
 /**
  * @param {import('../data/types.js').App} App
  */
-export function setupDecodeMe(App) {
+export function _deprecated__setupDecodeMe(App) {
   async function apiHandler(req, res, next) {
     try {
       const level = parseInt(req.query.level)

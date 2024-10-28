@@ -45,9 +45,9 @@ export interface App {
     distance: { [key: number]: number }
   }
   storage: {
-    setItem(key: string, value: string): void
+    setItem(key: string, value: string): Promise<void>
     getItem(key: string): Promise<string | null>
-    removeItem(key: string): void
+    removeItem(key: string): Promise<void>
   }
   challengeStats: {
     getData(cid: number): Promise<ChallengeStatsData> | ChallengeStatsData
@@ -75,7 +75,7 @@ export interface HtwChallenge {
     | { de: string; en: string }
     | string
     | Promise<string>
-  solution?: string
+  solution?: string | string[]
   check?: (
     raw: string,
     context: {

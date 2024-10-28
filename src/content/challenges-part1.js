@@ -1,10 +1,16 @@
 import fetch from 'node-fetch'
 import { secrets } from '../helper/secrets-loader.js'
 
+/**
+ * @param {string} s
+ */
 function stringreverse(s) {
   return s.split('').reverse().join('')
 }
 
+/**
+ * @param {string} a
+ */
 function calculatorCheck(a) {
   const str = Buffer.from(a, 'base64').toString()
   const index = str.indexOf('%')
@@ -49,6 +55,11 @@ function calculator(lng = 'de') {
   `
 }
 
+/**
+ * @param {string} name
+ * @param {string} intro
+ * @param {string | undefined} [task]
+ */
 function story(name, intro, task) {
   return `
     <style>
@@ -186,7 +197,7 @@ export const part1 = [
           </p>
           
           ${
-            req.user.RoomId !== null
+            req.user?.RoomId !== null
               ? `<p>If you have joined a room and are participating in a hacking session: After completing this task, the 30 minutes will start. Within this time, it is your goal to work on as many tasks as possible. Your score for these 30 minutes will be entered into the room's highscore.
           </p>`
               : ''
@@ -355,6 +366,10 @@ export const part1 = [
     // date: '2017-05-17',
     deps: [15, 24],
     render: () => {
+      /**
+       * @param {string} col1
+       * @param {string} col2
+       */
       function renderTable(col1, col2) {
         return `
          <div class="container" style="margin-top:24px;margin-bottom:24px">
@@ -826,7 +841,7 @@ export const part1 = [
       const reversed = stringreverse(answer)
       return {
         answer: reversed,
-        correct: reversed === req.user.name,
+        correct: reversed === req.user?.name,
       }
     },
   },
@@ -855,7 +870,7 @@ export const part1 = [
       const input = -parseInt(normalizedAnswer)
       return {
         answer: isNaN(input) ? answer : input.toString(),
-        correct: input === req.user.score,
+        correct: input === req.user?.score,
       }
     },
   },
@@ -2327,7 +2342,7 @@ export const part1 = [
             value = req.lng.startsWith('de')
               ? '[Leere Seite (Status ' + res.status + ')]'
               : '[Empty page (status ' + res.status + ')]'
-          if (value.includes(req.user.name)) containsUsername = true
+          if (req.user && value.includes(req.user.name)) containsUsername = true
           if (value.length > 1000) {
             value = value.substring(0, 1000) + '...'
           }
@@ -2338,18 +2353,31 @@ export const part1 = [
                 : 'Username not found: ') + value
           }
         } catch (error) {
-          if (error.message && error.message.includes('aborted')) {
-            value = req.lng.startsWith('de')
-              ? 'Keine Antwort nach 4 Sekunden'
-              : 'No response after 4 seconds'
-          } else {
-            value = error.message
+          if (
+            typeof error == 'object' &&
+            error &&
+            'message' in error &&
+            typeof error.message == 'string'
+          ) {
+            if (error.message && error.message.includes('aborted')) {
+              value = req.lng.startsWith('de')
+                ? 'Keine Antwort nach 4 Sekunden'
+                : 'No response after 4 seconds'
+            } else {
+              value = error.message
+            }
           }
         } finally {
           clearTimeout(timeout)
         }
       } catch (e) {
-        value = e.message
+        if (
+          typeof e == 'object' &&
+          e &&
+          'message' in e &&
+          typeof e.message == 'string'
+        )
+          value = e.message
       }
       return {
         answer: value,
@@ -3613,6 +3641,12 @@ PIXI.loader
     // date: '2023-02-26',
     deps: [8, 23, 77],
     render: ({ req }) => {
+      /**
+       * @param {number} w
+       * @param {number} h
+       * @param {number} level
+       * @param {string | undefined} [lang]
+       */
       function renderFrame(w, h, level, lang) {
         return `
           <iframe src="/challenge/84/?level=${level}" width="${w}" height="${h}" id="if" style="display:none"></iframe>
@@ -3646,7 +3680,7 @@ PIXI.loader
           )
         }
 
-        const level = parseInt(req.query.level)
+        const level = parseInt(req.query.level.toString())
 
         if (level === 1) {
           return `
@@ -3693,7 +3727,7 @@ PIXI.loader
         `
         }
 
-        const level = parseInt(req.query.level)
+        const level = parseInt(req.query.level.toString())
 
         if (level === 1) {
           return `
@@ -4090,6 +4124,11 @@ PIXI.loader
     deps: [51, 55, 69],
     render: () => {
       const reverse = Math.random() < 0.5
+      /**
+       * @param {string} lower
+       * @param {string} higher
+       * @param {string} name
+       */
       function buildLikert5(lower, higher, name) {
         const values = [
           `
@@ -4126,6 +4165,9 @@ PIXI.loader
         if (reverse) values.reverse()
         return values.join('')
       }
+      /**
+       * @param {string} name
+       */
       function buildYesNo(name) {
         const values = [
           `
@@ -4218,7 +4260,7 @@ PIXI.loader
       }
       const result = JSON.stringify(req.body).slice(0, 10000)
       await App.storage.setItem(
-        'survey_v1_' + req.user.id + '_' + new Date().getTime(),
+        'survey_v1_' + req.user?.id + '_' + new Date().getTime(),
         result
       )
       if (!req.body.agree) {

@@ -19,7 +19,7 @@ function goBack() {
       <a href="<%=prefix%>/map" <%- App.config.historyBack ? 'onclick="goBack()"' : ''%>><%= t('back') %></a> |
     <% } %>
     <span title="<% if (props.lastSolved !== null) { %><%=t('lastSolved', {ago: App.moment(props.lastSolved).locale(locale).fromNow(), name: props.lastSolvedUserName})%><%}%>">
-      <%= t('solvedBy', {count: props.solvedBy}) %>
+      <%= props.solvedBy == 1 ? t('solvedBy_one', {count: props.solvedBy}) : t('solvedBy_other', {count: props.solvedBy}) %>
     </span>
     <% if (props.challenge.date) { %> |
       <span style="color:gray"><%= t('created')%> <%= App.moment(props.challenge.date).locale(locale).fromNow()%>

@@ -55,7 +55,7 @@ withChallengeStats(preApp)
 /** @type {import('./data/types.js').App} */
 const App = preApp
 
-// load common functionality
+// load base functionality
 dbModel(preApp)
 expressHeaders(preApp)
 expressSession(preApp)
@@ -65,11 +65,10 @@ expressLoadUser(preApp)
 expressRateLimit(preApp)
 expressViews(preApp)
 
+// setup routes
 staticPages(preApp)
 user(preApp)
 challenge(preApp)
-
-// htw routes/modules
 setupChallengesServer(App)
 setupDecodeMe(App)
 setupMortalCoil(App)

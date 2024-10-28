@@ -1,5 +1,11 @@
-import { secretValues } from '../../secrets.js'
-import { secretValuesPlaceholders } from '../../secrets.placeholder.js'
+import { secretValues as secretValues_ } from '../../secrets.js'
+import { secretValuesPlaceholders as secretValuesPlaceholders_ } from '../../secrets.placeholder.js'
+
+/** @type {{[key: string]: string}} */
+const secretValues = secretValues_
+
+/** @type {{[key: string]: string}} */
+const secretValuesPlaceholders = secretValuesPlaceholders_
 
 // check for consistency
 for (const key in secretValuesPlaceholders) {

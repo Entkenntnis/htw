@@ -1,3 +1,6 @@
+/**
+ * @param {import("../../data/types.js").App} App
+ */
 export function expressHeaders(App) {
   App.express.use((req, res, next) => {
     // REMARK: safe headers from 'helmet'

@@ -1,5 +1,5 @@
+import i18next from 'i18next'
 import Backend from 'i18next-fs-backend'
-import { i18next } from '../../external-wrapper/i18next.js'
 
 /**
  * @param {import('../../data/types.js').App} App

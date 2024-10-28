@@ -1,9 +1,15 @@
 import Moment from 'moment'
 import express, { Request } from 'express'
 import { appConfig } from './config.js'
-import { Sequelize } from 'sequelize'
+import {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  ModelStatic,
+  Sequelize,
+} from 'sequelize'
 import { i18n } from 'i18next'
-import { htwChallenges } from '../content/challenges.js'
 
 export interface App {
   config: typeof appConfig
@@ -17,7 +23,15 @@ export interface App {
   }
   moment: typeof Moment
   express: ReturnType<typeof express>
-  db: Sequelize
+  db: Sequelize & {
+    models: {
+      User: ModelStatic<UserModel>
+      Solution: ModelStatic<SolutionModel>
+      Session: ModelStatic<SessionModel>
+      Room: ModelStatic<RoomModel>
+      KVPair: ModelStatic<KVPairModel>
+    }
+  }
   i18n: { get(lng: 'de' | 'en'): i18n }
   csrf: {
     create(req: Request): string
@@ -84,52 +98,68 @@ export interface ChallengeStatsData {
 // Dates are a bit messy, sometimes, they are strings, sometimes they are dates
 // depending on the backend and/or wether the query is raw
 // assume it's not parsed
-export interface IUser {
-  id: number
-  name: string
-  password: string
-  score: number
-  session_startTime: string | Date | null
-  session_phase: string | null
-  session_score: number | null
-  createdAt: string | Date
-  updatedAt: string | Date
-  RoomId: number | null
+
+export class UserModel extends Model<
+  InferAttributes<UserModel>,
+  InferCreationAttributes<UserModel>
+> {
+  declare id: CreationOptional<number>
+  declare name: string
+  declare password: string
+  declare score: CreationOptional<number>
+  declare session_startTime: string | Date | null
+  declare session_phase: string | null
+  declare session_score: number | null
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
+  declare RoomId: number | null
 }
 
-export interface ISolution {
-  cid: number
-  UserId: number
-  createdAt: string | Date
-  updatedAt: string | Date
+export class SolutionModel extends Model<
+  InferAttributes<SolutionModel>,
+  InferCreationAttributes<SolutionModel>
+> {
+  declare cid: number
+  declare UserId: number
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
 }
 
-export interface ISession {
-  sid: string
-  data: string
-  expires: string | Date
-  createdAt: string | Date
-  updatedAt: string | Date
+export class SessionModel extends Model<
+  InferAttributes<SessionModel>,
+  InferCreationAttributes<SessionModel>
+> {
+  declare sid: string
+  declare data: string
+  declare expires: string | Date
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
 }
 
-export interface IRoom {
-  id: number
-  name: string
-  createdAt: string | Date
-  updatedAt: string | Date
+export class RoomModel extends Model<
+  InferAttributes<RoomModel>,
+  InferCreationAttributes<RoomModel>
+> {
+  declare id: CreationOptional<number>
+  declare name: string
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
 }
 
-export interface IKVPair {
-  key: string
-  value: string
-  createdAt: string | Date
-  updatedAt: string | Date
+export class KVPairModel extends Model<
+  InferAttributes<KVPairModel>,
+  InferCreationAttributes<KVPairModel>
+> {
+  declare key: string
+  declare value: string
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
 }
 
 declare global {
   namespace Express {
     interface Request {
-      user?: IUser
+      user?: UserModel
       lng: 'de' | 'en'
     }
   }
@@ -149,3 +179,17 @@ declare module 'express-session' {
     loginFail: boolean
   }
 }
+
+export type RenderPageOptions =
+  | string
+  | {
+      page: string
+      user?: UserModel
+      backHref?: string
+      props?: object
+      heading?: string
+      title?: string
+      content?: string
+      backButton?: boolean
+      outsideOfContainer?: boolean
+    }

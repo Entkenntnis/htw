@@ -1,4 +1,4 @@
-import session, { Cookie } from 'express-session'
+import session from 'express-session'
 import { Op } from 'sequelize'
 
 /**
@@ -15,13 +15,10 @@ export function expressSession(App) {
       ;(async () => {
         let result = null
         try {
-          const session =
-            /** @type { null | import('../../data/types.js').ISession} */ (
-              await App.db.models.Session.findOne({
-                where: { sid },
-                raw: true,
-              })
-            )
+          const session = await App.db.models.Session.findOne({
+            where: { sid },
+            raw: true,
+          })
           if (session) {
             result = JSON.parse(session.data)
             if (App.config.slowRequestWarning && result) {
@@ -37,11 +34,7 @@ export function expressSession(App) {
     }
 
     /** @type {session.Store['set']} */
-    set(sid, session_, cb) {
-      const session =
-        /** @type {{__start_ts?: number, __path?: string, cookie: Cookie}} */ (
-          session_
-        )
+    set(sid, session, cb) {
       ;(async () => {
         try {
           if (App.config.slowRequestWarning && session.__start_ts) {
@@ -55,23 +48,16 @@ export function expressSession(App) {
           }
 
           const data = JSON.stringify(session)
-          const expires = session.cookie.expires
+          const expires = session.cookie.expires ?? new Date()
           // REMARK: findCreateFind is assumed to be a little bit more robust
-          const [sess] =
-            /** @type {[import('../../data/types.js').ISession]} */ (
-              /** @type {unknown} */
-              (
-                await App.db.models.Session.findCreateFind({
-                  where: { sid },
-                  defaults: { data, expires },
-                })
-              )
-            )
+          const [sess] = await App.db.models.Session.findCreateFind({
+            where: { sid },
+            defaults: { data, expires, sid },
+          })
           sess.data = data
           if (expires) {
             sess.expires = expires
           }
-          // @ts-expect-error Sequelize ORM
           await sess.save()
         } catch (e) {
           if (cb) cb(e)
@@ -100,12 +86,9 @@ export function expressSession(App) {
     touch(sid, session, cb) {
       ;(async () => {
         try {
-          const sess =
-            /** @type {import('../../data/types.js').ISession| null} */ (
-              await App.db.models.Session.findOne({
-                where: { sid },
-              })
-            )
+          const sess = await App.db.models.Session.findOne({
+            where: { sid },
+          })
           // PERF: only touch session if expires is off by more than 10 minutes
           if (sess) {
             const sessionExpire = App.moment(sess.expires)
@@ -116,17 +99,14 @@ export function expressSession(App) {
               session.cookie.expires
             ) {
               sess.expires = session.cookie.expires
-              // @ts-expect-error using sequelize ORM
               await sess.save()
             }
           }
         } catch (e) {
-          // @ts-expect-error I'm not really trusting the types, add parameter anyways
-          if (cb) cb(e)
+          if (cb) cb()
           return
         }
-        // @ts-expect-error I'm not really trusting the types, add parameter anyways
-        if (cb) cb(null)
+        if (cb) cb()
       })()
     }
   }

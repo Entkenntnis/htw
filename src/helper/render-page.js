@@ -4,7 +4,7 @@
  * @param {import("../data/types.js").App} App
  * @param {import("express").Request} req
  * @param {import("express").Response} res
- * @param {string | {page: string, user?: import('../data/types.js').IUser, backHref?: string, props?: object, heading?: string, title?: string, content?: string, backButton?: boolean, outsideOfContainer?: boolean}} opts
+ * @param {import("../data/types.js").RenderPageOptions} opts
  */
 export function renderPage(App, req, res, opts) {
   // REMARK: allow passing in string only

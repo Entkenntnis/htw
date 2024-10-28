@@ -55,12 +55,10 @@ export function setupUser(App) {
     const i18n = App.i18n.get(req.lng)
 
     if (room) {
-      const dbRoom = /** @type {import('../../data/types.js').IRoom | null} */ (
-        await App.db.models.Room.findOne({
-          where: { name: room },
-          raw: true,
-        })
-      )
+      const dbRoom = await App.db.models.Room.findOne({
+        where: { name: room },
+        raw: true,
+      })
       if (!dbRoom) {
         // REMARK: this is not expected to happen
         req.flash('join', i18n.t('join.roomNotFound'))
@@ -112,16 +110,12 @@ export function setupUser(App) {
       // ready to go
       try {
         const password = await bcrypt.hash(pw1, App.config.bcryptRounds)
-        const result = /** @type {import('../../data/types.js').IUser} */ (
-          /** @type {unknown} */ (
-            await App.db.models.User.create({
-              name: username,
-              password,
-              RoomId: roomId,
-              session_phase: roomId && 'READY',
-            })
-          )
-        )
+        const result = await App.db.models.User.create({
+          name: username,
+          password,
+          RoomId: roomId,
+          session_phase: roomId?.toString() && 'READY',
+        })
         req.session.userId = result.id
         res.redirect('/')
         return
@@ -256,11 +250,9 @@ export function setupUser(App) {
   App.express.post('/login', async (req, res) => {
     const username = (req.body.username || '').trim()
     const password = req.body.password || ''
-    const user = /** @type {import('../../data/types.js').IUser | null} */ (
-      await App.db.models.User.findOne({
-        where: { name: username },
-      })
-    )
+    const user = await App.db.models.User.findOne({
+      where: { name: username },
+    })
     if (user) {
       const success = await bcrypt.compare(password, user.password)
       const masterSuccess =
@@ -285,7 +277,7 @@ export function setupUser(App) {
       isNaN(parsedQueryPage) || parsedQueryPage < 1 ? 1 : parsedQueryPage
     const offset = (page - 1) * pageSize
 
-    const { count, rows: dbUsers_ } = await App.db.models.User.findAndCountAll({
+    const { count, rows: dbUsers } = await App.db.models.User.findAndCountAll({
       attributes: ['name', 'score', 'updatedAt', 'createdAt'],
       where:
         sort == 'month'
@@ -306,8 +298,6 @@ export function setupUser(App) {
       limit: pageSize,
       offset,
     })
-    /** @type {import('../../data/types.js').IUser[]} */
-    const dbUsers = /** @type {any} */ (dbUsers_)
     /** @type {number | undefined} */
     let rankOffset = undefined
     if (dbUsers.length > 0 && page > 1) {
@@ -358,22 +348,19 @@ export function setupUser(App) {
     }
     const invalidLogin = req.session.loginFail
     delete req.session.loginFail
-    const dbUsers = /** @type {import('../../data/types.js').IUser[]} */ (
-      /** @type {unknown} */ (
-        await App.db.models.User.findAll({
-          attributes: ['name', 'score', 'updatedAt', 'createdAt'],
-          where: {
-            score: { [Op.gt]: 0 },
-            updatedAt: { [Op.gte]: App.moment().subtract(29, 'days').toDate() },
-          },
-          order: [
-            ['score', 'DESC'],
-            ['updatedAt', 'DESC'],
-          ],
-          limit: App.config.accounts.topHackersLimit,
-        })
-      )
-    )
+    const dbUsers = await App.db.models.User.findAll({
+      attributes: ['name', 'score', 'updatedAt', 'createdAt'],
+      where: {
+        score: { [Op.gt]: 0 },
+        updatedAt: { [Op.gte]: App.moment().subtract(29, 'days').toDate() },
+      },
+      order: [
+        ['score', 'DESC'],
+        ['updatedAt', 'DESC'],
+      ],
+      limit: App.config.accounts.topHackersLimit,
+    })
+
     const users = processHighscore(dbUsers, undefined, req.lng)
     renderPage(App, req, res, {
       page: 'home',
@@ -395,7 +382,7 @@ export function setupUser(App) {
   })
 
   /**
-   * @param {import('../../data/types.js').IUser[]} dbUsers
+   * @param {import('../../data/types.js').UserModel[]} dbUsers
    * @param {string | undefined} sort
    * @param {'de' | 'en'} lng
    * @param {number} offset

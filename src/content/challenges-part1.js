@@ -163,11 +163,11 @@ export const part1 = [
     }
     else if (slide == 2) {
       slide++
-      document.getElementById('text-div').innerHTML = 'Du bist jetzt mittendrin im Abenteuer. Zeig, was du drauf hast!'
+      document.getElementById('text-div').innerHTML = 'Dein Abenteuer beginnt hier. Zeig, was du drauf hast!'
       document.getElementById('image-el').src = "/story/intro4.jpg"
       document.getElementById('button-el').innerHTML = "Loslegen"
       document.getElementById('skip-button').style.display = "none"
-      PowerGlitch.glitch('#image-el')
+      PowerGlitch.glitch('#image-el').stopGlitch()
     }
     else if (slide == 3) {
       skipIntro()

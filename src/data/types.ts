@@ -143,5 +143,9 @@ declare module 'express-session' {
     csrfSecret?: string
     joinRoom?: string
     registerValues?: object
+    joinValues?: object
+    roomValues?: object
+    rooms?: string[]
+    loginFail: boolean
   }
 }

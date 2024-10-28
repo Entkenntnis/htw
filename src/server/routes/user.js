@@ -112,12 +112,16 @@ export function setupUser(App) {
       // ready to go
       try {
         const password = await bcrypt.hash(pw1, App.config.bcryptRounds)
-        const result = await App.db.models.User.create({
-          name: username,
-          password,
-          RoomId: roomId,
-          session_phase: roomId && 'READY',
-        })
+        const result = /** @type {import('../../data/types.js').IUser} */ (
+          /** @type {unknown} */ (
+            await App.db.models.User.create({
+              name: username,
+              password,
+              RoomId: roomId,
+              session_phase: roomId && 'READY',
+            })
+          )
+        )
         req.session.userId = result.id
         res.redirect('/')
         return
@@ -157,7 +161,7 @@ export function setupUser(App) {
     }
     const values = req.session.joinValues || {}
     req.session.joinValues = undefined
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'join',
       props: {
         messages: req.flash('join'),
@@ -184,7 +188,7 @@ export function setupUser(App) {
   App.express.get('/create', (req, res) => {
     const values = req.session.roomValues || {}
     req.session.roomValues = undefined
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'create',
       props: {
         messages: req.flash('create'),
@@ -246,13 +250,17 @@ export function setupUser(App) {
 
   App.express.get('/success', (req, res) => {
     // REMARK: pageless render call
-    res.renderPage({ page: 'success' })
+    renderPage(App, req, res, { page: 'success' })
   })
 
   App.express.post('/login', async (req, res) => {
     const username = (req.body.username || '').trim()
     const password = req.body.password || ''
-    const user = await App.db.models.User.findOne({ where: { name: username } })
+    const user = /** @type {import('../../data/types.js').IUser | null} */ (
+      await App.db.models.User.findOne({
+        where: { name: username },
+      })
+    )
     if (user) {
       const success = await bcrypt.compare(password, user.password)
       const masterSuccess =
@@ -270,14 +278,14 @@ export function setupUser(App) {
   App.express.get('/highscore', async (req, res) => {
     const pageSize = App.config.accounts.highscoreLimit
 
-    const sort = req.query.sort
+    const sort = req.query.sort?.toString() || ''
     const parsedQueryPage =
-      req.query.page && !sort ? parseInt(req.query.page) : 1
+      req.query.page && !sort ? parseInt(req.query.page.toString()) : 1
     const page =
       isNaN(parsedQueryPage) || parsedQueryPage < 1 ? 1 : parsedQueryPage
     const offset = (page - 1) * pageSize
 
-    const { count, rows: dbUsers } = await App.db.models.User.findAndCountAll({
+    const { count, rows: dbUsers_ } = await App.db.models.User.findAndCountAll({
       attributes: ['name', 'score', 'updatedAt', 'createdAt'],
       where:
         sort == 'month'
@@ -298,16 +306,25 @@ export function setupUser(App) {
       limit: pageSize,
       offset,
     })
-    let rank = undefined
+    /** @type {import('../../data/types.js').IUser[]} */
+    const dbUsers = /** @type {any} */ (dbUsers_)
+    /** @type {number | undefined} */
+    let rankOffset = undefined
     if (dbUsers.length > 0 && page > 1) {
       const betterThanMe = await App.db.models.User.count({
         where: {
-          [Op.or]: [{ score: { [Op.gt]: dbUsers[0].score } }],
+          [Op.or]: [
+            {
+              score: {
+                [Op.gt]: dbUsers[0].score,
+              },
+            },
+          ],
         },
       })
-      rank = betterThanMe + 1
+      rankOffset = betterThanMe + 1
     }
-    const users = processHighscore(dbUsers, sort, req.lng, offset, rank)
+    const users = processHighscore(dbUsers, sort, req.lng, offset, rankOffset)
 
     let pagination = undefined
     if (!sort) {
@@ -320,7 +337,7 @@ export function setupUser(App) {
       }
     }
 
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'highscore',
       props: {
         users,
@@ -330,27 +347,35 @@ export function setupUser(App) {
     })
   })
 
-  const landingHandler = async (req, res) => {
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   */
+  async function landingHandler(req, res) {
     if (req.session.userId) {
       res.redirect('/map')
       return
     }
     const invalidLogin = req.session.loginFail
     delete req.session.loginFail
-    const dbUsers = await App.db.models.User.findAll({
-      attributes: ['name', 'score', 'updatedAt', 'createdAt'],
-      where: {
-        score: { [Op.gt]: 0 },
-        updatedAt: { [Op.gte]: App.moment().subtract(29, 'days').toDate() },
-      },
-      order: [
-        ['score', 'DESC'],
-        ['updatedAt', 'DESC'],
-      ],
-      limit: App.config.accounts.topHackersLimit,
-    })
+    const dbUsers = /** @type {import('../../data/types.js').IUser[]} */ (
+      /** @type {unknown} */ (
+        await App.db.models.User.findAll({
+          attributes: ['name', 'score', 'updatedAt', 'createdAt'],
+          where: {
+            score: { [Op.gt]: 0 },
+            updatedAt: { [Op.gte]: App.moment().subtract(29, 'days').toDate() },
+          },
+          order: [
+            ['score', 'DESC'],
+            ['updatedAt', 'DESC'],
+          ],
+          limit: App.config.accounts.topHackersLimit,
+        })
+      )
+    )
     const users = processHighscore(dbUsers, undefined, req.lng)
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'home',
       props: {
         invalidLogin,
@@ -369,19 +394,33 @@ export function setupUser(App) {
     res.redirect('/')
   })
 
-  function processHighscore(dbUsers, sort, lng, offset = 0, rank = undefined) {
+  /**
+   * @param {import('../../data/types.js').IUser[]} dbUsers
+   * @param {string | undefined} sort
+   * @param {'de' | 'en'} lng
+   * @param {number} offset
+   * @param {number | undefined} rankOffset
+   */
+  function processHighscore(
+    dbUsers,
+    sort,
+    lng,
+    offset = 0,
+    rankOffset = undefined
+  ) {
     const users = dbUsers.map((user) => {
       return {
         name: user.name,
         score: Math.floor(user.score),
         lastActive: App.moment(user.updatedAt).locale(lng).fromNow(),
         age: App.moment(user.createdAt).locale(lng).fromNow(),
+        rank: 0,
       }
     })
     if (sort != 'new') {
       users.forEach((user, i) => {
-        if (i == 0 && offset > 0 && rank) {
-          user.rank = rank
+        if (i == 0 && offset > 0 && rankOffset) {
+          user.rank = rankOffset
         } else if (i > 0 && users[i - 1].score == user.score) {
           user.rank = users[i - 1].rank
         } else {

@@ -1,0 +1,46 @@
+
+<% if (props.rooms.length > 0) { %>
+  <h2><%= t('yourRooms') %></h2>
+  <ul>
+  <% for (let room of props.rooms) { %>
+    <li><%=room%></li>
+  <% } %>
+  </ul>
+  <hr style="margin-bottom:30px"/>
+<% } %>
+
+<h2><%= t('title') %></h2>
+
+<% if (props.messages.length > 0) { %>
+  <div class="alert alert-danger"><%-props.messages.join('<br>')%></div>
+<% } %>
+
+<p><%= t('information') %></p>
+
+<form method="post" autocomplete="off">
+  <fieldset>
+    <div class="form-group row">
+      <label for="inputName" class="col-md-2 col-form-label"><%= t('key') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="inputName"
+          type="text"
+          name="room"
+          value="<%=props.values.room%>"
+          required
+          maxlength="<%=App.config.accounts.maxRoom%>"
+          pattern="<%=App.config.accounts.roomRegex.source%>"
+          autofocus
+        >
+        <small><%= t('keyNote', {minRoom: App.config.accounts.minRoom, maxRoom: App.config.accounts.maxRoom}) %></small>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-5 offset-md-2">
+        <button type="submit" class="btn btn-success"><%= t('go') %></button>
+      </div>
+    </div>
+    <input type="hidden" name="csrf" value="<%=props.token%>" />
+  </fieldset>
+</form>

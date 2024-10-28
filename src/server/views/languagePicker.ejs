@@ -1,0 +1,27 @@
+<% if (App.config.languages.length > 1) { %>
+  <div style="text-align:right; margin-top:-8px;margin-bottom:8px;">
+    <%=t('home.language')%>: <select id="language-switcher">
+      <% for (let i = 0; i < App.config.languages.length; i++) { %>
+        <option value="<%=App.config.languages[i]%>" <%=App.config.languages[i] == locale ? 'selected' : ''%>>
+          <%=App.config.languages[i].toUpperCase()%>
+        </option>
+      <% } %>
+    </select>
+  </div>
+  
+  <script src="/js.cookie.min.js"></script>
+  
+  <script>
+    const key = 'htw_language_preference'
+    
+    document.getElementById('language-switcher').addEventListener('change', changeLng)
+  
+    function changeLng(e) {
+      const previousLng = Cookies.get(key)
+      if (e.target.value !== previousLng) {
+        Cookies.set(key, e.target.value, {sameSite: 'lax'})
+        window.location.href = e.target.value == 'de' ? '/de' : '/en'
+      }
+    }
+  </script>
+<% } %> 

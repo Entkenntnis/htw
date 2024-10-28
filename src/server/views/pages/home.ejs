@@ -1,0 +1,87 @@
+
+<%- include('../languagePicker', {t, App, locale}) %>
+
+<h2><%= t('loginHeading') %></h2>
+
+<% if (props.invalidLogin) { %>
+  <div class="alert alert-danger"><%= t('invalid') %></div>
+<% } %>
+
+<form action="<%=prefix%>/login" method="post" autocomplete="off" id="login-form">
+
+  <div class="form-group">
+    <label><%= t('name') %> <input class="form-control" type="text" name="username" value="" autofocus id="inputName"/></label>
+    <span style="display:inline-block;width:10px;"></span>
+    <label><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw"/></label>
+    <span style="display:inline-block;width:5px;"></span>
+    <button type="submit" class="btn btn-success" style="margin-top:-4px"><%= t('go') %></button>
+  </div>
+</form>
+
+<% if (App.config.autoPassword) { %>
+  <div id="locals-list" class="d-none">
+    <p>Weiterspielen: <span id="locals"></span></p>
+  </div>
+
+  <script>
+    window.onload = function() {
+      try {
+        const localUsers = JSON.parse(localStorage.getItem('htw_local_users') || '[]')
+        if (localUsers.length > 0) {
+          let html = ''
+          for (let i = 0; i < localUsers.length; i++) {
+            html += '<button class="btn btn-warning mx-2 btn-sm" style="vertical-align:baseline" onclick="applyUser(' + i + ')"><strong>' + localUsers[i].name + '</strong></button>'
+          }
+          document.getElementById('locals').innerHTML = html
+          document.getElementById('locals-list').className = ''
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    
+    function applyUser(index) {
+      const user = JSON.parse(localStorage.getItem('htw_local_users') || '[]')[index]
+      document.getElementById('inputName').value = user.name
+      document.getElementById('inputPw').value = user.password
+      if (user.password) {
+        setTimeout(function() {
+          document.getElementById('login-form').submit()
+        }, 100)
+      } else {
+        document.getElementById('inputPw').focus()
+      }
+    }
+  </script>
+<% } %>
+
+<p class="my-4">
+  <%- t('invite_', {link: `<a href="${prefix}/register">${ t('registerLink') }</a>`}) %>
+</p>
+
+<hr class="my-5"/>
+
+<h2><%= t('top10') %></h2>
+
+<%- include('../highscoreTable', {users:props.users, t, user, hideRank: false}) %>
+
+<p>[<a href="<%=prefix%>/highscore">Highscore</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a href="<%=prefix%>/highscore?sort=new"><%=t('showRecent')%></a>]</p>
+
+<hr class="my-5"/>
+
+<h2><%= t('rooms') %></h2>
+
+<p><%- t('inviteOrga_', {link: `<a href="${prefix}/create">${t('createRoom')}</a>`}) %></p>
+
+<p>[<a href="<%=prefix%>/join"><%= t('joinRoom') %></a>]</p>
+
+<hr class="my-5"/>
+
+<%- t('supporter_') %>
+
+<p>
+  <a href="<%=prefix%>/contact"><%= t('contactLink') %></a> |
+  <a href="<%=prefix%>/privacy"><%= t('privacyLink') %></a> | 
+  <a href="<%=App.config.githubHref%>" <% if (App.config.githubTargetBlank) { %> target="_blank" <% } %>><%= t('github') %></a> | 
+  <%- t('version') %>
+</p>

@@ -1,0 +1,36 @@
+name: Check
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Setze auf die Node-Version, die dein Projekt benötigt
+
+      - name: Copy secrets placeholder
+        run: cp secrets.placeholder.js secrets.js
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run TypeScript compiler
+        run: npm run tsc
+
+      - name: Uptest
+        run: npm start
+        env:
+          UPTEST: 1

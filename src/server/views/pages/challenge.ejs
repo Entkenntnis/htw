@@ -1,0 +1,61 @@
+<script>
+function goBack() {
+  if (document.referrer && document.referrer.includes('/map')) {
+    window.history.back()
+  } else {
+    window.location.href = '/map'
+  }
+}
+</script>
+
+<% if (!props.accessible) { %>
+  
+  <p><i><%= t('locked')%></i></p>
+
+<% } else { %>
+
+  <p>
+    <% if (props.correct !== true) { %>
+      <a href="<%=prefix%>/map" <%- App.config.historyBack ? 'onclick="goBack()"' : ''%>><%= t('back') %></a> |
+    <% } %>
+    <span title="<% if (props.lastSolved !== null) { %><%=t('lastSolved', {ago: App.moment(props.lastSolved).locale(locale).fromNow(), name: props.lastSolvedUserName})%><%}%>">
+      <%= props.solvedBy == 1 ? t('solvedBy_one', {count: props.solvedBy}) : t('solvedBy_other', {count: props.solvedBy}) %>
+    </span>
+    <% if (props.challenge.date) { %> |
+      <span style="color:gray"><%= t('created')%> <%= App.moment(props.challenge.date).locale(locale).fromNow()%>
+        <% if (props.challenge.author) { %>
+          <%= t('by') %> <%= props.challenge.author %>
+        <% } %>
+      </span>
+    <% } %>
+  </p>
+
+  <div style="height:16px"></div>
+
+  <% if (props.answer) { %>
+    <p class="text-<%= props.correct === true ? App.config.styles.solutionClass_correct : App.config.styles.solutionClass_wrong %>">
+      <% if (props.correct === 'none') { %>
+        <strong><%= props.answer %></strong>
+      <% } else { %>
+        <strong><%= props.rawAnswer ? props.answer : `'${props.answer}'` %> <%= props.rawAnswer ? '' : props.correct ? t('correct') : t('wrong') %></strong>
+      <% } %>
+    </p>
+  <% } %>
+
+  <div style="height:16px"></div>
+
+  <% if (props.correct === true) { %>
+    <p><a href="<%=prefix%>/map"><%= t('continue') %></a></p>
+  <% } else { %>
+    <%- props.html %>
+    <% if (!props.challenge.hidesubmit) { %>
+      <form autocomplete="off" method="post" id="challenge_form">
+        <input id="challenge_answer" type="text" name="answer" style="height:32px">
+        <input type="submit" id="challenge_submit" value="<%= t('go') %>" style="height:32px;line-height:1;vertical-align:bottom;">
+      </form>
+    <% } %>
+  <% } %>
+
+  <div style="height:200px"></div>
+
+<% } %>

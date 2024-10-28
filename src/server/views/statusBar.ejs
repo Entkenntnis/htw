@@ -1,0 +1,77 @@
+
+
+<p class="status">
+
+[<%= t('statusBar.name') %> <strong><%= user.name %></strong> | 
+
+<%= t('statusBar.score') %> <strong><%= Math.floor(user.score) %></strong>
+
+<% if (user.session_phase === "READY") { %>
+  | <%= t('statusBar.sessionReady') %>
+<% } %>
+
+<% if (user.session_phase == "ACTIVE") { %>
+  <% let timediff = new Date().getTime() - user.session_startTime %>
+  <% let remaining = Math.round((1000 * 60 * 30 - timediff)/1000) %>
+  | <%= t('statusBar.session') %> <span id="remaining"></span>
+
+  <% if (user.session_startTime) { %>
+    <script>
+      var localTime = Date.now()
+      var remaining = <%=remaining%>
+      function update(){
+        var passed = Date.now() - localTime
+        var rest = remaining - Math.round(passed/1000)
+        if (rest < 0) {
+          window.location.href = "<%=prefix%>/finish"
+        } else {
+          var restSecs = rest % 60
+          var restMins = Math.floor(rest / 60)
+          if (restSecs < 10) restSecs = "0" + restSecs.toString()
+          document.getElementById('remaining').innerHTML = restMins + ":" + restSecs
+        }
+      }
+      update()
+      setInterval(update,333)
+    </script>
+  <% } %>
+<% } %>
+
+]
+
+[
+
+<% if (!user.session_phase || user.session_phase == "DONE") { %>
+  <a href="<%=prefix%>/highscore"><%= t('statusBar.highscore') %></a> | 
+<% } %>
+
+<% if (App.config.hintPage) { %>
+  <a href="<%- App.config.hintPage.url %>"><%= t('statusBar.hint') %></a> |
+<% } %>
+
+<a href="<%=prefix%>/profile"><%= t('statusBar.profile') %></a> |
+
+<a href="<%=prefix%>/logout"><%= t('statusBar.logout') %></a>
+
+]
+
+</p>
+
+<style>
+  @media (min-width:1000px) {
+    .status {
+      position: fixed;
+      top:10px;
+      right: 20px;
+    }
+  }
+  @media (max-width:999px) {
+    .status {
+      margin-top: 20px;
+      text-align:right;
+    }
+  }
+  .status {
+    z-index:10;
+  }
+</style>

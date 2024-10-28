@@ -1,34 +1,39 @@
-# Hack The Web - Quellcode und Installationsanleitung
+# Hack The Web - source code and build instructions
 
-[English version](README-en.md)
+In this repo you will find the source code of Hack The Web. This readme gives you instructions on how to get this source code up and running. This is intended as a backup solution in case https://hack.arrrg.de fails. There is a way to get the project up and running again.
 
-Hallo! In diesem Repo findest du den Quellcode von Hack The Web. Dieses Readme gibt dir eine Anleitung, wie du diesen Quellcode zum Laufen bringen kannst. Das ist als Backup-Lösung gedacht, falls https://hack.arrrg.de ausfallen sollte. Es gibt die Möglichkeit, das Projekt wieder zum Laufen zu bringen.
+The source code should not spoil the tasks - therefore I made sure to put all sensitive data in a separate file and not to deliver it. It contains mainly answers and a few passwords. If you have solved the tasks, you can fill in this file yourself.
 
-Der Quellcode soll aber nicht die Aufgaben spoilern - daher habe ich darauf geachtet, alle sensiblen Daten in eine separate Datei zu packen und nicht mitzuliefern. Darin sind hauptsächlich Antworten gespeichert und ein paar Passwörter. Solltest du die Aufgaben gelöst haben, kannst du diese Datei selbst ausfüllen.
+### Step 1: Setup
 
-## Schritt 1: Setup
-
-Installiere auf deinem Computer git und node.js (inkl. npm). Gehe in ein Verzeichnis deiner Wahl und führe folgende Befehle aus:
+Install git and node.js v20+ (incl. npm) on your computer. Go to a directory of your choice and execute the following commands:
 
 ```
 git clone https://github.com/Entkenntnis/htw.git
 cd htw
 npm install
-npm install sqlite3
 ```
 
-Mache eine **Kopie** von `secrets.placeholder.js` und benenne sie in `secrets.js` um.
+**Importnant**: Copy `secrets.placeholder.js` and rename it to `secrets.js`.
 
-Damit sind alle Voraussetzungen erfüllt. Du kannst den Server mit `npm start` starten und hast einen funktionierenden Server auf `localhost:3000`. Zur Entwicklung kannst du auch `npm run dev` nutzen um den Quellcode automatisch zu aktualiseren.
+Now all prerequisites are fulfilled. You can start the server with `npm start` and have a working server on `localhost:3000`. To develop, you can also use `npm run dev` to automatically update the source code.
 
-## Schritt 2: Antworten eintragen
+### Step 2: Enter answers
 
-Im nächsten Schritt ist es deine Aufgabe, die Antworten in die Datei `secrets.js` einzutragen. Einige Antworten sind durch die Aufgabenstellung gegeben und müssen einen bestimmten Wert haben. Andere Antworten kannst du selbst festlegen.
+In the next step it is your task to enter the answers in the file `secrets.js`. Some answers are given by the task and must have a certain value. Other answers you can define yourself.
 
-## Schritt 3: Hosting
+### Step 3: Hosting
 
-Im Produktivbetrieb nutzt das Projekt eine separate Datenbank. Das Passwort dazu muss auch eingetragen werden. Außerdem muss noch ein Impressum eingefügt werden. Optional kann ein Master-Passwort gesetzt werden, um moderieren zu können. Für den Server braucht es eine eigene Subdomain, weil alle URLs vom Root aus arbeiten. Das war's dann auch schon. Der Rest des Codes dient der Verwaltung, wie z.B. die Möglichkeit, die Punktzahl neu zu berechnen oder eine ausführliche Analyse-Funktion (letzteres nur auf localhost aktiviert, `localhost:3000/dashboard`).
+In production mode, the project uses a separate database. The password for this must also be entered. In addition, an imprint must be inserted. Optionally, a master password can be set to moderate. For the server you need your own subdomain, because all URLs work from the root. That's it. The rest of the code is for administration, such as the possibility to recalculate the score or an extensive analysis function (the latter only activated on localhost, `localhost:3000/dashboard`).
 
-## Schritt 4: Anpassungen
+### Step 4: Adaptations
 
-Je nachdem, wie du das Projekt hostest, können sich andere Anforderungen ergeben. Fühl dich frei, den Quellcode entsprechend anzupassen.
+Depending on how you host the project, other requirements may arise. Feel free to adapt the source code accordingly.
+
+## Changelog
+
+### 1.0.0
+
+- Moving challenges-server into this repo and remove separation
+- Add Enough and Worms
+- Typescript

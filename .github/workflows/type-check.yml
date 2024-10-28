@@ -1,0 +1,28 @@
+name: Type Check
+
+on:
+  push:
+    branches:
+      - '**' # Gilt für alle Branches
+  pull_request:
+    branches:
+      - '**' # Gilt für alle Pull Requests auf allen Branches
+
+jobs:
+  type-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Setze auf die Node-Version, die dein Projekt benötigt
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run TypeScript compiler
+        run: npm run tsc

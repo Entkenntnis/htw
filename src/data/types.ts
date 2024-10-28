@@ -180,6 +180,10 @@ declare module 'express-session' {
     loginFail: boolean
     rates: { [key: string]: { count: number; lockedUntil: number } }
     chal117?: DungeonData
+    chal303_ts: number
+    chal303_result: string
+    chal338_ts: number
+    chal338_result: string
   }
 }
 

@@ -28,16 +28,20 @@ export const communityChallenges = [
           entry.lastActive = ts
         }
         return res
-      }, {})
+      }, /** @type {{[key: number]: {solved: number, lastActive: number}}} */ ({}))
 
+      /**
+       * @type {number[]}
+       */
       const userIds = []
 
       const usersList = Object.entries(users).map((entry) => {
-        userIds.push(entry[0])
+        userIds.push(parseInt(entry[0]))
         return {
-          userId: entry[0],
+          userId: parseInt(entry[0]),
           solved: entry[1].solved,
           lastActive: entry[1].lastActive,
+          rank: -1,
         }
       })
 
@@ -57,7 +61,7 @@ export const communityChallenges = [
       const userNameIndex = userNames.reduce((res, obj) => {
         res[obj.id] = obj.name
         return res
-      }, {})
+      }, /** @type {{[key: number]: string}} */ ({}))
 
       let rank = 1
 
@@ -86,7 +90,7 @@ export const communityChallenges = [
         </p>
         
         ${
-          userIds.includes(req.user.id.toString())
+          userIds.includes(req.user ? req.user.id : -1)
             ? ''
             : `<p>Startbereit? Dann nichts wie los!
         </p>
@@ -161,7 +165,7 @@ export const communityChallenges = [
         <p>Your progress in the community area is independent of your score. You do not receive points for solving tasks; instead, your progress is displayed in the highscore below the task.</p>
 
         ${
-          userIds.includes(req.user.id.toString())
+          userIds.includes(req.user ? req.user.id : -1)
             ? ''
             : `<p>Ready to start? Then go ahead!
         </p>
@@ -234,7 +238,7 @@ export const communityChallenges = [
     deps: [301],
     noScore: true,
     render: ({ req }) => {
-      const username = req.user.name
+      const username = req.user?.name
       const secretString = username + secrets('chal_302')
       const hash = crypto.createHash('md5').update(secretString).digest('hex')
       const isGerman = req.lng.startsWith('de')
@@ -407,7 +411,7 @@ export const communityChallenges = [
       }
 
       const ts = new Date().getTime()
-      const startTs = parseInt(req.session.chal303_ts)
+      const startTs = req.session.chal303_ts ?? 0
 
       if (ts - startTs > 1000 * 32) {
         return {
@@ -524,7 +528,7 @@ export const communityChallenges = [
       <p><a href="/chal/chal306" target="_blank">Bitte dein Ticket vorzeigen</a>
       </p>
       
-      <p>Dein Zugangscode lautet <code>${req.user.id}@Dodo-Airlines</code>. Der Code muss in Form eines QR-Codes eingereicht werden. Dann erhältst du die Antwort.
+      <p>Dein Zugangscode lautet <code>${req.user?.id}@Dodo-Airlines</code>. Der Code muss in Form eines QR-Codes eingereicht werden. Dann erhältst du die Antwort.
       </p>
     `
         : `
@@ -534,7 +538,7 @@ export const communityChallenges = [
         <p><a href="/chal/chal306" target="_blank">Please show your ticket</a>
         </p>
         
-        <p>Your access code is <code>${req.user.id}@Dodo-Airlines</code>. The code must be submitted in the form of a QR code. Then you will receive the answer.
+        <p>Your access code is <code>${req.user?.id}@Dodo-Airlines</code>. The code must be submitted in the form of a QR code. Then you will receive the answer.
         </p>
         `
     },
@@ -1455,7 +1459,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
         .map((c) => c.id)
 
       const solvedDb = await App.db.models.Solution.findAll({
-        where: { UserId: req.user.id },
+        where: { UserId: req.user?.id },
         raw: true,
       })
 
@@ -1838,7 +1842,7 @@ RS#1</pre>
       }
 
       const ts = new Date().getTime()
-      const startTs = parseInt(req.session.chal338_ts)
+      const startTs = req.session.chal338_ts
 
       if (ts - startTs > 1000 * 17) {
         return {

@@ -65,6 +65,7 @@ export interface HtwChallenge {
   noScore?: boolean
   author?: string
   showAfterSolve?: boolean
+  showAboveScore?: number
   html?: { de: string; en: string }
   render?: (context: {
     App: App
@@ -177,6 +178,7 @@ declare module 'express-session' {
     roomValues?: object
     rooms?: string[]
     loginFail: boolean
+    rates: { [key: string]: { count: number; lockedUntil: number } }
   }
 }
 

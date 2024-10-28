@@ -1,28 +1,34 @@
 import { Op, Transaction } from 'sequelize'
 import bcrypt from 'bcryptjs'
+import { renderPage } from '../../helper/render-page.js'
 
 /**
  * @param {import('../../data/types.js').App} App
  */
 export function setupChallenges(App) {
-  async function checkUser(req, res, next) {
-    if (req.session.userId && req.user) {
-      next()
-      return
+  App.express.get('/finish', (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
     }
-    delete req.session.userId
-    res.redirect('/')
-  }
+    // end guard
 
-  App.express.get('/finish', checkUser, (req, res) => {
     if (req.user.session_phase === 'OUTRO') {
-      res.renderPage({ page: 'finish', backHref: '/sessiondone' })
+      renderPage(App, req, res, { page: 'finish', backHref: '/sessiondone' })
     } else {
       res.redirect('/map')
     }
   })
 
-  App.express.get('/sessiondone', checkUser, async (req, res) => {
+  App.express.get('/sessiondone', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     if (req.user.session_phase === 'OUTRO') {
       req.user.session_phase = 'DONE'
       await req.user.save({ silent: true })
@@ -30,7 +36,14 @@ export function setupChallenges(App) {
     res.redirect('/map')
   })
 
-  App.express.get('/endsession', checkUser, async (req, res) => {
+  App.express.get('/endsession', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     if (req.user.session_phase === 'ACTIVE') {
       req.user.session_score = req.user.score
       req.user.session_phase = 'OUTRO'
@@ -41,7 +54,14 @@ export function setupChallenges(App) {
     res.redirect('/map')
   })
 
-  App.express.get('/startsession', checkUser, async (req, res) => {
+  App.express.get('/startsession', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     if (req.user.session_phase === 'READY') {
       req.user.session_phase = 'ACTIVE'
       req.user.session_startTime = new Date()
@@ -64,7 +84,19 @@ export function setupChallenges(App) {
     }
   })
 
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {() => void} next
+   */
   async function checkSession(req, res, next) {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     if (req.user.session_phase === 'ACTIVE') {
       const expired = App.moment(req.user.session_startTime)
         .add(30, 'minutes')
@@ -81,19 +113,25 @@ export function setupChallenges(App) {
     next()
   }
 
-  App.express.get('/map', checkUser, checkSession, async (req, res) => {
+  App.express.get('/map', checkSession, async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     const solvedDb = await App.db.models.Solution.findAll({
       where: { UserId: req.user.id },
     })
 
     const solved = solvedDb.map((s) => s.cid)
 
-    if (App.config.editors.includes(req.user.name)) {
+    const name = req.user.name
+    const score = req.user.score
+    if (App.config.editors.includes(name)) {
       App.challenges.data.map((c) => {
-        if (
-          c.showAfterSolve &&
-          App.config.noSelfAdmin.includes(req.user.name)
-        ) {
+        if (c.showAfterSolve && App.config.noSelfAdmin.includes(name)) {
           // hidden challenges not visible for demo accounts
           return
         }
@@ -105,9 +143,15 @@ export function setupChallenges(App) {
     const svgStart =
       '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="100%" height="100%">'
     const svgEnd = '</svg>'
+    /**
+     * @type {string[]}
+     */
     const svgLines = []
     const svgCircles = []
 
+    /**
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; isSolved: boolean; }[]}
+     */
     const points = []
 
     App.challenges.data.map((challenge) => {
@@ -123,7 +167,7 @@ export function setupChallenges(App) {
         (challenge.deps.some((c) => solved.includes(c)) &&
           !challenge.showAfterSolve) ||
         challenge.deps.length === 0 ||
-        (challenge.showAboveScore && req.user.score > challenge.showAboveScore)
+        (challenge.showAboveScore && score > challenge.showAboveScore)
       if (visible) {
         points.push(point)
         challenge.deps.forEach((dep) => {
@@ -168,7 +212,7 @@ export function setupChallenges(App) {
     const customMapHtml =
       typeof custom === 'function' ? custom({ App, req }) : custom
 
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'map',
       props: {
         map,
@@ -180,7 +224,14 @@ export function setupChallenges(App) {
   })
 
   // rate limit challenge routes
-  App.express.all('/challenge/:id', checkUser, (req, res, next) => {
+  App.express.all('/challenge/:id', (req, res, next) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     const id = parseInt(req.params.id)
     const i18n = App.i18n.get(req.lng)
 
@@ -218,132 +269,129 @@ export function setupChallenges(App) {
     next()
   })
 
-  App.express.all(
-    '/challenge/:id',
-    checkUser,
-    checkSession,
-    async (req, res) => {
-      const id = parseInt(req.params.id)
-      const isEditor = App.config.editors.includes(req.user.name)
+  App.express.all('/challenge/:id', checkSession, async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
 
-      if (!App.challenges.data.some((c) => c.id === id)) {
-        res.redirect('/map')
-        return
-      }
+    const id = parseInt(req.params.id)
+    const isEditor = App.config.editors.includes(req.user.name)
 
-      const challenge = App.challenges.data.filter((c) => c.id === id)[0]
+    if (!App.challenges.data.some((c) => c.id === id)) {
+      res.redirect('/map')
+      return
+    }
 
-      const solvedDb = await App.db.models.Solution.findAll({
-        where: { UserId: req.user.id },
+    const challenge = App.challenges.data.filter((c) => c.id === id)[0]
+
+    const solvedDb = await App.db.models.Solution.findAll({
+      where: { UserId: req.user.id },
+    })
+
+    let accessible = false
+
+    if (solvedDb.some((s) => s.cid === id)) {
+      accessible = true
+    }
+
+    if (isEditor) {
+      accessible = true
+    }
+
+    if (
+      challenge.deps.some((d) => solvedDb.some((s) => s.cid === d)) ||
+      challenge.deps.length === 0 ||
+      (challenge.showAboveScore && req.user.score > challenge.showAboveScore)
+    ) {
+      accessible = true
+    }
+
+    const challengeTitle =
+      typeof challenge.title == 'string'
+        ? challenge.title
+        : challenge.title[req.lng]
+
+    if (!accessible) {
+      renderPage(App, req, res, {
+        page: 'challenge',
+        props: {},
+        backButton: true,
+        title: challengeTitle,
+        heading: challengeTitle,
       })
+      return
+    }
 
-      let accessible = false
-
-      if (solvedDb.some((s) => s.cid === id)) {
-        accessible = true
-      }
-
-      if (isEditor) {
-        accessible = true
-      }
-
-      if (
-        challenge.deps.some((d) => solvedDb.some((s) => s.cid === d)) ||
-        challenge.deps.length === 0 ||
-        (challenge.showAboveScore && req.user.score > challenge.showAboveScore)
-      ) {
-        accessible = true
-      }
-
-      const challengeTitle = challenge.title[req.lng] || challenge.title
-
-      if (!accessible) {
-        res.renderPage({
-          page: 'challenge',
-          props: {},
-          backButton: true,
-          title: challengeTitle,
-          heading: challengeTitle,
-        })
-        return
-      }
-
-      const check =
-        challenge.check ||
-        function (raw) {
-          const answer = raw.toLowerCase().trim()
-          const solutions = Array.isArray(challenge.solution)
-            ? challenge.solution
-            : [challenge.solution]
-          const correct = solutions.some(
-            (solution) => solution && answer === solution.toLowerCase().trim()
-          )
-          return {
-            answer,
-            correct,
-          }
+    const check =
+      challenge.check ||
+      function (raw) {
+        const answer = raw.toLowerCase().trim()
+        const solutions = Array.isArray(challenge.solution)
+          ? challenge.solution
+          : [challenge.solution]
+        const correct = solutions.some(
+          (solution) => solution && answer === solution.toLowerCase().trim()
+        )
+        return {
+          answer,
+          correct,
         }
+      }
 
-      let answer = ''
-      /** @type {boolean | 'none'} */
-      let correct = false
-      let rawAnswer = false
+    let answer = ''
+    /** @type {boolean | 'none'} */
+    let correct = false
+    let rawAnswer = false
 
-      try {
-        if (typeof req.body.answer === 'string') {
-          const result = await check(req.body.answer || '', { req, App })
-          if (result.answer !== undefined) {
-            answer = result.answer
-            correct = result.correct
-            if (result.rawAnswer === true) {
-              rawAnswer = true
-            }
-          } else {
-            answer = req.body.answer
-            correct = !!result
+    try {
+      if (typeof req.body.answer === 'string') {
+        const result = await check(req.body.answer || '', { req, App })
+        if (typeof result == 'object' && result.answer !== undefined) {
+          answer = result.answer
+          correct = result.correct
+          if ('rawAnswer' in result && result.rawAnswer === true) {
+            rawAnswer = true
           }
-          // call on submit hook
-          if (App.config.onSubmit) {
-            await App.config.onSubmit({
-              App,
-              id,
-              correct,
-              solved: solvedDb.map((s) => s.cid),
-              isEditor,
-              answer: req.body.answer,
+        } else {
+          answer = req.body.answer
+          correct = !!result
+        }
+      }
+    } catch (e) {
+      console.log(e)
+      // something didn't work out, avoid server crashing
+    }
+
+    if (correct && !App.config.editors.includes(req.user.name)) {
+      const UserId = req.user.id
+      const needRefresh = { current: false }
+      const transact = async function () {
+        // do updates in a transaction
+        await App.db.transaction(
+          {
+            isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+          },
+          async (t) => {
+            const [, created] = await App.db.models.Solution.findOrCreate({
+              where: { cid: id, UserId },
+              transaction: t,
             })
-          }
-        }
-      } catch (e) {
-        console.log(e)
-        // something didn't work out, avoid server crashing
-      }
 
-      if (correct && !App.config.editors.includes(req.user.name)) {
-        const needRefresh = { current: false }
-        const transact = async function () {
-          // do updates in a transaction
-          await App.db.transaction(
-            {
-              isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
-            },
-            async (t) => {
-              const [, created] = await App.db.models.Solution.findOrCreate({
-                where: { cid: id, UserId: req.user.id },
+            if (created) {
+              needRefresh.current = true
+            }
+
+            if (created && !challenge.noScore) {
+              const user = await App.db.models.User.findOne({
+                where: { id: UserId },
                 transaction: t,
               })
 
-              if (created) {
-                needRefresh.current = true
-              }
-
-              if (created && !challenge.noScore) {
-                const user = await App.db.models.User.findOne({
-                  where: { id: req.user.id },
-                  transaction: t,
-                })
-
-                // REMARK: start session on first solved challenge
+              // REMARK: start session on first solved challenge
+              if (user) {
                 if (user.score == 0 && user.session_phase === 'READY') {
                   user.session_phase = 'ACTIVE'
                   user.session_startTime = new Date()
@@ -353,10 +401,11 @@ export function setupChallenges(App) {
                 if (App.config.scoreMode == 'fixed') {
                   user.score += 12
                 } else if (App.config.scoreMode == 'time') {
-                  if (user.score > 0) {
+                  if (user.score > 0 && req.user) {
                     // REMARK: add a small bonus for fast solving
                     const pausetime =
-                      (new Date().getTime() - req.user.updatedAt.getTime()) /
+                      (new Date().getTime() -
+                        new Date(req.user.updatedAt).getTime()) /
                       (60 * 1000)
                     const tinterval = Math.floor(pausetime / 3)
                     user.score += Math.pow(0.5, tinterval) * 2
@@ -370,78 +419,87 @@ export function setupChallenges(App) {
                 }
                 await user.save({ transaction: t })
 
-                req.user.score = user.score
-
-                // Test code
-                // console.log('waiting 20 seconds before commit')
-                // await new Promise((res) => setTimeout(res, 20000))
+                if (req.user) {
+                  req.user.score = user.score
+                }
               }
+
+              // Test code
+              // console.log('waiting 20 seconds before commit')
+              // await new Promise((res) => setTimeout(res, 20000))
             }
-          )
-          // console.log('transaction successful')
-        }
-
-        try {
-          await transact() // first try
-        } catch (e) {
-          // console.log('first try failed')
-          try {
-            // random wait for 2 - 5 secs
-            await new Promise((res) =>
-              setTimeout(res, 2000 + Math.random() * 3000)
-            )
-            await transact() // second try
-          } catch (e) {
-            console.log('adding new solved challenge failed')
-            console.log(e)
-            answer =
-              'Your solution is correct, but the server was too busy to update your score - reload page to try again. Sorry for the inconvenience.'
-            correct = 'none'
           }
-        }
+        )
+        // console.log('transaction successful')
+      }
 
-        if (needRefresh.current) {
-          await App.challengeStats.refreshData(id)
+      try {
+        await transact() // first try
+      } catch (e) {
+        // console.log('first try failed')
+        try {
+          // random wait for 2 - 5 secs
+          await new Promise((res) =>
+            setTimeout(res, 2000 + Math.random() * 3000)
+          )
+          await transact() // second try
+        } catch (e) {
+          console.log('adding new solved challenge failed')
+          console.log(e)
+          answer =
+            'Your solution is correct, but the server was too busy to update your score - reload page to try again. Sorry for the inconvenience.'
+          correct = 'none'
         }
       }
 
-      const { solvedBy, lastSolved, lastSolvedUserName } =
-        await App.challengeStats.getData(id)
-
-      let html = challenge.render
-        ? await challenge.render({ App, req })
-        : challenge.html
-
-      html = html[req.lng] || html
-
-      if (App.config.prefixPlaceholder) {
-        html = html.split(App.config.prefixPlaceholder).join('')
+      if (needRefresh.current) {
+        await App.challengeStats.refreshData(id)
       }
-
-      const author = challenge.author
-
-      res.renderPage({
-        page: 'challenge',
-        props: {
-          accessible: true,
-          challenge,
-          html,
-          correct,
-          rawAnswer,
-          answer,
-          solvedBy,
-          lastSolved,
-          lastSolvedUserName,
-          author,
-        },
-        backButton: false,
-        title: challengeTitle,
-        heading: challengeTitle,
-      })
     }
-  )
 
-  App.express.get('/profile', checkUser, checkSession, async (req, res) => {
+    const { solvedBy, lastSolved, lastSolvedUserName } =
+      await App.challengeStats.getData(id)
+
+    let html = challenge.render
+      ? await challenge.render({ App, req })
+      : challenge.html || ''
+
+    html = typeof html == 'string' ? html : html[req.lng]
+
+    if (App.config.prefixPlaceholder) {
+      html = html.split(App.config.prefixPlaceholder).join('')
+    }
+
+    const author = challenge.author
+
+    renderPage(App, req, res, {
+      page: 'challenge',
+      props: {
+        accessible: true,
+        challenge,
+        html,
+        correct,
+        rawAnswer,
+        answer,
+        solvedBy,
+        lastSolved,
+        lastSolvedUserName,
+        author,
+      },
+      backButton: false,
+      title: challengeTitle,
+      heading: challengeTitle,
+    })
+  })
+
+  App.express.get('/profile', checkSession, async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     let room
     if (req.user.RoomId) {
       const roomRow = await App.db.models.Room.findOne({
@@ -476,7 +534,7 @@ export function setupChallenges(App) {
       where: { score: { [Op.gt]: 0 } },
     })
 
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'profile',
       props: {
         room,
@@ -489,7 +547,14 @@ export function setupChallenges(App) {
     })
   })
 
-  App.express.get('/token', checkUser, async (req, res) => {
+  App.express.get('/token', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     if (req.user.score == 0) {
       res.send(
         'Du musst mindestens eine Aufgabe lösen, um diese Funktion zu nutzen.'
@@ -528,7 +593,14 @@ export function setupChallenges(App) {
     res.send('not valid')
   })
 
-  App.express.get('/roomscore', checkUser, checkSession, async (req, res) => {
+  App.express.get('/roomscore', checkSession, async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     const i18n = App.i18n.get(req.lng)
     const room = await App.db.models.Room.findOne({
       where: { id: req.user.RoomId || -1 },
@@ -537,13 +609,13 @@ export function setupChallenges(App) {
       const dbUsers = await App.db.models.User.findAll({
         attributes: ['name', 'score', 'session_score', 'updatedAt'],
         where: {
-          roomId: req.user.RoomId,
+          RoomId: req.user.RoomId,
         },
         order: [
           ['session_score', 'DESC'],
           ['updatedAt', 'DESC'],
         ],
-        limit: App.config.highscoreLimit,
+        limit: App.config.accounts.highscoreLimit,
       })
       const users = dbUsers.map((user) => {
         return {
@@ -554,6 +626,7 @@ export function setupChallenges(App) {
               ? Math.floor(user.session_score)
               : '...',
           lastActive: App.moment(user.updatedAt).locale(req.lng).fromNow(),
+          rank: -1,
         }
       })
       users.forEach((user, i) => {
@@ -563,7 +636,7 @@ export function setupChallenges(App) {
           user.rank = i + 1
         }
       })
-      res.renderPage({
+      renderPage(App, req, res, {
         page: 'roomscore',
         props: {
           room: room.name,
@@ -576,11 +649,18 @@ export function setupChallenges(App) {
     res.redirect('/map')
   })
 
-  App.express.get('/delete', checkUser, (req, res) => {
+  App.express.get('/delete', (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     if (App.config.noSelfAdmin.includes(req.user.name)) {
       return res.redirect('/map')
     }
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'delete',
       props: {
         token: App.csrf.create(req),
@@ -590,7 +670,14 @@ export function setupChallenges(App) {
     })
   })
 
-  App.express.post('/delete', checkUser, async (req, res) => {
+  App.express.post('/delete', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     const i18n = App.i18n.get(req.lng)
     const username = req.body.username || ''
     if (!App.csrf.verify(req, req.body.csrf)) {
@@ -601,7 +688,7 @@ export function setupChallenges(App) {
         App.challengeStats.nuke()
         delete req.session.userId
         delete req.user
-        res.renderPage('deleteSuccess')
+        renderPage(App, req, res, 'deleteSuccess')
         return
       } else {
         req.flash('delete', i18n.t('delete.wrongUsername'))
@@ -610,11 +697,18 @@ export function setupChallenges(App) {
     res.redirect('/delete')
   })
 
-  App.express.get('/changepw', checkUser, (req, res) => {
+  App.express.get('/changepw', (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     if (App.config.noSelfAdmin.includes(req.user.name)) {
       return res.redirect('/map')
     }
-    res.renderPage({
+    renderPage(App, req, res, {
       page: 'changepw',
       props: {
         token: App.csrf.create(req),
@@ -624,7 +718,14 @@ export function setupChallenges(App) {
     })
   })
 
-  App.express.post('/changepw', checkUser, async (req, res) => {
+  App.express.post('/changepw', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
     const i18n = App.i18n.get(req.lng)
     const pw = req.body.pw || ''
     const newpw1 = req.body.newpw1 || ''
@@ -648,7 +749,7 @@ export function setupChallenges(App) {
           const password = await bcrypt.hash(newpw1, 8)
           req.user.password = password
           await req.user.save({ silent: true })
-          res.renderPage('changepwSuccess')
+          renderPage(App, req, res, 'changepwSuccess')
           return
         }
       }

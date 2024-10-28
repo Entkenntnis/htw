@@ -42,8 +42,8 @@ export function renderPage(App, req, res, opts) {
   const heading = opts.heading
     ? opts.heading
     : i18n.exists(page + '.heading')
-    ? t('heading')
-    : undefined
+      ? t('heading')
+      : undefined
 
   // REMARK prio 1: title, prio 2: title from page, prio 3: heading
   const title = opts.title
@@ -52,15 +52,15 @@ export function renderPage(App, req, res, opts) {
       (i18n.exists(page + '.title')
         ? ' - ' + t('title')
         : heading
-        ? ' - ' + heading
-        : '')
+          ? ' - ' + heading
+          : '')
 
   // REMARK: passing in content or content_ key will avoid using page!
   const content = opts.content
     ? opts.content
     : i18n.exists(page + '.content_')
-    ? t('content_')
-    : undefined
+      ? t('content_')
+      : undefined
 
   // REMARK: defaults to true
   const backButton = opts.backButton !== false

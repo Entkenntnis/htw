@@ -1068,8 +1068,8 @@ export const challengesAfterPassage = [
                   ? `&lt;a href="#${next}"&gt;weiter&lt;/a&gt;`
                   : `&lt;a href="#${next}"&gt;next&lt;/a&gt;`
                 : isGerman
-                ? `<a href="#${next}">weiter</a>`
-                : `<a href="#${next}">next</a>`
+                  ? `<a href="#${next}">weiter</a>`
+                  : `<a href="#${next}">next</a>`
             }</p>
           </div>
         `

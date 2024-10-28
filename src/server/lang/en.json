@@ -68,8 +68,8 @@
     "orderby": "Order by",
     "points": "Score",
     "pointsMonth": "Score (this month)",
-    "entries": "{{count}} entry",
-    "entries_plural": "{{count}} entries",
+    "entries_one": "{{count}} entry",
+    "entries_other": "{{count}} entries",
     "of": "of"
   },
   "create": {
@@ -134,8 +134,8 @@
   },
   "challenge": {
     "back": "back",
-    "solvedBy": "solved by {{count}} person",
-    "solvedBy_plural": "solved by {{count}} people",
+    "solvedBy_one": "solved by {{count}} person",
+    "solvedBy_other": "solved by {{count}} people",
     "continue": "continue",
     "correct": "is correct",
     "wrong": "is wrong",

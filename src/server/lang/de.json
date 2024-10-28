@@ -68,8 +68,8 @@
     "orderby": "Sortieren nach",
     "points": "Punktzahl",
     "pointsMonth": "Punktzahl (dieser Monat)",
-    "entries": "{{count}} Eintrag",
-    "entries_plural": "{{count}} Einträge",
+    "entries_one": "{{count}} Eintrag",
+    "entries_other": "{{count}} Einträge",
     "of": "von"
   },
   "create": {
@@ -134,8 +134,8 @@
   },
   "challenge": {
     "back": "zurück",
-    "solvedBy": "gelöst von {{count}} Person",
-    "solvedBy_plural": "gelöst von {{count}} Personen",
+    "solvedBy_one": "gelöst von {{count}} Person",
+    "solvedBy_other": "gelöst von {{count}} Personen",
     "continue": "weiter",
     "correct": "ist richtig",
     "wrong": "ist falsch",

@@ -263,8 +263,8 @@ export function setupDungeon(App) {
       session.state = isSafe
         ? 'safe'
         : session.isReturn
-        ? 'instadeath'
-        : 'combat'
+          ? 'instadeath'
+          : 'combat'
     })
   )
 
@@ -277,8 +277,8 @@ export function setupDungeon(App) {
       session.state = isSafe
         ? 'safe'
         : session.isReturn
-        ? 'instadeath'
-        : 'combat'
+          ? 'instadeath'
+          : 'combat'
     })
   )
 

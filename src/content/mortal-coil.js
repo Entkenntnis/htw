@@ -44,8 +44,8 @@ export function setupMortalCoil(App) {
       const playerLevel = isEditor
         ? maxLevel - 1
         : isNaN(fromDB)
-        ? 0
-        : Math.min(maxLevel - 1, fromDB)
+          ? 0
+          : Math.min(maxLevel - 1, fromDB)
 
       if (level > playerLevel) {
         return res.send('cannot submit to this level')
@@ -86,8 +86,8 @@ export function setupMortalCoil(App) {
     const playerLevel = isEditor
       ? maxLevel - 1
       : isNaN(fromDB)
-      ? 0
-      : Math.min(maxLevel - 1, fromDB)
+        ? 0
+        : Math.min(maxLevel - 1, fromDB)
     let level = isEditor ? 0 : playerLevel
 
     if (

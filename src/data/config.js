@@ -64,7 +64,10 @@ export const appConfig = {
     width: 3000,
     height: 2400,
     customMapHtml: (
-      /** @type {{App: import('./types.js').App, req: any}} */ { App, req }
+      /** @type {{App: import('./types.js').App, req: import('express').Request}} */ {
+        App,
+        req,
+      }
     ) => {
       const showDecodeMe =
         req.user &&

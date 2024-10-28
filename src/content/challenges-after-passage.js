@@ -2277,7 +2277,7 @@ print(hex_string)</pre></code>
     `,
     },
     check: (answer) => {
-      const output = runBrainfuck(answer.split(','))
+      const output = runBrainfuck(answer.split(''))
       return {
         answer: output,
         correct: output === secrets('chal_109'),

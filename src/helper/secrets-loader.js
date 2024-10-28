@@ -1,5 +1,5 @@
 import { secretValues as secretValues_ } from '../../secrets.js'
-import { secretValuesPlaceholders as secretValuesPlaceholders_ } from '../../secrets.placeholder.js'
+import { secretValues as secretValuesPlaceholders_ } from '../../secrets.placeholder.js'
 
 /** @type {{[key: string]: string}} */
 const secretValues = secretValues_

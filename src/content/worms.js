@@ -4,7 +4,17 @@ import { renderPage } from '../helper/render-page.js'
  * @param {import("../data/types.js").App} App
  */
 export function setupWorms(App) {
-  App.express.get('/worms', (req, res) => {
+  App.express.get('/worms', async (req, res) => {
+    // rare race conditions are possible, but shouldn't be tragic
+    let count = await App.storage.getItem('worms_counter_v0')
+    if (!count) {
+      count = '0'
+    }
+    await App.storage.setItem(
+      'worms_counter_v0',
+      (parseInt(count) + 1).toString()
+    )
+
     renderPage(App, req, res, {
       page: 'worms',
       heading: 'Worms',
@@ -12,6 +22,7 @@ export function setupWorms(App) {
       content: `
         <p><a href="/map">zurück</a></p>
 
+        <!-- Aufrufe: ${count} -->
         
         <script src="/worms/easel.js"></script>
         <script>
@@ -35,7 +46,7 @@ export function setupWorms(App) {
             //drawRect(100, 200, 400, 500, 'blue');
             
             // ein einzelner Text
-            drawText("Starten mit Enter", "100px Arial", '#00bc8c', 200, 500);
+            drawText("Starte mit Enter", "100px Arial", '#00bc8c', 200, 500);
             drawText("Rot: Steuerung mit WASD", "30px Arial", 'grey', 200, 700);
             drawText("Grün: Steuerung mit Pfeiltasten", "30px Arial", 'grey', 200, 750);
             

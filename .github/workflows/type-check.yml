@@ -3,10 +3,10 @@ name: Type Check
 on:
   push:
     branches:
-      - '**' # Gilt für alle Branches
+      - 'main'
   pull_request:
     branches:
-      - '**' # Gilt für alle Pull Requests auf allen Branches
+      - 'main'
 
 jobs:
   type-check:
@@ -20,6 +20,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20' # Setze auf die Node-Version, die dein Projekt benötigt
+
+      - name: Copy secrets placeholder
+        run: cp secrets.placeholder.js secrets.js
 
       - name: Install dependencies
         run: npm install

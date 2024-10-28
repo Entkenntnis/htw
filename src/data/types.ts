@@ -179,7 +179,26 @@ declare module 'express-session' {
     rooms?: string[]
     loginFail: boolean
     rates: { [key: string]: { count: number; lockedUntil: number } }
+    chal117?: DungeonData
   }
+}
+
+export interface DungeonData {
+  health: number
+  state:
+    | null
+    | 'choice'
+    | 'safe'
+    | 'chamber'
+    | 'done'
+    | 'combat'
+    | 'dices'
+    | 'death'
+    | 'instadeath'
+  hall: number
+  isReturn: boolean
+  choices: string[]
+  values: number[]
 }
 
 export type RenderPageOptions =

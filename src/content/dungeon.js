@@ -44,6 +44,11 @@ const strings = [
   ],
 ]
 
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {() => void} next
+ */
 function checkLogin(req, res, next) {
   if (!req.session || !req.session.userId) {
     return res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
@@ -51,16 +56,36 @@ function checkLogin(req, res, next) {
   return next()
 }
 
+/**
+ * @param {((data: import('../data/types.js').DungeonData) => void)} cb
+ */
 function updateSession(cb) {
-  return (req, res) => {
+  return (
+    /** @type {import('express').Request} */ req,
+    /** @type {import('express').Response} */ res
+  ) => {
     if (!req.session.chal117) {
-      req.session.chal117 = {}
+      req.session.chal117 = {
+        state: null,
+        choices: [],
+        hall: -1,
+        health: -1,
+        isReturn: false,
+        values: [],
+      }
     }
-    cb(req.session.chal117)
+    if (req.session.chal117) {
+      cb(req.session.chal117)
+    }
     return res.redirect('/chal117/dungeon')
   }
 }
 
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {string} html
+ */
 function render(req, res, html) {
   res.send(`
     <!doctype html>
@@ -85,6 +110,9 @@ function render(req, res, html) {
 // choices ('l'|'r')[]
 // isReturn undefined | true
 
+/**
+ * @param {import('../data/types.js').App} App
+ */
 export function setupDungeon(App) {
   App.express.get('/chal117/dungeon', checkLogin, (req, res) => {
     const s = strings.map((el) => el[req.lng == 'de' ? 0 : 1])

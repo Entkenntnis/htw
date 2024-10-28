@@ -1,6 +1,9 @@
 import { secrets } from '../helper/secrets-loader.js'
 import crypto from 'crypto'
 
+/**
+ * @param {string[]} program
+ */
 function runBrainfuck(program) {
   /** Interpreter variables */
   // Create a new 30,000-size array, with each cell initialized with the value of 0. Memory can expand.
@@ -17,6 +20,9 @@ function runBrainfuck(program) {
 
   let output = ''
 
+  /**
+   * @param {number} value
+   */
   function sendOutput(value) {
     output += String.fromCharCode(value)
   }
@@ -74,7 +80,7 @@ function runBrainfuck(program) {
         break
       case ']':
         //Pointer is automatically incremented every iteration, therefore, we must decrement to get the correct value
-        ipointer = astack.pop() - 1
+        ipointer = (astack.pop() ?? 1) - 1
         break
       case undefined: // We have reached the end of the program
         end = true
@@ -119,6 +125,7 @@ export const challengesAfterPassage = [
         }, 4000)
         try {
           const res = await fetch(answer, {
+            // @ts-expect-error might be non-standard to have this parameter here
             size: 1024 * 1024,
             redirect: 'manual',
             signal: controller.signal,
@@ -129,20 +136,33 @@ export const challengesAfterPassage = [
             value = value.substring(0, 1000) + '...'
           }
         } catch (error) {
-          if (error.message && error.message.includes('aborted')) {
-            value = 'Keine Antwort nach 4 Sekunden'
-          } else {
-            value = error.message
+          if (
+            typeof error == 'object' &&
+            error &&
+            'message' in error &&
+            typeof error.message == 'string'
+          ) {
+            if (error.message.includes('aborted')) {
+              value = 'Keine Antwort nach 4 Sekunden'
+            } else {
+              value = error.message
+            }
           }
         } finally {
           clearTimeout(timeout)
         }
       } catch (e) {
-        value = e.message
+        if (
+          typeof e == 'object' &&
+          e &&
+          'message' in e &&
+          typeof e.message == 'string'
+        )
+          value = e.message
       }
       return {
         answer: value,
-        correct: value === req.user.name,
+        correct: value === req.user?.name,
       }
     },
   },
@@ -520,7 +540,8 @@ export const challengesAfterPassage = [
         answer += decipher.final().toString()
         state = JSON.parse(answer)
       } catch (e) {
-        answer = e.message + ': ' + answer
+        if (typeof e == 'object' && e && 'message' in e)
+          answer = e.message + ': ' + answer
       }
       return {
         answer,
@@ -577,7 +598,8 @@ export const challengesAfterPassage = [
     },
     check: (input) => {
       let answer = input
-      let state = {}
+      /**  @type {{gold: number}} */
+      let state = { gold: -1 }
       try {
         const data = Buffer.from(input, 'base64').toString('binary')
         state = JSON.parse(data)
@@ -585,7 +607,15 @@ export const challengesAfterPassage = [
           return { answer: state.gold + ' Gold', correct: false }
         }
       } catch (e) {
-        answer = e.message
+        if (
+          typeof e == 'object' &&
+          e &&
+          'message' in e &&
+          typeof e.message == 'string'
+        )
+          answer = e.message
+
+        state = { gold: -1 }
       }
       return {
         answer,
@@ -747,7 +777,7 @@ export const challengesAfterPassage = [
     check: (answer, { req, App }) => {
       const str = parseInt(answer)
       const now = App.moment()
-      const registered = App.moment(req.user.createdAt)
+      const registered = App.moment(req.user?.createdAt)
       const diff = now.diff(registered, 'minutes')
       return {
         answer: str + ' Minuten',
@@ -1056,6 +1086,13 @@ export const challengesAfterPassage = [
     deps: [57],
     render: ({ req }) => {
       const isGerman = req.lng === 'de'
+      /**
+       * @param {string} title
+       * @param {string} id
+       * @param {string} letter
+       * @param {string} next
+       * @param {boolean} isBroken
+       */
       function generateSection(title, id, letter, next, isBroken) {
         return `
           <div style="margin-top:${Math.round(
@@ -2240,7 +2277,7 @@ print(hex_string)</pre></code>
     `,
     },
     check: (answer) => {
-      const output = runBrainfuck(answer)
+      const output = runBrainfuck(answer.split(','))
       return {
         answer: output,
         correct: output === secrets('chal_109'),

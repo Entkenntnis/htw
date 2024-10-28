@@ -1,4 +1,4 @@
-import { getLng } from './helper.js'
+import { getLng, getUser } from './helper.js'
 
 /**
  * Helper around setting up everything
@@ -6,16 +6,16 @@ import { getLng } from './helper.js'
  * @param {import("../data/types.js").App} App
  * @param {import("express").Request} req
  * @param {import("express").Response} res
- * @param {any} opts
+ * @param {string | {page: string, user?: import('../data/types.js').IUser, backHref?: string, props?: object, heading?: string, title?: string, content?: string, backButton?: boolean, outsideOfContainer?: boolean}} opts
  */
 export function renderPage(App, req, res, opts) {
   // REMARK: allow passing in string only
-  const page = opts.page || opts
+  const page = typeof opts == 'string' ? opts : opts.page
 
   const i18n = App.i18n.get(getLng(req))
 
   // REMARK: automatically prefix page or 'share'
-  const t = function (key, opts) {
+  const t = function (/** @type {string} */ key, /** @type {any} */ opts) {
     const pageKey = page + '.' + key
     if (i18n.exists(pageKey)) {
       return i18n.t(pageKey, opts)
@@ -34,41 +34,44 @@ export function renderPage(App, req, res, opts) {
   const locale = getLng(req)
   const brand = App.config.brand
 
-  const user = opts.user || req.user
-  const backHref = opts.backHref || '/'
-  const props = opts.props || {}
+  const user = (typeof opts == 'object' && opts.user) || getUser(req)
+  const backHref = (typeof opts == 'object' && opts.backHref) || '/'
+  const props = (typeof opts == 'object' && opts.props) || {}
 
   // REMARK: take heading option, otherwise translate it
-  const heading = opts.heading
-    ? opts.heading
-    : i18n.exists(page + '.heading')
-      ? t('heading')
-      : undefined
+  const heading =
+    typeof opts == 'object' && opts.heading
+      ? opts.heading
+      : i18n.exists(page + '.heading')
+        ? t('heading')
+        : undefined
 
   // REMARK prio 1: title, prio 2: title from page, prio 3: heading
-  const title = opts.title
-    ? opts.title
-    : brand +
-      (i18n.exists(page + '.title')
-        ? ' - ' + t('title')
-        : heading
-          ? ' - ' + heading
-          : '')
+  const title =
+    typeof opts == 'object' && opts.title
+      ? opts.title
+      : brand +
+        (i18n.exists(page + '.title')
+          ? ' - ' + t('title')
+          : heading
+            ? ' - ' + heading
+            : '')
 
   // REMARK: passing in content or content_ key will avoid using page!
-  const content = opts.content
-    ? opts.content
-    : i18n.exists(page + '.content_')
-      ? t('content_')
-      : undefined
+  const content =
+    typeof opts == 'object' && opts.content
+      ? opts.content
+      : i18n.exists(page + '.content_')
+        ? t('content_')
+        : undefined
 
   // REMARK: defaults to true
-  const backButton = opts.backButton !== false
+  const backButton = (typeof opts == 'object' && opts.backButton) !== false
 
   // REMARK: prefix default pages with view directory
   const pagePath = page.includes('/') ? page : './pages/' + page
 
-  const outsideOfContainer = opts.outsideOfContainer
+  const outsideOfContainer = typeof opts == 'object' && opts.outsideOfContainer
   res.render('main', {
     locale,
     brand,

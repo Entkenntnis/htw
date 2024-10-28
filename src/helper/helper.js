@@ -51,3 +51,12 @@ export function getLng(req) {
 export function getSession_any(req) {
   return /** @type {any} */ (req).session
 }
+
+/**
+ *
+ * @param {import('express').Request} req
+ * @returns {import('../data/types.js').IUser | null}
+ */
+export function getUser(req) {
+  return /** @type {any} */ (req).user
+}

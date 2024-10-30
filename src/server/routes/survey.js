@@ -187,22 +187,22 @@ export function setupSurvey(App) {
           <tr>
             <td>Mehr Lernen von Hacking</td>
             <td>${counts.learnmore.no}</td>
-            <td>${counts.learnmore.yes}</td>
+            <td>${counts.learnmore.yes} (${Math.round((counts.learnmore.yes * 100) / ENT.length)}%)</td>
           </tr>
           <tr>
             <td>Kreativer</td>
             <td>${counts.morecreative.no}</td>
-            <td>${counts.morecreative.yes}</td>
+            <td>${counts.morecreative.yes} (${Math.round((counts.morecreative.yes * 100) / ENT.length)}%)</td>
           </tr>
           <tr>
             <td>Start ohne Vorwissen möglich</td>
             <td>${counts.easystart.no}</td>
-            <td>${counts.easystart.yes}</td>
+            <td>${counts.easystart.yes} (${Math.round((counts.easystart.yes * 100) / ENT.length)}%)</td>
           </tr>
           <tr>
             <td>Weiterempfehlung</td>
             <td>${counts.recommend.no}</td>
-            <td>${counts.recommend.yes}</td>
+            <td>${counts.recommend.yes} (${Math.round((counts.recommend.yes * 100) / ENT.length)}%)</td>
           </tr>
         </table>
       `

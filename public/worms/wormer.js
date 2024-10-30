@@ -382,8 +382,8 @@ function createDemoBot() {
           newPosition.myPreviousDir = position.myLastDir
           newPosition.myLastDir = dir
           return [
-            minimax(newPosition, depth - 1, !isMyTurn)[0] +
-              (top && position.myLastDir == dir ? 0.1 : 0),
+            minimax(newPosition, depth - 1, !isMyTurn)[0], //+
+            // (top && position.myLastDir == dir ? 0.1 : 0),
             dir,
           ] // only care about eval
         })
@@ -417,7 +417,7 @@ function createDemoBot() {
 
     const bestMove = minimax(
       { board, myX: x, myY: y, redX: enemyX, redY: enemyY, myLastDir: dir },
-      3,
+      1,
       true,
       true
     )

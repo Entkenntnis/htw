@@ -3,7 +3,7 @@ import { renderPage } from '../helper/render-page.js'
 const levels = [
   {
     id: 1,
-    name: 'A01',
+    name: 'TS01',
     ranks: [1, 2, 4],
     value: `// Zahlen sind Zahlen, Texte sind Texte
 const zahl: number = 10
@@ -17,7 +17,7 @@ console.log(unentschlossen)`,
   },
   {
     id: 2,
-    name: 'A02',
+    name: 'TS02',
     ranks: [1, 2, 3],
     value: `// Schrödingers Text
 const vielleichtText: string | null = Math.random() < 0.5 ? 'juhu!' : null
@@ -29,7 +29,7 @@ console.log(sicherText)`,
   },
   {
     id: 3,
-    name: 'A03',
+    name: 'TS03',
     ranks: [1, 3, 6],
     value: `interface Datum {
   tag: number
@@ -42,6 +42,15 @@ const damals: Datum = {
   tag: 2,
   jahr: 1995,
 }`,
+  },
+  {
+    id: 4,
+    name: 'TS04',
+    ranks: [2, 4, 7],
+    value: `Keine Hoffnung mehr für diesen Code.
+Ich weiß nicht was ich mehr machen soll.
+
+Help`,
   },
 ]
 
@@ -220,7 +229,7 @@ var levenshtein = (function()
             scrollBeyondLastLine: false,
             padding: {
               top: 10
-            }
+            },
           });
 
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({

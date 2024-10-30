@@ -1,1 +1,4 @@
-public 
+public/**/*.js
+
+!public/worms/worms.js
+!public/worms/wormer.js

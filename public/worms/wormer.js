@@ -233,293 +233,80 @@ function createKeyboardPlayer(up, right, down, left) {
 
 function createDemoBot() {
   const offsets = [
-    [0, -1],
-    [1, 0],
-    [0, 1],
-    [-1, 0],
+    [0, -1], // Oben
+    [1, 0], // Rechts
+    [0, 1], // Unten
+    [-1, 0], // Links
   ]
 
-  function AI(dx, dy, board, x, y, dir, enemyX, enemyY) {
+  function bfs(board, startX, startY, dx, dy) {
+    const distances = Array.from({ length: dx }, () => Array(dy).fill(Infinity))
+    const queue = []
+    let head = 0
+
+    distances[startX][startY] = 0
+    queue.push({ x: startX, y: startY })
+
+    while (head < queue.length) {
+      const { x, y } = queue[head++]
+      const dist = distances[x][y]
+
+      for (const [dxOff, dyOff] of offsets) {
+        const nx = x + dxOff
+        const ny = y + dyOff
+
+        if (board[nx][ny] === 0 && distances[nx][ny] === Infinity) {
+          distances[nx][ny] = dist + 1
+          queue.push({ x: nx, y: ny })
+        }
+      }
+    }
+    return distances
+  }
+
+  function AI(dx, dy, board, x, y, dir, oppX, oppY) {
     console.time('demo bot')
 
-    function evaluatePosition(position) {
-      const { board, myX, myY, redX, redY } = position
-      const myDistances = JSON.parse(JSON.stringify(board)) // make copy because I will override it
-      const redDistances = JSON.parse(JSON.stringify(board)) // make copy because I will override it
+    const availableMoves = [0, 1, 2, 3].filter(
+      (dir) => board[x + offsets[dir][0]][y + offsets[dir][1]] == 0
+    )
+    if (availableMoves.length == 0) return 0 // dead
+    if (availableMoves.length == 1) return availableMoves[0] // force
 
-      function bfs(board, x, y) {
-        const queue = [{ x, y, dist: -2 }]
-        let reachableCells = 0
-        // Start flood-fill using BFS
-        while (queue.length > 0) {
-          const { x, y, dist } = queue.shift()
+    // Now we have 2 or 3 choices
+    // Start with calculating opp distances
+    const oppDistances = bfs(board, oppX, oppY, dx, dy)
 
-          // Skip if the cell is out of bounds or blocked
-          if (board[x][y] !== 0 && dist < -2) continue
+    const evals = availableMoves.map((moveDir) => {
+      const nx = x + offsets[moveDir][0]
+      const ny = y + offsets[moveDir][1]
 
-          // Mark the cell with the current distance
-          board[x][y] = dist
-          reachableCells++
+      // Distanzen vom neuen Standpunkt nach dem Zug
+      const myDistances = bfs(board, nx, ny, dx, dy)
 
-          // Enqueue all neighboring cells with incremented distance
-          for (const [dx, dy] of offsets) {
-            queue.push({ x: x + dx, y: y + dy, dist: dist - 1 })
-          }
-        }
-        return reachableCells
-      }
+      let score = 0
 
-      const myCells = bfs(myDistances, myX, myY)
-      const redCells = bfs(redDistances, redX, redY)
+      for (let ix = 0; ix < dx; ix++) {
+        for (let iy = 0; iy < dy; iy++) {
+          const myDist = myDistances[ix][iy]
+          const oppDist = oppDistances[ix][iy]
 
-      // console.log(myDistances, redDistances)
-
-      let meCloser = 0
-      let redCloser = 0
-      let tie = 0
-
-      for (let x = 0; x < dx; x++) {
-        for (let y = 0; y < dy; y++) {
-          if (myDistances[x][y] < -2 && redDistances[x][y] < -2) {
-            if (myDistances[x][y] == redDistances[x][y]) {
-              tie++
-            } else if (
-              Math.abs(myDistances[x][y]) > Math.abs(redDistances[x][y])
-            ) {
-              redCloser++
-            } else {
-              meCloser++
-            }
-          } else if (myDistances[x][y] < -2) {
-            meCloser++
-          } else if (redDistances[x][y]) {
-            redCloser++
+          if (myDist !== Infinity && oppDist !== Infinity) {
+            score += Math.sign(oppDist - myDist)
+          } else if (myDist !== Infinity) {
+            score++
+          } else if (oppDist !== Infinity) {
+            score--
           }
         }
       }
+      return [score, moveDir]
+    })
 
-      //console.log(meCloser, redCloser, tie)
-
-      // return 0
-
-      /*let equalSpace = false
-      function countConnectedZeros(board, x, y, countForRed) {
-        if (countForRed) {
-          if (x == myX && y == myY) {
-            equalSpace = true
-            return 0
-          }
-        }
-        if (!countForRed) {
-          if (x == redX && y == redY) {
-            equalSpace = true
-            return 0
-          }
-        }
-
-        // Base case: if out of bounds or not on a free cell (0), return 0.
-        if (board[x][y] !== 0) {
-          return 0
-        }
-
-        // Temporarily mark the cell as visited by setting it to a non-zero value.
-        board[x][y] = -1
-
-        // Count this cell, and recursively count all 4 adjacent cells.
-        return (
-          1 +
-          countConnectedZeros(board, x + 1, y, countForRed) + // Down
-          countConnectedZeros(board, x - 1, y, countForRed) + // Up
-          countConnectedZeros(board, x, y + 1, countForRed) + // Right
-          countConnectedZeros(board, x, y - 1, countForRed)
-        ) // Left
-      }
-      const mySpace =
-        countConnectedZeros(floodFillBoard, myX + 1, myY, false) + // Down
-        countConnectedZeros(floodFillBoard, myX - 1, myY, false) + // Up
-        countConnectedZeros(floodFillBoard, myX, myY + 1, false) + // Right
-        countConnectedZeros(floodFillBoard, myX, myY - 1, false)
-
-      let redSpace = mySpace
-      if (!equalSpace) {
-        redSpace =
-          countConnectedZeros(floodFillBoard, redX + 1, redY, true) + // Down
-          countConnectedZeros(floodFillBoard, redX - 1, redY, true) + // Up
-          countConnectedZeros(floodFillBoard, redX, redY + 1, true) + // Right
-          countConnectedZeros(floodFillBoard, redX, redY - 1, true)
-      }*/
-
-      const spaceADV = meCloser - redCloser
-
-      // tie breaker
-      //let tieBreaker = position.myLastDir == position.myPreviousDir ? 0.1 : 0
-
-      return spaceADV //+ tieBreaker
-    }
-
-    function availableMoves(board, x, y) {
-      return [0, 1, 2, 3].filter(
-        (dir) => board[x + offsets[dir][0]][y + offsets[dir][1]] == 0
-      )
-    }
-
-    function minimax(position, depth, isMyTurn, top) {
-      if (depth == 0) {
-        return [evaluatePosition(position), -1]
-      }
-      if (isMyTurn) {
-        const dirs = availableMoves(position.board, position.myX, position.myY)
-        if (dirs.length == 0) {
-          return [-Infinity, -1]
-        }
-        const evals = dirs.map((dir) => {
-          const newPosition = JSON.parse(JSON.stringify(position))
-          const nx = position.myX + offsets[dir][0]
-          const ny = position.myY + offsets[dir][1]
-          newPosition.board[nx][ny] = 2
-          newPosition.myX = nx
-          newPosition.myY = ny
-          newPosition.myPreviousDir = position.myLastDir
-          newPosition.myLastDir = dir
-          return [
-            minimax(newPosition, depth - 1, !isMyTurn)[0], //+
-            // (top && position.myLastDir == dir ? 0.1 : 0),
-            dir,
-          ] // only care about eval
-        })
-        evals.sort((a, b) => b[0] - a[0])
-
-        // console.log('evals of red', evals)
-        return evals[0]
-      } else {
-        const dirs = availableMoves(
-          position.board,
-          position.redX,
-          position.redY
-        )
-        if (dirs.length == 0) {
-          return [Infinity, -1]
-        }
-        const evals = dirs.map((dir) => {
-          const newPosition = JSON.parse(JSON.stringify(position))
-          const nx = position.redX + offsets[dir][0]
-          const ny = position.redY + offsets[dir][1]
-          newPosition.board[nx][ny] = 1
-          newPosition.redX = nx
-          newPosition.redY = ny
-          return [minimax(newPosition, depth - 1, !isMyTurn)[0], dir] // only care about eval
-        })
-        evals.sort((a, b) => a[0] - b[0])
-        // console.log('evals of green', evals)
-        return evals[0]
-      }
-    }
-
-    const bestMove = minimax(
-      { board, myX: x, myY: y, redX: enemyX, redY: enemyY, myLastDir: dir },
-      1,
-      true,
-      true
-    )
-    console.log(bestMove[0])
-
-    /*function countConnectedZeros(board, x, y) {
-      // Base case: if out of bounds or not on a free cell (0), return 0.
-      if (board[x][y] !== 0) {
-        return 0
-      }
-
-      // Temporarily mark the cell as visited by setting it to a non-zero value.
-      board[x][y] = -1
-
-      // Count this cell, and recursively count all 4 adjacent cells.
-      return (
-        1 +
-        countConnectedZeros(board, x + 1, y) + // Down
-        countConnectedZeros(board, x - 1, y) + // Up
-        countConnectedZeros(board, x, y + 1) + // Right
-        countConnectedZeros(board, x, y - 1)
-      ) // Left
-    }*/
-
-    /*function countConnectedZerosAround(board, x, y) {
-      if (board[x][y] < 0) return 0 // wall
-      return (
-        countConnectedZeros(board, x + 1, y) + // Down
-        countConnectedZeros(board, x - 1, y) + // Up
-        countConnectedZeros(board, x, y + 1) + // Right
-        countConnectedZeros(board, x, y - 1)
-      ) // Left
-    }*/
-
-    /*function findBestForGreen(board, x, y, greenLastDir) {
-      const counts = [0, 1, 2, 3].map((i) => {
-        const boardCopy = JSON.parse(JSON.stringify(board))
-        const nx = x + offsets[i][0]
-        const ny = y + offsets[i][1]
-        if (boardCopy[nx][ny] != 0) {
-          return -Infinity
-        } else {
-          boardCopy[nx][ny] = 2 // mark
-          return evaluatePosition(boardCopy, nx, ny)
-        }
-      })
-      console.log(counts)
-      const best = Math.max(...counts)
-      const bestDir = counts[dir] == best ? dir : counts.indexOf(best)
-      return [bestDir, best]
-    }
-
-    function fromRedPerspective(board, x, y) {
-      const counts = [0, 1, 2, 3].map((i) => {
-        const boardCopy = JSON.parse(JSON.stringify(board))
-        const nx = x + offsets[i][0]
-        const ny = y + offsets[i][1]
-        if (boardCopy[nx][ny] != 0) {
-          return Infinity
-        } else {
-          boardCopy[nx][ny] = 3 // mark
-          return evaluatePosition(boardCopy, nx, ny)
-        }
-      })
-      console.log(counts)
-      const best = Math.min(...counts)
-      const bestDir = counts[dir] == best ? dir : counts.indexOf(best)
-    }
-
-    const [newDir, best] = findBestForGreen(board, x, y, dir)
-
-    console.log(dir, best)
-
-    dir = newDir
-
-    /*const frontFree = countConnectedZeros(
-      JSON.parse(JSON.stringify(board)),
-      x + offsets[dir][0],
-      y + offsets[dir][1]
-    )
-
-    const leftFree = countConnectedZeros(
-      JSON.parse(JSON.stringify(board)),
-      x + offsets[(dir + 3) % 4][0],
-      y + offsets[(dir + 3) % 4][1]
-    )
-    const rightFree = countConnectedZeros(
-      JSON.parse(JSON.stringify(board)),
-      x + offsets[(dir + 1) % 4][0],
-      y + offsets[(dir + 1) % 4][1]
-    )
-    const best = Math.max(frontFree, leftFree, rightFree)
-    if (frontFree !== best) {
-      if (best == leftFree) {
-        dir = (dir + 3) % 4
-      } else if (best == rightFree) {
-        dir = (dir + 1) % 4
-      }
-    }*/
-
+    evals.sort((a, b) => b[0] - a[0])
+    console.log('eval:', evals[0][0])
     console.timeEnd('demo bot')
-    return bestMove[1]
+    return evals[0][1]
   }
 
   return AI

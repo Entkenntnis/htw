@@ -14,18 +14,12 @@ export function setupEnough(App) {
       'enough_counter_v0',
       (parseInt(count) + 1).toString()
     )
-
-    let count2 = await App.storage.getItem('enough_long_counter_v0')
-
     renderPage(App, req, res, {
       page: 'enough',
       heading: 'Enough',
       backButton: false,
       content: `
         <p><a href="/map">zurück</a></p>
-
-        <!-- Aufrufe: ${count} -->
-        <!-- länger verweilt (5min): ${count2} -->
 
         <p style="margin-bottom:48px; margin-top:36px; max-width: 65ch; ">Du gehst in die Bibliothek von Hack The Web. Du nimmst ein Buch aus dem Regal und beginnst zu lesen.</p>
 

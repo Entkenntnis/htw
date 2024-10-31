@@ -239,8 +239,21 @@ function createDemoBot() {
     [-1, 0], // Links
   ]
 
-  function bfs(board, startX, startY, dx, dy) {
-    const distances = Array.from({ length: dx }, () => Array(dy).fill(Infinity))
+  const oppDistances = []
+  const myDistances = []
+
+  for (let x = 0; x < 74; x++) {
+    let row1 = []
+    let row2 = []
+    for (let y = 0; y < 42; y++) {
+      row1.push(Infinity)
+      row2.push(Infinity)
+    }
+    oppDistances.push(row1)
+    myDistances.push(row2)
+  }
+
+  function bfs(board, startX, startY, distances) {
     const queue = []
     let head = 0
 
@@ -261,7 +274,6 @@ function createDemoBot() {
         }
       }
     }
-    return distances
   }
 
   function AI(dx, dy, board, x, y, dir, oppX, oppY) {
@@ -275,14 +287,14 @@ function createDemoBot() {
 
     // Now we have 2 or 3 choices
     // Start with calculating opp distances
-    const oppDistances = bfs(board, oppX, oppY, dx, dy)
+    bfs(board, oppX, oppY, oppDistances)
 
-    const evals = availableMoves.map((moveDir) => {
+    const evals = availableMoves.map((moveDir, i) => {
       const nx = x + offsets[moveDir][0]
       const ny = y + offsets[moveDir][1]
 
       // Distanzen vom neuen Standpunkt nach dem Zug
-      const myDistances = bfs(board, nx, ny, dx, dy)
+      bfs(board, nx, ny, myDistances)
 
       let score = 0
 
@@ -298,11 +310,15 @@ function createDemoBot() {
           } else if (oppDist !== Infinity) {
             score--
           }
+          // reset
+          myDistances[ix][iy] = Infinity
+          if (i == availableMoves.length - 1) {
+            oppDistances[ix][iy] = Infinity
+          }
         }
       }
       return [score, moveDir]
     })
-
     evals.sort((a, b) => b[0] - a[0])
     console.log('eval:', evals[0][0])
     console.timeEnd('demo bot')

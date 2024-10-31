@@ -189,8 +189,8 @@ export function setupWorms(App) {
 
         <script>
         QJS.getQuickJS().then((QuickJS) => {
-          // createKeyboardPlayer('w', 'd', 's', 'a') //
-          const red =  createSandboxedBot(QuickJS, \`${bot2}\`)
+          // 
+          const red =  createKeyboardPlayer('w', 'd', 's', 'a') //createSandboxedBot(QuickJS, \`${''}\`)
 
           const green = createDemoBot()
 

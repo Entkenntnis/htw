@@ -277,7 +277,7 @@ function createDemoBot() {
   }
 
   function AI(dx, dy, board, x, y, dir, oppX, oppY) {
-    console.time('demo bot')
+    // console.time('demo bot')
 
     const availableMoves = [0, 1, 2, 3].filter(
       (dir) => board[x + offsets[dir][0]][y + offsets[dir][1]] == 0
@@ -321,9 +321,28 @@ function createDemoBot() {
     })
     evals.sort((a, b) => b[0] - a[0])
     console.log('eval:', evals[0][0])
-    console.timeEnd('demo bot')
+    // console.timeEnd('demo bot')
     return evals[0][1]
   }
 
+  return AI
+}
+
+function createSandboxedBot(QuickJS, src) {
+  const runtime = QuickJS.newRuntime()
+  const ctx = runtime.newContext()
+  ctx.evalCode(src)
+
+  function AI(dx, dy, board, x, y, dir, oppX, oppY) {
+    console.time('sandbox')
+
+    const thinkCallScript = `
+      think(${dx}, ${dy}, ${JSON.stringify(board)}, ${x}, ${y}, ${dir}, ${oppX}, ${oppY});
+    `
+    const id = ctx.unwrapResult(ctx.evalCode(thinkCallScript))
+
+    console.timeEnd('sandbox')
+    return ctx.getNumber(id)
+  }
   return AI
 }

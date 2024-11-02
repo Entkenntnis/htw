@@ -4,18 +4,79 @@ import escapeHTML from 'escape-html'
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
-  27: {
+  17: {
+    entries: [
+      {
+        question: 'Ich checks ned - ich hab alles rückwärts eingegeben',
+        answer: 'Versuch mal nur die Reihenfolge der Wörter zu verändern',
+      },
+    ],
+  },
+  41: {
     entries: [
       {
         question:
-          'Ich habe leider keine ahnung was ich mit dieser aufgabe anfangen soll, hat jemand einen tipp?',
+          'Hallo zusammen, ich habe die Schwierigkeiten, den Aufgabentext zu ergreifen. Unter “Querlesen” verstehe ich, dass man den Text diagonal überfliegen soll. Kann jemand mir hinweisen, ob die Antwort mit der Bedeutung vom Gedicht verwandt ist, oder die Buchstaben im Gedicht versteckt sind? Ich habe das Gedicht auf beide Englisch und Deutsch gelesen, habe ich trotzdem gar keine Idee, was ich machen soll. Danke 🙂 (Ich bin kein Deutscher Muttersprachler.',
         answer:
-          'Punkte leuchten auf, wenn du mit der Maus rüberfährst. Nutze danach die Blindenschrift wie in der Aufgabe angegeben.',
+          'Es geht um die Buchstaben, aber sie sind nicht wirklich versteckt, versuch es mal mit einer unüblichen Leserichtung.',
+      },
+      {
+        question: 'Ist die Antwort ein deutsches Wort?',
+        answer: 'Normalerweise schon und es ist echt leicht zu erkennen',
+      },
+    ],
+  },
+  49: {
+    entries: [
+      {
+        question:
+          'Hi! Könnte mir jemand sagen wo ich mich einlesen kann, um zu wissen wie ich die Aufgabe lösen soll? Ich hab versucht online Tools zu benutzen, aber ich finde keine Seite wo ich ein Padding einstelllen kann...',
+        answer:
+          'Ein Tool, das in der Community gerne genutzt wird, ist <a href="https://github.com/gchq/CyberChef" target="_blank">https://github.com/gchq/CyberChef</a> - dort with automatisch das korrekte Padding gesetzt.',
       },
       {
         question:
-          'Hallo ich habe so weit es geht alle mir erdenklich Buchstaben und Zeichen wie / oder „ verwendet aber ich komme nicht auf die Lösung',
-        answer: 'Nutze das Verfahren, das in der Aufgabe vogestellt wurde',
+          'Ich habe den Spielstand decrypted und bekam einen JSON-String den ich verändert habe um 999999 Gold zu haben. Nun das ganze wieder verschlüsselt und folgenden String erhalten: cc76663b7d1e97ea2455b1c25676f447120eec76d9f72831a45f47d56edd58d065aea737bba41bbf0d368603e6c231c3.<br/>Wenn ich diesen aber eingebe, bekomme ich folgenden Fehler: \'error:1C800064:Provider routines::bad decrypt: {"player":"John","gold":999999}\' ist falsch<br/>Ist das ein fehler im Backend oder warum bekomme ich hier IM WEB einen nodejs-crypto-fehler?',
+        answer:
+          'Hast du an das Padding gedacht? Und wenn ja, hast du den richtigen Wert verwendet?',
+      },
+      {
+        question:
+          'Ich habe ein Problem mit dieser Aufgabe. Egal welches tool ich verwende, es sagt mir, dass der secret key mit AES 128 maximal 16 characters lang sein darf (habe ECB und padding verwendet). Der Key in der Aufgabe ist aber mindestens doppelt so lang. (verstehe nicht viel davon aber würde es trotzdem gerne lösen)',
+        answer:
+          'Der Key in der Aufgabe hat genau 16 Byte, wenn er dir länger erscheint, dann solltest du ihn dir noch mal genauer anschauen.',
+      },
+    ],
+  },
+  59: {
+    entries: [
+      {
+        question: 'Was muss man hier machen hier ist alles durcheinander',
+        answer:
+          'Schaue mal, ob du das eine oder andere Wort erraten kannst und vertausche dafür ein paar Buchstaben - dann ergeben sich die nächsten Wörter usw',
+      },
+    ],
+  },
+  62: {
+    entries: [
+      {
+        question:
+          'hey, könnte mir wer ein kleinen Hinweis geben, komme nämlich nicht weiter. danke 🙂',
+        answer: 'bild.txt ist doch in sich schon etwas widersprüchlich',
+      },
+    ],
+  },
+  98: {
+    entries: [
+      {
+        question:
+          'Kann mir irgendwer helfen? Ich weis nicht wie man sowas macht',
+        answer:
+          'lies dir mal das durch <a href="https://www.w3schools.com/sql/sql_injection.asp" target="_blank">https://www.w3schools.com/sql/sql_injection.asp</a>',
+      },
+      {
+        question: 'Sollte nicht das % alles anzeigen?',
+        answer: 'Dafür brauchst du statt = den LIKE-Operator',
       },
     ],
   },
@@ -29,6 +90,16 @@ export const hintsData = {
       },
     ],
   },
+  305: {
+    entries: [
+      {
+        question:
+          'Ich komme hier nicht mehr weiter. Ich versuche es zu entschlüsseln aber es kommt keine Antwort raus.',
+        answer:
+          '<a href="https://gchq.github.io/CyberChef/" target="_blank">https://gchq.github.io/CyberChef/</a> - probier doch mal alles durch, vielleicht findest du ja etwas. Ansonsten gibt es noch "Magic".',
+      },
+    ],
+  },
   311: {
     entries: [
       {
@@ -39,20 +110,38 @@ export const hintsData = {
       {
         question:
           'Hey Leute, ich habe jetzt schon selbst Brainfuck Interpreter geschrieben und die von anderen ausprobiert, aber nichts funktioniert.',
-        answer: 'Guck dir den Aufgaben Titel noch mal genau an',
+        answer: 'Guck dir den Aufgaben-Titel noch mal genau an',
       },
 
       {
         question:
           'Ich glaube, ich habe den korrekten Code herausgefunden, aber jeglicher Decoder dafür kann es nicht "unfucken". Was mache ich noch verkehrt?',
         answer:
-          'Du musst den code nicht "unfucken" damit er funktioniert, der code gibt undefined zurück aber er sollte auch etwas in die Konsole schreiben',
+          'Du musst den Code nicht "unfucken" damit er funktioniert, der code gibt undefined zurück aber er sollte auch etwas in die Konsole schreiben',
       },
 
       {
         question: 'Ich verstehe den Code immer noch nicht',
         answer:
           'Als Mensch kann man den Code auch nicht verstehen ;D Sobald du rausgefunden hast um welche Sprache es sich handelt musst du ihn ja einfach in einer entsprechenden Umgebung ausführen',
+      },
+    ],
+  },
+  314: {
+    entries: [
+      {
+        question: 'wenn ich mit dem Torbrowser die Seite öffne kommt ein Error',
+        answer: 'Ist evtl. der Punkt am Ende deiner URL zuviel?',
+      },
+    ],
+  },
+  336: {
+    entries: [
+      {
+        question:
+          'Ich hab wirklich alles versucht was mir in den Kopf gekommen ist aber ich komm nicht drauf. Hänge schon seit ein paar Wochen an der Aufgabe. Kann mir jemand einen kleinen Tipp geben. 😅',
+        answer:
+          'Die Antwort ist einfacher als man denkt. Überlege mal zu welcher Block-Kategorie die dargestellten Items gehören',
       },
     ],
   },

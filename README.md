@@ -32,6 +32,10 @@ Depending on how you host the project, other requirements may arise. Feel free t
 
 ## Changelog
 
+### 1.1.0
+
+- Add new hint system
+
 ### 1.0.0
 
 - Moving challenges-server into this repo and remove separation

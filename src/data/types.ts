@@ -42,6 +42,7 @@ export interface App {
   }
   challenges: {
     data: HtwChallenge[]
+    dataMap: { [key: number]: HtwChallenge }
     distance: { [key: number]: number }
   }
   storage: {
@@ -230,4 +231,8 @@ export interface WormsReplay {
   dirGreen: number
 
   dirs: number[]
+}
+
+export type HintsData = {
+  [key: number]: { entries: { question: string; answer: string }[] }
 }

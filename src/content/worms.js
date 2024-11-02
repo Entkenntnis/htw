@@ -302,11 +302,15 @@ export function setupWorms(App) {
       heading: 'Worms',
       backButton: false,
       content: `
+        <p><a href="/map">zurück</a></p>
+
         <script src="/worms/wormer.js"></script>
 
         <p>Steuerung rot: Wasd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Steuerung grün: Pfeiltasten&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start/Neustart: ENTER</p>
 
         <div id="board"></div>
+        
+        <div style="height:70px"></div>
 
         <script>
           const red = createKeyboardPlayer('w', 'd', 's', 'a')

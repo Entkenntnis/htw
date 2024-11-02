@@ -142,8 +142,4 @@ export const appConfig = {
     timespan: 3, // min
     requests: 250,
   },
-  hintPage: {
-    url: '/hints',
-    label: 'Hinweise',
-  },
 }

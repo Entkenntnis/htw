@@ -937,16 +937,6 @@ export function getI18nExtension() {
       
       
       
-      <div class="my-5"></div>
-      
-      <p>Weitere nützliche Seiten:
-        <ul>
-          <li><a href="/contact">Kontakt / Impressum</a></li>
-          <li><a href="/privacy">Datenschutzerklärung</a></li>
-          <li><a href="/news">Neuigkeiten</a></li>
-          <li><a href="/links">Links</a></li>
-        </ul>
-      </p>
     `,
   })
   values.push({

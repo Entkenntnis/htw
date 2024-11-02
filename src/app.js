@@ -35,6 +35,7 @@ import { setupEnough } from './content/enough.js'
 import { setupWorms } from './content/worms.js'
 
 import { _deprecated__setupDecodeMe } from './content/decode-me-deprecated.js'
+import { setupHints } from './server/routes/hints.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -72,6 +73,7 @@ setupStaticPages(preApp)
 setupUser(preApp)
 setupChallenges(preApp)
 setupHtw(App)
+setupHints(App)
 
 setupChallengesServer(App)
 setupSurvey(App)

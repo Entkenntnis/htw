@@ -1,6 +1,7 @@
 import { Op, Transaction } from 'sequelize'
 import bcrypt from 'bcryptjs'
 import { renderPage } from '../../helper/render-page.js'
+import { hintsData } from './hints.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -472,6 +473,10 @@ export function setupChallenges(App) {
 
     const author = challenge.author
 
+    const hintsCount = hintsData[challenge.id]
+      ? hintsData[challenge.id].entries.length
+      : 0
+
     renderPage(App, req, res, {
       page: 'challenge',
       props: {
@@ -485,6 +490,7 @@ export function setupChallenges(App) {
         lastSolved,
         lastSolvedUserName,
         author,
+        hintsCount,
       },
       backButton: false,
       title: challengeTitle,
@@ -544,6 +550,7 @@ export function setupChallenges(App) {
         rank,
         sum,
       },
+      backButton: false,
     })
   })
 

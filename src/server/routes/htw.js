@@ -13,12 +13,6 @@ export function setupHtw(App) {
     })
   })
 
-  App.express.get('/hints', (req, res) => {
-    renderPage(App, req, res, {
-      page: 'hints',
-    })
-  })
-
   App.express.get('/links', (req, res) => {
     renderPage(App, req, res, {
       page: 'links',

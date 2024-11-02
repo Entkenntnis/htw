@@ -1,6 +1,7 @@
 
 <%- include('../languagePicker', {t, App, locale}) %>
 
+<p style="margin-top: -24px; margin-bottom:48px;"><a href="/map">zurück</a></p>
 
 <p><%= t('username') %> <%= user.name %></p>
 <p><%= t('score') %> <%= user.score %></p>
@@ -67,3 +68,15 @@
     }
   </script>
 <% } %>
+
+
+<div style="height:120px"></div>
+
+<ul class="d-flex flex-row list-unstyled">
+  <li class="mr-3"><a href="/contact">Kontakt / Impressum</a></li>
+  <li class="mr-3"><a href="/privacy">Datenschutzerklärung</a></li>
+  <li class="mr-3"><a href="/news">Neuigkeiten</a></li>
+  <li><a href="/links">Links</a></li>
+</ul>
+
+<div style="height:70px"></div>

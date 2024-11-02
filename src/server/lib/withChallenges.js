@@ -4,7 +4,11 @@ import { htwChallenges } from '../../content/challenges.js'
  * @param {import('../../data/types.js').App} App
  */
 export function withChallenges(App) {
-  App.challenges = { distance: {}, data: htwChallenges }
+  App.challenges = { distance: {}, data: htwChallenges, dataMap: {} }
+
+  App.challenges.data.forEach((c) => {
+    App.challenges.dataMap[c.id] = c
+  })
 
   function calculateDistance() {
     const result = App.challenges.distance

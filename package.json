@@ -34,6 +34,7 @@
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^3.3.2",
     "pngjs": "^7.0.0",
+    "quickjs-emscripten": "^0.31.0",
     "seedrandom": "^3.0.5",
     "sequelize": "^6.37.5"
   },

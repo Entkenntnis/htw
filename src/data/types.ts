@@ -219,3 +219,15 @@ export type RenderPageOptions =
       backButton?: boolean
       outsideOfContainer?: boolean
     }
+
+export interface WormsReplay {
+  xRed: number
+  yRed: number
+  dirRed: number
+
+  xGreen: number
+  yGreen: number
+  dirGreen: number
+
+  dirs: number[]
+}

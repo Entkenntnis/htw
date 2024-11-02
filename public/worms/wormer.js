@@ -73,6 +73,23 @@ class Wormer {
     this.lastTick = new Date().getTime()
   }
 
+  runReplay(replay) {
+    this.redX = replay.xRed
+    this.redY = replay.yRed
+    this.redDir = replay.dirRed
+
+    this.greenX = replay.xGreen
+    this.greenY = replay.yGreen
+    this.greenDir = replay.dirGreen
+
+    this.dirs = replay.dirs
+
+    this.actRed = replayRed(this.dirs)
+    this.actGreen = replayGreen(this.dirs)
+
+    this.run(true)
+  }
+
   setColor(x, y, bg) {
     const cell = document.getElementById(`board-cell-${x}-${Math.floor(y)}`)
     cell.style.backgroundColor = bg
@@ -97,8 +114,8 @@ class Wormer {
     this.div.appendChild(message)
   }
 
-  run() {
-    this.reset()
+  run(noReset) {
+    if (!noReset) this.reset()
 
     this.setColor(this.redX, this.redY, this.COLORS.red.head)
     this.setColor(this.greenX, this.greenY, this.COLORS.green.head)
@@ -139,7 +156,10 @@ class Wormer {
     ) {
       this.redDir = newRedDir
     } else {
-      console.log('red player returned invalid direction', newRedDir)
+      this.winner = 'green'
+      this.setWinnerMessage()
+      this.setColor(this.redX, this.redY, '#450a0a')
+      return
     }
     const nrx = this.redX + this.OFFSETS[this.redDir][0]
     const nry = this.redY + this.OFFSETS[this.redDir][1]
@@ -175,6 +195,10 @@ class Wormer {
       this.greenDir = newGreenDir
     } else {
       // console.log('green player returned invalid direction', newGreenDir)
+      this.winner = 'red'
+      this.setColor(this.greenX, this.greenY, '#052e16')
+      this.setWinnerMessage()
+      return
     }
     const ngx = this.greenX + this.OFFSETS[this.greenDir][0]
     const ngy = this.greenY + this.OFFSETS[this.greenDir][1]
@@ -345,4 +369,30 @@ function createSandboxedBot(QuickJS, src) {
     return ctx.getNumber(id)
   }
   return AI
+}
+
+function replayRed(replay) {
+  let index = 0
+
+  return () => {
+    let val = -1
+    if (index < replay.length) {
+      val = replay[index]
+      index += 2
+    }
+    return val
+  }
+}
+
+function replayGreen(replay) {
+  let index = 1
+
+  return () => {
+    let val = -1
+    if (index < replay.length) {
+      val = replay[index]
+      index += 2
+    }
+    return val
+  }
 }

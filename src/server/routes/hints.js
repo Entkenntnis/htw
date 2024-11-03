@@ -26,6 +26,15 @@ export const hintsData = {
       },
     ],
   },
+  44: {
+    entries: [
+      {
+        question: 'Was kann ich tun ohne lange zu warten?',
+        answer:
+          'Du musst die den Code zwischen &lt;script&gt; und &lt;/script&gt; anschauen und dir überlegen wie der funktioniert. Wenn du kein Javascript verstehst kannst du dir das auch Zeile für Zeile von ChatGPT erklären lassen',
+      },
+    ],
+  },
   49: {
     entries: [
       {

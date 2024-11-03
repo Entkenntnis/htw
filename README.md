@@ -29,15 +29,3 @@ In production mode, the project uses a separate database. The password for this 
 ### Step 4: Adaptations
 
 Depending on how you host the project, other requirements may arise. Feel free to adapt the source code accordingly.
-
-## Changelog
-
-### 1.1.0
-
-- Add new hint system
-
-### 1.0.0
-
-- Moving challenges-server into this repo and remove separation
-- Add Enough and Worms
-- Typescript

@@ -89,6 +89,26 @@ export const hintsData = {
       },
     ],
   },
+  102: {
+    entries: [
+      {
+        question:
+          'Kann mir hier jemand weiterhelfen? Ich komme hier echt nicht auf einen grünen Zweig',
+        answer:
+          'Der verschlüsselte Text ist in hex. Daraus musst du erstmal Bits machen. Dann die Schlüssel durchschieben. Die entschlüsselten Bits dann in ascii. Das sind dann 256x256=65536 Zeilen. Einige wenige davon werden lesbar sein. Das ist die Lösung',
+      },
+    ],
+  },
+  105: {
+    entries: [
+      {
+        question:
+          'Es gab ja noch einige mehr Challanges mit Leet, war nicht mein Problem. Nur bei Challange 105 1337 verstehe ich den Zusammenhang nicht richtig.',
+        answer:
+          '1337 ist viel simpler gedacht, es geht nicht um leet, sondern  nur um die Anzahl der Buchstaben.',
+      },
+    ],
+  },
   115: {
     entries: [
       {
@@ -144,6 +164,57 @@ export const hintsData = {
       },
     ],
   },
+  317: {
+    entries: [
+      {
+        question: 'Woher krieg ich den Login Namen des Administrators?',
+        answer:
+          'Der name des admins ist nur teil des szenarios und ist für die aufgabe nicht relevant',
+      },
+      {
+        question: 'Ich verstehe nicht was ich machen soll',
+        answer:
+          'du must herausfinden wie der ort heißt, an dem das Video aufgenommen wurde.',
+      },
+      {
+        question:
+          'kannst du mir irgend ein tipp geben ich lande immer nur auf webseiten für ferienwohnungen und immobielien',
+        answer:
+          'Versuche mal einzelne Frames zu googeln, irgendwann fangen die Treffer an sich zu überschneiden. Aus dem Text kannst Du auch entnehmen, dass Ferienwohnungen und Reiseberichte in die richtige Richtung gehen 👍',
+      },
+      { question: 'ist die lösung ein Stad/Ortsname?', answer: 'Yep' },
+    ],
+  },
+  326: {
+    entries: [
+      {
+        question:
+          'Hallo zusammen, ich hab bei der Challenge ganz leichte Probleme hab schon StegOnline , Hex, Aperi, durch und keinen plan was ich übersehe 😖  vl. hat wer einen Tipp für mich...',
+        answer:
+          'ein wichtiger Tipp sind die "4%". Nur 4% der Pixel sind für dich interessant. Jetzt ist es deine Aufgabe dir zu überlegen, welche Pixel das sein könnten',
+      },
+    ],
+  },
+  330: {
+    entries: [
+      {
+        question:
+          'Ich habe alle Alben identifiziert aber weiß nicht weiter. Hat es was mit den charts zu tun(Wegen der Nummern)?',
+        answer:
+          'Hat nichts mit den Charts zu tun, aber die Nummern sind der nächste Schritt. Wenn du ein Album hast, was könnte dann die Nummer bedeuten? 🙂',
+      },
+    ],
+  },
+  333: {
+    entries: [
+      {
+        question:
+          'Egal was ich eingebe ist falsch. Kann jemand helfen was die nutzer-id ist? weil der Name war falsch, sein ehemaliger Name war falsch dann auch beide zahlen normal probiert auch falsch.',
+        answer:
+          'Google ist dein bester Freund 😁 - In #regeln  findest du einen Post von dem User. Zusammen mit einer Google-Suche hast du alles, um die ID rauszufinden.',
+      },
+    ],
+  },
   336: {
     entries: [
       {
@@ -151,6 +222,27 @@ export const hintsData = {
           'Ich hab wirklich alles versucht was mir in den Kopf gekommen ist aber ich komm nicht drauf. Hänge schon seit ein paar Wochen an der Aufgabe. Kann mir jemand einen kleinen Tipp geben. 😅',
         answer:
           'Die Antwort ist einfacher als man denkt. Überlege mal zu welcher Block-Kategorie die dargestellten Items gehören',
+      },
+    ],
+  },
+  339: {
+    entries: [
+      {
+        question:
+          'Was muss man hier machen, sitze hier seid 8 Stunden dran und komme nicht weiter',
+        answer:
+          'Hallo, Mr. Plow ist eine Cipher Challenge. Das meiste was du benötigst ist im Rätsel schon erklärt. Ich muss schon fast aufpassen dir nicht zu viel zu verraten 😉. Hast du schon eine Idee oder einen Lösungsansatz?',
+      },
+      {
+        question:
+          'Da ich auch gerade dadran sitze... Hat SNOW etwas mit den Himmelsrichtungen zu tun?',
+        answer:
+          'Nein, wie erklär ich das ohne zuviel zu verraten 😂... vl. ist Snow ja gar kein Schnee und hat nichts mit Winter zu tun? Zusammen mit meinem ersten Kommentar ist es mit ganz kleinen Aufwand möglich es bereits zu lösen 😄',
+      },
+      {
+        question:
+          'hat es was mit den leerzeichen zwischen den * dingern zu tun?',
+        answer: 'heiße Spur',
       },
     ],
   },
@@ -196,7 +288,7 @@ export function setupHints(App) {
                 .join('')
         }
 
-        <form action="/hints/ask" method="post" style="max-width: 65ch;">
+        <form action="/hints/ask" method="post" style="max-width: 65ch; margin-top: 100px;">
           <input type="hidden" name="id" value="${id}"/>
           <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="Stelle eine neue Frage ..."></textarea>
           <input type="submit" value="Frage abschicken" class="btn btn-primary"/>

@@ -36,6 +36,7 @@ import { setupWorms } from './content/worms.js'
 
 import { _deprecated__setupDecodeMe } from './content/decode-me-deprecated.js'
 import { setupHints } from './server/routes/hints.js'
+import { withVersion } from './server/lib/withVersion.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -54,6 +55,7 @@ withPeriodic(preApp)
 withChallenges(preApp)
 withStorage(preApp)
 withChallengeStats(preApp)
+withVersion(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp

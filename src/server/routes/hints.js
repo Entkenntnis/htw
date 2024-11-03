@@ -75,6 +75,15 @@ export const hintsData = {
       },
     ],
   },
+  80: {
+    entries: [
+      {
+        question: 'ich hab die farben gemacht aber kenn die antwort nicht',
+        answer:
+          'Wenn du die Farben in die richtige Reihenfolge bringst, dann ändert sich der Text unter den Farben von Farben sind leider nicht in der richtigen Reihenfolge in Die Antwort lautet .... Wenn sich der Text nicht ändert ist entweder die Reihenfolge falsch, oder Javascript deaktiviert.',
+      },
+    ],
+  },
   98: {
     entries: [
       {
@@ -109,6 +118,16 @@ export const hintsData = {
       },
     ],
   },
+  109: {
+    entries: [
+      {
+        question:
+          'es geht nicht, was ist die lösung ich habe chat gpt verwendet',
+        answer:
+          'ChatGPT ist leider nicht gut auf brainfuck trainiert - es gibt andere online tools, die dir solche Programme generieren können',
+      },
+    ],
+  },
   115: {
     entries: [
       {
@@ -126,6 +145,25 @@ export const hintsData = {
           'Ich komme hier nicht mehr weiter. Ich versuche es zu entschlüsseln aber es kommt keine Antwort raus.',
         answer:
           '<a href="https://gchq.github.io/CyberChef/" target="_blank">https://gchq.github.io/CyberChef/</a> - probier doch mal alles durch, vielleicht findest du ja etwas. Ansonsten gibt es noch "Magic".',
+      },
+    ],
+  },
+  310: {
+    entries: [
+      {
+        question:
+          'Hier müsste doch eine Bruteforce Attacke durchgeführt werden oder?',
+        answer: 'Ja',
+      },
+      {
+        question: 'Gibt es hier ein gutes Tool, welches du empfehlen könntest?',
+        answer:
+          '<a href="https://hashcat.net/hashcat/" target="_blank">https://hashcat.net/hashcat/</a>',
+      },
+      {
+        question:
+          'Ich habe versucht mit Hashcat den gegebenen Hash aus der Source zu cracken aber es geht irgendwie nicht. Mache ich was falsch?',
+        answer: 'Der Hash nutzt noch ein Salt, das musst du hashcat mitgeben',
       },
     ],
   },
@@ -153,6 +191,32 @@ export const hintsData = {
         question: 'Ich verstehe den Code immer noch nicht',
         answer:
           'Als Mensch kann man den Code auch nicht verstehen ;D Sobald du rausgefunden hast um welche Sprache es sich handelt musst du ihn ja einfach in einer entsprechenden Umgebung ausführen',
+      },
+    ],
+  },
+  312: {
+    entries: [
+      {
+        question:
+          'Hey Leute, ich scheine hier irgendwas zu übersehen. Ich habe die Standardformel verwendet aber so einfach kann es ja nie sein',
+        answer:
+          'die Fallbeschleunigung ändert sich mit sehr großer Entfernung zur Erde, deshalb funktioniert diese Formel bei der Aufgabe leider nicht',
+      },
+      {
+        question:
+          'Also ich habe jetzt ein Script geschrieben das für jeden Meter die aktuelle Geschwindigkeit und Anziehung berechnet, mein Ergebnis scheint aber falsch zu sein 40528077150 ist das was ich raus habe. Ich weiß aber eben auch nicht ob das realistisch ist (ob das Ergebnis zumindest nah dran ist)',
+        answer:
+          'dein ergebnis liegt nicht in der richtigen größenordnung, da muss irgendwo ein fehler im code sein. Du kannst deinen Code zur Kontrolle auch mit den Werten Von Freier Fall 1 und 2 Testen, da sollte er auch funktionieren',
+      },
+    ],
+  },
+  313: {
+    entries: [
+      {
+        question:
+          'Moin Leute, ich habe mal meinen Code von Freier Fall 3 recycelt und auf Sekunden umgestellt, aber wie genau muss man jetzt mit den Sekunden sein? Ich mache aktuell 0,001 Sekunden Schritte und das dauert natürlich schon Ewigkeiten..',
+        answer:
+          'du könntest entweder eine schnellere programmier sprache verwenden, oder eine Formel verwenden, um die Schritt weite zu berechen, sodass sie am anfang groß und gegen ende immer kleiner wird<br /><br />Ich habe alles nach der Zeit umgestellt und bin dann im Meterschritt gegangen. Hat den Vorteil, das bei den ersten Schritten der Iteration, wo die  Zeiten länger sind, der Fehler kleiner ist. Andersherum kumuliert sich am Ende des Falls ein größerer Fehler, die Zeiten auf die einzelnen Meter sind aber so gering, dass es nix mehr ändert.',
       },
     ],
   },
@@ -271,7 +335,7 @@ export function setupHints(App) {
       heading: `Hinweise für "${challenge.title['de']}"`,
       backButton: false,
       content: `
-        <p><a href="/challenge/${id}">zurück zur Aufgabe</a></p>
+        <p><a href="/challenge/${id}">zur Aufgabe</a></p>
 
         ${
           !hints
@@ -326,7 +390,7 @@ export function setupHints(App) {
       content: `
         <p style="margin-top: 48px;">Vielen Dank! Deine Frage wurde gespeichert und wird demnächst beantwortet - dies kann ein paar Tage dauern 🙏</p>
 
-        <p><a href="/challenge/${id}">zurück zur Aufgabe</a></p>
+        <p><a href="/challenge/${id}">zur Aufgabe</a></p>
 
         <p style="margin-top: 120px;">Nutze auch gerne unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>.</p>
         <p>

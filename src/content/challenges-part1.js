@@ -89,6 +89,8 @@ function story(name, intro, task) {
       }
     </style>
 
+    <div style="height:16px";></div>
+
     <div class="story-container">
       <div style="max-width:65ch" class="story-content">
         ${intro}

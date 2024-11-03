@@ -26,6 +26,15 @@ export const hintsData = {
       },
     ],
   },
+  44: {
+    entries: [
+      {
+        question: 'Was kann ich tun ohne lange zu warten?',
+        answer:
+          'Du musst die den Code zwischen &lt;script&gt; und &lt;/script&gt; anschauen und dir überlegen wie der funktioniert. Wenn du kein Javascript verstehst kannst du dir das auch Zeile für Zeile von ChatGPT erklären lassen',
+      },
+    ],
+  },
   49: {
     entries: [
       {
@@ -66,6 +75,15 @@ export const hintsData = {
       },
     ],
   },
+  80: {
+    entries: [
+      {
+        question: 'ich hab die farben gemacht aber kenn die antwort nicht',
+        answer:
+          'Wenn du die Farben in die richtige Reihenfolge bringst, dann ändert sich der Text unter den Farben von Farben sind leider nicht in der richtigen Reihenfolge in Die Antwort lautet .... Wenn sich der Text nicht ändert ist entweder die Reihenfolge falsch, oder Javascript deaktiviert.',
+      },
+    ],
+  },
   98: {
     entries: [
       {
@@ -77,6 +95,36 @@ export const hintsData = {
       {
         question: 'Sollte nicht das % alles anzeigen?',
         answer: 'Dafür brauchst du statt = den LIKE-Operator',
+      },
+    ],
+  },
+  102: {
+    entries: [
+      {
+        question:
+          'Kann mir hier jemand weiterhelfen? Ich komme hier echt nicht auf einen grünen Zweig',
+        answer:
+          'Der verschlüsselte Text ist in hex. Daraus musst du erstmal Bits machen. Dann die Schlüssel durchschieben. Die entschlüsselten Bits dann in ascii. Das sind dann 256x256=65536 Zeilen. Einige wenige davon werden lesbar sein. Das ist die Lösung',
+      },
+    ],
+  },
+  105: {
+    entries: [
+      {
+        question:
+          'Es gab ja noch einige mehr Challanges mit Leet, war nicht mein Problem. Nur bei Challange 105 1337 verstehe ich den Zusammenhang nicht richtig.',
+        answer:
+          '1337 ist viel simpler gedacht, es geht nicht um leet, sondern  nur um die Anzahl der Buchstaben.',
+      },
+    ],
+  },
+  109: {
+    entries: [
+      {
+        question:
+          'es geht nicht, was ist die lösung ich habe chat gpt verwendet',
+        answer:
+          'ChatGPT ist leider nicht gut auf brainfuck trainiert - es gibt andere online tools, die dir solche Programme generieren können',
       },
     ],
   },
@@ -97,6 +145,25 @@ export const hintsData = {
           'Ich komme hier nicht mehr weiter. Ich versuche es zu entschlüsseln aber es kommt keine Antwort raus.',
         answer:
           '<a href="https://gchq.github.io/CyberChef/" target="_blank">https://gchq.github.io/CyberChef/</a> - probier doch mal alles durch, vielleicht findest du ja etwas. Ansonsten gibt es noch "Magic".',
+      },
+    ],
+  },
+  310: {
+    entries: [
+      {
+        question:
+          'Hier müsste doch eine Bruteforce Attacke durchgeführt werden oder?',
+        answer: 'Ja',
+      },
+      {
+        question: 'Gibt es hier ein gutes Tool, welches du empfehlen könntest?',
+        answer:
+          '<a href="https://hashcat.net/hashcat/" target="_blank">https://hashcat.net/hashcat/</a>',
+      },
+      {
+        question:
+          'Ich habe versucht mit Hashcat den gegebenen Hash aus der Source zu cracken aber es geht irgendwie nicht. Mache ich was falsch?',
+        answer: 'Der Hash nutzt noch ein Salt, das musst du hashcat mitgeben',
       },
     ],
   },
@@ -127,11 +194,88 @@ export const hintsData = {
       },
     ],
   },
+  312: {
+    entries: [
+      {
+        question:
+          'Hey Leute, ich scheine hier irgendwas zu übersehen. Ich habe die Standardformel verwendet aber so einfach kann es ja nie sein',
+        answer:
+          'die Fallbeschleunigung ändert sich mit sehr großer Entfernung zur Erde, deshalb funktioniert diese Formel bei der Aufgabe leider nicht',
+      },
+      {
+        question:
+          'Also ich habe jetzt ein Script geschrieben das für jeden Meter die aktuelle Geschwindigkeit und Anziehung berechnet, mein Ergebnis scheint aber falsch zu sein 40528077150 ist das was ich raus habe. Ich weiß aber eben auch nicht ob das realistisch ist (ob das Ergebnis zumindest nah dran ist)',
+        answer:
+          'dein ergebnis liegt nicht in der richtigen größenordnung, da muss irgendwo ein fehler im code sein. Du kannst deinen Code zur Kontrolle auch mit den Werten Von Freier Fall 1 und 2 Testen, da sollte er auch funktionieren',
+      },
+    ],
+  },
+  313: {
+    entries: [
+      {
+        question:
+          'Moin Leute, ich habe mal meinen Code von Freier Fall 3 recycelt und auf Sekunden umgestellt, aber wie genau muss man jetzt mit den Sekunden sein? Ich mache aktuell 0,001 Sekunden Schritte und das dauert natürlich schon Ewigkeiten..',
+        answer:
+          'du könntest entweder eine schnellere programmier sprache verwenden, oder eine Formel verwenden, um die Schritt weite zu berechen, sodass sie am anfang groß und gegen ende immer kleiner wird<br /><br />Ich habe alles nach der Zeit umgestellt und bin dann im Meterschritt gegangen. Hat den Vorteil, das bei den ersten Schritten der Iteration, wo die  Zeiten länger sind, der Fehler kleiner ist. Andersherum kumuliert sich am Ende des Falls ein größerer Fehler, die Zeiten auf die einzelnen Meter sind aber so gering, dass es nix mehr ändert.',
+      },
+    ],
+  },
   314: {
     entries: [
       {
         question: 'wenn ich mit dem Torbrowser die Seite öffne kommt ein Error',
         answer: 'Ist evtl. der Punkt am Ende deiner URL zuviel?',
+      },
+    ],
+  },
+  317: {
+    entries: [
+      {
+        question: 'Woher krieg ich den Login Namen des Administrators?',
+        answer:
+          'Der name des admins ist nur teil des szenarios und ist für die aufgabe nicht relevant',
+      },
+      {
+        question: 'Ich verstehe nicht was ich machen soll',
+        answer:
+          'du must herausfinden wie der ort heißt, an dem das Video aufgenommen wurde.',
+      },
+      {
+        question:
+          'kannst du mir irgend ein tipp geben ich lande immer nur auf webseiten für ferienwohnungen und immobielien',
+        answer:
+          'Versuche mal einzelne Frames zu googeln, irgendwann fangen die Treffer an sich zu überschneiden. Aus dem Text kannst Du auch entnehmen, dass Ferienwohnungen und Reiseberichte in die richtige Richtung gehen 👍',
+      },
+      { question: 'ist die lösung ein Stad/Ortsname?', answer: 'Yep' },
+    ],
+  },
+  326: {
+    entries: [
+      {
+        question:
+          'Hallo zusammen, ich hab bei der Challenge ganz leichte Probleme hab schon StegOnline , Hex, Aperi, durch und keinen plan was ich übersehe 😖  vl. hat wer einen Tipp für mich...',
+        answer:
+          'ein wichtiger Tipp sind die "4%". Nur 4% der Pixel sind für dich interessant. Jetzt ist es deine Aufgabe dir zu überlegen, welche Pixel das sein könnten',
+      },
+    ],
+  },
+  330: {
+    entries: [
+      {
+        question:
+          'Ich habe alle Alben identifiziert aber weiß nicht weiter. Hat es was mit den charts zu tun(Wegen der Nummern)?',
+        answer:
+          'Hat nichts mit den Charts zu tun, aber die Nummern sind der nächste Schritt. Wenn du ein Album hast, was könnte dann die Nummer bedeuten? 🙂',
+      },
+    ],
+  },
+  333: {
+    entries: [
+      {
+        question:
+          'Egal was ich eingebe ist falsch. Kann jemand helfen was die nutzer-id ist? weil der Name war falsch, sein ehemaliger Name war falsch dann auch beide zahlen normal probiert auch falsch.',
+        answer:
+          'Google ist dein bester Freund 😁 - In #regeln  findest du einen Post von dem User. Zusammen mit einer Google-Suche hast du alles, um die ID rauszufinden.',
       },
     ],
   },
@@ -142,6 +286,27 @@ export const hintsData = {
           'Ich hab wirklich alles versucht was mir in den Kopf gekommen ist aber ich komm nicht drauf. Hänge schon seit ein paar Wochen an der Aufgabe. Kann mir jemand einen kleinen Tipp geben. 😅',
         answer:
           'Die Antwort ist einfacher als man denkt. Überlege mal zu welcher Block-Kategorie die dargestellten Items gehören',
+      },
+    ],
+  },
+  339: {
+    entries: [
+      {
+        question:
+          'Was muss man hier machen, sitze hier seid 8 Stunden dran und komme nicht weiter',
+        answer:
+          'Hallo, Mr. Plow ist eine Cipher Challenge. Das meiste was du benötigst ist im Rätsel schon erklärt. Ich muss schon fast aufpassen dir nicht zu viel zu verraten 😉. Hast du schon eine Idee oder einen Lösungsansatz?',
+      },
+      {
+        question:
+          'Da ich auch gerade dadran sitze... Hat SNOW etwas mit den Himmelsrichtungen zu tun?',
+        answer:
+          'Nein, wie erklär ich das ohne zuviel zu verraten 😂... vl. ist Snow ja gar kein Schnee und hat nichts mit Winter zu tun? Zusammen mit meinem ersten Kommentar ist es mit ganz kleinen Aufwand möglich es bereits zu lösen 😄',
+      },
+      {
+        question:
+          'hat es was mit den leerzeichen zwischen den * dingern zu tun?',
+        answer: 'heiße Spur',
       },
     ],
   },
@@ -170,7 +335,7 @@ export function setupHints(App) {
       heading: `Hinweise für "${challenge.title['de']}"`,
       backButton: false,
       content: `
-        <p><a href="/challenge/${id}">zurück zur Aufgabe</a></p>
+        <p><a href="/challenge/${id}">zur Aufgabe</a></p>
 
         ${
           !hints
@@ -187,7 +352,7 @@ export function setupHints(App) {
                 .join('')
         }
 
-        <form action="/hints/ask" method="post" style="max-width: 65ch;">
+        <form action="/hints/ask" method="post" style="max-width: 65ch; margin-top: 100px;">
           <input type="hidden" name="id" value="${id}"/>
           <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="Stelle eine neue Frage ..."></textarea>
           <input type="submit" value="Frage abschicken" class="btn btn-primary"/>
@@ -225,7 +390,7 @@ export function setupHints(App) {
       content: `
         <p style="margin-top: 48px;">Vielen Dank! Deine Frage wurde gespeichert und wird demnächst beantwortet - dies kann ein paar Tage dauern 🙏</p>
 
-        <p><a href="/challenge/${id}">zurück zur Aufgabe</a></p>
+        <p><a href="/challenge/${id}">zur Aufgabe</a></p>
 
         <p style="margin-top: 120px;">Nutze auch gerne unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>.</p>
         <p>

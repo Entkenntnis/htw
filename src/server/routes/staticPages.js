@@ -5,10 +5,10 @@ import { renderPage } from '../../helper/render-page.js'
  */
 export function setupStaticPages(App) {
   App.express.get('/contact', (req, res) => {
-    renderPage(App, req, res, 'contact')
+    renderPage(App, req, res, { page: 'contact' })
   })
 
   App.express.get('/privacy', (req, res) => {
-    renderPage(App, req, res, 'privacy')
+    renderPage(App, req, res, { page: 'privacy' })
   })
 }

@@ -55,6 +55,7 @@ export interface App {
     refreshData(cid: number): Promise<void>
     nuke: () => void
   }
+  version: string
 }
 
 export interface HtwChallenge {

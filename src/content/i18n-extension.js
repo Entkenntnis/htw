@@ -34,22 +34,10 @@ export function getI18nExtension() {
     key: 'home.github',
     value: 'Links',
   })
-
-  values.push({
-    lng: 'de',
-    key: 'home.version',
-    value: 'Version: Oktober 2024 (<a href="/news">Neuigkeiten</a>)',
-  })
-  values.push({
-    lng: 'en',
-    key: 'home.version',
-    value: 'Version: October 2024 (<a href="/news">News</a>)',
-  })
-
   values.push({
     lng: 'de',
     key: 'home.top10',
-    value: 'Hacker*innen des Monats',
+    value: 'HackerInnen des Monats',
   })
   values.push({
     lng: 'en',

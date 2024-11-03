@@ -335,7 +335,7 @@ export function setupHints(App) {
       heading: `Hinweise für "${challenge.title['de']}"`,
       backButton: false,
       content: `
-        <p><a href="/challenge/${id}">zur Aufgabe</a></p>
+        <p><a href="/map">zurück</a></p>
 
         ${
           !hints
@@ -390,7 +390,7 @@ export function setupHints(App) {
       content: `
         <p style="margin-top: 48px;">Vielen Dank! Deine Frage wurde gespeichert und wird demnächst beantwortet - dies kann ein paar Tage dauern 🙏</p>
 
-        <p><a href="/challenge/${id}">zur Aufgabe</a></p>
+        <p><a href="/map">zurück</a></p>
 
         <p style="margin-top: 120px;">Nutze auch gerne unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>.</p>
         <p>

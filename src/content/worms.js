@@ -332,19 +332,11 @@ export function setupWorms(App) {
   })
 
   App.express.get('/worms/dev', async (req, res) => {
-    // const replay = await runWorms(bot, bot)
-
-    // console.log(replay)
-
     renderPage(App, req, res, {
       page: 'worms',
       heading: 'Worms Testbereich',
       backButton: false,
       content: `
-        <script
-          src="https://cdn.jsdelivr.net/npm/quickjs-emscripten@0.25.0/dist/index.global.js"
-          type="text/javascript"
-        ></script>
         <script src="/worms/wormer.js"></script>
 
         <p>Steuerung rot: Wasd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Steuerung grün: Pfeiltasten&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start/Neustart: ENTER</p>
@@ -352,29 +344,19 @@ export function setupWorms(App) {
         <div id="board"></div>
 
         <script>
-          //QJS.getQuickJS().then((QuickJS) => {
-            // 
-            const red =  createKeyboardPlayer('w', 'd', 's', 'a') //createSandboxedBot(QuickJS, \`${''}\`)
+          const red =  createKeyboardPlayer('w', 'd', 's', 'a')
 
-            const green = createDemoBot()
+          const green = createDemoBot()
 
-            const wormer = new Wormer(document.getElementById('board'), red, green)
+          const wormer = new Wormer(document.getElementById('board'), red, green)
 
-            wormer.run()
+          wormer.run()
 
-            window.addEventListener('keydown', (event) => {
-              if (event.key == 'Enter') {
-                wormer.run()
-              }
-            })
-          //})
-          /*function runReplay() {
-            const wormer = new Wormer(document.getElementById('board'))
-            
-            wormer.runReplay(JSON.parse(''))
-          }
-            
-          runReplay()*/
+          window.addEventListener('keydown', (event) => {
+            if (event.key == 'Enter') {
+              wormer.run()
+            }
+          })
         </script>
       `,
     })

@@ -226,15 +226,19 @@ function createKeyboardPlayer(up, right, down, left) {
     switch (event.key) {
       case up:
         if (lastDir !== 2) newDir = 0 // Up, disallow if lastDir is Down
+        event.preventDefault()
         break
       case right:
         if (lastDir !== 3) newDir = 1 // Right, disallow if lastDir is Left
+        event.preventDefault()
         break
       case down:
         if (lastDir !== 0) newDir = 2 // Down, disallow if lastDir is Up
+        event.preventDefault()
         break
       case left:
         if (lastDir !== 1) newDir = 3 // Left, disallow if lastDir is Right
+        event.preventDefault()
         break
       default:
         return // Do nothing if another key is pressed
@@ -349,25 +353,6 @@ function createDemoBot() {
     return evals[0][1]
   }
 
-  return AI
-}
-
-function createSandboxedBot(QuickJS, src) {
-  const runtime = QuickJS.newRuntime()
-  const ctx = runtime.newContext()
-  ctx.evalCode(src)
-
-  function AI(dx, dy, board, x, y, dir, oppX, oppY) {
-    console.time('sandbox')
-
-    const thinkCallScript = `
-      think(${dx}, ${dy}, ${JSON.stringify(board)}, ${x}, ${y}, ${dir}, ${oppX}, ${oppY});
-    `
-    const id = ctx.unwrapResult(ctx.evalCode(thinkCallScript))
-
-    console.timeEnd('sandbox')
-    return ctx.getNumber(id)
-  }
   return AI
 }
 

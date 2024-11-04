@@ -12,6 +12,11 @@ export const hintsData = {
       },
     ],
   },
+  40: {
+    entries: [
+      { question: 'wie geht das?', answer: 'Lies dir durch was da steht' },
+    ],
+  },
   41: {
     entries: [
       {
@@ -75,12 +80,39 @@ export const hintsData = {
       },
     ],
   },
+  75: {
+    entries: [
+      {
+        question: 'Ich weiß einfach nicht wie ich es herausfinden solll',
+        answer: 'entweder manuell oder mit einem script',
+      },
+    ],
+  },
   80: {
     entries: [
       {
         question: 'ich hab die farben gemacht aber kenn die antwort nicht',
         answer:
           'Wenn du die Farben in die richtige Reihenfolge bringst, dann ändert sich der Text unter den Farben von Farben sind leider nicht in der richtigen Reihenfolge in Die Antwort lautet .... Wenn sich der Text nicht ändert ist entweder die Reihenfolge falsch, oder Javascript deaktiviert.',
+      },
+    ],
+  },
+  83: {
+    entries: [
+      {
+        question: 'Ich Check es nicht',
+        answer:
+          'Es ist eine typische Aufgabe aus der Kombinatorik https://www.mathebibel.de/kombinatorik. Mein Ansatz war eine Überschlagsrechnung und dann habe ich einfach da in der Nähe systematisch geraten. Dies ist in der Mathematik ein allgemein akzeptierter Lösungsweg.',
+      },
+      {
+        question: 'schaft man des mit brute force oder dauert das zu lange',
+        answer: 'Brute force ist eine Option',
+      },
+      {
+        question:
+          'Ich stecke hier seit fast zwei Wochen fest, ich check nicht genau, was hier gemacht werden muss. Kann mir jemand helfen?',
+        answer:
+          'Jede der 11 Aufgaben kann man ja entweder gelöst haben oder nicht. Aber nicht jede Kombination funktioniert.<br />Start - Nicht blinzeln - ASCII -> funktioniert<br />Start - Gemälde -> funktioniert nicht.<br />Du musst also alle Kombinationen durchgehen und die zählen, die möglich sind, die Anzahl ist deine Antwort',
       },
     ],
   },
@@ -145,6 +177,15 @@ export const hintsData = {
           'Ich komme hier nicht mehr weiter. Ich versuche es zu entschlüsseln aber es kommt keine Antwort raus.',
         answer:
           '<a href="https://gchq.github.io/CyberChef/" target="_blank">https://gchq.github.io/CyberChef/</a> - probier doch mal alles durch, vielleicht findest du ja etwas. Ansonsten gibt es noch "Magic".',
+      },
+    ],
+  },
+  307: {
+    entries: [
+      {
+        question:
+          'Ich komme hier nicht weiter, weil ich keine Ahnung habe ob sich Mathematik handelt. Ob Dreisatz, Pythagoras, und Ähnliches handelt',
+        answer: 'Es handelt sich um Physik.',
       },
     ],
   },

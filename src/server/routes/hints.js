@@ -5,9 +5,7 @@ import escapeHTML from 'escape-html'
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
   5: {
-    entries: [
-      { question: 'wie denn ?', answer: 'Schon mit der Maus probiert?' },
-    ],
+    entries: [{ question: 'wie denn ?', answer: 'Probier mal mit der Maus' }],
   },
   15: {
     entries: [
@@ -29,7 +27,7 @@ export const hintsData = {
     entries: [
       {
         question: 'Hilfe bitte',
-        answer: 'Schon die Flaggen im Video entdeckt?',
+        answer: 'Hast du die Flaggen im Video entdeckt?',
       },
     ],
   },
@@ -100,7 +98,7 @@ export const hintsData = {
     entries: [
       {
         question: 'Wie funktioniert diese Aufgabe ',
-        answer: 'Hast du schon die Druckvorschau geöffnet?',
+        answer: 'Hast du die Druckvorschau geöffnet?',
       },
     ],
   },

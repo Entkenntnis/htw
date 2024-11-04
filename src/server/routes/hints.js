@@ -535,7 +535,7 @@ export function setupHints(App) {
       heading: `Hinweise für "${challenge.title['de']}"`,
       backButton: false,
       content: `
-        <p><a href="/challenge/${id}">zurück zur Aufgabe</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/map">zurück zur Karte</a></p>
+        <p><a href="/challenge/${id}">zurück zur Aufgabe</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">zurück zur Karte</a></p>
 
         ${
           !hints

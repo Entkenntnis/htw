@@ -1855,7 +1855,7 @@ print(hex_string)</pre></code>
       <p>Schön, dass du so regelmäßig hier vorbeischaust. Tja, Regeln: Sie helfen uns, unser Miteinander besser zu gestalten. Viele Regeln sind wahrscheinlich nicht so sinnvoll, aber es gibt schon einige, die wertvoll sind.
       </p>
       
-      <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur vier Regeln. Wie lautet die zweite Regel?
+      <p>Auf unserem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> haben wir nur drei Regeln. Wie lautet die zweite Regel?
       </p>
     `,
       en: `

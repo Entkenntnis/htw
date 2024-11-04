@@ -4,11 +4,30 @@ import escapeHTML from 'escape-html'
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
+  5: {
+    entries: [{ question: 'wie denn ?', answer: 'Probier mal mit der Maus' }],
+  },
+  15: {
+    entries: [
+      {
+        question: 'Bei mir klappt die aufgabe nicht',
+        answer: 'Schau dir den Text bei "... ist falsch" genauer an',
+      },
+    ],
+  },
   17: {
     entries: [
       {
         question: 'Ich checks ned - ich hab alles rückwärts eingegeben',
         answer: 'Versuch mal nur die Reihenfolge der Wörter zu verändern',
+      },
+    ],
+  },
+  39: {
+    entries: [
+      {
+        question: 'Hilfe bitte',
+        answer: 'Hast du die Flaggen im Video entdeckt?',
       },
     ],
   },
@@ -88,6 +107,14 @@ export const hintsData = {
       },
     ],
   },
+  78: {
+    entries: [
+      {
+        question: 'Wie funktioniert diese Aufgabe ',
+        answer: 'Hast du die Druckvorschau geöffnet?',
+      },
+    ],
+  },
   80: {
     entries: [
       {
@@ -158,6 +185,20 @@ export const hintsData = {
         answer:
           'ChatGPT ist leider nicht gut auf brainfuck trainiert - es gibt andere online tools, die dir solche Programme generieren können',
       },
+    ],
+  },
+  112: {
+    entries: [
+      {
+        question: 'Wo finde ich die Block ID?',
+        answer:
+          '<a href="https://minecraftitemids.com/types/redstone" target="_blank">https://minecraftitemids.com/types/redstone</a>',
+      },
+    ],
+  },
+  114: {
+    entries: [
+      { question: 'kan mmir jemand helfen', answer: 'Klick mal auf den Baum' },
     ],
   },
   115: {
@@ -330,6 +371,14 @@ export const hintsData = {
       },
     ],
   },
+  337: {
+    entries: [
+      {
+        question: 'wie kann mann das lösen',
+        answer: 'Erkennst du ein paar der Blöcke?',
+      },
+    ],
+  },
   339: {
     entries: [
       {
@@ -376,7 +425,7 @@ export function setupHints(App) {
       heading: `Hinweise für "${challenge.title['de']}"`,
       backButton: false,
       content: `
-        <p><a href="/map">zurück</a></p>
+        <p><a href="/challenge/${id}">zurück zur Aufgabe</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/map">zurück zur Karte</a></p>
 
         ${
           !hints

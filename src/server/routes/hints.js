@@ -569,6 +569,7 @@ export function setupHints(App) {
   })
 
   App.express.post('/hints/ask', (req, res) => {
+    /** @type {string} */
     const question = req.body.question?.toString()
     const id_ = req.body.id?.toString()
 
@@ -581,7 +582,8 @@ export function setupHints(App) {
 
     const key = `question_${id}_${new Date().getTime()}`
 
-    App.storage.setItem(key, question)
+    // hard-code max-length
+    App.storage.setItem(key, question.slice(0, 2000))
 
     renderPage(App, req, res, {
       page: 'ask',

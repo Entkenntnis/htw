@@ -31,6 +31,10 @@ export const hintsData = {
         answer:
           'für Benutzername III darf die Seite auch kein HTML enthalten, wirklich nur dein Nutzername als plaintext',
       },
+      {
+        question: 'Kann man Benutzername III lösen ohne Geld auszugeben?',
+        answer: 'Du kannst mit GitHub eine Seite kostenlos hosten.',
+      },
     ],
   },
   39: {
@@ -57,6 +61,24 @@ export const hintsData = {
       {
         question: 'Ist die Antwort ein deutsches Wort?',
         answer: 'Normalerweise schon und es ist echt leicht zu erkennen',
+      },
+    ],
+  },
+  43: {
+    entries: [
+      {
+        question:
+          'ich habe  eine frage bei challenge 43 ich wollte fragen wie ich da vorgehe soll ich nach variablen suchen aber bitte nicht vorsagen',
+        answer:
+          'Also du suchst nicht nach einer variable. Du willst die Antwort-Box haben',
+      },
+      {
+        question: 'soll ich einfach die antworbox script wieder einfügen?',
+        answer: 'versuche es',
+      },
+      {
+        question: 'Kann mir jemand dabei helfen?',
+        answer: 'Schau dir einmal curl oder PowerShells Invoke-WebRequest an. ',
       },
     ],
   },
@@ -118,6 +140,26 @@ export const hintsData = {
       },
     ],
   },
+  71: {
+    entries: [
+      {
+        question:
+          'Bei Sag mal, Challenge 71, kenne ich den Bilddateityp. Python half auch schon, aber die Ausgabe ist sehr lang und schmal, ob Dez oder Hex ganz egal, auch Breite und Höhe eingestellt hat nichts verstellt. Sieht aus wie ein EAN-Code, ist aber viel zu lang, kein Scanner das lesen kann. Um Hilfe wird gebeten, ChatGPT schaut schon ähnlich betreten.',
+        answer:
+          'Welche größe hat den dein PNG? Es sollte PNG image data, 30 x 12, 8-bit/color RGB, non-interlaced  sein. Wenn alle bytes richtig sind, also pngcheck OK zurück gibt, dann kann man die Antwort einfach lesen.',
+      },
+    ],
+  },
+  74: {
+    entries: [
+      {
+        question:
+          'Ich hab mal mein Bestes gegeben und auch Tutorials geschaut, bin auf die Zahl 67931 gekommen und die lösung war nicht richtig, kann mir da jemand weiterhelfen',
+        answer:
+          '67931 scheint nicht zu passen, md5("hacktheweb67931") = fb132b5447cc3faa0e226ebfa6695e4c.',
+      },
+    ],
+  },
   75: {
     entries: [
       {
@@ -171,6 +213,16 @@ export const hintsData = {
       },
     ],
   },
+  95: {
+    entries: [
+      {
+        question:
+          'hi, ich habe schon probiert die schriftart einzubinden. Ich weiß aber nicht ob man dafür die Datei Hacktheweb-Regular.otf benötigt und wenn ja, wo sie zu finden ist.',
+        answer:
+          'Dieser Teil der Challenge sollte dir zeigen, wo du die Schriftart herunterladen kannst. &lt;font src="/chals/HackTheWeb-Regular.otf" /&gt;',
+      },
+    ],
+  },
   96: {
     entries: [
       {
@@ -178,6 +230,12 @@ export const hintsData = {
           'Kleine Frage bin grad bei tiktok beim 1 video von Kallmekris und dort sind keine # mit 4 Wörtern sowie normale Wörter mit 4 Buchstaben',
         answer:
           'Das würde ich bezweifeln, bist du sicher dass du beim allerersten Video bist? ',
+      },
+      {
+        question:
+          'Heyho,<br />da ich TikTok nicht nutze und somit keine Ahnung habe, ob eine Möglichkeit existiert nach Veröffentlichungsdatum (Reverse) zu sortieren: Gibt es eine Möglichkeit, das erste Video zu finden, ohne einen Scraper zu programmieren oder zu warten bis der Browser per scrolling beim letzten Video angekommen ist? Bietet TikTok da eine Möglichkeit, die funktioniert ohne einen Account anzulegen (auch ohne iwelche Apps - Einfach nur Browser oder halt API oder so)? Möchte den Datenkraken von TikTok nichts überlassen.<br />Beste Grüße',
+        answer:
+          'Also einfach mal generell. Man kann die Aufgabe lösen, ohne sich bei TikTok anzumelden/registrieren.',
       },
     ],
   },
@@ -345,6 +403,20 @@ export const hintsData = {
       {
         question: 'wenn ich mit dem Torbrowser die Seite öffne kommt ein Error',
         answer: 'Ist evtl. der Punkt am Ende deiner URL zuviel?',
+      },
+    ],
+  },
+  316: {
+    entries: [
+      {
+        question: 'Wie kan ich einfach herausfinden wo die brücke ist',
+        answer:
+          'Google Bildersuche? Oder nach Details und suchen…und dann Text oder Bildersuche?',
+      },
+      {
+        question: 'bei mir kommen da keine ergebnisse',
+        answer:
+          'hängt bei mir stark vom Bildausschnitt ab, probiere mal bisschen herum',
       },
     ],
   },

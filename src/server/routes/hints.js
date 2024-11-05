@@ -5,7 +5,10 @@ import escapeHTML from 'escape-html'
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
   5: {
-    entries: [{ question: 'wie denn ?', answer: 'Probier mal mit der Maus' }],
+    entries: [
+      { question: 'wie denn ?', answer: 'Probier mal mit der Maus' },
+      { question: 'wie mit der Maus', answer: 'Markieren!' },
+    ],
   },
   15: {
     entries: [
@@ -20,6 +23,11 @@ export const hintsData = {
       {
         question: 'Ich checks ned - ich hab alles rückwärts eingegeben',
         answer: 'Versuch mal nur die Reihenfolge der Wörter zu verändern',
+      },
+      {
+        question: 'ich verstehe nichts',
+        answer:
+          'Hast du schon den Slogan von Bex eingegeben und geschaut, was passiert?',
       },
     ],
   },
@@ -166,6 +174,10 @@ export const hintsData = {
         question: 'Ich weiß einfach nicht wie ich es herausfinden solll',
         answer: 'entweder manuell oder mit einem script',
       },
+      {
+        question: 'zwischen welchen zahlen liegt es',
+        answer: 'zwischen 0 und 999',
+      },
     ],
   },
   78: {
@@ -210,6 +222,14 @@ export const hintsData = {
         question:
           'Verstehe die Aufgabe nicht idk was ich da machen soll hab schon versucht da irgendwie Metadaten rauszuholen da stand aber nichts',
         answer: 'Guck mal genauer auf dem Bild - vielleicht siehst du dann was',
+      },
+    ],
+  },
+  90: {
+    entries: [
+      {
+        question: 'Wann ist das Orakel den geöffnet',
+        answer: 'das musst du durch probieren herausfinden',
       },
     ],
   },
@@ -295,6 +315,14 @@ export const hintsData = {
   114: {
     entries: [
       { question: 'kan mmir jemand helfen', answer: 'Klick mal auf den Baum' },
+      {
+        question: 'da passiert nichts ',
+        answer: 'Hast du auf das Bild geklickt? Mit der linken Maustaste.',
+      },
+      {
+        question: 'was ist die antwort',
+        answer: 'Schaue an wie das Bild heißt.',
+      },
     ],
   },
   115: {
@@ -305,6 +333,11 @@ export const hintsData = {
         answer:
           'Die Antwort sollte 6 Buchstaben lang sein. Hast du den Hinweis zum Koordinatensystem gelesen? Der Ursprung ist nicht oben links, sondern in der Mitte ... ansonsten sollte der Ausschnitt relativ eindeutig sein  - hoffe das hilft weiter',
       },
+    ],
+  },
+  116: {
+    entries: [
+      { question: 'Was ist die Lösung', answer: '15876000 ist die Lösung' },
     ],
   },
   305: {
@@ -474,10 +507,13 @@ export const hintsData = {
   336: {
     entries: [
       {
-        question:
-          'Ich hab wirklich alles versucht was mir in den Kopf gekommen ist aber ich komm nicht drauf. Hänge schon seit ein paar Wochen an der Aufgabe. Kann mir jemand einen kleinen Tipp geben. 😅',
+        question: 'ich komm einfach nicht darauf',
+        answer: 'Suche nach der ID im Internet',
+      },
+      {
+        question: 'Was ist eine ID',
         answer:
-          'Die Antwort ist einfacher als man denkt. Überlege mal zu welcher Block-Kategorie die dargestellten Items gehören',
+          'Das ist wie der Computer den Block speichert. Probiere mal <a href="https://minecraftitemids.com/" target="_blank">https://minecraftitemids.com/</a>',
       },
     ],
   },
@@ -486,6 +522,12 @@ export const hintsData = {
       {
         question: 'wie kann mann das lösen',
         answer: 'Erkennst du ein paar der Blöcke?',
+      },
+      {
+        question:
+          'Ich hab wirklich alles versucht was mir in den Kopf gekommen ist aber ich komm nicht drauf. Hänge schon seit ein paar Wochen an der Aufgabe. Kann mir jemand einen kleinen Tipp geben. 😅',
+        answer:
+          'Die Antwort ist einfacher als man denkt. Überlege mal zu welcher Block-Kategorie die dargestellten Items gehören',
       },
     ],
   },

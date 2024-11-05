@@ -283,6 +283,25 @@ export const hintsData = {
       },
     ],
   },
+  103: {
+    entries: [
+      {
+        question: 'Was ist mit Rückseite des Planetens gemeint?',
+        answer: 'Schau dich mal da um wo die Aufgabe startet',
+      },
+      {
+        question: 'ich sehe garnichz das da was steht',
+        answer:
+          'Also wenn man die Objekte die im Weg sind ausblendet, dann steht da auch etwas was man sogar ohne Lupe lesen kann. Allerdings wird man die Lösung schon vorher sehen.',
+      },
+      {
+        question:
+          'Hi, Ich sitze jetzt schon mehrere Tage an der Aufgabe. Ist mit Hintergrund etwas im CSS der Website gemeint oder wie kann man das verstehen? ',
+        answer:
+          'Im HTML findest du zwischen Sternenhimmel und Planeten einen geheimen Text',
+      },
+    ],
+  },
   105: {
     entries: [
       {
@@ -356,6 +375,27 @@ export const hintsData = {
         question:
           'Ich komme hier nicht weiter, weil ich keine Ahnung habe ob sich Mathematik handelt. Ob Dreisatz, Pythagoras, und Ähnliches handelt',
         answer: 'Es handelt sich um Physik.',
+      },
+    ],
+  },
+  308: {
+    entries: [
+      {
+        question:
+          'Ich komme hier nicht weiter. Die Berechnungen welche ich gemacht habe stimmen alle überein mit den gegebenen Werten. Jede Rundung ist aber falsch, habe ich hier etwas falsch gemacht? Die 20 Grad Temparatur haben ja keinerlei Einfluss auf den freien Fall. Kann mir jemand weiterhelfen?',
+        answer:
+          'die 20° sind schon relevant. Lese dir nochmal genau durch wie der Messwert für die Zeit zustande kommt.',
+      },
+      {
+        question:
+          'Ich verstehe immer nicht was die 20° für einen Einfluss haben',
+        answer: 'Schallgeschwindigkeit',
+      },
+      {
+        question:
+          'Jungs und Mädels, ich hab probiert, es selbst zu rechnen und nicht geschafft, vielleicht auch, weil ich komplett müde bin. Dann hab ich ChatGPT gefragt, was ich eigentlich nicht mache und der liefert mir immer ein anderes Ergebnis. Habs mit 343 m/s^2 und 343,2 m/s^2 probiert. Paar Tipps?',
+        answer:
+          'Paar Denkanstöße: Nimmst du alle Angaben in deine Rechnung auf? Was hat sich denn im Vergleich zur vorherigen Aufgabe an der Aufgabenstellung geändert?',
       },
     ],
   },
@@ -484,6 +524,22 @@ export const hintsData = {
       },
     ],
   },
+  327: {
+    entries: [
+      {
+        question:
+          'Habe mich bei dieser Aufgaben total verfahren. Bin mit ZSteg irgendwelchen OpenPGP Schlüsseln hinterhergerannt, aber das hat mich nirgendwo hingeführt. Auf Aperisolve auch nix Interessantes. Hab das Bild lange angeglotzt und auf ein Stereogramm gehofft. Alle Filter mit Graphic Converter haben nix gebracht. Habe das Bild in Ebenen aufgeteilt und nette Rorschach-Figuren erhalten. Was sehe ich nicht, was vor aller Augen zu sein scheint? Ich glaube ich brauche hier einen Tipp.',
+        answer:
+          'Du hast das sichtbare Bild, die "Oberfläche" aus dem Hinweis, offenbar nach allen Regeln der Kunst zerlegt. Du brauchst zur Lösung aber noch mehr, was zwar auch enthalten, aber eben nicht sichtbar ist.',
+      },
+      {
+        question:
+          'Datei heruntergeladen. Info angeschaut, keine Kommentare oder so. Mit HexEdit geöffnet. Verschiedene Kodierungen ausprobiert: Im Text keine Wörter gefunden. Ich sehe immer noch nix! Wird langsam peinlich',
+        answer:
+          'Woran hast du denn in HexEdit erkannt, dass du ein PNG vor dir hast? - Die Datei hat verdächtig viele kb für die wenigen Pixel 🙃',
+      },
+    ],
+  },
   330: {
     entries: [
       {
@@ -491,6 +547,21 @@ export const hintsData = {
           'Ich habe alle Alben identifiziert aber weiß nicht weiter. Hat es was mit den charts zu tun(Wegen der Nummern)?',
         answer:
           'Hat nichts mit den Charts zu tun, aber die Nummern sind der nächste Schritt. Wenn du ein Album hast, was könnte dann die Nummer bedeuten? 🙂',
+      },
+    ],
+  },
+  331: {
+    entries: [
+      {
+        question:
+          '1)Die ID aller Aufgaben summiert und eingegeben<br />2)Alle Punkte, welche man für das Lösen aller aufgaben bekommt summiert und eingegeben<br />Ein Denkanstoß, ein Wikipedia Artikel o.Ä. wäre sehr hilfreich ',
+        answer: 'Jede gelöste Aufgabe erhöht die Zahl um 1',
+      },
+      {
+        question:
+          'Also ich habs mit den Hints getestet und ausgerechnet nur leider falsch... o.O und ich dachte Excel lügt nicht ... hat wer eine idee?',
+        answer:
+          'Probiere immer ein wenig drum herum… meistens ist es etwas größer als du rechnest',
       },
     ],
   },

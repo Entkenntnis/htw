@@ -10,11 +10,29 @@ export const hintsData = {
       { question: 'wie mit der Maus', answer: 'Markieren!' },
     ],
   },
+  7: {
+    entries: [
+      {
+        question:
+          'Hallo! Ich kann leider den Quelltext weder durch die Kombination, noch durch die Anleitungen einsehen. Es geht auch nicht durch die rechte Maustaste. Gibt es noch andere Möglichkeiten? Liebe Grüße, Thomas',
+        answer:
+          'Probiere [strg]+[u] (firefox, chrome) oder [cmd]+[alt]+[U] (safari)',
+      },
+    ],
+  },
   15: {
     entries: [
       {
         question: 'Bei mir klappt die aufgabe nicht',
         answer: 'Schau dir den Text bei "... ist falsch" genauer an',
+      },
+    ],
+  },
+  16: {
+    entries: [
+      {
+        question: 'was ist die lösung',
+        answer: 'deine aktuelle Punktzahl (mit kleiner Veränderung)',
       },
     ],
   },
@@ -43,6 +61,11 @@ export const hintsData = {
         question: 'Kann man Benutzername III lösen ohne Geld auszugeben?',
         answer: 'Du kannst mit GitHub eine Seite kostenlos hosten.',
       },
+    ],
+  },
+  37: {
+    entries: [
+      { question: 'der name des emojis', answer: 'grinning face von whatsapp' },
     ],
   },
   39: {
@@ -99,6 +122,11 @@ export const hintsData = {
       },
     ],
   },
+  45: {
+    entries: [
+      { question: 'was ist die lösung', answer: 'lies die Schriftzeichen' },
+    ],
+  },
   49: {
     entries: [
       {
@@ -118,6 +146,15 @@ export const hintsData = {
           'Ich habe ein Problem mit dieser Aufgabe. Egal welches tool ich verwende, es sagt mir, dass der secret key mit AES 128 maximal 16 characters lang sein darf (habe ECB und padding verwendet). Der Key in der Aufgabe ist aber mindestens doppelt so lang. (verstehe nicht viel davon aber würde es trotzdem gerne lösen)',
         answer:
           'Der Key in der Aufgabe hat genau 16 Byte, wenn er dir länger erscheint, dann solltest du ihn dir noch mal genauer anschauen.',
+      },
+    ],
+  },
+  53: {
+    entries: [
+      {
+        question:
+          'NICHT AUF DEN ZWEITEN PUNKT KLICKEN!!! ALLES WIRD ZURÜCKGESETZT',
+        answer: 'wichtig',
       },
     ],
   },
@@ -222,6 +259,14 @@ export const hintsData = {
         question:
           'Verstehe die Aufgabe nicht idk was ich da machen soll hab schon versucht da irgendwie Metadaten rauszuholen da stand aber nichts',
         answer: 'Guck mal genauer auf dem Bild - vielleicht siehst du dann was',
+      },
+    ],
+  },
+  88: {
+    entries: [
+      {
+        question: 'wie soll ich das ausrechnen',
+        answer: 'Taschenrechner? Excel?',
       },
     ],
   },

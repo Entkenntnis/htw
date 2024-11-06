@@ -61,6 +61,11 @@ export const hintsData = {
         question: 'Kann man Benutzername III lösen ohne Geld auszugeben?',
         answer: 'Du kannst mit GitHub eine Seite kostenlos hosten.',
       },
+      {
+        question:
+          'Hat jemand eine Ahnung, welchen Anbieter man da verwenden kann? Bei den kostenlosen Hostern, die ich versucht habe, kann man nur bestimmte Vorlagen verwenden. Somit kann die Website nicht nur den Namen beinhalten. Was ist außerde mit "nur" den Namen gemeint? Soll die Website ein html script enthalten, wo einfach nur der Name drin steht? Aber html soll man ja eigentlich nicht verwenden.',
+        answer: 'Glitch',
+      },
     ],
   },
   37: {
@@ -120,6 +125,17 @@ export const hintsData = {
         answer:
           'Du musst die den Code zwischen &lt;script&gt; und &lt;/script&gt; anschauen und dir überlegen wie der funktioniert. Wenn du kein Javascript verstehst kannst du dir das auch Zeile für Zeile von ChatGPT erklären lassen',
       },
+      {
+        question:
+          'ich habe die website kopiert und denn script in schnell laufen lassen es daurt aber trotzdem ein paar stunden kann man das anders machen?',
+        answer: 'versuche mal die setTimeout() Funktion komplett zu umgehen.',
+      },
+      {
+        question:
+          'Ich habe hier ein Problem. Egal, was ich am Code zwischen script und /script ändere, es ändert sich nichts an der Visualisierung (mit "html ändern" beim Untersuchen). Auch mit lösungsvorschlag von Chatgpt versucht.',
+        answer:
+          'Bei html-Änderung wird soweit ich weiß das javascript nicht neu ausgeführt. Probiere mal die Website runterzuladen und lokal in der Datei Dinge zu ändern',
+      },
     ],
   },
   45: {
@@ -164,6 +180,12 @@ export const hintsData = {
         question: 'ich hab alles ausprobiert',
         answer:
           'hast du schonmal was von pastebin gehört das solltest du dir mal angucken',
+      },
+      {
+        question:
+          'wenn ich eine website eintippe und auf Los drücke kommt oft ein langer Text mit &lt;!doctype html&gt; &lt;html lang="en-US"&gt;... wikipedia funktioniert auch nicht',
+        answer:
+          'Wenn dieser lange  Text kommt dann ist es ein Zeichnen, dass es funktioniert hat - jetzt musst du nur noch eine Website finden, die deinen Benutzernamen enthält',
       },
     ],
   },
@@ -214,6 +236,26 @@ export const hintsData = {
       {
         question: 'zwischen welchen zahlen liegt es',
         answer: 'zwischen 0 und 999',
+      },
+    ],
+  },
+  76: {
+    entries: [
+      {
+        question: 'Wie finde ich es genau heraus oder was muss man tun?',
+        answer:
+          'Guck dich mal auf der Seite um ob irgendwo Informationen zu deinem Account sind',
+      },
+      {
+        question:
+          'Aber was soll ich berechnen. Von Anfang an bis heute oder von Anfang bis zuletzt online',
+        answer:
+          'Du musst die Zeit zwischen dem Zeitpunkt an dem du dein Profil erstellt hast bis zu genau dem Zeitpunkt an dem du diese Aufgabe löst',
+      },
+      {
+        question:
+          'Servus, ich häng da grad auch ein bisschen. Ich habs über ein Python-Script probiert und über diverse Internetseiten. Irgendein Tipp, was ich falsch machen könnte?',
+        answer: 'Sommerzeit? +/- ein paar Minuten zur Sicherheit?',
       },
     ],
   },
@@ -274,7 +316,33 @@ export const hintsData = {
     entries: [
       {
         question: 'Wann ist das Orakel den geöffnet',
-        answer: 'das musst du durch probieren herausfinden',
+        answer:
+          'ein kleines Script, dass die Seite alle paar Minuten aufruft, kann dir helfen die passende Zeit zu finden',
+      },
+      {
+        question: 'weiss echt jemand wann man das orakel befragen kann?',
+        answer:
+          'Wenn man nicht warten möchte, hilft vielleicht auch ein educated guess.',
+      },
+      {
+        question: 'ich habe 15 min gewartet es ist nichts',
+        answer:
+          'Hast du die Aufgabe richtig gelesen? Die Antwort kommt nicht alle 15 Minuten sondern nur einmal am Tag für 15 Minuten, du musst schon den richtigen Zeitpunkt erwischen, und wenn du Pech hast und das Orakel knapp verpasst hast dann musst du ca 23 Stunden und 45 Minuten warten.',
+      },
+      {
+        question:
+          'Ich hatte ziemliches Glück bei der Aufgabe, ich konnte das Orakel direkt beim ersten Versuch erreichen ^^',
+        answer:
+          'So viel glück muss man erstmal haben 😄 Ich darf jetzt ein script schreiben und 1 tag laufen lassen hahah',
+      },
+      {
+        question: 'man kann es einfach erraten wenn man bisschen googelt',
+        answer: 'Pst 🤫 🙂',
+      },
+      {
+        question:
+          'Ist der Zeitraum jeden Tag zur gleichen Zeit, oder ändert der sich?',
+        answer: 'Sollte gleich bleiben',
       },
     ],
   },

@@ -4,10 +4,22 @@ import escapeHTML from 'escape-html'
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
+  3: {
+    entries: [
+      {
+        question: 'Was ist die Lösung',
+        answer: 'höre dir die Morse-Nachricht an',
+      },
+    ],
+  },
   5: {
     entries: [
       { question: 'wie denn ?', answer: 'Probier mal mit der Maus' },
       { question: 'wie mit der Maus', answer: 'Markieren!' },
+      {
+        question: 'wie auf dem I-Pad markieren?',
+        answer: 'Mit Finger lange drücken',
+      },
     ],
   },
   7: {
@@ -46,6 +58,14 @@ export const hintsData = {
         question: 'ich verstehe nichts',
         answer:
           'Hast du schon den Slogan von Bex eingegeben und geschaut, was passiert?',
+      },
+    ],
+  },
+  24: {
+    entries: [
+      {
+        question: 'ich verstehe die aufgabe nicht',
+        answer: 'Da ist ein Text der kurz erscheint',
       },
     ],
   },
@@ -204,6 +224,14 @@ export const hintsData = {
         question:
           'hey, könnte mir wer ein kleinen Hinweis geben, komme nämlich nicht weiter. danke 🙂',
         answer: 'bild.txt ist doch in sich schon etwas widersprüchlich',
+      },
+    ],
+  },
+  68: {
+    entries: [
+      {
+        question: 'Krieg ich einen Tipp',
+        answer: 'Welches Gemälde sieht du? Ist berühmt und hat einen Namen.',
       },
     ],
   },

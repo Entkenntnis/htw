@@ -82,6 +82,7 @@ export function setupPleaseFixMe(App) {
           })
           .join('')}</select></div>
 
+
         <div style="position: relative; margin-top: 16px;">
           <div style="position: absolute; left: calc(20% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker"></div>
           <div style="position: absolute; left: calc(20% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
@@ -92,128 +93,26 @@ export function setupPleaseFixMe(App) {
           <div style="position: absolute; left: calc(80% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker"></div>
           <div style="position: absolute; left: calc(80% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
         </div>
-        <div class="progress" style="margin-top: 56px; margin-bottom: 36px;">
-          <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 2.5%;" id="bar"></div>
+        <div class="progress" style="margin-top: 56px; margin-bottom: 36px; justify-content: end;">
+          <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 97.5%;" id="bar"></div>
         </div>
 
         <div id="container" style="height: 400px"></div>
         
-        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb">Der Editor ist erst glücklich, wenn das Programm keine Probleme mehr enthält. Ändere dafür so wenige Zeichen wie möglich. Der Sinn des Programms darf verändert werden.<br />Aktuelle Änderungen: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb">Das Typescript-Programm enthält Fehler. Korrigiere diese mit so wenig Änderungen wie möglich. Der Sinn des Programms darf verändert werden.<br />Aktuelle Änderungen: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
 
         <link
           rel="stylesheet"
           data-name="vs/editor/editor.main"
-          href="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs/editor/editor.main.css"
+          href="/monaco/vs/editor.main.css"
         />
         <script>
-          var require = { paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs' } };
+          var require = { paths: { vs: window.location.origin + '/monaco/vs' } };
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs/loader.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs/editor/editor.main.js"></script>
+        <script src="/monaco/vs/loader.js"></script>
+        <script src="/monaco/vs/editor/editor.main.js"></script>
         <script>
-var levenshtein = (function()
-{
-  function _min(d0, d1, d2, bx, ay)
-  {
-    return d0 < d1 || d2 < d1
-        ? d0 > d2
-            ? d2 + 1
-            : d0 + 1
-        : bx === ay
-            ? d1
-            : d1 + 1;
-  }
-
-  return function(a, b)
-  {
-    if (a === b) {
-      return 0;
-    }
-
-    if (a.length > b.length) {
-      var tmp = a;
-      a = b;
-      b = tmp;
-    }
-
-    var la = a.length;
-    var lb = b.length;
-
-    while (la > 0 && (a.charCodeAt(la - 1) === b.charCodeAt(lb - 1))) {
-      la--;
-      lb--;
-    }
-
-    var offset = 0;
-
-    while (offset < la && (a.charCodeAt(offset) === b.charCodeAt(offset))) {
-      offset++;
-    }
-
-    la -= offset;
-    lb -= offset;
-
-    if (la === 0 || lb < 3) {
-      return lb;
-    }
-
-    var x = 0;
-    var y;
-    var d0;
-    var d1;
-    var d2;
-    var d3;
-    var dd;
-    var dy;
-    var ay;
-    var bx0;
-    var bx1;
-    var bx2;
-    var bx3;
-
-    var vector = [];
-
-    for (y = 0; y < la; y++) {
-      vector.push(y + 1);
-      vector.push(a.charCodeAt(offset + y));
-    }
-
-    var len = vector.length - 1;
-
-    for (; x < lb - 3;) {
-      bx0 = b.charCodeAt(offset + (d0 = x));
-      bx1 = b.charCodeAt(offset + (d1 = x + 1));
-      bx2 = b.charCodeAt(offset + (d2 = x + 2));
-      bx3 = b.charCodeAt(offset + (d3 = x + 3));
-      dd = (x += 4);
-      for (y = 0; y < len; y += 2) {
-        dy = vector[y];
-        ay = vector[y + 1];
-        d0 = _min(dy, d0, d1, bx0, ay);
-        d1 = _min(d0, d1, d2, bx1, ay);
-        d2 = _min(d1, d2, d3, bx2, ay);
-        dd = _min(d2, d3, dd, bx3, ay);
-        vector[y] = dd;
-        d3 = d2;
-        d2 = d1;
-        d1 = d0;
-        d0 = dy;
-      }
-    }
-
-    for (; x < lb;) {
-      bx0 = b.charCodeAt(offset + (d0 = x));
-      dd = ++x;
-      for (y = 0; y < len; y += 2) {
-        dy = vector[y];
-        vector[y] = dd = _min(dy, d0, dd, bx0, vector[y + 1]);
-        d0 = dy;
-      }
-    }
-
-    return dd;
-  };
-})();
+var levenshtein=function(){function r(r,t,e,o,h){return r<t||e<t?r>e?e+1:r+1:o===h?t:t+1}return function(t,e){if(t===e)return 0;if(t.length>e.length){var o,h,n,a,c,f,d,u,A,C,_,$,i=t;t=e,e=i}for(var v=t.length,l=e.length;v>0&&t.charCodeAt(v-1)===e.charCodeAt(l-1);)v--,l--;for(var g=0;g<v&&t.charCodeAt(g)===e.charCodeAt(g);)g++;if(v-=g,l-=g,0===v||l<3)return l;var s=0,p=[];for(o=0;o<v;o++)p.push(o+1),p.push(t.charCodeAt(g+o));for(var b=p.length-1;s<l-3;)for(o=0,A=e.charCodeAt(g+(h=s)),C=e.charCodeAt(g+(n=s+1)),_=e.charCodeAt(g+(a=s+2)),$=e.charCodeAt(g+(c=s+3)),f=s+=4;o<b;o+=2)h=r(d=p[o],h,n,A,u=p[o+1]),n=r(h,n,a,C,u),a=r(n,a,c,_,u),f=r(a,c,f,$,u),p[o]=f,c=a,a=n,n=h,h=d;for(;s<l;)for(o=0,A=e.charCodeAt(g+(h=s)),f=++s;o<b;o+=2)d=p[o],p[o]=f=r(d,h,f,A,p[o+1]),h=d;return f}}();
         </script>
 
         <script>
@@ -307,7 +206,7 @@ var levenshtein = (function()
 
             if (markers.length == 0) {
               if (distance > 0 && distance <= ranks[2] && (records[levelId] == -1 || distance < records[levelId])) {
-                alert('Neuer Rekord!')
+                setTimeout(() => {alert('Glückwunsch, neuer Rekord!')}, 400)
                 records[levelId] = distance
                 sessionStorage.setItem('htw_please_fix_me_records', JSON.stringify(records))
                 document.getElementById('option-level-' + levelId).innerHTML = 'Level ' + name + (distance <= ranks[0] ? ' [Hacker]' : distance <= ranks[1] ? ' [Gold]' : ' [Holz]')
@@ -341,7 +240,7 @@ var levenshtein = (function()
             const codeContent = myEditor.getValue();
             distance = levenshtein(value, codeContent)
             document.getElementById('distance').innerHTML = distance
-            document.getElementById('bar').style.width = Math.max(2.5, Math.round(distance * 100 / barLength)) + "%"
+            document.getElementById('bar').style.width = Math.max(2.5, Math.min(100 - Math.round(distance * 100 / barLength), 97.5)) + "%"
           })
           
           monaco.editor.onDidChangeMarkers(() => {

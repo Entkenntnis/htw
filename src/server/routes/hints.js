@@ -151,6 +151,12 @@ export const hintsData = {
         question: 'Kann mir jemand dabei helfen?',
         answer: 'Schau dir einmal curl oder PowerShells Invoke-WebRequest an. ',
       },
+      {
+        question:
+          'Hallöchen 🙂<br />Ich habe einen Weg gefunden die Aufgabe zu lösen, jedoch wurden mir bei meiner Methode keine Punkte gutgeschrieben.. ist das noch jemand anderem auch so gegangen?',
+        answer:
+          'Glückwunsch zum Lösen 🎉 Nach einer groben Rechnung passt deine Punktzahl zu deinen gelösten Aufgaben. Ich gehe davon aus, dass du die Aufgabe "unbemerkt" bereits gelöst hast (was bei manchen Methoden recht schnell passieren kann, v.a. bei der Aufgabe) und daher beim eigentlichen Versuch anscheinend die Punktzahl nicht verändert wurde.',
+      },
     ],
   },
   44: {
@@ -176,6 +182,29 @@ export const hintsData = {
   45: {
     entries: [
       { question: 'was ist die lösung', answer: 'lies die Schriftzeichen' },
+    ],
+  },
+  46: {
+    entries: [
+      {
+        question:
+          'Ich bin jetzt seit 2 Stunden an der Aufgabe aber irgendwie funktioniert das bei mir nicht. Kann mir jemand einen Tipp geben?',
+        answer: '"Kopfdaten" ist ein Hinweis',
+      },
+      {
+        question: 'Was soll ich tun die Seite ist komplett weiß',
+        answer:
+          'bei einer Website wird nicht nur das übertragen was man sieht. Recherchiere mal zum Thema http Protocol und GET gequest',
+      },
+    ],
+  },
+  48: {
+    entries: [
+      {
+        question:
+          'Hey ich habe es mir komplett bis zum Ende angehört aber ich habe ein Siu gehört',
+        answer: 'Es ist ein (ausnahmsweise) ein englisches Wort',
+      },
     ],
   },
   49: {
@@ -206,6 +235,12 @@ export const hintsData = {
         question:
           'NICHT AUF DEN ZWEITEN PUNKT KLICKEN!!! ALLES WIRD ZURÜCKGESETZT',
         answer: 'wichtig',
+      },
+      {
+        question:
+          'Ich hab keine Ahnung wie ich das machen soll und ich will die Aufgabe noch nicht mit autoklicker lösen.  Ich hab es geschafft im Quellcode die Zahl zu 2000 zu ändern  , aber es passiert nichts.',
+        answer:
+          'guck dir mal chal53.js an und überlege wie du dir was du in der konsole ausführen könntest um die aufgabe zu lösen',
       },
     ],
   },
@@ -242,6 +277,15 @@ export const hintsData = {
       },
     ],
   },
+  65: {
+    entries: [
+      {
+        question:
+          'Ich habe gerade 3 Stunden versucht den Spielstand und den Grind me! Button zu um gehen bis ich auf die Idee gekommen bin den Quellcode von einer KI analysieren zulassen und Sie gebeten habe mir mögliche Schwachstellen auf zu zeigen. Sie meinte es gibt eine Schwachstelle bei der Verschlüsselung. Da ich mich erst seit zwei tagen mit Quellcodes beschäftige fiel mir das garnicht auf. Muss sagen eine sehr interessante Aufgabe',
+        answer: ':)',
+      },
+    ],
+  },
   68: {
     entries: [
       {
@@ -262,6 +306,24 @@ export const hintsData = {
         answer:
           'Welche größe hat den dein PNG? Es sollte PNG image data, 30 x 12, 8-bit/color RGB, non-interlaced  sein. Wenn alle bytes richtig sind, also pngcheck OK zurück gibt, dann kann man die Antwort einfach lesen.',
       },
+      {
+        question:
+          'ich habe die bytes in einem textdocument weis aber nicht wie ich sie wieder zusammensetzen soll. Der andere post hat mir nicht geholfen.',
+        answer:
+          'gib mal 137 80 78  71 in google ein. Dadurch solltest du herausfinden, welches datei format das ist. Dann musst du nur eine leere Datei anlegen mit dieser Dateiendung und mit einem Hex editor (z.B. HxD) die bytes als hexadezimal zahlen reinschreiben',
+      },
+      {
+        question:
+          'ist es schlimm wenn man manche btes falsch hat?<br />oder funktioniert es dann nichtmehr<br />ich schaffe es nicht 😢',
+        answer:
+          'wenn du Glück hast machen die Fehler nichts aus - wenn du Pech hast lädt das Bild nicht mehr',
+      },
+      { question: 'wie gross soll die datein sein?', answer: '1-2kb' },
+      {
+        question: 'sag mal welches programm du benutzt hast',
+        answer:
+          'also ich habe tatsächlich kein programm benutzt, ich hab mir die datei in 1,75x geschwindigkeit angehört und alles aufgeschrieben',
+      },
     ],
   },
   74: {
@@ -271,6 +333,12 @@ export const hintsData = {
           'Ich hab mal mein Bestes gegeben und auch Tutorials geschaut, bin auf die Zahl 67931 gekommen und die lösung war nicht richtig, kann mir da jemand weiterhelfen',
         answer:
           '67931 scheint nicht zu passen, md5("hacktheweb67931") = fb132b5447cc3faa0e226ebfa6695e4c.',
+      },
+      {
+        question:
+          'ChatGPT gibt hier immer die falsche Zahl raus. Muss ich den Hash auf eine andere Art ermitteln?',
+        answer:
+          'Frage ChatGPT doch ob es dir ein Script schreiben kann, dass die einzelnen Zahlen ausprobiert...',
       },
     ],
   },
@@ -425,6 +493,22 @@ export const hintsData = {
       },
     ],
   },
+  97: {
+    entries: [
+      {
+        question:
+          'Hallo zusammen, ich hänge hier bei der Aufgabe fest. Cipher I konnte ich lösen und jetzt habe ich meinen Code so modifiziert, dass er alle Keys zwischen 0 und 255 testet und mir das Ergebnis ausspuckt. Hier konnte ich aber nix brauchbares finden, irgendwelche Ideen?',
+        answer:
+          'Versuch mal die Ausgabe so zu filtern, dass nur das ausgegeben wird in dem ein echtes Wort vorkommt. Dann sollte es leichter sein die Lösung zu finden.',
+      },
+      {
+        question:
+          'Hallo zusammen, gleich mit einer Verständnisfrage: Soll überhaupt der Text aus "Cipher" mit "Cipher 2" entschlüsselbar sein? Ist doch eine ganz andere Verschlüsselung, oder?',
+        answer:
+          'Cipher 2 ist ne andere Verschlüsselung als Cipher 1. Ebenso wie Cipher 3 auch nochmal ne andere Verschlüsselung als Cipher 2 ist',
+      },
+    ],
+  },
   98: {
     entries: [
       {
@@ -436,6 +520,19 @@ export const hintsData = {
       {
         question: 'Sollte nicht das % alles anzeigen?',
         answer: 'Dafür brauchst du statt = den LIKE-Operator',
+      },
+    ],
+  },
+  100: {
+    entries: [
+      {
+        question: 'Ich weiß nicht was man hier tun soll.',
+        answer:
+          'du musst die Seite mit dem  Internet explorer öffnen oder es der Website vortäuschen',
+      },
+      {
+        question: 'Und wie ich habe nur Firefox',
+        answer: 'das ist genau deine Aufgabe',
       },
     ],
   },
@@ -475,6 +572,32 @@ export const hintsData = {
           'Es gab ja noch einige mehr Challanges mit Leet, war nicht mein Problem. Nur bei Challange 105 1337 verstehe ich den Zusammenhang nicht richtig.',
         answer:
           '1337 ist viel simpler gedacht, es geht nicht um leet, sondern  nur um die Anzahl der Buchstaben.',
+      },
+    ],
+  },
+  107: {
+    entries: [
+      {
+        question:
+          'bei den ports der angegblich der richtige ist, bekomme ich bei all meinen geräten einen error<br />SSL hat einen Eintrag erhalten, der die maximal erlaubte Länge überschritten hat. <br />Fehlercode: SSL_ERROR_RX_RECORD_TOO_LONG',
+        answer:
+          'kannst du nachschauen, ob du http (statt https) nutzt? Der Service unterstützt kein https. Die Links in der Aufgabe sollten eigentlich schon so gesetzt sein, aber viele Browser leiten das automatisch weiter<br />man muss manuell http://... tippen, sonst versucht der Browser automatisch, eine sichere Verbindung aufzubauen',
+      },
+      {
+        question: 'es wird automatisch wieder zu https geändert',
+        answer:
+          'Es ist tatsächlich das Problem, dass sich der Browser die Umleitung für 24h merkt. Inkognito-Tab hat bei mir geholfen<br />Korrektur: 365 Tage xD kannst du mal schauen, ob der private Tab hilft?',
+      },
+      {
+        question:
+          'Komisch, bei mir zeigt er keine offenen Ports im angegebenen Bereich an 🤔',
+        answer:
+          'Ich habe es gerade selber noch einmal getestet, und die Ports sind offen und der Dienst läuft fehlerfrei.',
+      },
+      {
+        question: 'Wie kann ich es lösen so das ich es schaffe',
+        answer:
+          'du könntest einen Script schreiben der alles durch probieren - oder vorhandene Tools wie nmap verwenden, die auf so etwas ausgelegt sind',
       },
     ],
   },
@@ -535,6 +658,16 @@ export const hintsData = {
       },
     ],
   },
+  301: {
+    entries: [
+      {
+        question:
+          'Ich versuche an der URL den /Chal/chal301/ anzugeben aber wenn ich es auf enter drücke ist es weiß mit dem Englischen Text am oberen Rand links zu seheb',
+        answer:
+          'Du musst eine Löschanfrage stellen und nicht nur die Seite aufrufen.',
+      },
+    ],
+  },
   305: {
     entries: [
       {
@@ -542,6 +675,12 @@ export const hintsData = {
           'Ich komme hier nicht mehr weiter. Ich versuche es zu entschlüsseln aber es kommt keine Antwort raus.',
         answer:
           '<a href="https://gchq.github.io/CyberChef/" target="_blank">https://gchq.github.io/CyberChef/</a> - probier doch mal alles durch, vielleicht findest du ja etwas. Ansonsten gibt es noch "Magic".',
+      },
+      {
+        question:
+          'Ich kann hier nicht genau ermitteln, was für eine Verschlüsselungmethode hier angewendet wurde. Sieht bisschen nach Base64 aus, Entschlüsselung funktioniert aber leider nicht. Kann mir jemand ein Hinweis geben?',
+        answer:
+          'wenn du magic nutzt, sagt es dir welche entschlüsselungen ähnlich sind',
       },
     ],
   },
@@ -688,6 +827,32 @@ export const hintsData = {
           'Versuche mal einzelne Frames zu googeln, irgendwann fangen die Treffer an sich zu überschneiden. Aus dem Text kannst Du auch entnehmen, dass Ferienwohnungen und Reiseberichte in die richtige Richtung gehen 👍',
       },
       { question: 'ist die lösung ein Stad/Ortsname?', answer: 'Yep' },
+    ],
+  },
+  318: {
+    entries: [
+      {
+        question:
+          'Bräuchte Hilfe bei der Aufgabe, habe mit mehreren Methoden versucht den Text zu enziffern aber da kommt nur Quatsch raus 😄 Kann mir jemand einen Denkanstoss geben?',
+        answer:
+          'Einige Standard-Methoden sind in https://en.wikipedia.org/wiki/Transposition_cipher beschrieben, für dich als Denkanstoß ganz allgemein 🙂',
+      },
+    ],
+  },
+  325: {
+    entries: [
+      {
+        question:
+          'Was soll man hier genau machen?<br />Ich habe schon versucht den Standort des Brunnen einzugeben und etliche andere sachen wie versteckte Mitteilungen zu finden aber komme hier nicht weiter. <br />Kann mir jemand ein Denkansatz geben? Danke 🙂',
+        answer:
+          'Etwas konkreter: Die Information ist in den bits der Pixel gespeichert. Wenn man die richtigen bits anschaut, findet sich etwas.',
+      },
+      {
+        question:
+          'Gibt es ein gutes Tool, wie man die Bits anschauen kann? Stecke hier leider fest..',
+        answer:
+          'der Fachjargon lautet stegano, mit image stegano online findest du einige ausgezeichnete Tools',
+      },
     ],
   },
   326: {

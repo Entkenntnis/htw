@@ -52,6 +52,33 @@ Ich weiß nicht was ich mehr machen soll.
 
 Help`,
   },
+  {
+    id: 5,
+    name: 'TS05',
+    ranks: [1, 2, 3],
+    value: `function fn_42() {
+    return 42
+}
+
+const zahl : number = fn_42`,
+  },
+  {
+    id: 6,
+    name: 'TS06',
+    ranks: [2, 4, 6],
+    value: `const obj = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: 4,
+}
+
+// Schreibung ist wichtig!      \`*/*/\`\`
+const result = obj.a + obj.A +
+               obj.C + obj.C + obj.C
+
+console.log(result)`,
+  },
 ]
 
 /**

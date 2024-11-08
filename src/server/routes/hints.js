@@ -30,6 +30,12 @@ export const hintsData = {
         answer:
           'Probiere [strg]+[u] (firefox, chrome) oder [cmd]+[alt]+[U] (safari)',
       },
+      {
+        question:
+          'Wie öffne ich auf dem iPad den Quelltext eine Webseite in Safari?',
+        answer:
+          'Ist bisschen umständlich, leider: <a href="https://apple.stackexchange.com/a/417701" target="_blank">https://apple.stackexchange.com/a/417701</a>',
+      },
     ],
   },
   15: {
@@ -45,6 +51,10 @@ export const hintsData = {
       {
         question: 'was ist die lösung',
         answer: 'deine aktuelle Punktzahl (mit kleiner Veränderung)',
+      },
+      {
+        question: 'Welche veränderung',
+        answer: 'wenn ich 1 eingebe, steht dann "-1 ist falsch" da',
       },
     ],
   },
@@ -66,6 +76,11 @@ export const hintsData = {
       {
         question: 'ich verstehe die aufgabe nicht',
         answer: 'Da ist ein Text der kurz erscheint',
+      },
+      {
+        question: 'Wie kann ich den Text in so kurzer Zeit lesen?',
+        answer:
+          'Schaue genau auf die richtige Stelle und lies Buchstabe für Buchstabe',
       },
     ],
   },
@@ -233,6 +248,10 @@ export const hintsData = {
         question: 'Krieg ich einen Tipp',
         answer: 'Welches Gemälde sieht du? Ist berühmt und hat einen Namen.',
       },
+      {
+        question: 'Wann wurde die monalisa gemalt',
+        answer: 'Ist egal - es geht um das Geburtsjahr des Malers',
+      },
     ],
   },
   71: {
@@ -287,6 +306,11 @@ export const hintsData = {
       },
     ],
   },
+  77: {
+    entries: [
+      { question: 'Wer ist am 23 Juni 1912 geboren', answer: 'Suchmaschine' },
+    ],
+  },
   78: {
     entries: [
       {
@@ -330,6 +354,7 @@ export const hintsData = {
           'Verstehe die Aufgabe nicht idk was ich da machen soll hab schon versucht da irgendwie Metadaten rauszuholen da stand aber nichts',
         answer: 'Guck mal genauer auf dem Bild - vielleicht siehst du dann was',
       },
+      { question: 'Was ist die Lösung? ', answer: 'ist im Bild versteckt' },
     ],
   },
   88: {
@@ -498,6 +523,16 @@ export const hintsData = {
   116: {
     entries: [
       { question: 'Was ist die Lösung', answer: '15876000 ist die Lösung' },
+    ],
+  },
+  117: {
+    entries: [
+      {
+        question:
+          'gibt es ein prinzip, das man verfolgen soll, oder ist das einfach wildes ausprobieren?',
+        answer:
+          'Es gibt ein Prinzip, mit dem du die Aufgabe jedes Mal lösen kannst',
+      },
     ],
   },
   305: {

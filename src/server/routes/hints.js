@@ -345,7 +345,7 @@ export const hintsData = {
     entries: [
       {
         question: 'Wie kann ich die Bilder hier auf der Webseite verschieben?',
-        answer: 'Funktioniert nur mit Maus, leider nicht mit Touch/Finger',
+        answer: 'Probiere mit Maus oder mit dem Finger',
       },
     ],
   },

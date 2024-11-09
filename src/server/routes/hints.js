@@ -4,6 +4,15 @@ import escapeHTML from 'escape-html'
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
+  2: {
+    entries: [
+      {
+        question: 'Muss ich jetzt mir die Gebärdensprache angucken?',
+        answer:
+          'kuck einfach im internet nach geberdensprache und übersetz einfach',
+      },
+    ],
+  },
   3: {
     entries: [
       {
@@ -286,6 +295,16 @@ export const hintsData = {
       },
     ],
   },
+  66: {
+    entries: [
+      {
+        question:
+          'ich habbe viele bilder übereinander geleg aber das ergebniss schtimmt nicht',
+        answer:
+          'Das ist doch schon mal ein Anfang, ka wo du den letzten Buchstaben gelassen hast, aber wenn du dir den Titel anschaust solltest du auch so drauf kommen.',
+      },
+    ],
+  },
   68: {
     entries: [
       {
@@ -295,6 +314,19 @@ export const hintsData = {
       {
         question: 'Wann wurde die monalisa gemalt',
         answer: 'Ist egal - es geht um das Geburtsjahr des Malers',
+      },
+      {
+        question:
+          'Was ist die Lösung, Ich habe gegoogelt aber ist trotzdem falsch',
+        answer: 'Hast du nur das Jahr eingegeben? Ohne Tag und Monat?',
+      },
+    ],
+  },
+  69: {
+    entries: [
+      {
+        question: 'Wie kann ich die Bilder hier auf der Webseite verschieben?',
+        answer: 'Mit der Maus oder dem Finger sollte es klappen',
       },
     ],
   },
@@ -323,6 +355,30 @@ export const hintsData = {
         question: 'sag mal welches programm du benutzt hast',
         answer:
           'also ich habe tatsächlich kein programm benutzt, ich hab mir die datei in 1,75x geschwindigkeit angehört und alles aufgeschrieben',
+      },
+    ],
+  },
+  72: {
+    entries: [
+      {
+        question:
+          'Weiß jemand zufällig wie man Labyrinth löst ich klicke nur die ganze Zeit durch auf die Hoffnung die Antwort zu bekommen.',
+        answer: 'stift und papier helfen hier viel weiter ;)',
+      },
+      {
+        question: 'Kleine Frage: sollte es Karopapier sein?',
+        answer: 'muss nicht unbedingt sein, ist aber wohl am sinnvollsten',
+      },
+      {
+        question: 'Ich komme hier auch nicht weiter...',
+        answer:
+          'hast du es schon mit Stift und Karo-Papier probiert? Dann solltest du zumindest langsam einen besseren Überblick bekommen',
+      },
+      {
+        question:
+          'Ja, hab es schon mit Stift und Papier versucht. Aber entweder sterbe ich oder es steht, ich laufe im Kreis',
+        answer:
+          'an sich sollte sich der richtige Weg finden lassen, wenn man alle Möglichkeiten probiert',
       },
     ],
   },
@@ -412,6 +468,14 @@ export const hintsData = {
           'Ich stecke hier seit fast zwei Wochen fest, ich check nicht genau, was hier gemacht werden muss. Kann mir jemand helfen?',
         answer:
           'Jede der 11 Aufgaben kann man ja entweder gelöst haben oder nicht. Aber nicht jede Kombination funktioniert.<br />Start - Nicht blinzeln - ASCII -> funktioniert<br />Start - Gemälde -> funktioniert nicht.<br />Du musst also alle Kombinationen durchgehen und die zählen, die möglich sind, die Anzahl ist deine Antwort',
+      },
+    ],
+  },
+  84: {
+    entries: [
+      {
+        question: 'Ich checke die Aufgabe nicht',
+        answer: 'Finde die Antwort auf der Seite',
       },
     ],
   },

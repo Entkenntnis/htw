@@ -129,9 +129,25 @@ export const part1 = [
         de: story(
           'Kiwi',
           `
+<style>
+#text-div {
+  font-size: 1rem;
+}
+#image-el {
+  margin-bottom: 20px;
+}
+@media only screen and (min-width: 768px) {
+  #text-div {
+    font-size: 1.2rem;
+  }
+  #image-el {
+    margin-bottom: 60px;
+  }
+}
+</style>
 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #000000; color: white; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index:1000;" id="intro-div">
-    <img style="width: 500px; margin-bottom: 60px;" id="image-el" src="/story/intro1.jpg">
-    <div style="text-align: center; font-size: 1.2rem; max-width: 80%; margin-bottom: 20px; max-width: 65ch;" id="text-div">
+    <img style="width: 500px;" id="image-el" src="/story/intro1.jpg">
+    <div style="text-align: center; max-width: 80%; margin-bottom: 20px; max-width: 65ch;" id="text-div">
     Es ist das Jahr 2077. Der Umgang mit Technologie ist streng reguliert. Jedes technische Gerät besitzt einen festgelegten Zweck und darf nicht für andere Zwecke verwendet werden. Du baust eine Kaffeemaschine zu einem Wecker um? Dafür drohen viele Jahre Gefängnis.
     </div>
     <button style="margin-bottom: 40px;" class="btn btn-success continue-btn" onclick="continueIntro()" id="button-el">

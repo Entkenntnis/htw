@@ -100,29 +100,53 @@ export function getI18nExtension() {
     lng: 'de',
     key: 'home.invite_',
     value: `
+      <style>
+        #hackergirl {
+          max-width: 450px;
+          width: 100%;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        @media only screen and (min-width: 768px) {
+          #hackergirl {
+            max-width: 450px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+        @media only screen and (min-width: 992px) {
+          #hackergirl {
+            max-width: 430px;
+            display: block;
+            margin-top: 32px;
+          }
+        }
+        @media only screen and (min-width: 1200px) {
+          #hackergirl {
+            max-width: 460px;
+            display: block;
+            margin-top: 6px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      </style>
+
       <div class="container" style="margin-top:48px;">
         <div class="row">
-          <div class="col-lg" style="margin-left:-15px;">
-            <div style="padding:24px;padding-bottom:1px" class="jumbotron">
+          <div class="col-lg" style="">
+            <div style="padding-top: 12px;">
 
-              <p>Mit 13 Jahren beschloss ich, Hackerin zu werden.</p>
-
-              <p>Ich bewunderte diese Menschen. Diejenigen, die sich bis ins kleinste Detail mit einem System auskennen. Und die, die mit ihrer Kreativität und Ausdauer auch das scheinbar Unmögliche möglich machen.</p>
-
-              <p>Großartige Vorbilder zeigten mir den Weg und begleiteten mich durch viele Herausforderungen. Ich lernte sehr viel und dafür schätze ich mich glücklich.
-              </p>
-
-              <p>So möchte ich auch dich ein kleines Stück auf deiner Reise begleiten. Hier findest du Dinge, die mich damals wie heute faszinieren. Ich hoffe, sie werden dir von Nutzen sein.
-              </p>
-
-              <p style="text-align:right;">Anna42</p>
+             <img src="/hacker_girl.jpg" style="border-radius: 8px" id="hackergirl">
 
             </div>
           </div>
           <div class="col-lg" style="padding:24px;">
-            <p>Auf Hack The Web findest du einen spielerischen Einstieg in die Welt des Hackings. In vielfältigen Rätseln kannst du dein Wissen und deine Kreativität unter Beweis stellen. Der kreative Umgang mit Technologie steht im Vordergrund - du findest hier keine Anleitungen zum Knacken einer Webseite.</p>
+            <p>Auf Hack The Web findest du einen spielerischen Einstieg in die Welt des Hackings. In vielfältigen Rätseln kannst du dein Wissen und deine Kreativität unter Beweis stellen. Der kreative Umgang mit Technologie steht im Vordergrund - hier gibt es keine Anleitungen für verbotene Sachen.</p>
             
-            <p>Der Einstieg ist ohne Vorwissen möglich und ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Für die Registrierung reicht ein selbstgewählter Name und ein Passwort.
+            <p>Der Einstieg ist ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Registriere dich mit Benutzername und Passwort:
             </p>
 
             <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>

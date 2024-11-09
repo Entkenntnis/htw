@@ -4,6 +4,15 @@ import escapeHTML from 'escape-html'
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
+  2: {
+    entries: [
+      {
+        question: 'Muss ich jetzt mir die Gebärdensprache angucken?',
+        answer:
+          'kuck einfach im internet nach geberdensprache und übersetz einfach',
+      },
+    ],
+  },
   3: {
     entries: [
       {
@@ -105,6 +114,10 @@ export const hintsData = {
   },
   37: {
     entries: [
+      {
+        question: 'wie geht level 37 was muss ich machen das mit dem emoji',
+        answer: 'Den emoji in die antwort box eingeben',
+      },
       { question: 'der name des emojis', answer: 'grinning face von whatsapp' },
     ],
   },
@@ -156,6 +169,11 @@ export const hintsData = {
           'Hallöchen 🙂<br />Ich habe einen Weg gefunden die Aufgabe zu lösen, jedoch wurden mir bei meiner Methode keine Punkte gutgeschrieben.. ist das noch jemand anderem auch so gegangen?',
         answer:
           'Glückwunsch zum Lösen 🎉 Nach einer groben Rechnung passt deine Punktzahl zu deinen gelösten Aufgaben. Ich gehe davon aus, dass du die Aufgabe "unbemerkt" bereits gelöst hast (was bei manchen Methoden recht schnell passieren kann, v.a. bei der Aufgabe) und daher beim eigentlichen Versuch anscheinend die Punktzahl nicht verändert wurde.',
+      },
+      {
+        question:
+          'Ich frage mich, Wie ich das Rätsel lösen soll. Geht es auch von einem Smartphone?',
+        answer: 'Es geht, ist aber anspruchsvoller',
       },
     ],
   },
@@ -285,8 +303,24 @@ export const hintsData = {
     entries: [
       {
         question:
+          'Habe jetzt schon vieles versucht kann aber nicht auf greinden drücken könnte mit jemand die Antwort geben, bitte ?',
+        answer:
+          'wenn du auf "grind me" drückst, sollte ein Text wie "eyJnb2xkIjozNH0=" erscheinen. Das ist der Spielstand und wenn du den decodierst und änderst kannst du ihn als Antwort eingeben.',
+      },
+      {
+        question:
           'Ich habe gerade 3 Stunden versucht den Spielstand und den Grind me! Button zu um gehen bis ich auf die Idee gekommen bin den Quellcode von einer KI analysieren zulassen und Sie gebeten habe mir mögliche Schwachstellen auf zu zeigen. Sie meinte es gibt eine Schwachstelle bei der Verschlüsselung. Da ich mich erst seit zwei tagen mit Quellcodes beschäftige fiel mir das garnicht auf. Muss sagen eine sehr interessante Aufgabe',
         answer: ':)',
+      },
+    ],
+  },
+  66: {
+    entries: [
+      {
+        question:
+          'ich habbe viele bilder übereinander geleg aber das ergebniss schtimmt nicht',
+        answer:
+          'Das ist doch schon mal ein Anfang, ka wo du den letzten Buchstaben gelassen hast, aber wenn du dir den Titel anschaust solltest du auch so drauf kommen.',
       },
     ],
   },
@@ -300,13 +334,18 @@ export const hintsData = {
         question: 'Wann wurde die monalisa gemalt',
         answer: 'Ist egal - es geht um das Geburtsjahr des Malers',
       },
+      {
+        question:
+          'Was ist die Lösung, Ich habe gegoogelt aber ist trotzdem falsch',
+        answer: 'Hast du nur das Jahr eingegeben? Ohne Tag und Monat?',
+      },
     ],
   },
   69: {
     entries: [
       {
         question: 'Wie kann ich die Bilder hier auf der Webseite verschieben?',
-        answer: 'Funktioniert nur mit Maus, leider nicht mit Touch',
+        answer: 'Funktioniert nur mit Maus, leider nicht mit Touch/Finger',
       },
     ],
   },
@@ -335,6 +374,30 @@ export const hintsData = {
         question: 'sag mal welches programm du benutzt hast',
         answer:
           'also ich habe tatsächlich kein programm benutzt, ich hab mir die datei in 1,75x geschwindigkeit angehört und alles aufgeschrieben',
+      },
+    ],
+  },
+  72: {
+    entries: [
+      {
+        question:
+          'Weiß jemand zufällig wie man Labyrinth löst ich klicke nur die ganze Zeit durch auf die Hoffnung die Antwort zu bekommen.',
+        answer: 'stift und papier helfen hier viel weiter ;)',
+      },
+      {
+        question: 'Kleine Frage: sollte es Karopapier sein?',
+        answer: 'muss nicht unbedingt sein, ist aber wohl am sinnvollsten',
+      },
+      {
+        question: 'Ich komme hier auch nicht weiter...',
+        answer:
+          'hast du es schon mit Stift und Karo-Papier probiert? Dann solltest du zumindest langsam einen besseren Überblick bekommen',
+      },
+      {
+        question:
+          'Ja, hab es schon mit Stift und Papier versucht. Aber entweder sterbe ich oder es steht, ich laufe im Kreis',
+        answer:
+          'an sich sollte sich der richtige Weg finden lassen, wenn man alle Möglichkeiten probiert',
       },
     ],
   },
@@ -435,6 +498,14 @@ export const hintsData = {
       },
     ],
   },
+  84: {
+    entries: [
+      {
+        question: 'Ich checke die Aufgabe nicht',
+        answer: 'Finde die Antwort auf der Seite',
+      },
+    ],
+  },
   85: {
     entries: [
       {
@@ -484,6 +555,15 @@ export const hintsData = {
         question:
           'Ist der Zeitraum jeden Tag zur gleichen Zeit, oder ändert der sich?',
         answer: 'Sollte gleich bleiben',
+      },
+    ],
+  },
+  91: {
+    entries: [
+      {
+        question:
+          'Ich verstehe nicht wo die Cookies gespeichert werden sollen kann mir irgendwer helfen',
+        answer: 'Im Browser - schau mal in die DevTools',
       },
     ],
   },
@@ -556,6 +636,15 @@ export const hintsData = {
       },
     ],
   },
+  101: {
+    entries: [
+      {
+        question: 'Es hört einfach nicht auf. Wie kann ich es scneller Lösen',
+        answer:
+          'Also in Python ohne externe Pakete braucht es je nach Rechner ca. eine Minute, wenn es deutlich länger braucht solltest du dein Programm überprüfen. ',
+      },
+    ],
+  },
   102: {
     entries: [
       {
@@ -563,6 +652,11 @@ export const hintsData = {
           'Kann mir hier jemand weiterhelfen? Ich komme hier echt nicht auf einen grünen Zweig',
         answer:
           'Der verschlüsselte Text ist in hex. Daraus musst du erstmal Bits machen. Dann die Schlüssel durchschieben. Die entschlüsselten Bits dann in ascii. Das sind dann 256x256=65536 Zeilen. Einige wenige davon werden lesbar sein. Das ist die Lösung',
+      },
+      {
+        question: 'wie soll ich nur die richtige antwort herausfiltern',
+        answer:
+          'bisher hatten alle Antwort Sätze ein bestimmtes Muster. Filter einfach danach ob ein bestimmtes Wort enthalten ist.',
       },
     ],
   },
@@ -629,6 +723,10 @@ export const hintsData = {
         answer:
           'ChatGPT ist leider nicht gut auf brainfuck trainiert - es gibt andere online tools, die dir solche Programme generieren können',
       },
+      {
+        question: 'Wie funktioniert es? Was muss ich beachten',
+        answer: 'Das ist eine Programmiersprache guckt im Internet danach',
+      },
     ],
   },
   112: {
@@ -685,6 +783,16 @@ export const hintsData = {
           'Ich versuche an der URL den /Chal/chal301/ anzugeben aber wenn ich es auf enter drücke ist es weiß mit dem Englischen Text am oberen Rand links zu seheb',
         answer:
           'Du musst eine Löschanfrage stellen und nicht nur die Seite aufrufen.',
+      },
+    ],
+  },
+  304: {
+    entries: [
+      {
+        question:
+          'Gibt es eine einfachere möglichkeit, als ein skript, welches alle zahlen durchgeht und addiert? (Ausser Listen herunterladen und die addieren lassen 😅) Mein Skript wäre nämlich voraussichtlich erst in 14+ Tagen fertig :/',
+        answer:
+          'Wenn dus dir nicht leicht machen willst, muss wohl ein effizienterer Algorithmus her ;D Eine etwas optimierte Version des Sieb des Eratosthenes hat bei mir als Python Skript etwa 15 Minuten gedauert',
       },
     ],
   },
@@ -811,6 +919,16 @@ export const hintsData = {
       {
         question: 'wenn ich mit dem Torbrowser die Seite öffne kommt ein Error',
         answer: 'Ist evtl. der Punkt am Ende deiner URL zuviel?',
+      },
+      {
+        question:
+          'Hier komme ich nicht in eine Seite rein weil es sagt das der Server nicht existiert',
+        answer: 'Gehst du auch mit dem Tor Browser auf die Seite?',
+      },
+      {
+        question: 'Ich versuche es zu kopieren aber es ist die Warnung',
+        answer:
+          'du must dir den Tor (The onion router) Browser herunterladen und die website damit aufrufen. Den gibt es für fast jedes OS.',
       },
     ],
   },

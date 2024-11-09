@@ -3266,28 +3266,58 @@ PIXI.loader
         `,
         `
         
-        <div style="display:flex;flex-wrap:wrap;">
-        <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
-        <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
-        <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
-        <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
-        <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
-        <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
+        <div style="display:flex;flex-wrap:wrap;" id="puzzle-container">
+          <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
+          <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
+          <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
+          <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
+          <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
+          <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
         </div>
         
         <script src="/jquery-3.6.0.js"></script>
-        <script src="/jquery-ui.js"></script>
         
         <style>
           .draggable {
             margin: 12px;
+            touch-action: none;
+            user-select: none;
+          }
+          #puzzle-container {
+            position: relative;
+            min-height: 400px;
           }
         </style>
         
         <script>
-            $( function() {
-              $( ".draggable" ).draggable()
-            } )
+          $(function() {
+            $(".draggable").each(function() {
+              var el = $(this);
+              var parent = el.parent();
+              
+              el.on("touchstart mousedown", function(e) {
+                e.preventDefault();
+                var startX = e.type === 'touchstart' ? e.originalEvent.touches[0].clientX : e.clientX;
+                var startY = e.type === 'touchstart' ? e.originalEvent.touches[0].clientY : e.clientY;
+                var offsetX = el.offset().left - startX;
+                var offsetY = el.offset().top - startY;
+                
+                $(document).on("touchmove mousemove", function(e) {
+                  e.preventDefault();
+                  var clientX = e.type === 'touchmove' ? e.originalEvent.touches[0].clientX : e.clientX;
+                  var clientY = e.type === 'touchmove' ? e.originalEvent.touches[0].clientY : e.clientY;
+                  el.offset({
+                    left: clientX + offsetX,
+                    top: clientY + offsetY
+                  });
+                });
+                
+                $(document).on("touchend mouseup", function() {
+                  $(document).off("touchmove mousemove touchend mouseup");
+                });
+              });
+            });
+          });
         </script>
       `
       ),

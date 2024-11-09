@@ -256,6 +256,10 @@ export const hintsData = {
   56: {
     entries: [
       {
+        question: 'ich checke die aufgabe nicht',
+        answer: 'Du brauchst eine Webseite, wo dein Nutzername enthalten ist',
+      },
+      {
         question: 'ich hab alles ausprobiert',
         answer:
           'hast du schonmal was von pastebin gehört das solltest du dir mal angucken',
@@ -327,6 +331,14 @@ export const hintsData = {
       {
         question: 'Wie kann ich die Bilder hier auf der Webseite verschieben?',
         answer: 'Mit der Maus oder dem Finger sollte es klappen',
+      },
+    ],
+  },
+  69: {
+    entries: [
+      {
+        question: 'Wie kann ich die Bilder hier auf der Webseite verschieben?',
+        answer: 'Funktioniert nur mit Maus, leider nicht mit Touch',
       },
     ],
   },
@@ -440,6 +452,14 @@ export const hintsData = {
       {
         question: 'Wie funktioniert diese Aufgabe ',
         answer: 'Hast du die Druckvorschau geöffnet?',
+      },
+    ],
+  },
+  79: {
+    entries: [
+      {
+        question: 'Was ist die Antwort ',
+        answer: 'Der US-Bundesstaat, wo das passiert ist',
       },
     ],
   },

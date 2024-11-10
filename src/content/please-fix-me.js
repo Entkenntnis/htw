@@ -5,31 +5,52 @@ const levels = [
     id: 1,
     name: 'TS01',
     ranks: [1, 2, 4],
-    value: `// Zahlen sind Zahlen, Texte sind Texte
-const zahl: number = 10
+    value: `function fn_42() {
+	return 42
+}
 
-const text: string = "htw"
-
-///* \` Die Mischung funktioniert nicht \`*/\`
-const unentschlossen: number = "42"
-
-console.log(unentschlossen)`,
+const zahl: number = fn_42
+`,
   },
   {
     id: 2,
     name: 'TS02',
-    ranks: [1, 2, 3],
-    value: `// Schrödingers Text
-const vielleichtText: string | null = Math.random() < 0.5 ? 'juhu!' : null
+    ranks: [1, 2, 4],
+    value: `const zahl: number = 101
 
-/* \` Aber ich will sicher einen Text haben! \`*/
-const sicherText: string = vielleichtText
+const text: string = "htw"
 
-console.log(sicherText)`,
+const ups: number = "42"
+`,
   },
   {
     id: 3,
     name: 'TS03',
+    ranks: [2, 4, 7],
+    value: `Ich mag viel lieber in Python programmieren
+    
+Hab ja einfach gar keinen Bock -_-
+`,
+  },
+  {
+    id: 4,
+    name: 'TS04',
+    ranks: [1, 2, 3],
+    value: `let vielleichtText: string | null = null
+
+if (Math.random() < 0.5) {
+	/* \` \` */
+	vielleichtText = 'Juhu!'
+}
+
+const sicherText: string = vielleichtText
+
+console.log(sicherText)
+`,
+  },
+  {
+    id: 5,
+    name: 'TS05',
     ranks: [1, 3, 6],
     value: `interface Datum {
   tag: number
@@ -39,45 +60,29 @@ console.log(sicherText)`,
 
 // \` So alt, dass schon Teile fehlen \`
 const damals: Datum = {
-  tag: 2,
+  monat: 12,
   jahr: 1995,
-}`,
-  },
-  {
-    id: 4,
-    name: 'TS04',
-    ranks: [2, 4, 7],
-    value: `Keine Hoffnung mehr für diesen Code.
-Ich weiß nicht was ich mehr machen soll.
-
-Help`,
-  },
-  {
-    id: 5,
-    name: 'TS05',
-    ranks: [1, 2, 3],
-    value: `function fn_42() {
-    return 42
 }
-
-const zahl : number = fn_42`,
+`,
   },
   {
     id: 6,
     name: 'TS06',
     ranks: [2, 4, 6],
-    value: `const obj = {
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 4,
+    value: `const zutaten = {
+    apfel: 10,
+    birne: 5,
+    clementine: 3,
+    dattel: 4,
 }
 
-// Schreibung ist wichtig!      \`*/*/\`\`
-const result = obj.a + obj.A +
-               obj.C + obj.C + obj.C
+const salat =
+  	// Obst */\`\`*/ salat und Buchstabenmix
+    zutaten.apfel + zutaten.Apfel +
+    zutaten.Clementine + zutaten.Clementine + zutaten.Clementine
 
-console.log(result)`,
+console.log(salat)
+`,
   },
 ]
 

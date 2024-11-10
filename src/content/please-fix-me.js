@@ -250,11 +250,17 @@ export function setupPleaseFixMe(App) {
 
             if (markers.length == 0) {
               if (distance > 0 && distance <= ranks[2] && (records[levelId] == -1 || distance < records[levelId])) {
-                setTimeout(() => {
+                let previousRank = records[levelId] == -1 ? 'none' : ranks.findIndex((el) => records[levelId] <= el)
+                let currentRank = ranks.findIndex((el) => distance <= el)
+                console.log(previousRank, currentRank)
+                if (previousRank == currentRank) {
                   document.getElementById('info-box').innerHTML = 'Glückwünsch - neuer persönlicher Rekord!'
-                  document.getElementById('info-box').classList.remove('alert-dark')
-                  document.getElementById('info-box').classList.add('alert-success')
-                }, 400)
+                } else {
+                   document.getElementById('info-box').innerHTML = 'Glückwünsch - Rang <strong>' + ['Hacker', 'Gold', 'Holz'][currentRank] + '</strong> freigeschaltet!'
+                }
+
+                document.getElementById('info-box').classList.remove('alert-dark')
+                document.getElementById('info-box').classList.add('alert-success')
                 records[levelId] = distance
                 sessionStorage.setItem('htw_please_fix_me_records', JSON.stringify(records))
                 document.getElementById('option-level-' + levelId).innerHTML = 'Level ' + name + (distance <= ranks[0] ? ' [Hacker]' : distance <= ranks[1] ? ' [Gold]' : ' [Holz]')
@@ -274,11 +280,6 @@ export function setupPleaseFixMe(App) {
             } else {
               document.getElementById('bar').classList.add('bg-warning')
               document.getElementById('bar').classList.remove('bg-success')
-
-              
-              document.getElementById('info-box').innerHTML = 'Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.'
-              document.getElementById('info-box').classList.add('alert-dark')
-              document.getElementById('info-box').classList.remove('alert-success')
             }
           }
 
@@ -294,6 +295,10 @@ export function setupPleaseFixMe(App) {
             distance = levenshtein(value, codeContent)
             document.getElementById('distance').innerHTML = distance
             document.getElementById('bar').style.width = Math.max(2.5, Math.min(100 - Math.round(distance * 100 / barLength), 97.5)) + "%"
+
+            document.getElementById('info-box').innerHTML = 'Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.'
+            document.getElementById('info-box').classList.add('alert-dark')
+            document.getElementById('info-box').classList.remove('alert-success')
           })
           
           monaco.editor.onDidChangeMarkers(() => {

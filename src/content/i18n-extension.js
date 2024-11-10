@@ -151,7 +151,7 @@ export function getI18nExtension() {
 
             <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>
 
-            <p>Über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>1234</code>.</p>
+            <p>Über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>htw123</code>.</p>
           </div>
         </div>
       </div>
@@ -185,7 +185,7 @@ export function getI18nExtension() {
 
             <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Register now</a></p>
 
-            <p>Through our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> you can get in touch with the community. To get a quick look, use the login data <code>demo</code> / <code>1234</code>.</p>
+            <p>Through our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> you can get in touch with the community. To get a quick look, use the login data <code>demo</code> / <code>htw123</code>.</p>
           </div>
         </div>
       </div>

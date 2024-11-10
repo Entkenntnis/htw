@@ -4,32 +4,88 @@ const levels = [
   {
     id: 1,
     name: 'TS01',
-    ranks: [1, 2, 4],
-    value: `// Zahlen sind Zahlen, Texte sind Texte
-const zahl: number = 10
+    ranks: [1, 2, 3],
+    value: `const zahl = 13
 
-const text: string = "htw"
-
-///* \` Die Mischung funktioniert nicht \`*/\`
-const unentschlossen: number = "42"
-
-console.log(unentschlossen)`,
+if (13 = zahl) {
+	console.log('Lieblingszahl!')
+}
+`,
   },
   {
     id: 2,
     name: 'TS02',
     ranks: [1, 2, 3],
-    value: `// Schrödingers Text
-const vielleichtText: string | null = Math.random() < 0.5 ? 'juhu!' : null
+    value: `const alter = 15
 
-/* \` Aber ich will sicher einen Text haben! \`*/
-const sicherText: string = vielleichtText
-
-console.log(sicherText)`,
+if (alter 18) {
+	console.log('Kind')
+}`,
   },
   {
     id: 3,
     name: 'TS03',
+    ranks: [1, 2, 4],
+    value: `const zahl: number = 101
+
+const text: string = "htw"
+
+const ups: number = "42"
+`,
+  },
+  {
+    id: 4,
+    name: 'TS04',
+    ranks: [1, 2, 4],
+    value: `function fn_42() {
+	return 42
+}
+
+const zahl: number = fn_42
+`,
+  },
+  {
+    id: 5,
+    name: 'TS05',
+    ranks: [2, 3, 4],
+    value: `const text = "Und sie fragte sich, was "Typescript" wohl bedeutet"
+`,
+  },
+  {
+    id: 6,
+    name: 'TS06',
+    ranks: [2, 4, 7],
+    value: `Ich mag viel lieber in Python programmieren
+    
+Hab ja einfach gar keinen Bock -_-
+`,
+  },
+  {
+    id: 7,
+    name: 'TS07',
+    ranks: [1, 2, 3],
+    value: `let vielleichtText: string | null = null
+
+if (Math.random() < 0.5) {
+	/* \` \` */
+	vielleichtText = 'Juhu!'
+}
+
+const sicherText: string = vielleichtText
+
+console.log(sicherText)
+`,
+  },
+  {
+    id: 8,
+    name: 'TS08',
+    ranks: [1, 2, 3],
+    value: `const ergebnis = 11 + -(-3 - ((3 + 4) / 10) * 40
+`,
+  },
+  {
+    id: 9,
+    name: 'TS09',
     ranks: [1, 3, 6],
     value: `interface Datum {
   tag: number
@@ -39,45 +95,29 @@ console.log(sicherText)`,
 
 // \` So alt, dass schon Teile fehlen \`
 const damals: Datum = {
-  tag: 2,
+  monat: 12,
   jahr: 1995,
-}`,
-  },
-  {
-    id: 4,
-    name: 'TS04',
-    ranks: [2, 4, 7],
-    value: `Keine Hoffnung mehr für diesen Code.
-Ich weiß nicht was ich mehr machen soll.
-
-Help`,
-  },
-  {
-    id: 5,
-    name: 'TS05',
-    ranks: [1, 2, 3],
-    value: `function fn_42() {
-    return 42
 }
-
-const zahl : number = fn_42`,
+`,
   },
   {
-    id: 6,
-    name: 'TS06',
+    id: 10,
+    name: 'TS10',
     ranks: [2, 4, 6],
-    value: `const obj = {
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 4,
+    value: `const zutaten = {
+    apfel: 10,
+    birne: 5,
+    clementine: 3,
+    dattel: 4,
 }
 
-// Schreibung ist wichtig!      \`*/*/\`\`
-const result = obj.a + obj.A +
-               obj.C + obj.C + obj.C
+const salat =
+  	// Obst */\`\`*/ salat und Buchstabenmix
+    zutaten.apfel + zutaten.Apfel +
+    zutaten.Clementine + zutaten.Clementine + zutaten.Clementine
 
-console.log(result)`,
+console.log(salat)
+`,
   },
 ]
 
@@ -93,9 +133,9 @@ export function setupPleaseFixMe(App) {
       content: `
         <style>
           .checkmark::after {
-            content: ' ✓'; /* Adds a checkmark */
-            color: green;  /* Customize the checkmark color */
-            font-size: 24px; /* Customize the checkmark size */
+            content: ' ✓';
+            color: green;  
+            font-size: 24px; 
             vertical-align: baseline;
           }
           .checkmark {
@@ -107,26 +147,37 @@ export function setupPleaseFixMe(App) {
           .map((l) => {
             return `<option value="${l.id}" id="option-level-${l.id}">Level ${l.name}</option>`
           })
-          .join('')}</select></div>
-
+          .join('')}</select>
+        </div>
 
         <div style="position: relative; margin-top: 16px;">
-          <div style="position: absolute; left: calc(20% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker"></div>
+          <div style="position: absolute; left: calc(20% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
+            <div style="margin-top:29px; margin-left: 8px;" id="hacker-count">1</div>
+          </div>
           <div style="position: absolute; left: calc(20% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
           
-          <div style="position: absolute; left: calc(40% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker"></div>
+          <div style="position: absolute; left: calc(40% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker">
+            <div style="margin-top:29px; margin-left: 8px;" id="gold-count">2</div>
+          </div>
           <div style="position: absolute; left: calc(40% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
           
-          <div style="position: absolute; left: calc(80% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker"></div>
+          <div style="position: absolute; left: calc(80% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker">
+            <div style="margin-top:29px; margin-left: 8px;" id="holz-count">4</div>
+          </div>
           <div style="position: absolute; left: calc(80% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
         </div>
-        <div class="progress" style="margin-top: 56px; margin-bottom: 36px; justify-content: end;">
+
+        <div class="progress" style="margin-top: 56px; margin-bottom: 44px; justify-content: end;">
           <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 97.5%;" id="bar"></div>
+        </div>
+
+        <div class="alert alert-dark" role="alert" style="padding: 24px;" id="info-box">
+          Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.
         </div>
 
         <div id="container" style="height: 400px"></div>
         
-        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb">Das Typescript-Programm enthält Fehler. Korrigiere diese mit so wenig Änderungen wie möglich. Der Sinn des Programms darf verändert werden.<br />Aktuelle Änderungen: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb; margin-bottom: 48px;">Aktuelle Änderungen: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
 
         <link
           rel="stylesheet"
@@ -138,9 +189,7 @@ export function setupPleaseFixMe(App) {
         </script>
         <script src="/monaco/vs/loader.js"></script>
         <script src="/monaco/vs/editor/editor.main.js"></script>
-        <script>
-var levenshtein=function(){function r(r,t,e,o,h){return r<t||e<t?r>e?e+1:r+1:o===h?t:t+1}return function(t,e){if(t===e)return 0;if(t.length>e.length){var o,h,n,a,c,f,d,u,A,C,_,$,i=t;t=e,e=i}for(var v=t.length,l=e.length;v>0&&t.charCodeAt(v-1)===e.charCodeAt(l-1);)v--,l--;for(var g=0;g<v&&t.charCodeAt(g)===e.charCodeAt(g);)g++;if(v-=g,l-=g,0===v||l<3)return l;var s=0,p=[];for(o=0;o<v;o++)p.push(o+1),p.push(t.charCodeAt(g+o));for(var b=p.length-1;s<l-3;)for(o=0,A=e.charCodeAt(g+(h=s)),C=e.charCodeAt(g+(n=s+1)),_=e.charCodeAt(g+(a=s+2)),$=e.charCodeAt(g+(c=s+3)),f=s+=4;o<b;o+=2)h=r(d=p[o],h,n,A,u=p[o+1]),n=r(h,n,a,C,u),a=r(n,a,c,_,u),f=r(a,c,f,$,u),p[o]=f,c=a,a=n,n=h,h=d;for(;s<l;)for(o=0,A=e.charCodeAt(g+(h=s)),f=++s;o<b;o+=2)d=p[o],p[o]=f=r(d,h,f,A,p[o+1]),h=d;return f}}();
-        </script>
+        <script src="/levenshtein.js"></script>
 
         <script>
           const levels = JSON.parse(decodeURIComponent(atob("${Buffer.from(
@@ -174,7 +223,9 @@ var levenshtein=function(){function r(r,t,e,o,h){return r<t||e<t?r>e?e+1:r+1:o==
 
           Object.keys(records).forEach(id => {
             const l = levels.find(l => l.id == id)
-            document.getElementById('option-level-' + id).innerHTML = 'Level ' + l.name + (records[id] <= l.ranks[0] ? ' [Hacker]' : records[id] <= l.ranks[1] ? ' [Gold]' : ' [Holz]')  
+            if (l && records[id] > 0) {
+              document.getElementById('option-level-' + id).innerHTML = 'Level ' + l.name + (records[id] <= l.ranks[0] ? ' [Hacker]' : records[id] <= l.ranks[1] ? ' [Gold]' : ' [Holz]')  
+            }
           })
           
           function setLevel(n) {
@@ -184,10 +235,13 @@ var levenshtein=function(){function r(r,t,e,o,h){return r<t||e<t?r>e?e+1:r+1:o==
             barLength = l.ranks[2]+1
             ranks = l.ranks
             name = l.name
-            levelId = n
+            levelId = l.id
             if (!records[levelId])
               records[levelId] = -1
             myEditor.setValue(value)
+
+            document.getElementById('info-box').innerHTML = 'Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.'
+            document.getElementById('info-box').classList.remove('alert-success')
             
             document.getElementById('record').innerHTML = records[levelId] == -1 ? '--' : records[levelId]
             document.getElementById('holz').classList.remove('checkmark')
@@ -206,12 +260,15 @@ var levenshtein=function(){function r(r,t,e,o,h){return r<t||e<t?r>e?e+1:r+1:o==
             }
 
             document.getElementById('holz-marker').style.setProperty('left', \`calc(\${Math.round(l.ranks[2] * 100 / barLength)}% - 2px)\`)
+            document.getElementById('holz-count').innerHTML = l.ranks[2]
             document.getElementById('holz').style.setProperty('left', \`calc(\${Math.round(l.ranks[2] * 100 / barLength)}% - 16px)\`)
 
             document.getElementById('gold-marker').style.setProperty('left', \`calc(\${Math.round(l.ranks[1] * 100 / barLength)}% - 2px)\`)
+            document.getElementById('gold-count').innerHTML = l.ranks[1]
             document.getElementById('gold').style.setProperty('left', \`calc(\${Math.round(l.ranks[1] * 100 / barLength)}% - 18px)\`)
 
             document.getElementById('hacker-marker').style.setProperty('left', \`calc(\${Math.round(l.ranks[0] * 100 / barLength)}% - 2px)\`)
+            document.getElementById('hacker-count').innerHTML = l.ranks[0]
             document.getElementById('hacker').style.setProperty('left', \`calc(\${Math.round(l.ranks[0] * 100 / barLength)}% - 24px)\`)
           }
             
@@ -233,7 +290,17 @@ var levenshtein=function(){function r(r,t,e,o,h){return r<t||e<t?r>e?e+1:r+1:o==
 
             if (markers.length == 0) {
               if (distance > 0 && distance <= ranks[2] && (records[levelId] == -1 || distance < records[levelId])) {
-                setTimeout(() => {alert('Glückwunsch, neuer Rekord!')}, 400)
+                let previousRank = records[levelId] == -1 ? 'none' : ranks.findIndex((el) => records[levelId] <= el)
+                let currentRank = ranks.findIndex((el) => distance <= el)
+                console.log(previousRank, currentRank)
+                if (previousRank == currentRank) {
+                  document.getElementById('info-box').innerHTML = 'Glückwünsch - neuer persönlicher Rekord!'
+                } else {
+                   document.getElementById('info-box').innerHTML = 'Glückwünsch - Rang <strong>' + ['Hacker', 'Gold', 'Holz'][currentRank] + '</strong> freigeschaltet!'
+                }
+
+                document.getElementById('info-box').classList.remove('alert-dark')
+                document.getElementById('info-box').classList.add('alert-success')
                 records[levelId] = distance
                 sessionStorage.setItem('htw_please_fix_me_records', JSON.stringify(records))
                 document.getElementById('option-level-' + levelId).innerHTML = 'Level ' + name + (distance <= ranks[0] ? ' [Hacker]' : distance <= ranks[1] ? ' [Gold]' : ' [Holz]')
@@ -268,6 +335,10 @@ var levenshtein=function(){function r(r,t,e,o,h){return r<t||e<t?r>e?e+1:r+1:o==
             distance = levenshtein(value, codeContent)
             document.getElementById('distance').innerHTML = distance
             document.getElementById('bar').style.width = Math.max(2.5, Math.min(100 - Math.round(distance * 100 / barLength), 97.5)) + "%"
+
+            document.getElementById('info-box').innerHTML = 'Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.'
+            document.getElementById('info-box').classList.add('alert-dark')
+            document.getElementById('info-box').classList.remove('alert-success')
           })
           
           monaco.editor.onDidChangeMarkers(() => {

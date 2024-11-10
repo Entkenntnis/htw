@@ -4,17 +4,27 @@ const levels = [
   {
     id: 1,
     name: 'TS01',
-    ranks: [1, 2, 4],
-    value: `function fn_42() {
-	return 42
-}
+    ranks: [1, 2, 3],
+    value: `const zahl = 13
 
-const zahl: number = fn_42
+if (13 = zahl) {
+	console.log('Lieblingszahl!')
+}
 `,
   },
   {
     id: 2,
     name: 'TS02',
+    ranks: [1, 2, 3],
+    value: `const alter = 15
+
+if (alter 18) {
+	console.log('Kind')
+}`,
+  },
+  {
+    id: 3,
+    name: 'TS03',
     ranks: [1, 2, 4],
     value: `const zahl: number = 101
 
@@ -24,8 +34,26 @@ const ups: number = "42"
 `,
   },
   {
-    id: 3,
-    name: 'TS03',
+    id: 4,
+    name: 'TS04',
+    ranks: [1, 2, 4],
+    value: `function fn_42() {
+	return 42
+}
+
+const zahl: number = fn_42
+`,
+  },
+  {
+    id: 5,
+    name: 'TS05',
+    ranks: [2, 3, 4],
+    value: `const text = "Und sie fragte sich, was "Typescript" wohl bedeutet"
+`,
+  },
+  {
+    id: 6,
+    name: 'TS06',
     ranks: [2, 4, 7],
     value: `Ich mag viel lieber in Python programmieren
     
@@ -33,8 +61,8 @@ Hab ja einfach gar keinen Bock -_-
 `,
   },
   {
-    id: 4,
-    name: 'TS04',
+    id: 7,
+    name: 'TS07',
     ranks: [1, 2, 3],
     value: `let vielleichtText: string | null = null
 
@@ -49,8 +77,15 @@ console.log(sicherText)
 `,
   },
   {
-    id: 5,
-    name: 'TS05',
+    id: 8,
+    name: 'TS08',
+    ranks: [1, 2, 3],
+    value: `const ergebnis = 11 + -(-3 - ((3 + 4) / 10) * 40
+`,
+  },
+  {
+    id: 9,
+    name: 'TS09',
     ranks: [1, 3, 6],
     value: `interface Datum {
   tag: number
@@ -66,8 +101,8 @@ const damals: Datum = {
 `,
   },
   {
-    id: 6,
-    name: 'TS06',
+    id: 10,
+    name: 'TS10',
     ranks: [2, 4, 6],
     value: `const zutaten = {
     apfel: 10,
@@ -188,7 +223,7 @@ export function setupPleaseFixMe(App) {
 
           Object.keys(records).forEach(id => {
             const l = levels.find(l => l.id == id)
-            if (records[id] > 0) {
+            if (l && records[id] > 0) {
               document.getElementById('option-level-' + id).innerHTML = 'Level ' + l.name + (records[id] <= l.ranks[0] ? ' [Hacker]' : records[id] <= l.ranks[1] ? ' [Gold]' : ' [Holz]')  
             }
           })
@@ -200,7 +235,7 @@ export function setupPleaseFixMe(App) {
             barLength = l.ranks[2]+1
             ranks = l.ranks
             name = l.name
-            levelId = n
+            levelId = l.id
             if (!records[levelId])
               records[levelId] = -1
             myEditor.setValue(value)

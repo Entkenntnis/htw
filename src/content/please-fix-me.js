@@ -20,11 +20,19 @@ if (13 = zahl) {
 
 if (alter 18) {
 	console.log('Kind')
-}`,
+}
+`,
   },
   {
     id: 3,
     name: 'TS03',
+    ranks: [1, 2, 3],
+    value: `const einHalb = 0,5
+`,
+  },
+  {
+    id: 4,
+    name: 'TS04',
     ranks: [1, 2, 4],
     value: `const zahl: number = 101
 
@@ -34,8 +42,8 @@ const ups: number = "42"
 `,
   },
   {
-    id: 4,
-    name: 'TS04',
+    id: 5,
+    name: 'TS05',
     ranks: [1, 2, 4],
     value: `function fn_42() {
 	return 42
@@ -45,15 +53,15 @@ const zahl: number = fn_42
 `,
   },
   {
-    id: 5,
-    name: 'TS05',
+    id: 6,
+    name: 'TS06',
     ranks: [2, 3, 4],
     value: `const text = "Und sie fragte sich, was "Typescript" wohl bedeutet"
 `,
   },
   {
-    id: 6,
-    name: 'TS06',
+    id: 7,
+    name: 'TS07',
     ranks: [2, 4, 7],
     value: `Ich mag viel lieber in Python programmieren
     
@@ -61,8 +69,8 @@ Hab ja einfach gar keinen Bock -_-
 `,
   },
   {
-    id: 7,
-    name: 'TS07',
+    id: 8,
+    name: 'TS08',
     ranks: [1, 2, 3],
     value: `let vielleichtText: string | null = null
 
@@ -77,15 +85,15 @@ console.log(sicherText)
 `,
   },
   {
-    id: 8,
-    name: 'TS08',
+    id: 9,
+    name: 'TS09',
     ranks: [1, 2, 3],
     value: `const ergebnis = 11 + -(-3 - ((3 + 4) / 10) * 40
 `,
   },
   {
-    id: 9,
-    name: 'TS09',
+    id: 10,
+    name: 'TS10',
     ranks: [1, 3, 6],
     value: `interface Datum {
   tag: number
@@ -101,8 +109,8 @@ const damals: Datum = {
 `,
   },
   {
-    id: 10,
-    name: 'TS10',
+    id: 11,
+    name: 'TS11',
     ranks: [2, 4, 6],
     value: `const zutaten = {
     apfel: 10,
@@ -125,7 +133,11 @@ console.log(salat)
  * @param {import("../data/types.js").App} App
  */
 export function setupPleaseFixMe(App) {
-  App.express.get('/please-fix-me', (req, res) => {
+  App.express.get('/please-fix-me', async (req, res) => {
+    const records = req.user
+      ? ((await App.storage.getItem('please_fix_me_records_' + req.user.id)) ??
+        '{}')
+      : '{}'
     renderPage(App, req, res, {
       page: 'please-fix-me',
       heading: 'Please Fix Me!',
@@ -142,6 +154,8 @@ export function setupPleaseFixMe(App) {
             margin-top: -10px;
           }
         </style>
+
+        <p><a href="/map">zurück</a></p>
 
         <div style="padding-bottom: 16px;"><select style="height: 36px; width: 300px;" onchange="setLevel(parseInt(this.value))">${levels
           .map((l) => {
@@ -177,7 +191,7 @@ export function setupPleaseFixMe(App) {
 
         <div id="container" style="height: 400px"></div>
         
-        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb; margin-bottom: 48px;">Aktuelle Änderungen: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb; margin-bottom: 48px;">Levenshtein-Distanz: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
 
         <link
           rel="stylesheet"
@@ -214,7 +228,7 @@ export function setupPleaseFixMe(App) {
           })
 
           let value = ''
-          let records = JSON.parse(sessionStorage.getItem('htw_please_fix_me_records') || '{}')
+          let records = JSON.parse('${records}')
           let levelId = -1
           let name = ''
           let ranks = []
@@ -294,15 +308,18 @@ export function setupPleaseFixMe(App) {
                 let currentRank = ranks.findIndex((el) => distance <= el)
                 console.log(previousRank, currentRank)
                 if (previousRank == currentRank) {
-                  document.getElementById('info-box').innerHTML = 'Glückwünsch - neuer persönlicher Rekord!'
+                  document.getElementById('info-box').innerHTML = 'Glückwunsch - neuer persönlicher Rekord!'
                 } else {
-                   document.getElementById('info-box').innerHTML = 'Glückwünsch - Rang <strong>' + ['Hacker', 'Gold', 'Holz'][currentRank] + '</strong> freigeschaltet!'
+                   document.getElementById('info-box').innerHTML = 'Glückwunsch - Rang <strong>' + ['Hacker', 'Gold', 'Holz'][currentRank] + '</strong> freigeschaltet!'
                 }
+
+                fetch('/please-fix-me/submission?code=' + encodeURIComponent(myEditor.getValue()) + '&id=' + levelId)
 
                 document.getElementById('info-box').classList.remove('alert-dark')
                 document.getElementById('info-box').classList.add('alert-success')
                 records[levelId] = distance
-                sessionStorage.setItem('htw_please_fix_me_records', JSON.stringify(records))
+                //sessionStorage.setItem('htw_please_fix_me_records', JSON.stringify(records))
+                fetch('/please-fix-me/records?records=' + encodeURIComponent(JSON.stringify(records)))
                 document.getElementById('option-level-' + levelId).innerHTML = 'Level ' + name + (distance <= ranks[0] ? ' [Hacker]' : distance <= ranks[1] ? ' [Gold]' : ' [Holz]')
                 document.getElementById('record').innerHTML = records[levelId]
               }
@@ -349,5 +366,32 @@ export function setupPleaseFixMe(App) {
       
       `,
     })
+  })
+
+  App.express.get('/please-fix-me/submission', async (req, res) => {
+    const code = req.query.code?.toString()
+    const id = parseInt(req.query.id?.toString() ?? '-')
+    if (code && !isNaN(id) && id > 0) {
+      await App.storage.setItem(
+        'please_fix_me_submission_' + id + '_' + new Date().getTime(),
+        code.slice(0, 2000)
+      )
+    }
+    res.send('ok')
+  })
+
+  App.express.get('/please-fix-me/records', async (req, res) => {
+    const records = req.query.records?.toString()
+    const id = req.user ? req.user.id : NaN
+    if (records && !isNaN(id)) {
+      if (req.user && !App.config.editors.includes(req.user.name)) {
+        // editors can never set records
+        await App.storage.setItem(
+          'please_fix_me_records_' + id,
+          records.slice(0, 2000)
+        )
+      }
+    }
+    res.send('ok')
   })
 }

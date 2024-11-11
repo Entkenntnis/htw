@@ -219,8 +219,11 @@ export function setupPleaseFixMe(App) {
             padding: {
               top: 10
             },
+            scrollbar: {
+              alwaysConsumeMouseWheel: false
+            }
           });
-
+          
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
             allowNonTsExtensions: true,
             target: 99,

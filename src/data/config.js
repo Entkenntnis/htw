@@ -83,7 +83,7 @@ export const appConfig = {
         ? '<!-- <a href="/decode-me" style="position:absolute;left:1740px;top:1200px;" class="text-reset text-decoration-none"><div>Decode Me!</div><img src="/decode_me.png"></a> -->' +
           '<a href="/mortal-coil" style="position:absolute;left:2250px;top:500px;" class="text-reset text-decoration-none"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
           '<a href="/enough" style="position:absolute;left:57px;top:845px;" class="text-reset text-decoration-none"><div>&nbsp;&nbsp;&nbsp;Enough</div><img src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
-          '<a href="/please-fix-me" style="position:absolute;left:1060px;top:965px;" class="text-reset text-decoration-none"><div>Please Fix Me!</div><img src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 4px; border-radius: 4px;"></a>' +
+          '<a href="/please-fix-me" style="position:absolute;left:1370px;top:745px;" class="text-reset text-decoration-none"><div>Please Fix Me!</div><img src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px;"></a>' +
           '<a href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none"><div>Worms</div><img src="/worms.png" style="width:46px"></a>'
         : ''
     }

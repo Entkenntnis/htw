@@ -33,6 +33,13 @@ if (alter 18) {
   {
     id: 4,
     name: 'TS04',
+    ranks: [1, 2, 3],
+    value: `variable = 2
+`,
+  },
+  {
+    id: 5,
+    name: 'TS05',
     ranks: [1, 2, 4],
     value: `const zahl: number = 101
 
@@ -42,8 +49,8 @@ const ups: number = "42"
 `,
   },
   {
-    id: 5,
-    name: 'TS05',
+    id: 6,
+    name: 'TS06',
     ranks: [1, 2, 4],
     value: `function fn_42() {
 	return 42
@@ -53,15 +60,15 @@ const zahl: number = fn_42
 `,
   },
   {
-    id: 6,
-    name: 'TS06',
+    id: 7,
+    name: 'TS07',
     ranks: [2, 3, 4],
     value: `const text = "Und sie fragte sich, was "Typescript" wohl bedeutet"
 `,
   },
   {
-    id: 7,
-    name: 'TS07',
+    id: 8,
+    name: 'TS08',
     ranks: [2, 4, 7],
     value: `Ich mag viel lieber in Python programmieren
     
@@ -69,8 +76,8 @@ Hab ja einfach gar keinen Bock -_-
 `,
   },
   {
-    id: 8,
-    name: 'TS08',
+    id: 9,
+    name: 'TS09',
     ranks: [1, 2, 3],
     value: `let vielleichtText: string | null = null
 
@@ -85,15 +92,15 @@ console.log(sicherText)
 `,
   },
   {
-    id: 9,
-    name: 'TS09',
+    id: 10,
+    name: 'TS10',
     ranks: [1, 2, 3],
     value: `const ergebnis = 11 + -(-3 - ((3 + 4) / 10) * 40
 `,
   },
   {
-    id: 10,
-    name: 'TS10',
+    id: 11,
+    name: 'TS11',
     ranks: [1, 3, 6],
     value: `interface Datum {
   tag: number
@@ -109,8 +116,8 @@ const damals: Datum = {
 `,
   },
   {
-    id: 11,
-    name: 'TS11',
+    id: 12,
+    name: 'TS12',
     ranks: [2, 4, 6],
     value: `const zutaten = {
     apfel: 10,
@@ -165,20 +172,20 @@ export function setupPleaseFixMe(App) {
         </div>
 
         <div style="position: relative; margin-top: 16px;">
-          <div style="position: absolute; left: calc(20% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
+          <div style="position: absolute; left: calc(25% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
             <div style="margin-top:29px; margin-left: 8px;" id="hacker-count">1</div>
           </div>
-          <div style="position: absolute; left: calc(20% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
+          <div style="position: absolute; left: calc(25% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
           
-          <div style="position: absolute; left: calc(40% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker">
+          <div style="position: absolute; left: calc(50% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker">
             <div style="margin-top:29px; margin-left: 8px;" id="gold-count">2</div>
           </div>
-          <div style="position: absolute; left: calc(40% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
+          <div style="position: absolute; left: calc(50% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
           
-          <div style="position: absolute; left: calc(80% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker">
-            <div style="margin-top:29px; margin-left: 8px;" id="holz-count">4</div>
+          <div style="position: absolute; left: calc(75% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker">
+            <div style="margin-top:29px; margin-left: 8px;" id="holz-count">3</div>
           </div>
-          <div style="position: absolute; left: calc(80% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
+          <div style="position: absolute; left: calc(75% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
         </div>
 
         <div class="progress" style="margin-top: 56px; margin-bottom: 44px; justify-content: end;">
@@ -219,8 +226,11 @@ export function setupPleaseFixMe(App) {
             padding: {
               top: 10
             },
+            scrollbar: {
+              alwaysConsumeMouseWheel: false
+            }
           });
-
+          
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
             allowNonTsExtensions: true,
             target: 99,

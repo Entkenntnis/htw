@@ -47,24 +47,11 @@ export const hintsData = {
       },
     ],
   },
-  10: {
-    entries: [
-      {
-        question: 'Für was stehen die Punkte?',
-        answer: 'für die übrigen Zahlen von 4 bis 96.',
-      },
-    ],
-  },
   15: {
     entries: [
       {
         question: 'Bei mir klappt die aufgabe nicht',
         answer: 'Schau dir den Text bei "... ist falsch" genauer an',
-      },
-      {
-        question: 'wie soll das gehen?',
-        answer:
-          'Schon irgendwas in das Feld eingegeben und das Ergebnis angeschaut?',
       },
     ],
   },
@@ -103,18 +90,6 @@ export const hintsData = {
         question: 'Wie kann ich den Text in so kurzer Zeit lesen?',
         answer:
           'Schaue genau auf die richtige Stelle und lies Buchstabe für Buchstabe',
-      },
-      {
-        question: 'Was ist die richtige Stelle?',
-        answer: 'Das Ende des Satzes.',
-      },
-    ],
-  },
-  25: {
-    entries: [
-      {
-        question: 'ich kann die datei nicht öffnen',
-        answer: 'Welches System verwendest du?',
       },
     ],
   },
@@ -789,11 +764,6 @@ export const hintsData = {
   116: {
     entries: [
       { question: 'Was ist die Lösung', answer: '15876000 ist die Lösung' },
-      {
-        question: 'Wie bekommt man diese Lösung heraus',
-        answer:
-          'Es geht darum es in den Taschenrechner einzugeben. Schon mal was von Primfaktorzerlegung gehört?',
-      },
     ],
   },
   117: {
@@ -803,15 +773,6 @@ export const hintsData = {
           'gibt es ein prinzip, das man verfolgen soll, oder ist das einfach wildes ausprobieren?',
         answer:
           'Es gibt ein Prinzip, mit dem du die Aufgabe jedes Mal lösen kannst',
-      },
-    ],
-  },
-  119: {
-    entries: [
-      {
-        question: 'hilfe bitte bei passwort',
-        answer:
-          'Schau dir den Text an und die Beispiele. Fallen wir noch weitere Möglichkeiten ein?',
       },
     ],
   },

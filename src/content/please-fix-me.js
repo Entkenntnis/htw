@@ -1,4 +1,6 @@
+import { Op } from 'sequelize'
 import { renderPage } from '../helper/render-page.js'
+import escapeHTML from 'escape-html'
 
 const levels = [
   {
@@ -403,5 +405,57 @@ export function setupPleaseFixMe(App) {
       }
     }
     res.send('ok')
+  })
+
+  App.express.get('/please-fix-me/stats', async (req, res) => {
+    if (!req.user || req.user.name != 'editor')
+      return res.send('Zugriff nur für Editor')
+
+    const data = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Op.like]: 'please_fix_me_%',
+        },
+        /*updatedAt: {
+          [Op.gte]: new Date(cutoff),
+        },*/
+      },
+      raw: true,
+    })
+
+    // Create a frequency map for the keys
+    /** @type {{[key: string]: number}} */
+    const frequencyMap = {}
+
+    data.forEach((item) => {
+      // Extract the base key (ignoring timestamp suffix)
+      const baseKey = item.key.split('_').slice(0, -1).join('_')
+
+      // Update the frequency count for each base key
+      frequencyMap[baseKey] = (frequencyMap[baseKey] || 0) + 1
+    })
+
+    // Generate HTML output for frequency statistics
+    let html = `<table border="1" style="width: 50%; border-collapse: collapse;">`
+    html += `<tr>
+                <th>Key</th>
+                <th>Frequency</th>
+             </tr>`
+
+    Object.entries(frequencyMap).forEach(([key, frequency]) => {
+      html += `<tr>
+                    <td style="padding: 8px;">${key}</td>
+                    <td style="padding: 8px; text-align: center;">${frequency}</td>
+                 </tr>`
+    })
+
+    html += `</table>`
+
+    renderPage(App, req, res, {
+      page: 'please-fix-me stats',
+      heading: 'Please Fix Me! - Stats',
+      backButton: false,
+      content: html,
+    })
   })
 }

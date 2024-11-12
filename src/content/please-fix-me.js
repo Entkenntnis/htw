@@ -73,7 +73,7 @@ const zahl: number = fn_42
     name: 'TS08',
     ranks: [2, 4, 7],
     value: `Ich mag viel lieber in Python programmieren
-    
+
 Hab ja einfach gar keinen Bock -_-
 `,
   },
@@ -155,52 +155,144 @@ export function setupPleaseFixMe(App) {
         <style>
           .checkmark::after {
             content: ' ✓';
-            color: green;  
-            font-size: 24px; 
+            color: green;
+            font-size: 24px;
             vertical-align: baseline;
           }
           .checkmark {
             margin-top: -10px;
           }
+          .filter-not-selected {
+            background-color: #303030;
+            border-color: #444;
+          }
+          #flexer {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 56px;
+          }
+          
+          #level-list {
+            max-height: 200px;
+          }
+
+          @media only screen and (min-width: 992px) {
+            #level-list {
+              max-height: 620px;
+            }
+            #flexer {
+              flex-direction: row;
+            }
+            #level-content {
+              width: 628px;
+              margin-left: 10px;
+            }
+            #level-sidebar {
+              width: 292px;
+            }
+          }
+          @media only screen and (min-width: 1200px) {
+            #level-content {
+              width: 794px;
+              margin-left: 16px;
+            }
+            #level-sidebar {
+              width: 300px;
+            }
+          }
         </style>
 
         <p><a href="/map">zurück</a></p>
 
-        <div style="padding-bottom: 16px;"><select style="height: 36px; width: 300px;" onchange="setLevel(parseInt(this.value))">${levels
-          .map((l) => {
-            return `<option value="${l.id}" id="option-level-${l.id}">Level ${l.name}</option>`
-          })
-          .join('')}</select>
-        </div>
+        <div id="flexer">
 
-        <div style="position: relative; margin-top: 16px;">
-          <div style="position: absolute; left: calc(25% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
-            <div style="margin-top:29px; margin-left: 8px;" id="hacker-count">1</div>
+          <div id="level-sidebar" style="padding-top: 16px;">
+            <div style="padding: 8px; padding-left: 0px;margin-top:24px;">
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-all" onclick="filterLevels('all')" style="margin: 4px;">Alle</button>
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-hacker" onclick="filterLevels('Hacker')" style="margin: 4px;">Hacker</button>
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-gold" onclick="filterLevels('Gold')" style="margin: 4px;">Gold</button>
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-holz" onclick="filterLevels('Holz')" style="margin: 4px;">Holz</button>
+            </div>
+            <div style="padding: 8px;display: /*flex*/none;justify-content: center;align-items: center; ">
+              <input style="width:100%; height:32px; padding-left: 8px;" placeholder="Suche nach einem Level" oninput=filterLevelsByTerm(this.value)>
+            </div>
+            <div
+              id="level-list"
+              style="
+                overflow-y: auto;
+                padding: 8px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+              "
+            >
+              ${levels
+                .map(
+                  (l, i) => `
+                    <div
+                      class="level-item"
+                      id="level-item-${l.id}"
+                      onclick="setLevel(${l.id})"
+                      style="
+                        padding: 8px;
+                        background-color: #222;
+                        border: ${i == 0 ? '2px solid white' : '1px solid #444'} ;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        color: #ddd;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        transition: background-color 0.3s;
+                        box-sizing: border-box;
+                        height: 44px;
+                      "
+                    >
+                      <span>Level ${l.name}</span>
+                      <span id="level-rank-${l.id}" style="font-size: 12px"></span>
+                    </div>
+                  `
+                )
+                .join('')}
+              <p id="no-filter-result" style="visibility: hidden; display: none;">Kein Level mit disen Suchkriterien gefunden!</p>
+            </div>
           </div>
-          <div style="position: absolute; left: calc(25% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
+
+          <div id="level-content" style="padding-top: 16px; color: #ddd;">
+            <div style="position: relative; margin-top: 16px;">
+              <div style="position: absolute; left: calc(25% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
+                <div style="margin-top:29px; margin-left: 8px;" id="hacker-count">1</div>
+              </div>
+              <div style="position: absolute; left: calc(25% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
+
+              <div style="position: absolute; left: calc(50% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker">
+                <div style="margin-top:29px; margin-left: 8px;" id="gold-count">2</div>
+              </div>
+              <div style="position: absolute; left: calc(50% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
+
+              <div style="position: absolute; left: calc(75% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker">
+                <div style="margin-top:29px; margin-left: 8px;" id="holz-count">3</div>
+              </div>
+              <div style="position: absolute; left: calc(75% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
+            </div>
+
+            <div class="progress" style="margin-top: 56px; margin-bottom: 44px; justify-content: end;">
+              <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 97.5%;" id="bar"></div>
+            </div>
+
+            <div class="alert alert-dark" role="alert" style="padding: 24px;" id="info-box">
+              Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.
+            </div>
+
+            <div id="container" style="height: 400px"></div>
+            
+            <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb; margin-bottom: 48px;">Levenshtein-Distanz: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+
+          </div>
           
-          <div style="position: absolute; left: calc(50% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker">
-            <div style="margin-top:29px; margin-left: 8px;" id="gold-count">2</div>
-          </div>
-          <div style="position: absolute; left: calc(50% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
-          
-          <div style="position: absolute; left: calc(75% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker">
-            <div style="margin-top:29px; margin-left: 8px;" id="holz-count">3</div>
-          </div>
-          <div style="position: absolute; left: calc(75% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
         </div>
-
-        <div class="progress" style="margin-top: 56px; margin-bottom: 44px; justify-content: end;">
-          <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 97.5%;" id="bar"></div>
-        </div>
-
-        <div class="alert alert-dark" role="alert" style="padding: 24px;" id="info-box">
-          Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.
-        </div>
-
-        <div id="container" style="height: 400px"></div>
         
-        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb; margin-bottom: 48px;">Levenshtein-Distanz: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+      
 
         <link
           rel="stylesheet"
@@ -232,7 +324,7 @@ export function setupPleaseFixMe(App) {
               alwaysConsumeMouseWheel: false
             }
           });
-          
+
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
             allowNonTsExtensions: true,
             target: 99,
@@ -246,14 +338,94 @@ export function setupPleaseFixMe(App) {
           let ranks = []
           let barLength = -1
           let distance = 0
+          let lastFilter = ''
 
           Object.keys(records).forEach(id => {
-            const l = levels.find(l => l.id == id)
-            if (l && records[id] > 0) {
-              document.getElementById('option-level-' + id).innerHTML = 'Level ' + l.name + (records[id] <= l.ranks[0] ? ' [Hacker]' : records[id] <= l.ranks[1] ? ' [Gold]' : ' [Holz]')  
+          const l = levels.find(l => l.id == id);
+          if (l && records[id] > 0) {
+            const rankTextElement = document.getElementById('level-rank-' + id);
+            const div = document.getElementById('level-item-' + id);
+            let rankText = 'Holz';
+            let color = '#82490b99';
+
+            if (records[id] <= l.ranks[0]) {
+              rankText = 'Hacker';
+              color = '#00bc8c99';
+            } else if (records[id] <= l.ranks[1]) {
+              rankText = 'Gold';
+              color = '#f39c1299';
             }
-          })
-          
+
+            rankTextElement.innerHTML = rankText;
+            div.style.backgroundColor = color;
+          }
+          });
+
+          function updateSidebarItem(levelId, ranks, distance){
+            const rankTextElement = document.getElementById('level-rank-' + levelId);
+            const div = document.getElementById('level-item-' + levelId);
+            let rankText = 'Holz';
+            let color = '#82490b99';
+
+            if (distance <= ranks[0]) {
+              rankText = 'Hacker';
+              color = '#00bc8c99';
+            } else if (distance <= ranks[1]) {
+              rankText = 'Gold';
+              color = '#f39c1299';
+            }
+
+            rankTextElement.innerHTML = rankText;
+            div.style.backgroundColor = color;
+          }
+
+          function filterLevels(category) {
+            if (category != 'none') {
+              lastFilter = category;
+            }
+            document.querySelectorAll(".level-item").forEach(item => {
+              const rank = item.querySelector("span:last-child").innerText;
+              item.style.display = (category === 'all' || rank === category) ? "flex" : "none";
+            });
+
+            const filterOptions = ["all", "Hacker", "Gold", "Holz"]
+
+            filterOptions.forEach(item => {
+              if (category == item){
+                document.getElementById("filter-btn-" + item.toLowerCase()).classList.remove("filter-not-selected");
+              }
+                else{
+                document.getElementById("filter-btn-" + item.toLowerCase()).classList.add("filter-not-selected");
+              }
+            })
+            checkForEmpty();
+          }
+
+          function filterLevelsByTerm(searchTerm) {
+            if (searchTerm == ''){
+              filterLevels(lastFilter == '' ? 'all' : lastFilter);
+              return;
+            }
+            filterLevels("none");
+            document.querySelectorAll(".level-item").forEach(item => {
+              const rank = item.querySelector("span:last-child").innerText;
+              const name = item.querySelector("span:first-child").innerText;
+              item.style.display = (name.toLowerCase().includes(searchTerm) && (rank === lastFilter || lastFilter === 'all')) ? "flex" : "none";
+            });
+            checkForEmpty();
+          }
+
+          function checkForEmpty(){
+            const items = document.querySelectorAll(".level-item");
+            const hasFlex = Array.from(items).some(item => {
+              const display = item.style.display;
+              return display === 'flex' && display !== 'none';
+            });
+            document.getElementById("no-filter-result").style.visibility  = hasFlex ? "hidden" : "visible";
+          }
+
+          filterLevels("all");
+
           function setLevel(n) {
             if (n == levelId) return
             const l = levels.find(l => l.id == n)
@@ -266,9 +438,14 @@ export function setupPleaseFixMe(App) {
               records[levelId] = -1
             myEditor.setValue(value)
 
+            Object.keys(records).forEach(id => {
+              document.getElementById('level-item-' + id).style.border = '1px solid rgb(68, 68, 68)';
+            })
+            document.getElementById('level-item-' + n).style.border = '2px solid white';
+
             document.getElementById('info-box').innerHTML = 'Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.'
             document.getElementById('info-box').classList.remove('alert-success')
-            
+
             document.getElementById('record').innerHTML = records[levelId] == -1 ? '--' : records[levelId]
             document.getElementById('holz').classList.remove('checkmark')
             document.getElementById('gold').classList.remove('checkmark')
@@ -297,7 +474,7 @@ export function setupPleaseFixMe(App) {
             document.getElementById('hacker-count').innerHTML = l.ranks[0]
             document.getElementById('hacker').style.setProperty('left', \`calc(\${Math.round(l.ranks[0] * 100 / barLength)}% - 24px)\`)
           }
-            
+
           setLevel(1)
 
           function reset(e) {
@@ -322,8 +499,9 @@ export function setupPleaseFixMe(App) {
                 if (previousRank == currentRank) {
                   document.getElementById('info-box').innerHTML = 'Glückwunsch - neuer persönlicher Rekord!'
                 } else {
-                   document.getElementById('info-box').innerHTML = 'Glückwunsch - Rang <strong>' + ['Hacker', 'Gold', 'Holz'][currentRank] + '</strong> freigeschaltet!'
+                  document.getElementById('info-box').innerHTML = 'Glückwunsch - Rang <strong>' + ['Hacker', 'Gold', 'Holz'][currentRank] + '</strong> freigeschaltet!'
                 }
+                  updateSidebarItem(levelId, ranks, distance);
 
                 fetch('/please-fix-me/submission?code=' + encodeURIComponent(myEditor.getValue()) + '&id=' + levelId)
 
@@ -332,7 +510,6 @@ export function setupPleaseFixMe(App) {
                 records[levelId] = distance
                 //sessionStorage.setItem('htw_please_fix_me_records', JSON.stringify(records))
                 fetch('/please-fix-me/records?records=' + encodeURIComponent(JSON.stringify(records)))
-                document.getElementById('option-level-' + levelId).innerHTML = 'Level ' + name + (distance <= ranks[0] ? ' [Hacker]' : distance <= ranks[1] ? ' [Gold]' : ' [Holz]')
                 document.getElementById('record').innerHTML = records[levelId]
               }
               document.getElementById('bar').classList.remove('bg-warning')
@@ -369,13 +546,13 @@ export function setupPleaseFixMe(App) {
             document.getElementById('info-box').classList.add('alert-dark')
             document.getElementById('info-box').classList.remove('alert-success')
           })
-          
+
           monaco.editor.onDidChangeMarkers(() => {
             clearTimeout(checkHandler)
             checkHandler = setTimeout(check, debounceTime) // fallback
           })
         </script>
-      
+
       `,
     })
   })

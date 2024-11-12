@@ -162,102 +162,137 @@ export function setupPleaseFixMe(App) {
           .checkmark {
             margin-top: -10px;
           }
-          .selected {
-            border-color: red;
-          }
           .filter-not-selected {
             background-color: #303030;
             border-color: #444;
+          }
+          #flexer {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 56px;
+          }
+          
+          #level-list {
+            max-height: 200px;
+          }
+
+          @media only screen and (min-width: 992px) {
+            #level-list {
+              max-height: 620px;
+            }
+            #flexer {
+              flex-direction: row;
+            }
+            #level-content {
+              width: 628px;
+              margin-left: 10px;
+            }
+            #level-sidebar {
+              width: 292px;
+            }
+          }
+          @media only screen and (min-width: 1200px) {
+            #level-content {
+              width: 794px;
+              margin-left: 16px;
+            }
+            #level-sidebar {
+              width: 300px;
+            }
           }
         </style>
 
         <p><a href="/map">zurück</a></p>
 
-        <div style="display: flex;">
-        <div id="level-sidebar" style="min-width: 300px; padding-top: 16px;">
-          <div style="padding: 8px;margin-top:24px;">
-            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-all" onclick="filterLevels('all')" style="margin: 4px;">Alle</button>
-            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-hacker" onclick="filterLevels('Hacker')" style="margin: 4px;">Hacker</button>
-            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-gold" onclick="filterLevels('Gold')" style="margin: 4px;">Gold</button>
-            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-holz" onclick="filterLevels('Holz')" style="margin: 4px;">Holz</button>
+        <div id="flexer">
+
+          <div id="level-sidebar" style="padding-top: 16px;">
+            <div style="padding: 8px; padding-left: 0px;margin-top:24px;">
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-all" onclick="filterLevels('all')" style="margin: 4px;">Alle</button>
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-hacker" onclick="filterLevels('Hacker')" style="margin: 4px;">Hacker</button>
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-gold" onclick="filterLevels('Gold')" style="margin: 4px;">Gold</button>
+              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-holz" onclick="filterLevels('Holz')" style="margin: 4px;">Holz</button>
+            </div>
+            <div style="padding: 8px;display: /*flex*/none;justify-content: center;align-items: center; ">
+              <input style="width:100%; height:32px; padding-left: 8px;" placeholder="Suche nach einem Level" oninput=filterLevelsByTerm(this.value)>
+            </div>
+            <div
+              id="level-list"
+              style="
+                overflow-y: auto;
+                padding: 8px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+              "
+            >
+              ${levels
+                .map(
+                  (l, i) => `
+                    <div
+                      class="level-item"
+                      id="level-item-${l.id}"
+                      onclick="setLevel(${l.id})"
+                      style="
+                        padding: 8px;
+                        background-color: #222;
+                        border: ${i == 0 ? '2px solid white' : '1px solid #444'} ;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        color: #ddd;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        transition: background-color 0.3s;
+                        box-sizing: border-box;
+                        height: 44px;
+                      "
+                    >
+                      <span>Level ${l.name}</span>
+                      <span id="level-rank-${l.id}" style="font-size: 12px"></span>
+                    </div>
+                  `
+                )
+                .join('')}
+              <p id="no-filter-result" style="visibility: hidden; display: none;">Kein Level mit disen Suchkriterien gefunden!</p>
+            </div>
           </div>
-          <div style="padding: 8px;display: flex;justify-content: center;align-items: center;">
-            <input style="width:100%; height:32px; padding-left: 8px;" placeholder="Suche nach einem Level" oninput=filterLevelsByTerm(this.value)>
+
+          <div id="level-content" style="padding-top: 16px; color: #ddd;">
+            <div style="position: relative; margin-top: 16px;">
+              <div style="position: absolute; left: calc(25% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
+                <div style="margin-top:29px; margin-left: 8px;" id="hacker-count">1</div>
+              </div>
+              <div style="position: absolute; left: calc(25% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
+
+              <div style="position: absolute; left: calc(50% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker">
+                <div style="margin-top:29px; margin-left: 8px;" id="gold-count">2</div>
+              </div>
+              <div style="position: absolute; left: calc(50% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
+
+              <div style="position: absolute; left: calc(75% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker">
+                <div style="margin-top:29px; margin-left: 8px;" id="holz-count">3</div>
+              </div>
+              <div style="position: absolute; left: calc(75% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
+            </div>
+
+            <div class="progress" style="margin-top: 56px; margin-bottom: 44px; justify-content: end;">
+              <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 97.5%;" id="bar"></div>
+            </div>
+
+            <div class="alert alert-dark" role="alert" style="padding: 24px;" id="info-box">
+              Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.
+            </div>
+
+            <div id="container" style="height: 400px"></div>
+            
+            <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb; margin-bottom: 48px;">Levenshtein-Distanz: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+
           </div>
-          <div
-            id="level-list"
-            style="
-              overflow-y: auto;
-              max-height: 500px;
-              padding: 8px;
-              display: flex;
-              flex-direction: column;
-              gap: 8px;
-            "
-          >
-            ${levels
-              .map(
-                (l) => `
-                  <div
-                    class="level-item"
-                    id="level-item-${l.id}"
-                    onclick="setLevel(${l.id})"
-                    style="
-                      padding: 8px;
-                      background-color: #222;
-                      border: 1px solid #444;
-                      border-radius: 4px;
-                      cursor: pointer;
-                      color: #ddd;
-                      display: flex;
-                      align-items: center;
-                      justify-content: space-between;
-                      transition: background-color 0.3s;
-                    "
-                  >
-                    <span>Level ${l.name}</span>
-                    <span id="level-rank-${l.id}" style="font-size: 12px"></span>
-                  </div>
-                `
-              )
-              .join('')}
-            <p id="no-filter-result" style="visibility: "hidden";">Kein Level mit disen Suchkriterien gefunden!</p>
-          </div>
+          
         </div>
-
-        <div id="level-content" style="margin-left: 16px; padding: 16px; color: #ddd;">
-          <div style="position: relative; margin-top: 16px;">
-            <div style="position: absolute; left: calc(25% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
-              <div style="margin-top:29px; margin-left: 8px;" id="hacker-count">1</div>
-            </div>
-            <div style="position: absolute; left: calc(25% - 24px); top: 3px; color: white; font-size: 15.5px" id="hacker">Hacker</div>
-
-            <div style="position: absolute; left: calc(50% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="gold-marker">
-              <div style="margin-top:29px; margin-left: 8px;" id="gold-count">2</div>
-            </div>
-            <div style="position: absolute; left: calc(50% - 18px); top: 3px; color: white; font-size: 15.5px" id="gold">Gold</div>
-
-            <div style="position: absolute; left: calc(75% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="holz-marker">
-              <div style="margin-top:29px; margin-left: 8px;" id="holz-count">3</div>
-            </div>
-            <div style="position: absolute; left: calc(75% - 16px); top: 3px; color: white; font-size: 15.5px" id="holz">Holz</div>
-          </div>
-
-          <div class="progress" style="margin-top: 56px; margin-bottom: 44px; justify-content: end;">
-            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 97.5%;" id="bar"></div>
-          </div>
-
-          <div class="alert alert-dark" role="alert" style="padding: 24px;" id="info-box">
-            Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.
-          </div>
-
-          <div id="container" style="height: 400px"></div>
-
-
-          </div>
-
-        </div>
-        <p style="margin-top: 12px; font-size: 14px; color: #bbbbbb; margin-bottom: 48px;">Levenshtein-Distanz: <span id="distance">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="reset(event)" href="">zurücksetzen</a><br />Rekord: <span id="record">--</span></p>
+        
+      
 
         <link
           rel="stylesheet"
@@ -403,7 +438,9 @@ export function setupPleaseFixMe(App) {
               records[levelId] = -1
             myEditor.setValue(value)
 
-            Object.keys(records).forEach(id => {document.getElementById('level-item-' + id).style.border = '1px solid rgb(68, 68, 68)';})
+            Object.keys(records).forEach(id => {
+              document.getElementById('level-item-' + id).style.border = '1px solid rgb(68, 68, 68)';
+            })
             document.getElementById('level-item-' + n).style.border = '2px solid white';
 
             document.getElementById('info-box').innerHTML = 'Behebe die Probleme des Typescript-Programms. Je weniger Zeichen du veränderst, umso besser.'

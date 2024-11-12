@@ -165,17 +165,21 @@ export function setupPleaseFixMe(App) {
           .selected {
             border-color: red;
           }
+          .filter-not-selected {
+            background-color: #303030;
+            border-color: #444;
+          }
         </style>
 
         <p><a href="/map">zurück</a></p>
 
         <div style="display: flex;">
-        <div id="level-sidebar" style="width: 300px; padding-top: 16px;">
+        <div id="level-sidebar" style="min-width: 300px; padding-top: 16px;">
           <div style="padding: 8px;margin-top:24px;">
-            <button class="btn btn-success continue-btn" onclick="filterLevels('all')" style="margin: 4px;">Alle</button>
-            <button class="btn btn-success continue-btn" onclick="filterLevels('Hacker')" style="margin: 4px;">Hacker</button>
-            <button class="btn btn-success continue-btn" onclick="filterLevels('Gold')" style="margin: 4px;">Gold</button>
-            <button class="btn btn-success continue-btn" onclick="filterLevels('Holz')" style="margin: 4px;">Holz</button>
+            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-all" onclick="filterLevels('all')" style="margin: 4px;">Alle</button>
+            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-hacker" onclick="filterLevels('Hacker')" style="margin: 4px;">Hacker</button>
+            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-gold" onclick="filterLevels('Gold')" style="margin: 4px;">Gold</button>
+            <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-holz" onclick="filterLevels('Holz')" style="margin: 4px;">Holz</button>
           </div>
           <div
             id="level-list"
@@ -217,7 +221,7 @@ export function setupPleaseFixMe(App) {
           </div>
         </div>
 
-        <div id="level-content" style="flex: 1; margin-left: 16px; padding: 16px; color: #ddd;">
+        <div id="level-content" style="margin-left: 16px; padding: 16px; color: #ddd;">
           <div style="position: relative; margin-top: 16px;">
             <div style="position: absolute; left: calc(25% - 2px); width: 4px; height: 36px; top: 28px; background-color: white;" id="hacker-marker">
               <div style="margin-top:29px; margin-left: 8px;" id="hacker-count">1</div>
@@ -340,7 +344,20 @@ export function setupPleaseFixMe(App) {
               const rank = item.querySelector("span:last-child").innerText;
               item.style.display = (category === 'all' || rank === category) ? "flex" : "none";
             });
+
+            const filterOptions = ["all", "Hacker", "Gold", "Holz"]
+
+            filterOptions.forEach(item => {
+              if (category == item){
+                document.getElementById("filter-btn-" + item.toLowerCase()).classList.remove("filter-not-selected");
+              }
+                else{
+                document.getElementById("filter-btn-" + item.toLowerCase()).classList.add("filter-not-selected");
+              }
+            })
           }
+
+          filterLevels("all");
 
           function setLevel(n) {
             if (n == levelId) return

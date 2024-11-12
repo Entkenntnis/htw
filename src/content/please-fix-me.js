@@ -181,6 +181,9 @@ export function setupPleaseFixMe(App) {
             <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-gold" onclick="filterLevels('Gold')" style="margin: 4px;">Gold</button>
             <button class="btn btn-success continue-btn filter-not-selected" id="filter-btn-holz" onclick="filterLevels('Holz')" style="margin: 4px;">Holz</button>
           </div>
+          <div style="padding: 8px;display: flex;justify-content: center;align-items: center;">
+            <input style="width:100%; height:32px; padding-left: 8px;" placeholder="Suche nach einem Level" oninput=filterLevelsByTerm(this.value)>
+          </div>
           <div
             id="level-list"
             style="
@@ -218,6 +221,7 @@ export function setupPleaseFixMe(App) {
                 `
               )
               .join('')}
+            <p id="no-filter-result" style="visibility: "hidden";">Kein Level mit disen Suchkriterien gefunden!</p>
           </div>
         </div>
 
@@ -299,6 +303,7 @@ export function setupPleaseFixMe(App) {
           let ranks = []
           let barLength = -1
           let distance = 0
+          let lastFilter = ''
 
           Object.keys(records).forEach(id => {
           const l = levels.find(l => l.id == id);
@@ -340,6 +345,9 @@ export function setupPleaseFixMe(App) {
           }
 
           function filterLevels(category) {
+            if (category != 'none') {
+              lastFilter = category;
+            }
             document.querySelectorAll(".level-item").forEach(item => {
               const rank = item.querySelector("span:last-child").innerText;
               item.style.display = (category === 'all' || rank === category) ? "flex" : "none";
@@ -355,6 +363,30 @@ export function setupPleaseFixMe(App) {
                 document.getElementById("filter-btn-" + item.toLowerCase()).classList.add("filter-not-selected");
               }
             })
+            checkForEmpty();
+          }
+
+          function filterLevelsByTerm(searchTerm) {
+            if (searchTerm == ''){
+              filterLevels(lastFilter == '' ? 'all' : lastFilter);
+              return;
+            }
+            filterLevels("none");
+            document.querySelectorAll(".level-item").forEach(item => {
+              const rank = item.querySelector("span:last-child").innerText;
+              const name = item.querySelector("span:first-child").innerText;
+              item.style.display = (name.toLowerCase().includes(searchTerm) && (rank === lastFilter || lastFilter === 'all')) ? "flex" : "none";
+            });
+            checkForEmpty();
+          }
+
+          function checkForEmpty(){
+            const items = document.querySelectorAll(".level-item");
+            const hasFlex = Array.from(items).some(item => {
+              const display = item.style.display;
+              return display === 'flex' && display !== 'none';
+            });
+            document.getElementById("no-filter-result").style.visibility  = hasFlex ? "hidden" : "visible";
           }
 
           filterLevels("all");

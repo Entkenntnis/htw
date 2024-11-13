@@ -611,13 +611,11 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Es gibt Menschen, die gut Kopfrechnen können - und es gibt mich: Jemand, der mehr Spaß daran hat, Muster zu finden und mit denen zu spielen. Kurz gesagt: Ich bin sehr langsam im Kopfrechnen, mir macht Mathe trotzdem Spaß.</p>
+        <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.</p>
 
-        <p>Schauen wir uns die Rechnung 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = ? an.</p>
-
-        <p>Und ich denke: Hey, die 1 und die 9 passen doch gut zusammen! Und die 3 und die 7 sind auch ein gutes Paar ... so könnte ich die ganze Zeit weitermachen ...</p>
-
-        <p>Sei du produktiver. Das Ergebnis der Rechnung ist deine Antwort.</p>
+        <p>Das glaubst du nicht? Hier ein Beispiel: Deine Antwort ist das Ergebnis von 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.</p>
+      
+        <p>Warte kurz, ich hole schnell meinen Taschenrechner ...</p>
     `
       ),
       en: `
@@ -831,7 +829,7 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Ich wollte Kiwi vorschlagen, dass wir uns als Gruppe einen Slogan zulegen. Mein Vorschlag ist &quot;Beweise dein Können!&quot;, weil mich das am meisten mit Hack The Web verbindet. Kiwi ist davon noch nicht ganz überzeugt, sie meint das wäre zu wenig politisch oder so ...</p>
+        <p>Ich wollte Kiwi vorschlagen, dass wir uns als Gruppe einen Slogan zulegen. Mein Vorschlag ist &quot;Beweise dein Können!&quot;, weil mich das am meisten mit Hack The Web verbindet. Kiwi ist davon noch nicht ganz überzeugt...</p>
 
         <p>Hey, hast du mir überhaupt zugehört? Deine Antwort ist mein Vorschlag für einen Slogan. Bei der Eingabe gerät aber etwas durcheinander.</p>
     `
@@ -1073,10 +1071,10 @@ export const part1 = [
 
   {
     id: 23,
-    pos: { x: 650, y: 660 },
+    pos: { x: 460, y: 680 },
     title: { de: 'Einhorn', en: 'Unicorn' },
     // date: '2017-08-25',
-    deps: [51, 69],
+    deps: [51],
     html: {
       de: story(
         'Josh',
@@ -2072,10 +2070,10 @@ export const part1 = [
 
   {
     id: 52,
-    pos: { x: 460, y: 680 },
+    pos: { x: 650, y: 660 },
     title: { de: 'Binär II', en: 'Binary II' },
     // date: '2020-08-01',
-    deps: [51],
+    deps: [51, 69],
     html: {
       de: story(
         'Josh',
@@ -2397,7 +2395,7 @@ export const part1 = [
     pos: { x: 745, y: 795 },
     title: { de: 'Geheimtext', en: 'Secret Text' },
     // date: '2020-08-17',
-    deps: [23, 78],
+    deps: [52, 78],
     html: {
       de: story(
         'Bex',
@@ -2457,7 +2455,7 @@ export const part1 = [
     pos: { x: 790, y: 690 },
     title: { de: 'Scan Mich', en: 'Scan Me' },
     // date: '2020-08-17',
-    deps: [23],
+    deps: [52],
     html: {
       de: story(
         'Kiwi',
@@ -3602,7 +3600,7 @@ PIXI.loader
     pos: { x: 860, y: 580 },
     title: { de: 'Inception', en: 'Inception' },
     // date: '2023-02-26',
-    deps: [8, 23, 77],
+    deps: [8, 52, 77],
     render: ({ req }) => {
       /**
        * @param {number} w

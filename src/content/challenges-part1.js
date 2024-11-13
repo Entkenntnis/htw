@@ -134,7 +134,7 @@ export const part1 = [
 
           <p>Hier beginnt deine Reise durch die Welt des Hackings. Aufgaben aus vielen Themen stellen dein Können unter Beweis. Sei kreativ und finde die versteckte Antwort. An manchen Stellen musst du dafür auch ein bisschen ... <em>hacken</em> ...</p>
 
-          <p>Ist Hacken nicht verboten? Ja, genau deshalb gibt es Hack The Web. Denn hiermit gebe ich dir die Erlaubnis, diese Seite zu hacken! Du kannst Dinge ausprobieren, die du mit anderen Webseiten sonst nicht machen kannst. Alle Hilfsmittel sind erlaubt, sei es das Internet, ein Taschenrechner, oder Stift und Papier - fühle dich frei und nutze die Tools, die dir am meisten helfen.</p>
+          <p>Ist das nicht verboten? Ja, genau deshalb gibt es Hack The Web. Denn hiermit gebe ich dir die Erlaubnis, diese Seite zu hacken! Du kannst Dinge ausprobieren, die du mit anderen Webseiten sonst nicht machen kannst. Alle Hilfsmittel sind erlaubt, sei es das Internet, DevTools, ein Taschenrechner, oder Stift und Papier - fühle dich frei und nutze die Werkzeuge, die dir am meisten helfen.</p>
 
           <p>Bist du bereit? Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
         `

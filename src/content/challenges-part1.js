@@ -89,7 +89,7 @@ function story(name, intro, task) {
       }
     </style>
 
-    <div style="height:16px";></div>
+    <div style="height:16px"></div>
 
     <div class="story-container">
       <div style="max-width:65ch" class="story-content">
@@ -129,79 +129,14 @@ export const part1 = [
         de: story(
           'Kiwi',
           `
-<style>
-#text-div {
-  font-size: 1rem;
-}
-#image-el {
-  margin-bottom: 20px;
-}
-@media only screen and (min-width: 768px) {
-  #text-div {
-    font-size: 1.2rem;
-  }
-  #image-el {
-    margin-bottom: 60px;
-  }
-}
-</style>
-<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #000000; color: white; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index:1000;" id="intro-div">
-    <img style="width: 500px;" id="image-el" src="/story/intro1.jpg">
-    <div style="text-align: center; max-width: 80%; margin-bottom: 20px; max-width: 65ch;" id="text-div">
-    Es ist das Jahr 2077. Der Umgang mit Technologie ist streng reguliert. Jedes technische Gerät besitzt einen festgelegten Zweck und darf nicht für andere Zwecke verwendet werden. Du baust eine Kaffeemaschine zu einem Wecker um? Dafür drohen viele Jahre Gefängnis.
-    </div>
-    <button style="margin-bottom: 40px;" class="btn btn-success continue-btn" onclick="continueIntro()" id="button-el">
-        Weiter
-    </button>
-    <button style="position: absolute; bottom: 20px; left: 20px; background-color: transparent; color: #888; border: none; font-size: 0.8rem; cursor: pointer;" onClick="skipIntro()" id="skip-button">
-        Intro überspringen
-    </button>
-</div>
+          <p>Herzlich willkommen!</p>
 
 
-<script src="/powerglitch.min.js"></script>
+          <p>Hier beginnt deine Reise durch die Welt des Hackings. Aufgaben aus vielen Themen stellen dein Können unter Beweis. Sei kreativ und finde die versteckte Antwort. An manchen Stellen musst du dafür auch ein bisschen ... <em>hacken</em> ...</p>
 
-<script>    
-  var slide = 0
-  
-  PowerGlitch.glitch('#image-el')
+          <p>Ist Hacken nicht verboten? Ja, genau deshalb gibt es Hack The Web. Denn hiermit gebe ich dir die Erlaubnis, diese Seite zu hacken! Du kannst Dinge ausprobieren, die du mit anderen Webseiten sonst nicht machen kannst. Alle Hilfsmittel sind erlaubt, sei es das Internet, ein Taschenrechner, oder Stift und Papier - fühle dich frei und nutze die Tools, die dir am meisten helfen.</p>
 
-  function continueIntro() {
-    if (slide == 0) {
-      slide++
-      document.getElementById('text-div').innerHTML = 'Hacken ist streng verboten - selbst wenn dabei niemanden geschadet wird. Die meisten Menschen sind damit glücklich. Doch es regt sich Widerstand. Die Gruppe Hack The Web und ihre Anführerin Kiwi akzeptieren diesen Einschnitt in die persönliche Freiheit nicht und wollen ein Ende des Technik-Dekrets erwirken.'
-      document.getElementById('image-el').src = "/story/intro2.jpg"
-      PowerGlitch.glitch('#image-el')
-    }
-    else if (slide == 1) {
-      slide++
-      document.getElementById('text-div').innerHTML = 'Dafür braucht die Gruppe kreative HackerInnen - die aber in der Gesellschaft schwer zu finden sind.  In einer riskanten Mission befreit Kiwi dich aus einem Jugend-Gefängnis. Sie sieht in dir großes Potenzial und möchte dich zur HackerIn ausbilden.'
-      document.getElementById('image-el').src = "/story/intro3.jpg"
-      PowerGlitch.glitch('#image-el')
-    }
-    else if (slide == 2) {
-      slide++
-      document.getElementById('text-div').innerHTML = 'Dein Abenteuer beginnt hier. Zeig, was du drauf hast!'
-      document.getElementById('image-el').src = "/story/intro4.jpg"
-      document.getElementById('button-el').innerHTML = "Loslegen"
-      document.getElementById('skip-button').style.display = "none"
-      PowerGlitch.glitch('#image-el').stopGlitch()
-    }
-    else if (slide == 3) {
-      skipIntro()
-    }
-  }
-
-  function skipIntro() {
-    document.getElementById('intro-div').style.display = 'none'
-  }
-</script>
-          
-          <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
-
-          <p>Deine Gedanken werden neblig sein. Das ist leider normal nach einer so langen Haft. Es ist traurig wie unsere Gesellschaft mit kreativen jungen Menschen umgeht. Ich kämpfe für eine bessere Zukunft, für eine Zukunft mit weniger Unterdrückung!</p>
-
-          <p>Wir können deine Hilfe gut gebrauchen. Doch es ist deine Entscheidung. Wenn du dich bereit fühlst, dann berechne 6 + 4 · 9 und tippe das Ergebnis in das Eingabefeld ein.</p>
+          <p>Bist du bereit? Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
         `
         ),
         en: `
@@ -238,7 +173,7 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Ich bin Hackerin aus Notwendigkeit. Es ist mein Weg, mich auszudrücken in dieser Gesellschaft. Sich mitteilen zu können ist ein wichtiges Bedürfnis. Wir Menschen haben uns dafür so viele unterschiedliche Methoden einfallen lassen. Ich finde das inspirierend.</p>
+        <p>Sich mitteilen zu können ist ein wichtiges Bedürfnis. Wir Menschen haben uns dafür so viele unterschiedliche Methoden einfallen lassen. Ich finde das inspirierend.</p>
 
         <p>Finger sind alles, was man zum Sprechen braucht. Deine Antwort findest du in diesen Gesten:</p>
         
@@ -467,11 +402,7 @@ export const part1 = [
         de: story(
           'Josh',
           `
-          <p>Das Technik-Dekret verbietet uns Menschen, die interne Sprache der Computer zu lernen. Den meisten Menschen ist das egal. Aber für mich geht damit etwas sehr wertvolles verloren.</p>
-          
-          <p>Mache es dir gemütlich, du lernst jetzt das ABC der Informatik, oder besser das 1-2-3.</p>
-          
-          <p>Schau dir diese Tabelle an. Du findest Zeichen und links daneben ihre Computer-Codes. Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
+          <p>Schau dir diese Tabelle an. Du findest Zeichen und links daneben ihre Codes. Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
 
           ${renderTable('Code', 'Zeichen')}
           
@@ -573,13 +504,9 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Höre mir gut zu. Ich zeige dir jetzt eine der wichtigsten Techniken, die du als HackerIn beherrschen solltest.</p>
+        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil davon. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Webseite.</p>
 
-        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil der Website. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Website.</p>
-
-        <p>Dieser Quelltext enthält viele Informationen - und Wissen ist Macht. Doch die Informationen können dich auch von der Menge her überfordern.</p>
-
-        <p>Ich biete dir einen Orientierungspunkt. Diesen Kasten wirst du im Quelltext wiederfinden. Innerhalb von diesem Kasten ist deine Antwort versteckt.</p>
+        <p>Im Quelltext siehst du die Antwort innerhalb dieses Kastens.</p>
         
         <pre>
         
@@ -592,8 +519,6 @@ export const part1 = [
         
         </pre>
 
-        <p>Bist du bereit? Dann klicke auf diese Schaltfläche, um den Quelltext dieser Seite zu sehen. Scrolle dort nach unten, um den Kasten zu finden.</p>
-        
         <p><button onclick="transform()" class="btn btn-sm btn-primary" style="margin-bottom:24px;">Quelltext anzeigen</button></p>
 
         <script>
@@ -656,7 +581,7 @@ export const part1 = [
         `
         <p>Du machst gute Fortschritte. Jetzt bist du bereit, auch selbstständig den Quelltext der Seite zu öffnen und dich dort zurechtzufinden.</p>
 
-        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>. Browser haben sich in den letzten 50 Jahren kaum verändert :)</p> 
+        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>.</p> 
 
         <p>Die Antwort befindet sich direkt unter dieser Zeile ...
         </p>
@@ -686,13 +611,11 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Es gibt Menschen, die gut Kopfrechnen können - und es gibt mich: Jemand, der mehr Spaß daran hat, Muster zu finden und mit denen zu spielen. Kurz gesagt: Ich bin sehr langsam im Kopfrechnen, mir macht Mathe trotzdem Spaß.</p>
+        <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.</p>
 
-        <p>Schauen wir uns die Rechnung 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = ? an.</p>
-
-        <p>Und ich denke: Hey, die 1 und die 9 passen doch gut zusammen! Und die 3 und die 7 sind auch ein gutes Paar ... so könnte ich die ganze Zeit weitermachen ...</p>
-
-        <p>Sei du produktiver. Das Ergebnis der Rechnung ist deine Antwort.</p>
+        <p>Das glaubst du nicht? Hier ein Beispiel: Deine Antwort ist das Ergebnis von 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.</p>
+      
+        <p>Warte kurz, ich hole schnell meinen Taschenrechner ...</p>
     `
       ),
       en: `
@@ -845,9 +768,9 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Die Menschen heute haben verlernt, auf neue, unbekannte Situationen zu reagieren. Wenn etwas nicht so funktioniert, wie sie es erwarten, dann geben sie schnell auf.</p>
+        <p>Ich habe in der Eile ganz vergessen, mich vorzustellen. Mein Name ist Kiwi. Es freut mich, dass du hergefunden hast.</p>
 
-        <p>Die Antwort auf diese Aufgabe ist dein Benutzername. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
+        <p>Wie lautet dein Name?</p>
       `
       ),
       en: `
@@ -874,9 +797,13 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Haben dir Bex und Josh schon was gezeigt? Ich hab den beiden gesagt, sie sollen auch ihr Wissen weitergeben. Man kann von jedem Mensch was Neues lernen.</p>
+        <p>Der Server hat irgendwie Probleme damit, die Punktzahl richtig darzustellen. Finde heraus, was deine aktuelle Punktzahl ist. Diese ist deine Antwort.</p>
 
-        <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
+        <script>
+          const previous = parseInt(document.getElementById('statusbar-user-score').innerHTML)
+          const newVal = previous + (Math.random() > 0.5 ? 1 : -1)
+          document.getElementById('statusbar-user-score').innerHTML = newVal
+        </script>
     `
       ),
       en: `
@@ -884,8 +811,7 @@ export const part1 = [
     `,
     },
     check: (answer, { req }) => {
-      const normalizedAnswer = answer.replace(/[‐−–—]/, '-')
-      const input = -parseInt(normalizedAnswer)
+      const input = parseInt(answer)
       return {
         answer: isNaN(input) ? answer : input.toString(),
         correct: input === req.user?.score,
@@ -903,7 +829,7 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Ich wollte Kiwi vorschlagen, dass wir uns als Gruppe einen Slogan zulegen. Mein Vorschlag ist &quot;Beweise dein Können!&quot;, weil mich das am meisten mit Hack The Web verbindet. Kiwi ist davon noch nicht ganz überzeugt, sie meint das wäre zu wenig politisch oder so ...</p>
+        <p>Ich wollte Kiwi vorschlagen, dass wir uns als Gruppe einen Slogan zulegen. Mein Vorschlag ist &quot;Beweise dein Können!&quot;, weil mich das am meisten mit Hack The Web verbindet. Kiwi ist davon noch nicht ganz überzeugt...</p>
 
         <p>Hey, hast du mir überhaupt zugehört? Deine Antwort ist mein Vorschlag für einen Slogan. Bei der Eingabe gerät aber etwas durcheinander.</p>
     `
@@ -938,11 +864,9 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Was ich dir hier zeige, ist schon Jahrtausende alt. Es ist eine Verschlüsslung aus einer Zeit, wo es keine Computer oder ähnliche Maschinen gab. Lesen und Schreiben war nur einer kleinen Gruppe vorbehalten. Schriftliche Texte waren an sich schon eine Geheimsprache.</p>
-        
-        <p>Doch selbst dann wollte man vielleicht eine Nachricht im Geheimen übermitteln. Eine pragmatische Lösung bestand darin, die Buchstaben im Alphabet zu verschieben. Es ist eine Verschlüsslung, die für die damalige Zeit ausgereicht hat. Mit dem Blick von heute bietet sie keine ernsthafte Sicherheit mehr.</p>
+        <p>Menschen haben schon vor tausenden Jahren Nachrichten verschlüsselt. Und genauso lang muss es wohl schon Hacker gegeben haben, die diese Nachrichten wieder entschlüsselten.</p>
 
-        <p>Überzeuge dich selbst und entschlüssle die Nachricht. Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben.</p>
+        <p>Eine gängige Methode war damals die Verschiebung im Alphabet. Mit den heutigen Mitteln bietet diese Methode keine ernsthafte Sicherheit mehr. Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben und deine Antwort zu finden.</p>
         `,
         `
         <p style="word-wrap:break-word" class="my-4" id="cipher">
@@ -1145,21 +1069,19 @@ export const part1 = [
 
   {
     id: 23,
-    pos: { x: 650, y: 660 },
+    pos: { x: 460, y: 680 },
     title: { de: 'Einhorn', en: 'Unicorn' },
     // date: '2017-08-25',
-    deps: [51, 69],
+    deps: [51],
     html: {
       de: story(
         'Josh',
         `
-        <p>Früher wurde Mathematik viel mehr unterrichtet. Einige sind darin richtig aufgeblüht, für andere war das eher eine lästige Pflicht. Aus dieser Zeit stammt auch ein altes Projekt, das eine Freundin von mir entwickelt hat.</p>
-        
-        <p>Es heißt <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a>. Schaue da mal rein. </p>
+          <p>Das <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a> ist ein ähnliches Projekt wie Hack The Web, nur für Mathematik. Die Hauptrolle spielen dabei ein Einhorn-Geschwisterpaar.</p>
 
-        <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
+          <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
 
-        <p>In der Hauptrolle spielt ein Einhorn-Geschwisterpaar. Deine Antwort ist der Name des kleinen Bruders.</p>
+          <p>Besuche die Webseite. Deine Antwort ist der Name des kleinen Bruders.</p>
     `
       ),
       en: `
@@ -1181,14 +1103,7 @@ export const part1 = [
     // date: '2017-08-25',
     deps: [1],
     html: {
-      de: story(
-        'Kiwi',
-        `
-        <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Hier können wir dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
-
-        <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
-        `,
-        `
+      de: `
         <p id="poper">Achtung, nicht blinzeln!
         </p>
         
@@ -1202,8 +1117,7 @@ export const part1 = [
             }, 300)
           }, 1500)
         </script>
-        `
-      ),
+      `,
       en: `
         <p id="poper">Don't blink!</p>
         </p>
@@ -1267,7 +1181,7 @@ export const part1 = [
         
         <p>Hier ist eine Website vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>. Ich muss sagen, sie ist ... speziell. Ich verstehe vielleicht einen Bruchteil der Abkürzungen, doch ich bin erleichtert, dass auch die Hacker damals nicht perfekt waren in englischer Rechtschreibung :)</p>
 
-        <p>Im Begrüßungstext (&quot;Hi every one ...&quot;) gibt es vier fehlerhaft geschriebene Worte. Nutze eines davon deiner Wahl in der fehlerhaften Form als deine Antwort.</p>
+        <p>Im Begrüßungstext ("Hi every one ...") gibt es vier falsch geschriebene Wörter. Wähle eines davon in der fehlerhaften Schreibweise und nutze es als deine Antwort.</p>
         `,
         `
         <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
@@ -1353,7 +1267,7 @@ export const part1 = [
         `,
         `
         <div style="position:absolute;width:1000px;height:1000px;background-color:green;padding-left:16px;" id="banner">
-          <span style="font-size:100px;" id="text">Hacken gefährdet unsere Sicherheit! Halten Sie sich an das Technik-Dekret!</span>
+          <span style="font-size:100px;" id="text">Hacken gefährdet unsere Sicherheit!</span>
           <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
         </div>
         
@@ -1398,9 +1312,7 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Ich würde gerne mehr Orte sehen. Als Teil einer Widerstandsgruppe müssen wir leider sehr aufpassen und vermeiden viele Gebiete.</p>
-
-        <p>Für diese Aufgabe habe ich ein paar GPS-Koordinaten herausgesucht. Die Anfangsbuchstaben dieser deutschen Orte ergeben deine Antwort. Das hat leider mein Fernweh nur noch verschlimmert ...</p>
+        <p>Für diese Aufgabe habe ich ein paar GPS-Koordinaten herausgesucht. Die Anfangsbuchstaben dieser deutschen Orte ergeben deine Antwort.</p>
         
         <p>
           52.7073, 8.5031<br>
@@ -1441,13 +1353,11 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Die meisten Computerprogramme speichern Zeitpunkte nicht als Datum. Stattdessen werden sie eine einzelne Zahl. Wenn man das System dafür kennt - in diesem Fall <a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">UNIX</a> - kann man das Datum wieder zurückrechnen.</p>
-        
-        <p>Mein Geburtstag war zum Zeitpunkt 1417499338. In welchem Jahr bin ich geboren?</p>
+        <p>Im welchem Jahr liegt der Zeitpunkt 817876800?</p>
     `
       ),
       en: `
-      <p>In which year is the point in time 1417499338?
+      <p>In which year is the point in time 817876800?
       </p>
     `,
     },
@@ -2089,11 +1999,14 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Unsere gesamte Technik ist gebaut von Menschen, die über den Tellerrand geblickt haben. Menschen, die sich gefragt haben: Wir haben Schalter (AN/AUS) - wie können wir damit Zahlen darstellen?</p>
+        <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
+        </p>
         
-        <p>Ich weise dir die Richtung: Es hat was mit Zweierpotenzen zu tun. Hier findest du die ersten sechs Zweierpotenzen. Jede Zweierpotenz ist ein Schalter. Klicke auf die Zahl, um den Schalter an- und auszuschalten. Rechts siehst du die Zahl, die du gerade darstellt.</p>
-
-        <p>Jetzt bist du dran. Selbst wenn du noch nichts vom Binärsystem gehört hast - mit bisschen Logik wirst du schnell den Einstieg finden.</p>
+        <p>Selbst wenn du noch nie damit gearbeitet hast - mit ein wenig logischem Denken findest du schnell den Einstieg.
+        </p>
+        
+        <p>Als Hilfestellung siehst du hier die ersten 6 Zweierpotenzen. Du kannst sie an- oder ausschalten, wenn du sie anklickst. Alle aktiven Zahlen werden zum Ergebnis addiert.
+        </p>
         
         <p>Stelle die Zahl 7 ein und schicke sie ab.
         </p>
@@ -2151,10 +2064,10 @@ export const part1 = [
 
   {
     id: 52,
-    pos: { x: 460, y: 680 },
+    pos: { x: 650, y: 660 },
     title: { de: 'Binär II', en: 'Binary II' },
     // date: '2020-08-01',
-    deps: [51],
+    deps: [51, 69],
     html: {
       de: story(
         'Josh',
@@ -2415,22 +2328,16 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Scheiße. Scheiße hoch Scheiße. Kiwi und Josh wurden in eine Falle gelockt. Sie sind von der letzten Mission nicht zurückgekehrt.</p>
+        <p>Herzlichen Glückwunsch! Du hast den ersten Teil von Hack The Web erfolgreich gemeistert. Ab hier kannst du auf eigene Faust viele weitere Aufgaben erkunden. Ich wünsche dir  viel Spaß und Erfolg!</p>
 
-        <p>Ich habe sie gebeten, vorsichtig zu sein! Sie sind alles, was ich habe. Ich kann sie nicht in Stich lassen. Ich werde sie befreien.</p>
-
-        <p>Bleib du erstmal hier, dieser Ort ist für dich sicher. Auf diesem Stick findest du deine weitere Ausbildung - arbeite dich soweit vor wie du kannst, wir brauchen jede Hilfe. Das Passwort für den Stick sind die Anfangsbuchstaben dieser verlinkten Aufgaben. Als Backup findest du die Antwort im Quelltext dieser Seite.</p>
+        <p>Lass uns davor noch einmal zurückblicken. Die Anfangsbuchstaben der verlinkten Aufgaben ergeben deine Antwort.</p>
         
-        <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/18" target="_blank">18</a></p>
-
-        <!-- Die Antwort lautet ${secrets('chal_57')}. -->
-
-        <p>Pass auf dich auf! Wir sehen uns bald wieder.</p>
+        <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
     `
       ),
       en: `
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
-            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 18</p>
+            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 31</p>
             <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
             <p>The first letters of the <strong>German</strong> challenge names form the answer. Please switch to the German version for this challenge.</p>
     `,
@@ -2476,12 +2383,12 @@ export const part1 = [
     pos: { x: 745, y: 795 },
     title: { de: 'Geheimtext', en: 'Secret Text' },
     // date: '2020-08-17',
-    deps: [23, 78],
+    deps: [52, 78],
     html: {
       de: story(
         'Bex',
         `
-        <p>Geheimtexte haben eine magische Anziehung auf mich. Hier kannst das auf interaktive Art nacherleben.
+        <p>Geheimtexte haben eine magische Anziehung auf mich. Hier kannst du das auf interaktive Art nacherleben.
         </p>
         
         <p>Anleitung: Drücke zwei Buchstaben <strong>gleichzeitig</strong> auf der Tastatur, diese werden hervorgehoben und vertauscht.
@@ -2536,7 +2443,7 @@ export const part1 = [
     pos: { x: 790, y: 690 },
     title: { de: 'Scan Mich', en: 'Scan Me' },
     // date: '2020-08-17',
-    deps: [23],
+    deps: [52],
     html: {
       de: story(
         'Kiwi',
@@ -2577,16 +2484,14 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Hacker geben nicht auf, wenn sie vor einer Herausforderung stehen. Als ich mir deine Strafakte durchgelesen habe, war mir sofort klar: Du bist ein wunderbar. Dich möchte ich ausbilden.</p>
-
-        <p>Auf zur nächsten Lektion. Ich habe ein unspektakuläres Bild generiert. Lade es herunter:</p>
+        <p>Es ist vielleicht etwas peinlich - aber ich habe wohl einen Fehler beim Hochladen dieses Bilds gemacht.</p>
         
         <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
         
         <p>Dateiname: <strong id="filename">bild.txt</strong> [<a href="#" onclick="changeName()">ändern</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Herunterladen</button>
         </p>
       
-        <p>Eine Kleinigkeit habe ich dir in den Weg gestellt - die Dateiendung ist falsch. Korrigiere sie und das Bild wird sichtbar. Auf dem Bild findest du die Antwort.
+        <p>Lade das Bild herunter und schaue es dir an. Darin findest du die Antwort.
         </p>
         
         
@@ -3002,9 +2907,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Wenn wir genug Zeit haben, würde ich dir auch unbedingt Programmieren beibringen wollen. Ausnahmsweise ist das keine verbotene Aktivität, denn solange man sich an den Auftrag hält, sieht das Technik-Dekret kein Problem.</p>
-
-        <p>Aber sei dir bewusst, mein Unterricht wird nicht so ganz orthodox sein. Ich schreibe meine Programme auf eine etwas ... kreativere Art.</p>
+        <p>Wenn wir genug Zeit haben, würde ich dir auch unbedingt Programmieren beibringen wollen. Aber sei dir bewusst, mein Unterricht wird nicht so ganz orthodox sein. Ich schreibe meine Programme auf eine etwas ... kreativere Art.</p>
 
         <p>Dieser Smiley ist ein Programm, das dir die Antwort sagt. Kopiere es auf eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> oder in die Browser-Konsole und führe es aus.</p>`,
         `
@@ -3091,7 +2994,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Hacken kann man wirklich alles, sei es Software, Hardware oder andere Systeme. Der menschlichen Kreativität sind keine Grenzen gesetzt, zumindest nicht so enge, wie die Regierung es uns vorschreiben möchte.</p>
+        <p>Hacken kann man wirklich alles, sei es Software, Hardware oder andere Systeme. Der menschlichen Kreativität sind keine Grenzen gesetzt.</p>
         
         <p>Es kann passieren, dass du auch mal eine Internet-Leitung selber bauen musst. Nutze den Standard <a href="https://de.wikipedia.org/wiki/TIA-568A/B" target="_blank">TIA-568B</a> und verbinde die Adern. Die Buchstaben ergeben deine Antwort.</p>
       
@@ -3117,11 +3020,9 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Wenn mir das alles zu viel ist, mit dem Widerstand und all den anderen Sorgen - dann tröste ich mich mit Kunst.</p>
+        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs.</p>
 
-        <p>Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs. Normand würde für die Zweckentfremdung der Buchstaben und Satzzeichen sicherlich im Gefängnis landen.</p>
-
-        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren? Du darfst für alle Aufgaben auf Hack The Web eine Suchmaschine verwenden.</p>
+        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
         `,
         `
         
@@ -3260,9 +3161,7 @@ PIXI.loader
       de: story(
         'Bex',
         `
-        <p>Ich habe schon früh verstanden, dass einige Dinge um uns herum nicht stimmen. Das ist ja nicht so schwer, man muss nur die einzelnen Teile übereinander legen und sieht dann das Muster.</p>
-
-        <p>Probier das aus. Schiebe die sechs Bilder übereinander und erhalte deine Antwort.</p>
+          <p style="margin-bottom: 48px;">Jedes Bild zeigt einen Teil der Antwort. Lege sie übereinander, um das Wort zu lesen. Du kannst die Bilder mit der Maus verschieben.</p>
         `,
         `
         
@@ -3363,13 +3262,12 @@ PIXI.loader
       de: story(
         'Josh',
         `
-        <p>Aus scheinbar einfachen Systemen können komplexe und schöne Strukturen entstehen, die man gar nicht erwartet hätte. So ist es mit Algorithmen. Diese bestehen aus ein paar wenigen Bausteinen, doch erlauben erstaunlich viele Kombinationen. Sich mit solchen Systemen auszukennen ist sehr mächtig. Denn dann kannst du überall mit ganz wenigen Mitteln deine eigenen Systeme bauen ...</p>
-
-        <p>So weit sind wir noch nicht. Nimm dir erstmal eine <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">3x9-Welt</a> und schaue dir dieses Programm an:</p>
+        <p>Bei dieser Aufgaben haben wir Robot Karol zu Gast. Baue dieses Programm.</p>
 
         <p><img src="/chals/chal70_2.png" alt="blockly"></p>
 
-        <p>Schwer vorherzusagen, was das Ergebnis ist. Baue es nach und starte das Programm. Deine Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>`,
+        <p>Deine Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>
+        `,
         `
         <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
         </iframe>
@@ -3525,9 +3423,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Das Technik-Dekret war auch ein großer Rückschlag für queere Menschen. Die Gesellschaft ist hartherziger geworden. Und darunter leiden die, die eh schon mehr Last zu tragen haben.</p>
-
-        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
+        <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
         `
       <div class="container">
         <div class="row">
@@ -3687,7 +3583,7 @@ PIXI.loader
     pos: { x: 860, y: 580 },
     title: { de: 'Inception', en: 'Inception' },
     // date: '2023-02-26',
-    deps: [8, 23, 77],
+    deps: [8, 52, 77],
     render: ({ req }) => {
       /**
        * @param {number} w
@@ -3720,8 +3616,6 @@ PIXI.loader
           return story(
             'Kiwi',
             `
-            <p>Hat dir der Film gestern gefallen? Ich finde ihn inspirierend. Wobei ich zugeben muss: Manchmal habe ich wie im Film die Angst nicht zu wissen, ob ich mich in der Realität befinde oder nur in einem Traum. Vor allem wenn man lange Zeit so isoliert lebt.</p>
-            
             <p>Im Computer kann man relativ leicht Realitäten ineinander verschachteln. Ich kann auf dieser Seite nochmal die selbe Seite einbinden. Du findest hier drei Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
         `,
             renderFrame(500, 700, 1)
@@ -3937,8 +3831,6 @@ PIXI.loader
       de: story(
         'Bex',
         `
-        <p>Du bist also neu hier. Nett. Erwarte nicht, dass du deshalb besonders behandelt wirst. Jeder trägt seinen Teil bei und für dich gilt keine Ausnahme.</p>
-
         <p>Ich möchte sehen, wie du mit Herausforderungen umgehst. Das ist ein defekter Taschenrechner. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.</p>
 
         ${calculator()}
@@ -3975,7 +3867,7 @@ PIXI.loader
         <p>Ich sehe, du bist nicht ganz unbeholfen. Nicht schlecht. Aber ich will, ehm, noch mehr Beweise sehen. </p>
 
 
-        <p>Berechne diesmal die Zahl <strong>10240</strong>.
+        <p>Berechne diesmal die Zahl <strong>10 000</strong>.
         </p>
         
         ${calculator()}
@@ -4060,7 +3952,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, etwas mit Natur einzubauen.</p>
+        <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, dir eine Aufgabe mit Natur zu geben.</p>
 
         <p>Also dann, schaue dir diesen Baum an. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung. Und pssst, ich habe dir einen Tipp versteckt.</p>
 
@@ -4340,14 +4232,9 @@ PIXI.loader
         `
         <p>Kiwi hat mich beordert, dir paar Dinge zu zeigen. Hey: nur weil ich jung bin heißt es nicht, dass ich nicht ordentlich was drauf habe!</p>
 
-        <p>Meine Eltern waren schockiert, dass ich ein so altes Spiel wie Minecraft spiele - und noch dazu ein Spiel, das offiziell verboten ist. Aber es ist gut und man kann da sehr viele kreative Dinge machen.</p>
-
-        <p>Ich habe eine Aufgabe für dich. Kiwi könnte viel besser erklären, warum das eine sinnvolle Aufgabe ist, das spare ich mir. Mach und zeig mir, dass Kiwi mit der Entscheidung, dich auszubilden, Recht hatte.</p>
+        <p>Ich spiele gerne Minecraft. Es ist gut und man kann da sehr viele kreative Dinge machen - die manchmal gar nicht so vorgesehen sind. Zeige, dass du dich mit Minecraft auskennst (oder bereit bist, es kennenzulernen). Deine Antwort ist die Block-ID von diesem Block.</p>
       `,
-        `
-        <p>Was ist die Block-ID von diesem Block?</p>
-        
-        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+        `<p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
       `
       ),
       en: `

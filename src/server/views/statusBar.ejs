@@ -4,7 +4,7 @@
 
 [<%= t('statusBar.name') %> <strong><%= user.name %></strong> | 
 
-<%= t('statusBar.score') %> <strong><%= Math.floor(user.score) %></strong>
+<%= t('statusBar.score') %> <strong id="statusbar-user-score"><%= Math.floor(user.score) %></strong>
 
 <% if (user.session_phase === "READY") { %>
   | <%= t('statusBar.sessionReady') %>

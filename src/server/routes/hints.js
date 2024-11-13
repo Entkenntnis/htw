@@ -58,13 +58,12 @@ export const hintsData = {
   15: {
     entries: [
       {
-        question: 'Bei mir klappt die aufgabe nicht',
-        answer: 'Schau dir den Text bei "... ist falsch" genauer an',
+        question: 'wie soll das gehen?',
+        answer: 'Gib deinen Benutzernamen ein.',
       },
       {
-        question: 'wie soll das gehen?',
-        answer:
-          'Schon irgendwas in das Feld eingegeben und das Ergebnis angeschaut?',
+        question: 'Bei mir klappt die aufgabe nicht',
+        answer: 'Schau dir den Text bei "... ist falsch" genauer an',
       },
     ],
   },
@@ -72,11 +71,7 @@ export const hintsData = {
     entries: [
       {
         question: 'was ist die lösung',
-        answer: 'deine aktuelle Punktzahl (mit kleiner Veränderung)',
-      },
-      {
-        question: 'Welche veränderung',
-        answer: 'wenn ich 1 eingebe, steht dann "-1 ist falsch" da',
+        answer: 'deine aktuelle Punktzahl',
       },
     ],
   },

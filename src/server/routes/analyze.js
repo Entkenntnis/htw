@@ -2,7 +2,7 @@ import { Op } from 'sequelize'
 import escapeHTML from 'escape-html'
 import { renderPage } from '../../helper/render-page.js'
 
-const fromDate = '2024-10-20'
+const fromDate = '2024-11-14'
 
 /**
  * @param {import("../../data/types.js").App} App

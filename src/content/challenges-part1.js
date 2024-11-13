@@ -864,11 +864,9 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Was ich dir hier zeige, ist schon Jahrtausende alt. Es ist eine Verschlüsslung aus einer Zeit, wo es keine Computer oder ähnliche Maschinen gab. Lesen und Schreiben war nur einer kleinen Gruppe vorbehalten. Schriftliche Texte waren an sich schon eine Geheimsprache.</p>
-        
-        <p>Doch selbst dann wollte man vielleicht eine Nachricht im Geheimen übermitteln. Eine pragmatische Lösung bestand darin, die Buchstaben im Alphabet zu verschieben. Es ist eine Verschlüsslung, die für die damalige Zeit ausgereicht hat. Mit dem Blick von heute bietet sie keine ernsthafte Sicherheit mehr.</p>
+        <p>Menschen haben schon vor tausenden Jahren Nachrichten verschlüsselt. Und genauso lang muss es wohl schon Hacker gegeben haben, die diese Nachrichten wieder entschlüsselten.</p>
 
-        <p>Überzeuge dich selbst und entschlüssle die Nachricht. Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben.</p>
+        <p>Eine gängige Methode war damals die Verschiebung im Alphabet. Mit den heutigen Mitteln bietet diese Methode keine ernsthafte Sicherheit mehr. Ziehe den Slider, um die Buchstaben im Alphabet zu verschieben und deine Antwort zu finden.</p>
         `,
         `
         <p style="word-wrap:break-word" class="my-4" id="cipher">
@@ -1183,7 +1181,7 @@ export const part1 = [
         
         <p>Hier ist eine Website vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>. Ich muss sagen, sie ist ... speziell. Ich verstehe vielleicht einen Bruchteil der Abkürzungen, doch ich bin erleichtert, dass auch die Hacker damals nicht perfekt waren in englischer Rechtschreibung :)</p>
 
-        <p>Im Begrüßungstext (&quot;Hi every one ...&quot;) gibt es vier fehlerhaft geschriebene Worte. Nutze eines davon deiner Wahl in der fehlerhaften Form als deine Antwort.</p>
+        <p>Im Begrüßungstext ("Hi every one ...") gibt es vier falsch geschriebene Wörter. Wähle eines davon in der fehlerhaften Schreibweise und nutze es als deine Antwort.</p>
         `,
         `
         <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
@@ -1314,9 +1312,7 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Ich würde gerne mehr Orte sehen. Als Teil einer Widerstandsgruppe müssen wir leider sehr aufpassen und vermeiden viele Gebiete.</p>
-
-        <p>Für diese Aufgabe habe ich ein paar GPS-Koordinaten herausgesucht. Die Anfangsbuchstaben dieser deutschen Orte ergeben deine Antwort. Das hat leider mein Fernweh nur noch verschlimmert ...</p>
+        <p>Für diese Aufgabe habe ich ein paar GPS-Koordinaten herausgesucht. Die Anfangsbuchstaben dieser deutschen Orte ergeben deine Antwort.</p>
         
         <p>
           52.7073, 8.5031<br>
@@ -1357,13 +1353,11 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Die meisten Computerprogramme speichern Zeitpunkte nicht als Datum. Stattdessen werden sie eine einzelne Zahl. Wenn man das System dafür kennt - in diesem Fall <a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">UNIX</a> - kann man das Datum wieder zurückrechnen.</p>
-        
-        <p>Mein Geburtstag war zum Zeitpunkt 1417499338. In welchem Jahr bin ich geboren?</p>
+        <p>Im welchem Jahr liegt der Zeitpunkt 817876800?</p>
     `
       ),
       en: `
-      <p>In which year is the point in time 1417499338?
+      <p>In which year is the point in time 817876800?
       </p>
     `,
     },
@@ -2334,22 +2328,16 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Scheiße. Scheiße hoch Scheiße. Kiwi und Josh wurden in eine Falle gelockt. Sie sind von der letzten Mission nicht zurückgekehrt.</p>
+        <p>Herzlichen Glückwunsch! Du hast den ersten Teil von Hack The Web erfolgreich gemeistert. Ab hier kannst du auf eigene Faust viele weitere Aufgaben erkunden. Ich wünsche dir  viel Spaß und Erfolg!</p>
 
-        <p>Ich habe sie gebeten, vorsichtig zu sein! Sie sind alles, was ich habe. Ich kann sie nicht in Stich lassen. Ich werde sie befreien.</p>
-
-        <p>Bleib du erstmal hier, dieser Ort ist für dich sicher. Auf diesem Stick findest du deine weitere Ausbildung - arbeite dich soweit vor wie du kannst, wir brauchen jede Hilfe. Das Passwort für den Stick sind die Anfangsbuchstaben dieser verlinkten Aufgaben. Als Backup findest du die Antwort im Quelltext dieser Seite.</p>
+        <p>Lass uns davor noch einmal zurückblicken. Die Anfangsbuchstaben der verlinkten Aufgaben ergeben deine Antwort.</p>
         
-        <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/18" target="_blank">18</a></p>
-
-        <!-- Die Antwort lautet ${secrets('chal_57')}. -->
-
-        <p>Pass auf dich auf! Wir sehen uns bald wieder.</p>
+        <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
     `
       ),
       en: `
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
-            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 18</p>
+            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 31</p>
             <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
             <p>The first letters of the <strong>German</strong> challenge names form the answer. Please switch to the German version for this challenge.</p>
     `,
@@ -2496,16 +2484,14 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Hacker geben nicht auf, wenn sie vor einer Herausforderung stehen. Als ich mir deine Strafakte durchgelesen habe, war mir sofort klar: Du bist ein wunderbar. Dich möchte ich ausbilden.</p>
-
-        <p>Auf zur nächsten Lektion. Ich habe ein unspektakuläres Bild generiert. Lade es herunter:</p>
+        <p>Es ist vielleicht etwas peinlich - aber ich habe wohl einen Fehler beim Hochladen dieses Bilds gemacht.</p>
         
         <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
         
         <p>Dateiname: <strong id="filename">bild.txt</strong> [<a href="#" onclick="changeName()">ändern</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Herunterladen</button>
         </p>
       
-        <p>Eine Kleinigkeit habe ich dir in den Weg gestellt - die Dateiendung ist falsch. Korrigiere sie und das Bild wird sichtbar. Auf dem Bild findest du die Antwort.
+        <p>Lade das Bild herunter und schaue es dir an. Darin findest du die Antwort.
         </p>
         
         
@@ -2921,9 +2907,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Wenn wir genug Zeit haben, würde ich dir auch unbedingt Programmieren beibringen wollen. Ausnahmsweise ist das keine verbotene Aktivität, denn solange man sich an den Auftrag hält, sieht das Technik-Dekret kein Problem.</p>
-
-        <p>Aber sei dir bewusst, mein Unterricht wird nicht so ganz orthodox sein. Ich schreibe meine Programme auf eine etwas ... kreativere Art.</p>
+        <p>Wenn wir genug Zeit haben, würde ich dir auch unbedingt Programmieren beibringen wollen. Aber sei dir bewusst, mein Unterricht wird nicht so ganz orthodox sein. Ich schreibe meine Programme auf eine etwas ... kreativere Art.</p>
 
         <p>Dieser Smiley ist ein Programm, das dir die Antwort sagt. Kopiere es auf eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> oder in die Browser-Konsole und führe es aus.</p>`,
         `
@@ -3278,13 +3262,12 @@ PIXI.loader
       de: story(
         'Josh',
         `
-        <p>Aus scheinbar einfachen Systemen können komplexe und schöne Strukturen entstehen, die man gar nicht erwartet hätte. So ist es mit Algorithmen. Diese bestehen aus ein paar wenigen Bausteinen, doch erlauben erstaunlich viele Kombinationen. Sich mit solchen Systemen auszukennen ist sehr mächtig. Denn dann kannst du überall mit ganz wenigen Mitteln deine eigenen Systeme bauen ...</p>
-
-        <p>So weit sind wir noch nicht. Nimm dir erstmal eine <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">3x9-Welt</a> und schaue dir dieses Programm an:</p>
+        <p>Bei dieser Aufgaben haben wir Robot Karol zu Gast. Baue dieses Programm.</p>
 
         <p><img src="/chals/chal70_2.png" alt="blockly"></p>
 
-        <p>Schwer vorherzusagen, was das Ergebnis ist. Baue es nach und starte das Programm. Deine Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>`,
+        <p>Deine Antwort ist die Anzahl der gelben Marken, die am Ende liegen.</p>
+        `,
         `
         <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
         </iframe>
@@ -3633,8 +3616,6 @@ PIXI.loader
           return story(
             'Kiwi',
             `
-            <p>Hat dir der Film gestern gefallen? Ich finde ihn inspirierend. Wobei ich zugeben muss: Manchmal habe ich wie im Film die Angst nicht zu wissen, ob ich mich in der Realität befinde oder nur in einem Traum. Vor allem wenn man lange Zeit so isoliert lebt.</p>
-            
             <p>Im Computer kann man relativ leicht Realitäten ineinander verschachteln. Ich kann auf dieser Seite nochmal die selbe Seite einbinden. Du findest hier drei Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
         `,
             renderFrame(500, 700, 1)

@@ -129,79 +129,14 @@ export const part1 = [
         de: story(
           'Kiwi',
           `
-<style>
-#text-div {
-  font-size: 1rem;
-}
-#image-el {
-  margin-bottom: 20px;
-}
-@media only screen and (min-width: 768px) {
-  #text-div {
-    font-size: 1.2rem;
-  }
-  #image-el {
-    margin-bottom: 60px;
-  }
-}
-</style>
-<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #000000; color: white; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index:1000;" id="intro-div">
-    <img style="width: 500px;" id="image-el" src="/story/intro1.jpg">
-    <div style="text-align: center; max-width: 80%; margin-bottom: 20px; max-width: 65ch;" id="text-div">
-    Es ist das Jahr 2077. Der Umgang mit Technologie ist streng reguliert. Jedes technische Gerät besitzt einen festgelegten Zweck und darf nicht für andere Zwecke verwendet werden. Du baust eine Kaffeemaschine zu einem Wecker um? Dafür drohen viele Jahre Gefängnis.
-    </div>
-    <button style="margin-bottom: 40px;" class="btn btn-success continue-btn" onclick="continueIntro()" id="button-el">
-        Weiter
-    </button>
-    <button style="position: absolute; bottom: 20px; left: 20px; background-color: transparent; color: #888; border: none; font-size: 0.8rem; cursor: pointer;" onClick="skipIntro()" id="skip-button">
-        Intro überspringen
-    </button>
-</div>
+          <p>Herzlich willkommen!</p>
 
 
-<script src="/powerglitch.min.js"></script>
+          <p>Hier beginnt deine Reise durch die Welt des Hackings. Aufgaben aus vielen Themen stellen dein Können unter Beweis. Sei kreativ und finde die versteckte Antwort. An manchen Stellen musst du dafür auch ein bisschen ... <em>hacken</em> ...</p>
 
-<script>    
-  var slide = 0
-  
-  PowerGlitch.glitch('#image-el')
+          <p>Ist Hacken nicht verboten? Ja, genau deshalb gibt es Hack The Web. Denn hiermit gebe ich dir die Erlaubnis, diese Seite zu hacken! Du kannst Dinge ausprobieren, die du mit anderen Webseiten sonst nicht machen kannst. Alle Hilfsmittel sind erlaubt, sei es das Internet, ein Taschenrechner, oder Stift und Papier - fühle dich frei und nutze die Tools, die dir am meisten helfen.</p>
 
-  function continueIntro() {
-    if (slide == 0) {
-      slide++
-      document.getElementById('text-div').innerHTML = 'Hacken ist streng verboten - selbst wenn dabei niemanden geschadet wird. Die meisten Menschen sind damit glücklich. Doch es regt sich Widerstand. Die Gruppe Hack The Web und ihre Anführerin Kiwi akzeptieren diesen Einschnitt in die persönliche Freiheit nicht und wollen ein Ende des Technik-Dekrets erwirken.'
-      document.getElementById('image-el').src = "/story/intro2.jpg"
-      PowerGlitch.glitch('#image-el')
-    }
-    else if (slide == 1) {
-      slide++
-      document.getElementById('text-div').innerHTML = 'Dafür braucht die Gruppe kreative HackerInnen - die aber in der Gesellschaft schwer zu finden sind.  In einer riskanten Mission befreit Kiwi dich aus einem Jugend-Gefängnis. Sie sieht in dir großes Potenzial und möchte dich zur HackerIn ausbilden.'
-      document.getElementById('image-el').src = "/story/intro3.jpg"
-      PowerGlitch.glitch('#image-el')
-    }
-    else if (slide == 2) {
-      slide++
-      document.getElementById('text-div').innerHTML = 'Dein Abenteuer beginnt hier. Zeig, was du drauf hast!'
-      document.getElementById('image-el').src = "/story/intro4.jpg"
-      document.getElementById('button-el').innerHTML = "Loslegen"
-      document.getElementById('skip-button').style.display = "none"
-      PowerGlitch.glitch('#image-el').stopGlitch()
-    }
-    else if (slide == 3) {
-      skipIntro()
-    }
-  }
-
-  function skipIntro() {
-    document.getElementById('intro-div').style.display = 'none'
-  }
-</script>
-          
-          <p>Pssssh, pssh, es ist alles gut, es ist alles gut …</p>
-
-          <p>Deine Gedanken werden neblig sein. Das ist leider normal nach einer so langen Haft. Es ist traurig wie unsere Gesellschaft mit kreativen jungen Menschen umgeht. Ich kämpfe für eine bessere Zukunft, für eine Zukunft mit weniger Unterdrückung!</p>
-
-          <p>Wir können deine Hilfe gut gebrauchen. Doch es ist deine Entscheidung. Wenn du dich bereit fühlst, dann berechne 6 + 4 · 9 und tippe das Ergebnis in das Eingabefeld ein.</p>
+          <p>Bist du bereit? Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
         `
         ),
         en: `
@@ -467,11 +402,7 @@ export const part1 = [
         de: story(
           'Josh',
           `
-          <p>Das Technik-Dekret verbietet uns Menschen, die interne Sprache der Computer zu lernen. Den meisten Menschen ist das egal. Aber für mich geht damit etwas sehr wertvolles verloren.</p>
-          
-          <p>Mache es dir gemütlich, du lernst jetzt das ABC der Informatik, oder besser das 1-2-3.</p>
-          
-          <p>Schau dir diese Tabelle an. Du findest Zeichen und links daneben ihre Computer-Codes. Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
+          <p>Schau dir diese Tabelle an. Du findest Zeichen und links daneben ihre Codes. Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
 
           ${renderTable('Code', 'Zeichen')}
           
@@ -573,13 +504,9 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Höre mir gut zu. Ich zeige dir jetzt eine der wichtigsten Techniken, die du als HackerIn beherrschen solltest.</p>
+        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil davon. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Webseite.</p>
 
-        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil der Website. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Website.</p>
-
-        <p>Dieser Quelltext enthält viele Informationen - und Wissen ist Macht. Doch die Informationen können dich auch von der Menge her überfordern.</p>
-
-        <p>Ich biete dir einen Orientierungspunkt. Diesen Kasten wirst du im Quelltext wiederfinden. Innerhalb von diesem Kasten ist deine Antwort versteckt.</p>
+        <p>Im Quelltext siehst du die Antwort innerhalb dieses Kastens.</p>
         
         <pre>
         
@@ -592,8 +519,6 @@ export const part1 = [
         
         </pre>
 
-        <p>Bist du bereit? Dann klicke auf diese Schaltfläche, um den Quelltext dieser Seite zu sehen. Scrolle dort nach unten, um den Kasten zu finden.</p>
-        
         <p><button onclick="transform()" class="btn btn-sm btn-primary" style="margin-bottom:24px;">Quelltext anzeigen</button></p>
 
         <script>
@@ -845,9 +770,9 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Die Menschen heute haben verlernt, auf neue, unbekannte Situationen zu reagieren. Wenn etwas nicht so funktioniert, wie sie es erwarten, dann geben sie schnell auf.</p>
+        <p>Ich habe in der Eile ganz vergessen, mich vorzustellen. Mein Name ist Kiwi. Es freut mich, dass du hergefunden hast.</p>
 
-        <p>Die Antwort auf diese Aufgabe ist dein Benutzername. Ganz einfach erstmal. Doch eine kleine Sache wird verändert. Kommst du damit klar?</p>
+        <p>Wie lautet dein Name?</p>
       `
       ),
       en: `
@@ -874,9 +799,9 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Haben dir Bex und Josh schon was gezeigt? Ich hab den beiden gesagt, sie sollen auch ihr Wissen weitergeben. Man kann von jedem Mensch was Neues lernen.</p>
+        <p>Du machst guten Fortschritt. Wie viele Punkte hast du mittlerweile erreicht?</p>
 
-        <p>Die Antwort auf diese Aufgabe ist deine aktuelle Punktzahl. Ähnlich wie zuvor gerät deine Eingabe etwas durcheinander.</p>
+        <p>Es kann sein, dass deine Eingabe etwas durcheinander gerät.</p>
     `
       ),
       en: `
@@ -1181,14 +1106,7 @@ export const part1 = [
     // date: '2017-08-25',
     deps: [1],
     html: {
-      de: story(
-        'Kiwi',
-        `
-        <p>Weißt du, wenn du die Ausbildung bei uns nicht machen willst, ist das kein Problem. Wir können dich in dein altes Leben zurückbringen, Freispruch vor Gericht, eine leere Akte, ein Neubeginn. Hier können wir dir keine Sicherheit oder Ansehen bieten - dafür aber so manche Abenteuer.</p>
-
-        <p>Ich habe dir etwas mitgebracht. Es ist ein Text, der beim Laden der Seite kurz erscheint und dann verschwindet. Sei kreativ und suche nach einer Methode, den Text zu lesen. Du darfst alle Werkzeuge nutzen, die dir bei diese Abentuer weiterhelfen könnten: Dein scharfer Blick, dein Handy, Programme am Computer, etc...</p>
-        `,
-        `
+      de: `
         <p id="poper">Achtung, nicht blinzeln!
         </p>
         
@@ -1202,8 +1120,7 @@ export const part1 = [
             }, 300)
           }, 1500)
         </script>
-        `
-      ),
+      `,
       en: `
         <p id="poper">Don't blink!</p>
         </p>
@@ -3117,11 +3034,9 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Wenn mir das alles zu viel ist, mit dem Widerstand und all den anderen Sorgen - dann tröste ich mich mit Kunst.</p>
+        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs.</p>
 
-        <p>Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs. Normand würde für die Zweckentfremdung der Buchstaben und Satzzeichen sicherlich im Gefängnis landen.</p>
-
-        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren? Du darfst für alle Aufgaben auf Hack The Web eine Suchmaschine verwenden.</p>
+        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
         `,
         `
         

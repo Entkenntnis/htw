@@ -173,7 +173,7 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Ich bin Hackerin aus Notwendigkeit. Es ist mein Weg, mich auszudrücken in dieser Gesellschaft. Sich mitteilen zu können ist ein wichtiges Bedürfnis. Wir Menschen haben uns dafür so viele unterschiedliche Methoden einfallen lassen. Ich finde das inspirierend.</p>
+        <p>Sich mitteilen zu können ist ein wichtiges Bedürfnis. Wir Menschen haben uns dafür so viele unterschiedliche Methoden einfallen lassen. Ich finde das inspirierend.</p>
 
         <p>Finger sind alles, was man zum Sprechen braucht. Deine Antwort findest du in diesen Gesten:</p>
         
@@ -1269,7 +1269,7 @@ export const part1 = [
         `,
         `
         <div style="position:absolute;width:1000px;height:1000px;background-color:green;padding-left:16px;" id="banner">
-          <span style="font-size:100px;" id="text">Hacken gefährdet unsere Sicherheit! Halten Sie sich an das Technik-Dekret!</span>
+          <span style="font-size:100px;" id="text">Hacken gefährdet unsere Sicherheit!</span>
           <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Überspringe die Werbung in <span id="counter">4568</span> Sekunden ...</div>
         </div>
         
@@ -2400,7 +2400,7 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Geheimtexte haben eine magische Anziehung auf mich. Hier kannst das auf interaktive Art nacherleben.
+        <p>Geheimtexte haben eine magische Anziehung auf mich. Hier kannst du das auf interaktive Art nacherleben.
         </p>
         
         <p>Anleitung: Drücke zwei Buchstaben <strong>gleichzeitig</strong> auf der Tastatur, diese werden hervorgehoben und vertauscht.
@@ -3010,7 +3010,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Hacken kann man wirklich alles, sei es Software, Hardware oder andere Systeme. Der menschlichen Kreativität sind keine Grenzen gesetzt, zumindest nicht so enge, wie die Regierung es uns vorschreiben möchte.</p>
+        <p>Hacken kann man wirklich alles, sei es Software, Hardware oder andere Systeme. Der menschlichen Kreativität sind keine Grenzen gesetzt.</p>
         
         <p>Es kann passieren, dass du auch mal eine Internet-Leitung selber bauen musst. Nutze den Standard <a href="https://de.wikipedia.org/wiki/TIA-568A/B" target="_blank">TIA-568B</a> und verbinde die Adern. Die Buchstaben ergeben deine Antwort.</p>
       

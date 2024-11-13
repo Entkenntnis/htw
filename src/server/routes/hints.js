@@ -71,11 +71,7 @@ export const hintsData = {
     entries: [
       {
         question: 'was ist die lösung',
-        answer: 'deine aktuelle Punktzahl (mit kleiner Veränderung)',
-      },
-      {
-        question: 'Welche veränderung',
-        answer: 'wenn ich 1 eingebe, steht dann "-1 ist falsch" da',
+        answer: 'deine aktuelle Punktzahl',
       },
     ],
   },

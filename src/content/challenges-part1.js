@@ -89,7 +89,7 @@ function story(name, intro, task) {
       }
     </style>
 
-    <div style="height:16px";></div>
+    <div style="height:16px"></div>
 
     <div class="story-container">
       <div style="max-width:65ch" class="story-content">
@@ -581,7 +581,7 @@ export const part1 = [
         `
         <p>Du machst gute Fortschritte. Jetzt bist du bereit, auch selbstständig den Quelltext der Seite zu öffnen und dich dort zurechtzufinden.</p>
 
-        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>. Browser haben sich in den letzten 50 Jahren kaum verändert :)</p> 
+        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>.</p> 
 
         <p>Die Antwort befindet sich direkt unter dieser Zeile ...
         </p>
@@ -799,9 +799,13 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Du machst guten Fortschritt. Wie viele Punkte hast du mittlerweile erreicht?</p>
+        <p>Der Server hat irgendwie Probleme damit, die Punktzahl richtig darzustellen. Finde heraus, was deine aktuelle Punktzahl ist. Diese ist deine Antwort.</p>
 
-        <p>Es kann sein, dass deine Eingabe etwas durcheinander gerät.</p>
+        <script>
+          const previous = parseInt(document.getElementById('statusbar-user-score').innerHTML)
+          const newVal = previous + (Math.random() > 0.5 ? 1 : -1)
+          document.getElementById('statusbar-user-score').innerHTML = newVal
+        </script>
     `
       ),
       en: `
@@ -809,8 +813,7 @@ export const part1 = [
     `,
     },
     check: (answer, { req }) => {
-      const normalizedAnswer = answer.replace(/[‐−–—]/, '-')
-      const input = -parseInt(normalizedAnswer)
+      const input = parseInt(answer)
       return {
         answer: isNaN(input) ? answer : input.toString(),
         correct: input === req.user?.score,
@@ -1078,13 +1081,11 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Früher wurde Mathematik viel mehr unterrichtet. Einige sind darin richtig aufgeblüht, für andere war das eher eine lästige Pflicht. Aus dieser Zeit stammt auch ein altes Projekt, das eine Freundin von mir entwickelt hat.</p>
-        
-        <p>Es heißt <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a>. Schaue da mal rein. </p>
+          <p>Das <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a> ist ein ähnliches Projekt wie Hack The Web, nur für Mathematik. Die Hauptrolle spielen dabei ein Einhorn-Geschwisterpaar.</p>
 
-        <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
+          <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
 
-        <p>In der Hauptrolle spielt ein Einhorn-Geschwisterpaar. Deine Antwort ist der Name des kleinen Bruders.</p>
+          <p>Besuche die Webseite. Deine Antwort ist der Name des kleinen Bruders.</p>
     `
       ),
       en: `
@@ -2006,11 +2007,14 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Unsere gesamte Technik ist gebaut von Menschen, die über den Tellerrand geblickt haben. Menschen, die sich gefragt haben: Wir haben Schalter (AN/AUS) - wie können wir damit Zahlen darstellen?</p>
+        <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
+        </p>
         
-        <p>Ich weise dir die Richtung: Es hat was mit Zweierpotenzen zu tun. Hier findest du die ersten sechs Zweierpotenzen. Jede Zweierpotenz ist ein Schalter. Klicke auf die Zahl, um den Schalter an- und auszuschalten. Rechts siehst du die Zahl, die du gerade darstellt.</p>
-
-        <p>Jetzt bist du dran. Selbst wenn du noch nichts vom Binärsystem gehört hast - mit bisschen Logik wirst du schnell den Einstieg finden.</p>
+        <p>Selbst wenn du noch nie damit gearbeitet hast - mit ein wenig logischem Denken findest du schnell den Einstieg.
+        </p>
+        
+        <p>Als Hilfestellung siehst du hier die ersten 6 Zweierpotenzen. Du kannst sie an- oder ausschalten, wenn du sie anklickst. Alle aktiven Zahlen werden zum Ergebnis addiert.
+        </p>
         
         <p>Stelle die Zahl 7 ein und schicke sie ab.
         </p>
@@ -3175,9 +3179,7 @@ PIXI.loader
       de: story(
         'Bex',
         `
-        <p>Ich habe schon früh verstanden, dass einige Dinge um uns herum nicht stimmen. Das ist ja nicht so schwer, man muss nur die einzelnen Teile übereinander legen und sieht dann das Muster.</p>
-
-        <p>Probier das aus. Schiebe die sechs Bilder übereinander und erhalte deine Antwort.</p>
+          <p style="margin-bottom: 48px;">Jedes Bild zeigt einen Teil der Antwort. Lege sie übereinander, um das Wort zu lesen. Du kannst die Bilder mit der Maus verschieben.</p>
         `,
         `
         
@@ -3440,9 +3442,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Das Technik-Dekret war auch ein großer Rückschlag für queere Menschen. Die Gesellschaft ist hartherziger geworden. Und darunter leiden die, die eh schon mehr Last zu tragen haben.</p>
-
-        <p>Ich möchte in solchen Zeiten wieder bisschen Farbe reinbringen. Ändere die Reihenfolge der einzelnen Farben so, dass sie eine Regenbogenflagge bilden. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
+        <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
         `
       <div class="container">
         <div class="row">
@@ -3852,8 +3852,6 @@ PIXI.loader
       de: story(
         'Bex',
         `
-        <p>Du bist also neu hier. Nett. Erwarte nicht, dass du deshalb besonders behandelt wirst. Jeder trägt seinen Teil bei und für dich gilt keine Ausnahme.</p>
-
         <p>Ich möchte sehen, wie du mit Herausforderungen umgehst. Das ist ein defekter Taschenrechner. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.</p>
 
         ${calculator()}
@@ -3890,7 +3888,7 @@ PIXI.loader
         <p>Ich sehe, du bist nicht ganz unbeholfen. Nicht schlecht. Aber ich will, ehm, noch mehr Beweise sehen. </p>
 
 
-        <p>Berechne diesmal die Zahl <strong>10240</strong>.
+        <p>Berechne diesmal die Zahl <strong>10 000</strong>.
         </p>
         
         ${calculator()}
@@ -3975,7 +3973,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, etwas mit Natur einzubauen.</p>
+        <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, dir eine Aufgabe mit Natur zu geben.</p>
 
         <p>Also dann, schaue dir diesen Baum an. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung. Und pssst, ich habe dir einen Tipp versteckt.</p>
 
@@ -4255,14 +4253,9 @@ PIXI.loader
         `
         <p>Kiwi hat mich beordert, dir paar Dinge zu zeigen. Hey: nur weil ich jung bin heißt es nicht, dass ich nicht ordentlich was drauf habe!</p>
 
-        <p>Meine Eltern waren schockiert, dass ich ein so altes Spiel wie Minecraft spiele - und noch dazu ein Spiel, das offiziell verboten ist. Aber es ist gut und man kann da sehr viele kreative Dinge machen.</p>
-
-        <p>Ich habe eine Aufgabe für dich. Kiwi könnte viel besser erklären, warum das eine sinnvolle Aufgabe ist, das spare ich mir. Mach und zeig mir, dass Kiwi mit der Entscheidung, dich auszubilden, Recht hatte.</p>
+        <p>Ich spiele gerne Minecraft. Es ist gut und man kann da sehr viele kreative Dinge machen - die manchmal gar nicht so vorgesehen sind. Zeige, dass du dich mit Minecraft auskennst (oder bereit bist, es kennenzulernen). Deine Antwort ist die Block-ID von diesem Block.</p>
       `,
-        `
-        <p>Was ist die Block-ID von diesem Block?</p>
-        
-        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+        `<p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
       `
       ),
       en: `

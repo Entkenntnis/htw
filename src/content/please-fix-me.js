@@ -585,9 +585,6 @@ export function setupPleaseFixMe(App) {
   })
 
   App.express.get('/please-fix-me/stats', async (req, res) => {
-    if (!req.user || req.user.name != 'editor')
-      return res.send('Zugriff nur für Editor')
-
     const data = await App.db.models.KVPair.findAll({
       where: {
         key: {

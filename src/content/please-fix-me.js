@@ -202,7 +202,7 @@ export function setupPleaseFixMe(App) {
           }
         </style>
 
-        <p><a href="/map">zurück</a></p>
+        <p><a href="/map">zurück</a> <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span> <a href="/please-fix-me/stats">Statstiken</a></p>
 
         <div id="flexer">
 
@@ -588,7 +588,7 @@ export function setupPleaseFixMe(App) {
     const data = await App.db.models.KVPair.findAll({
       where: {
         key: {
-          [Op.like]: 'please_fix_me_%',
+          [Op.like]: 'please_fix_me_records_%',
         },
         /*updatedAt: {
           [Op.gte]: new Date(cutoff),
@@ -598,38 +598,94 @@ export function setupPleaseFixMe(App) {
     })
 
     // Create a frequency map for the keys
-    /** @type {{[key: string]: number}} */
+    /** @type {{[key: number]: [number, number, number]}} */
     const frequencyMap = {}
 
-    data.forEach((item) => {
-      // Extract the base key (ignoring timestamp suffix)
-      const baseKey = item.key.split('_').slice(0, -1).join('_')
+    // Create a frequency map for the keys
+    /** @type {{[key: number]: [number, number, number]}} */
+    const ranks = {}
 
-      // Update the frequency count for each base key
-      frequencyMap[baseKey] = (frequencyMap[baseKey] || 0) + 1
+    levels.forEach((l) => {
+      frequencyMap[l.id] = [0, 0, 0]
+      ranks[l.id] = /** @type {[number, number, number]} */ (l.ranks)
     })
 
-    // Generate HTML output for frequency statistics
-    let html = `<table border="1" style="width: 50%; border-collapse: collapse;">`
-    html += `<tr>
-                <th>Key</th>
-                <th>Frequency</th>
-             </tr>`
-
-    Object.entries(frequencyMap).forEach(([key, frequency]) => {
-      html += `<tr>
-                    <td style="padding: 8px;">${key}</td>
-                    <td style="padding: 8px; text-align: center;">${frequency}</td>
-                 </tr>`
+    data.forEach((entry) => {
+      try {
+        const obj = JSON.parse(entry.value)
+        for (const key in obj) {
+          const id = parseInt(key)
+          if (frequencyMap[id]) {
+            const r = ranks[id]
+            const record = obj[key]
+            if (record > 0) {
+              if (record <= r[0]) {
+                frequencyMap[id][0]++
+              } else if (record <= r[1]) {
+                frequencyMap[id][1]++
+              } else if (record <= r[2]) {
+                frequencyMap[id][2]++
+              }
+            }
+          }
+        }
+      } catch {}
     })
-
-    html += `</table>`
 
     renderPage(App, req, res, {
       page: 'please-fix-me stats',
       heading: 'Please Fix Me! - Stats',
       backButton: false,
-      content: html,
+      content: `
+        <a href="/please-fix-me">zurück</a>
+
+        <style>
+          table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+          }
+          th, td {
+            padding: 12px;
+            border: 1px solid #333;
+            text-align: center;
+          }
+          th {
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+          }
+          tr:nth-child(even) {
+            background-color: #2d2d2d;
+          }
+          tr:hover {
+            background-color: #444;
+            color: #00bc8c;
+          }
+        </style>
+
+        <table border="1" style="margin-top: 24px; width: 100%; margin-bottom: 144px;">
+          <tr>
+            <th>Level</th>
+            <th>Hacker</th>
+            <th>Gold</th>
+            <th>Holz</th>
+          </tr>
+          ${levels
+            .map(
+              (l) => `
+            <tr>
+              <td>${l.name}</td>
+              <td>${frequencyMap[l.id][0]}</td>
+              <td>${frequencyMap[l.id][1]}</td>
+              <td>${frequencyMap[l.id][2]}</td>
+            </tr>  
+          `
+            )
+            .join('')}
+        </table>
+      `,
     })
   })
 }

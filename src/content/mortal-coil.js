@@ -134,9 +134,9 @@ export function setupMortalCoil(App) {
       heading: 'Mortal Coil - Level ' + level,
       backButton: false,
       content: `
-        <p><a href="/map">${strings.back}</a> | <a href="/mortal-coil/stats">${
+        <p><a href="/map">${strings.back}</a> <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span> <a href="/mortal-coil/stats">${
           strings.statistics
-        }</a> | <span style="cursor:pointer;color:gray;" id="jump">${
+        }</a> <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span> <span style="cursor:pointer;color:gray;" id="jump">${
           strings.jump
         } ...</span></p>
 

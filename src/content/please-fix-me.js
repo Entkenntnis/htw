@@ -208,7 +208,7 @@ export function setupPleaseFixMe(App) {
 
           <div id="level-sidebar" style="padding-top: 16px;">
             <div style="padding: 8px; padding-left: 0px;margin-top:24px;">
-              <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-all" onclick="filterLevels('all')" style="margin: 4px;">Alle</button>
+              <button class="btn btn-primary continue-btn" id="filter-btn-all" onclick="filterLevels('all')" style="margin: 4px;">Alle</button>
               <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-hacker" onclick="filterLevels('Hacker')" style="margin: 4px;">Hacker</button>
               <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-gold" onclick="filterLevels('Gold')" style="margin: 4px;">Gold</button>
               <button class="btn btn-primary continue-btn filter-not-selected" id="filter-btn-holz" onclick="filterLevels('Holz')" style="margin: 4px;">Holz</button>

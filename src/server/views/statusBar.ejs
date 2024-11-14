@@ -42,7 +42,7 @@
 [
 
 <% if (!user.session_phase || user.session_phase == "DONE") { %>
-  <a href="<%=prefix%>/highscore"><%= t('statusBar.highscore') %></a> | 
+  <a href="<%=prefix%>/highscore?sort=new"><%= t('statusBar.highscore') %></a> | 
 <% } %>
 
 <% if (App.config.hintPage) { %>

@@ -797,12 +797,16 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Der Server hat irgendwie Probleme damit, die Punktzahl richtig darzustellen. Finde heraus, was deine aktuelle Punktzahl ist. Diese ist deine Antwort.</p>
+        <p>Der Server hat irgendwie Probleme damit, die Punktzahl richtig darzustellen. Die Anzeige oben rechts scheint fehlerhaft zu sein. Finde heraus, was deine aktuelle Punktzahl ist. Diese ist deine Antwort.</p>
 
+
+        <script src="/powerglitch.min.js"></script>
         <script>
           const previous = parseInt(document.getElementById('statusbar-user-score').innerHTML)
           const newVal = previous + (Math.random() > 0.5 ? 1 : -1)
           document.getElementById('statusbar-user-score').innerHTML = newVal
+
+          PowerGlitch.glitch('#statusbar-user-score')
         </script>
     `
       ),

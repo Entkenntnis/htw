@@ -35,7 +35,7 @@ if (alter 18) {
   {
     id: 4,
     name: 'TS04',
-    ranks: [1, 2, 3],
+    ranks: [1, 2, 4],
     value: `variable = 2
 `,
   },

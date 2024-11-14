@@ -31,6 +31,14 @@ export const hintsData = {
       },
     ],
   },
+  6: {
+    entries: [
+      {
+        question: 'ich will die antwort wissen',
+        answer: 'Dann schau in den Quellcode',
+      },
+    ],
+  },
   7: {
     entries: [
       {
@@ -53,6 +61,7 @@ export const hintsData = {
         question: 'Für was stehen die Punkte?',
         answer: 'für die übrigen Zahlen von 4 bis 96.',
       },
+      { question: 'was ist das ergebnis', answer: 'Das musst du berechnen.' },
     ],
   },
   15: {
@@ -73,6 +82,7 @@ export const hintsData = {
         question: 'was ist die lösung',
         answer: 'deine aktuelle Punktzahl',
       },
+      { question: 'was für eine punktzahl', answer: 'Schau oben rechts' },
     ],
   },
   17: {
@@ -110,6 +120,14 @@ export const hintsData = {
       {
         question: 'ich kann die datei nicht öffnen',
         answer: 'Welches System verwendest du?',
+      },
+    ],
+  },
+  29: {
+    entries: [
+      {
+        question: 'wo kann ich die koordinaten eingeben?',
+        answer: 'OSM? Google Maps? Wähle selbst.',
       },
     ],
   },
@@ -480,6 +498,10 @@ export const hintsData = {
         question: 'Wie funktioniert diese Aufgabe ',
         answer: 'Hast du die Druckvorschau geöffnet?',
       },
+      {
+        question: 'wie kommt man zur Druckvorschau',
+        answer: 'Strg - P, oder über das Menü und dann Drucken',
+      },
     ],
   },
   79: {
@@ -713,6 +735,12 @@ export const hintsData = {
     entries: [
       {
         question:
+          'Hi, ich bin gerade bei der Neuland Aufgabe, die angegebenen Adressen laden nicht und auch das Script sagt time out. Als ich das vor einem Monat schonmal probiert hatte, war das galube ich noch nicht so. HTTP ist drin',
+        answer:
+          'Service ist online und funktioniert. Time out ist auch zu erwarten: Solange du nicht den richtigen Port hast, wirst du auch keine normale Antwort erhalten..',
+      },
+      {
+        question:
           'bei den ports der angegblich der richtige ist, bekomme ich bei all meinen geräten einen error<br />SSL hat einen Eintrag erhalten, der die maximal erlaubte Länge überschritten hat. <br />Fehlercode: SSL_ERROR_RX_RECORD_TOO_LONG',
         answer:
           'kannst du nachschauen, ob du http (statt https) nutzt? Der Service unterstützt kein https. Die Links in der Aufgabe sollten eigentlich schon so gesetzt sein, aber viele Browser leiten das automatisch weiter<br />man muss manuell http://... tippen, sonst versucht der Browser automatisch, eine sichere Verbindung aufzubauen',
@@ -746,6 +774,22 @@ export const hintsData = {
       {
         question: 'Wie funktioniert es? Was muss ich beachten',
         answer: 'Das ist eine Programmiersprache guckt im Internet danach',
+      },
+    ],
+  },
+  110: {
+    entries: [
+      {
+        question: 'wie soll man die zahl berechnen',
+        answer: 'Du kannst mehrere Rechnungen hintereinander ausführen.',
+      },
+    ],
+  },
+  111: {
+    entries: [
+      {
+        question: 'Wie berechnet man 10 000',
+        answer: 'mache mehrere kleine Rechnungen',
       },
     ],
   },
@@ -807,6 +851,14 @@ export const hintsData = {
         question: 'hilfe bitte bei passwort',
         answer:
           'Schau dir den Text an und die Beispiele. Fallen wir noch weitere Möglichkeiten ein?',
+      },
+    ],
+  },
+  120: {
+    entries: [
+      {
+        question: 'Was deutet auf das Passwort hin?',
+        answer: 'die youtuberin',
       },
     ],
   },
@@ -978,6 +1030,7 @@ export const hintsData = {
         answer:
           'hängt bei mir stark vom Bildausschnitt ab, probiere mal bisschen herum',
       },
+      { question: 'wo liegt der fluss', answer: 'das musst du herausfinden' },
     ],
   },
   317: {
@@ -1008,6 +1061,14 @@ export const hintsData = {
           'Bräuchte Hilfe bei der Aufgabe, habe mit mehreren Methoden versucht den Text zu enziffern aber da kommt nur Quatsch raus 😄 Kann mir jemand einen Denkanstoss geben?',
         answer:
           'Einige Standard-Methoden sind in https://en.wikipedia.org/wiki/Transposition_cipher beschrieben, für dich als Denkanstoß ganz allgemein 🙂',
+      },
+    ],
+  },
+  321: {
+    entries: [
+      {
+        question: 'was ist hier Mehrdeutig?',
+        answer: 'Man kann die Anweisung auf zwei Arten verstehen.',
       },
     ],
   },
@@ -1098,6 +1159,10 @@ export const hintsData = {
         question: 'Was ist eine ID',
         answer:
           'Das ist wie der Computer den Block speichert. Probiere mal <a href="https://minecraftitemids.com/" target="_blank">https://minecraftitemids.com/</a>',
+      },
+      {
+        question: 'i dont play mincraft. whats the name of this block',
+        answer: 'it is the indestructible one',
       },
     ],
   },

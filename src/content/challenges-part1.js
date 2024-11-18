@@ -136,7 +136,13 @@ export const part1 = [
 
           <p>Ist das nicht verboten? Ja, genau deshalb gibt es Hack The Web. Denn hiermit gebe ich dir die Erlaubnis, diese Seite zu hacken! Du kannst Dinge ausprobieren, die du mit anderen Webseiten sonst nicht machen kannst. Alle Hilfsmittel sind erlaubt, sei es das Internet, DevTools, ein Taschenrechner, oder Stift und Papier - fühle dich frei und nutze die Werkzeuge, die dir am meisten helfen.</p>
 
-          <p>Bist du bereit? Die Antwort auf diese erste Aufgabe ist das Ergebnis von 6 + 4 · 9.</p>
+          <p>Bist du bereit? Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>.</p>
+
+          
+          <script src="/powerglitch.min.js"></script>
+          <script>
+            PowerGlitch.glitch('#calculation', {playMode: 'hover'})
+          </script>
         `
         ),
         en: `
@@ -809,7 +815,7 @@ export const part1 = [
             const newVal = previous + diff
             diff *= -1
             document.getElementById('statusbar-user-score').innerHTML = newVal
-            PowerGlitch.glitch('#statusbar-user-score', {playmode: 'manual'}).startGlitch()
+            PowerGlitch.glitch('#statusbar-user-score', {playMode: 'manual'}).startGlitch()
 
             setTimeout(update, Math.random()*1000 + 1500)
           }

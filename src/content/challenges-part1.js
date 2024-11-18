@@ -803,10 +803,18 @@ export const part1 = [
         <script src="/powerglitch.min.js"></script>
         <script>
           const previous = parseInt(document.getElementById('statusbar-user-score').innerHTML)
-          const newVal = previous + (Math.random() > 0.5 ? 1 : -1)
-          document.getElementById('statusbar-user-score').innerHTML = newVal
+          let diff = (Math.random() > 0.5 ? 1 : -1)
 
-          PowerGlitch.glitch('#statusbar-user-score')
+          function update() {
+            const newVal = previous + diff
+            diff *= -1
+            document.getElementById('statusbar-user-score').innerHTML = newVal
+            PowerGlitch.glitch('#statusbar-user-score', {playmode: 'manual'}).startGlitch()
+
+            setTimeout(update, Math.random()*1000 + 1500)
+          }
+
+          update()
         </script>
     `
       ),

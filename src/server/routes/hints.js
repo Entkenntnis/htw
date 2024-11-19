@@ -1162,7 +1162,7 @@ export const hintsData = {
       },
       {
         question: 'i dont play mincraft. whats the name of this block',
-        answer: 'it is the indestructible one',
+        answer: 'it&apos;s called <span class="spoiler-text">bed rock</span>',
       },
     ],
   },
@@ -1226,6 +1226,28 @@ export function setupHints(App) {
       heading: `Hinweise für "${challenge.title['de']}"`,
       backButton: false,
       content: `
+        <style>
+          .spoiler-text {
+            background: black;
+            color: transparent;
+            cursor: help;
+            padding-left: 3px;
+            padding-right: 3px;
+            margin-left: 3px;
+            margin-right: 3px;
+
+            border-radius: 4px;
+
+            transition: background 0.3s ease 0.2s, color 0.2s ease 0.25s;
+          }
+
+          .spoiler-text:hover,
+          .spoiler-text:focus {
+            background: #303030;
+            color: inherit;
+          }
+        </style>
+      
         <p><a href="/challenge/${id}">zurück zur Aufgabe</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">zurück zur Karte</a></p>
 
         ${

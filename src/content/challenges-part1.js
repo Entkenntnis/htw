@@ -3413,7 +3413,7 @@ PIXI.loader
         `
         <p>Weißt du noch, wie ich dir den HTML-Quellcode gezeigt habe? Vor ganz vielen Jahren gab es in den USA einen Governor, der einen Journalist wegen &quot;Hacking&quot; anklagen wollte. Der Journalist hat sich den Quellcode einer Regierungswebsite angeschaut hat und dort persönliche Informationen vieler Lehrkräfte gefunden.</p>
         
-        <p>Ganz wilde Geschichte, denn im Grund hat der Staats selbst ausversehen persönliche Informationen in der Website mitgeliefert, die jeder mit bisschen technischen Wissen herauslesen konnte. Es gab dazu ein <a href="https://pbs.twimg.com/media/FBrT2wWX0AQ4zkQ?format=jpg&name=small" target="_blank">nettes Meme</a>. Wenn die Leute nur wüssten, ich schlecht dieser Witz gealtert ist ...</p>
+        <p>Ganz wilde Geschichte, denn im Grund hat der Staats selbst ausversehen persönliche Informationen in der Website mitgeliefert, die jeder mit bisschen technischen Wissen herauslesen konnte.</p>
 
         <p>Wann war das nochmal? Ich glaube das war 2021. Kannst du mir bitte heraussuchen, in welchem US-Bundesstaat das passierte?
         </p>
@@ -3899,7 +3899,7 @@ PIXI.loader
       ${calculator('en')}
     `,
     },
-    solution: '10240',
+    solution: '10000',
     hidesubmit: true,
   },
 

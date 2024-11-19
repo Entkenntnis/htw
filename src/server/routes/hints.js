@@ -387,11 +387,6 @@ export const hintsData = {
           'wir haben sein Geburtstag monat und tag eingegeben und jahr aber es ist trotzdem falsch',
         answer: 'nur das jahr',
       },
-      {
-        question:
-          'Ich habe alle Hinweise befolgt. <span class="spoiler-text">15.04.1452 15.4.1452 15 April 1452</span> Alles ist falsch. Ich weiß nicht,was richtig ist.',
-        answer: 'nur das jahr',
-      },
     ],
   },
   69: {

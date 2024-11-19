@@ -321,7 +321,7 @@ export const part1 = [
   {
     id: 4,
     pos: { x: 260, y: 380 },
-    title: { de: 'Codes', en: 'Codes' },
+    title: { de: 'ASCII', en: 'ASCII' },
     // date: '2017-05-17',
     deps: [15, 24],
     render: () => {
@@ -408,13 +408,15 @@ export const part1 = [
         de: story(
           'Josh',
           `
-          <p>Schau dir diese Tabelle an. Du findest Zeichen und links daneben ihre Codes. Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
+          <p>Texte werden im Computer mit dem ASCII-Code gespeichert. Schau dir die Tabelle an. Du findest dort die ASCII-Codes für verschiedene Zeichen.</p>
+          
+          <p>Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
 
           ${renderTable('Code', 'Zeichen')}
           
-          <p>Jetzt bist du dran. Deine Antwort in Codes lautet:</p>
+          <p>Jetzt bist du dran. Deine Antwort (ein Jugendwort des Jahres) in ASCII lautet:</p>
           
-          <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
+          <p>35 &nbsp; 97 &nbsp; 117 &nbsp; 114 &nbsp; 97
           </p>
         `
         ),
@@ -803,7 +805,7 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Der Server hat irgendwie Probleme damit, die Punktzahl richtig darzustellen. Die Anzeige oben rechts scheint fehlerhaft zu sein. Finde heraus, was deine aktuelle Punktzahl ist. Diese ist deine Antwort.</p>
+        <p>Die Anzeige oben rechts scheint fehlerhaft zu sein. Finde heraus, was deine aktuelle Punktzahl ist. Diese ist deine Antwort.</p>
 
 
         <script src="/powerglitch.min.js"></script>
@@ -3038,9 +3040,9 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Kunst überdauert Jahrhunderte - weil sie immer wieder neu interpretiert und überarbeitet wird. Schau dir dieses Kunstwerk an. Es ist eine moderne Umsetzung eines sehr alten Motivs.</p>
+        <p>Im Jahr MDIII schuf ein 51-jähriger Künstler ein Motiv, das bis heute neu interpretiert wird. Schau dir dieses Kunstwerk an. Obwohl es nur aus Zeichen besteht, wirst du das Motiv sehr wahrscheinlich erkennen.</p>
 
-        <p>Sag mir: In welchem Jahr ist der Maler des ursprünglichen Gemäldes geboren?</p>
+        <p>Sag mir: In welchem Jahr ist der Künstler des ursprünglichen Gemäldes geboren?</p>
         `,
         `
         

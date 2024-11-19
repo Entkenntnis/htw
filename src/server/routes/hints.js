@@ -83,6 +83,10 @@ export const hintsData = {
         answer: 'deine aktuelle Punktzahl',
       },
       { question: 'was für eine punktzahl', answer: 'Schau oben rechts' },
+      {
+        question: 'da steht 32 es ist aber angeblich falsch jetzt steht da 33',
+        answer: 'Die Anzeige ist spinnt bisschen',
+      },
     ],
   },
   17: {
@@ -369,13 +373,24 @@ export const hintsData = {
         answer: 'Welches Gemälde sieht du? Ist berühmt und hat einen Namen.',
       },
       {
-        question: 'Wann wurde die monalisa gemalt',
+        question:
+          'Wann wurde die <span class="spoiler-text">monalisa</span> gemalt',
         answer: 'Ist egal - es geht um das Geburtsjahr des Malers',
       },
       {
         question:
           'Was ist die Lösung, Ich habe gegoogelt aber ist trotzdem falsch',
         answer: 'Hast du nur das Jahr eingegeben? Ohne Tag und Monat?',
+      },
+      {
+        question:
+          'wir haben sein Geburtstag monat und tag eingegeben und jahr aber es ist trotzdem falsch',
+        answer: 'nur das jahr',
+      },
+      {
+        question:
+          'Ich habe alle Hinweise befolgt. <span class="spoiler-text">15.04.1452 15.4.1452 15 April 1452</span> Alles ist falsch. Ich weiß nicht,was richtig ist.',
+        answer: 'nur das jahr',
       },
     ],
   },
@@ -556,6 +571,11 @@ export const hintsData = {
         answer: 'Guck mal genauer auf dem Bild - vielleicht siehst du dann was',
       },
       { question: 'Was ist die Lösung? ', answer: 'ist im Bild versteckt' },
+    ],
+  },
+  87: {
+    entries: [
+      { question: 'was muss man tun', answer: 'Spiele das Spiel zu Ende' },
     ],
   },
   88: {
@@ -813,6 +833,10 @@ export const hintsData = {
         question: 'was ist die antwort',
         answer: 'Schaue an wie das Bild heißt.',
       },
+      {
+        question: 'wie heißt das bild?',
+        answer: 'Siehst du, wenn du auf das Bild klickst',
+      },
     ],
   },
   115: {
@@ -852,6 +876,11 @@ export const hintsData = {
         answer:
           'Schau dir den Text an und die Beispiele. Fallen wir noch weitere Möglichkeiten ein?',
       },
+      {
+        question:
+          'Prämisse 1: Ich verwende Translate. Prämisse 2: Ich weiß nicht viel über Taylor. Ich habe gesehen, dass sie beim Münchner Konzert vor Betty ein gesprochenes Intro gemacht hat. Ich habe es mir angehört, in der Hoffnung, Hinweise zu finden, aber auch dort und im Text konnte ich nichts finden. Bin ich nah dran oder sollte ich meinen Ansatz ändern?',
+        answer: 'die Antwort findet sich bereits im Steckbrief',
+      },
     ],
   },
   120: {
@@ -869,6 +898,14 @@ export const hintsData = {
           'Ich versuche an der URL den /Chal/chal301/ anzugeben aber wenn ich es auf enter drücke ist es weiß mit dem Englischen Text am oberen Rand links zu seheb',
         answer:
           'Du musst eine Löschanfrage stellen und nicht nur die Seite aufrufen.',
+      },
+    ],
+  },
+  303: {
+    entries: [
+      {
+        question: 'was könnte mir da helfen?',
+        answer: 'schnell rechnen und tippen? :)',
       },
     ],
   },
@@ -1164,6 +1201,11 @@ export const hintsData = {
         question: 'i dont play mincraft. whats the name of this block',
         answer: 'it&apos;s called <span class="spoiler-text">bed rock</span>',
       },
+      {
+        question:
+          'ist das ergebnis nicht <span class="spoiler-text">Bedrock</span> ?????? ',
+        answer: 'davon die ID',
+      },
     ],
   },
   337: {
@@ -1228,7 +1270,7 @@ export function setupHints(App) {
       content: `
         <style>
           .spoiler-text {
-            background: black;
+            background: #0d0d0d;
             color: transparent;
             cursor: help;
             padding-left: 3px;

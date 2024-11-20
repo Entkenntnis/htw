@@ -47,6 +47,7 @@ function goBack() {
   <div style="height:16px"></div>
 
   <% if (props.correct === true) { %>
+    <%- props.afterSolveText %>
     <p><a href="<%=prefix%>/map"><%= t('continue') %></a></p>
   <% } else { %>
     <%- props.html %>

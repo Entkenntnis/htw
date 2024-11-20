@@ -167,6 +167,10 @@ export const part1 = [
       }
     },
     solution: secrets('chal_1'),
+    afterSolveText: {
+      de: '<p>Die Antwort auf die große Frage nach dem Leben, dem Universum und allem lautet ... 42!</p>',
+      en: '<p>The answer to the ultimate question of life, the universe, and everything is ... 42!</p>',
+    },
   },
 
   {
@@ -450,6 +454,10 @@ export const part1 = [
         answer: trimmed,
         correct: trimmed === secrets('chal_4'),
       }
+    },
+    afterSolveText: {
+      de: '<p>Die ursprüngliche Version von ASCII enthielt 95 druckbare Zeichen. Unicode enthält mittlerweile mehr als 100 000 Zeichen ... + 500 Aura.</p>',
+      en: '<p>The original version of ASCII included 95 printable characters. Unicode now contains more than 100,000 characters ... + 500 Aura.</p>',
     },
   },
 
@@ -819,7 +827,7 @@ export const part1 = [
             document.getElementById('statusbar-user-score').innerHTML = newVal
             PowerGlitch.glitch('#statusbar-user-score', {playMode: 'manual'}).startGlitch()
 
-            setTimeout(update, Math.random()*1000 + 1500)
+            setTimeout(update, Math.random() * 1000 + 500)
           }
 
           update()
@@ -1155,6 +1163,10 @@ export const part1 = [
       `,
     },
     solution: secrets('chal_24'),
+    afterSolveText: {
+      de: '<p>Ein geübter Leser braucht ungefähr 0,25 Sekunden, um ein Wort zu erkennen.</p>',
+      en: '<p>An experienced reader takes approximately 0.25 seconds to recognize a word.</p>',
+    },
   },
 
   {
@@ -2237,6 +2249,10 @@ export const part1 = [
       `,
     },
     solution: secrets('chal_55'),
+    afterSolveText: {
+      de: '<p>Die Farbe wurde zum Gedenken an die verstorbene Tochter des CSS-Entwicklers Eric A. Meyer benannt und findet sich im neuen <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS-Logo</a>.</p>',
+      en: '<p>The color was named in memory of the late daughter of CSS developer Eric A. Meyer and is featured in the new <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS logo</a>.</p>',
+    },
   },
 
   {
@@ -4264,6 +4280,10 @@ PIXI.loader
       `,
     },
     solution: secrets('chal_336'),
+    afterSolveText: {
+      de: '<p>Durch Bugs kann Bedrock auch im Survival Mode abgebaut werden.</p>',
+      en: '<p>Due to bugs, bedrock can also be mined in Survival mode.</p>',
+    },
   },
 
   {

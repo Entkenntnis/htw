@@ -477,6 +477,10 @@ export function setupChallenges(App) {
       ? hintsData[challenge.id].entries.length
       : 0
 
+    const afterSolveText = challenge.afterSolveText
+      ? challenge.afterSolveText[req.lng]
+      : ''
+
     renderPage(App, req, res, {
       page: 'challenge',
       props: {
@@ -491,6 +495,7 @@ export function setupChallenges(App) {
         lastSolvedUserName,
         author,
         hintsCount,
+        afterSolveText,
       },
       backButton: false,
       title: challengeTitle,

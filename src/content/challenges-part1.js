@@ -456,8 +456,8 @@ export const part1 = [
       }
     },
     afterSolveText: {
-      de: '<p>Die ursprüngliche Version von ASCII enthielt 95 druckbare Zeichen. Unicode enthält mittlerweile mehr als 100 000 Zeichen ... + 500 Aura.</p>',
-      en: '<p>The original version of ASCII included 95 printable characters. Unicode now contains more than 100,000 characters ... + 500 Aura.</p>',
+      de: '<p>Die ursprüngliche Version von ASCII enthielt 95 druckbare Zeichen. Unicode enthält mittlerweile mehr als 100 000 Zeichen.</p>',
+      en: '<p>The original version of ASCII included 95 printable characters. Unicode now contains more than 100,000 characters.</p>',
     },
   },
 
@@ -522,7 +522,7 @@ export const part1 = [
         `
         <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil davon. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Webseite.</p>
 
-        <p>Im Quelltext siehst du die Antwort innerhalb dieses Kastens.</p>
+        <p>Klicke auf den Button, um den Quelltext dieser Seite anzuzeigen. Dort siehst du die Antwort innerhalb des Kastens.</p>
         
         <pre>
         
@@ -813,7 +813,7 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Die Anzeige oben rechts scheint fehlerhaft zu sein. Finde heraus, was deine aktuelle Punktzahl ist. Diese ist deine Antwort.</p>
+        <p>Die Anzeige oben rechts ist fehlerhaft. Die Antwort ist deine aktuelle und korrekte Punktzahl.</p>
 
 
         <script src="/powerglitch.min.js"></script>
@@ -4266,8 +4266,6 @@ PIXI.loader
       de: story(
         'Bex',
         `
-        <p>Kiwi hat mich beordert, dir paar Dinge zu zeigen. Hey: nur weil ich jung bin heißt es nicht, dass ich nicht ordentlich was drauf habe!</p>
-
         <p>Ich spiele gerne Minecraft. Es ist gut und man kann da sehr viele kreative Dinge machen - die manchmal gar nicht so vorgesehen sind. Zeige, dass du dich mit Minecraft auskennst (oder bereit bist, es kennenzulernen). Deine Antwort ist die Block-ID von diesem Block.</p>
       `,
         `<p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
@@ -4297,9 +4295,9 @@ PIXI.loader
       de: story(
         'Bex',
         `
-        <p>Die erste Aufgabe hast du gemeistert. Anscheinend hast du doch was auf dem Kasten.</p>
+        <p>Die erste Aufgabe hast du gemeistert. Anscheinend hast du was auf dem Kasten.</p>
 
-        <p>Ich frage dich als nächstes: Welches Konzept wird hier dargestellt?
+        <p>Meine nächste Frage: Welches Konzept wird hier dargestellt?
 
         <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
         `

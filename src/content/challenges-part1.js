@@ -3175,7 +3175,7 @@ PIXI.loader
     pos: { x: 475, y: 460 },
     title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
     // date: '2021-03-19',
-    deps: [4, 16, 68],
+    deps: [4, 16],
     html: {
       de: story(
         'Bex',
@@ -3327,7 +3327,7 @@ PIXI.loader
     pos: { x: 680, y: 555 },
     title: { de: 'Geburtstag', en: 'Birthday' },
     // date: '2022-02-09',
-    deps: [51, 55, 69],
+    deps: [55, 69],
     html: {
       de: story(
         'Kiwi',
@@ -4268,7 +4268,7 @@ PIXI.loader
     pos: { x: 455, y: 175 },
     title: { de: 'Minecraft', en: 'Minecraft' },
     // date: '2024-02-01',
-    deps: [5, 15],
+    deps: [5],
     // author: 'QWERTZ',
     html: {
       de: story(

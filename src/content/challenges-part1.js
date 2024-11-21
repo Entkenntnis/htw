@@ -3442,7 +3442,7 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Irgendeine Person hat die Farben der Regenbogen-Flagge durcheinander gebracht! Es liegt nun an dir, die Farben wieder in die richtige Reihenfolge zu bringen. Ändere dafür die Hintergrundfarben der einzelnen Balken. Verwende die Farben in der Reihenfolge <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
+        <p>Die Farben der Regenbogen-Flagge durcheinander. Bringe sie in die richtige Reihenfolge, indem du das Stylesheet änderst. Verwende die Farben <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
         `
       <div class="container">
         <div class="row">
@@ -3465,6 +3465,7 @@ PIXI.loader
 #bar6 {
   background-color: orange;
 }</textarea>
+          <button class="btn btn-sm btn-secondary" style="margin-top: 8px" onclick="shuffle()">Farben mischen</button>
           </div>
 
           <div class="col-lg-6 col-md-12">
@@ -3482,6 +3483,30 @@ PIXI.loader
           </div>
         </div>
       </div>
+
+      <script>
+        function shuffle() {
+          const inputString = document.getElementById('css-input').value
+
+          // Extract colors using regex
+          const colorRegex = /background-color: (\\w+);/g;
+          const colors = [...inputString.matchAll(colorRegex)].map(match => match[1]);
+
+          // Shuffle colors using Fisher-Yates algorithm
+          for (let i = colors.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [colors[i], colors[j]] = [colors[j], colors[i]];
+          }
+
+          // Replace colors in the original string with the shuffled colors
+          let index = 0;
+          const outputString = inputString.replace(colorRegex, () => {
+            return \`background-color: \${colors[index++]};\`;
+          });
+          document.getElementById('css-input').value = outputString
+          update()
+        }
+      </script>
           
       
       <script>lng='de'</script>

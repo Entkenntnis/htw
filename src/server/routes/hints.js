@@ -370,12 +370,8 @@ export const hintsData = {
     entries: [
       {
         question: 'Krieg ich einen Tipp',
-        answer: 'Welches Gemälde sieht du? Ist berühmt und hat einen Namen.',
-      },
-      {
-        question:
-          'Wann wurde die <span class="spoiler-text">monalisa</span> gemalt',
-        answer: 'Ist egal - es geht um das Geburtsjahr des Malers',
+        answer:
+          'Erkennst du das Bild? Schau mal, wer es gemalt hat oder lies den Text genauer',
       },
       {
         question:
@@ -385,7 +381,7 @@ export const hintsData = {
       {
         question:
           'wir haben sein Geburtstag monat und tag eingegeben und jahr aber es ist trotzdem falsch',
-        answer: 'nur das jahr',
+        answer: 'nur das jahr eingeben',
       },
     ],
   },

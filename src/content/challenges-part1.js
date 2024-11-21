@@ -3987,7 +3987,7 @@ PIXI.loader
 
       `,
     },
-    solution: secrets('chal_114'),
+    solution: secrets('chal_114').split(','),
   },
 
   {

@@ -32,38 +32,15 @@ function buildCircle(i, label) {
     }
     if (!output) output = '0'
     input.innerHTML = output
+    document.getElementById('challenge_answer').value = output
   })
   binary.text(label).attr('font-size', '24px').move(25 + 70*i + (i >= 2 ? 8 : 0), 23).style('pointer-events:none;font-family:"Lato";').attr('font-family', 'Lato')
 }
+
 
 const labels = ['32', '16', '8', '4', '2', '1']
 
 
 for (let i = 0; i < 6; i++) {
   buildCircle(i, labels[i])
-}
-
-function submit() {
-  postURL(window.location.href, "answer", document.getElementById('output').innerHTML)
-}
-
-
-/**
- * Takes a URL and goes to it using the POST method.
- * @param {string} url  The URL with the GET parameters to go to.
- * @param {boolean=} multipart  Indicates that the data will be sent using the
- *     multipart enctype.
- */
-function postURL(url, key, val) {
-  var form = document.createElement("FORM");
-  form.method = "POST";
-  form.style.display = "none"
-  document.body.appendChild(form)
-  form.action = url
-  var input = document.createElement("INPUT")
-  input.type = "hidden"
-  input.name = decodeURIComponent(key)
-  input.value = decodeURIComponent(val)
-  form.appendChild(input)
-  form.submit();
 }

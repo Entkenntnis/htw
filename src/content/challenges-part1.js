@@ -2033,21 +2033,12 @@ export const part1 = [
         `
         <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
         </p>
-        
-        <p>Selbst wenn du noch nie damit gearbeitet hast - mit ein wenig logischem Denken findest du schnell den Einstieg.
-        </p>
-        
-        <p>Als Hilfestellung siehst du hier die ersten 6 Zweierpotenzen. Du kannst sie an- oder ausschalten, wenn du sie anklickst. Alle aktiven Zahlen werden zum Ergebnis addiert.
-        </p>
-        
-        <p>Stelle die Zahl 7 ein und schicke sie ab.
-        </p>
+
+        <p>Gesucht ist die Zahl 7 im Binärsystem. Tippe deine Antwort in das Eingabefeld oder nutze die Hilfestellung. Klicke auf die Zweierpotenzen, um die jeweilige Stelle zu aktivieren.</p>
         
         <p style="margin-top:24px;"><svg id="binary"></svg></p>
         
         <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-        
-        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
         
         <script src="/svg.min.js"></script>
         <script src="/chals/chal51_2.js"></script>
@@ -2070,14 +2061,12 @@ export const part1 = [
       <p>To help you, you can see the first six powers of two here. You can turn them on or off when you click on them. All active numbers are added to the result.
       </p>
       
-      <p>Enter the number 7 and submit it.
+      <p>Enter the number 7 in binary and submit it.
       </p>
       
       <p><svg id="binary"></svg></p>
       
       <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Submit</button></p>
       
       <script src="/svg.min.js"></script>
       <script src="/chals/chal51_2.js"></script>
@@ -2091,7 +2080,6 @@ export const part1 = [
     `,
     },
     solution: secrets('chal_51'),
-    hidesubmit: true,
   },
 
   {
@@ -2104,14 +2092,12 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Dein Kopf ist jetzt warm. Stelle die Zahl 45 ein.
+        <p>Dein Kopf ist jetzt warm. Gesucht ist die Zahl 45 im Binärsystem.
         </p>
         
         <p><svg id="binary"></svg></p>
         
         <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-        
-        <p style="margin-top:32px;" id="submit"><button onclick="submit()">Abschicken</button></p>
         
         <script src="/svg.min.js"></script>
         <script src="/chals/chal51_2.js"></script>
@@ -2125,14 +2111,12 @@ export const part1 = [
     `
       ),
       en: `
-      <p>Well done! Now set the number 45.
+      <p>Well done! Now enter the number 45 in binary.
       </p>
       
       <p><svg id="binary"></svg></p>
       
       <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
-      
-      <p style="margin-top:32px;" id="submit"><button onclick="submit()">Submit</button></p>
       
       <script src="/svg.min.js"></script>
       <script src="/chals/chal51_2.js"></script>
@@ -2146,7 +2130,6 @@ export const part1 = [
     `,
     },
     solution: secrets('chal_52'),
-    hidesubmit: true,
   },
 
   {

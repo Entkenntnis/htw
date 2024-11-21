@@ -123,8 +123,10 @@ export const hintsData = {
     entries: [
       {
         question: 'ich kann die datei nicht öffnen',
-        answer: 'Welches System verwendest du?',
+        answer:
+          'Welches System verwendest du? ist jeweils etwas unterschiedlich',
       },
+      { question: 'was ist die antwort', answer: 'Schau in die zip-Datei' },
     ],
   },
   29: {
@@ -242,6 +244,7 @@ export const hintsData = {
   45: {
     entries: [
       { question: 'was ist die lösung', answer: 'lies die Schriftzeichen' },
+      { question: 'welche sprache', answer: 'japanisch' },
     ],
   },
   46: {
@@ -301,6 +304,11 @@ export const hintsData = {
           'Ich hab keine Ahnung wie ich das machen soll und ich will die Aufgabe noch nicht mit autoklicker lösen.  Ich hab es geschafft im Quellcode die Zahl zu 2000 zu ändern  , aber es passiert nichts.',
         answer:
           'guck dir mal chal53.js an und überlege wie du dir was du in der konsole ausführen könntest um die aufgabe zu lösen',
+      },
+      {
+        question: 'sag mir die lösung',
+        answer:
+          'Es gibt keine Lösung. Klicke 2000 mal auf das X, das ist alles.',
       },
     ],
   },
@@ -459,6 +467,12 @@ export const hintsData = {
         answer:
           'Frage ChatGPT doch ob es dir ein Script schreiben kann, dass die einzelnen Zahlen ausprobiert...',
       },
+      {
+        question:
+          'Sollte es nicht etwas mehr rechenleistung brauchen, eine blockchain zu manipulieren? Mit multithreading bin ich bei 0.25s.',
+        answer:
+          'Ja, stimmt. Bitcoin verlangt aktuell einen Hash mit 19 führenden Nullen. Das braucht deutlich mehr Zeit.',
+      },
     ],
   },
   75: {
@@ -496,6 +510,10 @@ export const hintsData = {
   77: {
     entries: [
       { question: 'Wer ist am 23 Juni 1912 geboren', answer: 'Suchmaschine' },
+      {
+        question: 'wenn ich [..] [..] eingebe ist es falsch warum',
+        answer: 'nur nachname',
+      },
     ],
   },
   78: {
@@ -1012,6 +1030,12 @@ export const hintsData = {
       },
       {
         question:
+          'Ich habe 50<i>xxx</i> Sekunden raus anscheinend ist es falsch, ich habe es mit mehreren Formeln ausgerechnet, auch ChatGPT habe ich gefragt da kommt dasselbe raus.',
+        answer:
+          'Du bist nur um eine Sekunde daneben, wahrscheinlich durch das Runden.',
+      },
+      {
+        question:
           'Also ich habe jetzt ein Script geschrieben das für jeden Meter die aktuelle Geschwindigkeit und Anziehung berechnet, mein Ergebnis scheint aber falsch zu sein 40528077150 ist das was ich raus habe. Ich weiß aber eben auch nicht ob das realistisch ist (ob das Ergebnis zumindest nah dran ist)',
         answer:
           'dein ergebnis liegt nicht in der richtigen größenordnung, da muss irgendwo ein fehler im code sein. Du kannst deinen Code zur Kontrolle auch mit den Werten Von Freier Fall 1 und 2 Testen, da sollte er auch funktionieren',
@@ -1210,6 +1234,11 @@ export const hintsData = {
           'Ich hab wirklich alles versucht was mir in den Kopf gekommen ist aber ich komm nicht drauf. Hänge schon seit ein paar Wochen an der Aufgabe. Kann mir jemand einen kleinen Tipp geben. 😅',
         answer:
           'Die Antwort ist einfacher als man denkt. Überlege mal zu welcher Block-Kategorie die dargestellten Items gehören',
+      },
+      {
+        question: 'ich spiele kein minekraft wie heist das',
+        answer:
+          'Bildersuche? Google Lens? Freund fragen? Es gibt viele Möglichkeiten.',
       },
     ],
   },

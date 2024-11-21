@@ -2218,7 +2218,7 @@ export const part1 = [
         `
         <p>Die Welt ist voller Farben. Doch im Internet gibt es nur für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> einen offiziellen Name.</p>
 
-        <div style="height:80px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
+        <div style="height:80px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><img src="/chals/55.png"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
 
         <p>Der Name dieser Farbe ist deine Antwort.</p>
     `

@@ -4269,7 +4269,7 @@ PIXI.loader
     title: { de: 'Minecraft', en: 'Minecraft' },
     // date: '2024-02-01',
     deps: [5],
-    // author: 'QWERTZ',
+    author: 'QWERTZ',
     html: {
       de: story(
         'Bex',
@@ -4298,7 +4298,7 @@ PIXI.loader
     title: { de: 'Minecraft II', en: 'Minecraft II' },
     // date: '2024-02-01',
     deps: [336],
-    // author: 'QWERTZ',
+    author: 'QWERTZ',
     html: {
       de: story(
         'Bex',

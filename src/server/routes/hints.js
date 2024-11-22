@@ -62,6 +62,10 @@ export const hintsData = {
         answer: 'für die übrigen Zahlen von 4 bis 96.',
       },
       { question: 'was ist das ergebnis', answer: 'Das musst du berechnen.' },
+      {
+        question: 'muss man da eine zahl oder mehrere zahlen hinschreiben?',
+        answer: 'Das Ergebnis ist eine einzelne Zahl',
+      },
     ],
   },
   15: {
@@ -338,6 +342,7 @@ export const hintsData = {
         answer:
           'Schaue mal, ob du das eine oder andere Wort erraten kannst und vertausche dafür ein paar Buchstaben - dann ergeben sich die nächsten Wörter usw',
       },
+      { question: 'Wie gehts?', answer: 'Gut, und dir?' },
     ],
   },
   62: {
@@ -819,6 +824,10 @@ export const hintsData = {
       {
         question: 'Wie berechnet man 10 000',
         answer: 'mache mehrere kleine Rechnungen',
+      },
+      {
+        question: 'kannst du bitte kleinere rechnungen abschicken',
+        answer: 'ich verstehe die Frage nicht ganz',
       },
     ],
   },

@@ -85,7 +85,7 @@ export const hintsData = {
       { question: 'was für eine punktzahl', answer: 'Schau oben rechts' },
       {
         question: 'da steht 32 es ist aber angeblich falsch jetzt steht da 33',
-        answer: 'Die Anzeige ist spinnt bisschen',
+        answer: 'Die Anzeige spinnt bisschen',
       },
     ],
   },

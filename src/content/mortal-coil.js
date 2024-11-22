@@ -41,7 +41,7 @@ export function setupMortalCoil(App) {
       const isEditor = req.user && App.config.editors.includes(req.user.name)
 
       const storageKey = `mortalcoil_${userid}`
-      const fromDB = parseInt((await App.storage.getItem(storageKey)) ?? '-1') // should be fine
+      const fromDB = parseInt((await App.storage.getItem(storageKey)) ?? 'xxx')
       const playerLevel = isEditor
         ? maxLevel - 1
         : isNaN(fromDB)

@@ -27,6 +27,8 @@ function goBack() {
           <%= t('by') %> <%= props.challenge.author %>
         <% } %>
       </span>
+    <% } %><% if (!props.challenge.date && props.challenge.author) { %><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
+        <span style="color:gray"><%= t('created')%> <%= t('by') %> <%= props.challenge.author %></span>
     <% } %><% if (props.correct !== true) { %>
       <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/hints/<%= props.challenge.id %>" style="color:gray">Hinweise (<%= props.hintsCount%>)</a>
     <% } %>

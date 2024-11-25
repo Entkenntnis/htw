@@ -443,7 +443,7 @@ export const part1 = [
           <p>An example: The dollar sign is stored in the computer with the number 36. Voilà, now it's your turn. Your answer in codes is:
           </p>
           
-          <p>35 &nbsp; 115 &nbsp; 116 &nbsp; 97 &nbsp; 98 &nbsp; 105 &nbsp; 108
+          <p>35 &nbsp; 97 &nbsp; 117 &nbsp; 114 &nbsp; 97
           </p>
         `,
       }
@@ -3918,7 +3918,7 @@ PIXI.loader
     `
       ),
       en: `
-      <p>This time calculate the number <strong>10240</strong>.
+      <p>This time calculate the number <strong>10 000</strong>.
       </p>
       
       

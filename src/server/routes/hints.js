@@ -78,6 +78,10 @@ export const hintsData = {
         question: 'Bei mir klappt die aufgabe nicht',
         answer: 'Schau dir den Text bei "... ist falsch" genauer an',
       },
+      {
+        question: 'Was ist das Ergebnis',
+        answer: 'ist ja für jeden anders, weil die Namen anders sind',
+      },
     ],
   },
   16: {
@@ -193,6 +197,15 @@ export const hintsData = {
       {
         question: 'Ist die Antwort ein deutsches Wort?',
         answer: 'Normalerweise schon und es ist echt leicht zu erkennen',
+      },
+    ],
+  },
+  42: {
+    entries: [
+      {
+        question: 'shazam funkioniert nicht',
+        answer:
+          'shazam hat bei mir noch 5s das richtige Ergebnis, probiere es nochmal und achte darauf, das der Ton gut funktioniert',
       },
     ],
   },
@@ -316,6 +329,14 @@ export const hintsData = {
       },
     ],
   },
+  55: {
+    entries: [
+      {
+        question: 'Wie heißt diese Farbe?',
+        answer: 'klick mal auf den Link, da kannst du in der Liste nachschauen',
+      },
+    ],
+  },
   56: {
     entries: [
       {
@@ -332,6 +353,14 @@ export const hintsData = {
           'wenn ich eine website eintippe und auf Los drücke kommt oft ein langer Text mit &lt;!doctype html&gt; &lt;html lang="en-US"&gt;... wikipedia funktioniert auch nicht',
         answer:
           'Wenn dieser lange  Text kommt dann ist es ein Zeichnen, dass es funktioniert hat - jetzt musst du nur noch eine Website finden, die deinen Benutzernamen enthält',
+      },
+    ],
+  },
+  57: {
+    entries: [
+      {
+        question: 'welche Aufgaben sind das ?',
+        answer: 'Klicke auf die Zahlen und du siehst die Aufgaben',
       },
     ],
   },
@@ -372,6 +401,10 @@ export const hintsData = {
   66: {
     entries: [
       {
+        question: 'Wie löse ich dieses Rätsel',
+        answer: 'Genau hinschauen hilft - erkennst du etwas?',
+      },
+      {
         question:
           'ich habbe viele bilder übereinander geleg aber das ergebniss schtimmt nicht',
         answer:
@@ -395,6 +428,11 @@ export const hintsData = {
         question:
           'wir haben sein Geburtstag monat und tag eingegeben und jahr aber es ist trotzdem falsch',
         answer: 'nur das jahr eingeben',
+      },
+      {
+        question:
+          'Wann ist <span class="spoiler-text">Leonardo DaVinschi</span> geboren',
+        answer: 'Wikipedia existiert',
       },
     ],
   },
@@ -539,10 +577,20 @@ export const hintsData = {
         question: 'Was ist die Antwort ',
         answer: 'Der US-Bundesstaat, wo das passiert ist',
       },
+      {
+        question: 'welcher us bundestaat',
+        answer:
+          'Wo der Senator einen Journalist wegen Hacking verklagen wollte',
+      },
     ],
   },
   80: {
     entries: [
+      {
+        question: 'Wie macht man das',
+        answer:
+          'Ändere die Farben im Stylesheet oder lasse dir die Farben einmal mischen',
+      },
       {
         question: 'ich hab die farben gemacht aber kenn die antwort nicht',
         answer:
@@ -758,6 +806,10 @@ export const hintsData = {
   105: {
     entries: [
       {
+        question: 'Gibt mir jemand bitte die lösung',
+        answer: 'Es gibt keine "richtige Lösung", sondern viele Wege',
+      },
+      {
         question:
           'Es gab ja noch einige mehr Challanges mit Leet, war nicht mein Problem. Nur bei Challange 105 1337 verstehe ich den Zusammenhang nicht richtig.',
         answer:
@@ -817,6 +869,11 @@ export const hintsData = {
         question: 'wie soll man die zahl berechnen',
         answer: 'Du kannst mehrere Rechnungen hintereinander ausführen.',
       },
+      {
+        question: 'erklär die aufgabe nochmal',
+        answer:
+          'Du kannst 16 nicht eintippen, aber 4 mal 4 rechnen geht und du erhältst das Ergebnis. So kannst du große Zahlen berechnen.',
+      },
     ],
   },
   111: {
@@ -833,6 +890,11 @@ export const hintsData = {
   },
   112: {
     entries: [
+      {
+        question: 'welcher bock ist es',
+        answer:
+          'Überlege mal, warum die Kürbislaterne nicht leuchtet und wie man das Problem lösen kann',
+      },
       {
         question: 'Wo finde ich die Block ID?',
         answer:
@@ -1230,6 +1292,10 @@ export const hintsData = {
           'ist das ergebnis nicht <span class="spoiler-text">Bedrock</span> ?????? ',
         answer: 'davon die ID',
       },
+      {
+        question: 'was für ein block braucht man',
+        answer: 'klicke doch mal auf die Spoiler in den vorherigen zwei Fragen',
+      },
     ],
   },
   337: {
@@ -1248,6 +1314,11 @@ export const hintsData = {
         question: 'ich spiele kein minekraft wie heist das',
         answer:
           'Bildersuche? Google Lens? Freund fragen? Es gibt viele Möglichkeiten.',
+      },
+      {
+        question:
+          'ich habe nach bildern gsucht aber es gibt tausende ich ich kann die lösung nicht herreus finden.',
+        answer: 'es geht um die Farbe der Steine',
       },
     ],
   },

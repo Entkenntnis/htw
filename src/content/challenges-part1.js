@@ -129,15 +129,16 @@ export const part1 = [
         de: story(
           'Kiwi',
           `
-          <p>Herzlich willkommen!</p>
 
+          <p>Hejo <strong>${req.user?.name}</strong>,</p>
 
-          <p>Hier beginnt deine Reise durch die Welt des Hackings. Aufgaben aus vielen Themen stellen dein Können unter Beweis. Sei kreativ und finde die versteckte Antwort. An manchen Stellen musst du dafür auch ein bisschen ... <em>hacken</em> ...</p>
+          <p>schön dich an Bord zu haben! Ich dachte fast, du verlässt unsere Heimat Naxion nie. Sirtach und ihre Wunder werden dir die Augen öffnen. Ich hoffe nur, dass wir bis dahin auf der zweimonatigen Reise durch den Weltraum nicht sterben - vor Langeweile.</p>
 
-          <p>Ist das nicht verboten? Ja, genau deshalb gibt es Hack The Web. Denn hiermit gebe ich dir die Erlaubnis, diese Seite zu hacken! Du kannst Dinge ausprobieren, die du mit anderen Webseiten sonst nicht machen kannst. Alle Hilfsmittel sind erlaubt, sei es das Internet, DevTools, ein Taschenrechner, oder Stift und Papier - fühle dich frei und nutze die Werkzeuge, die dir am meisten helfen.</p>
+          <p>Wobei, ich habe da was, das uns die Zeit vertreiben könnte. Bei meinen Studien zu den Bewohnern des Planeten &quot;Erde&quot; bin ich auf eine Aktivität namens &quot;Hacken&quot; gestoßen, die unglaublich süchtig macht. Seitdem ich das vor zwei Wochen entdeckt habe, kann ich einfach nicht mehr aufhören. Ich hab&apos;s Josh und Bex gezeigt und sie haben sich genauso anstecken lassen.</p>
 
-          <p>Bist du bereit? Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>.</p>
+          <p>Der Ablauf ist simpel: Es wird dir eine kleine Aufgabe gestellt, die du durch Finden der Antwort oder Interaktion mit der Webseite löst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich erscheint. Ich komme da manchmal auf die verrücktesten Ideen.</p>
 
+          <p>Ich kann es kaum erwarten, es dir zu zeigen. Lasst uns gleich starten! Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>. Diese Zahl ist bei den Bewohnern der Erde auch als &quot;die Antwort&quot; bekannt 🤭</p>
           
           <script src="/powerglitch.min.js"></script>
           <script>
@@ -168,7 +169,7 @@ export const part1 = [
     },
     solution: secrets('chal_1'),
     afterSolveText: {
-      de: '<p>Die Antwort auf die große Frage nach dem Leben, dem Universum und allem lautet ... 42!</p>',
+      de: '<p>Die Antwort auf die große Frage nach dem Leben, dem Universum und allem lautet ... 42!</p><p style="margin-left: 48px;">- <i>ein Bewohner des Planeten &quot;Erde&quot;</i></p>',
       en: '<p>The answer to the ultimate question of life, the universe, and everything is ... 42!</p>',
     },
   },

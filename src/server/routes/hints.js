@@ -4,6 +4,14 @@ import escapeHTML from 'escape-html'
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
+  1: {
+    entries: [
+      {
+        question: 'was ist die lösung',
+        answer: 'Das Ergebnis der Rechnung im letzten Absatz',
+      },
+    ],
+  },
   2: {
     entries: [
       {
@@ -28,6 +36,11 @@ export const hintsData = {
       {
         question: 'wie auf dem I-Pad markieren?',
         answer: 'Mit Finger lange drücken',
+      },
+      {
+        question: 'Ja aber es geht net',
+        answer:
+          'Hast du das ganze Blatt markiert? Hast du alles genau angeschaut?',
       },
     ],
   },
@@ -79,8 +92,13 @@ export const hintsData = {
         answer: 'Schau dir den Text bei "... ist falsch" genauer an',
       },
       {
-        question: 'Was ist das Ergebnis',
+        question: 'Was ist das Ergebnis / Was soll man schreiben',
         answer: 'ist ja für jeden anders, weil die Namen anders sind',
+      },
+      {
+        question:
+          'Hallo bei der Text ist gar keine Stelle wo ,ist falsch, steht und wie',
+        answer: 'Gib eine Antwort ein und klicke auf los, dann erscheint das',
       },
     ],
   },
@@ -95,6 +113,7 @@ export const hintsData = {
         question: 'da steht 32 es ist aber angeblich falsch jetzt steht da 33',
         answer: 'Die Anzeige spinnt bisschen',
       },
+      { question: 'Die zahlen wackeln', answer: 'genau' },
     ],
   },
   17: {
@@ -107,6 +126,14 @@ export const hintsData = {
         question: 'ich verstehe nichts',
         answer:
           'Hast du schon den Slogan von Bex eingegeben und geschaut, was passiert?',
+      },
+    ],
+  },
+  23: {
+    entries: [
+      {
+        question: 'Pony funktioniert nicht',
+        answer: 'Pony ist nicht die Antwort',
       },
     ],
   },
@@ -309,6 +336,14 @@ export const hintsData = {
       },
     ],
   },
+  51: {
+    entries: [
+      {
+        question: 'Was soll man tun',
+        answer: 'Die Zahl 7 als Binärzahl schreiben',
+      },
+    ],
+  },
   53: {
     entries: [
       {
@@ -323,6 +358,10 @@ export const hintsData = {
           'guck dir mal chal53.js an und überlege wie du dir was du in der konsole ausführen könntest um die aufgabe zu lösen',
       },
       {
+        question: 'was muss ich in die konsole eingeben?',
+        answer: 'Probiere mal <code>console.log(correct)</code>',
+      },
+      {
         question: 'sag mir die lösung',
         answer:
           'Es gibt keine Lösung. Klicke 2000 mal auf das X, das ist alles.',
@@ -334,6 +373,10 @@ export const hintsData = {
       {
         question: 'Wie heißt diese Farbe?',
         answer: 'klick mal auf den Link, da kannst du in der Liste nachschauen',
+      },
+      {
+        question: 'welche farbe',
+        answer: 'Die Hintergrundfarbe des Rechtecks mit den Buchstaben',
       },
     ],
   },
@@ -362,6 +405,10 @@ export const hintsData = {
         question: 'welche Aufgaben sind das ?',
         answer: 'Klicke auf die Zahlen und du siehst die Aufgaben',
       },
+      {
+        question: 'Was ist eine Passage?',
+        answer: 'eine schmale Stelle zum Durchgehen',
+      },
     ],
   },
   59: {
@@ -371,7 +418,12 @@ export const hintsData = {
         answer:
           'Schaue mal, ob du das eine oder andere Wort erraten kannst und vertausche dafür ein paar Buchstaben - dann ergeben sich die nächsten Wörter usw',
       },
+      {
+        question: 'was ist die antwort',
+        answer: 'steht im Text, den du zuerst entschlüsseln musst',
+      },
       { question: 'Wie gehts?', answer: 'Gut, und dir?' },
+      { question: 'LEBEN IST HART', answer: 'random' },
     ],
   },
   62: {
@@ -614,6 +666,11 @@ export const hintsData = {
           'Ich stecke hier seit fast zwei Wochen fest, ich check nicht genau, was hier gemacht werden muss. Kann mir jemand helfen?',
         answer:
           'Jede der 11 Aufgaben kann man ja entweder gelöst haben oder nicht. Aber nicht jede Kombination funktioniert.<br />Start - Nicht blinzeln - ASCII -> funktioniert<br />Start - Gemälde -> funktioniert nicht.<br />Du musst also alle Kombinationen durchgehen und die zählen, die möglich sind, die Anzahl ist deine Antwort',
+      },
+      {
+        question: 'wie kann man das berechnen',
+        answer:
+          'es gibt keine feste Formel, es braucht ein wenig logisches Denken',
       },
     ],
   },
@@ -883,8 +940,8 @@ export const hintsData = {
         answer: 'mache mehrere kleine Rechnungen',
       },
       {
-        question: 'kannst du bitte kleinere rechnungen abschicken',
-        answer: 'ich verstehe die Frage nicht ganz',
+        question: 'wie kann man das machen',
+        answer: 'tippe 2 mal 5 ein, schaue dir das Ergebnis an und überlege',
       },
     ],
   },
@@ -937,6 +994,11 @@ export const hintsData = {
         answer:
           'Es geht darum es in den Taschenrechner einzugeben. Schon mal was von Primfaktorzerlegung gehört?',
       },
+      {
+        question: 'was ist primfaktorzerlegung',
+        answer:
+          '100 hat zum Beispiel die Primfaktorzerlegung 2 * 2 * 5 * 5 - es gibt Rechner dafür online',
+      },
     ],
   },
   117: {
@@ -946,6 +1008,11 @@ export const hintsData = {
           'gibt es ein prinzip, das man verfolgen soll, oder ist das einfach wildes ausprobieren?',
         answer:
           'Es gibt ein Prinzip, mit dem du die Aufgabe jedes Mal lösen kannst',
+      },
+      {
+        question: 'Woher weiß ich in welche Tür ich gehen muss',
+        answer:
+          'Beim Hinweg muss du raten, aber beim Rückweg kannst du clever sein',
       },
     ],
   },

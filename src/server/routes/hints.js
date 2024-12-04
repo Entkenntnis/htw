@@ -116,19 +116,6 @@ export const hintsData = {
       { question: 'Die zahlen wackeln', answer: 'genau' },
     ],
   },
-  17: {
-    entries: [
-      {
-        question: 'Ich checks ned - ich hab alles rückwärts eingegeben',
-        answer: 'Versuch mal nur die Reihenfolge der Wörter zu verändern',
-      },
-      {
-        question: 'ich verstehe nichts',
-        answer:
-          'Hast du schon den Slogan von Bex eingegeben und geschaut, was passiert?',
-      },
-    ],
-  },
   23: {
     entries: [
       {

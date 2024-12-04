@@ -851,36 +851,41 @@ export const part1 = [
   {
     id: 17,
     pos: { x: 745, y: 310 },
-    title: { de: 'Slogan', en: 'Slogan' },
+    title: { de: 'Verkehrt', en: 'Flipped' },
     // date: '2017-05-18',
     deps: [55, 66, 114],
     html: {
       de: story(
         'Bex',
         `
-        <p>Ich wollte Kiwi vorschlagen, dass wir uns als Gruppe einen Slogan zulegen. Mein Vorschlag ist &quot;Beweise dein Können!&quot;, weil mich das am meisten mit Hack The Web verbindet. Kiwi ist davon noch nicht ganz überzeugt...</p>
+        <p>Wenn du diesen Text lesen kannst, dann hast du die Aufgabe schon gelöst. Denn die Antwort lautet Vertikale. Komm, schnapp dir einen Spiegel, dann kannst du den Text besser lesen.</p>
 
-        <p>Hey, hast du mir überhaupt zugehört? Deine Antwort ist mein Vorschlag für einen Slogan. Bei der Eingabe gerät aber etwas durcheinander.</p>
+        <style>
+          body {
+            -moz-transform: scale(-1, 1);
+            -webkit-transform: scale(-1, 1);
+            -o-transform: scale(-1, 1);
+            -ms-transform: scale(-1, 1);
+            transform: scale(-1, 1);
+          }
+        </style>
     `
       ),
       en: `
-      <p>The answer is the slogan of Hack The Web. Your input is jumbled again.</p>
+        <p>If you can read this text, then you’ve already solved the task. The answer is simply "Vertical." Come on, grab a mirror, then you can read the text more easily.</p>
+
+        <style>
+          body {
+            -moz-transform: scale(-1, 1);
+            -webkit-transform: scale(-1, 1);
+            -o-transform: scale(-1, 1);
+            -ms-transform: scale(-1, 1);
+            transform: scale(-1, 1);
+          }
+        </style>
     `,
     },
-    check: (answer, { req }) => {
-      const text =
-        req.lng == 'de' ? 'Beweise dein Können!' : 'Prove your skill.'
-      const input = answer
-        .replace(/[^a-zA-ZäöüÄÖÜß ]/g, '')
-        .trim()
-        .split(' ')
-      input.reverse()
-      const str = input.join(' ').toLowerCase()
-      return {
-        answer: str,
-        correct: str === text.replace(/[^a-zA-ZäüöÄÜÖß ]/g, '').toLowerCase(),
-      }
-    },
+    solution: secrets('chal_17'),
   },
 
   {

@@ -604,7 +604,10 @@ export const hintsData = {
   },
   77: {
     entries: [
-      { question: 'Wer ist am 23 Juni 1912 geboren', answer: 'Suchmaschine' },
+      {
+        question: 'Wer ist am 23 Juni geboren',
+        answer: 'Nutze die Liste oder suche im Internet',
+      },
       {
         question: 'wenn ich [..] [..] eingebe ist es falsch warum',
         answer: 'nur nachname',

@@ -3333,9 +3333,38 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren. Ein solcher Mensch wurde am 23. Juni 1912 geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
+        <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren. Ein solcher Mensch wurde an einem 23. Juni geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
 
         <p>Ich möchte, dass du diesen Menschen kennenlernst. Wie lautet dessen Nachname?</p>
+
+        <details>
+          <summary>Liste bedeutender Personen der Informatik (Quelle: Wikipedia)</summary>
+          <ul style="margin-top: 12px">
+            <li>Heinz Nixdorf (9. April 1925 – 17. März 1986) – Gründer von Nixdorf Computer, Pionier der Computerindustrie</li>
+            <li>Harry Nyquist (7. Februar 1889 – 4. April 1976) – Mitbegründer der Informationstheorie, Nyquist-Shannon-Abtasttheorem</li>
+            <li>Ada Lovelace (10. Dezember 1815 – 27. November 1852) – Erste Programmiererin, Konzept eines Computers für Charles Babbages Maschine</li>
+            <li>Ken Olsen (20. Februar 1926 – 6. Februar 2011) – Mitgründer von DEC, Entwicklung des Minicomputers (PDP-11)</li>
+            <li>Pier Giorgio Perotto (24. Dezember 1930 – 23. Januar 2002) – Erfinder der Olivetti Programma 101, erster programmierbarer Tischrechner</li>
+            <li>Rózsa Péter (17. Februar 1905 – 16. Februar 1977) – Pionierin der theoretischen Informatik, Arbeiten zu rekursiven Funktionen</li>
+            <li>Carl Adam Petri (12. Juli 1926 – 2. Juli 2010) – Erfinder der Petri-Netze, Modellierung verteilter Systeme</li>
+            <li>Dennis Ritchie (9. September 1941 – 12. Oktober 2011) – Entwicklung von Unix und der Programmiersprache C</li>
+            <li>Claude Shannon (30. April 1916 – 24. Februar 2001) – Begründer der Informationstheorie, Pionier der digitalen Kommunikation</li>
+            <li>Richard Stallman (16. März 1953 – lebend) – Gründer der Freie-Software-Bewegung, Initiator von GNU</li>
+            <li>Karl Steinbuch (15. Juni 1917 – 4. Juni 2005) – Begründer der künstlichen neuronalen Netze, Pionier der Kybernetik</li>
+            <li>Ivan Sutherland (16. Mai 1938 – lebend) – Entwickler von Sketchpad, Pionier der Computer-Grafik</li>
+            <li>Bjarne Stroustrup (30. Dezember 1950 – lebend) – Erfinder der Programmiersprache C++</li>
+            <li>Andrew S. Tanenbaum (16. März 1944 – lebend) – Autor von Minix, bekannt für Lehrbücher zur Informatik</li>
+            <li>Ken Thompson (4. Februar 1943 – lebend) – Entwicklung von Unix, Schöpfer der B-Programmiersprache</li>
+            <li>Ray Tomlinson (23. April 1941 – 5. März 2016) – Erfinder der E-Mail, Einführung des „@“-Zeichens</li>
+            <li>Linus Torvalds (28. Dezember 1969 – lebend) – Entwickler des Linux-Kernels</li>
+            <li>Alan Turing (23. Juni 1912 – 7. Juni 1954) – Begründer der theoretischen Informatik, Codeknacker im Zweiten Weltkrieg</li>
+            <li>An Wang (7. Februar 1920 – 24. März 1990) – Erfinder eines Kernspeichers, Gründer von Wang Laboratories</li>
+            <li>Mark Weiser (23. Juli 1952 – 27. April 1999) – Vordenker des Ubiquitous Computing</li>
+            <li>Joseph Weizenbaum (8. Januar 1923 – 5. März 2008) – Entwickler des ELIZA-Programms, Pionier der KI-Kritik</li>
+            <li>Adriaan van Wijngaarden (2. November 1916 – 7. Februar 1987) – Entwicklung der Zwei-Summen-Grammatik, Wegbereiter moderner Programmiersprachen</li>
+          </ul>
+
+        </details>
     `
       ),
       en: `

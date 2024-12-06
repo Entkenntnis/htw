@@ -10,6 +10,7 @@ export const hintsData = {
         question: 'was ist die lösung',
         answer: 'Das Ergebnis der Rechnung im letzten Absatz',
       },
+      { question: '6 + 4 · 9', answer: 'jetzt noch ausrechnen' },
     ],
   },
   2: {
@@ -159,6 +160,15 @@ export const hintsData = {
       },
     ],
   },
+  31: {
+    entries: [
+      {
+        question: 'wie sol ich das machen',
+        answer:
+          'Klicke mal auf 2, dann auf die 5 und dann auf das Mal-Sternchen (*) und beobachte, was passiert',
+      },
+    ],
+  },
   36: {
     entries: [
       {
@@ -185,6 +195,10 @@ export const hintsData = {
         answer: 'Den emoji in die antwort box eingeben',
       },
       { question: 'der name des emojis', answer: 'grinning face von whatsapp' },
+      {
+        question: 'wie mache ich das',
+        answer: 'z.b mit einer Suchmaschine finden und dann kopieren',
+      },
     ],
   },
   39: {
@@ -365,6 +379,8 @@ export const hintsData = {
         question: 'welche farbe',
         answer: 'Die Hintergrundfarbe des Rechtecks mit den Buchstaben',
       },
+      { question: 'keins past da', answer: 'eine Farbe passt' },
+      { question: 'also lila', answer: 'ja, eine der lila Töne' },
     ],
   },
   56: {
@@ -388,6 +404,10 @@ export const hintsData = {
   },
   57: {
     entries: [
+      {
+        question: 'wie findet man die antwort',
+        answer: 'Schau dir die Anfangsbuchstaben der Aufgaben an',
+      },
       {
         question: 'welche Aufgaben sind das ?',
         answer: 'Klicke auf die Zahlen und du siehst die Aufgaben',
@@ -738,6 +758,16 @@ export const hintsData = {
       },
     ],
   },
+  93: {
+    entries: [
+      {
+        question:
+          'bei mir funktioniert es nicht und es kommen nur irgendwelche Zeichen heraus',
+        answer:
+          'schon mal gut, dass überhaupt Zeichen rauskommen. Die Nachricht ist ein deutscher Text und sollte lesbar sein. Hast du alle Teile des Ciphers nochmal überprüft?',
+      },
+    ],
+  },
   95: {
     entries: [
       {
@@ -920,6 +950,11 @@ export const hintsData = {
         question: 'erklär die aufgabe nochmal',
         answer:
           'Du kannst 16 nicht eintippen, aber 4 mal 4 rechnen geht und du erhältst das Ergebnis. So kannst du große Zahlen berechnen.',
+      },
+      {
+        question: 'WIESO KANN ICH NUR EINE ZAHL AUFSCHREIBEN',
+        answer:
+          'Das ist der Defekt des Taschenrechners, sollte dich aber nicht aufhalten',
       },
     ],
   },
@@ -1398,6 +1433,7 @@ export const hintsData = {
           'hat es was mit den leerzeichen zwischen den * dingern zu tun?',
         answer: 'heiße Spur',
       },
+      { question: 'sind mit Schneeflocken die * gemeint?', answer: 'Ja' },
     ],
   },
 }

@@ -3443,19 +3443,28 @@ PIXI.loader
   {
     id: 79,
     pos: { x: 1095, y: 620 },
-    title: { de: 'Recherche', en: 'Research' },
+    title: { de: 'Rätsel', en: 'Research' },
     // date: '2022-02-24',
     deps: [18, 84],
     html: {
       de: story(
         'Josh',
         `
-        <p>Weißt du noch, wie ich dir den HTML-Quellcode gezeigt habe? Vor ganz vielen Jahren gab es in den USA einen Governor, der einen Journalist wegen &quot;Hacking&quot; anklagen wollte. Der Journalist hat sich den Quellcode einer Regierungswebsite angeschaut hat und dort persönliche Informationen vieler Lehrkräfte gefunden.</p>
-        
-        <p>Ganz wilde Geschichte, denn im Grund hat der Staats selbst ausversehen persönliche Informationen in der Website mitgeliefert, die jeder mit bisschen technischen Wissen herauslesen konnte.</p>
+        <p>Hier habe ich ein kleines Rätsel für dich.</p>
 
-        <p>Wann war das nochmal? Ich glaube das war 2021. Kannst du mir bitte heraussuchen, in welchem US-Bundesstaat das passierte?
-        </p>
+        <p>Ich wachse, wenn du gibst,<br>
+          doch gehst du, schrumpf' ich ein.<br>
+          Ich bin aus vielen Stimmen,<br>
+          doch nie nur allein.<br>
+          Man teilt hier Ideen,<br>
+          es lebt hier die Macht,<br>
+          zusammen entfalten wir<br>
+          unsere Pracht.<br>
+          Was bin ich?</p>
+
+        <!-- Lösung: Community. Todo: vor dem Hochladen diesen Kommentar löschen -->
+
+        <p>Es gibt nur ein Problem: Laut einer <a href="/chals/Spoiler Analyse - Bericht.pdf" target="_blank">Spoiler-Analyse</a> kann man die Lösung finden, ohne sich mit dem Text zu beschäftigen. Aber egal, so ist es nun mal. Die Lösung auf dieses Rätsel ist deine Antwort.</p>
     `
       ),
       en: `
@@ -3467,7 +3476,7 @@ PIXI.loader
 
     `,
     },
-    solution: secrets('chal_79'),
+    solution: secrets('chal_79').split(','),
   },
 
   {

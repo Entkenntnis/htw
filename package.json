@@ -24,7 +24,7 @@
     "csrf": "^3.1.0",
     "ejs": "^3.1.0",
     "escape-html": "^1.0.3",
-    "express": "^4.17.0",
+    "express": "^4.21.2",
     "express-session": "^1.17.0",
     "i18next": "^23.0.0",
     "i18next-fs-backend": "^2.3.2",

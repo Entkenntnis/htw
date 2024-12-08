@@ -204,7 +204,6 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       return
     }
 
-    console.log(req.body)
     const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
 
     if (isNaN(id)) {
@@ -226,5 +225,16 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
     bot.code = code
     await bot.save()
     res.send('ok')
+  })
+
+  App.express.get('/worms/drafts/preview', async (req, res) => {
+    renderPage(App, req, res, {
+      page: 'worms-preview',
+      heading: 'Testlauf',
+      backButton: false,
+      content: `
+       TODO: beide Bots gegeneinander laufen lassen
+      `,
+    })
   })
 }

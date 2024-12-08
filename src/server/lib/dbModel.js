@@ -91,4 +91,28 @@ export function dbModel(App) {
       type: DataTypes.TEXT,
     },
   })
+
+  // Additional tables
+  const WormsBotDraft = App.db.define('WormsBotDraft', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    code: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  })
+
+  User.hasMany(WormsBotDraft, { onDelete: 'cascade' })
+  WormsBotDraft.belongsTo(User)
+
+  // WormsArenaBot
+
+  // WormsArenaReplay
 }

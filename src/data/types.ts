@@ -30,6 +30,7 @@ export interface App {
       Session: ModelStatic<SessionModel>
       Room: ModelStatic<RoomModel>
       KVPair: ModelStatic<KVPairModel>
+      WormsBotDraft: ModelStatic<WormsBotDraftModel>
     }
   }
   i18n: { get(lng: 'de' | 'en'): i18n }
@@ -156,6 +157,18 @@ export class KVPairModel extends Model<
 > {
   declare key: string
   declare value: string
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
+}
+
+export class WormsBotDraftModel extends Model<
+  InferAttributes<WormsBotDraftModel>,
+  InferCreationAttributes<WormsBotDraftModel>
+> {
+  declare id: CreationOptional<number>
+  declare name: string
+  declare code: string
+  declare UserId: number
   declare createdAt: CreationOptional<string | Date>
   declare updatedAt: CreationOptional<string | Date>
 }

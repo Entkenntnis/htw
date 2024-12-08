@@ -15,6 +15,7 @@ export function withExpress(App) {
   }
 
   App.express.use(bodyParser.urlencoded({ extended: true }))
+  App.express.use(bodyParser.json())
 
   App.express.use(connectFlash())
 

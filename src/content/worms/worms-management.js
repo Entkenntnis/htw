@@ -131,6 +131,8 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
         <p>[<a href="/worms/drafts">schließen</a>]</p>
 
+        <p><button onClick="saveButtonClicked()">Speichern</button></p>
+
         <div id="container" style="height: 800px"></div>
 
         <link
@@ -166,8 +168,63 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             allowJs: true,
             checkJs: true,
           })
+
+          function saveButtonClicked() {
+            const code = myEditor.getValue()
+            const id = ${bot.id}
+            postJson("/worms/drafts/save", {id, code})
+          }
+
+          async function postJson(url, data) {
+            try {
+              const response = await fetch(url, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+              });
+
+              if (!response.ok) {
+                  alert('Speichern fehlgeschlagen!')
+              }
+              alert('Erfolgreich gespeichert!')
+            } catch (error) {
+              alert(error)
+            }
+          }
         </script>
       `,
     })
+  })
+
+  App.express.post('/worms/drafts/save', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+
+    console.log(req.body)
+    const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
+
+    if (isNaN(id)) {
+      res.send('Invalid ID')
+      return
+    }
+
+    const code = req.body.code ? req.body.code.toString() : ''
+
+    const bot = await App.db.models.WormsBotDraft.findOne({
+      where: { id, UserId: req.user.id },
+    })
+
+    if (!bot) {
+      res.send('Bot not found')
+      return
+    }
+
+    bot.code = code
+    await bot.save()
+    res.send('ok')
   })
 }

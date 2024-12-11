@@ -2294,7 +2294,7 @@ print(hex_string)</pre></code>
       de: `
         <p>Im Jahr 2023 kamen viele Menschen zusammen, um gemeinsam ein Bild zu zeichnen - Pixel für Pixel. Aus dem Chaos heraus organisierten sich die Menschen und es entstanden einige Kunstwerke (und manche Beleidigung).</p>
 
-        <p><img src="https://placedata.reddit.com/data/final_2023_place.png" style="max-width:100%" width="600" /></p>
+        <p><img src="/chals/final_2023_place.png" style="max-width:100%" width="600" /></p>
 
         <p>Um sich zu navigieren, brauchen die Pixel natürlich Koordinaten. Es gibt ein offizielles Koordinatensystem, dessen Ursprung in der Mitte der Leinwand liegt, die positive x-Achse verläuft nach rechts, die positive y-Achse verläuft nach unten.</p>
 

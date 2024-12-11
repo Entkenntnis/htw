@@ -1,4 +1,4 @@
-import { Op } from 'sequelize'
+import { and, Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
 
@@ -27,6 +27,10 @@ export const hintsData = {
       {
         question: 'Was ist die Lösung',
         answer: 'höre dir die Morse-Nachricht an',
+      },
+      {
+        question: 'was ist das letzte für ein buchstabe',
+        answer: 'lang kurz lang lang',
       },
     ],
   },
@@ -150,6 +154,10 @@ export const hintsData = {
           'Welches System verwendest du? ist jeweils etwas unterschiedlich',
       },
       { question: 'was ist die antwort', answer: 'Schau in die zip-Datei' },
+      {
+        question: 'ICH SCHAUE REIN DA BLEIBT DASSELBE',
+        answer: 'Weiter, bis zum Ende!',
+      },
     ],
   },
   29: {
@@ -362,10 +370,15 @@ export const hintsData = {
         question: 'was muss ich in die konsole eingeben?',
         answer: 'Probiere mal <code>console.log(correct)</code>',
       },
+      { question: 'wo in die konsole eingeben', answer: 'F12 -> Konsole' },
       {
         question: 'sag mir die lösung',
         answer:
           'Es gibt keine Lösung. Klicke 2000 mal auf das X, das ist alles.',
+      },
+      {
+        question: 'muss ich 2000mal x drücken',
+        answer: 'nein, es gibt auch andere Wege',
       },
     ],
   },
@@ -431,6 +444,14 @@ export const hintsData = {
       },
       { question: 'Wie gehts?', answer: 'Gut, und dir?' },
       { question: 'LEBEN IST HART', answer: 'random' },
+    ],
+  },
+  60: {
+    entries: [
+      {
+        question: 'was ist der 2. Buchstabe ?',
+        answer: 'Der zweite Buchstabe der Lösung lautet E',
+      },
     ],
   },
   62: {
@@ -636,13 +657,10 @@ export const hintsData = {
   79: {
     entries: [
       {
-        question: 'Was ist die Antwort ',
-        answer: 'Der US-Bundesstaat, wo das passiert ist',
-      },
-      {
-        question: 'welcher us bundestaat',
+        question:
+          'die antwort geht nicht,die richtige ,hier liegt ein fehler vor!',
         answer:
-          'Wo der Senator einen Journalist wegen Hacking verklagen wollte',
+          'Die Aufgabe wurde soeben überarbeitet und die Antwort hat sich verändert ...',
       },
     ],
   },
@@ -984,6 +1002,14 @@ export const hintsData = {
       },
     ],
   },
+  113: {
+    entries: [
+      {
+        question: 'was soll des sein',
+        answer: 'In Minecraft gibt es Befehle die mit / starten',
+      },
+    ],
+  },
   114: {
     entries: [
       { question: 'kan mmir jemand helfen', answer: 'Klick mal auf den Baum' },
@@ -1004,6 +1030,11 @@ export const hintsData = {
   115: {
     entries: [
       {
+        question: 'Wie findet man das mit den Koords raus?',
+        answer:
+          'Die meisten Bildbearbeitungsprogramme zeigen dir die Koordinaten der Maus an',
+      },
+      {
         question:
           'Also ich komm mir direkt Dumm vor, ich hab den Ausschnitt und weiß nicht welches spiel gemeint ist. Ich hab schon einiges versucht zB. das Spiel von Micro$oft mit 4 Buchstaben und auch das Spiel mit 13 Buchstaben (ohne und mit Leerzeichen) aber ja bin wohl zu blöd xD Hat jemand einen Tipp für mich?',
         answer:
@@ -1023,6 +1054,11 @@ export const hintsData = {
         question: 'was ist primfaktorzerlegung',
         answer:
           '100 hat zum Beispiel die Primfaktorzerlegung 2 * 2 * 5 * 5 - es gibt Rechner dafür online',
+      },
+      {
+        question: 'primfaktorzerlegung für diese aufgabe',
+        answer:
+          '<span class="spoiler-text">15876000 = 2*2*2*2*2*3*3*3*3*5*5*5*7*7</span>',
       },
     ],
   },

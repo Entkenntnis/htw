@@ -32,7 +32,17 @@ export function setupWormsManagement(App) {
           )
           .join('')}
 
-        <form action="/worms/drafts/create"><input name="name"> <input type="submit" value="Neuen Bot erstellen"></p>
+        <form action="/worms/drafts/create"><input name="name"> <input type="submit" value="Neuen Bot erstellen"></form>
+
+        <div style="height: 24px;"></div>
+
+        <h3>Testlauf</h3>
+
+        <form action="/worms/drafts/test-run">
+          <p>Rot: <select name="gId">${bots.map((bot) => `<option value="${bot.id}">${bot.name}</option>`)}</select></p>
+          <p>Grün: <select name="rId">${bots.map((bot) => `<option value="${bot.id}">${bot.name}</option>`)}</select></p>
+          <p><input type="submit" value="Starten"></p>
+        </form>
       `,
     })
   })
@@ -227,13 +237,57 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
     res.send('ok')
   })
 
-  App.express.get('/worms/drafts/preview', async (req, res) => {
+  App.express.get('/worms/drafts/test-run', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+
+    const rId = req.query.rId ? parseInt(req.query.rId.toString()) : NaN
+    const gId = req.query.gId ? parseInt(req.query.gId.toString()) : NaN
+
+    if (isNaN(rId) || isNaN(gId)) {
+      res.send('Missing gId or rId')
+      return
+    }
+
+    const rBot = await App.db.models.WormsBotDraft.findOne({
+      where: { id: rId, UserId: req.user.id },
+    })
+    const gBot = await App.db.models.WormsBotDraft.findOne({
+      where: { id: gId, UserId: req.user.id },
+    })
+
+    if (!rBot || !gBot) {
+      res.send('Bot not found')
+      return
+    }
+
     renderPage(App, req, res, {
-      page: 'worms-preview',
+      page: 'worms-test-run',
       heading: 'Testlauf',
       backButton: false,
       content: `
-       TODO: beide Bots gegeneinander laufen lassen
+        <p><a href="/worms/drafts">zurück</a></p>
+
+        <p style="text-align: center;">Rot: ${rBot.name} / Grün: ${gBot.name}</p>
+
+        <script src="/worms/wormer.js"></script>
+
+        <div id="board"></div>
+        <p style="text-align: right;"><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</p>
+
+        <div style="height: 200px;"></div>
+
+        <script>
+
+          const red = createDemoBot()
+          const green = createDemoBot()
+
+          const wormer = new Wormer(document.getElementById('board'), red, green)
+
+          wormer.run()
+        </script>
       `,
     })
   })

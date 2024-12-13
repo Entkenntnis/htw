@@ -134,7 +134,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
     renderPage(App, req, res, {
       page: 'worms-drafts-edit',
-      heading: 'Bot bearbeiten',
+      heading: 'Bot bearbeiten - ' + bot.name,
       backButton: false,
       content: `
         <p>Programmiere deinen Bot mit JavaScript (unterstützt wird ES2023)</p>
@@ -274,6 +274,11 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
         <script src="/worms/wormer.js"></script>
 
+        <script
+          src="/worms/quickjs.js"
+          type="text/javascript"
+        ></script>
+
         <div id="board"></div>
         <p style="text-align: right;"><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</p>
 
@@ -281,12 +286,101 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
         <script>
 
-          const red = createDemoBot()
-          const green = createDemoBot()
+          QJS.getQuickJS().then((QuickJS) => {
+            const runtimeRed = QuickJS.newRuntime()
+            runtimeRed.setMemoryLimit(1024 * 640)
+            runtimeRed.setMaxStackSize(1024 * 320)
+            let cyclesRed = { val: 0 }
+            runtimeRed.setInterruptHandler(() => {
+              cyclesRed.val++
+            })
+            const ctxRed = runtimeRed.newContext()
 
-          const wormer = new Wormer(document.getElementById('board'), red, green)
+            // ---------------------------------------
+            const logHandle = ctxRed.newFunction("log", (...args) => {
+              const nativeArgs = args.map(ctxRed.dump)
+              console.log("QuickJS:", ...nativeArgs)
+            })
+            const consoleHandle = ctxRed.newObject()
+            ctxRed.setProp(consoleHandle, "log", logHandle)
+            ctxRed.setProp(ctxRed.global, "console", consoleHandle)
+            consoleHandle.dispose()
+            logHandle.dispose()
+            // -------------------------
 
-          wormer.run()
+            try {
+              ctxRed.evalCode(\`${rBot.code.replace(/`/g, '\\`')}\`)
+            } catch {}
+
+            const runtimeGreen = QuickJS.newRuntime()
+            runtimeGreen.setMemoryLimit(1024 * 640)
+            runtimeGreen.setMaxStackSize(1024 * 320)
+
+            let cyclesGreen = { val: 0 }
+            runtimeGreen.setInterruptHandler(() => {
+              cyclesGreen.val++
+            })
+            const ctxGreen = runtimeGreen.newContext()
+            try {
+              ctxGreen.evalCode(\`${gBot.code.replace(/`/g, '\\`')}\`)
+            } catch {}
+
+            // ---------------------------------------
+            const logHandle2 = ctxGreen.newFunction("log", (...args) => {
+              const nativeArgs = args.map(ctxGreen.dump)
+              console.log("QuickJS:", ...nativeArgs)
+            })
+            const consoleHandle2 = ctxGreen.newObject()
+            ctxGreen.setProp(consoleHandle2, "log", logHandle2)
+            ctxGreen.setProp(ctxGreen.global, "console", consoleHandle2)
+            consoleHandle2.dispose()
+            logHandle2.dispose()
+            // -------------------------
+
+
+
+            const red = (() => {
+              return (dx, dy, board, x, y, dir, oppX, oppY) => {
+                const callScriptRed = \`
+                  think(74, 42, \${JSON.stringify(board)}, \${x}, \${y}, \${dir}, \${oppX}, \${oppY});
+                \`
+                let newDirRed = -1
+                try {
+                  cyclesRed.val = 0
+                  const resultRed = ctxRed.unwrapResult(ctxRed.evalCode(callScriptRed))
+                  newDirRed = ctxRed.getNumber(resultRed)
+                  resultRed.dispose()
+                  console.log('red cycles (10k)', cyclesRed.val)
+                } catch(e) {
+                  alert('Fehler in Rot: ' + e) 
+                }
+                return newDirRed
+              }
+            })()
+            const green = (() => {
+              return (dx, dy, board, x, y, dir, oppX, oppY) => {
+                const callScriptGreen = \`
+                  think(74, 42, \${JSON.stringify(board)}, \${x}, \${y}, \${dir}, \${oppX}, \${oppY});
+                \`
+                let newDirGreen = -1
+                try {
+                  cyclesGreen.val = 0
+                  const resultGreen = ctxGreen.unwrapResult(ctxGreen.evalCode(callScriptGreen))
+                  newDirGreen = ctxGreen.getNumber(resultGreen)
+                  resultGreen.dispose()
+                  console.log('green cycles (10k)', cyclesGreen.val)
+                } catch(e) {
+                  alert('Fehler in Grün: ' + e) 
+                }
+                return newDirGreen
+              }
+            })()
+            const wormer = new Wormer(document.getElementById('board'), red, green)
+            window.wormer = wormer
+            wormer.run()
+          })
+
+          
         </script>
       `,
     })

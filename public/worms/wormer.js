@@ -64,13 +64,18 @@ class Wormer {
     // game state
     this.redX = 10 + Math.floor(Math.random() * 8 - 4)
     this.redY = 20 + Math.floor(Math.random() * 8 - 4)
-    this.redDir = Math.floor(Math.random() * 3)
+    this.redDir = 1 //Math.floor(Math.random() * 3)
 
     this.greenX = 61 + Math.floor(Math.random() * 8 - 4)
     this.greenY = 21 + Math.floor(Math.random() * 8 - 4)
-    this.greenDir = (Math.floor(Math.random() * 3) + 2) % 4
+    this.greenDir = 3 //(Math.floor(Math.random() * 3) + 2) % 4
 
     this.lastTick = new Date().getTime()
+    this.turbo = false
+  }
+
+  toggleTurbo() {
+    this.turbo = !this.turbo
   }
 
   runReplay(replay) {
@@ -131,7 +136,7 @@ class Wormer {
     }
     const ts = new Date().getTime()
 
-    if (ts - this.lastTick < 120) {
+    if (ts - this.lastTick < 120 && !this.turbo) {
       requestAnimationFrame(this.tick.bind(this))
       return
     } else {

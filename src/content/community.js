@@ -1571,20 +1571,20 @@ RS#1</pre>
       de: `
         <p style="margin-bottom:32px;"><em>Ein liebevoll gestaltetes Projekt - empfehlenswert!</em></p>
 
-        <p>Du suchst einen Hacking Challenges Server? Dann ist dieser wahrscheinlich der Richtige für dich. Wir sind eine kleine, noch wachsende Community. Wir haben einen eigenen Bot mit einem coolen Punkte-System, schöne Aufgaben und mehr. Solltest du bei einer Aufgabe nicht weiterkommen kannst du sie auch überspringen. Wir bekommen täglich neue Aufgaben dazu! Worauf wartest du noch? Joine unserem Server und hab Spaß!</p>
+        <p>Du suchst einen Hacking Challenges Server? Wir sind eine kleine, wachsende Community und bieten dir spannende Aufgaben in verschiedenen Schwierigkeitsstufen. Mit einem übersichtlichen Punkte-System kannst deinen Fortschritt verfolgen und stetig neue Herausforderungen meistern. Solltest du bei einer Aufgabe nicht weiterkommen, kannst du sie jederzeit überspringen und später zurückkehren. Wir fügen regelmäßig neue Aufgaben hinzu, damit dir nie langweilig wird.</p>
 
-        <p><a href="https://discord.gg/ebtePDmYxw" target="_blank">https://discord.gg/ebtePDmYxw</a></p>
+        <p><a href="https://hackingchallenges.netlify.app/" target="_blank">https://hackingchallenges.netlify.app/</a></p>
 
-        <p style="margin-top:32px;">Deine Antwort ist die Lösung zur <code>challenge-1</code>.</p>
+        <p style="margin-top:32px;">Deine Antwort ist die Lösung zu <code>Challenge 1: Not a virus</code>.</p>
       `,
       en: `
         <p style="margin-bottom:32px;"><em>A lovingly crafted project - highly recommended! Only available in German, so use your translator to get started.</em></p>
 
-        <p>Du suchst einen Hacking Challenges Server? Dann ist dieser wahrscheinlich der Richtige für dich. Wir sind eine kleine, noch wachsende Community. Wir haben einen eigenen Bot mit einem coolen Punkte-System, schöne Aufgaben und mehr. Solltest du bei einer Aufgabe nicht weiterkommen kannst du sie auch überspringen. Wir bekommen täglich neue Aufgaben dazu! Worauf wartest du noch? Joine unserem Server und hab Spaß!</p>
+        <p>Du suchst einen Hacking Challenges Server? Wir sind eine kleine, wachsende Community und bieten dir spannende Aufgaben in verschiedenen Schwierigkeitsstufen. Mit einem übersichtlichen Punkte-System kannst deinen Fortschritt verfolgen und stetig neue Herausforderungen meistern. Solltest du bei einer Aufgabe nicht weiterkommen, kannst du sie jederzeit überspringen und später zurückkehren. Wir fügen regelmäßig neue Aufgaben hinzu, damit dir nie langweilig wird.</p>
 
-        <p><a href="https://discord.gg/ebtePDmYxw" target="_blank">https://discord.gg/ebtePDmYxw</a></p>
+        <p><a href="https://hackingchallenges.netlify.app/" target="_blank">https://hackingchallenges.netlify.app/</a></p>
         
-        <p style="margin-top:32px;">Your answer is the solution to <code>challenge-1</code>.</p>
+        <p style="margin-top:32px;">Your answer is the solution to <code>Challenge 1: Not a virus</code>.</p>
       `,
     },
     solution: secrets('chal_329'),

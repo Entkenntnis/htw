@@ -38,6 +38,7 @@ import { _deprecated__setupDecodeMe } from './content/decode-me-deprecated.js'
 import { setupHints } from './server/routes/hints.js'
 import { withVersion } from './server/lib/withVersion.js'
 import { setupWormsManagement } from './content/worms/worms-management.js'
+import { setupWormsArena } from './content/worms/worms-arena.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -86,6 +87,7 @@ setupEnough(App)
 setupWorms(App)
 
 setupWormsManagement(App)
+setupWormsArena(App)
 
 // keep it for now
 _deprecated__setupDecodeMe(App)

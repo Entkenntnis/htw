@@ -36,6 +36,10 @@ export const hintsData = {
         question: 'was ist das letzte für ein buchstabe',
         answer: 'lang kurz lang lang',
       },
+      {
+        question: 'Was sind die ersten 3 Buchstaben?',
+        answer: 'höre die den Morse-Ton an',
+      },
     ],
   },
   4: {
@@ -201,6 +205,15 @@ export const hintsData = {
         answer:
           'Zipdateien in Zipdateien solange öffnen, bis ein Text erscheint',
       },
+      {
+        question: 'warm öffnet sich immer ein neues Fenster?',
+        answer: 'Jede Zipdatei öffnet ein neues Fenster, mache weiter',
+      },
+      {
+        question: 'Ich kann die Aufgaben Datei nicht Öffnen (Windows)',
+        answer:
+          'auf Windows öffnet sollte sich ein neues Explorer-Fenster öffnen',
+      },
     ],
   },
   29: {
@@ -257,6 +270,10 @@ export const hintsData = {
       {
         question: 'wie mache ich das',
         answer: 'z.b mit einer Suchmaschine finden und dann kopieren',
+      },
+      {
+        question: 'wenn das nicht geht',
+        answer: 'Probiere auch mal (Windows-Taste) +  (Punkt)',
       },
     ],
   },
@@ -530,6 +547,11 @@ export const hintsData = {
       },
       { question: 'Wie gehts?', answer: 'Gut, und dir?' },
       { question: 'LEBEN IST HART', answer: 'random' },
+      {
+        question: 'Mögen sie axolotl?',
+        answer:
+          'ja, erinnern mich an Ohnezahn aus Drachenzähmen leicht gemacht',
+      },
     ],
   },
   60: {
@@ -848,6 +870,10 @@ export const hintsData = {
         answer:
           'du hast dich irgendwo verrechnet, es kommt eine andere Zahl raus',
       },
+      {
+        question: 'die antwort ist doch 1290 ?',
+        answer: 'Auch das ist (noch) nicht richtig',
+      },
     ],
   },
   90: {
@@ -1021,6 +1047,7 @@ export const hintsData = {
         question: 'Gibt mir jemand bitte die lösung',
         answer: 'Es gibt keine "richtige Lösung", sondern viele Wege',
       },
+      { question: 'Was ist die Lösung', answer: 'Jedes Wort mit 1337 Zeichen' },
       {
         question:
           'Es gab ja noch einige mehr Challanges mit Leet, war nicht mein Problem. Nur bei Challange 105 1337 verstehe ich den Zusammenhang nicht richtig.',
@@ -1090,6 +1117,10 @@ export const hintsData = {
         question: 'WIESO KANN ICH NUR EINE ZAHL AUFSCHREIBEN',
         answer:
           'Das ist der Defekt des Taschenrechners, sollte dich aber nicht aufhalten',
+      },
+      {
+        question: 'was sind die faktoren mit denen man 256 berechnen kann',
+        answer: '256 ist eine Zweierpotenz',
       },
     ],
   },
@@ -1465,6 +1496,11 @@ export const hintsData = {
       },
     ],
   },
+  323: {
+    entries: [
+      { question: 'Ist die Lösung in der Aufgabe?', answer: 'Ja, ist sie' },
+    ],
+  },
   325: {
     entries: [
       {
@@ -1564,7 +1600,8 @@ export const hintsData = {
       },
       {
         question: 'was für ein block braucht man',
-        answer: 'klicke doch mal auf die Spoiler in den vorherigen zwei Fragen',
+        answer:
+          'Fahre mit der Maus über die schwarzen Kästen in den Antworten oben!',
       },
     ],
   },
@@ -1656,7 +1693,7 @@ export function setupHints(App) {
 
             border-radius: 4px;
 
-            transition: background 0.3s ease 0.2s, color 0.2s ease 0.25s;
+            transition: background 0.1s ease 0.2s, color 0.2s ease 0.25s;
           }
 
           .spoiler-text:hover,
@@ -1666,7 +1703,7 @@ export function setupHints(App) {
           }
         </style>
       
-        <p><a href="/challenge/${id}">zurück zur Aufgabe</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">zurück zur Karte</a></p>
+        <p><a href="/challenge/${id}">zurück</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">Karte</a></p>
 
         ${
           !hints

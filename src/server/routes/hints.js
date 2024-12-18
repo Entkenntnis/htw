@@ -11,6 +11,10 @@ export const hintsData = {
         answer: 'Das Ergebnis der Rechnung im letzten Absatz',
       },
       { question: '6 + 4 · 9', answer: 'jetzt noch ausrechnen' },
+      {
+        question: 'Ich kann kein mathe',
+        answer: 'Du hast sicher ein Handy mit Taschenrechner ..',
+      },
     ],
   },
   2: {
@@ -31,6 +35,18 @@ export const hintsData = {
       {
         question: 'was ist das letzte für ein buchstabe',
         answer: 'lang kurz lang lang',
+      },
+      {
+        question: 'Was sind die ersten 3 Buchstaben?',
+        answer: 'höre die den Morse-Ton an',
+      },
+    ],
+  },
+  4: {
+    entries: [
+      {
+        question: 'hinwie für ASCII',
+        answer: 'Alle wichtigen Infos findest du in der Tabelle',
       },
     ],
   },
@@ -118,7 +134,29 @@ export const hintsData = {
         question: 'da steht 32 es ist aber angeblich falsch jetzt steht da 33',
         answer: 'Die Anzeige spinnt bisschen',
       },
-      { question: 'Die zahlen wackeln', answer: 'genau' },
+      {
+        question: 'Die zahlen wackeln',
+        answer:
+          'genau, das ist der &quot;Fehler&quot;, kannst du herausfinden, was die richtige Punktzahl ist?',
+      },
+    ],
+  },
+  18: {
+    entries: [
+      { question: 'wie kann man das finden', answer: 'Verschiebe den Regler' },
+      {
+        question: 'wie soll ich den Regler schieben?',
+        answer:
+          'Mit der Maus draufklicken, gedrückt halten und nach links und rechts ziehen',
+      },
+    ],
+  },
+  21: {
+    entries: [
+      {
+        question: 'Krieg ich einen Tipp?',
+        answer: 'Schaue genauer auf den Screenshot',
+      },
     ],
   },
   23: {
@@ -126,6 +164,10 @@ export const hintsData = {
       {
         question: 'Pony funktioniert nicht',
         answer: 'Pony ist nicht die Antwort',
+      },
+      {
+        question: 'auf der website steht nicht der name des kleinen bruders',
+        answer: 'Klicke auf der Website auf Start',
       },
     ],
   },
@@ -158,6 +200,20 @@ export const hintsData = {
         question: 'ICH SCHAUE REIN DA BLEIBT DASSELBE',
         answer: 'Weiter, bis zum Ende!',
       },
+      {
+        question: 'Wie kann ich es zu keiner Zipdatei machen',
+        answer:
+          'Zipdateien in Zipdateien solange öffnen, bis ein Text erscheint',
+      },
+      {
+        question: 'warm öffnet sich immer ein neues Fenster?',
+        answer: 'Jede Zipdatei öffnet ein neues Fenster, mache weiter',
+      },
+      {
+        question: 'Ich kann die Aufgaben Datei nicht Öffnen (Windows)',
+        answer:
+          'auf Windows öffnet sollte sich ein neues Explorer-Fenster öffnen',
+      },
     ],
   },
   29: {
@@ -174,6 +230,14 @@ export const hintsData = {
         question: 'wie sol ich das machen',
         answer:
           'Klicke mal auf 2, dann auf die 5 und dann auf das Mal-Sternchen (*) und beobachte, was passiert',
+      },
+    ],
+  },
+  32: {
+    entries: [
+      {
+        question: 'Kleiner Tipp: Addiere zuerst auf 191 und dann mal 7!',
+        answer: 'eine Möglichkeit',
       },
     ],
   },
@@ -207,6 +271,10 @@ export const hintsData = {
         question: 'wie mache ich das',
         answer: 'z.b mit einer Suchmaschine finden und dann kopieren',
       },
+      {
+        question: 'wenn das nicht geht',
+        answer: 'Probiere auch mal (Windows-Taste) +  (Punkt)',
+      },
     ],
   },
   39: {
@@ -214,6 +282,10 @@ export const hintsData = {
       {
         question: 'Hilfe bitte',
         answer: 'Hast du die Flaggen im Video entdeckt?',
+      },
+      {
+        question: 'wie soll ich die flaggen antworten nutzen?',
+        answer: 'Es gibt ein Alphabet mit diesen Flaggen',
       },
     ],
   },
@@ -321,6 +393,11 @@ export const hintsData = {
           'Hey ich habe es mir komplett bis zum Ende angehört aber ich habe ein Siu gehört',
         answer: 'Es ist ein (ausnahmsweise) ein englisches Wort',
       },
+      {
+        question:
+          'hä? ich habe tweet eingegeben aber es klappt nicht wie schreibt man es?',
+        answer: 'Du bist nah dran.',
+      },
     ],
   },
   49: {
@@ -351,6 +428,22 @@ export const hintsData = {
         question: 'Was soll man tun',
         answer: 'Die Zahl 7 als Binärzahl schreiben',
       },
+      {
+        question: 'wie soll ich das machen',
+        answer: 'Klicke mal auf die Kreise mit den Zahlen',
+      },
+      {
+        question: 'was soll man für Binärzahlen verwenden',
+        answer: 'Nur mit 0 und 1',
+      },
+    ],
+  },
+  52: {
+    entries: [
+      {
+        question: 'Was soll ich tun',
+        answer: 'Die Zahl 45 als Binärzahl schreiben',
+      },
     ],
   },
   53: {
@@ -380,6 +473,11 @@ export const hintsData = {
         question: 'muss ich 2000mal x drücken',
         answer: 'nein, es gibt auch andere Wege',
       },
+      {
+        question: 'Welche anderen Wege gibt es?????',
+        answer:
+          'Es gibt eine Variable <code>correct</code>, diese kannst du über die Konsole auch direkt ändern',
+      },
     ],
   },
   55: {
@@ -394,6 +492,11 @@ export const hintsData = {
       },
       { question: 'keins past da', answer: 'eine Farbe passt' },
       { question: 'also lila', answer: 'ja, eine der lila Töne' },
+      {
+        question:
+          'Ich hab die Farbe gefunden, aber wenn ich es eingebe ist es falsch. Ich habe sogar die Buchstaben in die richtige Reihenfolge gebracht.',
+        answer: 'ohne Leerzeichen?',
+      },
     ],
   },
   56: {
@@ -444,6 +547,11 @@ export const hintsData = {
       },
       { question: 'Wie gehts?', answer: 'Gut, und dir?' },
       { question: 'LEBEN IST HART', answer: 'random' },
+      {
+        question: 'Mögen sie axolotl?',
+        answer:
+          'ja, erinnern mich an Ohnezahn aus Drachenzähmen leicht gemacht',
+      },
     ],
   },
   60: {
@@ -476,6 +584,7 @@ export const hintsData = {
           'Ich habe gerade 3 Stunden versucht den Spielstand und den Grind me! Button zu um gehen bis ich auf die Idee gekommen bin den Quellcode von einer KI analysieren zulassen und Sie gebeten habe mir mögliche Schwachstellen auf zu zeigen. Sie meinte es gibt eine Schwachstelle bei der Verschlüsselung. Da ich mich erst seit zwei tagen mit Quellcodes beschäftige fiel mir das garnicht auf. Muss sagen eine sehr interessante Aufgabe',
         answer: ':)',
       },
+      { question: 'Autoclicker macht’s :)', answer: ':)' },
     ],
   },
   66: {
@@ -489,6 +598,21 @@ export const hintsData = {
           'ich habbe viele bilder übereinander geleg aber das ergebniss schtimmt nicht',
         answer:
           'Das ist doch schon mal ein Anfang, ka wo du den letzten Buchstaben gelassen hast, aber wenn du dir den Titel anschaust solltest du auch so drauf kommen.',
+      },
+      {
+        question:
+          'Ich erkenne die buchstaben aber kann mir das wort nicht zusammeneimen',
+        answer:
+          'Es ist ein deutsches Wort, die letzten Buchstaben kann man raten',
+      },
+    ],
+  },
+  67: {
+    entries: [
+      {
+        question: 'hä kann mir bitte jemand erklären was ich machen muss?',
+        answer:
+          'Klick mal auf den Link zu TIA-568B und schaue dir die Reihenfolge der Farben an',
       },
     ],
   },
@@ -640,6 +764,11 @@ export const hintsData = {
         question: 'wenn ich [..] [..] eingebe ist es falsch warum',
         answer: 'nur nachname',
       },
+      {
+        question: 'Ich weiß einfach nicht mehr weiter',
+        answer:
+          'Klicke auf &quot;Liste bedeutender Personen ...&quot und es öffnet sich eine Aufzählung',
+      },
     ],
   },
   78: {
@@ -723,6 +852,11 @@ export const hintsData = {
   87: {
     entries: [
       { question: 'was muss man tun', answer: 'Spiele das Spiel zu Ende' },
+      {
+        question: 'Was soll ich ändern',
+        answer:
+          'Die Geschwindigkeit zum Beispiel, ist mit einem gelben Zettel markiert',
+      },
     ],
   },
   88: {
@@ -730,6 +864,15 @@ export const hintsData = {
       {
         question: 'wie soll ich das ausrechnen',
         answer: 'Taschenrechner? Excel?',
+      },
+      {
+        question: '1050 ist falsh warum',
+        answer:
+          'du hast dich irgendwo verrechnet, es kommt eine andere Zahl raus',
+      },
+      {
+        question: 'die antwort ist doch 1290 ?',
+        answer: 'Auch das ist (noch) nicht richtig',
       },
     ],
   },
@@ -904,6 +1047,7 @@ export const hintsData = {
         question: 'Gibt mir jemand bitte die lösung',
         answer: 'Es gibt keine "richtige Lösung", sondern viele Wege',
       },
+      { question: 'Was ist die Lösung', answer: 'Jedes Wort mit 1337 Zeichen' },
       {
         question:
           'Es gab ja noch einige mehr Challanges mit Leet, war nicht mein Problem. Nur bei Challange 105 1337 verstehe ich den Zusammenhang nicht richtig.',
@@ -974,6 +1118,10 @@ export const hintsData = {
         answer:
           'Das ist der Defekt des Taschenrechners, sollte dich aber nicht aufhalten',
       },
+      {
+        question: 'was sind die faktoren mit denen man 256 berechnen kann',
+        answer: '256 ist eine Zweierpotenz',
+      },
     ],
   },
   111: {
@@ -993,12 +1141,17 @@ export const hintsData = {
       {
         question: 'welcher bock ist es',
         answer:
-          'Überlege mal, warum die Kürbislaterne nicht leuchtet und wie man das Problem lösen kann',
+          'Überlege mal, warum die Kürbislaterne nicht leuchtet und wie man das Problem löst',
       },
       {
         question: 'Wo finde ich die Block ID?',
         answer:
           '<a href="https://minecraftitemids.com/types/redstone" target="_blank">https://minecraftitemids.com/types/redstone</a>',
+      },
+      {
+        question: 'Welche Block id hat redstone',
+        answer:
+          'Es ist kein Redstone-Block (aber ein anderer Block mit Redstone)',
       },
     ],
   },
@@ -1008,10 +1161,22 @@ export const hintsData = {
         question: 'was soll des sein',
         answer: 'In Minecraft gibt es Befehle die mit / starten',
       },
+      {
+        question: 'wie stellt mann in minecraft die uhrzeit auf mitternacht',
+        answer: 'Schau mal im Internet',
+      },
+      {
+        question: 'was kommt danach',
+        answer: 'Das ist die letzte Minecraft-Aufgabe',
+      },
     ],
   },
   114: {
     entries: [
+      {
+        question: 'Wie heißt der Baum',
+        answer: 'Im Bild ist ein Hinweis zu sehen',
+      },
       { question: 'kan mmir jemand helfen', answer: 'Klick mal auf den Baum' },
       {
         question: 'da passiert nichts ',
@@ -1085,6 +1250,10 @@ export const hintsData = {
           'Schau dir den Text an und die Beispiele. Fallen wir noch weitere Möglichkeiten ein?',
       },
       {
+        question: 'sind kommas erlaubt',
+        answer: 'Nein, Antwort enthält keine Kommas',
+      },
+      {
         question:
           'Prämisse 1: Ich verwende Translate. Prämisse 2: Ich weiß nicht viel über Taylor. Ich habe gesehen, dass sie beim Münchner Konzert vor Betty ein gesprochenes Intro gemacht hat. Ich habe es mir angehört, in der Hoffnung, Hinweise zu finden, aber auch dort und im Text konnte ich nichts finden. Bin ich nah dran oder sollte ich meinen Ansatz ändern?',
         answer: 'die Antwort findet sich bereits im Steckbrief',
@@ -1096,6 +1265,10 @@ export const hintsData = {
       {
         question: 'Was deutet auf das Passwort hin?',
         answer: 'die youtuberin',
+      },
+      {
+        question: 'in welcher zeile steht das passwort',
+        answer: 'Die Antwort selbst steht nicht im Text',
       },
     ],
   },
@@ -1323,6 +1496,11 @@ export const hintsData = {
       },
     ],
   },
+  323: {
+    entries: [
+      { question: 'Ist die Lösung in der Aufgabe?', answer: 'Ja, ist sie' },
+    ],
+  },
   325: {
     entries: [
       {
@@ -1422,7 +1600,8 @@ export const hintsData = {
       },
       {
         question: 'was für ein block braucht man',
-        answer: 'klicke doch mal auf die Spoiler in den vorherigen zwei Fragen',
+        answer:
+          'Fahre mit der Maus über die schwarzen Kästen in den Antworten oben!',
       },
     ],
   },
@@ -1431,6 +1610,11 @@ export const hintsData = {
       {
         question: 'wie kann mann das lösen',
         answer: 'Erkennst du ein paar der Blöcke?',
+      },
+      {
+        question: 'wie geht das hab kein minekraft',
+        answer:
+          'Es gibt auch einen anderen Hinweis für Leute, die kein Minecraft haben',
       },
       {
         question:
@@ -1509,7 +1693,7 @@ export function setupHints(App) {
 
             border-radius: 4px;
 
-            transition: background 0.3s ease 0.2s, color 0.2s ease 0.25s;
+            transition: background 0.1s ease 0.2s, color 0.2s ease 0.25s;
           }
 
           .spoiler-text:hover,
@@ -1519,7 +1703,7 @@ export function setupHints(App) {
           }
         </style>
       
-        <p><a href="/challenge/${id}">zurück zur Aufgabe</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">zurück zur Karte</a></p>
+        <p><a href="/challenge/${id}">zurück</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">Karte</a></p>
 
         ${
           !hints

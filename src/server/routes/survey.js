@@ -294,8 +294,8 @@ export function setupSurvey(App) {
           ${entries
             .map((entry) => {
               return `<p>${new Date(entry.ts).toLocaleString()} / ${escapeHtml(
-                userIndex[entry.userId].name
-              )} (${userIndex[entry.userId].score})<br />Interesse: ${
+                userIndex[entry.userId]?.name ?? '--- gelöscht ---'
+              )} (${userIndex[entry.userId]?.score ?? -1})<br />Interesse: ${
                 entry.obj.interest
               }, Herausforderung: ${entry.obj.challenge}, Spaß: ${
                 entry.obj.fun

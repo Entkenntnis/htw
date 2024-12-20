@@ -247,7 +247,7 @@ export interface WormsReplay {
 
   dirs: number[]
 
-  winner: 'red' | 'green'
+  winner: 'red' | 'green' | ''
 }
 
 export type HintsData = {

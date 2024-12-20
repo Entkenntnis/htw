@@ -175,18 +175,21 @@ async function runWorms(srcRed, srcGreen) {
 export function setupWormsArena(App) {
   App.express.get('/worms/example', async (req, res) => {
     const participants = [4, 5, 6, 7, 8, 9, 10]
+    /** @type{{[key: number] : {code: string, name: string, wins: number, defeats: number, elo: number}}} */
     const participantsData = {}
     for (const id of participants) {
       const bot = await App.db.models.WormsBotDraft.findOne({ where: { id } })
-      participantsData[id] = {
-        code: bot.code,
-        name: bot.name,
-        wins: 0,
-        defeats: 0,
-        elo: 500,
+      if (bot) {
+        participantsData[id] = {
+          code: bot.code,
+          name: bot.name,
+          wins: 0,
+          defeats: 0,
+          elo: 500,
+        }
       }
     }
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 50; i++) {
       for (const p1 of participants) {
         for (const p2 of participants) {
           if (p1 == p2) {
@@ -196,26 +199,22 @@ export function setupWormsArena(App) {
           const p2Data = participantsData[p2]
           const replay = await runWorms(p1Data.code, p2Data.code)
           console.log(p1Data.name, p2Data.name, replay.winner)
-          if (p1Data.elo > 100 && p2Data.elo > 100) {
-            if (replay.winner == 'red') {
-              p1Data.wins++
-              p2Data.defeats++
-              const E_A =
-                1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
-              const diff = 32 * (1 - E_A)
-              console.log('  -> diff:', Math.round(diff * 1000) / 1000)
-              p1Data.elo += diff
-              p2Data.elo -= diff
-            } else {
-              p2Data.wins++
-              p1Data.defeats++
-              const E_B =
-                1 / (1 + Math.pow(10, (p1Data.elo - p2Data.elo) / 400))
-              const diff = 32 * (1 - E_B)
-              console.log('  -> diff:', Math.round(diff * 1000) / 1000)
-              p2Data.elo += diff
-              p1Data.elo -= diff
-            }
+          if (replay.winner == 'red') {
+            p1Data.wins++
+            p2Data.defeats++
+            const E_A = 1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
+            const diff = Math.min(32 * (1 - E_A), p2Data.elo - 100)
+            console.log('  -> diff:', Math.round(diff * 1000) / 1000)
+            p1Data.elo += diff
+            p2Data.elo -= diff
+          } else {
+            p2Data.wins++
+            p1Data.defeats++
+            const E_B = 1 / (1 + Math.pow(10, (p1Data.elo - p2Data.elo) / 400))
+            const diff = Math.min(32 * (1 - E_B), p1Data.elo - 100)
+            console.log('  -> diff:', Math.round(diff * 1000) / 1000)
+            p2Data.elo += diff
+            p1Data.elo -= diff
           }
         }
         printLeaderboard()

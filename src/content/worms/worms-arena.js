@@ -183,7 +183,7 @@ export function setupWormsArena(App) {
         name: bot.name,
         wins: 0,
         defeats: 0,
-        elo: 1000,
+        elo: 500,
       }
     }
     for (let i = 0; i < 20; i++) {
@@ -194,24 +194,28 @@ export function setupWormsArena(App) {
           }
           const p1Data = participantsData[p1]
           const p2Data = participantsData[p2]
-          const E_A = 1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
           const replay = await runWorms(p1Data.code, p2Data.code)
-          console.log(
-            p1Data.name,
-            p2Data.name,
-            replay.winner,
-            Math.round(E_A * 100) / 100
-          )
-          if (replay.winner == 'red') {
-            p1Data.wins++
-            p2Data.defeats++
-            p1Data.elo += 32 * (1 - E_A)
-            p2Data.elo -= 32 * (1 - E_A)
-          } else {
-            p2Data.wins++
-            p1Data.defeats++
-            p2Data.elo += 32 * (1 - E_A)
-            p1Data.elo -= 32 * (1 - E_A)
+          console.log(p1Data.name, p2Data.name, replay.winner)
+          if (p1Data.elo > 100 && p2Data.elo > 100) {
+            if (replay.winner == 'red') {
+              p1Data.wins++
+              p2Data.defeats++
+              const E_A =
+                1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
+              const diff = 32 * (1 - E_A)
+              console.log('  -> diff:', Math.round(diff * 1000) / 1000)
+              p1Data.elo += diff
+              p2Data.elo -= diff
+            } else {
+              p2Data.wins++
+              p1Data.defeats++
+              const E_B =
+                1 / (1 + Math.pow(10, (p1Data.elo - p2Data.elo) / 400))
+              const diff = 32 * (1 - E_B)
+              console.log('  -> diff:', Math.round(diff * 1000) / 1000)
+              p2Data.elo += diff
+              p1Data.elo -= diff
+            }
           }
         }
         printLeaderboard()

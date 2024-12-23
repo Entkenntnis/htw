@@ -203,7 +203,7 @@ export function setupWormsArena(App) {
             p1Data.wins++
             p2Data.defeats++
             const E_A = 1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
-            const diff = Math.min(32 * (1 - E_A), p2Data.elo - 100)
+            const diff = Math.min(10 * (1 - E_A), p2Data.elo - 100)
             console.log('  -> diff:', Math.round(diff * 1000) / 1000)
             p1Data.elo += diff
             p2Data.elo -= diff
@@ -211,7 +211,7 @@ export function setupWormsArena(App) {
             p2Data.wins++
             p1Data.defeats++
             const E_B = 1 / (1 + Math.pow(10, (p1Data.elo - p2Data.elo) / 400))
-            const diff = Math.min(32 * (1 - E_B), p1Data.elo - 100)
+            const diff = Math.min(10 * (1 - E_B), p1Data.elo - 100)
             console.log('  -> diff:', Math.round(diff * 1000) / 1000)
             p2Data.elo += diff
             p1Data.elo -= diff

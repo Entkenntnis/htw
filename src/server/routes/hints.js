@@ -15,6 +15,7 @@ export const hintsData = {
         question: 'Ich kann kein mathe',
         answer: 'Du hast sicher ein Handy mit Taschenrechner ..',
       },
+      { question: '90???', answer: 'Punkt vor Strich' },
     ],
   },
   2: {
@@ -23,6 +24,11 @@ export const hintsData = {
         question: 'Muss ich jetzt mir die Gebärdensprache angucken?',
         answer:
           'kuck einfach im internet nach geberdensprache und übersetz einfach',
+      },
+      {
+        question: 'Ich kenne die Gebärdensprache nicht...',
+        answer:
+          'dann ist jetzt ein guter Zeitpunkt, ein paar Zeichen zu lernen',
       },
     ],
   },
@@ -76,6 +82,10 @@ export const hintsData = {
   7: {
     entries: [
       {
+        question: 'wie geht die aufgabe',
+        answer: 'Schaue in den Quellcode der Aufgabe',
+      },
+      {
         question:
           'Hallo! Ich kann leider den Quelltext weder durch die Kombination, noch durch die Anleitungen einsehen. Es geht auch nicht durch die rechte Maustaste. Gibt es noch andere Möglichkeiten? Liebe Grüße, Thomas',
         answer:
@@ -99,6 +109,11 @@ export const hintsData = {
       {
         question: 'muss man da eine zahl oder mehrere zahlen hinschreiben?',
         answer: 'Das Ergebnis ist eine einzelne Zahl',
+      },
+      { question: 'welche zahl?', answer: 'Diese musst du ausrechnen' },
+      {
+        question: 'ist da irgendwo ein minus versteckt?',
+        answer: 'nein, nur plus',
       },
     ],
   },
@@ -191,6 +206,10 @@ export const hintsData = {
   25: {
     entries: [
       {
+        question: 'Was ist zipen?',
+        answer: 'Eine Datei komprimieren und in eine .zip-Datei packen',
+      },
+      {
         question: 'ich kann die datei nicht öffnen',
         answer:
           'Welches System verwendest du? ist jeweils etwas unterschiedlich',
@@ -213,6 +232,15 @@ export const hintsData = {
         question: 'Ich kann die Aufgaben Datei nicht Öffnen (Windows)',
         answer:
           'auf Windows öffnet sollte sich ein neues Explorer-Fenster öffnen',
+      },
+    ],
+  },
+  28: {
+    entries: [
+      {
+        question:
+          'Entschuldigung, aber bei mir funktioniert GAR NICHTS, egal was ich tue nichts verändert sich außer der tollen Werbung...😑 (The Star)',
+        answer: 'bisschen Geduld - welche Methode hast du denn probiert?',
       },
     ],
   },
@@ -275,6 +303,10 @@ export const hintsData = {
         question: 'wenn das nicht geht',
         answer: 'Probiere auch mal (Windows-Taste) +  (Punkt)',
       },
+      {
+        question: 'Kann man auch nur Emoji eingeben',
+        answer: 'nein, der Text Emoji ist nicht die Antwort',
+      },
     ],
   },
   39: {
@@ -314,6 +346,10 @@ export const hintsData = {
         question: 'shazam funkioniert nicht',
         answer:
           'shazam hat bei mir noch 5s das richtige Ergebnis, probiere es nochmal und achte darauf, das der Ton gut funktioniert',
+      },
+      {
+        question: 'Ich kenne das Lied nicht mal!',
+        answer: 'musst du auch nicht, es gibt dafür Tools',
       },
     ],
   },
@@ -403,6 +439,11 @@ export const hintsData = {
   49: {
     entries: [
       {
+        question: 'welches spiel überhaupt?',
+        answer:
+          'Das ist ein fiktives Spiel, aber so ähnlich hat es eine Weile für subway surfer funktioniert',
+      },
+      {
         question:
           'Hi! Könnte mir jemand sagen wo ich mich einlesen kann, um zu wissen wie ich die Aufgabe lösen soll? Ich hab versucht online Tools zu benutzen, aber ich finde keine Seite wo ich ein Padding einstelllen kann...',
         answer:
@@ -422,6 +463,14 @@ export const hintsData = {
       },
     ],
   },
+  50: {
+    entries: [
+      {
+        question: 'wie soll man auf die Lösung kommen',
+        answer: 'Die Formen sollten dich an das Gitter erinnern',
+      },
+    ],
+  },
   51: {
     entries: [
       {
@@ -435,6 +484,11 @@ export const hintsData = {
       {
         question: 'was soll man für Binärzahlen verwenden',
         answer: 'Nur mit 0 und 1',
+      },
+      {
+        question: 'was ist ein binärsystem',
+        answer:
+          'Im Binärsystem kann man alle Zahlenwerte nur mit zwei verschiedenen Ziffern darstelle, praktisch für Computer, die nur Strom an/aus kennen.',
       },
     ],
   },
@@ -452,6 +506,10 @@ export const hintsData = {
         question:
           'NICHT AUF DEN ZWEITEN PUNKT KLICKEN!!! ALLES WIRD ZURÜCKGESETZT',
         answer: 'wichtig',
+      },
+      {
+        question: 'darf ich ein auto klicker installieren?',
+        answer: 'Ja, natürlich',
       },
       {
         question:
@@ -478,6 +536,11 @@ export const hintsData = {
         answer:
           'Es gibt eine Variable <code>correct</code>, diese kannst du über die Konsole auch direkt ändern',
       },
+      {
+        question:
+          'Wie komme ich zur Konsole und wo gebe ich das dann ein??? ╰(*°▽°*)╯',
+        answer: 'F12',
+      },
     ],
   },
   55: {
@@ -496,6 +559,10 @@ export const hintsData = {
         question:
           'Ich hab die Farbe gefunden, aber wenn ich es eingebe ist es falsch. Ich habe sogar die Buchstaben in die richtige Reihenfolge gebracht.',
         answer: 'ohne Leerzeichen?',
+      },
+      {
+        question: 'es funktioniert nicht',
+        answer: 'gib mir mehr Infos, sonst kann ich dir nicht helfen',
       },
     ],
   },
@@ -516,6 +583,17 @@ export const hintsData = {
         answer:
           'Wenn dieser lange  Text kommt dann ist es ein Zeichnen, dass es funktioniert hat - jetzt musst du nur noch eine Website finden, die deinen Benutzernamen enthält',
       },
+      {
+        question: 'Wie kann ich eine Websied machen?',
+        answer:
+          'github pages, glitch, ... (Aufgabe kann auch gelöst werden ohne eigene Seite)',
+      },
+      {
+        question:
+          'funktioniert eif nicht obwohl mein nutzername drauf is 😑😑😑',
+        answer:
+          'Groß-/Kleinschreibung? evtl. noch andere Webseite ausprobieren',
+      },
     ],
   },
   57: {
@@ -531,6 +609,15 @@ export const hintsData = {
       {
         question: 'Was ist eine Passage?',
         answer: 'eine schmale Stelle zum Durchgehen',
+      },
+    ],
+  },
+  58: {
+    entries: [
+      {
+        question:
+          'Ich kenne das Spiel nicht mal, könnt ihr mir einen Tipp geben?',
+        answer: 'In der Aufgabe findest du einen Hinweis mit Link',
       },
     ],
   },
@@ -552,6 +639,11 @@ export const hintsData = {
         answer:
           'ja, erinnern mich an Ohnezahn aus Drachenzähmen leicht gemacht',
       },
+      { question: 'ich bin gay', answer: '🌈' },
+      {
+        question: 'was ist die maximale Punktzahl im Ganzen spiel?',
+        answer: 'aktuell 1939',
+      },
     ],
   },
   60: {
@@ -559,6 +651,10 @@ export const hintsData = {
       {
         question: 'was ist der 2. Buchstabe ?',
         answer: 'Der zweite Buchstabe der Lösung lautet E',
+      },
+      {
+        question: 'was ist der dritte Buchstaben?',
+        answer: 'Der dritte Buchstabe der Lösung lautet nicht E',
       },
     ],
   },
@@ -568,6 +664,14 @@ export const hintsData = {
         question:
           'hey, könnte mir wer ein kleinen Hinweis geben, komme nämlich nicht weiter. danke 🙂',
         answer: 'bild.txt ist doch in sich schon etwas widersprüchlich',
+      },
+    ],
+  },
+  63: {
+    entries: [
+      {
+        question: 'ich verstehe nicht wie ich die zeile ändern soll',
+        answer: 'draufklicken und Text eingeben/löschen - ist ein Textfeld',
       },
     ],
   },
@@ -614,6 +718,10 @@ export const hintsData = {
         answer:
           'Klick mal auf den Link zu TIA-568B und schaue dir die Reihenfolge der Farben an',
       },
+      {
+        question: 'Was bedeuten die Farben',
+        answer: 'Sie zeigen dir die Reihenfolge an',
+      },
     ],
   },
   68: {
@@ -637,6 +745,11 @@ export const hintsData = {
         question:
           'Wann ist <span class="spoiler-text">Leonardo DaVinschi</span> geboren',
         answer: 'Wikipedia existiert',
+      },
+      {
+        question: 'ist 1935 richtig?',
+        answer:
+          'Nein, es ist nicht das Geburtsjahr von Normand Veilleux gesucht',
       },
     ],
   },
@@ -801,6 +914,11 @@ export const hintsData = {
           'Ändere die Farben im Stylesheet oder lasse dir die Farben einmal mischen',
       },
       {
+        question: 'ivh verstehe es nicht',
+        answer:
+          'Lösche mal in der zweiten Zeile green und schreibe stattdessen red',
+      },
+      {
         question: 'ich hab die farben gemacht aber kenn die antwort nicht',
         answer:
           'Wenn du die Farben in die richtige Reihenfolge bringst, dann ändert sich der Text unter den Farben von Farben sind leider nicht in der richtigen Reihenfolge in Die Antwort lautet .... Wenn sich der Text nicht ändert ist entweder die Reihenfolge falsch, oder Javascript deaktiviert.',
@@ -847,6 +965,11 @@ export const hintsData = {
         answer: 'Guck mal genauer auf dem Bild - vielleicht siehst du dann was',
       },
       { question: 'Was ist die Lösung? ', answer: 'ist im Bild versteckt' },
+      {
+        question: 'Ich kann den Link nicht Lesen',
+        answer:
+          'hier: <span class="spoiler-text">https://www.beautifyconverter.com/steganographic-decoder.php</span>',
+      },
     ],
   },
   87: {
@@ -873,6 +996,20 @@ export const hintsData = {
       {
         question: 'die antwort ist doch 1290 ?',
         answer: 'Auch das ist (noch) nicht richtig',
+      },
+      {
+        question:
+          'muss man die zahlen mal plu oder in einer bestimmten reihenfolge zusammen rechnen?',
+        answer: 'Alle Zahlen plus',
+      },
+    ],
+  },
+  89: {
+    entries: [
+      {
+        question:
+          'Zu welchem Buchstaben soll ich denn springen nach einem defekten Lesezeichen?',
+        answer: 'Da wo der href hinzeigt',
       },
     ],
   },
@@ -926,6 +1063,14 @@ export const hintsData = {
           'bei mir funktioniert es nicht und es kommen nur irgendwelche Zeichen heraus',
         answer:
           'schon mal gut, dass überhaupt Zeichen rauskommen. Die Nachricht ist ein deutscher Text und sollte lesbar sein. Hast du alle Teile des Ciphers nochmal überprüft?',
+      },
+    ],
+  },
+  94: {
+    entries: [
+      {
+        question: 'Wie soll man denn da rauf kommen?',
+        answer: 'Es gibt dafür Tools, auch ziemlich leicht zu verwenden',
       },
     ],
   },
@@ -1041,6 +1186,15 @@ export const hintsData = {
       },
     ],
   },
+  104: {
+    entries: [
+      {
+        question:
+          'der pfad geht ja immer von b zu i zu e und dann immer so weiter ist das ein fehler?',
+        answer: 'nein, das ist kein Fehler. Nicht jeder Pfad führt zum Ziel',
+      },
+    ],
+  },
   105: {
     entries: [
       {
@@ -1121,6 +1275,10 @@ export const hintsData = {
       {
         question: 'was sind die faktoren mit denen man 256 berechnen kann',
         answer: '256 ist eine Zweierpotenz',
+      },
+      {
+        question: 'Wenn ich eingebe 512 : 2 kommt 2,5...? ¯_(ツ)_/¯',
+        answer: 'Das ist zu erwarten, denn 512 wird zu 5 verkürzt',
       },
     ],
   },
@@ -1240,6 +1398,10 @@ export const hintsData = {
         answer:
           'Beim Hinweg muss du raten, aber beim Rückweg kannst du clever sein',
       },
+      {
+        question: 'Wie kann man auf dem Rückweg clever sein?',
+        answer: 'Die Geister sind immer in den gleichen Gängen',
+      },
     ],
   },
   119: {
@@ -1257,6 +1419,10 @@ export const hintsData = {
         question:
           'Prämisse 1: Ich verwende Translate. Prämisse 2: Ich weiß nicht viel über Taylor. Ich habe gesehen, dass sie beim Münchner Konzert vor Betty ein gesprochenes Intro gemacht hat. Ich habe es mir angehört, in der Hoffnung, Hinweise zu finden, aber auch dort und im Text konnte ich nichts finden. Bin ich nah dran oder sollte ich meinen Ansatz ändern?',
         answer: 'die Antwort findet sich bereits im Steckbrief',
+      },
+      {
+        question: 'Braucht man die lieblings lieder',
+        answer: 'Probiere es aus - hier geht es um das Raten',
       },
     ],
   },
@@ -1683,7 +1849,7 @@ export function setupHints(App) {
       content: `
         <style>
           .spoiler-text {
-            background: #0d0d0d;
+            background:rgb(14, 14, 14);
             color: transparent;
             cursor: help;
             padding-left: 3px;

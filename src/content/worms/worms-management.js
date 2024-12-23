@@ -1,4 +1,5 @@
 import { renderPage } from '../../helper/render-page.js'
+import escapeHTML from 'escape-html'
 
 /**
  *
@@ -14,6 +15,7 @@ export function setupWormsManagement(App) {
 
     const bots = await App.db.models.WormsBotDraft.findAll({
       where: { UserId: user.id },
+      order: [['updatedAt', 'DESC']],
     })
 
     renderPage(App, req, res, {
@@ -24,9 +26,9 @@ export function setupWormsManagement(App) {
         ${bots
           .map(
             (bot) =>
-              `<div style="margin-bottom: 24px;">${
+              `<div style="margin-bottom: 24px;"><strong>${escapeHTML(
                 bot.name
-              }, zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()} [<a href="/worms/drafts/edit?id=${bot.id}">bearbeiten</a>] [<a href="/worms/drafts/delete?id=${
+              )}</strong><br>zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()} [<a href="/worms/drafts/edit?id=${bot.id}">bearbeiten</a>] [<a href="/worms/drafts/delete?id=${
                 bot.id
               }">löschen</a>]</div>`
           )
@@ -39,10 +41,12 @@ export function setupWormsManagement(App) {
         <h3>Testlauf</h3>
 
         <form action="/worms/drafts/test-run">
-          <p>Rot: <select name="gId">${bots.map((bot) => `<option value="${bot.id}">${bot.name}</option>`)}</select></p>
-          <p>Grün: <select name="rId">${bots.map((bot) => `<option value="${bot.id}">${bot.name}</option>`)}</select></p>
+          <p>Rot: <select name="gId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></p>
+          <p>Grün: <select name="rId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></p>
           <p><input type="submit" value="Starten"></p>
         </form>
+
+        <div style="height: 200px;"></div>
       `,
     })
   })
@@ -137,13 +141,13 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       heading: 'Bot bearbeiten - ' + bot.name,
       backButton: false,
       content: `
-        <p>Programmiere deinen Bot mit JavaScript (unterstützt wird ES2023)</p>
+        <p></p>
 
-        <p>[<a href="/worms/drafts">schließen</a>]</p>
+        <p><button onClick="saveButtonClickedAndExit()">Speichern und Schließen</button><span style="display: inline-block; width: 30px;"></span><button onClick="saveButtonClicked()">Speichern</button><span style="display: inline-block; width: 30px;"></span>[<a href="/worms/drafts">schließen</a>]</p>
 
-        <p><button onClick="saveButtonClicked()">Speichern</button></p>
+        <p></p>
 
-        <div id="container" style="height: 800px"></div>
+        <div id="container" style="height: 800px; margin-bottom: 100px;"></div>
 
         <link
           rel="stylesheet"
@@ -182,10 +186,20 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
           function saveButtonClicked() {
             const code = myEditor.getValue()
             const id = ${bot.id}
-            postJson("/worms/drafts/save", {id, code})
+            postJson("/worms/drafts/save", {id, code}).then(() => {
+              alert('Erfolgreich gespeichert!')
+            })
           }
 
-          async function postJson(url, data) {
+          function saveButtonClickedAndExit() {
+            const code = myEditor.getValue()
+            const id = ${bot.id}
+            postJson("/worms/drafts/save", {id, code}).then(() => {
+              window.location.href = '/worms/drafts'
+            })
+          }
+
+          async function postJson(url, data,) {
             try {
               const response = await fetch(url, {
                   method: 'POST',
@@ -198,7 +212,6 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
               if (!response.ok) {
                   alert('Speichern fehlgeschlagen!')
               }
-              alert('Erfolgreich gespeichert!')
             } catch (error) {
               alert(error)
             }

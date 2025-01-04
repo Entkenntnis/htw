@@ -97,6 +97,10 @@ export const hintsData = {
         answer:
           'Ist bisschen umständlich, leider: <a href="https://apple.stackexchange.com/a/417701" target="_blank">https://apple.stackexchange.com/a/417701</a>',
       },
+      {
+        question: 'wie ist bei Laptop microsoft?',
+        answer: 'Schaue dir die zweite Antwort an',
+      },
     ],
   },
   10: {
@@ -242,6 +246,11 @@ export const hintsData = {
           'Entschuldigung, aber bei mir funktioniert GAR NICHTS, egal was ich tue nichts verändert sich außer der tollen Werbung...😑 (The Star)',
         answer: 'bisschen Geduld - welche Methode hast du denn probiert?',
       },
+      {
+        question: 'Was ist das für eine aufgabe??',
+        answer:
+          'Du willst Hacken lernen, hier hast du eine Gelegenheit, ein wenig zu hacken :)',
+      },
     ],
   },
   29: {
@@ -249,6 +258,15 @@ export const hintsData = {
       {
         question: 'wo kann ich die koordinaten eingeben?',
         answer: 'OSM? Google Maps? Wähle selbst.',
+      },
+    ],
+  },
+  30: {
+    entries: [
+      {
+        question: '1970 ist falsch',
+        answer:
+          'jup, die Zahl ist in Sekunden, du hast sie wahrscheinlich in Millisekunden konvertiert, dadurch kommt das falsche Jahr raus',
       },
     ],
   },
@@ -632,6 +650,11 @@ export const hintsData = {
         question: 'was ist die antwort',
         answer: 'steht im Text, den du zuerst entschlüsseln musst',
       },
+      {
+        question: 'English or Spanish?',
+        answer:
+          'The text is in German or English, depending on your language setting',
+      },
       { question: 'Wie gehts?', answer: 'Gut, und dir?' },
       { question: 'LEBEN IST HART', answer: 'random' },
       {
@@ -644,6 +667,7 @@ export const hintsData = {
         question: 'was ist die maximale Punktzahl im Ganzen spiel?',
         answer: 'aktuell 1939',
       },
+      { question: 'wie alt bist du?', answer: 'bin Jahrgang 1995' },
     ],
   },
   60: {
@@ -664,6 +688,12 @@ export const hintsData = {
         question:
           'hey, könnte mir wer ein kleinen Hinweis geben, komme nämlich nicht weiter. danke 🙂',
         answer: 'bild.txt ist doch in sich schon etwas widersprüchlich',
+      },
+      {
+        question:
+          'ich kann die Datei nicht öffnen weil mein Laptop alt ist. schönen Tag noch. Von Suskiddie',
+        answer:
+          'Auch die ältesten Computer sollten das Bild öffnen können. Hast du die Dateiendung davor geändert?',
       },
     ],
   },
@@ -750,6 +780,16 @@ export const hintsData = {
         question: 'ist 1935 richtig?',
         answer:
           'Nein, es ist nicht das Geburtsjahr von Normand Veilleux gesucht',
+      },
+      {
+        question: 'warum stimmt 1503 nicht?',
+        answer:
+          'in diesem Jahr wurde das Gemälde gemalt, aber in welchem Jahr ist der Künstler geboren?',
+      },
+      {
+        question:
+          'ich gib dir mal ein tipp wenn du eine lösung zu einem gibst und es schwarz makierst können auch die andere sehen wil man kann ja das text auswählen und man kann sehen',
+        answer: 'gut bemerkt',
       },
     ],
   },
@@ -882,6 +922,10 @@ export const hintsData = {
         answer:
           'Klicke auf &quot;Liste bedeutender Personen ...&quot und es öffnet sich eine Aufzählung',
       },
+      {
+        question: 'warum steht wenn ich den Namen eingebe ungültig',
+        answer: 'Welchen Namen hast du eingeben?',
+      },
     ],
   },
   78: {
@@ -922,6 +966,14 @@ export const hintsData = {
         question: 'ich hab die farben gemacht aber kenn die antwort nicht',
         answer:
           'Wenn du die Farben in die richtige Reihenfolge bringst, dann ändert sich der Text unter den Farben von Farben sind leider nicht in der richtigen Reihenfolge in Die Antwort lautet .... Wenn sich der Text nicht ändert ist entweder die Reihenfolge falsch, oder Javascript deaktiviert.',
+      },
+    ],
+  },
+  82: {
+    entries: [
+      {
+        question: 'ich kann diese TXT-Record nicht finden',
+        answer: 'Es gibt Online-Tools dafür, verwende diese',
       },
     ],
   },
@@ -1070,7 +1122,7 @@ export const hintsData = {
     entries: [
       {
         question: 'Wie soll man denn da rauf kommen?',
-        answer: 'Es gibt dafür Tools, auch ziemlich leicht zu verwenden',
+        answer: 'Es gibt dafür ein Tool, es heißt TinEye',
       },
     ],
   },
@@ -1193,6 +1245,10 @@ export const hintsData = {
           'der pfad geht ja immer von b zu i zu e und dann immer so weiter ist das ein fehler?',
         answer: 'nein, das ist kein Fehler. Nicht jeder Pfad führt zum Ziel',
       },
+      {
+        question: 'was ist die Antwort',
+        answer: 'Die Buchstaben des einen Pfads, der zum Ziel führt',
+      },
     ],
   },
   105: {
@@ -1253,6 +1309,12 @@ export const hintsData = {
       {
         question: 'Wie funktioniert es? Was muss ich beachten',
         answer: 'Das ist eine Programmiersprache guckt im Internet danach',
+      },
+      {
+        question:
+          'Diese anderen online Tools können mir es aber nicht so gut programmieren - Sie programmieren irgendwas mit Hello oder (;§ˋ',
+        answer:
+          'Probiere sowas wie <span class="spoiler-text">https://copy.sh/brainfuck/text.html</span>',
       },
     ],
   },
@@ -1347,6 +1409,12 @@ export const hintsData = {
       {
         question: 'wie heißt das bild?',
         answer: 'Siehst du, wenn du auf das Bild klickst',
+      },
+      {
+        question:
+          'ich hab scon ChatGPT nochmal gefragt und hab den name eingegeben aber geht nicht',
+        answer:
+          'Schreibe mir mal, was du eingegeben hast, dann kann ich das überprüfen',
       },
     ],
   },
@@ -1756,8 +1824,8 @@ export const hintsData = {
           'Das ist wie der Computer den Block speichert. Probiere mal <a href="https://minecraftitemids.com/" target="_blank">https://minecraftitemids.com/</a>',
       },
       {
-        question: 'i dont play mincraft. whats the name of this block',
-        answer: 'it&apos;s called <span class="spoiler-text">bed rock</span>',
+        question: 'wie heißt der Block',
+        answer: 'er heißt <span class="spoiler-text">bedrock</span>',
       },
       {
         question:
@@ -1765,9 +1833,8 @@ export const hintsData = {
         answer: 'davon die ID',
       },
       {
-        question: 'was für ein block braucht man',
-        answer:
-          'Fahre mit der Maus über die schwarzen Kästen in den Antworten oben!',
+        question: 'i dont play mincraft. whats the name of this block',
+        answer: 'it&apos;s called <span class="spoiler-text">bed rock</span>',
       },
     ],
   },

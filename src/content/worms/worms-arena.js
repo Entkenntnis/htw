@@ -195,13 +195,7 @@ export function setupWormsArena(App) {
       content: `
         ${renderNavigation(2)}
 
-        <h3>Testlauf</h3>
-
-        <form action="/worms/arena/test-run">
-          <p>Rot: <select name="gId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></p>
-          <p>Grün: <select name="rId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></p>
-          <p><input type="submit" value="Starten"></p>
-        </form>
+        <p>TODO</p>
 
         <div style="height: 200px;"></div>
       `,

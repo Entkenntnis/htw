@@ -1,5 +1,8 @@
 // This file implements the actual bot fights
 import { getQuickJS } from 'quickjs-emscripten'
+import { renderNavigation } from './worms-basic.js'
+import { renderPage } from '../../helper/render-page.js'
+import escapeHTML from 'escape-html'
 
 /**
  * Standalone server-side worms runner
@@ -173,6 +176,187 @@ async function runWorms(srcRed, srcGreen) {
  * @param {import("../../data/types.js").App} App
  */
 export function setupWormsArena(App) {
+  App.express.get('/worms/arena', async (req, res) => {
+    const user = req.user
+    if (!user) {
+      res.redirect('/')
+      return
+    }
+
+    const bots = await App.db.models.WormsBotDraft.findAll({
+      where: { UserId: user.id },
+      order: [['updatedAt', 'DESC']],
+    })
+
+    renderPage(App, req, res, {
+      page: 'worms-drafts',
+      heading: 'Worms',
+      backButton: false,
+      content: `
+        ${renderNavigation(2)}
+
+        <h3>Testlauf</h3>
+
+        <form action="/worms/arena/test-run">
+          <p>Rot: <select name="gId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></p>
+          <p>Grün: <select name="rId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></p>
+          <p><input type="submit" value="Starten"></p>
+        </form>
+
+        <div style="height: 200px;"></div>
+      `,
+    })
+  })
+
+  App.express.get('/worms/arena/test-run', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+
+    const rId = req.query.rId ? parseInt(req.query.rId.toString()) : NaN
+    const gId = req.query.gId ? parseInt(req.query.gId.toString()) : NaN
+
+    if (isNaN(rId) || isNaN(gId)) {
+      res.send('Missing gId or rId')
+      return
+    }
+
+    const rBot = await App.db.models.WormsBotDraft.findOne({
+      where: { id: rId, UserId: req.user.id },
+    })
+    const gBot = await App.db.models.WormsBotDraft.findOne({
+      where: { id: gId, UserId: req.user.id },
+    })
+
+    if (!rBot || !gBot) {
+      res.send('Bot not found')
+      return
+    }
+
+    renderPage(App, req, res, {
+      page: 'worms-test-run',
+      heading: 'Testlauf',
+      backButton: false,
+      content: `
+        <p><a href="/worms/arena">zurück</a></p>
+
+        <p style="text-align: center;">Rot: ${rBot.name} / Grün: ${gBot.name}</p>
+
+        <script src="/worms/wormer.js"></script>
+
+        <script
+          src="/worms/quickjs.js"
+          type="text/javascript"
+        ></script>
+
+        <div id="board"></div>
+        <p style="text-align: right;"><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</p>
+
+        <div style="height: 200px;"></div>
+
+        <script>
+
+          QJS.getQuickJS().then((QuickJS) => {
+            const runtimeRed = QuickJS.newRuntime()
+            runtimeRed.setMemoryLimit(1024 * 640)
+            runtimeRed.setMaxStackSize(1024 * 320)
+            let cyclesRed = { val: 0 }
+            runtimeRed.setInterruptHandler(() => {
+              cyclesRed.val++
+            })
+            const ctxRed = runtimeRed.newContext()
+
+            // ---------------------------------------
+            const logHandle = ctxRed.newFunction("log", (...args) => {
+              const nativeArgs = args.map(ctxRed.dump)
+              console.log("QuickJS:", ...nativeArgs)
+            })
+            const consoleHandle = ctxRed.newObject()
+            ctxRed.setProp(consoleHandle, "log", logHandle)
+            ctxRed.setProp(ctxRed.global, "console", consoleHandle)
+            consoleHandle.dispose()
+            logHandle.dispose()
+            // -------------------------
+
+            try {
+              ctxRed.evalCode(\`${rBot.code.replace(/`/g, '\\`')}\`)
+            } catch {}
+
+            const runtimeGreen = QuickJS.newRuntime()
+            runtimeGreen.setMemoryLimit(1024 * 640)
+            runtimeGreen.setMaxStackSize(1024 * 320)
+
+            let cyclesGreen = { val: 0 }
+            runtimeGreen.setInterruptHandler(() => {
+              cyclesGreen.val++
+            })
+            const ctxGreen = runtimeGreen.newContext()
+            try {
+              ctxGreen.evalCode(\`${gBot.code.replace(/`/g, '\\`')}\`)
+            } catch {}
+
+            // ---------------------------------------
+            const logHandle2 = ctxGreen.newFunction("log", (...args) => {
+              const nativeArgs = args.map(ctxGreen.dump)
+              console.log("QuickJS:", ...nativeArgs)
+            })
+            const consoleHandle2 = ctxGreen.newObject()
+            ctxGreen.setProp(consoleHandle2, "log", logHandle2)
+            ctxGreen.setProp(ctxGreen.global, "console", consoleHandle2)
+            consoleHandle2.dispose()
+            logHandle2.dispose()
+            // -------------------------
+
+
+
+            const red = (() => {
+              return (dx, dy, board, x, y, dir, oppX, oppY) => {
+                const callScriptRed = \`
+                  think(74, 42, \${JSON.stringify(board)}, \${x}, \${y}, \${dir}, \${oppX}, \${oppY});
+                \`
+                let newDirRed = -1
+                try {
+                  cyclesRed.val = 0
+                  const resultRed = ctxRed.unwrapResult(ctxRed.evalCode(callScriptRed))
+                  newDirRed = ctxRed.getNumber(resultRed)
+                  resultRed.dispose()
+                  console.log('red cycles (10k)', cyclesRed.val)
+                } catch(e) {
+                  alert('Fehler in Rot: ' + e) 
+                }
+                return newDirRed
+              }
+            })()
+            const green = (() => {
+              return (dx, dy, board, x, y, dir, oppX, oppY) => {
+                const callScriptGreen = \`
+                  think(74, 42, \${JSON.stringify(board)}, \${x}, \${y}, \${dir}, \${oppX}, \${oppY});
+                \`
+                let newDirGreen = -1
+                try {
+                  cyclesGreen.val = 0
+                  const resultGreen = ctxGreen.unwrapResult(ctxGreen.evalCode(callScriptGreen))
+                  newDirGreen = ctxGreen.getNumber(resultGreen)
+                  resultGreen.dispose()
+                  console.log('green cycles (10k)', cyclesGreen.val)
+                } catch(e) {
+                  alert('Fehler in Grün: ' + e) 
+                }
+                return newDirGreen
+              }
+            })()
+            const wormer = new Wormer(document.getElementById('board'), red, green)
+            window.wormer = wormer
+            wormer.run()
+          })
+
+          
+        </script>
+      `,
+    })
+  })
+
   App.express.get('/worms/example', async (req, res) => {
     const participants = [4, 5, 6, 7, 8, 9, 10]
     /** @type{{[key: number] : {code: string, name: string, wins: number, defeats: number, elo: number}}} */

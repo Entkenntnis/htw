@@ -5,12 +5,12 @@ import { renderPage } from '../../helper/render-page.js'
  * @param {number} active active index
  * @returns string
  */
-function renderNavigation(active) {
+export function renderNavigation(active) {
   return `
-  
-  <p><a href="/map">zurück</a></p>
-
   <ul class="nav nav-tabs" style="margin-bottom: 24px;">
+    <li class="nav-item">
+      <a class="nav-link" style="color: #00bc8c; border: none;" href="/map">zurück</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link${active == 0 ? ' active' : ''}" href="/worms/two-player">2-Spieler</a>
     </li>

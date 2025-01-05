@@ -32,7 +32,7 @@ import { setupSurvey } from './server/routes/survey.js'
 import { setupMortalCoil } from './content/mortal-coil.js'
 import { setupPleaseFixMe } from './content/please-fix-me.js'
 import { setupEnough } from './content/enough.js'
-import { setupWorms } from './content/worms.js'
+import { setupWormsBasic } from './content/worms/worms-basic.js'
 
 import { _deprecated__setupDecodeMe } from './content/decode-me-deprecated.js'
 import { setupHints } from './server/routes/hints.js'
@@ -84,8 +84,8 @@ setupSurvey(App)
 setupMortalCoil(App)
 setupPleaseFixMe(App)
 setupEnough(App)
-setupWorms(App)
 
+setupWormsBasic(App)
 setupWormsManagement(App)
 setupWormsArena(App)
 

@@ -2,7 +2,6 @@
 import { getQuickJS } from 'quickjs-emscripten'
 import { renderNavigation } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
-import escapeHTML from 'escape-html'
 
 /**
  * Standalone server-side worms runner

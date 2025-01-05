@@ -24,22 +24,37 @@ export function setupWormsManagement(App) {
       heading: 'Worms',
       backButton: false,
       content: `
-        ${renderNavigation(3)}
+      ${renderNavigation(3)}
 
-        ${bots
-          .map(
-            (bot) =>
-              `<div style="margin-bottom: 24px;"><strong>${escapeHTML(
-                bot.name
-              )}</strong><br>zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()} [<a href="/worms/drafts/edit?id=${bot.id}">bearbeiten</a>] [<a href="/worms/drafts/delete?id=${
-                bot.id
-              }">löschen</a>]</div>`
-          )
-          .join('')}
+      ${bots
+        .map(
+          (bot) =>
+            `<div style="margin-bottom: 24px;"><strong style="font-size: 20px;">${escapeHTML(
+              bot.name
+            )}</strong><span style="display: inline-block; margin-left: 24px; color: gray;">zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()}</span><br>
+          <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
+            <a class="btn btn-sm btn-primary" href="/worms/drafts/edit?id=${bot.id}">Bearbeiten</a>
+            <span>
+              <a class="btn btn-sm btn-outline-light" href="/worms/drafts/rename?id=${bot.id}">Umbenennen</a>
+              <a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>
+              <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Löschen</button>
+            </span>
+          </div>
+          </div> <hr>`
+        )
+        .join('')}
 
-        <form action="/worms/drafts/create"><input name="name"> <input type="submit" value="Neuen Bot erstellen"></form>
+      <form action="/worms/drafts/create"><input name="name" required autocomplete="off"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>
 
-        <div style="height: 75px;"></div>
+      <div style="height: 250px;"></div>
+
+      <script>
+        function confirmDelete(id, name) {
+          if (confirm('Möchtest du den Bot ' + name + ' wirklich löschen?')) {
+            window.location.href = '/worms/drafts/delete?id=' + id;
+          }
+        }
+      </script>
       `,
     })
   })
@@ -57,17 +72,25 @@ export function setupWormsManagement(App) {
       return
     }
 
+    if (
+      (await App.db.models.WormsBotDraft.count({
+        where: { name, UserId: req.user.id },
+      })) > 0
+    ) {
+      res.send('Fehler: Bot mit diesem Namen existiert bereits')
+      return
+    }
+
     await App.db.models.WormsBotDraft.create({
       name,
       UserId: req.user.id,
-      code: `
-/**
+      code: `/**
  * Bestimme bei jedem Schritt deines Bots die Laufrichtung
  * 
  * @param {number} dx         Breite des Spielfelds (fixiert auf 74)
  * @param {number} dy         Höhe des Spielfelds (fixiert auf 42)
  * @param {number[][]} board  Zwei-dimensionales Feld, board[x][y] beschreibt den Inhalt bei (x|y) mit
- *                            -1 = Wand, 0 = frei, 1 = von dir besetzt, 2 = vom Gegner besetzt
+ *                            -1 = Wand, 0 = frei, 1 = von rot besetzt, 2 = vom grün besetzt
  * @param {number} x          x-Koordinate deines Bots
  * @param {number} y          y-Koordinate deines Bots
  * @param {number} dir        Laufrichtung deines Bots (0 = hoch, 1 = rechts, 2 = runter, 3 = links)
@@ -135,13 +158,15 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       backButton: false,
       outsideOfContainer: true,
       content: `
-        <p></p>
 
-        <p><button onClick="saveButtonClickedAndExit()">Speichern und Schließen</button><span style="display: inline-block; width: 30px;"></span><button onClick="saveButtonClicked()">Speichern</button><span style="display: inline-block; width: 30px;"></span>[<a href="/worms/your-bots">schließen</a>]</p>
+        <div style="position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 1000; background-color: #222; margin-left: 12px; margin-right: 12px; display: flex; flex-direction: column;">
+          <h1>${escapeHTML(bot.name)}<span id="changedMarker" style="display: none;">*</span></h1>
 
-        <p></p>
+          <p><button class="btn btn-success" onClick="saveButtonClickedAndExit()">Speichern und Schließen</button><span style="display: inline-block; width: 30px;"></span><button class="btn btn-warning" onClick="saveButtonClicked()">Speichern</button><span style="display: inline-block; width: 30px;"></span><a href="/worms/your-bots" class="btn btn-danger">Schließen</a></p>
 
-        <div id="container" style="height: 800px; margin-bottom: 100px;"></div>
+          <div id="container" style="flex-grow: 1;"></div>
+
+        </div>
 
         <link
           rel="stylesheet"
@@ -155,13 +180,14 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         <script src="/monaco/vs/editor/editor.main.js"></script>
 
         <script>
+          let initialValue = \`${bot.code.replace(/`/, '\\`')}\`
           const myEditor = monaco.editor.create(document.getElementById("container"), {
-            value: \`${bot.code.replace(/`/, '\\`')}\`,
+            value: initialValue,
             language: "typescript",
             automaticLayout: true,
             minimap: { enabled: false },
             theme: 'vs-dark',
-            scrollBeyondLastLine: false,
+            scrollBeyondLastLine: true,
             padding: {
               top: 10
             },
@@ -169,6 +195,16 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
               alwaysConsumeMouseWheel: false
             }
           });
+
+          // when editor updates, compare with initial value
+          myEditor.onDidChangeModelContent(() => {
+            const code = myEditor.getValue()
+            if (code !== initialValue) {
+              document.getElementById('changedMarker').style.display = 'inline'
+            } else {
+              document.getElementById('changedMarker').style.display = 'none'
+            }
+          })
 
           monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
             allowNonTsExtensions: true,
@@ -181,6 +217,8 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             const code = myEditor.getValue()
             const id = ${bot.id}
             postJson("/worms/drafts/save", {id, code}).then(() => {
+              document.getElementById('changedMarker').style.display = 'none'
+              initialValue = code
               alert('Erfolgreich gespeichert!')
             })
           }
@@ -193,7 +231,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             })
           }
 
-          async function postJson(url, data,) {
+          async function postJson(url, data) {
             try {
               const response = await fetch(url, {
                   method: 'POST',

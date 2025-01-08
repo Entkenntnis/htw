@@ -1,6 +1,7 @@
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
 import { renderNavigation } from './worms-basic.js'
+import { Sequelize } from 'sequelize'
 
 /**
  *
@@ -16,7 +17,8 @@ export function setupWormsManagement(App) {
 
     const bots = await App.db.models.WormsBotDraft.findAll({
       where: { UserId: user.id },
-      order: [['updatedAt', 'DESC']],
+      // order by lower case name
+      order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
     })
 
     renderPage(App, req, res, {
@@ -31,7 +33,7 @@ export function setupWormsManagement(App) {
           ? `
       <div style="margin-bottom: 32px; display: flex; justify-content: center;">
         <form action="/worms/your-bots/test-run" style="display: flex; align-items: baseline;">
-          <label>Rot: <select name="gId">${bots.map(
+          <label>Rot: <select name="rId">${bots.map(
             (bot) =>
               `<option value="${bot.id}" ${
                 bot.id === req.session.lastTestRun?.[0]
@@ -39,7 +41,7 @@ export function setupWormsManagement(App) {
                   : ''
               }>${escapeHTML(bot.name)}</option>`
           )}</select></label>
-          <label style="margin-left: 24px;">Grün: <select name="rId">${bots.map(
+          <label style="margin-left: 24px;">Grün: <select name="gId">${bots.map(
             (bot) =>
               `<option value="${bot.id}" ${
                 bot.id === req.session.lastTestRun?.[1]
@@ -62,8 +64,8 @@ export function setupWormsManagement(App) {
           <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
             <a class="btn btn-sm btn-primary" href="/worms/drafts/edit?id=${bot.id}">Bearbeiten</a>
             <span>
-              <a class="btn btn-sm btn-outline-light" href="/worms/drafts/rename?id=${bot.id}">Umbenennen</a>
-              <a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>
+              <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Umbenennen</button>
+              ${bots.length >= 20 ? '<button class="btn btn-sm btn-outline-warning" disabled>Duplizieren</button>' : '<a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>'}
               <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Löschen</button>
             </span>
           </div>
@@ -71,7 +73,7 @@ export function setupWormsManagement(App) {
         )
         .join('')}
 
-      <form action="/worms/drafts/create"><input name="name" required autocomplete="off"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>
+      ${bots.length < 20 ? `<form action="/worms/drafts/create"><input name="name" required autocomplete="off"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>` : '<p style="margin-top: 44px;">Du hast das Limit von 20 Bots erreicht.</p>'}
 
       <div style="height: 250px;"></div>
 
@@ -79,6 +81,13 @@ export function setupWormsManagement(App) {
         function confirmDelete(id, name) {
           if (confirm('Möchtest du den Bot ' + name + ' wirklich löschen?')) {
             window.location.href = '/worms/drafts/delete?id=' + id;
+          }
+        }
+
+        function renameBot(id, name) {
+          const newName = prompt('Neuer Name:', name)
+          if (newName) {
+            window.location.href = '/worms/drafts/rename?id=' + id + '&name=' + encodeURIComponent(newName)
           }
         }
       </script>
@@ -105,6 +114,16 @@ export function setupWormsManagement(App) {
       })) > 0
     ) {
       res.send('Fehler: Bot mit diesem Namen existiert bereits')
+      return
+    }
+
+    // check if user has too many bots
+    if (
+      (await App.db.models.WormsBotDraft.count({
+        where: { UserId: req.user.id },
+      })) >= 20
+    ) {
+      res.send('Fehler: Du hast bereits 20 Bots erstellt')
       return
     }
 
@@ -154,6 +173,34 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       where: { id, UserId: req.user.id },
     })
 
+    res.redirect('/worms/your-bots')
+  })
+
+  App.express.get('/worms/drafts/rename', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+
+    const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
+    const name = req.query.name ? req.query.name.toString() : ''
+
+    if (isNaN(id) || !name || name.length >= 200) {
+      res.send('Invalid ID or name')
+      return
+    }
+
+    const bot = await App.db.models.WormsBotDraft.findOne({
+      where: { id, UserId: req.user.id },
+    })
+
+    if (!bot) {
+      res.send('Bot not found')
+      return
+    }
+
+    bot.name = name
+    await bot.save()
     res.redirect('/worms/your-bots')
   })
 
@@ -207,7 +254,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         <script src="/monaco/vs/editor/editor.main.js"></script>
 
         <script>
-          let initialValue = \`${bot.code.replace(/`/, '\\`')}\`
+          let initialValue = \`${bot.code.replace(/`/g, '\\`')}\`
           const myEditor = monaco.editor.create(document.getElementById("container"), {
             value: initialValue,
             language: "typescript",
@@ -295,6 +342,12 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
     const code = req.body.code ? req.body.code.toString() : ''
 
+    // ensure code is not too long
+    if (code.length > 100000) {
+      res.send('Code zu lang')
+      return
+    }
+
     const bot = await App.db.models.WormsBotDraft.findOne({
       where: { id, UserId: req.user.id },
     })
@@ -307,6 +360,61 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
     bot.code = code
     await bot.save()
     res.send('ok')
+  })
+
+  App.express.get('/worms/drafts/duplicate', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+
+    const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
+
+    if (isNaN(id)) {
+      res.send('Invalid ID')
+      return
+    }
+
+    const bot = await App.db.models.WormsBotDraft.findOne({
+      where: { id, UserId: req.user.id },
+    })
+
+    if (!bot) {
+      res.send('Bot not found')
+      return
+    }
+
+    const newName = bot.name + ' (Kopie)'
+
+    // check if user has too many bots
+    if (
+      (await App.db.models.WormsBotDraft.count({
+        where: { UserId: req.user.id },
+      })) >= 20
+    ) {
+      res.send('Fehler: Du hast bereits 20 Bots erstellt')
+      return
+    }
+
+    // check if bot with this name already exists and create alternative name
+    let i = 1
+    let newNameCandidate = newName
+    while (
+      (await App.db.models.WormsBotDraft.count({
+        where: { name: newNameCandidate, UserId: req.user.id },
+      })) > 0
+    ) {
+      i++
+      newNameCandidate = newName + ' (' + i + ')'
+    }
+
+    await App.db.models.WormsBotDraft.create({
+      name: newNameCandidate,
+      UserId: req.user.id,
+      code: bot.code,
+    })
+
+    res.redirect('/worms/your-bots')
   })
 
   App.express.get('/worms/your-bots/test-run', async (req, res) => {
@@ -382,7 +490,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             // ---------------------------------------
             const logHandle = ctxRed.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxRed.dump)
-              logToConsole("QuickJS: " + nativeArgs.join(" "))
+              logToConsole("[rot] " + nativeArgs.join(" "))
             })
             const consoleHandle = ctxRed.newObject()
             ctxRed.setProp(consoleHandle, "log", logHandle)
@@ -411,7 +519,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             // ---------------------------------------
             const logHandle2 = ctxGreen.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxGreen.dump)
-              logToConsole("QuickJS: " + nativeArgs.join(" "))
+              logToConsole("[grün] " + nativeArgs.join(" "))
             })
             const consoleHandle2 = ctxGreen.newObject()
             ctxGreen.setProp(consoleHandle2, "log", logHandle2)
@@ -435,7 +543,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
                   resultRed.dispose()
                   //logToConsole('red cycles (10k): ' + cyclesRed.val)
                 } catch(e) {
-                  logToConsole('Fehler in Rot: ' + e)
+                  logToConsole('[rot] ' + e)
                   // alert('Fehler in Rot: ' + e) 
                 }
                 return newDirRed
@@ -451,11 +559,18 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
                   cyclesGreen.val = 0
                   const resultGreen = ctxGreen.unwrapResult(ctxGreen.evalCode(callScriptGreen))
                   newDirGreen = ctxGreen.getNumber(resultGreen)
+                  if (isNaN(newDirGreen)) {
+                    throw new Error('Rückgabe ist nicht eine Zahl')
+                  }
+
+                  if (newDirGreen < 0 || newDirGreen > 3) {
+                    throw new Error('Rückgabe "' + newDirGreen + '" ist keine gültige Laufrichtung (0-3)')
+                  }
+
                   resultGreen.dispose()
                   //logToConsole('green cycles (10k): ' + cyclesGreen.val)
                 } catch(e) {
-                  logToConsole('Fehler in Grün: ' + e)
-                  // alert('Fehler in Grün: ' + e) 
+                  logToConsole('[grün] ' + e)
                 }
                 return newDirGreen
               }

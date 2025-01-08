@@ -31,8 +31,22 @@ export function setupWormsManagement(App) {
           ? `
       <div style="margin-bottom: 32px; display: flex; justify-content: center;">
         <form action="/worms/your-bots/test-run" style="display: flex; align-items: baseline;">
-          <label>Rot: <select name="gId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></label>
-          <label style="margin-left: 24px;">Grün: <select name="rId">${bots.map((bot) => `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`)}</select></label>
+          <label>Rot: <select name="gId">${bots.map(
+            (bot) =>
+              `<option value="${bot.id}" ${
+                bot.id === req.session.lastTestRun?.[0]
+                  ? 'selected="selected"'
+                  : ''
+              }>${escapeHTML(bot.name)}</option>`
+          )}</select></label>
+          <label style="margin-left: 24px;">Grün: <select name="rId">${bots.map(
+            (bot) =>
+              `<option value="${bot.id}" ${
+                bot.id === req.session.lastTestRun?.[1]
+                  ? 'selected="selected"'
+                  : ''
+              }>${escapeHTML(bot.name)}</option>`
+          )}</select></label>
           <input type="submit" class="btn btn-sm btn-success" style="margin-left: 24px;" value="Testlauf starten">
         </form>
       </div><hr>`
@@ -321,6 +335,8 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       return
     }
 
+    req.session.lastTestRun = [rId, gId]
+
     renderPage(App, req, res, {
       page: 'worms-test-run',
       backButton: false,
@@ -339,10 +355,19 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
         <p style="text-align: right;"><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></p>
         <div id="board"></div>
+        <div style="margin-top: 48px;">
+          <textarea style="width: 100%; height: 200px; background-color: black; color: white; font-family: monospace;" readonly id="console-output"></textarea>
+        </div>
 
         <div style="height: 200px;"></div>
 
         <script>
+
+          function logToConsole(text) {
+            const consoleOutput = document.getElementById('console-output')
+            consoleOutput.value += text + '\\n'
+            consoleOutput.scrollTop = consoleOutput.scrollHeight
+          }
 
           QJS.getQuickJS().then((QuickJS) => {
             const runtimeRed = QuickJS.newRuntime()
@@ -357,7 +382,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             // ---------------------------------------
             const logHandle = ctxRed.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxRed.dump)
-              console.log("QuickJS:", ...nativeArgs)
+              logToConsole("QuickJS: " + nativeArgs.join(" "))
             })
             const consoleHandle = ctxRed.newObject()
             ctxRed.setProp(consoleHandle, "log", logHandle)
@@ -386,7 +411,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             // ---------------------------------------
             const logHandle2 = ctxGreen.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxGreen.dump)
-              console.log("QuickJS:", ...nativeArgs)
+              logToConsole("QuickJS: " + nativeArgs.join(" "))
             })
             const consoleHandle2 = ctxGreen.newObject()
             ctxGreen.setProp(consoleHandle2, "log", logHandle2)
@@ -408,9 +433,10 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
                   const resultRed = ctxRed.unwrapResult(ctxRed.evalCode(callScriptRed))
                   newDirRed = ctxRed.getNumber(resultRed)
                   resultRed.dispose()
-                  console.log('red cycles (10k)', cyclesRed.val)
+                  //logToConsole('red cycles (10k): ' + cyclesRed.val)
                 } catch(e) {
-                  alert('Fehler in Rot: ' + e) 
+                  logToConsole('Fehler in Rot: ' + e)
+                  // alert('Fehler in Rot: ' + e) 
                 }
                 return newDirRed
               }
@@ -426,9 +452,10 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
                   const resultGreen = ctxGreen.unwrapResult(ctxGreen.evalCode(callScriptGreen))
                   newDirGreen = ctxGreen.getNumber(resultGreen)
                   resultGreen.dispose()
-                  console.log('green cycles (10k)', cyclesGreen.val)
+                  //logToConsole('green cycles (10k): ' + cyclesGreen.val)
                 } catch(e) {
-                  alert('Fehler in Grün: ' + e) 
+                  logToConsole('Fehler in Grün: ' + e)
+                  // alert('Fehler in Grün: ' + e) 
                 }
                 return newDirGreen
               }

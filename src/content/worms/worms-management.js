@@ -461,15 +461,20 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
           type="text/javascript"
         ></script>
 
-        <p style="text-align: right;"><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></p>
+        <div style="display: flex; justify-content: end; margin-bottom: 16px; margin-top: 24px;">
+          <span style="margin-right: 32px;"><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
+          <span style="color: gray;">CPU-Rot: <span id="red-cpu">0</span>% | CPU-Grün: <span id="green-cpu">0</span>%</span>
+        </div>
         <div id="board"></div>
         <div style="margin-top: 48px;">
           <textarea style="width: 100%; height: 200px; background-color: black; color: white; font-family: monospace;" readonly id="console-output"></textarea>
         </div>
+        
 
         <div style="height: 200px;"></div>
 
         <script>
+
 
           function logToConsole(text) {
             const consoleOutput = document.getElementById('console-output')
@@ -483,7 +488,12 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             runtimeRed.setMaxStackSize(1024 * 320)
             let cyclesRed = { val: 0 }
             runtimeRed.setInterruptHandler(() => {
-              cyclesRed.val++
+              document.getElementById('red-cpu').innerText = Math.min(100, Math.max(1, cyclesRed.val))
+              const over = cyclesRed.val++ > 100
+              if (over) {
+                logToConsole('[rot] CPU-Zeit überschritten')
+              }
+              return over
             })
             const ctxRed = runtimeRed.newContext()
 
@@ -509,7 +519,12 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
             let cyclesGreen = { val: 0 }
             runtimeGreen.setInterruptHandler(() => {
-              cyclesGreen.val++
+              document.getElementById('green-cpu').innerText = Math.min(100, Math.max(1, cyclesGreen.val))
+              const over = cyclesGreen.val++ > 100
+              if (over) {
+                logToConsole('[grün] CPU-Zeit überschritten')
+              }
+              return over
             })
             const ctxGreen = runtimeGreen.newContext()
             try {

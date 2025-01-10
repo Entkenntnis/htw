@@ -236,7 +236,14 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         <div style="position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 1000; background-color: #222; margin-left: 12px; margin-right: 12px; display: flex; flex-direction: column;">
           <h1>${escapeHTML(bot.name)}<span id="changedMarker" style="display: none;">*</span></h1>
 
-          <p><button class="btn btn-success" onClick="saveButtonClickedAndExit()">Speichern und Schließen</button><span style="display: inline-block; width: 30px;"></span><button class="btn btn-warning" onClick="saveButtonClicked()">Speichern</button><span style="display: inline-block; width: 30px;"></span><a href="/worms/your-bots" class="btn btn-danger">Schließen</a></p>
+          <p>
+            <button class="btn btn-success" onClick="saveButtonClickedAndExit()">Speichern und Schließen</button>
+            <span style="display: inline-block; width: 30px;"></span>
+            <button class="btn btn-warning" onClick="saveButtonClicked()">Speichern</button>
+            <span style="display: inline-block; width: 30px;"></span>
+            <a href="/worms/your-bots" class="btn btn-danger">Schließen</a>
+            <span style="margin-left: 32px; color: gray;">Speichern und formatieren mit <kbd>Strg</kbd>+<kbd>S</kbd></span>
+          </p>
 
           <div id="container" style="flex-grow: 1;"></div>
 
@@ -270,6 +277,17 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             }
           });
 
+          // when I click ctrl-s, autoformat
+          myEditor.onKeyDown((e) => {
+            if (e.keyCode === 49 /** KeyCode.KeyS */ && e.ctrlKey) {
+              myEditor.getAction('editor.action.formatDocument').run()
+              setTimeout(() => {
+                saveButtonClicked(true)
+              }, 100) 
+              e.preventDefault()
+            } 
+          });
+
           // when editor updates, compare with initial value
           myEditor.onDidChangeModelContent(() => {
             const code = myEditor.getValue()
@@ -287,13 +305,14 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             checkJs: true,
           })
 
-          function saveButtonClicked() {
+          function saveButtonClicked(silent) {
             const code = myEditor.getValue()
             const id = ${bot.id}
             postJson("/worms/drafts/save", {id, code}).then(() => {
               document.getElementById('changedMarker').style.display = 'none'
               initialValue = code
-              alert('Erfolgreich gespeichert!')
+              if (!silent)
+                alert('Erfolgreich gespeichert!')
             })
           }
 

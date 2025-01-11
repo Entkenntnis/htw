@@ -175,5 +175,8 @@
     "title": "Passwort geändert",
     "content_": "Passwort erfolgreich geändert.",
     "back": "OK"
+  },
+  "worms-drafts": {
+    "back": "Abbrechen"
   }
 }

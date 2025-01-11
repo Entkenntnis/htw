@@ -2,7 +2,8 @@
 import { getQuickJS } from 'quickjs-emscripten'
 import { renderNavigation } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
-import { Op } from 'sequelize'
+import { Op, Sequelize } from 'sequelize'
+import escapeHTML from 'escape-html'
 
 /**
  * Standalone server-side worms runner
@@ -242,7 +243,6 @@ export function setupWormsArena(App) {
       content: `
         ${renderNavigation(2)}
 
-        
       <div style="text-align: center; margin-bottom: 24px;">
         <img src="/worms/arena.jpg">
       </div>
@@ -263,9 +263,9 @@ export function setupWormsArena(App) {
               <tr>
                 
                 <td>${index + 1}</td>
-                <td>${bot.name}<span style="color: gray"> von ${bot.username}</span></td>
+                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span></td>
                 <td>${bot.elo}</td>
-                <td><a class="btn btn-sm btn-primary" style="margin-top: -4px;" href="/worms/arena/match?opponent=${bot.id}">Herausfordern</a></td>
+                <td><a class="btn btn-sm btn-warning" style="margin-top: -4px;" href="/worms/arena/match?opponent=${bot.id}">Herausfordern</a></td>
               </tr>
             `
               )
@@ -300,16 +300,40 @@ export function setupWormsArena(App) {
       return
     }
 
+    const ownBots = await App.db.models.WormsBotDraft.findAll({
+      where: {
+        UserId: user.id,
+      },
+      order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
+    })
+
     renderPage(App, req, res, {
       page: 'worms-drafts',
       heading: 'Worms',
       backButton: true,
+      backHref: '/worms/arena',
       content: `
-        ${renderNavigation(2)}
+        ${renderNavigation(2)}  
 
-        <h2>${opponentBot.name}</h2>
+        <h3>${escapeHTML(opponentBot.name)} herausfordern</h3>
 
-        <div style="height: 200px;"></div>
+        <form action="/worms/arena/match" method="post">
+          <p>Wähle deinen Bot aus:</p>
+          <select name="bot" class="form-control" style="width: 300px;">
+            <option value="">Bitte wählen...</option>
+            ${ownBots
+              .map(
+                (bot) =>
+                  `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`
+              )
+              .join('')}
+          </select>
+          <input type="hidden" name="opponent" value="${opponent}">
+          <button type="submit" class="btn btn-success" style="margin-top: 16px;">Match starten</button>
+        </form>
+
+        <p style="margin-top: 48px;">Dein Bot spielt die Farbe rot, der Gegner die Farbe grün. Es wird ein Match gespielt. Wenn dein Bot bisher noch nicht an der Arena teilgenommen hat, wird der Bot hiermit in die Arena geschickt und kann von anderen Bots herausgefordert werden.</p>
+
       `,
     })
   })

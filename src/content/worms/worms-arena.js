@@ -2,6 +2,7 @@
 import { getQuickJS } from 'quickjs-emscripten'
 import { renderNavigation } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
+import { Op } from 'sequelize'
 
 /**
  * Standalone server-side worms runner
@@ -182,10 +183,57 @@ export function setupWormsArena(App) {
       return
     }
 
-    const bots = await App.db.models.WormsBotDraft.findAll({
-      where: { UserId: user.id },
-      order: [['updatedAt', 'DESC']],
+    const botELOs = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Op.like]: 'worms_botelo_%',
+        },
+      },
     })
+
+    // extract bot ids and store elo values
+    /** @type {{id: number, elo: number, name: string, userid: number, username: string}[]}} */
+    const botData = []
+    for (const botELO of botELOs) {
+      const id = parseInt(botELO.key.substring(13))
+      const elo = parseInt(botELO.value)
+      botData.push({ id, elo, name: '', userid: -1, username: '' })
+    }
+
+    // fetch bot names
+    const bots = await App.db.models.WormsBotDraft.findAll({
+      where: {
+        id: botData.map((b) => b.id),
+      },
+    })
+
+    // store name into botData
+    for (const bot of bots) {
+      const data = botData.find((b) => b.id == bot.id)
+      if (data) {
+        data.name = bot.name
+        data.userid = bot.UserId
+      }
+    }
+
+    // fetch user names
+    const users = await App.db.models.User.findAll({
+      where: {
+        id: botData.map((b) => b.userid),
+      },
+    })
+
+    // store user names into botData
+    for (const user of users) {
+      const data = botData.find((b) => b.userid == user.id)
+      if (data) {
+        data.username = user.name
+      }
+    }
+
+    botData.sort((a, b) => b.elo - a.elo)
+
+    req.session.lastWormsTab = 'arena'
 
     renderPage(App, req, res, {
       page: 'worms-drafts',
@@ -194,75 +242,156 @@ export function setupWormsArena(App) {
       content: `
         ${renderNavigation(2)}
 
-        <p>TODO</p>
+        
+      <div style="text-align: center; margin-bottom: 24px;">
+        <img src="/worms/arena.jpg">
+      </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Platz</th>
+              <th>Bot</th>
+              <th>ELO</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${botData
+              .map(
+                (bot, index) => `
+              <tr>
+                
+                <td>${index + 1}</td>
+                <td>${bot.name}<span style="color: gray"> von ${bot.username}</span></td>
+                <td>${bot.elo}</td>
+                <td><a class="btn btn-sm btn-primary" style="margin-top: -4px;" href="/worms/arena/match?opponent=${bot.id}">Herausfordern</a></td>
+              </tr>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
 
         <div style="height: 200px;"></div>
       `,
     })
   })
 
-  App.express.get('/worms/example', async (req, res) => {
-    const participants = [4, 5, 6, 7, 8, 9, 10]
-    /** @type{{[key: number] : {code: string, name: string, wins: number, defeats: number, elo: number}}} */
-    const participantsData = {}
-    for (const id of participants) {
-      const bot = await App.db.models.WormsBotDraft.findOne({ where: { id } })
-      if (bot) {
-        participantsData[id] = {
-          code: bot.code,
-          name: bot.name,
-          wins: 0,
-          defeats: 0,
-          elo: 500,
-        }
-      }
+  App.express.get('/worms/arena/match', async (req, res) => {
+    const user = req.user
+    if (!user) {
+      res.redirect('/')
+      return
     }
-    for (let i = 0; i < 50; i++) {
-      for (const p1 of participants) {
-        for (const p2 of participants) {
-          if (p1 == p2) {
-            continue
-          }
-          const p1Data = participantsData[p1]
-          const p2Data = participantsData[p2]
-          const replay = await runWorms(p1Data.code, p2Data.code)
-          console.log(p1Data.name, p2Data.name, replay.winner)
-          if (replay.winner == 'red') {
-            p1Data.wins++
-            p2Data.defeats++
-            const E_A = 1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
-            const diff = Math.min(10 * (1 - E_A), p2Data.elo - 100)
-            console.log('  -> diff:', Math.round(diff * 1000) / 1000)
-            p1Data.elo += diff
-            p2Data.elo -= diff
-          } else {
-            p2Data.wins++
-            p1Data.defeats++
-            const E_B = 1 / (1 + Math.pow(10, (p1Data.elo - p2Data.elo) / 400))
-            const diff = Math.min(10 * (1 - E_B), p1Data.elo - 100)
-            console.log('  -> diff:', Math.round(diff * 1000) / 1000)
-            p2Data.elo += diff
-            p1Data.elo -= diff
-          }
-        }
-        printLeaderboard()
-      }
-    }
-    res.send('done')
 
-    function printLeaderboard() {
-      for (const id of participants) {
-        const data = participantsData[id]
-        console.log(
-          data.name,
-          'wins:',
-          data.wins,
-          'defeats:',
-          data.defeats,
-          'elo:',
-          Math.round(data.elo)
-        )
-      }
+    const opponent = req.query.opponent
+      ? parseInt(req.query.opponent.toString())
+      : NaN
+
+    const opponentBot = await App.db.models.WormsBotDraft.findOne({
+      where: {
+        id: opponent,
+      },
+    })
+
+    if (!opponentBot) {
+      res.redirect('/worms/arena')
+      return
     }
+
+    renderPage(App, req, res, {
+      page: 'worms-drafts',
+      heading: 'Worms',
+      backButton: true,
+      content: `
+        ${renderNavigation(2)}
+
+        <h2>${opponentBot.name}</h2>
+
+        <div style="height: 200px;"></div>
+      `,
+    })
   })
+
+  App.express.get('/worms/arena/seed', async (req, res) => {
+    const botELOs = await App.db.models.KVPair.count({
+      where: {
+        key: {
+          [Op.like]: 'worms_botelo_%',
+        },
+      },
+    })
+
+    if (botELOs == 0) {
+      await App.storage.setItem('worms_botelo_4', '500')
+    }
+
+    res.send('done')
+  })
+
+  // App.express.get('/worms/example', async (req, res) => {
+  //   const participants = [4, 5, 6, 7, 8, 9, 10]
+  //   /** @type{{[key: number] : {code: string, name: string, wins: number, defeats: number, elo: number}}} */
+  //   const participantsData = {}
+  //   for (const id of participants) {
+  //     const bot = await App.db.models.WormsBotDraft.findOne({ where: { id } })
+  //     if (bot) {
+  //       participantsData[id] = {
+  //         code: bot.code,
+  //         name: bot.name,
+  //         wins: 0,
+  //         defeats: 0,
+  //         elo: 500,
+  //       }
+  //     }
+  //   }
+  //   for (let i = 0; i < 50; i++) {
+  //     for (const p1 of participants) {
+  //       for (const p2 of participants) {
+  //         if (p1 == p2) {
+  //           continue
+  //         }
+  //         const p1Data = participantsData[p1]
+  //         const p2Data = participantsData[p2]
+  //         const replay = await runWorms(p1Data.code, p2Data.code)
+  //         console.log(p1Data.name, p2Data.name, replay.winner)
+  //         if (replay.winner == 'red') {
+  //           p1Data.wins++
+  //           p2Data.defeats++
+  //           const E_A = 1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
+  //           const diff = Math.min(10 * (1 - E_A), p2Data.elo - 100)
+  //           console.log('  -> diff:', Math.round(diff * 1000) / 1000)
+  //           p1Data.elo += diff
+  //           p2Data.elo -= diff
+  //         } else {
+  //           p2Data.wins++
+  //           p1Data.defeats++
+  //           const E_B = 1 / (1 + Math.pow(10, (p1Data.elo - p2Data.elo) / 400))
+  //           const diff = Math.min(10 * (1 - E_B), p1Data.elo - 100)
+  //           console.log('  -> diff:', Math.round(diff * 1000) / 1000)
+  //           p2Data.elo += diff
+  //           p1Data.elo -= diff
+  //         }
+  //       }
+  //       printLeaderboard()
+  //     }
+  //   }
+  //   res.send('done')
+
+  //   function printLeaderboard() {
+  //     for (const id of participants) {
+  //       const data = participantsData[id]
+  //       console.log(
+  //         data.name,
+  //         'wins:',
+  //         data.wins,
+  //         'defeats:',
+  //         data.defeats,
+  //         'elo:',
+  //         Math.round(data.elo)
+  //       )
+  //     }
+  //   }
+  // })
 }

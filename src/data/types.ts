@@ -202,6 +202,12 @@ declare module 'express-session' {
     chal338_result?: string
     maze?: { x: number; y: number }
     lastTestRun?: [number, number]
+    lastWormsTab?:
+      | 'two-player'
+      | 'single-player'
+      | 'arena'
+      | 'your-bots'
+      | 'guide'
   }
 }
 

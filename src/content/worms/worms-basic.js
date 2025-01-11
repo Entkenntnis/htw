@@ -33,6 +33,12 @@ export function renderNavigation(active) {
  * @param {import("../../data/types.js").App} App
  */
 export function setupWormsBasic(App) {
+  App.express.get('/worms', async (req, res) => {
+    const lastWormsTab = req.session.lastWormsTab ?? 'two-player'
+
+    res.redirect('/worms/' + lastWormsTab)
+  })
+
   App.express.get('/worms/two-player', async (req, res) => {
     // rare race conditions are possible, but shouldn't be tragic
     let count = await App.storage.getItem('worms_counter_v0')
@@ -43,6 +49,8 @@ export function setupWormsBasic(App) {
       'worms_counter_v0',
       (parseInt(count) + 1).toString()
     )
+
+    req.session.lastWormsTab = 'two-player'
 
     renderPage(App, req, res, {
       page: 'worms',
@@ -79,6 +87,7 @@ export function setupWormsBasic(App) {
   })
 
   App.express.get('/worms/single-player', async (req, res) => {
+    req.session.lastWormsTab = 'single-player'
     renderPage(App, req, res, {
       page: 'worms',
       heading: 'Worms',
@@ -114,6 +123,7 @@ export function setupWormsBasic(App) {
   })
 
   App.express.get('/worms/guide', async (req, res) => {
+    req.session.lastWormsTab = 'guide'
     renderPage(App, req, res, {
       page: 'worms',
       heading: 'Worms',

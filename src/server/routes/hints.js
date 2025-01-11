@@ -69,6 +69,11 @@ export const hintsData = {
         answer:
           'Hast du das ganze Blatt markiert? Hast du alles genau angeschaut?',
       },
+      {
+        question: 'Welches Blatt??',
+        answer:
+          'Das Blatt ist der Bereich auf der Webseite unter der Aufgabe - es ist mit Start und Ende markiert',
+      },
     ],
   },
   6: {
@@ -125,20 +130,22 @@ export const hintsData = {
     entries: [
       {
         question: 'wie soll das gehen?',
-        answer: 'Gib deinen Benutzernamen ein.',
+        answer:
+          'Gib deinen Benutzernamen ein - aber die Reihenfolge der Zeichen ändern',
       },
       {
         question: 'Bei mir klappt die aufgabe nicht',
-        answer: 'Schau dir den Text bei "... ist falsch" genauer an',
+        answer:
+          'überlege, wie du die Reihenfolge der Zeichen sinnvoll ändern kannst',
       },
       {
         question: 'Was ist das Ergebnis / Was soll man schreiben',
         answer: 'ist ja für jeden anders, weil die Namen anders sind',
       },
       {
-        question:
-          'Hallo bei der Text ist gar keine Stelle wo ,ist falsch, steht und wie',
-        answer: 'Gib eine Antwort ein und klicke auf los, dann erscheint das',
+        question: 'warum geht benutzername nicht',
+        answer:
+          'Du hast aber nicht das Wort "Benutzername" eingegeben, oder? - sondern deinen Benutzernamen hier auf der Seite',
       },
     ],
   },
@@ -157,6 +164,10 @@ export const hintsData = {
         question: 'Die zahlen wackeln',
         answer:
           'genau, das ist der &quot;Fehler&quot;, kannst du herausfinden, was die richtige Punktzahl ist?',
+      },
+      {
+        question: 'warum',
+        answer: 'manchmal sind nicht alle Dinge immer so, wie man sie erwartet',
       },
     ],
   },
@@ -268,6 +279,12 @@ export const hintsData = {
         answer:
           'jup, die Zahl ist in Sekunden, du hast sie wahrscheinlich in Millisekunden konvertiert, dadurch kommt das falsche Jahr raus',
       },
+      {
+        question:
+          'es klappt leider nirgends, immer kommt 1970 raus. auch bei chatgpt',
+        answer:
+          'Nutze diese Webseite: <span class="spoiler-text">https://www.epochconverter.com/</span>',
+      },
     ],
   },
   31: {
@@ -347,14 +364,18 @@ export const hintsData = {
   41: {
     entries: [
       {
-        question:
-          'Hallo zusammen, ich habe die Schwierigkeiten, den Aufgabentext zu ergreifen. Unter “Querlesen” verstehe ich, dass man den Text diagonal überfliegen soll. Kann jemand mir hinweisen, ob die Antwort mit der Bedeutung vom Gedicht verwandt ist, oder die Buchstaben im Gedicht versteckt sind? Ich habe das Gedicht auf beide Englisch und Deutsch gelesen, habe ich trotzdem gar keine Idee, was ich machen soll. Danke 🙂 (Ich bin kein Deutscher Muttersprachler.',
-        answer:
-          'Es geht um die Buchstaben, aber sie sind nicht wirklich versteckt, versuch es mal mit einer unüblichen Leserichtung.',
+        question: 'ist die antwort im text',
+        answer: 'ja - alle Buchstaben sind im Text zu sehen',
       },
       {
         question: 'Ist die Antwort ein deutsches Wort?',
         answer: 'Normalerweise schon und es ist echt leicht zu erkennen',
+      },
+      {
+        question:
+          'Hallo zusammen, ich habe die Schwierigkeiten, den Aufgabentext zu ergreifen. Unter “Querlesen” verstehe ich, dass man den Text diagonal überfliegen soll. Kann jemand mir hinweisen, ob die Antwort mit der Bedeutung vom Gedicht verwandt ist, oder die Buchstaben im Gedicht versteckt sind? Ich habe das Gedicht auf beide Englisch und Deutsch gelesen, habe ich trotzdem gar keine Idee, was ich machen soll. Danke 🙂 (Ich bin kein Deutscher Muttersprachler.',
+        answer:
+          'Es geht um die Buchstaben, aber sie sind nicht wirklich versteckt, versuch es mal mit einer unüblichen Leserichtung.',
       },
     ],
   },
@@ -368,6 +389,10 @@ export const hintsData = {
       {
         question: 'Ich kenne das Lied nicht mal!',
         answer: 'musst du auch nicht, es gibt dafür Tools',
+      },
+      {
+        question: 'welche tools können mich dabei helfen',
+        answer: 'Das bekannteste ist eine App namens Shazam',
       },
     ],
   },
@@ -437,6 +462,12 @@ export const hintsData = {
         question: 'Was soll ich tun die Seite ist komplett weiß',
         answer:
           'bei einer Website wird nicht nur das übertragen was man sieht. Recherchiere mal zum Thema http Protocol und GET gequest',
+      },
+      {
+        question:
+          'Ich habe nicht die Kategorie Netzwerkanalyse, was soll ich machen, ein anderes Tool benutzen?',
+        answer:
+          'Die Kategorie heißt manchmal anders, z.B. "Netzwerk" oder "Network"',
       },
     ],
   },
@@ -579,8 +610,9 @@ export const hintsData = {
         answer: 'ohne Leerzeichen?',
       },
       {
-        question: 'es funktioniert nicht',
-        answer: 'gib mir mehr Infos, sonst kann ich dir nicht helfen',
+        question: 'weiss die antwort nicht',
+        answer:
+          'das ist ok - in der Aufgabe findest du genug Hinweise um die Antwort zu finden, doch es braucht dafür auch bisschen Zeit',
       },
     ],
   },
@@ -611,6 +643,10 @@ export const hintsData = {
           'funktioniert eif nicht obwohl mein nutzername drauf is 😑😑😑',
         answer:
           'Groß-/Kleinschreibung? evtl. noch andere Webseite ausprobieren',
+      },
+      {
+        question: 'Kannst du mir bitte die Lösung sagen ?',
+        answer: 'Je nach Nutzername unterschiedlich',
       },
     ],
   },
@@ -668,6 +704,11 @@ export const hintsData = {
         answer: 'aktuell 1939',
       },
       { question: 'wie alt bist du?', answer: 'bin Jahrgang 1995' },
+      {
+        question: 'ronaldo oder messi',
+        answer:
+          'schaue nicht viel Fußball, aber habe bisschen mehr von Ronaldo gesehen',
+      },
     ],
   },
   60: {
@@ -728,14 +769,12 @@ export const hintsData = {
         answer: 'Genau hinschauen hilft - erkennst du etwas?',
       },
       {
-        question:
-          'ich habbe viele bilder übereinander geleg aber das ergebniss schtimmt nicht',
-        answer:
-          'Das ist doch schon mal ein Anfang, ka wo du den letzten Buchstaben gelassen hast, aber wenn du dir den Titel anschaust solltest du auch so drauf kommen.',
+        question: 'Ich sehe gar nichts',
+        answer: 'warte ein paar Sekunden, dann erscheinen die Buchstaben',
       },
       {
         question:
-          'Ich erkenne die buchstaben aber kann mir das wort nicht zusammeneimen',
+          'Ich erkenne die buchstaben aber kann mir das wort nicht zusammenreimen',
         answer:
           'Es ist ein deutsches Wort, die letzten Buchstaben kann man raten',
       },
@@ -751,6 +790,11 @@ export const hintsData = {
       {
         question: 'Was bedeuten die Farben',
         answer: 'Sie zeigen dir die Reihenfolge an',
+      },
+      {
+        question: 'bin farbenblind',
+        answer:
+          'Alternative kannst du direkt versuchen, die Buchstaben zu einem Wort zu formen',
       },
     ],
   },
@@ -924,7 +968,7 @@ export const hintsData = {
       },
       {
         question: 'warum steht wenn ich den Namen eingebe ungültig',
-        answer: 'Welchen Namen hast du eingeben?',
+        answer: 'Welchen Namen hast du eingeben? - Update: nur Nachname!',
       },
     ],
   },
@@ -947,6 +991,10 @@ export const hintsData = {
           'die antwort geht nicht,die richtige ,hier liegt ein fehler vor!',
         answer:
           'Die Aufgabe wurde soeben überarbeitet und die Antwort hat sich verändert ...',
+      },
+      {
+        question: 'Was ist die Antwort',
+        answer: 'Die Antwort ist im Quelltext zu finden',
       },
     ],
   },
@@ -1105,6 +1153,11 @@ export const hintsData = {
         question:
           'Ich verstehe nicht wo die Cookies gespeichert werden sollen kann mir irgendwer helfen',
         answer: 'Im Browser - schau mal in die DevTools',
+      },
+      {
+        question: 'aber welches tool in den DevTools',
+        answer:
+          'Firefox: Webspeicher -> Cookies oder Chrome: Anwendung -> Speicher -> Cookies',
       },
     ],
   },
@@ -1389,6 +1442,11 @@ export const hintsData = {
         question: 'was kommt danach',
         answer: 'Das ist die letzte Minecraft-Aufgabe',
       },
+      {
+        question: 'Wie beginnt es?',
+        answer:
+          'Der Befehl startet mit <span class="spoiler-text">/time</span>',
+      },
     ],
   },
   114: {
@@ -1397,14 +1455,10 @@ export const hintsData = {
         question: 'Wie heißt der Baum',
         answer: 'Im Bild ist ein Hinweis zu sehen',
       },
-      { question: 'kan mmir jemand helfen', answer: 'Klick mal auf den Baum' },
-      {
-        question: 'da passiert nichts ',
-        answer: 'Hast du auf das Bild geklickt? Mit der linken Maustaste.',
-      },
       {
         question: 'was ist die antwort',
-        answer: 'Schaue an wie das Bild heißt.',
+        answer:
+          'Die Antwort ist der Name des Baumes, du kannst entweder den Hinweis im Bild nutzen - oder dir den Namen des Bilds ansehen',
       },
       {
         question: 'wie heißt das bild?',
@@ -1414,7 +1468,7 @@ export const hintsData = {
         question:
           'ich hab scon ChatGPT nochmal gefragt und hab den name eingegeben aber geht nicht',
         answer:
-          'Schreibe mir mal, was du eingegeben hast, dann kann ich das überprüfen',
+          'Schreibe mir mal, was du eingegeben hast, dann kann ich das überprüfen - Update: danke, habe deine Eingabe zu den Antworten hinzugefügt',
       },
     ],
   },
@@ -1618,7 +1672,12 @@ export const hintsData = {
         answer:
           'Du musst den Code nicht "unfucken" damit er funktioniert, der code gibt undefined zurück aber er sollte auch etwas in die Konsole schreiben',
       },
-
+      {
+        question:
+          'Habe den Code mit https://jsfuck.com/ probiert zu lösen aber irgwendwie komme ich die ganze zeit nur auf undefinied raus. Wie komme ich auf eine Konsole?',
+        answer:
+          'das ist ein Schritt zu weit, du braucht eher eine Webseite wie https://developer.mozilla.org/en-US/play',
+      },
       {
         question: 'Ich verstehe den Code immer noch nicht',
         answer:
@@ -1858,12 +1917,11 @@ export const hintsData = {
       {
         question: 'ich spiele kein minekraft wie heist das',
         answer:
-          'Bildersuche? Google Lens? Freund fragen? Es gibt viele Möglichkeiten.',
+          'Wenn du kein Minecraft spielst, findest du unter dem Bild einen alternativen Hinweis',
       },
       {
-        question:
-          'ich habe nach bildern gsucht aber es gibt tausende ich ich kann die lösung nicht herreus finden.',
-        answer: 'es geht um die Farbe der Steine',
+        question: 'ihr habt alle Minecraft Falsch Geschriben',
+        answer: 'Danke, das Spiel schreibt man mit c, nicht mit k',
       },
     ],
   },

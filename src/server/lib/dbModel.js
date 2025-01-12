@@ -112,7 +112,33 @@ export function dbModel(App) {
   User.hasMany(WormsBotDraft, { onDelete: 'cascade' })
   WormsBotDraft.belongsTo(User)
 
-  // WormsArenaBot
+  // WormsArenaMatch
+  const WormsArenaMatch = App.db.define('WormsArenaMatch', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    status: {
+      type: DataTypes.STRING(20),
+      allowNull: false, // pending, running, red-win, green-win
+    },
+    replay: {
+      type: DataTypes.TEXT, // JSON, can be null
+    },
+  })
 
-  // WormsArenaReplay
+  // ok, I'm not 100% sure about the alias here and what implications it has
+  // be aware of it and lookout for potential issues
+  WormsArenaMatch.belongsTo(WormsBotDraft, { as: 'redBot' })
+  WormsBotDraft.hasMany(WormsArenaMatch, {
+    as: 'redBot',
+    foreignKey: 'redBotId',
+  })
+
+  WormsArenaMatch.belongsTo(WormsBotDraft, { as: 'greenBot' })
+  WormsBotDraft.hasMany(WormsArenaMatch, {
+    as: 'greenBot',
+    foreignKey: 'greenBotId',
+  })
 }

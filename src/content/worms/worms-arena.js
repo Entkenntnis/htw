@@ -319,7 +319,7 @@ export function setupWormsArena(App) {
 
         <form action="/worms/arena/match" method="post">
           <p>Wähle deinen Bot aus:</p>
-          <select name="bot" class="form-control" style="width: 300px;">
+          <select name="bot" class="form-control" style="width: 300px;" required>
             <option value="">Bitte wählen...</option>
             ${ownBots
               .map(
@@ -336,6 +336,167 @@ export function setupWormsArena(App) {
 
       `,
     })
+  })
+
+  App.express.post('/worms/arena/match', async (req, res) => {
+    const user = req.user
+    if (!user) {
+      res.redirect('/')
+      return
+    }
+
+    const botId = req.body.bot ? parseInt(req.body.bot.toString()) : NaN
+    const opponentId = req.body.opponent
+      ? parseInt(req.body.opponent.toString())
+      : NaN
+
+    const bot = await App.db.models.WormsBotDraft.findOne({
+      where: {
+        id: botId,
+        UserId: user.id,
+      },
+    })
+
+    const opponentBot = await App.db.models.WormsBotDraft.findOne({
+      where: {
+        id: opponentId,
+      },
+    })
+
+    if (!bot || !opponentBot) {
+      res.redirect('/worms/arena')
+      return
+    }
+
+    const match = await App.db.models.WormsArenaMatch.create({
+      redBotId: bot.id,
+      greenBotId: opponentBot.id,
+      status: 'pending',
+      replay: '',
+    })
+
+    /*if (!botELO || !opponentELO) {
+      res.redirect('/worms/arena')
+      return
+    }*/
+
+    setTimeout(async () => {
+      // a simple match runner that tries to run the match in a coordinated way
+
+      // first of all, check if another match is runner, otherwise I'll wait
+      let matchRunning = true
+      while (matchRunning) {
+        const runningMatches = await App.db.models.WormsArenaMatch.findAll({
+          where: {
+            status: 'running',
+          },
+        })
+        if (runningMatches.length == 0) {
+          matchRunning = false
+        } else {
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+        }
+      }
+
+      // now check if I am the oldest pending match, otherwise I'll wait
+      let oldestPendingMatch = true
+      while (oldestPendingMatch) {
+        const oldestMatch = await App.db.models.WormsArenaMatch.findOne({
+          where: {
+            status: 'pending',
+          },
+          order: [['createdAt', 'ASC']],
+        })
+        if (oldestMatch && oldestMatch.id == match.id) {
+          oldestPendingMatch = false
+        } else {
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+        }
+      }
+
+      // now I am the oldest pending match, I can start
+      await App.db.models.WormsArenaMatch.update(
+        {
+          status: 'running',
+        },
+        {
+          where: {
+            id: match.id,
+          },
+        }
+      )
+
+      const replay = await runWorms(bot.code, opponentBot.code)
+
+      await App.db.models.WormsArenaMatch.update(
+        {
+          status: replay.winner == 'red' ? 'red-win' : 'green-win',
+          replay: JSON.stringify(replay),
+        },
+        {
+          where: {
+            id: match.id,
+          },
+        }
+      )
+    }, 0)
+
+    const randomGif = ['fighting.gif', 'fighting2.gif', 'fighting3.gif'][
+      Math.floor(Math.random() * 3)
+    ]
+
+    renderPage(App, req, res, {
+      page: 'worms-match-running',
+      heading: 'Worms',
+      backButton: false,
+      content: `
+          ${renderNavigation(2)}  
+  
+          <h3>Match wird ausgeführt ...</h3>
+
+          <img src="/worms/${randomGif}" style="margin-top: 24px;">
+
+          <p>Match-Id: ${match.id}</p>
+
+          <script>
+            // Polling until status is red-win or green-win
+            let interval = setInterval(() => {
+              fetch('/worms/arena/poll-match?id=${match.id}')
+                .then((res) => res.text())
+                .then((status) => {
+                  console.log('status:', status)
+                  if (status == 'red-win' || status == 'green-win') {
+                    clearInterval(interval)
+                    window.location.href = '/worms/arena/replay?id=${match.id}'
+                  }
+                })
+            }, 1000)
+          </script>
+        `,
+    })
+  })
+
+  App.express.get('/worms/arena/poll-match', async (req, res) => {
+    const user = req.user
+    if (!user) {
+      res.redirect('/')
+      return
+    }
+
+    const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
+
+    const match = await App.db.models.WormsArenaMatch.findOne({
+      where: {
+        id: matchId,
+      },
+    })
+
+    if (!match) {
+      res.status(404).send('Not found')
+      return
+    }
+
+    res.send(match.status)
   })
 
   App.express.get('/worms/arena/seed', async (req, res) => {

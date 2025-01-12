@@ -428,6 +428,34 @@ export function setupWormsArena(App) {
 
       const replay = await runWorms(bot.code, opponentBot.code)
 
+      // load elo of bots
+      const botELO = parseInt(
+        (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
+      )
+      const opponentELO = parseInt(
+        (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ?? '500'
+      )
+
+      const K = 32
+
+      let S = 0
+      if (replay.winner == 'red') {
+        S = 1
+      } else if (replay.winner == 'green') {
+        S = 0
+      }
+
+      const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
+
+      const newBotELO = botELO + K * (S - E)
+      const newOpponentELO = opponentELO + K * (E - S)
+
+      await App.storage.setItem(`worms_botelo_${bot.id}`, newBotELO.toString())
+      await App.storage.setItem(
+        `worms_botelo_${opponentBot.id}`,
+        newOpponentELO.toString()
+      )
+
       await App.db.models.WormsArenaMatch.update(
         {
           status: replay.winner == 'red' ? 'red-win' : 'green-win',
@@ -515,68 +543,52 @@ export function setupWormsArena(App) {
     res.send('done')
   })
 
-  // App.express.get('/worms/example', async (req, res) => {
-  //   const participants = [4, 5, 6, 7, 8, 9, 10]
-  //   /** @type{{[key: number] : {code: string, name: string, wins: number, defeats: number, elo: number}}} */
-  //   const participantsData = {}
-  //   for (const id of participants) {
-  //     const bot = await App.db.models.WormsBotDraft.findOne({ where: { id } })
-  //     if (bot) {
-  //       participantsData[id] = {
-  //         code: bot.code,
-  //         name: bot.name,
-  //         wins: 0,
-  //         defeats: 0,
-  //         elo: 500,
-  //       }
-  //     }
-  //   }
-  //   for (let i = 0; i < 50; i++) {
-  //     for (const p1 of participants) {
-  //       for (const p2 of participants) {
-  //         if (p1 == p2) {
-  //           continue
-  //         }
-  //         const p1Data = participantsData[p1]
-  //         const p2Data = participantsData[p2]
-  //         const replay = await runWorms(p1Data.code, p2Data.code)
-  //         console.log(p1Data.name, p2Data.name, replay.winner)
-  //         if (replay.winner == 'red') {
-  //           p1Data.wins++
-  //           p2Data.defeats++
-  //           const E_A = 1 / (1 + Math.pow(10, (p2Data.elo - p1Data.elo) / 400))
-  //           const diff = Math.min(10 * (1 - E_A), p2Data.elo - 100)
-  //           console.log('  -> diff:', Math.round(diff * 1000) / 1000)
-  //           p1Data.elo += diff
-  //           p2Data.elo -= diff
-  //         } else {
-  //           p2Data.wins++
-  //           p1Data.defeats++
-  //           const E_B = 1 / (1 + Math.pow(10, (p1Data.elo - p2Data.elo) / 400))
-  //           const diff = Math.min(10 * (1 - E_B), p1Data.elo - 100)
-  //           console.log('  -> diff:', Math.round(diff * 1000) / 1000)
-  //           p2Data.elo += diff
-  //           p1Data.elo -= diff
-  //         }
-  //       }
-  //       printLeaderboard()
-  //     }
-  //   }
-  //   res.send('done')
+  App.express.get('/worms/arena/replay', async (req, res) => {
+    const user = req.user
+    if (!user) {
+      res.redirect('/')
+      return
+    }
 
-  //   function printLeaderboard() {
-  //     for (const id of participants) {
-  //       const data = participantsData[id]
-  //       console.log(
-  //         data.name,
-  //         'wins:',
-  //         data.wins,
-  //         'defeats:',
-  //         data.defeats,
-  //         'elo:',
-  //         Math.round(data.elo)
-  //       )
-  //     }
-  //   }
-  // })
+    const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
+
+    const match = await App.db.models.WormsArenaMatch.findOne({
+      where: {
+        id: matchId,
+      },
+    })
+
+    if (!match) {
+      res.redirect('/worms/arena')
+      return
+    }
+
+    const replay = JSON.parse(match.replay)
+
+    renderPage(App, req, res, {
+      page: 'worms-match-replay',
+      heading: 'Worms',
+      backButton: false,
+      backHref: '/worms/arena',
+      content: `
+
+        ${renderNavigation(2)}
+
+        <h3>Match ${match.id}</h3>
+        
+        <p><a href="/worms/arena">zurück</a></p>
+        
+        <script src="/worms/wormer.js"></script>
+        
+        <div id="board"></div>
+        
+        <div style="height:70px"></div>
+
+        <script>
+          const wormer = new Wormer(document.getElementById('board'))
+          wormer.runReplay(${JSON.stringify(replay)})
+        </script>
+    `,
+    })
+  })
 }

@@ -63,7 +63,7 @@ async function runWorms(srcRed, srcGreen) {
   runtimeRed.setMaxStackSize(1024 * 320)
   let cyclesRed = { val: 0 }
   runtimeRed.setInterruptHandler(() => {
-    cyclesRed.val++
+    return cyclesRed.val++ > 101
   })
   const ctxRed = runtimeRed.newContext()
   try {
@@ -78,7 +78,7 @@ async function runWorms(srcRed, srcGreen) {
 
   let cyclesGreen = { val: 0 }
   runtimeGreen.setInterruptHandler(() => {
-    cyclesGreen.val++
+    return cyclesGreen.val++ > 101
   })
   const ctxGreen = runtimeGreen.newContext()
   try {
@@ -87,7 +87,16 @@ async function runWorms(srcRed, srcGreen) {
     console.log(e)
   }
 
+  let lastInterrupt = Date.now()
+
+  // todo: provide console.log in context
+
   while (!replay.winner) {
+    if (Date.now() - lastInterrupt > 50) {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      lastInterrupt = Date.now()
+    }
+
     const callScriptRed = `
       think(74, 42, ${JSON.stringify(board)}, ${xRed}, ${yRed}, ${dirRed}, ${xGreen}, ${yGreen});
     `
@@ -225,10 +234,10 @@ export function setupWormsArena(App) {
     })
 
     // store user names into botData
-    for (const user of users) {
-      const data = botData.find((b) => b.userid == user.id)
-      if (data) {
-        data.username = user.name
+    for (const bot of botData) {
+      const user = users.find((u) => u.id == bot.userid)
+      if (user) {
+        bot.username = user.name
       }
     }
 
@@ -322,9 +331,10 @@ export function setupWormsArena(App) {
           <select name="bot" class="form-control" style="width: 300px;" required>
             <option value="">Bitte wählen...</option>
             ${ownBots
-              .map(
-                (bot) =>
-                  `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`
+              .map((bot) =>
+                bot.id == opponent
+                  ? ''
+                  : `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`
               )
               .join('')}
           </select>
@@ -349,6 +359,11 @@ export function setupWormsArena(App) {
     const opponentId = req.body.opponent
       ? parseInt(req.body.opponent.toString())
       : NaN
+
+    if (botId == opponentId) {
+      res.redirect('/worms/arena')
+      return
+    }
 
     const bot = await App.db.models.WormsBotDraft.findOne({
       where: {
@@ -565,6 +580,23 @@ export function setupWormsArena(App) {
 
     const replay = JSON.parse(match.replay)
 
+    const redBot = await App.db.models.WormsBotDraft.findOne({
+      where: {
+        id: match.redBotId,
+      },
+    })
+
+    const greenBot = await App.db.models.WormsBotDraft.findOne({
+      where: {
+        id: match.greenBotId,
+      },
+    })
+
+    if (!redBot || !greenBot) {
+      res.redirect('/worms/arena')
+      return
+    }
+
     renderPage(App, req, res, {
       page: 'worms-match-replay',
       heading: 'Worms',
@@ -574,7 +606,11 @@ export function setupWormsArena(App) {
 
         ${renderNavigation(2)}
 
-        <h3>Match ${match.id}</h3>
+        <h3>${
+          match.status == 'red-win' ? '🏆 ' : ''
+        }<span style="color: rgb(239, 68, 68)">${redBot.name}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot.name}</span>${
+          match.status == 'green-win' ? ' 🏆' : ''
+        }</h3>
         
         <p><a href="/worms/arena">zurück</a></p>
         

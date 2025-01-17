@@ -46,6 +46,12 @@ export const hintsData = {
         question: 'Was sind die ersten 3 Buchstaben?',
         answer: 'höre die den Morse-Ton an',
       },
+      {
+        question:
+          'Ich habe alles genau angehört und es kommt "inlwnl" raus. Das ist aber falsch. Ist das vielleicht ein Fehler im System?',
+        answer:
+          'Du hast Punkt und Strich vertauscht. Der Punkt ist ein kurzer Ton, der Strich ein langer Ton',
+      },
     ],
   },
   4: {
@@ -81,6 +87,11 @@ export const hintsData = {
       {
         question: 'ich will die antwort wissen',
         answer: 'Dann schau in den Quellcode',
+      },
+      {
+        question:
+          'Im Quellcode sind ganz viele verschiedene Zeilen, worauf soll ich genau achten?',
+        answer: 'Finde den Kasten, scrolle dafür ein wenig nach unten',
       },
     ],
   },
@@ -164,6 +175,10 @@ export const hintsData = {
         question: 'Die zahlen wackeln',
         answer:
           'genau, das ist der &quot;Fehler&quot;, kannst du herausfinden, was die richtige Punktzahl ist?',
+      },
+      {
+        question: 'wie finde ich herraus welche die richtige zahl ist? ',
+        answer: 'z.b. im Profil',
       },
       {
         question: 'warum',
@@ -614,6 +629,10 @@ export const hintsData = {
         answer:
           'das ist ok - in der Aufgabe findest du genug Hinweise um die Antwort zu finden, doch es braucht dafür auch bisschen Zeit',
       },
+      {
+        question: 'muss ich die buchstabe zusammenführen',
+        answer: 'ja, das ist eine Möglichkeit die Aufgabe zu lösen',
+      },
     ],
   },
   56: {
@@ -648,6 +667,12 @@ export const hintsData = {
         question: 'Kannst du mir bitte die Lösung sagen ?',
         answer: 'Je nach Nutzername unterschiedlich',
       },
+      {
+        question:
+          'Meinen Profilnamen gibt es auf keiner Website. Ich habe mit Absicht einen anderen Namen genommen, als auf anderen Websites. Wie soll ich es denn finden?',
+        answer:
+          'Du kannst z.B. nach deinem Profilnamen suchen. Selbst wenn es keine Suchergebnisse gibt, zeigt die Suchmaschine ja trotzdem den Suchbegriff an - und damit hast du eine Webseite mit deinem Benutzernamen erzeugt',
+      },
     ],
   },
   57: {
@@ -672,6 +697,10 @@ export const hintsData = {
         question:
           'Ich kenne das Spiel nicht mal, könnt ihr mir einen Tipp geben?',
         answer: 'In der Aufgabe findest du einen Hinweis mit Link',
+      },
+      {
+        question: 'was steht im link',
+        answer: 'https://game8.co/games/Genshin-Impact/archives/384388',
       },
     ],
   },
@@ -720,6 +749,10 @@ export const hintsData = {
       {
         question: 'was ist der dritte Buchstaben?',
         answer: 'Der dritte Buchstabe der Lösung lautet nicht E',
+      },
+      {
+        question: 'was ist der erste buchstabe',
+        answer: 'Der erste Buchstabe ist kein A',
       },
     ],
   },
@@ -842,6 +875,10 @@ export const hintsData = {
       {
         question: 'Wie kann ich die Bilder hier auf der Webseite verschieben?',
         answer: 'Probiere mit Maus oder mit dem Finger',
+      },
+      {
+        question: 'wie soll mabn das machen',
+        answer: 'Auf ein Bild klicken und ziehen',
       },
     ],
   },
@@ -1407,6 +1444,11 @@ export const hintsData = {
         question: 'wie kann man das machen',
         answer: 'tippe 2 mal 5 ein, schaue dir das Ergebnis an und überlege',
       },
+      {
+        question: 'Ich checke das nicht',
+        answer:
+          'Die erste Aufgabe des Taschenrechners hast du gelöst bekommen - die zweite ist ähnlich',
+      },
     ],
   },
   112: {
@@ -1557,6 +1599,15 @@ export const hintsData = {
       {
         question: 'in welcher zeile steht das passwort',
         answer: 'Die Antwort selbst steht nicht im Text',
+      },
+      {
+        question: 'Ist das Passwort deutsch oder englisch?',
+        answer: 'es ist ein Name',
+      },
+      {
+        question: 'Wie in keiner Zeile ich dachte die muss im Text stehen',
+        answer:
+          'obwohl der Name nicht im Text steht, ist er doch mit bisschen Nachdenken zu finden',
       },
     ],
   },

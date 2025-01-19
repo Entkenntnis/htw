@@ -68,9 +68,12 @@ export function setupWormsBasic(App) {
         <div style="height:70px"></div>
 
         <script>
-          const red = createKeyboardPlayer('w', 'd', 's', 'a')
+          const redResetRef = {}
+          const red = createKeyboardPlayer('w', 'd', 's', 'a', redResetRef)
 
-          const green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft')
+          
+          const greenResetRef = {}
+          const green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef)
 
           const wormer = new Wormer(document.getElementById('board'), red, green)
 
@@ -79,6 +82,8 @@ export function setupWormsBasic(App) {
           window.addEventListener('keydown', (event) => {
             if (event.key == 'Enter') {
               wormer.run()
+              redResetRef.reset()
+              greenResetRef.reset()
             }
           })
         </script>
@@ -104,7 +109,8 @@ export function setupWormsBasic(App) {
         <div style="height:70px"></div>
 
         <script>
-          const red =  createKeyboardPlayer('w', 'd', 's', 'a')
+          const redResetRef = {}
+          const red =  createKeyboardPlayer('w', 'd', 's', 'a', redResetRef)
 
           const green = createDemoBot()
 
@@ -115,6 +121,7 @@ export function setupWormsBasic(App) {
           window.addEventListener('keydown', (event) => {
             if (event.key == 'Enter') {
               wormer.run()
+              redResetRef.reset()
             }
           })
         </script>

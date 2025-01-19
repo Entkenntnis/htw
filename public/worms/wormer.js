@@ -222,9 +222,14 @@ class Wormer {
   }
 }
 
-function createKeyboardPlayer(up, right, down, left) {
+function createKeyboardPlayer(up, right, down, left, resetRef) {
   let lastDir = -1 // Initialize with no direction
   let newDir = -1
+
+  resetRef.reset = () => {
+    lastDir = -1
+    newDir = -1
+  }
 
   // Event listener to set direction based on key press
   window.addEventListener('keydown', (event) => {

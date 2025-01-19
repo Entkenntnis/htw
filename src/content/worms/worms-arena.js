@@ -202,12 +202,21 @@ export function setupWormsArena(App) {
     })
 
     // extract bot ids and store elo values
-    /** @type {{id: number, elo: number, name: string, userid: number, username: string}[]}} */
-    const botData = []
+    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: number[]}[]}} */
+    let botData = []
     for (const botELO of botELOs) {
       const id = parseInt(botELO.key.substring(13))
       const elo = parseInt(botELO.value)
-      botData.push({ id, elo, name: '', userid: -1, username: '' })
+      botData.push({
+        id,
+        elo,
+        name: '',
+        userid: -1,
+        username: '',
+        wins: 0,
+        losses: 0,
+        matches: [],
+      })
     }
 
     // fetch bot names
@@ -240,6 +249,38 @@ export function setupWormsArena(App) {
         bot.username = user.name
       }
     }
+
+    const matches = await App.db.models.WormsArenaMatch.findAll({
+      where: {
+        status: {
+          [Op.in]: ['red-win', 'green-win'],
+        },
+      },
+      order: [['createdAt', 'DESC']],
+    })
+
+    matches.forEach((match) => {
+      const redBot = botData.find((b) => b.id == match.redBotId)
+      const greenBot = botData.find((b) => b.id == match.greenBotId)
+
+      if (redBot && redBot.matches.length < 10) {
+        redBot.matches.push(match.id)
+      }
+
+      if (greenBot && greenBot.matches.length < 10) {
+        greenBot.matches.push(match.id)
+      }
+
+      if (match.status == 'red-win') {
+        if (redBot) redBot.wins++
+        if (greenBot) greenBot.losses++
+      } else if (match.status == 'green-win') {
+        if (redBot) redBot.losses++
+        if (greenBot) greenBot.wins++
+      }
+    })
+
+    botData = botData.filter((b) => b.name && b.username)
 
     botData.sort((a, b) => b.elo - a.elo)
 
@@ -291,7 +332,19 @@ export function setupWormsArena(App) {
               <tr>
                 
                 <td>${index + 1}</td>
-                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span></td>
+                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span><br >
+                  <details>
+                    <summary><span style="color: darkgray">Siege: ${bot.wins}, Niederlagen: ${bot.losses}</span></summary>
+                    <ul>
+                      ${bot.matches
+                        .map(
+                          (matchId) =>
+                            `<li><a href="/worms/arena/replay?id=${matchId}">Match ${matchId}</a></li>`
+                        )
+                        .join('')}
+                    </ul>
+                  </details>
+                </td>
                 <td>${bot.elo}</td>
                 <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" onclick="window.location.href='/worms/arena/match?opponent=${bot.id}&bot=' + botId" id="challenge-${bot.id}">Herausfordern</a></td>
               </tr>
@@ -338,67 +391,6 @@ export function setupWormsArena(App) {
     })
   })
 
-  /*App.express.get('/worms/arena/match', async (req, res) => {
-    const user = req.user
-    if (!user) {
-      res.redirect('/')
-      return
-    }
-
-    const opponent = req.query.opponent
-      ? parseInt(req.query.opponent.toString())
-      : NaN
-
-    const opponentBot = await App.db.models.WormsBotDraft.findOne({
-      where: {
-        id: opponent,
-      },
-    })
-
-    if (!opponentBot) {
-      res.redirect('/worms/arena')
-      return
-    }
-
-    const ownBots = await App.db.models.WormsBotDraft.findAll({
-      where: {
-        UserId: user.id,
-      },
-      order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
-    })
-
-    renderPage(App, req, res, {
-      page: 'worms-drafts',
-      heading: 'Worms',
-      backButton: true,
-      backHref: '/worms/arena',
-      content: `
-        ${renderNavigation(2)}  
-
-        <h3>${escapeHTML(opponentBot.name)} herausfordern</h3>
-
-        <form action="/worms/arena/match" method="post">
-          <p>Wähle deinen Bot aus:</p>
-          <select name="bot" class="form-control" style="width: 300px;" required>
-            <option value="">Bitte wählen...</option>
-            ${ownBots
-              .map((bot) =>
-                bot.id == opponent
-                  ? ''
-                  : `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`
-              )
-              .join('')}
-          </select>
-          <input type="hidden" name="opponent" value="${opponent}">
-          <button type="submit" class="btn btn-success" style="margin-top: 16px;">Match starten</button>
-        </form>
-
-        <p style="margin-top: 48px;">Dein Bot spielt die Farbe rot, der Gegner die Farbe grün. Es wird ein Match gespielt. Wenn dein Bot bisher noch nicht an der Arena teilgenommen hat, wird der Bot hiermit in die Arena geschickt und kann von anderen Bots herausgefordert werden.</p>
-
-      `,
-    })
-  })*/
-
   App.express.get('/worms/arena/match', async (req, res) => {
     const user = req.user
     if (!user) {
@@ -440,11 +432,6 @@ export function setupWormsArena(App) {
       status: 'pending',
       replay: '',
     })
-
-    /*if (!botELO || !opponentELO) {
-      res.redirect('/worms/arena')
-      return
-    }*/
 
     req.session.lastWormsBotId = bot.id
 
@@ -563,7 +550,7 @@ export function setupWormsArena(App) {
                   console.log('status:', status)
                   if (status == 'red-win' || status == 'green-win') {
                     clearInterval(interval)
-                    window.location.href = '/worms/arena/replay?id=${match.id}'
+                    window.location.href = '/worms/arena/replay?id=${match.id}&msg=done'
                   }
                 })
             }, 1000)
@@ -620,6 +607,8 @@ export function setupWormsArena(App) {
 
     const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
+    const showMsg = req.query.msg == 'done'
+
     const match = await App.db.models.WormsArenaMatch.findOne({
       where: {
         id: matchId,
@@ -645,6 +634,11 @@ export function setupWormsArena(App) {
       },
     })
 
+    const redBotELO = parseInt(
+      (redBot && (await App.storage.getItem(`worms_botelo_${redBot.id}`))) ??
+        '500'
+    )
+
     if (!redBot || !greenBot) {
       res.redirect('/worms/arena')
       return
@@ -659,17 +653,27 @@ export function setupWormsArena(App) {
 
         ${renderNavigation(2)}
 
-        <h3>${
+        <h3 style="text-align: center;">${
           match.status == 'red-win' ? '🏆 ' : ''
         }<span style="color: rgb(239, 68, 68)">${redBot.name}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot.name}</span>${
           match.status == 'green-win' ? ' 🏆' : ''
         }</h3>
+
+        ${
+          showMsg
+            ? `<p style="font-size: 20px; text-align: center">Dein Bot ${
+                redBot.name
+              } hat das Match gegen ${greenBot.name} ${
+                match.status == 'red-win' ? 'gewonnen' : 'verloren.'
+              }<br >Deine neue ELO beträgt ${redBotELO}.</p>`
+            : ''
+        }
         
-        <p><a href="/worms/arena">zurück</a></p>
+        <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">OK</a></p>
         
         <script src="/worms/wormer.js"></script>
 
-        <div style="display: flex; justify-content: end; margin-bottom: 16px; margin-top: 24px;">
+        <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
           <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
         </div>
         

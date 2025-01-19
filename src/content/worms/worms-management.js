@@ -60,7 +60,7 @@ export function setupWormsManagement(App) {
           ? `
       <div style="margin-bottom: 32px; display: flex; justify-content: center;">
         <form action="/worms/your-bots/test-run" style="display: flex; align-items: baseline;">
-          <label>Rot: <select name="rId">${bots.map(
+          <label>Rot: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
             (bot) =>
               `<option value="${bot.id}" ${
                 bot.id === req.session.lastTestRun?.[0]
@@ -68,7 +68,7 @@ export function setupWormsManagement(App) {
                   : ''
               }>${escapeHTML(bot.name)}</option>`
           )}</select></label>
-          <label style="margin-left: 24px;">Grün: <select name="gId">${bots.map(
+          <label style="margin-left: 24px;">Grün: <select name="gId" style="padding: 8px; margin-left: 8px;">${bots.map(
             (bot) =>
               `<option value="${bot.id}" ${
                 bot.id === req.session.lastTestRun?.[1]
@@ -76,7 +76,7 @@ export function setupWormsManagement(App) {
                   : ''
               }>${escapeHTML(bot.name)}</option>`
           )}</select></label>
-          <input type="submit" class="btn btn-sm btn-success" style="margin-left: 24px;" value="Testlauf starten">
+          <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="Testlauf starten">
         </form>
       </div><hr>`
           : ''

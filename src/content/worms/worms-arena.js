@@ -243,6 +243,13 @@ export function setupWormsArena(App) {
 
     botData.sort((a, b) => b.elo - a.elo)
 
+    const ownBots = await App.db.models.WormsBotDraft.findAll({
+      where: {
+        UserId: user.id,
+      },
+      order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
+    })
+
     req.session.lastWormsTab = 'arena'
 
     renderPage(App, req, res, {
@@ -252,9 +259,49 @@ export function setupWormsArena(App) {
       content: `
         ${renderNavigation(2)}
 
-      <div style="text-align: center; margin-bottom: 24px;">
-        <img src="/worms/arena.jpg">
-      </div>
+        <div style="text-align: center; margin-bottom: 24px;">
+          <img src="/worms/arena.jpg">
+        </div>
+
+        <p>Wähle deinen Bot für das Match:
+          <select name="bot" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
+            <option value="">Bitte wählen...</option>
+            ${ownBots
+              .map(
+                (bot) =>
+                  `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`
+              )
+              .join('')}
+          </select>
+        </p>
+
+        <script>
+          let botId = null
+          function updateBotIdAndUpdateUI(id) {
+            if (isNaN(id)) {
+              id = null
+            }
+            if (id == null) {
+              // make all challenge buttons invisible
+              const buttons = document.getElementsByClassName('challenge-button')
+              for (let i = 0; i < buttons.length; i++) {
+                buttons[i].style.visibility = 'hidden'
+              }
+            } else {
+              // make all challenge buttons visible
+              const buttons = document.getElementsByClassName('challenge-button')
+              for (let i = 0; i < buttons.length; i++) {
+                buttons[i].style.visibility = 'visible'
+              }
+            }
+            botId = id
+            if (id !== null) {
+              const el = document.getElementById('challenge-' + id)
+              if (el)
+                el.style.visibility = 'hidden'
+            }
+          }
+        </script>
 
         <table class="table">
           <thead>
@@ -262,7 +309,7 @@ export function setupWormsArena(App) {
               <th>Platz</th>
               <th>Bot</th>
               <th>ELO</th>
-              <th>Aktion</th>
+              <th class="challenge-button" style="visibility: hidden;">Wähle Gegner</th>
             </tr>
           </thead>
           <tbody>
@@ -274,7 +321,7 @@ export function setupWormsArena(App) {
                 <td>${index + 1}</td>
                 <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span></td>
                 <td>${bot.elo}</td>
-                <td><a class="btn btn-sm btn-warning" style="margin-top: -4px;" href="/worms/arena/match?opponent=${bot.id}">Herausfordern</a></td>
+                <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" href="/worms/arena/match?opponent=${bot.id}" id="challenge-${bot.id}">Herausfordern</a></td>
               </tr>
             `
               )

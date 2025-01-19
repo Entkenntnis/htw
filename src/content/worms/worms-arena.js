@@ -202,7 +202,7 @@ export function setupWormsArena(App) {
     })
 
     // extract bot ids and store elo values
-    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: number[]}[]}} */
+    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; label: string; ts: number}[]}[]}} */
     let botData = []
     for (const botELO of botELOs) {
       const id = parseInt(botELO.key.substring(13))
@@ -264,11 +264,19 @@ export function setupWormsArena(App) {
       const greenBot = botData.find((b) => b.id == match.greenBotId)
 
       if (redBot && redBot.matches.length < 10) {
-        redBot.matches.push(match.id)
+        redBot.matches.push({
+          id: match.id,
+          label: `${match.status == 'red-win' ? 'Sieg' : 'Niederlage'} gegen ${greenBot?.name}`,
+          ts: App.moment(match.createdAt).unix(),
+        })
       }
 
       if (greenBot && greenBot.matches.length < 10) {
-        greenBot.matches.push(match.id)
+        greenBot.matches.push({
+          id: match.id,
+          label: `${match.status == 'green-win' ? 'Sieg' : 'Niederlage'} gegen ${redBot?.name}`,
+          ts: App.moment(match.createdAt).unix(),
+        })
       }
 
       if (match.status == 'red-win') {
@@ -338,8 +346,12 @@ export function setupWormsArena(App) {
                     <ul>
                       ${bot.matches
                         .map(
-                          (matchId) =>
-                            `<li><a href="/worms/arena/replay?id=${matchId}">Match ${matchId}</a></li>`
+                          (match) =>
+                            `<li><a href="/worms/arena/replay?id=${match.id}">${match.label}</a> <span style="color: gray;">${App.moment(
+                              match.ts * 1000
+                            )
+                              .locale('de')
+                              .fromNow()}</span></li>`
                         )
                         .join('')}
                     </ul>
@@ -666,10 +678,10 @@ export function setupWormsArena(App) {
               } hat das Match gegen ${greenBot.name} ${
                 match.status == 'red-win' ? 'gewonnen' : 'verloren.'
               }<br >Deine neue ELO beträgt ${redBotELO}.</p>`
-            : ''
+            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
         }
         
-        <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">OK</a></p>
+        <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a></p>
         
         <script src="/worms/wormer.js"></script>
 

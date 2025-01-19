@@ -291,7 +291,7 @@ function createDemoBot() {
     myDistances.push(row2)
   }
 
-  function bfs(board, startX, startY, distances) {
+  window.bfs = function bfs(board, startX, startY, distances) {
     const queue = []
     let head = 0
 
@@ -325,7 +325,7 @@ function createDemoBot() {
 
     // Now we have 2 or 3 choices
     // Start with calculating opp distances
-    bfs(board, oppX, oppY, oppDistances)
+    window.bfs(board, oppX, oppY, oppDistances)
 
     const evals = availableMoves.map((moveDir, i) => {
       const nx = x + offsets[moveDir][0]

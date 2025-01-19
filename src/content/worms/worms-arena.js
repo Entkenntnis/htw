@@ -95,6 +95,7 @@ async function runWorms(srcRed, srcGreen) {
     if (Date.now() - lastInterrupt > 50) {
       await new Promise((resolve) => setTimeout(resolve, 50))
       lastInterrupt = Date.now()
+      console.log('interrupt')
     }
 
     const callScriptRed = `
@@ -547,11 +548,9 @@ export function setupWormsArena(App) {
       content: `
           ${renderNavigation(2)}  
   
-          <h3>Match wird ausgeführt ...</h3>
+          <h3 id="status">Match wird vorbereitet ...</h3>
 
           <img src="/worms/${randomGif}" style="margin-top: 24px;">
-
-          <p>Match-Id: ${match.id}</p>
 
           <script>
             // Polling until status is red-win or green-win
@@ -559,7 +558,11 @@ export function setupWormsArena(App) {
               fetch('/worms/arena/poll-match?id=${match.id}')
                 .then((res) => res.text())
                 .then((status) => {
-                  console.log('status:', status)
+                  if (status == 'pending') {
+                    document.getElementById('status').innerText = 'Match wird vorbereitet ...'
+                  } else if (status == 'running') {
+                    document.getElementById('status').innerText = 'Match wird ausgeführt ...'
+                  }
                   if (status == 'red-win' || status == 'green-win') {
                     clearInterval(interval)
                     window.location.href = '/worms/arena/replay?id=${match.id}&msg=done'
@@ -675,9 +678,9 @@ export function setupWormsArena(App) {
           showMsg
             ? `<p style="font-size: 20px; text-align: center">Dein Bot ${
                 redBot.name
-              } hat das Match gegen ${greenBot.name} ${
-                match.status == 'red-win' ? 'gewonnen' : 'verloren.'
-              }<br >Deine neue ELO beträgt ${redBotELO}.</p>`
+              } hat das Match gegen ${greenBot.name} <strong>${
+                match.status == 'red-win' ? 'gewonnen' : 'verloren'
+              }</strong>.<br >Deine neue ELO beträgt ${redBotELO}.</p>`
             : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
         }
         

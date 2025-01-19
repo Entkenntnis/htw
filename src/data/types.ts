@@ -222,6 +222,7 @@ declare module 'express-session' {
       | 'arena'
       | 'your-bots'
       | 'guide'
+    lastWormsBotId?: number
   }
 }
 

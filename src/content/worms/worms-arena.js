@@ -269,14 +269,41 @@ export function setupWormsArena(App) {
             ${ownBots
               .map(
                 (bot) =>
-                  `<option value="${bot.id}">${escapeHTML(bot.name)}</option>`
+                  `<option value="${bot.id}" ${bot.id === req.session.lastWormsBotId ? 'selected' : ''}>${escapeHTML(bot.name)}</option>`
               )
               .join('')}
           </select>
         </p>
 
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Platz</th>
+              <th>Bot</th>
+              <th>ELO</th>
+              <th class="challenge-button" style="visibility: hidden;">Wähle Gegner</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${botData
+              .map(
+                (bot, index) => `
+              <tr>
+                
+                <td>${index + 1}</td>
+                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span></td>
+                <td>${bot.elo}</td>
+                <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" onclick="window.location.href='/worms/arena/match?opponent=${bot.id}&bot=' + botId" id="challenge-${bot.id}">Herausfordern</a></td>
+              </tr>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
+        
         <script>
           let botId = null
+
           function updateBotIdAndUpdateUI(id) {
             if (isNaN(id)) {
               id = null
@@ -301,40 +328,17 @@ export function setupWormsArena(App) {
                 el.style.visibility = 'hidden'
             }
           }
-        </script>
 
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Platz</th>
-              <th>Bot</th>
-              <th>ELO</th>
-              <th class="challenge-button" style="visibility: hidden;">Wähle Gegner</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${botData
-              .map(
-                (bot, index) => `
-              <tr>
-                
-                <td>${index + 1}</td>
-                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span></td>
-                <td>${bot.elo}</td>
-                <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" href="/worms/arena/match?opponent=${bot.id}" id="challenge-${bot.id}">Herausfordern</a></td>
-              </tr>
-            `
-              )
-              .join('')}
-          </tbody>
-        </table>
+          
+          updateBotIdAndUpdateUI(parseInt(document.querySelector('select[name="bot"]').value))
+        </script>
 
         <div style="height: 200px;"></div>
       `,
     })
   })
 
-  App.express.get('/worms/arena/match', async (req, res) => {
+  /*App.express.get('/worms/arena/match', async (req, res) => {
     const user = req.user
     if (!user) {
       res.redirect('/')
@@ -393,18 +397,18 @@ export function setupWormsArena(App) {
 
       `,
     })
-  })
+  })*/
 
-  App.express.post('/worms/arena/match', async (req, res) => {
+  App.express.get('/worms/arena/match', async (req, res) => {
     const user = req.user
     if (!user) {
       res.redirect('/')
       return
     }
 
-    const botId = req.body.bot ? parseInt(req.body.bot.toString()) : NaN
-    const opponentId = req.body.opponent
-      ? parseInt(req.body.opponent.toString())
+    const botId = req.query.bot ? parseInt(req.query.bot.toString()) : NaN
+    const opponentId = req.query.opponent
+      ? parseInt(req.query.opponent.toString())
       : NaN
 
     if (botId == opponentId) {
@@ -441,6 +445,8 @@ export function setupWormsArena(App) {
       res.redirect('/worms/arena')
       return
     }*/
+
+    req.session.lastWormsBotId = bot.id
 
     setTimeout(async () => {
       // a simple match runner that tries to run the match in a coordinated way
@@ -662,6 +668,10 @@ export function setupWormsArena(App) {
         <p><a href="/worms/arena">zurück</a></p>
         
         <script src="/worms/wormer.js"></script>
+
+        <div style="display: flex; justify-content: end; margin-bottom: 16px; margin-top: 24px;">
+          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
+        </div>
         
         <div id="board"></div>
         

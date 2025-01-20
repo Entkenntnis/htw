@@ -1,3 +1,4 @@
+import { safeRoute } from '../../helper/helper.js'
 import { renderPage } from '../../helper/render-page.js'
 
 /**
@@ -33,30 +34,34 @@ export function renderNavigation(active) {
  * @param {import("../../data/types.js").App} App
  */
 export function setupWormsBasic(App) {
-  App.express.get('/worms', async (req, res) => {
-    const lastWormsTab = req.session.lastWormsTab ?? 'two-player'
+  App.express.get(
+    '/worms',
+    safeRoute(async (req, res) => {
+      const lastWormsTab = req.session.lastWormsTab ?? 'two-player'
+      res.redirect('/worms/' + lastWormsTab)
+    })
+  )
 
-    res.redirect('/worms/' + lastWormsTab)
-  })
+  App.express.get(
+    '/worms/two-player',
+    safeRoute(async (req, res) => {
+      // rare race conditions are possible, but shouldn't be tragic
+      let count = await App.storage.getItem('worms_counter_v0')
+      if (!count) {
+        count = '0'
+      }
+      await App.storage.setItem(
+        'worms_counter_v0',
+        (parseInt(count) + 1).toString()
+      )
 
-  App.express.get('/worms/two-player', async (req, res) => {
-    // rare race conditions are possible, but shouldn't be tragic
-    let count = await App.storage.getItem('worms_counter_v0')
-    if (!count) {
-      count = '0'
-    }
-    await App.storage.setItem(
-      'worms_counter_v0',
-      (parseInt(count) + 1).toString()
-    )
+      req.session.lastWormsTab = 'two-player'
 
-    req.session.lastWormsTab = 'two-player'
-
-    renderPage(App, req, res, {
-      page: 'worms',
-      heading: 'Worms',
-      backButton: false,
-      content: `
+      renderPage(App, req, res, {
+        page: 'worms',
+        heading: 'Worms',
+        backButton: false,
+        content: `
         ${renderNavigation(0)}
 
         <script src="/worms/wormer.js"></script>
@@ -88,16 +93,19 @@ export function setupWormsBasic(App) {
           })
         </script>
       `,
+      })
     })
-  })
+  )
 
-  App.express.get('/worms/single-player', async (req, res) => {
-    req.session.lastWormsTab = 'single-player'
-    renderPage(App, req, res, {
-      page: 'worms',
-      heading: 'Worms',
-      backButton: false,
-      content: `
+  App.express.get(
+    '/worms/single-player',
+    safeRoute(async (req, res) => {
+      req.session.lastWormsTab = 'single-player'
+      renderPage(App, req, res, {
+        page: 'worms',
+        heading: 'Worms',
+        backButton: false,
+        content: `
         ${renderNavigation(1)}
 
         <script src="/worms/wormer.js"></script>
@@ -126,22 +134,26 @@ export function setupWormsBasic(App) {
           })
         </script>
       `,
+      })
     })
-  })
+  )
 
-  App.express.get('/worms/guide', async (req, res) => {
-    req.session.lastWormsTab = 'guide'
-    renderPage(App, req, res, {
-      page: 'worms',
-      heading: 'Worms',
-      backButton: false,
-      content: `
+  App.express.get(
+    '/worms/guide',
+    safeRoute(async (req, res) => {
+      req.session.lastWormsTab = 'guide'
+      renderPage(App, req, res, {
+        page: 'worms',
+        heading: 'Worms',
+        backButton: false,
+        content: `
         ${renderNavigation(4)}
 
         <p>Willkommen beim Worms-Guide.</p>
 
         <p>TODO: Sammlung aller relevanten Inhalte</p>
       `,
+      })
     })
-  })
+  )
 }

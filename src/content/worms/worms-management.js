@@ -2,31 +2,34 @@ import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
 import { renderNavigation } from './worms-basic.js'
 import { Sequelize } from 'sequelize'
+import { safeRoute } from '../../helper/helper.js'
 
 /**
  *
  * @param {import("../../data/types.js").App} App
  */
 export function setupWormsManagement(App) {
-  App.express.get('/worms/your-bots', async (req, res) => {
-    const user = req.user
-    if (!user) {
-      res.redirect('/')
-      return
-    }
+  App.express.get(
+    '/worms/your-bots',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.redirect('/')
+        return
+      }
 
-    const bots = await App.db.models.WormsBotDraft.findAll({
-      where: { UserId: user.id },
-      // order by lower case name
-      order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
-    })
+      const bots = await App.db.models.WormsBotDraft.findAll({
+        where: { UserId: user.id },
+        // order by lower case name
+        order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
+      })
 
-    req.session.lastWormsTab = 'your-bots'
-    renderPage(App, req, res, {
-      page: 'worms-drafts',
-      heading: 'Worms',
-      backButton: false,
-      content: `
+      req.session.lastWormsTab = 'your-bots'
+      renderPage(App, req, res, {
+        page: 'worms-drafts',
+        heading: 'Worms',
+        backButton: false,
+        content: `
       ${renderNavigation(3)}
 
       <div style="height: 24px;"></div>
@@ -101,45 +104,48 @@ export function setupWormsManagement(App) {
         }
       </script>
       `,
+      })
     })
-  })
+  )
 
-  App.express.get('/worms/drafts/create', async (req, res) => {
-    if (!req.user) {
-      res.redirect('/')
-      return
-    }
+  App.express.get(
+    '/worms/drafts/create',
+    safeRoute(async (req, res) => {
+      if (!req.user) {
+        res.redirect('/')
+        return
+      }
 
-    const name = req.query.name ? req.query.name.toString() : ''
+      const name = req.query.name ? req.query.name.toString() : ''
 
-    if (!name || name.length >= 200) {
-      res.send('Fehler: Name fehlt oder zu lang (maximal 200 Zeichen)')
-      return
-    }
+      if (!name || name.length >= 200) {
+        res.send('Fehler: Name fehlt oder zu lang (maximal 200 Zeichen)')
+        return
+      }
 
-    if (
-      (await App.db.models.WormsBotDraft.count({
-        where: { name, UserId: req.user.id },
-      })) > 0
-    ) {
-      res.send('Fehler: Bot mit diesem Namen existiert bereits')
-      return
-    }
+      if (
+        (await App.db.models.WormsBotDraft.count({
+          where: { name, UserId: req.user.id },
+        })) > 0
+      ) {
+        res.send('Fehler: Bot mit diesem Namen existiert bereits')
+        return
+      }
 
-    // check if user has too many bots
-    if (
-      (await App.db.models.WormsBotDraft.count({
-        where: { UserId: req.user.id },
-      })) >= 20
-    ) {
-      res.send('Fehler: Du hast bereits 20 Bots erstellt')
-      return
-    }
+      // check if user has too many bots
+      if (
+        (await App.db.models.WormsBotDraft.count({
+          where: { UserId: req.user.id },
+        })) >= 20
+      ) {
+        res.send('Fehler: Du hast bereits 20 Bots erstellt')
+        return
+      }
 
-    await App.db.models.WormsBotDraft.create({
-      name,
-      UserId: req.user.id,
-      code: `/**
+      await App.db.models.WormsBotDraft.create({
+        name,
+        UserId: req.user.id,
+        code: `/**
  * Bestimme bei jedem Schritt deines Bots die Laufrichtung
  * 
  * @param {number} dx         Breite des Spielfelds (fixiert auf 74)
@@ -160,87 +166,96 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
   return dir
 }
 `,
+      })
+
+      res.redirect('/worms/your-bots')
     })
+  )
 
-    res.redirect('/worms/your-bots')
-  })
+  App.express.get(
+    '/worms/drafts/delete',
+    safeRoute(async (req, res) => {
+      if (!req.user) {
+        res.redirect('/')
+        return
+      }
 
-  App.express.get('/worms/drafts/delete', async (req, res) => {
-    if (!req.user) {
-      res.redirect('/')
-      return
-    }
+      const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-    const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
+      if (isNaN(id)) {
+        res.send('Invalid ID')
+        return
+      }
 
-    if (isNaN(id)) {
-      res.send('Invalid ID')
-      return
-    }
+      await App.db.models.WormsBotDraft.destroy({
+        where: { id, UserId: req.user.id },
+      })
 
-    await App.db.models.WormsBotDraft.destroy({
-      where: { id, UserId: req.user.id },
+      res.redirect('/worms/your-bots')
     })
+  )
 
-    res.redirect('/worms/your-bots')
-  })
+  App.express.get(
+    '/worms/drafts/rename',
+    safeRoute(async (req, res) => {
+      if (!req.user) {
+        res.redirect('/')
+        return
+      }
 
-  App.express.get('/worms/drafts/rename', async (req, res) => {
-    if (!req.user) {
-      res.redirect('/')
-      return
-    }
+      const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
+      const name = req.query.name ? req.query.name.toString() : ''
 
-    const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
-    const name = req.query.name ? req.query.name.toString() : ''
+      if (isNaN(id) || !name || name.length >= 200) {
+        res.send('Invalid ID or name')
+        return
+      }
 
-    if (isNaN(id) || !name || name.length >= 200) {
-      res.send('Invalid ID or name')
-      return
-    }
+      const bot = await App.db.models.WormsBotDraft.findOne({
+        where: { id, UserId: req.user.id },
+      })
 
-    const bot = await App.db.models.WormsBotDraft.findOne({
-      where: { id, UserId: req.user.id },
+      if (!bot) {
+        res.send('Bot not found')
+        return
+      }
+
+      bot.name = name
+      await bot.save()
+      res.redirect('/worms/your-bots')
     })
+  )
 
-    if (!bot) {
-      res.send('Bot not found')
-      return
-    }
+  App.express.get(
+    '/worms/drafts/edit',
+    safeRoute(async (req, res) => {
+      if (!req.user) {
+        res.redirect('/')
+        return
+      }
 
-    bot.name = name
-    await bot.save()
-    res.redirect('/worms/your-bots')
-  })
+      const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-  App.express.get('/worms/drafts/edit', async (req, res) => {
-    if (!req.user) {
-      res.redirect('/')
-      return
-    }
+      if (isNaN(id)) {
+        res.send('Invalid ID')
+        return
+      }
 
-    const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
+      const bot = await App.db.models.WormsBotDraft.findOne({
+        where: { id, UserId: req.user.id },
+      })
 
-    if (isNaN(id)) {
-      res.send('Invalid ID')
-      return
-    }
+      if (!bot) {
+        res.send('Bot not found')
+        return
+      }
 
-    const bot = await App.db.models.WormsBotDraft.findOne({
-      where: { id, UserId: req.user.id },
-    })
-
-    if (!bot) {
-      res.send('Bot not found')
-      return
-    }
-
-    renderPage(App, req, res, {
-      page: 'worms-drafts-edit',
-      heading: 'Bot bearbeiten - ' + bot.name,
-      backButton: false,
-      outsideOfContainer: true,
-      content: `
+      renderPage(App, req, res, {
+        page: 'worms-drafts-edit',
+        heading: 'Bot bearbeiten - ' + bot.name,
+        backButton: false,
+        outsideOfContainer: true,
+        content: `
 
         <div style="position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 1000; background-color: #222; margin-left: 12px; margin-right: 12px; display: flex; flex-direction: column;">
           <h1>${escapeHTML(bot.name)}<span id="changedMarker" style="display: none;">*</span></h1>
@@ -365,132 +380,141 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
           }
         </script>
       `,
+      })
     })
-  })
+  )
 
-  App.express.post('/worms/drafts/save', async (req, res) => {
-    if (!req.user) {
-      res.redirect('/')
-      return
-    }
+  App.express.post(
+    '/worms/drafts/save',
+    safeRoute(async (req, res) => {
+      if (!req.user) {
+        res.redirect('/')
+        return
+      }
 
-    const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
+      const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
 
-    if (isNaN(id)) {
-      res.send('Invalid ID')
-      return
-    }
+      if (isNaN(id)) {
+        res.send('Invalid ID')
+        return
+      }
 
-    const code = req.body.code ? req.body.code.toString() : ''
+      const code = req.body.code ? req.body.code.toString() : ''
 
-    // ensure code is not too long
-    if (code.length > 100000) {
-      res.send('Code zu lang')
-      return
-    }
+      // ensure code is not too long
+      if (code.length > 100000) {
+        res.send('Code zu lang')
+        return
+      }
 
-    const bot = await App.db.models.WormsBotDraft.findOne({
-      where: { id, UserId: req.user.id },
+      const bot = await App.db.models.WormsBotDraft.findOne({
+        where: { id, UserId: req.user.id },
+      })
+
+      if (!bot) {
+        res.send('Bot not found')
+        return
+      }
+
+      bot.code = code
+      await bot.save()
+      res.send('ok')
     })
+  )
 
-    if (!bot) {
-      res.send('Bot not found')
-      return
-    }
+  App.express.get(
+    '/worms/drafts/duplicate',
+    safeRoute(async (req, res) => {
+      if (!req.user) {
+        res.redirect('/')
+        return
+      }
 
-    bot.code = code
-    await bot.save()
-    res.send('ok')
-  })
+      const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-  App.express.get('/worms/drafts/duplicate', async (req, res) => {
-    if (!req.user) {
-      res.redirect('/')
-      return
-    }
+      if (isNaN(id)) {
+        res.send('Invalid ID')
+        return
+      }
 
-    const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
+      const bot = await App.db.models.WormsBotDraft.findOne({
+        where: { id, UserId: req.user.id },
+      })
 
-    if (isNaN(id)) {
-      res.send('Invalid ID')
-      return
-    }
+      if (!bot) {
+        res.send('Bot not found')
+        return
+      }
 
-    const bot = await App.db.models.WormsBotDraft.findOne({
-      where: { id, UserId: req.user.id },
+      const newName = bot.name + ' (Kopie)'
+
+      // check if user has too many bots
+      if (
+        (await App.db.models.WormsBotDraft.count({
+          where: { UserId: req.user.id },
+        })) >= 20
+      ) {
+        res.send('Fehler: Du hast bereits 20 Bots erstellt')
+        return
+      }
+
+      // check if bot with this name already exists and create alternative name
+      let i = 1
+      let newNameCandidate = newName
+      while (
+        (await App.db.models.WormsBotDraft.count({
+          where: { name: newNameCandidate, UserId: req.user.id },
+        })) > 0
+      ) {
+        i++
+        newNameCandidate = newName + ' (' + i + ')'
+      }
+
+      await App.db.models.WormsBotDraft.create({
+        name: newNameCandidate,
+        UserId: req.user.id,
+        code: bot.code,
+      })
+
+      res.redirect('/worms/your-bots')
     })
+  )
 
-    if (!bot) {
-      res.send('Bot not found')
-      return
-    }
+  App.express.get(
+    '/worms/your-bots/test-run',
+    safeRoute(async (req, res) => {
+      if (!req.user) {
+        res.redirect('/')
+        return
+      }
 
-    const newName = bot.name + ' (Kopie)'
+      const rId = req.query.rId ? parseInt(req.query.rId.toString()) : NaN
+      const gId = req.query.gId ? parseInt(req.query.gId.toString()) : NaN
 
-    // check if user has too many bots
-    if (
-      (await App.db.models.WormsBotDraft.count({
-        where: { UserId: req.user.id },
-      })) >= 20
-    ) {
-      res.send('Fehler: Du hast bereits 20 Bots erstellt')
-      return
-    }
+      if (isNaN(rId) || isNaN(gId)) {
+        res.send('Missing gId or rId')
+        return
+      }
 
-    // check if bot with this name already exists and create alternative name
-    let i = 1
-    let newNameCandidate = newName
-    while (
-      (await App.db.models.WormsBotDraft.count({
-        where: { name: newNameCandidate, UserId: req.user.id },
-      })) > 0
-    ) {
-      i++
-      newNameCandidate = newName + ' (' + i + ')'
-    }
+      const rBot = await App.db.models.WormsBotDraft.findOne({
+        where: { id: rId, UserId: req.user.id },
+      })
+      const gBot = await App.db.models.WormsBotDraft.findOne({
+        where: { id: gId, UserId: req.user.id },
+      })
 
-    await App.db.models.WormsBotDraft.create({
-      name: newNameCandidate,
-      UserId: req.user.id,
-      code: bot.code,
-    })
+      if (!rBot || !gBot) {
+        res.send('Bot not found')
+        return
+      }
 
-    res.redirect('/worms/your-bots')
-  })
+      req.session.lastTestRun = [rId, gId]
 
-  App.express.get('/worms/your-bots/test-run', async (req, res) => {
-    if (!req.user) {
-      res.redirect('/')
-      return
-    }
-
-    const rId = req.query.rId ? parseInt(req.query.rId.toString()) : NaN
-    const gId = req.query.gId ? parseInt(req.query.gId.toString()) : NaN
-
-    if (isNaN(rId) || isNaN(gId)) {
-      res.send('Missing gId or rId')
-      return
-    }
-
-    const rBot = await App.db.models.WormsBotDraft.findOne({
-      where: { id: rId, UserId: req.user.id },
-    })
-    const gBot = await App.db.models.WormsBotDraft.findOne({
-      where: { id: gId, UserId: req.user.id },
-    })
-
-    if (!rBot || !gBot) {
-      res.send('Bot not found')
-      return
-    }
-
-    req.session.lastTestRun = [rId, gId]
-
-    renderPage(App, req, res, {
-      page: 'worms-test-run',
-      backButton: false,
-      title: 'Worms - Testlauf',
-      content: `
+      renderPage(App, req, res, {
+        page: 'worms-test-run',
+        backButton: false,
+        title: 'Worms - Testlauf',
+        content: `
         <h2><span style="color: rgb(239, 68, 68)">${rBot.name}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${gBot.name}</span></h2>
 
         <p><a href="/worms/your-bots">zurück</a></p>
@@ -639,6 +663,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
           
         </script>
       `,
+      })
     })
-  })
+  )
 }

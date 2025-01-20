@@ -267,6 +267,9 @@ export interface WormsReplay {
   yGreen: number
   dirGreen: number
 
+  redElo: number
+  greenElo: number
+
   dirs: number[]
 
   winner: 'red' | 'green' | ''

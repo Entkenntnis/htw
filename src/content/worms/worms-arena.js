@@ -4,6 +4,7 @@ import { renderNavigation } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
 import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
+import { safeRoute } from '../../helper/helper.js'
 
 /**
  * Standalone server-side worms runner
@@ -54,6 +55,8 @@ async function runWorms(srcRed, srcGreen) {
     dirGreen,
     dirs: [],
     winner: '',
+    redElo: -1,
+    greenElo: -1,
   }
 
   const QuickJS = await getQuickJS()
@@ -187,126 +190,133 @@ async function runWorms(srcRed, srcGreen) {
  * @param {import("../../data/types.js").App} App
  */
 export function setupWormsArena(App) {
-  App.express.get('/worms/arena', async (req, res) => {
-    const user = req.user
-    if (!user) {
-      res.redirect('/')
-      return
-    }
+  App.express.get(
+    '/worms/arena',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.redirect('/')
+        return
+      }
 
-    const botELOs = await App.db.models.KVPair.findAll({
-      where: {
-        key: {
-          [Op.like]: 'worms_botelo_%',
+      const botELOs = await App.db.models.KVPair.findAll({
+        where: {
+          key: {
+            [Op.like]: 'worms_botelo_%',
+          },
         },
-      },
-    })
-
-    // extract bot ids and store elo values
-    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; label: string; ts: number}[]}[]}} */
-    let botData = []
-    for (const botELO of botELOs) {
-      const id = parseInt(botELO.key.substring(13))
-      const elo = parseInt(botELO.value)
-      botData.push({
-        id,
-        elo,
-        name: '',
-        userid: -1,
-        username: '',
-        wins: 0,
-        losses: 0,
-        matches: [],
       })
-    }
 
-    // fetch bot names
-    const bots = await App.db.models.WormsBotDraft.findAll({
-      where: {
-        id: botData.map((b) => b.id),
-      },
-    })
-
-    // store name into botData
-    for (const bot of bots) {
-      const data = botData.find((b) => b.id == bot.id)
-      if (data) {
-        data.name = bot.name
-        data.userid = bot.UserId
+      // extract bot ids and store elo values
+      /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; label: string; ts: number}[]}[]}} */
+      let botData = []
+      for (const botELO of botELOs) {
+        const id = parseInt(botELO.key.substring(13))
+        const elo = parseInt(botELO.value)
+        botData.push({
+          id,
+          elo,
+          name: '',
+          userid: -1,
+          username: '',
+          wins: 0,
+          losses: 0,
+          matches: [],
+        })
       }
-    }
 
-    // fetch user names
-    const users = await App.db.models.User.findAll({
-      where: {
-        id: botData.map((b) => b.userid),
-      },
-    })
-
-    // store user names into botData
-    for (const bot of botData) {
-      const user = users.find((u) => u.id == bot.userid)
-      if (user) {
-        bot.username = user.name
-      }
-    }
-
-    const matches = await App.db.models.WormsArenaMatch.findAll({
-      where: {
-        status: {
-          [Op.in]: ['red-win', 'green-win'],
+      // fetch bot names
+      const bots = await App.db.models.WormsBotDraft.findAll({
+        where: {
+          id: botData.map((b) => b.id),
         },
-      },
-      order: [['createdAt', 'DESC']],
-    })
+      })
 
-    matches.forEach((match) => {
-      const redBot = botData.find((b) => b.id == match.redBotId)
-      const greenBot = botData.find((b) => b.id == match.greenBotId)
-
-      if (redBot && redBot.matches.length < 10) {
-        redBot.matches.push({
-          id: match.id,
-          label: `${match.status == 'red-win' ? 'Sieg' : 'Niederlage'} gegen ${greenBot?.name}`,
-          ts: App.moment(match.createdAt).unix(),
-        })
+      // store name into botData
+      for (const bot of bots) {
+        const data = botData.find((b) => b.id == bot.id)
+        if (data) {
+          data.name = bot.name
+          data.userid = bot.UserId
+        }
       }
 
-      if (greenBot && greenBot.matches.length < 10) {
-        greenBot.matches.push({
-          id: match.id,
-          label: `${match.status == 'green-win' ? 'Sieg' : 'Niederlage'} gegen ${redBot?.name}`,
-          ts: App.moment(match.createdAt).unix(),
-        })
+      // fetch user names
+      const users = await App.db.models.User.findAll({
+        where: {
+          id: botData.map((b) => b.userid),
+        },
+      })
+
+      // store user names into botData
+      for (const bot of botData) {
+        const user = users.find((u) => u.id == bot.userid)
+        if (user) {
+          bot.username = user.name
+        }
       }
 
-      if (match.status == 'red-win') {
-        if (redBot) redBot.wins++
-        if (greenBot) greenBot.losses++
-      } else if (match.status == 'green-win') {
-        if (redBot) redBot.losses++
-        if (greenBot) greenBot.wins++
-      }
-    })
+      const matches = await App.db.models.WormsArenaMatch.findAll({
+        where: {
+          status: {
+            [Op.in]: ['red-win', 'green-win'],
+          },
+        },
+        order: [['createdAt', 'DESC']],
+        attributes: { exclude: ['replay'] },
+      })
 
-    botData = botData.filter((b) => b.name && b.username)
+      matches.forEach((match) => {
+        const redBot = botData.find((b) => b.id == match.redBotId)
+        const greenBot = botData.find((b) => b.id == match.greenBotId)
 
-    botData.sort((a, b) => b.elo - a.elo)
+        if (!redBot || !greenBot) {
+          return
+        }
 
-    const ownBots = await App.db.models.WormsBotDraft.findAll({
-      where: {
-        UserId: user.id,
-      },
-      order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
-    })
+        if (redBot.matches.length < 10) {
+          redBot.matches.push({
+            id: match.id,
+            label: `${match.status == 'red-win' ? 'Sieg' : 'Niederlage'} gegen ${greenBot.name}`,
+            ts: App.moment(match.createdAt).unix(),
+          })
+        }
 
-    req.session.lastWormsTab = 'arena'
+        if (greenBot.matches.length < 10) {
+          greenBot.matches.push({
+            id: match.id,
+            label: `${match.status == 'green-win' ? 'Sieg' : 'Niederlage'} gegen ${redBot.name}`,
+            ts: App.moment(match.createdAt).unix(),
+          })
+        }
 
-    renderPage(App, req, res, {
-      page: 'worms-drafts',
-      heading: 'Worms',
-      backButton: false,
-      content: `
+        if (match.status == 'red-win') {
+          redBot.wins++
+          greenBot.losses++
+        } else if (match.status == 'green-win') {
+          redBot.losses++
+          greenBot.wins++
+        }
+      })
+
+      botData = botData.filter((b) => b.name && b.username)
+
+      botData.sort((a, b) => b.elo - a.elo)
+
+      const ownBots = await App.db.models.WormsBotDraft.findAll({
+        where: {
+          UserId: user.id,
+        },
+        order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
+      })
+
+      req.session.lastWormsTab = 'arena'
+
+      renderPage(App, req, res, {
+        page: 'worms-drafts',
+        heading: 'Worms',
+        backButton: false,
+        content: `
         ${renderNavigation(2)}
 
         <div style="text-align: center; margin-bottom: 24px;">
@@ -401,151 +411,160 @@ export function setupWormsArena(App) {
 
         <div style="height: 200px;"></div>
       `,
+      })
     })
-  })
+  )
 
-  App.express.get('/worms/arena/match', async (req, res) => {
-    const user = req.user
-    if (!user) {
-      res.redirect('/')
-      return
-    }
+  App.express.get(
+    '/worms/arena/match',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.redirect('/')
+        return
+      }
 
-    const botId = req.query.bot ? parseInt(req.query.bot.toString()) : NaN
-    const opponentId = req.query.opponent
-      ? parseInt(req.query.opponent.toString())
-      : NaN
+      const botId = req.query.bot ? parseInt(req.query.bot.toString()) : NaN
+      const opponentId = req.query.opponent
+        ? parseInt(req.query.opponent.toString())
+        : NaN
 
-    if (botId == opponentId) {
-      res.redirect('/worms/arena')
-      return
-    }
+      if (botId == opponentId) {
+        res.redirect('/worms/arena')
+        return
+      }
 
-    const bot = await App.db.models.WormsBotDraft.findOne({
-      where: {
-        id: botId,
-        UserId: user.id,
-      },
-    })
+      const bot = await App.db.models.WormsBotDraft.findOne({
+        where: {
+          id: botId,
+          UserId: user.id,
+        },
+      })
 
-    const opponentBot = await App.db.models.WormsBotDraft.findOne({
-      where: {
-        id: opponentId,
-      },
-    })
+      const opponentBot = await App.db.models.WormsBotDraft.findOne({
+        where: {
+          id: opponentId,
+        },
+      })
 
-    if (!bot || !opponentBot) {
-      res.redirect('/worms/arena')
-      return
-    }
+      if (!bot || !opponentBot) {
+        res.redirect('/worms/arena')
+        return
+      }
 
-    const match = await App.db.models.WormsArenaMatch.create({
-      redBotId: bot.id,
-      greenBotId: opponentBot.id,
-      status: 'pending',
-      replay: '',
-    })
+      const match = await App.db.models.WormsArenaMatch.create({
+        redBotId: bot.id,
+        greenBotId: opponentBot.id,
+        status: 'pending',
+        replay: '',
+      })
 
-    req.session.lastWormsBotId = bot.id
+      req.session.lastWormsBotId = bot.id
 
-    setTimeout(async () => {
-      // a simple match runner that tries to run the match in a coordinated way
+      setTimeout(async () => {
+        // a simple match runner that tries to run the match in a coordinated way
 
-      // first of all, check if another match is runner, otherwise I'll wait
-      let matchRunning = true
-      while (matchRunning) {
-        const runningMatches = await App.db.models.WormsArenaMatch.findAll({
-          where: {
+        // first of all, check if another match is runner, otherwise I'll wait
+        let matchRunning = true
+        while (matchRunning) {
+          const runningMatches = await App.db.models.WormsArenaMatch.findAll({
+            where: {
+              status: 'running',
+            },
+          })
+          if (runningMatches.length == 0) {
+            matchRunning = false
+          } else {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }
+        }
+
+        // now check if I am the oldest pending match, otherwise I'll wait
+        let oldestPendingMatch = true
+        while (oldestPendingMatch) {
+          const oldestMatch = await App.db.models.WormsArenaMatch.findOne({
+            where: {
+              status: 'pending',
+            },
+            order: [['createdAt', 'ASC']],
+          })
+          if (oldestMatch && oldestMatch.id == match.id) {
+            oldestPendingMatch = false
+          } else {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }
+        }
+
+        // now I am the oldest pending match, I can start
+        await App.db.models.WormsArenaMatch.update(
+          {
             status: 'running',
           },
-        })
-        if (runningMatches.length == 0) {
-          matchRunning = false
-        } else {
-          await new Promise((resolve) => setTimeout(resolve, 1000))
-        }
-      }
+          {
+            where: {
+              id: match.id,
+            },
+          }
+        )
 
-      // now check if I am the oldest pending match, otherwise I'll wait
-      let oldestPendingMatch = true
-      while (oldestPendingMatch) {
-        const oldestMatch = await App.db.models.WormsArenaMatch.findOne({
-          where: {
-            status: 'pending',
+        const replay = await runWorms(bot.code, opponentBot.code)
+
+        // load elo of bots
+        const botELO = parseInt(
+          (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
+        )
+        const opponentELO = parseInt(
+          (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ?? '500'
+        )
+
+        replay.redElo = botELO
+        replay.greenElo = opponentELO
+
+        const K = 32
+
+        let S = 0
+        if (replay.winner == 'red') {
+          S = 1
+        } else if (replay.winner == 'green') {
+          S = 0
+        }
+
+        const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
+
+        const newBotELO = botELO + K * (S - E)
+        const newOpponentELO = opponentELO + K * (E - S)
+
+        await App.storage.setItem(
+          `worms_botelo_${bot.id}`,
+          newBotELO.toString()
+        )
+        await App.storage.setItem(
+          `worms_botelo_${opponentBot.id}`,
+          newOpponentELO.toString()
+        )
+
+        await App.db.models.WormsArenaMatch.update(
+          {
+            status: replay.winner == 'red' ? 'red-win' : 'green-win',
+            replay: JSON.stringify(replay),
           },
-          order: [['createdAt', 'ASC']],
-        })
-        if (oldestMatch && oldestMatch.id == match.id) {
-          oldestPendingMatch = false
-        } else {
-          await new Promise((resolve) => setTimeout(resolve, 1000))
-        }
-      }
+          {
+            where: {
+              id: match.id,
+            },
+          }
+        )
+      }, 0)
 
-      // now I am the oldest pending match, I can start
-      await App.db.models.WormsArenaMatch.update(
-        {
-          status: 'running',
-        },
-        {
-          where: {
-            id: match.id,
-          },
-        }
-      )
+      const randomGif = ['fighting.gif', 'fighting2.gif', 'fighting3.gif'][
+        Math.floor(Math.random() * 3)
+      ]
 
-      const replay = await runWorms(bot.code, opponentBot.code)
-
-      // load elo of bots
-      const botELO = parseInt(
-        (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
-      )
-      const opponentELO = parseInt(
-        (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ?? '500'
-      )
-
-      const K = 32
-
-      let S = 0
-      if (replay.winner == 'red') {
-        S = 1
-      } else if (replay.winner == 'green') {
-        S = 0
-      }
-
-      const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
-
-      const newBotELO = botELO + K * (S - E)
-      const newOpponentELO = opponentELO + K * (E - S)
-
-      await App.storage.setItem(`worms_botelo_${bot.id}`, newBotELO.toString())
-      await App.storage.setItem(
-        `worms_botelo_${opponentBot.id}`,
-        newOpponentELO.toString()
-      )
-
-      await App.db.models.WormsArenaMatch.update(
-        {
-          status: replay.winner == 'red' ? 'red-win' : 'green-win',
-          replay: JSON.stringify(replay),
-        },
-        {
-          where: {
-            id: match.id,
-          },
-        }
-      )
-    }, 0)
-
-    const randomGif = ['fighting.gif', 'fighting2.gif', 'fighting3.gif'][
-      Math.floor(Math.random() * 3)
-    ]
-
-    renderPage(App, req, res, {
-      page: 'worms-match-running',
-      heading: 'Worms',
-      backButton: false,
-      content: `
+      renderPage(App, req, res, {
+        page: 'worms-match-running',
+        heading: 'Worms',
+        backButton: false,
+        content: `
           ${renderNavigation(2)}  
   
           <h3 id="status">Match wird vorbereitet ...</h3>
@@ -571,116 +590,138 @@ export function setupWormsArena(App) {
             }, 1000)
           </script>
         `,
+      })
     })
-  })
+  )
 
-  App.express.get('/worms/arena/poll-match', async (req, res) => {
-    const user = req.user
-    if (!user) {
-      res.redirect('/')
-      return
-    }
+  App.express.get(
+    '/worms/arena/poll-match',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.redirect('/')
+        return
+      }
 
-    const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
+      const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-    const match = await App.db.models.WormsArenaMatch.findOne({
-      where: {
-        id: matchId,
-      },
-    })
-
-    if (!match) {
-      res.status(404).send('Not found')
-      return
-    }
-
-    res.send(match.status)
-  })
-
-  App.express.get('/worms/arena/seed', async (req, res) => {
-    const botELOs = await App.db.models.KVPair.count({
-      where: {
-        key: {
-          [Op.like]: 'worms_botelo_%',
+      const match = await App.db.models.WormsArenaMatch.findOne({
+        where: {
+          id: matchId,
         },
-      },
+      })
+
+      if (!match) {
+        res.status(404).send('Not found')
+        return
+      }
+
+      res.send(match.status)
     })
+  )
 
-    if (botELOs == 0) {
-      await App.storage.setItem('worms_botelo_4', '500')
-    }
+  App.express.get(
+    '/worms/arena/seed',
+    safeRoute(async (req, res) => {
+      const botELOs = await App.db.models.KVPair.count({
+        where: {
+          key: {
+            [Op.like]: 'worms_botelo_%',
+          },
+        },
+      })
 
-    res.send('done')
-  })
+      if (botELOs == 0) {
+        await App.storage.setItem('worms_botelo_4', '500')
+      }
 
-  App.express.get('/worms/arena/replay', async (req, res) => {
-    const user = req.user
-    if (!user) {
-      res.redirect('/')
-      return
-    }
-
-    const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
-
-    const showMsg = req.query.msg == 'done'
-
-    const match = await App.db.models.WormsArenaMatch.findOne({
-      where: {
-        id: matchId,
-      },
+      res.send('done')
     })
+  )
 
-    if (!match) {
-      res.redirect('/worms/arena')
-      return
-    }
+  App.express.get(
+    '/worms/arena/replay',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.redirect('/')
+        return
+      }
 
-    const replay = JSON.parse(match.replay)
+      const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-    const redBot = await App.db.models.WormsBotDraft.findOne({
-      where: {
-        id: match.redBotId,
-      },
-    })
+      const showMsg = req.query.msg == 'done'
 
-    const greenBot = await App.db.models.WormsBotDraft.findOne({
-      where: {
-        id: match.greenBotId,
-      },
-    })
+      const match = await App.db.models.WormsArenaMatch.findOne({
+        where: {
+          id: matchId,
+        },
+      })
 
-    const redBotELO = parseInt(
-      (redBot && (await App.storage.getItem(`worms_botelo_${redBot.id}`))) ??
-        '500'
-    )
+      if (!match) {
+        res.redirect('/worms/arena')
+        return
+      }
 
-    if (!redBot || !greenBot) {
-      res.redirect('/worms/arena')
-      return
-    }
+      /** @type {import('../../data/types.js').WormsReplay} */
+      const replay = JSON.parse(match.replay)
 
-    renderPage(App, req, res, {
-      page: 'worms-match-replay',
-      heading: 'Worms',
-      backButton: false,
-      backHref: '/worms/arena',
-      content: `
+      const redBot = await App.db.models.WormsBotDraft.findOne({
+        where: {
+          id: match.redBotId,
+        },
+      })
+
+      const greenBot = await App.db.models.WormsBotDraft.findOne({
+        where: {
+          id: match.greenBotId,
+        },
+      })
+
+      const redBotELO = parseInt(
+        (redBot && (await App.storage.getItem(`worms_botelo_${redBot.id}`))) ??
+          '500'
+      )
+
+      if (!redBot || !greenBot) {
+        res.redirect('/worms/arena')
+        return
+      }
+
+      const greenBotELO = parseInt(
+        (greenBot &&
+          (await App.storage.getItem(`worms_botelo_${greenBot.id}`))) ??
+          '500'
+      )
+
+      const eloDiff = redBotELO - replay.redElo
+
+      renderPage(App, req, res, {
+        page: 'worms-match-replay',
+        heading: 'Worms',
+        backButton: false,
+        backHref: '/worms/arena',
+        content: `
 
         ${renderNavigation(2)}
 
         <h3 style="text-align: center;">${
           match.status == 'red-win' ? '🏆 ' : ''
-        }<span style="color: rgb(239, 68, 68)">${redBot.name}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot.name}</span>${
-          match.status == 'green-win' ? ' 🏆' : ''
-        }</h3>
+        }<span style="color: rgb(239, 68, 68)">${escapeHTML(redBot.name)}${
+          !showMsg ? ` (${replay.redElo})` : ''
+        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${escapeHTML(greenBot.name)}${
+          !showMsg ? ` (${replay.greenElo})` : ''
+        }</span>${match.status == 'green-win' ? ' 🏆' : ''}</h3>
 
         ${
           showMsg
-            ? `<p style="font-size: 20px; text-align: center">Dein Bot ${
+            ? `<p style="font-size: 20px; text-align: center">Dein Bot ${escapeHTML(
                 redBot.name
-              } hat das Match gegen ${greenBot.name} <strong>${
+              )} hat das Match gegen ${escapeHTML(greenBot.name)} <strong>${
                 match.status == 'red-win' ? 'gewonnen' : 'verloren'
-              }</strong>.<br >Deine neue ELO beträgt ${redBotELO}.</p>`
+              }</strong>.<br >Deine neue ELO beträgt ${redBotELO} (${
+                eloDiff > 0 ? '+' : ''
+              }${eloDiff}).</p>`
             : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
         }
         
@@ -700,7 +741,8 @@ export function setupWormsArena(App) {
           const wormer = new Wormer(document.getElementById('board'))
           wormer.runReplay(${JSON.stringify(replay)})
         </script>
-    `,
+        `,
+      })
     })
-  })
+  )
 }

@@ -265,30 +265,6 @@ export function setupWormsArena(App) {
         attributes: { exclude: ['replay'] },
       })
 
-      let numberOfPlayerMatchesInLast24h = 0
-      let playerBotIds = bots
-        .filter((b) => b.UserId == user.id)
-        .map((b) => b.id)
-      let oldestMatchTs = Infinity
-      for (const match of matches) {
-        if (
-          playerBotIds.includes(match.redBotId) ||
-          playerBotIds.includes(match.greenBotId)
-        ) {
-          if (
-            App.moment(match.createdAt).isAfter(
-              App.moment().subtract(24, 'hours')
-            )
-          ) {
-            numberOfPlayerMatchesInLast24h++
-            const ts = App.moment(match.createdAt).unix() * 1000
-            if (ts < oldestMatchTs) {
-              oldestMatchTs = ts
-            }
-          }
-        }
-      }
-
       matches.forEach((match) => {
         const redBot = botData.find((b) => b.id == match.redBotId)
         const greenBot = botData.find((b) => b.id == match.greenBotId)
@@ -329,6 +305,28 @@ export function setupWormsArena(App) {
         order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
       })
 
+      let numberOfPlayerMatchesInLast24h = 0
+      let playerBotIds = ownBots.map((b) => b.id)
+      let oldestMatchTs = Infinity
+      for (const match of matches) {
+        if (
+          playerBotIds.includes(match.redBotId) ||
+          playerBotIds.includes(match.greenBotId)
+        ) {
+          if (
+            App.moment(match.createdAt).isAfter(
+              App.moment().subtract(24, 'hours')
+            )
+          ) {
+            numberOfPlayerMatchesInLast24h++
+            const ts = App.moment(match.createdAt).unix() * 1000
+            if (ts < oldestMatchTs) {
+              oldestMatchTs = ts
+            }
+          }
+        }
+      }
+
       req.session.lastWormsTab = 'arena'
 
       renderPage(App, req, res, {
@@ -343,13 +341,15 @@ export function setupWormsArena(App) {
         </div>
 
         ${
-          numberOfPlayerMatchesInLast24h >= 50
-            ? `<p>Du hast das Limit von 50 Matches in 24 Stunden erreicht. Du kannst ${App.moment(
-                oldestMatchTs + 1000 * 60 * 60 * 24
-              )
-                .locale('de')
-                .fromNow()} wieder ein Match starten.</p>`
-            : `<p>Wähle deinen Bot für das Match:
+          ownBots.length == 0
+            ? '<p>Du hast noch keine eigenen Bots. Erstelle welche unter &quot;Deine Bots&quot;.</p>'
+            : numberOfPlayerMatchesInLast24h >= 50
+              ? `<p>Du hast das Limit von 50 Matches in 24 Stunden erreicht. Du kannst ${App.moment(
+                  oldestMatchTs + 1000 * 60 * 60 * 24
+                )
+                  .locale('de')
+                  .fromNow()} wieder ein Match starten.</p>`
+              : `<p>Wähle deinen Bot für das Match:
           <select name="bot" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
             <option value="">Bitte wählen...</option>
             ${ownBots
@@ -358,7 +358,7 @@ export function setupWormsArena(App) {
                   `<option value="${bot.id}" ${bot.id === req.session.lastWormsBotId ? 'selected' : ''}>${escapeHTML(bot.name)}</option>`
               )
               .join('')}
-          </select><small style="margin-left: 12px;">Limit bei 50 Matches pro 24h (${numberOfPlayerMatchesInLast24h} / 50)</small>
+          </select><small style="margin-left: 12px;">Limit: 50 Matches pro 24h (${numberOfPlayerMatchesInLast24h} / 50)</small>
         </p>`
         }
 
@@ -398,7 +398,7 @@ export function setupWormsArena(App) {
                   </div>
                 </td>
                 <td>${bot.elo}</td>
-                <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" onclick="window.location.href='/worms/arena/match?opponent=${bot.id}&bot=' + botId" id="challenge-${bot.id}">Herausfordern</a></td>
+                <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" onclick="window.location.href='/worms/arena/start-match?opponent=${bot.id}&bot=' + botId" id="challenge-${bot.id}">Herausfordern</a></td>
               </tr>
             `
               )
@@ -445,7 +445,7 @@ export function setupWormsArena(App) {
   )
 
   App.express.get(
-    '/worms/arena/match',
+    '/worms/arena/start-match',
     safeRoute(async (req, res) => {
       const user = req.user
       if (!user) {
@@ -584,6 +584,33 @@ export function setupWormsArena(App) {
           }
         )
       }, 0)
+
+      res.redirect('/worms/arena/match?id=' + match.id)
+    })
+  )
+
+  App.express.get(
+    '/worms/arena/match',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.redirect('/')
+        return
+      }
+
+      // match id
+      const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
+
+      const match = await App.db.models.WormsArenaMatch.findOne({
+        where: {
+          id: matchId,
+        },
+      })
+
+      if (!match) {
+        res.status(404).send('Not found')
+        return
+      }
 
       const randomGif = ['fighting.gif', 'fighting2.gif', 'fighting3.gif'][
         Math.floor(Math.random() * 3)

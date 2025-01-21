@@ -41,13 +41,13 @@ export function setupWormsManagement(App) {
               bot.name
             )}</strong><span style="display: inline-block; margin-left: 24px; color: gray;">zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()}</span><br>
           <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
-            <a class="btn btn-sm btn-primary" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> Bearbeiten</a>
+            <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> Bearbeiten</a>
             <span>
               <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Umbenennen</button>
               ${
-                bots.length >= 20
+                /*bots.length >= 20
                   ? '<button class="btn btn-sm btn-outline-warning" disabled>Duplizieren</button>'
-                  : `<a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>`
+                  : `<a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>`*/ ''
               }
               <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Löschen</button>
             </span>
@@ -263,7 +263,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
           <p>
             <button class="btn btn-success" onClick="saveButtonClickedAndExit()">Speichern und Schließen</button>
             <span style="display: inline-block; width: 30px;"></span>
-            <button class="btn btn-warning" onClick="saveButtonClicked()">Speichern</button>
+            <button class="btn btn-primary" onClick="saveButtonClicked()">Speichern</button>
             <span style="display: inline-block; width: 30px;"></span>
             <a href="/worms/your-bots" class="btn btn-danger">Schließen</a>
             <span style="margin-left: 32px; color: gray;">Formatieren und speichern mit <kbd>Strg</kbd>+<kbd>S</kbd></span>
@@ -422,7 +422,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
     })
   )
 
-  App.express.get(
+  /*App.express.get(
     '/worms/drafts/duplicate',
     safeRoute(async (req, res) => {
       if (!req.user) {
@@ -478,7 +478,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
       res.redirect('/worms/your-bots')
     })
-  )
+  )*/
 
   App.express.get(
     '/worms/your-bots/test-run',

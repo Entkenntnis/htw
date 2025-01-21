@@ -379,21 +379,23 @@ export function setupWormsArena(App) {
                 
                 <td>${index + 1}</td>
                 <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span><br >
-                  <details>
-                    <summary><span style="color: darkgray">Siege: ${bot.wins}, Niederlagen: ${bot.losses}</span></summary>
-                    <ul>
-                      ${bot.matches
-                        .map(
-                          (match) =>
-                            `<li><a href="/worms/arena/replay?id=${match.id}">${match.htmlLabel}</a> <span style="color: gray;">${App.moment(
-                              match.ts * 1000
-                            )
-                              .locale('de')
-                              .fromNow()}</span></li>`
-                        )
-                        .join('')}
-                    </ul>
-                  </details>
+                  <div style="display: flex">
+                    <details>
+                      <summary><span style="color: darkgray">Siege: ${bot.wins}, Niederlagen: ${bot.losses}</span></summary>
+                      <ul>
+                        ${bot.matches
+                          .map(
+                            (match) =>
+                              `<li><a href="/worms/arena/replay?id=${match.id}">${match.htmlLabel}</a> <span style="color: gray;">${App.moment(
+                                match.ts * 1000
+                              )
+                                .locale('de')
+                                .fromNow()}</span></li>`
+                          )
+                          .join('')}
+                      </ul>
+                    </details>
+                  </div>
                 </td>
                 <td>${bot.elo}</td>
                 <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" onclick="window.location.href='/worms/arena/match?opponent=${bot.id}&bot=' + botId" id="challenge-${bot.id}">Herausfordern</a></td>

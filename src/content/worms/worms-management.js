@@ -85,7 +85,7 @@ export function setupWormsManagement(App) {
           : ''
       }
 
-      ${bots.length < 20 ? `<form action="/worms/drafts/create"><input name="name" required autocomplete="off"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>` : '<p style="margin-top: 44px;">Du hast das Limit von 20 Bots erreicht.</p>'}
+      ${bots.length < 20 ? `<form action="/worms/drafts/create"><input name="name" required autocomplete="off" maxlength="32"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>` : '<p style="margin-top: 44px;">Du hast das Limit von 20 Bots erreicht.</p>'}
 
       <div style="height: 250px;"></div>
 
@@ -98,6 +98,10 @@ export function setupWormsManagement(App) {
 
         function renameBot(id, name) {
           const newName = prompt('Neuer Name:', name)
+          if (newName.length > 32) {
+            alert('Name zu lang (maximal 32 Zeichen)')
+            return
+          }
           if (newName) {
             window.location.href = '/worms/drafts/rename?id=' + id + '&name=' + encodeURIComponent(newName)
           }
@@ -118,8 +122,8 @@ export function setupWormsManagement(App) {
 
       const name = req.query.name ? req.query.name.toString() : ''
 
-      if (!name || name.length >= 200) {
-        res.send('Fehler: Name fehlt oder zu lang (maximal 200 Zeichen)')
+      if (!name || name.length > 32) {
+        res.send('Fehler: Name fehlt oder zu lang (maximal 32 Zeichen)')
         return
       }
 
@@ -206,7 +210,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
       const name = req.query.name ? req.query.name.toString() : ''
 
-      if (isNaN(id) || !name || name.length >= 200) {
+      if (isNaN(id) || !name || name.length > 32) {
         res.send('Invalid ID or name')
         return
       }

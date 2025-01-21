@@ -265,6 +265,30 @@ export function setupWormsArena(App) {
         attributes: { exclude: ['replay'] },
       })
 
+      let numberOfPlayerMatchesInLast24h = 0
+      let playerBotIds = bots
+        .filter((b) => b.UserId == user.id)
+        .map((b) => b.id)
+      let oldestMatchTs = Infinity
+      for (const match of matches) {
+        if (
+          playerBotIds.includes(match.redBotId) ||
+          playerBotIds.includes(match.greenBotId)
+        ) {
+          if (
+            App.moment(match.createdAt).isAfter(
+              App.moment().subtract(24, 'hours')
+            )
+          ) {
+            numberOfPlayerMatchesInLast24h++
+            const ts = App.moment(match.createdAt).unix() * 1000
+            if (ts < oldestMatchTs) {
+              oldestMatchTs = ts
+            }
+          }
+        }
+      }
+
       matches.forEach((match) => {
         const redBot = botData.find((b) => b.id == match.redBotId)
         const greenBot = botData.find((b) => b.id == match.greenBotId)
@@ -318,7 +342,14 @@ export function setupWormsArena(App) {
           <img src="/worms/arena.jpg">
         </div>
 
-        <p>Wähle deinen Bot für das Match:
+        ${
+          numberOfPlayerMatchesInLast24h >= 50
+            ? `<p>Du hast das Limit von 50 Matches in 24 Stunden erreicht. Du kannst ${App.moment(
+                oldestMatchTs + 1000 * 60 * 60 * 24
+              )
+                .locale('de')
+                .fromNow()} wieder ein Match starten.</p>`
+            : `<p>Wähle deinen Bot für das Match:
           <select name="bot" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
             <option value="">Bitte wählen...</option>
             ${ownBots
@@ -327,8 +358,9 @@ export function setupWormsArena(App) {
                   `<option value="${bot.id}" ${bot.id === req.session.lastWormsBotId ? 'selected' : ''}>${escapeHTML(bot.name)}</option>`
               )
               .join('')}
-          </select>
-        </p>
+          </select><small style="margin-left: 12px;">Limit bei 50 Matches pro 24h (${numberOfPlayerMatchesInLast24h} / 50)</small>
+        </p>`
+        }
 
         <table class="table">
           <thead>

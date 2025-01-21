@@ -98,7 +98,6 @@ async function runWorms(srcRed, srcGreen) {
     if (Date.now() - lastInterrupt > 50) {
       await new Promise((resolve) => setTimeout(resolve, 50))
       lastInterrupt = Date.now()
-      console.log('interrupt')
     }
 
     const callScriptRed = `
@@ -208,7 +207,7 @@ export function setupWormsArena(App) {
       })
 
       // extract bot ids and store elo values
-      /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; label: string; ts: number}[]}[]}} */
+      /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; htmlLabel: string; ts: number}[]}[]}} */
       let botData = []
       for (const botELO of botELOs) {
         const id = parseInt(botELO.key.substring(13))
@@ -270,32 +269,28 @@ export function setupWormsArena(App) {
         const redBot = botData.find((b) => b.id == match.redBotId)
         const greenBot = botData.find((b) => b.id == match.greenBotId)
 
-        if (!redBot || !greenBot) {
-          return
-        }
-
-        if (redBot.matches.length < 10) {
+        if (redBot && redBot.matches.length < 10) {
           redBot.matches.push({
             id: match.id,
-            label: `${match.status == 'red-win' ? 'Sieg' : 'Niederlage'} gegen ${greenBot.name}`,
+            htmlLabel: `${match.status == 'red-win' ? 'Sieg' : 'Niederlage'} gegen ${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}`,
             ts: App.moment(match.createdAt).unix(),
           })
         }
 
-        if (greenBot.matches.length < 10) {
+        if (greenBot && greenBot.matches.length < 10) {
           greenBot.matches.push({
             id: match.id,
-            label: `${match.status == 'green-win' ? 'Sieg' : 'Niederlage'} gegen ${redBot.name}`,
+            htmlLabel: `${match.status == 'green-win' ? 'Sieg' : 'Niederlage'} gegen ${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}`,
             ts: App.moment(match.createdAt).unix(),
           })
         }
 
         if (match.status == 'red-win') {
-          redBot.wins++
-          greenBot.losses++
+          if (redBot) redBot.wins++
+          if (greenBot) greenBot.losses++
         } else if (match.status == 'green-win') {
-          redBot.losses++
-          greenBot.wins++
+          if (redBot) redBot.losses++
+          if (greenBot) greenBot.wins++
         }
       })
 
@@ -358,7 +353,7 @@ export function setupWormsArena(App) {
                       ${bot.matches
                         .map(
                           (match) =>
-                            `<li><a href="/worms/arena/replay?id=${match.id}">${match.label}</a> <span style="color: gray;">${App.moment(
+                            `<li><a href="/worms/arena/replay?id=${match.id}">${match.htmlLabel}</a> <span style="color: gray;">${App.moment(
                               match.ts * 1000
                             )
                               .locale('de')
@@ -683,16 +678,10 @@ export function setupWormsArena(App) {
           '500'
       )
 
-      if (!redBot || !greenBot) {
+      if (showMsg && !redBot) {
         res.redirect('/worms/arena')
         return
       }
-
-      const greenBotELO = parseInt(
-        (greenBot &&
-          (await App.storage.getItem(`worms_botelo_${greenBot.id}`))) ??
-          '500'
-      )
 
       const eloDiff = redBotELO - replay.redElo
 
@@ -707,17 +696,15 @@ export function setupWormsArena(App) {
 
         <h3 style="text-align: center;">${
           match.status == 'red-win' ? '🏆 ' : ''
-        }<span style="color: rgb(239, 68, 68)">${escapeHTML(redBot.name)}${
+        }<span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}${
           !showMsg ? ` (${replay.redElo})` : ''
-        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${escapeHTML(greenBot.name)}${
+        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}${
           !showMsg ? ` (${replay.greenElo})` : ''
         }</span>${match.status == 'green-win' ? ' 🏆' : ''}</h3>
 
         ${
           showMsg
-            ? `<p style="font-size: 20px; text-align: center">Dein Bot ${escapeHTML(
-                redBot.name
-              )} hat das Match gegen ${escapeHTML(greenBot.name)} <strong>${
+            ? `<p style="font-size: 20px; text-align: center">Dein Bot ${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'} hat das Match gegen ${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'} <strong>${
                 match.status == 'red-win' ? 'gewonnen' : 'verloren'
               }</strong>.<br >Deine neue ELO beträgt ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''

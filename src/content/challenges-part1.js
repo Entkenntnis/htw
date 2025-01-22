@@ -1260,7 +1260,7 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Ich werde alt, daran kann keine Technik was verändern. Kein Grund zu verzweifeln. Ich mache, was ich kann. Vor Kurzem habe ich angefangen, die Blindenschrift zu lernen. Das hält meine grauen Zellen auf Trapp.</p>
+        <p>Ich werde alt, daran kann keine Technik was verändern. Kein Grund zu verzweifeln. Ich mache, was ich kann. Vor Kurzem habe ich angefangen, die Blindenschrift zu lernen. Das hält meine grauen Zellen auf Trab.</p>
 
         <details style="margin-top:24px;margin-bottom:24px">
           <summary>Deutsche Blindenschrift</summary>

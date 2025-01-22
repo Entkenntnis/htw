@@ -1031,7 +1031,7 @@ export const part1 = [
         `
         <p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
 
-        <p>Falls wir mal nicht erreichbar, kannst du auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web Fragen stellen und dir Tipps zu den Aufgaben holen.</p>
+        <p>Falls wir mal nicht erreichbar sind, kannst du auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web Fragen stellen und dir Tipps zu den Aufgaben holen.</p>
 
         <p>So sieht das Forum aus. In diesem Screenshot findest du die Antwort zu dieser Aufgabe.</p>
 
@@ -2240,7 +2240,7 @@ export const part1 = [
       <div style="height:80px;width:250px;background-color:#663399;position:relative"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
       `,
     },
-    solution: secrets('chal_55'),
+    solution: secrets('chal_55').split(','),
     afterSolveText: {
       de: '<p>Die Farbe wurde zum Gedenken an die verstorbene Tochter des CSS-Entwicklers Eric A. Meyer benannt und findet sich im neuen <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS-Logo</a>.</p>',
       en: '<p>The color was named in memory of the late daughter of CSS developer Eric A. Meyer and is featured in the new <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS logo</a>.</p>',
@@ -2939,7 +2939,7 @@ PIXI.loader
 
         <p>Dieser Smiley ist ein Programm, das dir die Antwort sagt. Kopiere es auf eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> oder in die Browser-Konsole und führe es aus.</p>`,
         `
-        <pre class="bg-dark p-3" style="width:420px;"><code>                  const d = [68,
+        <pre class="bg-dark p-3" style="width:430px;"><code>                  const d = [68,
              105,               101,
          32,                         65,
       110,                             116,

@@ -2939,7 +2939,7 @@ PIXI.loader
 
         <p>Dieser Smiley ist ein Programm, das dir die Antwort sagt. Kopiere es auf eine Webseite wie <a href="https://runjs.co/" target="_blank">RunJS</a> oder in die Browser-Konsole und führe es aus.</p>`,
         `
-        <pre class="bg-dark p-3" style="width:420px;"><code>                  const d = [68,
+        <pre class="bg-dark p-3" style="width:430px;"><code>                  const d = [68,
              105,               101,
          32,                         65,
       110,                             116,

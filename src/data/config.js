@@ -119,7 +119,7 @@ export const appConfig = {
     solutionClass_correct: 'primary',
     solutionClass_wrong: 'danger',
     tableHighlightClass: 'secondary',
-    fontSize: '15.5px',
+    fontSize: '16px',
   },
   editors: ['editor', 'demo'],
   noSelfAdmin: ['demo'],

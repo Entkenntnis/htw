@@ -486,6 +486,7 @@ export function setupWormsArena(App) {
         greenBotId: opponentBot.id,
         status: 'pending',
         replay: '',
+        UserId: user.id,
       })
 
       req.session.lastWormsBotId = bot.id

@@ -141,4 +141,7 @@ export function dbModel(App) {
     as: 'greenBot',
     foreignKey: 'greenBotId',
   })
+
+  User.hasMany(WormsArenaMatch, { onDelete: 'cascade' })
+  WormsArenaMatch.belongsTo(User)
 }

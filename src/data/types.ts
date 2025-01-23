@@ -182,6 +182,7 @@ export class WormsArenaMatchModel extends Model<
   declare status: 'pending' | 'running' | 'red-win' | 'green-win'
   declare redBotId: number
   declare greenBotId: number
+  declare UserId: number
   declare replay: string
   declare createdAt: CreationOptional<string | Date>
   declare updatedAt: CreationOptional<string | Date>

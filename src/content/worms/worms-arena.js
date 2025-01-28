@@ -189,12 +189,41 @@ async function runWorms(srcRed, srcGreen) {
  * @param {import("../../data/types.js").App} App
  */
 export function setupWormsArena(App) {
+  App.entry.add(async () => {
+    // safe guard: if there is still a running match, we reset it
+    await App.db.models.WormsArenaMatch.update(
+      {
+        status: 'error',
+      },
+      {
+        where: {
+          status: {
+            [Op.in]: ['running', 'pending'],
+          },
+        },
+      }
+    )
+  })
+
   App.express.get(
     '/worms/arena',
     safeRoute(async (req, res) => {
       const user = req.user
       if (!user) {
         res.redirect('/')
+        return
+      }
+
+      // first check if there is still a running match of this user
+      const runningMatch = await App.db.models.WormsArenaMatch.findOne({
+        where: {
+          status: 'running',
+          UserId: user.id,
+        },
+      })
+
+      if (runningMatch) {
+        res.redirect('/worms/arena/match?id=' + runningMatch.id)
         return
       }
 
@@ -305,27 +334,16 @@ export function setupWormsArena(App) {
         order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
       })
 
-      let numberOfPlayerMatchesInLast24h = 0
-      let playerBotIds = ownBots.map((b) => b.id)
-      let oldestMatchTs = Infinity
-      for (const match of matches) {
-        if (
-          playerBotIds.includes(match.redBotId) ||
-          playerBotIds.includes(match.greenBotId)
-        ) {
-          if (
-            App.moment(match.createdAt).isAfter(
-              App.moment().subtract(24, 'hours')
-            )
-          ) {
-            numberOfPlayerMatchesInLast24h++
-            const ts = App.moment(match.createdAt).unix() * 1000
-            if (ts < oldestMatchTs) {
-              oldestMatchTs = ts
-            }
-          }
-        }
-      }
+      // find out number of matches in last 24h from this player
+      const matchesInTheLast24h = await App.db.models.WormsArenaMatch.findAll({
+        where: {
+          UserId: user.id,
+          createdAt: {
+            [Op.gt]: App.moment().subtract(24, 'hours').toDate(),
+          },
+        },
+        order: [['createdAt', 'ASC']],
+      })
 
       req.session.lastWormsTab = 'arena'
 
@@ -343,9 +361,10 @@ export function setupWormsArena(App) {
         ${
           ownBots.length == 0
             ? '<p>Du hast noch keine eigenen Bots. Erstelle welche unter &quot;Deine Bots&quot;.</p>'
-            : numberOfPlayerMatchesInLast24h >= 50
+            : matchesInTheLast24h.length >= 50
               ? `<p>Du hast das Limit von 50 Matches in 24 Stunden erreicht. Du kannst ${App.moment(
-                  oldestMatchTs + 1000 * 60 * 60 * 24
+                  new Date(matchesInTheLast24h[0].createdAt).getTime() +
+                    1000 * 60 * 60 * 24
                 )
                   .locale('de')
                   .fromNow()} wieder ein Match starten.</p>`
@@ -358,7 +377,7 @@ export function setupWormsArena(App) {
                   `<option value="${bot.id}" ${bot.id === req.session.lastWormsBotId ? 'selected' : ''}>${escapeHTML(bot.name)}</option>`
               )
               .join('')}
-          </select><small style="margin-left: 12px;">Limit: 50 Matches pro 24h (${numberOfPlayerMatchesInLast24h} / 50)</small>
+          </select><small style="margin-left: 12px;">Limit: 50 Matches pro 24h (${matchesInTheLast24h.length} / 50)</small>
         </p>`
         }
 
@@ -492,98 +511,116 @@ export function setupWormsArena(App) {
       req.session.lastWormsBotId = bot.id
 
       setTimeout(async () => {
-        // a simple match runner that tries to run the match in a coordinated way
+        try {
+          // a simple match runner that tries to run the match in a coordinated way
 
-        // first of all, check if another match is runner, otherwise I'll wait
-        let matchRunning = true
-        while (matchRunning) {
-          const runningMatches = await App.db.models.WormsArenaMatch.findAll({
-            where: {
+          // first of all, check if another match is runner, otherwise I'll wait
+          let matchRunning = true
+          while (matchRunning) {
+            const runningMatches = await App.db.models.WormsArenaMatch.findAll({
+              where: {
+                status: 'running',
+              },
+            })
+            if (runningMatches.length == 0) {
+              matchRunning = false
+            } else {
+              await new Promise((resolve) => setTimeout(resolve, 1000))
+            }
+          }
+
+          // now check if I am the oldest pending match, otherwise I'll wait
+          let oldestPendingMatch = true
+          while (oldestPendingMatch) {
+            const oldestMatch = await App.db.models.WormsArenaMatch.findOne({
+              where: {
+                status: 'pending',
+              },
+              order: [['createdAt', 'ASC']],
+            })
+            if (oldestMatch && oldestMatch.id == match.id) {
+              oldestPendingMatch = false
+            } else {
+              await new Promise((resolve) => setTimeout(resolve, 1000))
+            }
+          }
+
+          // now I am the oldest pending match, I can start
+          await App.db.models.WormsArenaMatch.update(
+            {
               status: 'running',
             },
-          })
-          if (runningMatches.length == 0) {
-            matchRunning = false
-          } else {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-          }
-        }
+            {
+              where: {
+                id: match.id,
+              },
+            }
+          )
 
-        // now check if I am the oldest pending match, otherwise I'll wait
-        let oldestPendingMatch = true
-        while (oldestPendingMatch) {
-          const oldestMatch = await App.db.models.WormsArenaMatch.findOne({
-            where: {
-              status: 'pending',
+          const replay = await runWorms(bot.code, opponentBot.code)
+
+          // testweise 20 sekunden warten
+          await new Promise((resolve) => setTimeout(resolve, 20000))
+
+          // load elo of bots
+          const botELO = parseInt(
+            (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
+          )
+          const opponentELO = parseInt(
+            (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ??
+              '500'
+          )
+
+          replay.redElo = botELO
+          replay.greenElo = opponentELO
+
+          const K = 32
+
+          let S = 0
+          if (replay.winner == 'red') {
+            S = 1
+          } else if (replay.winner == 'green') {
+            S = 0
+          }
+
+          const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
+
+          const newBotELO = botELO + K * (S - E)
+          const newOpponentELO = opponentELO + K * (E - S)
+
+          await App.storage.setItem(
+            `worms_botelo_${bot.id}`,
+            newBotELO.toString()
+          )
+          await App.storage.setItem(
+            `worms_botelo_${opponentBot.id}`,
+            newOpponentELO.toString()
+          )
+
+          await App.db.models.WormsArenaMatch.update(
+            {
+              status: replay.winner == 'red' ? 'red-win' : 'green-win',
+              replay: JSON.stringify(replay),
             },
-            order: [['createdAt', 'ASC']],
-          })
-          if (oldestMatch && oldestMatch.id == match.id) {
-            oldestPendingMatch = false
-          } else {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-          }
-        }
-
-        // now I am the oldest pending match, I can start
-        await App.db.models.WormsArenaMatch.update(
-          {
-            status: 'running',
-          },
-          {
-            where: {
-              id: match.id,
+            {
+              where: {
+                id: match.id,
+              },
+            }
+          )
+        } catch (e) {
+          console.log('match failed', e)
+          await App.db.models.WormsArenaMatch.update(
+            {
+              status: 'error',
             },
-          }
-        )
-
-        const replay = await runWorms(bot.code, opponentBot.code)
-
-        // load elo of bots
-        const botELO = parseInt(
-          (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
-        )
-        const opponentELO = parseInt(
-          (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ?? '500'
-        )
-
-        replay.redElo = botELO
-        replay.greenElo = opponentELO
-
-        const K = 32
-
-        let S = 0
-        if (replay.winner == 'red') {
-          S = 1
-        } else if (replay.winner == 'green') {
-          S = 0
+            {
+              where: {
+                id: match.id,
+              },
+            }
+          )
         }
-
-        const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
-
-        const newBotELO = botELO + K * (S - E)
-        const newOpponentELO = opponentELO + K * (E - S)
-
-        await App.storage.setItem(
-          `worms_botelo_${bot.id}`,
-          newBotELO.toString()
-        )
-        await App.storage.setItem(
-          `worms_botelo_${opponentBot.id}`,
-          newOpponentELO.toString()
-        )
-
-        await App.db.models.WormsArenaMatch.update(
-          {
-            status: replay.winner == 'red' ? 'red-win' : 'green-win',
-            replay: JSON.stringify(replay),
-          },
-          {
-            where: {
-              id: match.id,
-            },
-          }
-        )
       }, 0)
 
       res.redirect('/worms/arena/match?id=' + match.id)
@@ -624,27 +661,26 @@ export function setupWormsArena(App) {
         content: `
           ${renderNavigation(2)}  
   
-          <h3 id="status">Match wird vorbereitet ...</h3>
+          <h3 id="status">...</h3>
 
           <img src="/worms/${randomGif}" style="margin-top: 24px;">
 
           <script>
             // Polling until status is red-win or green-win
-            let interval = setInterval(() => {
+            let interval = setInterval(fetchStatus, 1000)
+            function fetchStatus() {
               fetch('/worms/arena/poll-match?id=${match.id}')
                 .then((res) => res.text())
                 .then((status) => {
-                  if (status == 'pending') {
-                    document.getElementById('status').innerText = 'Match wird vorbereitet ...'
-                  } else if (status == 'running') {
-                    document.getElementById('status').innerText = 'Match wird ausgeführt ...'
-                  }
                   if (status == 'red-win' || status == 'green-win') {
                     clearInterval(interval)
                     window.location.href = '/worms/arena/replay?id=${match.id}&msg=done'
+                  } else {
+                    document.getElementById('status').innerText = status
                   }
                 })
-            }, 1000)
+            }
+            fetchStatus()
           </script>
         `,
       })
@@ -670,6 +706,34 @@ export function setupWormsArena(App) {
 
       if (!match) {
         res.status(404).send('Not found')
+        return
+      }
+
+      if (match.status == 'running') {
+        res.send('Match läuft ...')
+        return
+      }
+
+      if (match.status == 'pending') {
+        // find matches that are older and still pending
+        const olderMatches = await App.db.models.WormsArenaMatch.findAll({
+          where: {
+            status: 'pending',
+            createdAt: {
+              [Op.lt]: match.createdAt,
+            },
+          },
+        })
+        res.send(
+          `Match in Warteschlange auf Position ${olderMatches.length + 1} ...`
+        )
+        return
+      }
+
+      if (match.status == 'error') {
+        res.send(
+          'Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.'
+        )
         return
       }
 
@@ -774,7 +838,7 @@ export function setupWormsArena(App) {
             : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
         }
         
-        <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a></p>
+        <p style="text-align: center; margin-top: 24px;"><button class="btn btn-secondary" style="margin-right: 32px;" onClick="window.location.reload()">Replay wiederholen</button><a href="/worms/arena" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a></p>
         
         <script src="/worms/wormer.js"></script>
 

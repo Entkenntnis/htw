@@ -149,9 +149,37 @@ export function setupWormsBasic(App) {
         content: `
         ${renderNavigation(4)}
 
-        <p>Willkommen beim Worms-Guide.</p>
+        <p>Zwei Würmer und ein Kampf auf Leben und Tod - herzlich Willkommen bei Worms!</p>
 
-        <p>TODO: Sammlung aller relevanten Inhalte</p>
+        <p>Die Regeln sind denkbar einfach. Ein roter und ein grüner Wurm starten auf einem Spielfeld der Größe 72x40, an einer leicht zufälligen Position. Abwechseln, beginnend mit rot, bewegen sich die Würmer auf ein neues freie Feld. Wer gegen die Wand, den gegnerischen Wurm oder sich selbst läuft, verliert.</p>        
+
+        <p>Steuere im 2-Spieler und Einzelspieler einen Wurm und erlebe die taktischen und strategischen Herausforderungen.</p>
+
+        <p>In den Tabs Bot-Arena und Deine Bots kannst du Computerprogramme schreiben, die an deiner Stelle in den Kampf treten. In wenigen Schritten ist dein erster Bot geschrieben!</p>
+
+        <p>(1. Schritt) Neuen Bot erstellen</p>
+
+        <p>Gehe in den Tab Deine Bots. Trage dort einen epischen Namen für deinen Bot ein und klicke auf Neuen Bot erstellen.</p>
+
+        <p>(2. Schritt) Programm schreiben</p>
+
+        <p>Klicke auf Bearbeiten. Der Editor öffnet sich. Das Programm besteht aus einer Funktion <code>think</code>, die vor jedem Schritt aufgerufen wird. Die Vorlage enthält einen Bot, der immer geradeaus läuft. Das passiert, weil durch <code>return dir</code> immer die aktuelle Richtung als nächsten Schritt ausgegeben wird. Wie man andere Bots schreibt, wird später vorgestellt. Schließe den Editor.</p>
+
+        <p>(3. Schritt) Gegner in Arena herausfordern</p>
+
+        <p>Jetzt geht es an die Sache. Gehe auf Bot-Arena. Wähle zuerst deinen neu erstellen Bot aus. Wähle dann einen Gegner, den du herausfordern willst. Sobald du auf herausfordern klickst, wird ein neues Match gestartet. Nach einer Weile siehst du das Ergebnis und ein Replay.</p>
+
+        <p>(Hurray) Du hast dein erstes Match mit deinem eigenen Bot bestritten!</p>
+
+        <hr />
+
+        <p>Der anspruchsvolle Teil ist nun die Programmierung der Bots. Es geht mehr um deine Ideen, weniger um den Code. Solange du deine Idee beschreiben kannst, kann immer eine LLM dir bei der Umsetzung helfen. Damit ist Worms auch für Programmieranfänger gut geeignet!</p>
+
+        <p>Das Programm wird in modernen JavaScript geschrieben. Da die Matches auf dem Server laufen, gibt es eine Sandbox, die sicherheitskritische Funktionen deaktiviert (Netzwerkanfragen, etc..). Pro Denkvorgang, d.h. Aufruf von <code>think</code>, darf dein Programm 1 Millionen Anweisungen ausführen und hat insgesamt 1 MB an Arbeitsspeicher zur Verfügung.</p>
+
+        <p>Im folgenden sind noch ein paar Beispielprogramme gegeben, um dir ein Gefühl für die Programmierung zu geben. Gegen diese kannst du auch in der Arena antreten.</p>
+        
+        <div style="height: 300px;"></div>
       `,
       })
     })

@@ -849,9 +849,9 @@ export function setupWormsArena(App) {
         <h3 style="text-align: center;">${
           match.status == 'red-win' ? '🏆 ' : ''
         }<span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}${
-          !showMsg ? ` (${replay.redElo})` : ''
+          !showMsg ? ` (${Math.round(replay.redElo)})` : ''
         }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}${
-          !showMsg ? ` (${replay.greenElo})` : ''
+          !showMsg ? ` (${Math.round(replay.greenElo)})` : ''
         }</span>${match.status == 'green-win' ? ' 🏆' : ''}</h3>
 
         ${

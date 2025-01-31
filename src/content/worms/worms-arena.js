@@ -589,10 +589,10 @@ export function setupWormsArena(App) {
           const replay = await runWorms(bot.code, opponentBot.code)
 
           // load elo of bots
-          const botELO = parseInt(
+          const botELO = parseFloat(
             (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
           )
-          const opponentELO = parseInt(
+          const opponentELO = parseFloat(
             (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ??
               '500'
           )
@@ -860,7 +860,7 @@ export function setupWormsArena(App) {
                 match.status == 'red-win' ? 'gewonnen' : 'verloren'
               }</strong>.<br >Deine neue ELO beträgt ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''
-              }${eloDiff}).</p>`
+              }${Math.round(eloDiff)}).</p>`
             : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
         }
         

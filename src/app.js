@@ -32,11 +32,13 @@ import { setupSurvey } from './server/routes/survey.js'
 import { setupMortalCoil } from './content/mortal-coil.js'
 import { setupPleaseFixMe } from './content/please-fix-me.js'
 import { setupEnough } from './content/enough.js'
-import { setupWorms } from './content/worms.js'
+import { setupWormsBasic } from './content/worms/worms-basic.js'
 
 import { _deprecated__setupDecodeMe } from './content/decode-me-deprecated.js'
 import { setupHints } from './server/routes/hints.js'
 import { withVersion } from './server/lib/withVersion.js'
+import { setupWormsManagement } from './content/worms/worms-management.js'
+import { setupWormsArena } from './content/worms/worms-arena.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -82,7 +84,10 @@ setupSurvey(App)
 setupMortalCoil(App)
 setupPleaseFixMe(App)
 setupEnough(App)
-setupWorms(App)
+
+setupWormsBasic(App)
+setupWormsManagement(App)
+setupWormsArena(App)
 
 // keep it for now
 _deprecated__setupDecodeMe(App)

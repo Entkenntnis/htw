@@ -64,13 +64,18 @@ class Wormer {
     // game state
     this.redX = 10 + Math.floor(Math.random() * 8 - 4)
     this.redY = 20 + Math.floor(Math.random() * 8 - 4)
-    this.redDir = Math.floor(Math.random() * 3)
+    this.redDir = 1 //Math.floor(Math.random() * 3)
 
     this.greenX = 61 + Math.floor(Math.random() * 8 - 4)
     this.greenY = 21 + Math.floor(Math.random() * 8 - 4)
-    this.greenDir = (Math.floor(Math.random() * 3) + 2) % 4
+    this.greenDir = 3 //(Math.floor(Math.random() * 3) + 2) % 4
 
     this.lastTick = new Date().getTime()
+    this.turbo = false
+  }
+
+  toggleTurbo() {
+    this.turbo = !this.turbo
   }
 
   runReplay(replay) {
@@ -131,7 +136,7 @@ class Wormer {
     }
     const ts = new Date().getTime()
 
-    if (ts - this.lastTick < 120) {
+    if (ts - this.lastTick < 120 && !this.turbo) {
       requestAnimationFrame(this.tick.bind(this))
       return
     } else {
@@ -217,9 +222,14 @@ class Wormer {
   }
 }
 
-function createKeyboardPlayer(up, right, down, left) {
+function createKeyboardPlayer(up, right, down, left, resetRef) {
   let lastDir = -1 // Initialize with no direction
   let newDir = -1
+
+  resetRef.reset = () => {
+    lastDir = -1
+    newDir = -1
+  }
 
   // Event listener to set direction based on key press
   window.addEventListener('keydown', (event) => {
@@ -281,7 +291,7 @@ function createDemoBot() {
     myDistances.push(row2)
   }
 
-  function bfs(board, startX, startY, distances) {
+  window.bfs = function bfs(board, startX, startY, distances) {
     const queue = []
     let head = 0
 
@@ -315,7 +325,7 @@ function createDemoBot() {
 
     // Now we have 2 or 3 choices
     // Start with calculating opp distances
-    bfs(board, oppX, oppY, oppDistances)
+    window.bfs(board, oppX, oppY, oppDistances)
 
     const evals = availableMoves.map((moveDir, i) => {
       const nx = x + offsets[moveDir][0]

@@ -30,6 +30,8 @@ export interface App {
       Session: ModelStatic<SessionModel>
       Room: ModelStatic<RoomModel>
       KVPair: ModelStatic<KVPairModel>
+      WormsBotDraft: ModelStatic<WormsBotDraftModel>
+      WormsArenaMatch: ModelStatic<WormsArenaMatchModel>
     }
   }
   i18n: { get(lng: 'de' | 'en'): i18n }
@@ -160,6 +162,32 @@ export class KVPairModel extends Model<
   declare updatedAt: CreationOptional<string | Date>
 }
 
+export class WormsBotDraftModel extends Model<
+  InferAttributes<WormsBotDraftModel>,
+  InferCreationAttributes<WormsBotDraftModel>
+> {
+  declare id: CreationOptional<number>
+  declare name: string
+  declare code: string
+  declare UserId: number
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
+}
+
+export class WormsArenaMatchModel extends Model<
+  InferAttributes<WormsArenaMatchModel>,
+  InferCreationAttributes<WormsArenaMatchModel>
+> {
+  declare id: CreationOptional<number>
+  declare status: 'pending' | 'running' | 'red-win' | 'green-win' | 'error'
+  declare redBotId: number
+  declare greenBotId: number
+  declare UserId: number
+  declare replay: string
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
+}
+
 declare global {
   namespace Express {
     interface Request {
@@ -188,6 +216,14 @@ declare module 'express-session' {
     chal338_ts?: number
     chal338_result?: string
     maze?: { x: number; y: number }
+    lastTestRun?: [number, number]
+    lastWormsTab?:
+      | 'two-player'
+      | 'single-player'
+      | 'arena'
+      | 'your-bots'
+      | 'guide'
+    lastWormsBotId?: number
   }
 }
 
@@ -232,7 +268,12 @@ export interface WormsReplay {
   yGreen: number
   dirGreen: number
 
+  redElo: number
+  greenElo: number
+
   dirs: number[]
+
+  winner: 'red' | 'green' | ''
 }
 
 export type HintsData = {

@@ -175,5 +175,8 @@
     "title": "Password set",
     "content_": "New password successfully set.",
     "back": "OK"
+  },
+  "worms-drafts": {
+    "back": "Cancel"
   }
 }

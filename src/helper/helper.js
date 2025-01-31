@@ -34,3 +34,19 @@ export function generateToken(userId) {
     `${userId}___${secrets('config_token_secret')}`
   ).substring(0, 12)}`
 }
+
+/**
+ * @param {(req: import('express').Request, res: import('express').Response) => Promise<void> | void} handler
+ * @returns {import('express').Handler}
+ */
+export function safeRoute(handler) {
+  return async (req, res) => {
+    try {
+      await handler(req, res)
+    } catch (error) {
+      console.log('!! catching error in route !!')
+      console.error(error)
+      res.send('[htw] internal server error')
+    }
+  }
+}

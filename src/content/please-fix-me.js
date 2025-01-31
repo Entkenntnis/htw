@@ -1,6 +1,5 @@
 import { Op } from 'sequelize'
 import { renderPage } from '../helper/render-page.js'
-import escapeHTML from 'escape-html'
 
 const levels = [
   {

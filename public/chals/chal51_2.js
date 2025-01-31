@@ -34,7 +34,7 @@ function buildCircle(i, label) {
     input.innerHTML = output
     document.getElementById('challenge_answer').value = output
   })
-  binary.text(label).attr('font-size', '24px').move(25 + 70*i + (i >= 2 ? 8 : 0), 23).style('pointer-events:none;font-family:"Authentic";').attr('font-family', 'Authentic')
+  binary.text(label).attr('font-size', '24px').move(25 + 70*i + (i >= 2 ? 8 : 0), 23).style('pointer-events:none;')
 }
 
 

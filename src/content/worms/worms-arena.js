@@ -417,7 +417,12 @@ export function setupWormsArena(App) {
                   </div>
                 </td>
                 <td>${bot.elo}</td>
-                <td><a class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" onclick="window.location.href='/worms/arena/start-match?opponent=${bot.id}&bot=' + botId" id="challenge-${bot.id}">Herausfordern</a></td>
+                <td>
+                  <form action="/worms/arena/start-match" method="POST" style="display: inline;" class="challenge-form">
+                    <input type="hidden" name="opponent" value="${bot.id}">
+                    <button type="submit" class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" id="challenge-${bot.id}">Herausfordern</button>
+                  </form>
+                </td>
               </tr>
             `
               )
@@ -453,6 +458,18 @@ export function setupWormsArena(App) {
             }
           }
 
+           // Add botId to challenge forms dynamically
+          document.querySelectorAll('form.challenge-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+              e.preventDefault()
+              const botIdInput = document.createElement('input')
+              botIdInput.type = 'hidden'
+              botIdInput.name = 'bot'
+              botIdInput.value = botId
+              this.appendChild(botIdInput)
+              this.submit()
+            })
+          })
           
           updateBotIdAndUpdateUI(parseInt(document.querySelector('select[name="bot"]').value))
         </script>
@@ -463,7 +480,7 @@ export function setupWormsArena(App) {
     })
   )
 
-  App.express.get(
+  App.express.post(
     '/worms/arena/start-match',
     safeRoute(async (req, res) => {
       const user = req.user
@@ -472,9 +489,9 @@ export function setupWormsArena(App) {
         return
       }
 
-      const botId = req.query.bot ? parseInt(req.query.bot.toString()) : NaN
-      const opponentId = req.query.opponent
-        ? parseInt(req.query.opponent.toString())
+      const botId = req.body.bot ? parseInt(req.body.bot.toString()) : NaN
+      const opponentId = req.body.opponent
+        ? parseInt(req.body.opponent.toString())
         : NaN
 
       if (botId == opponentId) {

@@ -39,7 +39,7 @@ export function setupWormsManagement(App) {
           (bot) =>
             `<div style="margin-bottom: 24px;"><strong style="font-size: 20px;">${escapeHTML(
               bot.name
-            )}</strong><span style="display: inline-block; margin-left: 24px; color: gray;">zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()}</span><br>
+            )}</strong><span style="margin-left: 24px; color: gray; user-select: none;">zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()}</span><br>
           <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
             <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> Bearbeiten</a>
             <span>
@@ -469,64 +469,6 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       res.send('ok')
     })
   )
-
-  /*App.express.get(
-    '/worms/drafts/duplicate',
-    safeRoute(async (req, res) => {
-      if (!req.user) {
-        res.redirect('/')
-        return
-      }
-
-      const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
-
-      if (isNaN(id)) {
-        res.send('Invalid ID')
-        return
-      }
-
-      const bot = await App.db.models.WormsBotDraft.findOne({
-        where: { id, UserId: req.user.id },
-      })
-
-      if (!bot) {
-        res.send('Bot not found')
-        return
-      }
-
-      const newName = bot.name + ' (Kopie)'
-
-      // check if user has too many bots
-      if (
-        (await App.db.models.WormsBotDraft.count({
-          where: { UserId: req.user.id },
-        })) >= 20
-      ) {
-        res.send('Fehler: Du hast bereits 20 Bots erstellt')
-        return
-      }
-
-      // check if bot with this name already exists and create alternative name
-      let i = 1
-      let newNameCandidate = newName
-      while (
-        (await App.db.models.WormsBotDraft.count({
-          where: { name: newNameCandidate, UserId: req.user.id },
-        })) > 0
-      ) {
-        i++
-        newNameCandidate = newName + ' (' + i + ')'
-      }
-
-      await App.db.models.WormsBotDraft.create({
-        name: newNameCandidate,
-        UserId: req.user.id,
-        code: bot.code,
-      })
-
-      res.redirect('/worms/your-bots')
-    })
-  )*/
 
   App.express.get(
     '/worms/your-bots/test-run',

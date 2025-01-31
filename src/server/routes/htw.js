@@ -163,6 +163,24 @@ export function setupHtw(App) {
 
       console.log('  KVPAirs vollständig')
 
+      console.log('Starte Import WormsBotDraft ...')
+
+      const wormsBotDrafts = await App.db.models.WormsBotDraft.findAll({
+        raw: true,
+      })
+      await LOCALAPP.db.models.WormsBotDraft.bulkCreate(wormsBotDrafts)
+
+      console.log('  WormsBotDraft vollständig')
+
+      console.log('Starte Import WormsArenaMatch ...')
+
+      const wormsArenaMatch = await App.db.models.WormsArenaMatch.findAll({
+        raw: true,
+      })
+      await LOCALAPP.db.models.WormsArenaMatch.bulkCreate(wormsArenaMatch)
+
+      console.log('  WormsArenaMatch vollständig')
+
       process.exit()
     }
   }

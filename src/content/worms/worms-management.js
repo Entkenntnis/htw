@@ -41,7 +41,7 @@ export function setupWormsManagement(App) {
               bot.name
             )}</strong><span style="display: inline-block; margin-left: 24px; color: gray;">zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()}</span><br>
           <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
-            <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> Bearbeiten</a>
+            <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> Bearbeiten</a>
             <span>
               <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Umbenennen</button>
               ${
@@ -55,8 +55,6 @@ export function setupWormsManagement(App) {
           </div> <hr>`
         )
         .join('')}
-
-        
 
       ${
         bots.length > 0
@@ -85,25 +83,59 @@ export function setupWormsManagement(App) {
           : ''
       }
 
-      ${bots.length < 20 ? `<form action="/worms/drafts/create"><input name="name" required autocomplete="off" maxlength="32"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>` : '<p style="margin-top: 44px;">Du hast das Limit von 20 Bots erreicht.</p>'}
+      ${bots.length < 20 ? `<form action="/worms/drafts/create" method="POST"><input name="name" required autocomplete="off" maxlength="32"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>` : '<p style="margin-top: 44px;">Du hast das Limit von 20 Bots erreicht.</p>'}
 
       <div style="height: 250px;"></div>
 
       <script>
         function confirmDelete(id, name) {
           if (confirm('Möchtest du den Bot ' + name + ' wirklich löschen?')) {
-            window.location.href = '/worms/drafts/delete?id=' + id;
+            fetch('/worms/drafts/delete', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ id: id }),
+            })
+            .then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                alert('Löschen fehlgeschlagen');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Fehler beim Löschen');
+            });
           }
         }
 
         function renameBot(id, name) {
           const newName = prompt('Neuer Name:', name)
-          if (newName.length > 32) {
-            alert('Name zu lang (maximal 32 Zeichen)')
-            return
-          }
           if (newName) {
-            window.location.href = '/worms/drafts/rename?id=' + id + '&name=' + encodeURIComponent(newName)
+            if (newName.length > 32) {
+              alert('Name zu lang (maximal 32 Zeichen)')
+              return
+            }
+            fetch('/worms/drafts/rename', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ id: id, name: newName }),
+            })
+            .then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                alert('Umbenennen fehlgeschlagen');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Fehler beim Umbenennen');
+            });
           }
         }
       </script>
@@ -112,7 +144,7 @@ export function setupWormsManagement(App) {
     })
   )
 
-  App.express.get(
+  App.express.post(
     '/worms/drafts/create',
     safeRoute(async (req, res) => {
       if (!req.user) {
@@ -120,7 +152,7 @@ export function setupWormsManagement(App) {
         return
       }
 
-      const name = req.query.name ? req.query.name.toString() : ''
+      const name = req.body.name ? req.body.name.toString() : ''
 
       if (!name || name.length > 32) {
         res.send('Fehler: Name fehlt oder zu lang (maximal 32 Zeichen)')
@@ -136,7 +168,6 @@ export function setupWormsManagement(App) {
         return
       }
 
-      // check if user has too many bots
       if (
         (await App.db.models.WormsBotDraft.count({
           where: { UserId: req.user.id },
@@ -176,7 +207,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
     })
   )
 
-  App.express.get(
+  App.express.post(
     '/worms/drafts/delete',
     safeRoute(async (req, res) => {
       if (!req.user) {
@@ -184,10 +215,10 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         return
       }
 
-      const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
+      const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
 
       if (isNaN(id)) {
-        res.send('Invalid ID')
+        res.sendStatus(400)
         return
       }
 
@@ -195,11 +226,11 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         where: { id, UserId: req.user.id },
       })
 
-      res.redirect('/worms/your-bots')
+      res.sendStatus(200)
     })
   )
 
-  App.express.get(
+  App.express.post(
     '/worms/drafts/rename',
     safeRoute(async (req, res) => {
       if (!req.user) {
@@ -207,11 +238,11 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         return
       }
 
-      const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
-      const name = req.query.name ? req.query.name.toString() : ''
+      const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
+      const name = req.body.name ? req.body.name.toString() : ''
 
       if (isNaN(id) || !name || name.length > 32) {
-        res.send('Invalid ID or name')
+        res.sendStatus(400)
         return
       }
 
@@ -220,13 +251,13 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       })
 
       if (!bot) {
-        res.send('Bot not found')
+        res.sendStatus(404)
         return
       }
 
       bot.name = name
       await bot.save()
-      res.redirect('/worms/your-bots')
+      res.sendStatus(200)
     })
   )
 

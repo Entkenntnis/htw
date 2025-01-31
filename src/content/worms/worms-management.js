@@ -43,13 +43,13 @@ export function setupWormsManagement(App) {
           <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
             <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> Bearbeiten</a>
             <span>
-              <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Umbenennen</button>
+              <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">Umbenennen</button>
               ${
                 /*bots.length >= 20
                   ? '<button class="btn btn-sm btn-outline-warning" disabled>Duplizieren</button>'
                   : `<a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>`*/ ''
               }
-              <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${bot.name.replace(/'/g, "\\'").replace(/"/g, '\\x22')}')">Löschen</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">Löschen</button>
             </span>
           </div>
           </div> <hr>`
@@ -89,6 +89,7 @@ export function setupWormsManagement(App) {
 
       <script>
         function confirmDelete(id, name) {
+          name = atobUTF8(name)
           if (confirm('Möchtest du den Bot ' + name + ' wirklich löschen?')) {
             fetch('/worms/drafts/delete', {
               method: 'POST',
@@ -112,6 +113,7 @@ export function setupWormsManagement(App) {
         }
 
         function renameBot(id, name) {
+          name = atobUTF8(name)
           const newName = prompt('Neuer Name:', name)
           if (newName) {
             if (newName.length > 32) {
@@ -137,6 +139,17 @@ export function setupWormsManagement(App) {
               alert('Fehler beim Umbenennen');
             });
           }
+        }
+
+        
+        function atobUTF8(data) {
+            const decodedData = atob(data);
+            const utf8data = new Uint8Array(decodedData.length);
+            const decoder = new TextDecoder("utf-8");
+            for (let i = 0; i < decodedData.length; i++) {
+                utf8data[i] = decodedData.charCodeAt(i);
+            }
+            return decoder.decode(utf8data);
         }
       </script>
       `,
@@ -320,7 +333,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         <script src="/monaco/vs/editor/editor.main.js"></script>
 
         <script>
-          let initialValue = \`${bot.code.replace(/`/g, '\\`')}\`
+          let initialValue = \`${bot.code.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`
           const myEditor = monaco.editor.create(document.getElementById("container"), {
             value: initialValue,
             language: "typescript",
@@ -550,7 +563,11 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         backButton: false,
         title: 'Worms - Testlauf',
         content: `
-        <h2><span style="color: rgb(239, 68, 68)">${rBot.name}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${gBot.name}</span></h2>
+        <h2><span style="color: rgb(239, 68, 68)">${escapeHTML(
+          rBot.name
+        )}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${escapeHTML(
+          gBot.name
+        )}</span></h2>
 
         <p><a href="/worms/your-bots">zurück</a></p>
 
@@ -610,7 +627,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             // -------------------------
 
             try {
-              ctxRed.evalCode(\`${rBot.code.replace(/`/g, '\\`')}\`)
+              ctxRed.evalCode(\`${rBot.code.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`)
             } catch {}
 
             const runtimeGreen = QuickJS.newRuntime()
@@ -628,7 +645,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
             })
             const ctxGreen = runtimeGreen.newContext()
             try {
-              ctxGreen.evalCode(\`${gBot.code.replace(/`/g, '\\`')}\`)
+              ctxGreen.evalCode(\`${gBot.code.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`)
             } catch {}
 
             // ---------------------------------------

@@ -489,6 +489,18 @@ export function setupWormsArena(App) {
         return
       }
 
+      // Server-side match limit check
+      const matches24h = await App.db.models.WormsArenaMatch.count({
+        where: {
+          UserId: user.id,
+          createdAt: { [Op.gt]: App.moment().subtract(24, 'hours').toDate() },
+        },
+      })
+      if (matches24h >= 50) {
+        res.status(429).send('Match limit exceeded')
+        return
+      }
+
       const botId = req.body.bot ? parseInt(req.body.bot.toString()) : NaN
       const opponentId = req.body.opponent
         ? parseInt(req.body.opponent.toString())
@@ -575,9 +587,6 @@ export function setupWormsArena(App) {
           )
 
           const replay = await runWorms(bot.code, opponentBot.code)
-
-          // testweise 20 sekunden warten
-          await new Promise((resolve) => setTimeout(resolve, 20000))
 
           // load elo of bots
           const botELO = parseInt(

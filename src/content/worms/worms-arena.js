@@ -240,7 +240,7 @@ export function setupWormsArena(App) {
       let botData = []
       for (const botELO of botELOs) {
         const id = parseInt(botELO.key.substring(13))
-        const elo = parseInt(botELO.value)
+        const elo = parseFloat(botELO.value)
         botData.push({
           id,
           elo,
@@ -416,7 +416,7 @@ export function setupWormsArena(App) {
                     </details>
                   </div>
                 </td>
-                <td>${bot.elo}</td>
+                <td>${Math.round(bot.elo)}</td>
                 <td>
                   <form action="/worms/arena/start-match" method="POST" style="display: inline;" class="challenge-form">
                     <input type="hidden" name="opponent" value="${bot.id}">

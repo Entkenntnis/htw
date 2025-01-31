@@ -864,7 +864,7 @@ export function setupWormsArena(App) {
             : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
         }
         
-        <p style="text-align: center; margin-top: 24px;"><button class="btn btn-secondary" style="margin-right: 32px;" onClick="window.location.reload()">Replay wiederholen</button><a href="/worms/arena" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a></p>
+        <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a><button class="btn btn-secondary" style="margin-left: 32px;" onClick="window.location.reload()">Replay wiederholen</button></p>
         
         <script src="/worms/wormer.js"></script>
 

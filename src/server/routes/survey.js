@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize'
 import escapeHtml from 'escape-html'
 
-const cutoff = '2024-10-20'
+const cutoff = '2025-02-01'
 
 /**
  * @param {import("../../data/types.js").App} App

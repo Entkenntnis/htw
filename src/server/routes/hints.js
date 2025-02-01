@@ -16,6 +16,10 @@ export const hintsData = {
         answer: 'Du hast sicher ein Handy mit Taschenrechner ..',
       },
       { question: '90???', answer: 'Punkt vor Strich' },
+      {
+        question: 'hallo aber 90 ist ja falsch oder?',
+        answer: '90 ist falsch, genau',
+      },
     ],
   },
   2: {
@@ -79,6 +83,10 @@ export const hintsData = {
         question: 'Welches Blatt??',
         answer:
           'Das Blatt ist der Bereich auf der Webseite unter der Aufgabe - es ist mit Start und Ende markiert',
+      },
+      {
+        question: 'Ich hab jetzt das Blatt marierkt es passiert nix',
+        answer: 'Du solltest einige Texte und die Antwort sehen',
       },
     ],
   },
@@ -265,6 +273,14 @@ export const hintsData = {
       },
     ],
   },
+  27: {
+    entries: [
+      {
+        question: 'Wie macht man das digital',
+        answer: 'Mit der Maus rüberfahren',
+      },
+    ],
+  },
   28: {
     entries: [
       {
@@ -284,6 +300,17 @@ export const hintsData = {
       {
         question: 'wo kann ich die koordinaten eingeben?',
         answer: 'OSM? Google Maps? Wähle selbst.',
+      },
+      {
+        question: 'Ich habe alles richtig eingegeben aber das Wort ist falsch',
+        answer:
+          'Es sollte ein bekanntes Wort rauskommen. Schau nochmal, ob alle Buchstaben passen.',
+      },
+      {
+        question:
+          'ich check das überhaupt nicht hab es versucht aber hat die ganze zeit nicht geklappt ich komm nicht weiter.',
+        answer:
+          'jede Zeile ist die Koordinate eines Orts, die erste Koordinate sollte dich etwas westlich von Hannover hinführen',
       },
     ],
   },
@@ -369,6 +396,12 @@ export const hintsData = {
         question: 'wie soll ich die flaggen antworten nutzen?',
         answer: 'Es gibt ein Alphabet mit diesen Flaggen',
       },
+      {
+        question:
+          'ich habe die bedeutungen der flaggen gefunden und weis nun nicht was icg genau eingeben soll da ich schon mehrere falsche antworten probiert habe',
+        answer:
+          'ohne Leerzeichen als ein Wort - sollte auf deutsch was sinnhaftes ergeben',
+      },
     ],
   },
   40: {
@@ -391,6 +424,10 @@ export const hintsData = {
           'Hallo zusammen, ich habe die Schwierigkeiten, den Aufgabentext zu ergreifen. Unter “Querlesen” verstehe ich, dass man den Text diagonal überfliegen soll. Kann jemand mir hinweisen, ob die Antwort mit der Bedeutung vom Gedicht verwandt ist, oder die Buchstaben im Gedicht versteckt sind? Ich habe das Gedicht auf beide Englisch und Deutsch gelesen, habe ich trotzdem gar keine Idee, was ich machen soll. Danke 🙂 (Ich bin kein Deutscher Muttersprachler.',
         answer:
           'Es geht um die Buchstaben, aber sie sind nicht wirklich versteckt, versuch es mal mit einer unüblichen Leserichtung.',
+      },
+      {
+        question: 'wie lange ist es',
+        answer: 'Es sind ca. 20 Buchstaben für dich wichtig',
       },
     ],
   },
@@ -642,9 +679,10 @@ export const hintsData = {
         answer: 'Du brauchst eine Webseite, wo dein Nutzername enthalten ist',
       },
       {
-        question: 'ich hab alles ausprobiert',
+        question:
+          'Meinen Profilnamen gibt es auf keiner Website. Ich habe mit Absicht einen anderen Namen genommen, als auf anderen Websites. Wie soll ich es denn finden?',
         answer:
-          'hast du schonmal was von pastebin gehört das solltest du dir mal angucken',
+          'Du kannst z.B. nach deinem Profilnamen suchen. Selbst wenn es keine Suchergebnisse gibt, zeigt die Suchmaschine ja trotzdem den Suchbegriff an - und damit hast du eine Webseite mit deinem Benutzernamen erzeugt',
       },
       {
         question:
@@ -653,25 +691,21 @@ export const hintsData = {
           'Wenn dieser lange  Text kommt dann ist es ein Zeichnen, dass es funktioniert hat - jetzt musst du nur noch eine Website finden, die deinen Benutzernamen enthält',
       },
       {
-        question: 'Wie kann ich eine Websied machen?',
+        question:
+          'Ich kann leider diese Aufgabe nicht machen da ich wirklich alles ausprobiert hab wo mein Benutzername drauf ist',
         answer:
-          'github pages, glitch, ... (Aufgabe kann auch gelöst werden ohne eigene Seite)',
+          'wenn du wirklich nichts gefunden hast, kannst du auch eine eigene Seite erstellen',
+      },
+      {
+        question: 'Wie kann ich eine Webseite machen?',
+        answer:
+          'github pages, glitch, pastebin ... (Aufgabe kann auch gelöst werden ohne eigene Seite)',
       },
       {
         question:
           'funktioniert eif nicht obwohl mein nutzername drauf is 😑😑😑',
         answer:
           'Groß-/Kleinschreibung? evtl. noch andere Webseite ausprobieren',
-      },
-      {
-        question: 'Kannst du mir bitte die Lösung sagen ?',
-        answer: 'Je nach Nutzername unterschiedlich',
-      },
-      {
-        question:
-          'Meinen Profilnamen gibt es auf keiner Website. Ich habe mit Absicht einen anderen Namen genommen, als auf anderen Websites. Wie soll ich es denn finden?',
-        answer:
-          'Du kannst z.B. nach deinem Profilnamen suchen. Selbst wenn es keine Suchergebnisse gibt, zeigt die Suchmaschine ja trotzdem den Suchbegriff an - und damit hast du eine Webseite mit deinem Benutzernamen erzeugt',
       },
     ],
   },
@@ -738,22 +772,11 @@ export const hintsData = {
         answer:
           'schaue nicht viel Fußball, aber habe bisschen mehr von Ronaldo gesehen',
       },
-    ],
-  },
-  60: {
-    entries: [
       {
-        question: 'was ist der 2. Buchstabe ?',
-        answer: 'Der zweite Buchstabe der Lösung lautet E',
+        question: 'diggah was sind das für random fragen ',
+        answer: 'Und noch eine random frage mehr',
       },
-      {
-        question: 'was ist der dritte Buchstaben?',
-        answer: 'Der dritte Buchstabe der Lösung lautet nicht E',
-      },
-      {
-        question: 'was ist der erste buchstabe',
-        answer: 'Der erste Buchstabe ist kein A',
-      },
+      { question: 'wie heist du', answer: 'Quinn' },
     ],
   },
   62: {
@@ -1054,6 +1077,14 @@ export const hintsData = {
       },
     ],
   },
+  81: {
+    entries: [
+      {
+        question: 'wie kann man das lösen???????""!!!!!!!!!',
+        answer: 'Probieren und etwas Geduld',
+      },
+    ],
+  },
   82: {
     entries: [
       {
@@ -1283,6 +1314,12 @@ export const hintsData = {
         question: 'Und wie ich habe nur Firefox',
         answer: 'das ist genau deine Aufgabe',
       },
+      {
+        question:
+          'habe Windows 10 und anscheinend gibt es keinen weg den Explorer zu installieren',
+        answer:
+          'auch win 10 oder höher musst du dann vortäuschen, dass du einen IE hast',
+      },
     ],
   },
   101: {
@@ -1406,6 +1443,12 @@ export const hintsData = {
         answer:
           'Probiere sowas wie <span class="spoiler-text">https://copy.sh/brainfuck/text.html</span>',
       },
+      {
+        question:
+          'da steht dann aber immer, das ich zu viele Rechenschritte genutzt habe... ',
+        answer:
+          'Überarbeite dein Programm nochmal, vielleicht enthält es eine Endlosschleife oder ist sehr ineffizient - das Limit sollte mehr als reichen',
+      },
     ],
   },
   110: {
@@ -1489,6 +1532,7 @@ export const hintsData = {
         answer:
           'Der Befehl startet mit <span class="spoiler-text">/time</span>',
       },
+      { question: 'Muss man day oder tag schreiben', answer: 'das Englische' },
     ],
   },
   114: {
@@ -1683,6 +1727,11 @@ export const hintsData = {
         answer:
           'Paar Denkanstöße: Nimmst du alle Angaben in deine Rechnung auf? Was hat sich denn im Vergleich zur vorherigen Aufgabe an der Aufgabenstellung geändert?',
       },
+      {
+        question: 'Ich habe in der Schule kein Physik ',
+        answer:
+          'Du brauchst nur eine Formel zum freien Fall - der Rest ist mit Allgemeinwissen lösbar',
+      },
     ],
   },
   310: {
@@ -1799,6 +1848,7 @@ export const hintsData = {
           'hängt bei mir stark vom Bildausschnitt ab, probiere mal bisschen herum',
       },
       { question: 'wo liegt der fluss', answer: 'das musst du herausfinden' },
+      { question: 'ist der fluss in deutschland ', answer: 'ja' },
     ],
   },
   317: {

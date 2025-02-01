@@ -813,12 +813,6 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/replay',
     safeRoute(async (req, res) => {
-      const user = req.user
-      if (!user) {
-        res.redirect('/')
-        return
-      }
-
       const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
       const showMsg = req.query.msg == 'done'

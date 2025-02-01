@@ -69,6 +69,18 @@ async function runWorms(srcRed, srcGreen) {
     return cyclesRed.val++ > 101
   })
   const ctxRed = runtimeRed.newContext()
+
+  // ---------------------------------------
+  const logHandleRed = ctxRed.newFunction('log', (...args) => {
+    // no-op
+  })
+  const consoleHandleRed = ctxRed.newObject()
+  ctxRed.setProp(consoleHandleRed, 'log', logHandleRed)
+  ctxRed.setProp(ctxRed.global, 'console', consoleHandleRed)
+  consoleHandleRed.dispose()
+  logHandleRed.dispose()
+  // -------------------------
+
   try {
     ctxRed.evalCode(srcRed)
   } catch (e) {
@@ -84,6 +96,18 @@ async function runWorms(srcRed, srcGreen) {
     return cyclesGreen.val++ > 101
   })
   const ctxGreen = runtimeGreen.newContext()
+
+  // ---------------------------------------
+  const logHandleGreen = ctxGreen.newFunction('log', (...args) => {
+    // no-op
+  })
+  const consoleHandleGreen = ctxGreen.newObject()
+  ctxGreen.setProp(consoleHandleGreen, 'log', logHandleGreen)
+  ctxGreen.setProp(ctxGreen.global, 'console', consoleHandleGreen)
+  consoleHandleGreen.dispose()
+  logHandleGreen.dispose()
+  // -------------------------
+
   try {
     ctxGreen.evalCode(srcGreen)
   } catch (e) {

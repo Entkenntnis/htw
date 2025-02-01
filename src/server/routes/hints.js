@@ -2050,7 +2050,7 @@ export const hintsData = {
   },
 }
 
-const cutoff = '2024-11-01'
+const cutoff = '2025-02-01'
 
 /**
  * @param {import("../../data/types.js").App} App

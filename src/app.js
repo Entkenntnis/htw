@@ -39,6 +39,7 @@ import { setupHints } from './server/routes/hints.js'
 import { withVersion } from './server/lib/withVersion.js'
 import { setupWormsManagement } from './content/worms/worms-management.js'
 import { setupWormsArena } from './content/worms/worms-arena.js'
+import { setupEduplacesSSO } from './server/routes/eduplaces-sso.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -88,6 +89,8 @@ setupEnough(App)
 setupWormsBasic(App)
 setupWormsManagement(App)
 setupWormsArena(App)
+
+setupEduplacesSSO(App)
 
 // keep it for now
 _deprecated__setupDecodeMe(App)

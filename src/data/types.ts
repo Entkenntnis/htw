@@ -224,6 +224,7 @@ declare module 'express-session' {
       | 'your-bots'
       | 'guide'
     lastWormsBotId?: number
+    ssoVerifier?: string
   }
 }
 

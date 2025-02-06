@@ -3,6 +3,8 @@ export const secretValues = {
   config_master_password: '42',
   config_address: '42',
   config_token_secret: '42',
+  config_client_id: '42',
+  config_client_secret: '42',
   chal_72: '42',
   chal_46: '42',
   chal_1: '42',

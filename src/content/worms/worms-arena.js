@@ -437,6 +437,7 @@ export function setupWormsArena(App) {
                           )
                           .join('')}
                       </ul>
+                      <p style="margin-top: -14px; margin-left: 20px;"><a href="/worms/arena/bot-history?id=${bot.id}">Gesamter Verlauf</a></p>
                     </details>
                   </div>
                 </td>
@@ -815,6 +816,8 @@ export function setupWormsArena(App) {
     safeRoute(async (req, res) => {
       const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
+      const backToBot = req.query.backToBot
+
       const showMsg = req.query.msg == 'done'
 
       const match = await App.db.models.WormsArenaMatch.findOne({
@@ -882,7 +885,11 @@ export function setupWormsArena(App) {
             : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
         }
         
-        <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a><button class="btn btn-secondary" style="margin-left: 32px;" onClick="window.location.reload()">Replay wiederholen</button></p>
+        <p style="text-align: center; margin-top: 24px;"><a href="${
+          backToBot
+            ? '/worms/arena/bot-history?id=' + backToBot
+            : '/worms/arena'
+        }" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a><button class="btn btn-secondary" style="margin-left: 32px;" onClick="window.location.reload()">Replay wiederholen</button></p>
         
         <script src="/worms/wormer.js"></script>
 
@@ -898,6 +905,157 @@ export function setupWormsArena(App) {
           const wormer = new Wormer(document.getElementById('board'))
           wormer.runReplay(${JSON.stringify(replay)})
         </script>
+        `,
+      })
+    })
+  )
+
+  App.express.get(
+    '/worms/arena/bot-history',
+    safeRoute(async (req, res) => {
+      const botId = req.query.id ? parseInt(req.query.id.toString()) : NaN
+
+      const bot = await App.db.models.WormsBotDraft.findOne({
+        where: {
+          id: botId,
+        },
+      })
+
+      if (!bot) {
+        res.redirect('/worms/arena')
+        return
+      }
+
+      const botELO = parseFloat(
+        (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
+      )
+
+      const player = await App.db.models.User.findOne({
+        where: {
+          id: bot.UserId,
+        },
+      })
+
+      if (!player) {
+        res.redirect('/worms/arena')
+        return
+      }
+
+      const matches = await App.db.models.WormsArenaMatch.findAll({
+        where: {
+          [Op.or]: [
+            {
+              redBotId: bot.id,
+            },
+            {
+              greenBotId: bot.id,
+            },
+          ],
+          status: {
+            [Op.in]: ['red-win', 'green-win'],
+          },
+        },
+        order: [['createdAt', 'DESC']],
+      })
+
+      const opponentIds = matches
+        .map((match) =>
+          match.redBotId == bot.id ? match.greenBotId : match.redBotId
+        )
+        .filter((id, index, self) => self.indexOf(id) === index)
+
+      const opponents = await App.db.models.WormsBotDraft.findAll({
+        where: {
+          id: opponentIds,
+        },
+      })
+
+      const elos = []
+
+      elos.push(botELO)
+
+      matches.forEach((match) => {
+        const data = JSON.parse(match.replay)
+        if (match.redBotId == bot.id) {
+          elos.push(data.redElo)
+        } else if (match.greenBotId == bot.id) {
+          elos.push(data.greenElo)
+        }
+      })
+
+      elos.reverse()
+
+      renderPage(App, req, res, {
+        page: 'worms-bot-history',
+        heading: 'Worms',
+        backButton: false,
+        content: `
+          ${renderNavigation(2)}
+
+          <h3 style="text-align: center;">${escapeHTML(bot.name)} (${Math.round(botELO)})</h3>
+
+          <h4 style="text-align: center; margin-bottom: 48px;">von ${escapeHTML(player.name)}</h4>
+
+          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">Schließen</a></p>
+
+          <canvas id="chart" style="margin-top: 32px; margin-bottom: 32px;"></canvas>
+
+          <script src="/chart.js"></script>
+
+          <script>
+            const ctx = document.getElementById('chart').getContext('2d');
+            const chart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: [${elos.map((elo, index) => `""`).join(',')}],
+                datasets: [{
+                  label: 'ELO',
+                  data: [${elos.join(',')}],
+                  borderColor: 'rgb(255, 99, 132)',
+                  tension: 0.1
+                }]
+              },
+            });
+          </script>
+
+          <h4>Matches</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Gegner</th>
+                <th>Ergebnis</th>
+                <th>Datum</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${matches
+                .map(
+                  (match) => `
+                <tr>
+                  <td>${
+                    match.redBotId == bot.id
+                      ? escapeHTML(
+                          opponents.find((opp) => opp.id == match.greenBotId)
+                            ?.name ?? '[gelöster Bot]'
+                        )
+                      : escapeHTML(
+                          opponents.find((opp) => opp.id == match.redBotId)
+                            ?.name ?? '[gelöster Bot]'
+                        )
+                  } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">ansehen</a>]</td>
+                  <td>${
+                    (match.status == 'red-win' && match.redBotId == bot.id) ||
+                    (match.status == 'green-win' && match.greenBotId == bot.id)
+                      ? 'Sieg'
+                      : 'Niederlage'
+                  }</td>
+                  <td>${App.moment(match.createdAt).locale('de').fromNow()}</td>
+                </tr>
+              `
+                )
+                .join('')}
+            </tbody>
+          </table>
         `,
       })
     })

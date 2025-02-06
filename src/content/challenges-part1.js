@@ -4325,6 +4325,7 @@ PIXI.loader
         <p>Ich spiele gerne Minecraft. Es ist gut und man kann da sehr viele kreative Dinge machen - die manchmal gar nicht so vorgesehen sind. Zeige, dass du dich mit Minecraft auskennst (oder bereit bist, es kennenzulernen). Deine Antwort ist die Block-ID von diesem Block.</p>
       `,
         `<p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+        <p style="text-align: left; margin-top: -16px;"><small style="color: gray;" title ="ascii">Hinweis für Nicht-Minecraftler: 98 101 100 114 111 99 107 32 105 100 32 55 </small></p>
       `
       ),
       en: `

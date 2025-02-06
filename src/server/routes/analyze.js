@@ -141,50 +141,76 @@ export function setupAnalyze(App) {
 
   App.express.get('/kpi', async (req, res) => {
     const solutions = await App.db.models.Solution.findAll({ raw: true })
+    const now = Date.now()
+
+    // Precompute dateIndex and map date strings to their index
+    /** @type {Map<string, number>} */
+    const dateStrToIndex = new Map()
+    for (let i = 0; i < 1300; i++) {
+      const dateStr = new Date(now - i * 86400000).toLocaleDateString('de-DE', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+      dateStrToIndex.set(dateStr, i)
+    }
 
     console.log('KPI: Daten geladen, gruppiere ...')
 
-    const usersByDate = solutions.reduce((result, obj) => {
+    // Initialize usersByDate as an array for O(1) access
+    /** @type {number[][]} */
+    const usersByDate = Array.from({ length: 1300 }, () => [])
+
+    for (const obj of solutions) {
       const date = new Date(obj.createdAt)
       const key = date.toLocaleDateString('de-DE', {
         day: 'numeric',
         month: 'short',
         year: 'numeric',
       })
-      if (key == '29. Mai 2020') return result // data import
-      const entry = (result[key] = result[key] || [])
-      entry.push(obj.UserId)
-      return result
-    }, /** @type {{[key: string]: number[]}} */ ({}))
+      if (key === '29. Mai 2020') continue
+      const index = dateStrToIndex.get(key)
+      if (index !== undefined) {
+        usersByDate[index].push(obj.UserId)
+      }
+    }
 
     console.log('KPI: Daten nach Tag gruppiert')
 
-    const now = Date.now()
-
-    const dateIndex = []
-
-    for (let i = 0; i < 1300; i++) {
-      dateIndex.push(
-        new Date(now - i * 1000 * 60 * 60 * 24).toLocaleDateString('de-DE', {
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric',
-        })
-      )
-    }
-
+    // Calculate MAUs using sliding window technique
     const MAUs = []
+    /** @type {Map<number, number>} */
+    const freqMap = new Map()
 
-    for (let i = 0; i < 1250; i++) {
-      const windowStart = i + 28
-      const windowEnd = i
-      const userIds = new Set()
-      for (let d = windowStart; d >= windowEnd; d--) {
-        for (const id of usersByDate[dateIndex[d]] || []) {
-          userIds.add(id)
+    // Initialize the first window (days 28 to 0)
+    for (let d = 28; d >= 0; d--) {
+      for (const userId of usersByDate[d] || []) {
+        freqMap.set(userId, (freqMap.get(userId) || 0) + 1)
+      }
+    }
+    MAUs.push(freqMap.size)
+
+    // Slide the window for remaining days
+    for (let i = 1; i < 1250; i++) {
+      const removeDay = i - 1
+      const addDay = i + 28
+
+      // Remove outgoing day (i-1)
+      for (const userId of usersByDate[removeDay] || []) {
+        const count = freqMap.get(userId)
+        if (count === 1) {
+          freqMap.delete(userId)
+        } else if (count !== undefined) {
+          freqMap.set(userId, count - 1)
         }
       }
-      MAUs.push(userIds.size)
+
+      // Add incoming day (i+28)
+      for (const userId of usersByDate[addDay] || []) {
+        freqMap.set(userId, (freqMap.get(userId) || 0) + 1)
+      }
+
+      MAUs.push(freqMap.size)
     }
 
     // Get the last 365 values for this year
@@ -200,8 +226,7 @@ export function setupAnalyze(App) {
     previousPreviousYear.reverse()
 
     const labels = []
-
-    let startTs = Date.now() + 30 * 24 * 60 * 60 * 1000
+    let startTs = Date.now() + 30 * 86400000
     for (let i = 0; i < 365; i++) {
       labels.push(
         new Date(startTs).toLocaleDateString('de-DE', {
@@ -209,7 +234,7 @@ export function setupAnalyze(App) {
           month: 'short',
         })
       )
-      startTs -= 24 * 60 * 60 * 1000
+      startTs -= 86400000
     }
     labels.reverse()
 

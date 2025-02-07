@@ -1044,25 +1044,6 @@ export const hintsData = {
       },
     ],
   },
-  80: {
-    entries: [
-      {
-        question: 'Wie macht man das',
-        answer:
-          'Ändere die Farben im Stylesheet oder lasse dir die Farben einmal mischen',
-      },
-      {
-        question: 'ivh verstehe es nicht',
-        answer:
-          'Lösche mal in der zweiten Zeile green und schreibe stattdessen red',
-      },
-      {
-        question: 'ich hab die farben gemacht aber kenn die antwort nicht',
-        answer:
-          'Wenn du die Farben in die richtige Reihenfolge bringst, dann ändert sich der Text unter den Farben von Farben sind leider nicht in der richtigen Reihenfolge in Die Antwort lautet .... Wenn sich der Text nicht ändert ist entweder die Reihenfolge falsch, oder Javascript deaktiviert.',
-      },
-    ],
-  },
   81: {
     entries: [
       {

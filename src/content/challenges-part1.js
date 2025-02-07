@@ -3453,7 +3453,7 @@ PIXI.loader
           `
           <p>Dein Bankkonto steht im Fokus. Du erhältst eine E-Mail von deiner Bank, in der von ungewöhnlichen Aktivitäten berichtet wird. Doch irgendetwas ist shady – der Absender scheint nicht ganz vertrauenswürdig zu sein.</p>
           
-          <p>In der "Von:"-Zeile findest du die E-Mail-Adresse des Absenders. Deine Bank verwendet normalerweise die Domain <code>@htw-bank.de</code>, aber in dieser Nachricht taucht eine andere Domain auf.</p>
+          <p>In der "Von:"-Zeile findest du die E-Mail-Adresse des Absenders. Deine Bank verwendet normalerweise die Domain <code>htw-bank.de</code>, aber in dieser Nachricht taucht eine andere Domain auf.</p>
           
           <pre>Von: "Hack The Web Bank" &lt;support@secure-bank-login.com&gt;
 Datum: Fri, 08 Feb 2025 10:15:32 +0200
@@ -3466,7 +3466,7 @@ An: ${req.user?.name}@arrrg.de</pre>
         en: `
         <p>Your bank account is in the spotlight. You receive an email from your bank reporting unusual activity. But something feels shady – the sender doesn't seem entirely trustworthy.</p>
         
-        <p>In the "From:" line, you find the sender's email address. Your bank normally uses the domain <code>@htw-bank.de</code>, but this message shows a different domain.</p>
+        <p>In the "From:" line, you find the sender's email address. Your bank normally uses the domain <code>htw-bank.de</code>, but this message shows a different domain.</p>
         
         <pre>From: "Your Bank" &lt;support@secure-bank-login.com&gt;
 Date: Fri, 08 Feb 2025 10:15:32 +0200

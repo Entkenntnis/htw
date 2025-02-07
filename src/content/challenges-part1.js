@@ -3443,40 +3443,42 @@ PIXI.loader
   {
     id: 79,
     pos: { x: 1095, y: 620 },
-    title: { de: 'Rätsel', en: 'Research' },
+    title: { de: 'Verdächtig', en: 'Suspicious' },
     // date: '2022-02-24',
     deps: [18, 84],
-    html: {
-      de: story(
-        'Josh',
-        `
-        <p>Hier habe ich ein kleines Rätsel für dich.</p>
+    render: ({ req }) => {
+      return {
+        de: story(
+          'Josh',
+          `
+          <p>Dein Bankkonto steht im Fokus. Du erhältst eine E-Mail von deiner Bank, in der von ungewöhnlichen Aktivitäten berichtet wird. Doch irgendetwas ist shady – der Absender scheint nicht ganz vertrauenswürdig zu sein.</p>
+          
+          <p>In der "Von:"-Zeile findest du die E-Mail-Adresse des Absenders. Deine Bank verwendet normalerweise die Domain <code>@htw-bank.de</code>, aber in dieser Nachricht taucht eine andere Domain auf.</p>
+          
+          <pre>Von: "Hack The Web Bank" &lt;support@secure-bank-login.com&gt;
+Datum: Fri, 08 Feb 2025 10:15:32 +0200
+Betreff: Wichtige Sicherheitsinformation zu Ihrem Konto
+An: ${req.user?.name}@arrrg.de</pre>
 
-        <p>Ich wachse, wenn du gibst,<br>
-          doch gehst du, schrumpf' ich ein.<br>
-          Ich bin aus vielen Stimmen,<br>
-          doch nie nur allein.<br>
-          Man teilt hier Ideen,<br>
-          es lebt hier die Macht,<br>
-          zusammen entfalten wir<br>
-          unsere Pracht.<br>
-          Was bin ich?</p>
-
-        <!-- Lösung: Community. Todo: vor dem Hochladen diesen Kommentar löschen -->
-
-        <p>Es gibt nur ein Problem: Laut einer <a href="/chals/Spoiler Analyse - Bericht.pdf" target="_blank">Spoiler-Analyse</a> kann man die Lösung finden, ohne sich mit dem Text zu beschäftigen. Aber egal, so ist es nun mal. Die Lösung auf dieses Rätsel ist deine Antwort.</p>
+          <p>Gib die verdächtige Domain als deine Antwort ein.</p>
     `
-      ),
-      en: `
-        <p>Do you remember when the HTML source code was shown? Many years ago, there was a case in the USA where a governor wanted to charge a journalist with "hacking." The journalist had looked at the source code of a government website and found personal information about many teachers.</p>
+        ),
+        en: `
+        <p>Your bank account is in the spotlight. You receive an email from your bank reporting unusual activity. But something feels shady – the sender doesn't seem entirely trustworthy.</p>
+        
+        <p>In the "From:" line, you find the sender's email address. Your bank normally uses the domain <code>@htw-bank.de</code>, but this message shows a different domain.</p>
+        
+        <pre>From: "Your Bank" &lt;support@secure-bank-login.com&gt;
+Date: Fri, 08 Feb 2025 10:15:32 +0200
+Subject: Important security notice regarding your account
+To: ${req.user?.name}@arrrg.de</pre>
 
-        <p>It was quite a wild situation, because essentially, the state had accidentally included personal information in the website, which anyone with some technical knowledge could access.</p>
-
-        <p>When did this happen again? I believe it was in 2021. Could you look up in which US state this took place?</p>
+        <p>Enter the suspicious domain as your answer.</p>
 
     `,
+      }
     },
-    solution: secrets('chal_79').split(','),
+    solution: secrets('chal_79'),
   },
 
   {

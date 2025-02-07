@@ -3482,121 +3482,248 @@ PIXI.loader
   {
     id: 80,
     pos: { x: 250, y: 535 },
-    title: { de: 'Stylesheet', en: 'Stylesheet' },
+    title: { de: 'Animation', en: 'Animation' },
     // date: '2022-02-24',
     deps: [4, 6],
     html: {
       de: story(
         'Kiwi',
         `
-        <p>Die Farben der Regenbogen-Flagge durcheinander. Bringe sie in die richtige Reihenfolge, indem du das Stylesheet änderst. Verwende die Farben <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, <code>blue</code> und <code>purple</code>.</p>`,
-        `
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 col-md-12">
-            <textarea class="form-control" style="height:425px;font-family:monospace;" id="css-input" oninput="update()">#bar1 {
-  background-color: green;
-}
-#bar2 {
-  background-color: purple;
-}
-#bar3 {
-  background-color: red;
-}
-#bar4 {
-  background-color: yellow;
-}
-#bar5 {
-  background-color: blue;
-}
-#bar6 {
-  background-color: orange;
-}</textarea>
-          <button class="btn btn-sm btn-secondary" style="margin-top: 8px" onclick="shuffle()">Farben mischen</button>
-          </div>
+        <p>Wer mag schon langweilige Webseiten? Nutzen wir doch die Möglichkeiten des Browsers und bringen etwas Action rein!</p>
 
-          <div class="col-lg-6 col-md-12">
-            <div style="max-width:390px;border:1px solid black">
-              <div style="height:40px" id="bar1"></div>
-              <div style="height:40px" id="bar2"></div>
-              <div style="height:40px" id="bar3"></div>
-              <div style="height:40px" id="bar4"></div>
-              <div style="height:40px" id="bar5"></div>
-              <div style="height:40px" id="bar6"></div>
-            </div>
-            <style id="injector"></style>
-            
-            <div id="result" style="margin-top:10px"></div>
-          </div>
-        </div>
+        <p>Klicke auf die Buchstaben und fange sie in  der richtigen Reihenfolge ein, um die Aufgabe zu lösen.</p>
+
+        <div id="canvas">
+        <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
+        <span class="letter" style="top:  70px; left: 60px; animation-duration: 9s;  animation-delay:    4s;">R</span>
+        <span class="letter" style="top:  70px; left:  90px; animation-duration: 11s; animation-delay:   3.5s;">A</span>
+        <span class="letter" style="top:  70px; left: 120px; animation-duration: 8s;  animation-delay:    3s;">N</span>
+        <span class="letter" style="top:  70px; left: 150px; animation-duration: 10s; animation-delay:    2.5s;">S</span>
+        <span class="letter" style="top:  70px; left: 180px; animation-duration: 7s;  animation-delay:    2s;">I</span>
+        <span class="letter" style="top:  70px; left: 190px; animation-duration: 12s; animation-delay:    1.5s;">T</span>
+        <span class="letter" style="top:  70px; left: 220px; animation-duration: 9s;  animation-delay:   1s;">I</span>
+        <span class="letter" style="top:  70px; left: 230px; animation-duration: 6s;  animation-delay:    0.5s;">O</span>
+        <span class="letter" style="top:  70px; left: 260px; animation-duration: 10s; animation-delay:    0s;">N</span>
       </div>
 
       <script>
-        function shuffle() {
-          const inputString = document.getElementById('css-input').value
-
-          // Extract colors using regex
-          const colorRegex = /background-color: (\\w+);/g;
-          const colors = [...inputString.matchAll(colorRegex)].map(match => match[1]);
-
-          // Shuffle colors using Fisher-Yates algorithm
-          for (let i = colors.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [colors[i], colors[j]] = [colors[j], colors[i]];
-          }
-
-          // Replace colors in the original string with the shuffled colors
-          let index = 0;
-          const outputString = inputString.replace(colorRegex, () => {
-            return \`background-color: \${colors[index++]};\`;
+        // Clicking a letter appends it to the #challenge_answer and removes it from the canvas
+        document.querySelectorAll('.letter').forEach(function(letter) {
+          letter.addEventListener('click', function() {
+            var input = document.getElementById('challenge_answer');
+            input.value += letter.textContent;
+            letter.remove();
           });
-          document.getElementById('css-input').value = outputString
-          update()
-        }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+          document.getElementById("challenge_answer").readOnly = true
+        });
       </script>
-          
-      
-      <script>lng='de'</script>
-      <script src="/chals/chal80_2.js"></script>
+
+      <style>
+        /* Container */
+        #canvas {
+          position: relative;
+          width: 600px;
+          height: 300px;
+          border: 2px solid #666;
+          overflow: hidden; /* hide overflow just in case */
+          margin-bottom: 10px;
+        }
+
+        /* Styling each letter */
+        .letter {
+          position: absolute;
+          font-family: sans-serif;
+          font-size: 36px;
+          font-weight: bold;
+          cursor: pointer;
+          animation-name: floatAround;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
+          animation-fill-mode: forwards;
+          /* Add a little shadow to make it fancy */
+          text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Pause animation on hover */
+        .letter:hover {
+          animation-play-state: paused;
+        }
+
+        /*
+          "floatAround" keyframes:
+          - 10 segments (0%, 10%, 20% ... 100%)
+          - Each step changes translate (x, y), rotation, and color
+          - The chosen values try to keep letters within the 400×300 box
+            (depending on initial position)
+        */
+        @keyframes floatAround {
+          0% {
+            transform: translate(0px, 0px) rotate(0deg);
+            color: #f44336;
+          }
+          10% {
+            transform: translate(80px, 20px) rotate(36deg);
+            color: #e91e63;
+          }
+          20% {
+            transform: translate(120px, 40px) rotate(72deg);
+            color: #9c27b0;
+          }
+          30% {
+            transform: translate(200px, 60px) rotate(108deg);
+            color: #673ab7;
+          }
+          40% {
+            transform: translate(300px, 80px) rotate(144deg);
+            color: #3f51b5;
+          }
+          50% {
+            transform: translate(280px, 100px) rotate(180deg);
+            color: #2196f3;
+          }
+          60% {
+            transform: translate(200px, 120px) rotate(216deg);
+            color: #03a9f4;
+          }
+          70% {
+            transform: translate(120px, 140px) rotate(252deg);
+            color: #00bcd4;
+          }
+          80% {
+            transform: translate(60px, 160px) rotate(288deg);
+            color: #009688;
+          }
+          90% {
+            transform: translate(30px, 100px) rotate(324deg);
+            color: #4caf50;
+          }
+          100% {
+            transform: translate(0px, 0px) rotate(360deg);
+            color: #f44336;
+          }
+        }
+      </style>
     `
       ),
       en: `
-      <p>ARRRRG! Some <a href="/chals/chal80_trash.jpg" target="_blank">trashy</a> person messed up the colors of the rainbow flag! It's now up to you to put the colors back in the correct order:</p>
-      
-      <textarea style="width:400px;height:425px;font-family:monospace;margin-bottom:12px" id="css-input" oninput="update()">#bar1 {
-  background-color: green;
-}
-#bar2 {
-  background-color: purple;
-}
-#bar3 {
-  background-color: red;
-}
-#bar4 {
-  background-color: yellow;
-}
-#bar5 {
-  background-color: blue;
-}
-#bar6 {
-  background-color: orange;
-}</textarea>
-      
-      <div style="width:389px;border:1px solid black">
-        <div style="height:40px" id="bar1"></div>
-        <div style="height:40px" id="bar2"></div>
-        <div style="height:40px" id="bar3"></div>
-        <div style="height:40px" id="bar4"></div>
-        <div style="height:40px" id="bar5"></div>
-        <div style="height:40px" id="bar6"></div>
+        <p>Who likes boring websites? Let's use the capabilities of the browser and bring some action!</p>
+        
+        <p>Catch the letters of your answer in the correct order to solve the task.</p>
+
+        <div id="canvas">
+        <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
+        <span class="letter" style="top:  70px; left: 60px; animation-duration: 9s;  animation-delay:    4s;">R</span>
+        <span class="letter" style="top:  70px; left:  90px; animation-duration: 11s; animation-delay:   3.5s;">A</span>
+        <span class="letter" style="top:  70px; left: 120px; animation-duration: 8s;  animation-delay:    3s;">N</span>
+        <span class="letter" style="top:  70px; left: 150px; animation-duration: 10s; animation-delay:    2.5s;">S</span>
+        <span class="letter" style="top:  70px; left: 180px; animation-duration: 7s;  animation-delay:    2s;">I</span>
+        <span class="letter" style="top:  70px; left: 190px; animation-duration: 12s; animation-delay:    1.5s;">T</span>
+        <span class="letter" style="top:  70px; left: 220px; animation-duration: 9s;  animation-delay:   1s;">I</span>
+        <span class="letter" style="top:  70px; left: 230px; animation-duration: 6s;  animation-delay:    0.5s;">O</span>
+        <span class="letter" style="top:  70px; left: 260px; animation-duration: 10s; animation-delay:    0s;">N</span>
       </div>
-      
-      <style id="injector"></style>
-      
-      <div id="result" style="margin-top:10px"></div>
-      
-      <script>lng='en'</script>
-      <script src="/chals/chal80_2.js"></script>
+
+      <script>
+        // Clicking a letter appends it to the #challenge_answer and removes it from the canvas
+        document.querySelectorAll('.letter').forEach(function(letter) {
+          letter.addEventListener('click', function() {
+            var input = document.getElementById('challenge_answer');
+            input.value += letter.textContent;
+            letter.remove();
+          });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+          document.getElementById("challenge_answer").readOnly = true  
+        });
+      </script>
+
+      <style>
+        /* Container */
+        #canvas {
+          position: relative;
+          width: 600px;
+          height: 300px;
+          border: 2px solid #666;
+          overflow: hidden; /* hide overflow just in case */
+          margin-bottom: 10px;
+        }
+
+        /* Styling each letter */
+        .letter {
+          position: absolute;
+          font-family: sans-serif;
+          font-size: 36px;
+          font-weight: bold;
+          cursor: pointer;
+          animation-name: floatAround;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
+          animation-fill-mode: forwards;
+          /* Add a little shadow to make it fancy */
+          text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Pause animation on hover */
+        .letter:hover {
+          animation-play-state: paused;
+        }
+
+        /*
+          "floatAround" keyframes:
+          - 10 segments (0%, 10%, 20% ... 100%)
+          - Each step changes translate (x, y), rotation, and color
+          - The chosen values try to keep letters within the 400×300 box
+            (depending on initial position)
+        */
+        @keyframes floatAround {
+          0% {
+            transform: translate(0px, 0px) rotate(0deg);
+            color: #f44336;
+          }
+          10% {
+            transform: translate(80px, 20px) rotate(36deg);
+            color: #e91e63;
+          }
+          20% {
+            transform: translate(120px, 40px) rotate(72deg);
+            color: #9c27b0;
+          }
+          30% {
+            transform: translate(200px, 60px) rotate(108deg);
+            color: #673ab7;
+          }
+          40% {
+            transform: translate(300px, 80px) rotate(144deg);
+            color: #3f51b5;
+          }
+          50% {
+            transform: translate(280px, 100px) rotate(180deg);
+            color: #2196f3;
+          }
+          60% {
+            transform: translate(200px, 120px) rotate(216deg);
+            color: #03a9f4;
+          }
+          70% {
+            transform: translate(120px, 140px) rotate(252deg);
+            color: #00bcd4;
+          }
+          80% {
+            transform: translate(60px, 160px) rotate(288deg);
+            color: #009688;
+          }
+          90% {
+            transform: translate(30px, 100px) rotate(324deg);
+            color: #4caf50;
+          }
+          100% {
+            transform: translate(0px, 0px) rotate(360deg);
+            color: #f44336;
+          }
+        }
+      </style>
     `,
     },
     solution: secrets('chal_80'),

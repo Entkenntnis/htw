@@ -1044,20 +1044,6 @@ export const hintsData = {
       },
     ],
   },
-  79: {
-    entries: [
-      {
-        question:
-          'die antwort geht nicht,die richtige ,hier liegt ein fehler vor!',
-        answer:
-          'Die Aufgabe wurde soeben überarbeitet und die Antwort hat sich verändert ...',
-      },
-      {
-        question: 'Was ist die Antwort',
-        answer: 'Die Antwort ist im Quelltext zu finden',
-      },
-    ],
-  },
   80: {
     entries: [
       {

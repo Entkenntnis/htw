@@ -393,7 +393,7 @@ export function setupWormsArena(App) {
                   .locale('de')
                   .fromNow()} wieder ein Match starten.</p>`
               : `<p>Wähle deinen Bot für das Match:
-          <select name="bot" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
+          <select name="bot" id="bot-selector" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
             <option value="">Bitte wählen...</option>
             ${ownBots
               .map(
@@ -421,7 +421,11 @@ export function setupWormsArena(App) {
               <tr>
                 
                 <td>${index + 1}</td>
-                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span><br >
+                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span>${
+                  bot.userid == user.id
+                    ? ` <span onClick="updateBotIdAndUpdateUI(${bot.id})" id="bot-chooser-${bot.id}" class="bot-chooser"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 14px; height: 14px; cursor: pointer;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span>`
+                    : ''
+                }<br >
                   <div style="display: flex">
                     <details>
                       <summary><span style="color: darkgray">Siege: ${bot.wins}, Niederlagen: ${bot.losses}</span></summary>
@@ -468,19 +472,35 @@ export function setupWormsArena(App) {
               for (let i = 0; i < buttons.length; i++) {
                 buttons[i].style.visibility = 'hidden'
               }
+              // make all challenge buttons visible
+              const choosers = document.getElementsByClassName('bot-chooser')
+              for (let i = 0; i < choosers.length; i++) {
+                choosers[i].style.visibility = 'visible'
+              }
             } else {
               // make all challenge buttons visible
               const buttons = document.getElementsByClassName('challenge-button')
               for (let i = 0; i < buttons.length; i++) {
                 buttons[i].style.visibility = 'visible'
               }
+              // make all challenge buttons visible
+              const choosers = document.getElementsByClassName('bot-chooser')
+              for (let i = 0; i < choosers.length; i++) {
+                choosers[i].style.visibility = 'visible'
+              }
             }
             botId = id
             if (id !== null) {
               const el = document.getElementById('challenge-' + id)
-              if (el)
+              if (el) {
                 el.style.visibility = 'hidden'
+              }
+              const el2 = document.getElementById('bot-chooser-' + id)
+              if (el2) {
+                el2.style.visibility = 'hidden'
+              }
             }
+            document.getElementById('bot-selector').value = id
           }
 
            // Add botId to challenge forms dynamically

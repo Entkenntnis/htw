@@ -1,4 +1,4 @@
-import { and, Op } from 'sequelize'
+import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
 
@@ -19,6 +19,10 @@ export const hintsData = {
       {
         question: 'hallo aber 90 ist ja falsch oder?',
         answer: '90 ist falsch, genau',
+      },
+      {
+        question: 'Wie weit ist die sonne?',
+        answer: 'schätze mal so 2 Jahre Reisezeit',
       },
     ],
   },
@@ -124,6 +128,10 @@ export const hintsData = {
       {
         question: 'wie ist bei Laptop microsoft?',
         answer: 'Schaue dir die zweite Antwort an',
+      },
+      {
+        question: 'ICH HABE LEIDER KEIN ALT',
+        answer: '[⌘] + [⌥] + [U] auf Mac',
       },
     ],
   },
@@ -403,6 +411,12 @@ export const hintsData = {
       {
         question: 'Kann man auch nur Emoji eingeben',
         answer: 'nein, der Text Emoji ist nicht die Antwort',
+      },
+      {
+        question:
+          'hey leute wie geht diese Aufgabe? hänge schon seit einer halben stunde an ihr',
+        answer:
+          'In Apps wie Whatsapp kannst du ja Emojis schicken - das geht auch am PC',
       },
     ],
   },
@@ -2139,7 +2153,7 @@ export const hintsData = {
   },
 }
 
-const cutoff = '2025-02-01'
+const cutoff = '2025-02-14'
 
 /**
  * @param {import("../../data/types.js").App} App

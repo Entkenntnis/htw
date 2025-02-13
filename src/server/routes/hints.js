@@ -194,6 +194,15 @@ export const hintsData = {
       },
     ],
   },
+  17: {
+    entries: [
+      {
+        question: 'wie sollte man das lesen wenn man es einfach nicht kann',
+        answer:
+          'ein Handy-Bildschirm (wenn Display aus) ist auch ein guter Spiegel',
+      },
+    ],
+  },
   18: {
     entries: [
       { question: 'wie kann man das finden', answer: 'Verschiebe den Regler' },
@@ -210,6 +219,7 @@ export const hintsData = {
         question: 'Krieg ich einen Tipp?',
         answer: 'Schaue genauer auf den Screenshot',
       },
+      { question: 'wo auf den Screenshot', answer: 'ziemlich in der Mitte' },
     ],
   },
   23: {
@@ -271,6 +281,12 @@ export const hintsData = {
         answer:
           'auf Windows öffnet sollte sich ein neues Explorer-Fenster öffnen',
       },
+      {
+        question:
+          'Ich verstehe nicht wie man eine Datei zippen sollte also was ist zippen überhaupt und wie macht man dass?',
+        answer:
+          'du musst sie nicht zippen, sondern die zip-Datei entpacken - diese Funktion ist in Windows zum Beispiel schon eingebaut',
+      },
     ],
   },
   27: {
@@ -278,6 +294,10 @@ export const hintsData = {
       {
         question: 'Wie macht man das digital',
         answer: 'Mit der Maus rüberfahren',
+      },
+      {
+        question: 'Und auf dem IPad ?',
+        answer: 'Mit Touch, aber ich gebe zu, es ist bisschen schwierig ...',
       },
     ],
   },
@@ -777,6 +797,15 @@ export const hintsData = {
         answer: 'Und noch eine random frage mehr',
       },
       { question: 'wie heist du', answer: 'Quinn' },
+      {
+        question:
+          'Man sollte den ganzen Text entschlüsseln - die Story ist gut !',
+        answer: 'Finde ich auch',
+      },
+      {
+        question: 'was ist deine lieblingsfarbe',
+        answer: 'das grün von hack the web :)',
+      },
     ],
   },
   62: {
@@ -791,6 +820,10 @@ export const hintsData = {
           'ich kann die Datei nicht öffnen weil mein Laptop alt ist. schönen Tag noch. Von Suskiddie',
         answer:
           'Auch die ältesten Computer sollten das Bild öffnen können. Hast du die Dateiendung davor geändert?',
+      },
+      {
+        question: 'wie ändere ich es jetzt',
+        answer: 'Klicke auf den Ändern-Button',
       },
     ],
   },
@@ -1009,6 +1042,12 @@ export const hintsData = {
           'Servus, ich häng da grad auch ein bisschen. Ich habs über ein Python-Script probiert und über diverse Internetseiten. Irgendein Tipp, was ich falsch machen könnte?',
         answer: 'Sommerzeit? +/- ein paar Minuten zur Sicherheit?',
       },
+      {
+        question:
+          'Ich habs jetzt 20mal probiert. Habe das mit verschiedenen Webseiten probiert, aber es funktioniert einfach nicht. Ist die Challenge sicher richtig programmiert?',
+        answer:
+          'Ja, die Aufgabe wird regelmäßig gelöst. Paar Sachen: Hast du Minuten genutzt? Hast du die Zeit bis zur Eingabe berücksichtigt? Die Antwort ist nur die Zahl',
+      },
     ],
   },
   77: {
@@ -1066,6 +1105,10 @@ export const hintsData = {
       {
         question: 'ich kann diese TXT-Record nicht finden',
         answer: 'Es gibt Online-Tools dafür, verwende diese',
+      },
+      {
+        question: 'welche online tools gibt es denn für sowas',
+        answer: 'https://mxtoolbox.com/TXTLookup.aspx',
       },
     ],
   },
@@ -1146,6 +1189,7 @@ export const hintsData = {
           'muss man die zahlen mal plu oder in einer bestimmten reihenfolge zusammen rechnen?',
         answer: 'Alle Zahlen plus',
       },
+      { question: '1347 ist falsch', answer: 'Du hast dich etwas verrechnet' },
     ],
   },
   89: {
@@ -1518,6 +1562,11 @@ export const hintsData = {
           'Der Befehl startet mit <span class="spoiler-text">/time</span>',
       },
       { question: 'Muss man day oder tag schreiben', answer: 'das Englische' },
+      {
+        question:
+          'Könntest du mir eine website die so was darstellt oder sozusagen die lösung dafür gibt zeigen',
+        answer: 'https://minecraft.gamepedia.com/Commands/time',
+      },
     ],
   },
   114: {
@@ -1541,6 +1590,11 @@ export const hintsData = {
         answer:
           'Schreibe mir mal, was du eingegeben hast, dann kann ich das überprüfen - Update: danke, habe deine Eingabe zu den Antworten hinzugefügt',
       },
+      {
+        question: 'wieso ist Castanea falsch',
+        answer:
+          'Der Baum im Bild ist keine Castanea, sondern eine zwar ähnlich, doch komplett andere Baumart',
+      },
     ],
   },
   115: {
@@ -1555,6 +1609,12 @@ export const hintsData = {
           'Also ich komm mir direkt Dumm vor, ich hab den Ausschnitt und weiß nicht welches spiel gemeint ist. Ich hab schon einiges versucht zB. das Spiel von Micro$oft mit 4 Buchstaben und auch das Spiel mit 13 Buchstaben (ohne und mit Leerzeichen) aber ja bin wohl zu blöd xD Hat jemand einen Tipp für mich?',
         answer:
           'Die Antwort sollte 6 Buchstaben lang sein. Hast du den Hinweis zum Koordinatensystem gelesen? Der Ursprung ist nicht oben links, sondern in der Mitte ... ansonsten sollte der Ausschnitt relativ eindeutig sein  - hoffe das hilft weiter',
+      },
+      {
+        question:
+          'ich finde echt kein videospiel welches 6 buchstaben hat und in diesem ausschnitt der Leinwand ist, ich bin echt komplett stuck',
+        answer:
+          'In diesem Fall hast du ziemlich sicher den falschen Ausschnitt, prüfe nochmal deine Koordinaten',
       },
     ],
   },
@@ -1637,6 +1697,12 @@ export const hintsData = {
         question: 'Wie in keiner Zeile ich dachte die muss im Text stehen',
         answer:
           'obwohl der Name nicht im Text steht, ist er doch mit bisschen Nachdenken zu finden',
+      },
+      {
+        question:
+          'ich finde nirgens schwedische Schachspielerinnen die auch auf youtube aktiv sind und deren Name richtig ist',
+        answer:
+          'hast du den Namen ohne Leerzeichen geschrieben wie in der Angabe gefordert? Mit mehr als 1 Mio Abonnenten sollte sie leicht zu finden sein',
       },
     ],
   },
@@ -1834,6 +1900,11 @@ export const hintsData = {
       },
       { question: 'wo liegt der fluss', answer: 'das musst du herausfinden' },
       { question: 'ist der fluss in deutschland ', answer: 'ja' },
+      {
+        question: 'Hat der Name etwas damit zu tun?',
+        answer:
+          'OSINT steht für Open Source Intelligence und beschreibt nur die Art der Aufgabe',
+      },
     ],
   },
   317: {
@@ -1881,6 +1952,11 @@ export const hintsData = {
       {
         question: 'Ist es mehr als ein wort',
         answer: 'Ja, es ist mehr als ein Wort',
+      },
+      {
+        question: 'ist die Lösung schwer zu finden?',
+        answer:
+          'Du hast sowas ähnlich bei den ersten Aufgaben schon mal gemacht',
       },
     ],
   },
@@ -1934,6 +2010,12 @@ export const hintsData = {
         answer:
           'Hat nichts mit den Charts zu tun, aber die Nummern sind der nächste Schritt. Wenn du ein Album hast, was könnte dann die Nummer bedeuten? 🙂',
       },
+      {
+        question:
+          'Ich bin 17 Jahre alt und weiß gar nicht über das Album von Beatles!',
+        answer:
+          'Ich kenne mich auch nicht gut mit den Beatles aus, hab aber alle wichtigen Informationen ziemlich schnell finden können.',
+      },
     ],
   },
   331: {
@@ -1948,6 +2030,11 @@ export const hintsData = {
           'Also ich habs mit den Hints getestet und ausgerechnet nur leider falsch... o.O und ich dachte Excel lügt nicht ... hat wer eine idee?',
         answer:
           'Probiere immer ein wenig drum herum… meistens ist es etwas größer als du rechnest',
+      },
+      {
+        question:
+          'Ich habe keine Idee was ich brauche... Hat es irgendetwas mit den Challenge ids zu tun',
+        answer: 'Es geht um die gelösten Aufgaben',
       },
     ],
   },
@@ -2015,6 +2102,14 @@ export const hintsData = {
       },
     ],
   },
+  338: {
+    entries: [
+      {
+        question: 'Muss man wirklich so schnell rechnen?',
+        answer: 'Ja, aber du darfst auch den Computer das rechnen lassen',
+      },
+    ],
+  },
   339: {
     entries: [
       {
@@ -2035,6 +2130,11 @@ export const hintsData = {
         answer: 'heiße Spur',
       },
       { question: 'sind mit Schneeflocken die * gemeint?', answer: 'Ja' },
+      {
+        question:
+          'woher genau weiß ich welche art von Cipher Challenge das hier genau ist?',
+        answer: 'SNOW ist ein heißer (bzw. kalter) Tipp',
+      },
     ],
   },
 }

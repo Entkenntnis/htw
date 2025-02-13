@@ -1042,6 +1042,11 @@ export const hintsData = {
         question: 'wie kommt man zur Druckvorschau',
         answer: 'Strg - P, oder über das Menü und dann Drucken',
       },
+      {
+        question:
+          'Wie macht man diese Aufgabe auf dem I Pad ( weil ich habe kein Strg - P) ',
+        answer: 'Teilen -> Drucken',
+      },
     ],
   },
   81: {
@@ -1049,6 +1054,10 @@ export const hintsData = {
       {
         question: 'wie kann man das lösen???????""!!!!!!!!!',
         answer: 'Probieren und etwas Geduld',
+      },
+      {
+        question: 'welches wort soll man schreiben ',
+        answer: 'findest du im ersten Eingabefeld',
       },
     ],
   },
@@ -1389,6 +1398,15 @@ export const hintsData = {
         question: 'Wie kann ich es lösen so das ich es schaffe',
         answer:
           'du könntest einen Script schreiben der alles durch probieren - oder vorhandene Tools wie nmap verwenden, die auf so etwas ausgelegt sind',
+      },
+    ],
+  },
+  108: {
+    entries: [
+      {
+        question: 'Ich kann meine Sprache nichtmal auf französisch ändern',
+        answer:
+          'in Firefox und Chrome geht es recht gut - welchen Browser nutzt du?',
       },
     ],
   },
@@ -1860,6 +1878,10 @@ export const hintsData = {
   323: {
     entries: [
       { question: 'Ist die Lösung in der Aufgabe?', answer: 'Ja, ist sie' },
+      {
+        question: 'Ist es mehr als ein wort',
+        answer: 'Ja, es ist mehr als ein Wort',
+      },
     ],
   },
   325: {

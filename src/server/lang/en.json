@@ -130,7 +130,8 @@
     "delete": "Delete Account ...",
     "changepw": "Change password ...",
     "rank": "Rank",
-    "lastSolved": "Last solved"
+    "lastSolved": "Last solved",
+    "copy": "Copy"
   },
   "challenge": {
     "back": "back",

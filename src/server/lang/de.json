@@ -130,7 +130,8 @@
     "delete": "Account löschen ...",
     "changepw": "Passwort ändern ...",
     "rank": "Platz",
-    "lastSolved": "Zuletzt gelöst"
+    "lastSolved": "Zuletzt gelöst",
+    "copy": "Kopieren"
   },
   "challenge": {
     "back": "zurück",

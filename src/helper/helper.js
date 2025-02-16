@@ -50,3 +50,15 @@ export function safeRoute(handler) {
     }
   }
 }
+
+/**
+ * @param {string} username
+ */
+export function generateWeChallToken(username) {
+  return (
+    generateSHA256(`${username}___${secrets('config_token_secret')}`).substring(
+      0,
+      16
+    ) + '@hack.arrrg.de'
+  )
+}

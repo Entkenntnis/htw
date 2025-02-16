@@ -2,6 +2,7 @@ import { Op, Transaction } from 'sequelize'
 import bcrypt from 'bcryptjs'
 import { renderPage } from '../../helper/render-page.js'
 import { hintsData } from './hints.js'
+import { generateWeChallToken } from '../../helper/helper.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -554,6 +555,7 @@ export function setupChallenges(App) {
         lastActive,
         rank,
         sum,
+        token: generateWeChallToken(req.user.name),
       },
       backButton: false,
     })

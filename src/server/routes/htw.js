@@ -2,6 +2,7 @@ import { Sequelize, Op } from 'sequelize'
 import { secrets } from '../../helper/secrets-loader.js'
 import { renderPage } from '../../helper/render-page.js'
 import { setupAnalyze } from './analyze.js'
+import { generateWeChallToken } from '../../helper/helper.js'
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -90,6 +91,65 @@ export function setupHtw(App) {
         (x) =>
           x != secrets('secret_chal_1_id') && x != secrets('secret_chal_2_id')
       )
+    )
+  })
+
+  App.express.get('/api/wechall/validate', async (req, res) => {
+    const username = req.query.username?.toString() ?? ''
+    const email = req.query.email?.toString() ?? ''
+    const authkey = req.query.authkey?.toString() ?? ''
+
+    if (authkey !== secrets('secret_wechall_authkey')) {
+      res.send('0')
+      return
+    }
+
+    const token = generateWeChallToken(username)
+
+    if (email === token) {
+      res.send('1')
+    } else {
+      res.send('0')
+    }
+  })
+
+  App.express.get('/api/wechall/score', async (req, res) => {
+    const username = req.query.username?.toString() ?? ''
+    const authkey = req.query.authkey?.toString() ?? ''
+
+    /*if (authkey !== secrets('secret_wechall_authkey')) {
+      res.send('error')
+      return
+    }*/
+
+    const user = await App.db.models.User.findOne({
+      where: { name: username },
+    })
+
+    if (!user) {
+      res.send('error')
+      return
+    }
+
+    const betterThanMe = await App.db.models.User.count({
+      where: {
+        [Op.or]: [{ score: { [Op.gt]: user.score } }],
+      },
+    })
+    const rank = user.score == 0 ? -1 : betterThanMe + 1
+    const sum = await App.db.models.User.count({
+      where: { score: { [Op.gt]: 0 } },
+    })
+
+    const maxScore = await App.db.models.User.max('score')
+
+    const cids = App.challenges.data.filter((c) => !c.noScore).map((c) => c.id)
+    const solved = await App.db.models.Solution.count({
+      where: { UserId: user.id, cid: cids },
+    })
+
+    res.send(
+      `${username}:${rank}:${user.score}:${sum}:${solved}:${cids.length}:${maxScore}`
     )
   })
 

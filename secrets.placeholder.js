@@ -5,6 +5,7 @@ export const secretValues = {
   config_token_secret: '42',
   config_client_id: '42',
   config_client_secret: '42',
+  config_wechall_authkey: '42',
   chal_72: '42',
   chal_46: '42',
   chal_1: '42',

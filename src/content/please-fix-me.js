@@ -201,7 +201,7 @@ export function setupPleaseFixMe(App) {
           }
         </style>
 
-        <p><a href="/map">zurück</a> <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span> <a href="/please-fix-me/stats">Statstiken</a></p>
+        <p><a href="/map">zurück</a> <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span> <a href="/please-fix-me/stats">Statistik</a></p>
 
         <div id="flexer">
 

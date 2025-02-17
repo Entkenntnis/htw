@@ -347,7 +347,14 @@ export function setupWormsArena(App) {
         }
       })
 
-      botData = botData.filter((b) => b.name && b.username)
+      const sevenDaysAgo = App.moment().subtract(7, 'days').toDate()
+      botData = botData.filter((b) => {
+        const winRate = b.matches.length > 0 ? b.wins / (b.wins + b.losses) : 0
+        const recentMatch = b.matches.some(
+          (match) => new Date(match.ts * 1000) > sevenDaysAgo
+        )
+        return b.name && b.username && (winRate >= 0.2 || recentMatch)
+      })
 
       botData.sort((a, b) => b.elo - a.elo)
 

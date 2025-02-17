@@ -149,7 +149,7 @@ export function setupHtw(App) {
     })
 
     res.send(
-      `${username}:${rank}:${user.score}:${sum}:${solved}:${cids.length}:${maxScore}`
+      `${username}:${rank}:${user.score}:${maxScore}:${solved}:${cids.length}:${sum}`
     )
   })
 

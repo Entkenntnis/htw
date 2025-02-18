@@ -68,16 +68,9 @@ export function setupEduplacesSSO(app) {
 
       const data = await response.json()
 
-      // read id_token and verify it
+      console.log(data)
 
-      // @ts-expect-error I don't know how to fix this
-      const idToken = data.id_token
-      const parts = idToken.split('.')
-      const payload = JSON.parse(
-        Buffer.from(parts[1], 'base64').toString('utf-8')
-      )
-
-      res.send(payload)
+      res.send(JSON.stringify(data))
     })
   )
 }

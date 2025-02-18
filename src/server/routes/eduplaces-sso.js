@@ -72,6 +72,8 @@ export function setupEduplacesSSO(app) {
 
       const data = await response.json()
 
+      console.log(data)
+
       // read sub from jwt id token
       // @ts-expect-error I hope it works
       const idToken = data.id_token

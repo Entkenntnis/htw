@@ -34,8 +34,50 @@ export function setupEduplacesSSO(app) {
           'https://hack.arrrg.de/sso/callback'
         )}&scope=openid&login_hint=${login_hint}&code_challenge=${
           codeChallenge
-        }&code_challenge_method=S256&state=hackthewebSSO2`
+        }&code_challenge_method=S256&state=hacktheweb`
       )
+    })
+  )
+
+  app.express.get(
+    '/sso/callback',
+    safeRoute(async (req, res) => {
+      const code = req.query.code?.toString() ?? ''
+
+      // exchange authorization code for access token
+      const response = await fetch(
+        'https://auth.sandbox.eduplaces.dev/oauth2/token',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${Buffer.from(
+              `${secrets('config_client_id')}:${secrets(
+                'config_client_secret'
+              )}`
+            ).toString('base64')}`,
+          },
+          body: new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: 'https://hack.arrrg.de/sso/callback',
+            code_verifier: req.session.ssoVerifier ?? '',
+          }),
+        }
+      )
+
+      const data = await response.json()
+
+      // read id_token and verify it
+
+      // @ts-expect-error I don't know how to fix this
+      const idToken = data.id_token
+      const parts = idToken.split('.')
+      const payload = JSON.parse(
+        Buffer.from(parts[1], 'base64').toString('utf-8')
+      )
+
+      res.send(payload)
     })
   )
 }

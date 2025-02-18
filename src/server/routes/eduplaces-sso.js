@@ -48,7 +48,8 @@ export function setupEduplacesSSO(app) {
         code: code,
         redirect_uri: 'https://hack.arrrg.de/sso/callback',
         code_verifier: req.session.ssoVerifier ?? '',
-      })
+      }).toString()
+
       const Authorization = `Basic ${Buffer.from(
         `${secrets('config_client_id')}:${secrets('config_client_secret')}`
       ).toString('base64')}`

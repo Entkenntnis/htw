@@ -722,11 +722,13 @@ export function setupChallenges(App) {
     if (App.config.noSelfAdmin.includes(req.user.name)) {
       return res.redirect('/map')
     }
+    const sso = !!req.session.sso_sid
     renderPage(App, req, res, {
       page: 'changepw',
       props: {
         token: App.csrf.create(req),
         messages: req.flash('changepw'),
+        password: sso ? generateWeChallToken(req.user.name) : '',
       },
       backHref: '/profile',
     })
@@ -762,6 +764,7 @@ export function setupChallenges(App) {
           // ready to go
           const password = await bcrypt.hash(newpw1, 8)
           req.user.password = password
+          delete req.session.sso_sid
           await req.user.save({ silent: true })
           renderPage(App, req, res, 'changepwSuccess')
           return

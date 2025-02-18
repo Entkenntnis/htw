@@ -94,6 +94,7 @@ export function setupEduplacesSSO(App) {
 
       // TODO: verify jwt with public key
       if (!jwt.verify(idToken, sandboxpem, { algorithms: ['RS256'] })) {
+        console.log(idToken)
         res.status(400).send('Invalid JWT')
         return
       }

@@ -99,7 +99,7 @@ export function setupHtw(App) {
     const email = req.query.email?.toString() ?? ''
     const authkey = req.query.authkey?.toString() ?? ''
 
-    if (authkey !== secrets('secret_wechall_authkey')) {
+    if (authkey !== secrets('config_wechall_authkey')) {
       res.send('0')
       return
     }
@@ -117,10 +117,10 @@ export function setupHtw(App) {
     const username = req.query.username?.toString() ?? ''
     const authkey = req.query.authkey?.toString() ?? ''
 
-    /*if (authkey !== secrets('secret_wechall_authkey')) {
+    if (authkey !== secrets('config_wechall_authkey')) {
       res.send('error')
       return
-    }*/
+    }
 
     const user = await App.db.models.User.findOne({
       where: { name: username },

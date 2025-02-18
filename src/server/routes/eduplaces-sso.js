@@ -1,6 +1,7 @@
 import { safeRoute } from '../../helper/helper.js'
 import { secrets } from '../../helper/secrets-loader.js'
 import { createHash } from 'node:crypto'
+import jwt from 'jsonwebtoken'
 
 const sandboxpem = `-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwoYMGKuFLpylSQ13kp9W
@@ -87,11 +88,16 @@ export function setupEduplacesSSO(App) {
 
       const data = await response.json()
 
-      // TODO: verify jwt with public key
-
       // read sub from jwt id token
       // @ts-expect-error I hope it works
       const idToken = data.id_token
+
+      // TODO: verify jwt with public key
+      if (!jwt.verify(idToken, sandboxpem, { algorithms: ['RS256'] })) {
+        res.status(400).send('Invalid JWT')
+        return
+      }
+
       const [, payload] = idToken.split('.')
       const decodedPayload = Buffer.from(payload, 'base64').toString()
       const { sub, sid } = JSON.parse(decodedPayload)

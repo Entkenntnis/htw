@@ -25,7 +25,10 @@ export function setupEduplacesSSO(app) {
 
       const codeChallenge = createHash('sha256')
         .update(codeVerifier)
-        .digest('hex')
+        .digest('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '')
 
       res.redirect(
         `${iss}/oauth2/auth?response_type=code&client_id=${secrets(
@@ -45,7 +48,7 @@ export function setupEduplacesSSO(app) {
       const code = req.query.code?.toString() ?? ''
       const body = new URLSearchParams({
         grant_type: 'authorization_code',
-        code: code,
+        code,
         redirect_uri: 'https://hack.arrrg.de/sso/callback',
         code_verifier: req.session.ssoVerifier ?? '',
       }).toString()
@@ -90,4 +93,15 @@ function generateCodeVerifier() {
   var array = new Uint32Array(56 / 2)
   crypto.getRandomValues(array)
   return Array.from(array, dec2hex).join('')
+}
+
+/**
+ * @param {string} str
+ */
+function base64URLEncode(str) {
+  return str
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '')
 }

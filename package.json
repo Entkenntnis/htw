@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.8",
     "bcryptjs": "^2.4.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.0",
@@ -28,6 +29,7 @@
     "express-session": "^1.17.0",
     "i18next": "^23.0.0",
     "i18next-fs-backend": "^2.3.2",
+    "jsonwebtoken": "^9.0.2",
     "jsqr": "^1.4.0",
     "mariadb": "^3.0.0",
     "moment": "^2.30.1",

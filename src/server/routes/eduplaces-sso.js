@@ -105,6 +105,7 @@ export function setupEduplacesSSO(App) {
       req.session.sso_sub = sub
 
       if (!isNaN(userId)) {
+        req.session.userId = userId
         res.redirect('/map')
         return
       }

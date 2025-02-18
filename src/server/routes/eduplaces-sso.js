@@ -94,14 +94,3 @@ function generateCodeVerifier() {
   crypto.getRandomValues(array)
   return Array.from(array, dec2hex).join('')
 }
-
-/**
- * @param {string} str
- */
-function base64URLEncode(str) {
-  return str
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '')
-}

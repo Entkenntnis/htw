@@ -91,7 +91,7 @@ export function setupEduplacesSSO(app) {
  * @returns {string} A code verifier.
  */
 function generateCodeVerifier() {
-  const array = new Uint32Array(28) // 56/2 === 28
+  const array = new Uint8Array(28) // 56/2 === 28
   crypto.getRandomValues(array)
   return Array.from(array, (dec) => dec.toString(16).padStart(2, '0')).join('')
 }

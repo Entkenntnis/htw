@@ -2,11 +2,26 @@ import { safeRoute } from '../../helper/helper.js'
 import { secrets } from '../../helper/secrets-loader.js'
 import { createHash } from 'node:crypto'
 
+const sandboxpem = `-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwoYMGKuFLpylSQ13kp9W
+TYAB+QIMrDVdHWNYn0J50OvclTHqUlKJYr1YcRAE60uPajQXBw6zoX7uejdr5wLQ
+4oJLM9EdDgI61NVr6lOX8/0YGIE4qxK5Bo90jv4MeDm0NmJDoLGxNb/i9Dp864rY
+a6isR0gEHAM0lqBpqL8i7AivMB9z3CfjsqOjEpc+FYJaJNk6tFmI7z5GPhVt25Xk
+olcW/fQXJpQc2LgOegOVQ0aDM2LKwJGvDiXqRkW5hVxEVl3SoFVF3lPWvW0Mnpng
+lcvf1MjGN2KSLs6HxDmDiW9UAOX+sUZv+mREMQmdXQFyJxI+6Wg54qC9JDG2qwb0
+hZv7x6X1rOhDlXEIKC9xVH6n8Ir84LfnWFyFSJzPVoCmAYmtFLMGT3MaKXXB1Uy7
+kH91GOCkYRDTP8BOXNq9D+Ln4yjle9CtCmkx41Ku25/rh6lBnk55rYPT4dLCKt/+
+XH3pJd36+1F1SfYV8ZMETZNYBnXRzbe03wODGvPZ9pIes+YISyg740wn560VLKRP
+kBzoQPRG99Ac5gJjMEmNOoJoFeiYX1VTmdZ2VhP1tN6idpIsMcE+TbzshzqERDKa
+HuCT0tje3u2x7+q7QAxo0q630opLV5MB+hD2c6c1uDptEWLscI7c74nisaWn5mTK
+Oh1c5VLzXoqZ3eoog0bQ2+UCAwEAAQ==
+-----END PUBLIC KEY-----`
+
 /**
- * @param {import("../../data/types.js").App} app
+ * @param {import("../../data/types.js").App} App
  */
-export function setupEduplacesSSO(app) {
-  app.express.get(
+export function setupEduplacesSSO(App) {
+  App.express.get(
     '/sso',
     safeRoute(async (req, res) => {
       const iss = req.query.iss
@@ -42,7 +57,7 @@ export function setupEduplacesSSO(app) {
     })
   )
 
-  app.express.get(
+  App.express.get(
     '/sso/callback',
     safeRoute(async (req, res) => {
       const code = req.query.code?.toString() ?? ''
@@ -72,16 +87,31 @@ export function setupEduplacesSSO(app) {
 
       const data = await response.json()
 
-      console.log(data)
+      // TODO: verify jwt with public key
 
       // read sub from jwt id token
       // @ts-expect-error I hope it works
       const idToken = data.id_token
       const [, payload] = idToken.split('.')
       const decodedPayload = Buffer.from(payload, 'base64').toString()
-      const { sub } = JSON.parse(decodedPayload)
+      const { sub, sid } = JSON.parse(decodedPayload)
 
-      res.send(`Hello ${sub}`)
+      // if sub is known, set session and redirect to map, the simple case
+      const userId = parseInt(
+        (await App.storage.getItem(`eduplaces_sso_sub_${sub}`)) ?? 'xx'
+      )
+
+      req.session.sso_sid = sid
+      req.session.sso_sub = sub
+
+      if (!isNaN(userId)) {
+        res.redirect('/map')
+        return
+      }
+
+      delete req.session.userId
+
+      res.redirect('/register')
     })
   )
 }

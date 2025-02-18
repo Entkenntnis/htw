@@ -1,6 +1,7 @@
 import { Op } from 'sequelize'
 import bcrypt from 'bcryptjs'
 import { renderPage } from '../../helper/render-page.js'
+import { generateToken, generateWeChallToken } from '../../helper/helper.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -26,6 +27,7 @@ export function setupUser(App) {
       })
     )
     const i18n = App.i18n.get(req.lng)
+    const sso = !!(req.session.sso_sid && req.session.sso_sub)
     renderPage(App, req, res, {
       page: 'register',
       props: {
@@ -33,11 +35,15 @@ export function setupUser(App) {
         values,
         token,
         room,
+        sso,
       },
-      heading: room
-        ? i18n.t('register.joinRoomHeading', { room })
-        : i18n.t('register.normalHeading'),
+      heading: sso
+        ? 'Willkommen bei Hack The Web!'
+        : room
+          ? i18n.t('register.joinRoomHeading', { room })
+          : i18n.t('register.normalHeading'),
       backHref: room ? '/join' : undefined,
+      backButton: !sso,
     })
   })
 
@@ -53,6 +59,7 @@ export function setupUser(App) {
     let roomId
 
     const i18n = App.i18n.get(req.lng)
+    const sso = !!(req.session.sso_sid && req.session.sso_sub)
 
     if (room) {
       const dbRoom = await App.db.models.Room.findOne({
@@ -85,11 +92,13 @@ export function setupUser(App) {
       })
       if (user) return i18n.t('register.nameExists')
 
-      if (pw1 != pw2) return i18n.t('register.pwMismatch')
-      if (pw1.length < App.config.accounts.minPw)
-        return i18n.t('register.pwTooShort')
-      if (pw1.length > App.config.accounts.maxPw)
-        return i18n.t('register.pwTooLong')
+      if (!sso) {
+        if (pw1 != pw2) return i18n.t('register.pwMismatch')
+        if (pw1.length < App.config.accounts.minPw)
+          return i18n.t('register.pwTooShort')
+        if (pw1.length > App.config.accounts.maxPw)
+          return i18n.t('register.pwTooLong')
+      }
 
       const creationRate = await App.db.models.User.count({
         where: {
@@ -109,13 +118,22 @@ export function setupUser(App) {
     } else {
       // ready to go
       try {
-        const password = await bcrypt.hash(pw1, App.config.bcryptRounds)
+        const password = await bcrypt.hash(
+          sso ? generateWeChallToken(username) : pw1,
+          App.config.bcryptRounds
+        )
         const result = await App.db.models.User.create({
           name: username,
           password,
           RoomId: roomId,
           session_phase: roomId?.toString() && 'READY',
         })
+        if (sso) {
+          await App.storage.setItem(
+            `eduplaces_sso_sub_${req.session.sso_sub}`,
+            result.id.toString()
+          )
+        }
         req.session.userId = result.id
         res.redirect('/')
         return
@@ -378,6 +396,7 @@ export function setupUser(App) {
 
   App.express.get('/logout', (req, res) => {
     delete req.session.userId
+    delete req.session.sso_sid
     res.redirect('/')
   })
 

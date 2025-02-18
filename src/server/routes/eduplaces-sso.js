@@ -18,7 +18,7 @@ export function setupEduplacesSSO(app) {
         return
       }
 
-      // 32 bytes random string
+      // 28 bytes random string
       const codeVerifier = generateCodeVerifier()
 
       req.session.ssoVerifier = codeVerifier
@@ -57,8 +57,6 @@ export function setupEduplacesSSO(app) {
         `${secrets('config_client_id')}:${secrets('config_client_secret')}`
       ).toString('base64')}`
 
-      console.log({ code, body, Authorization })
-
       // exchange authorization code for access token
       const response = await fetch(
         'https://auth.sandbox.eduplaces.dev/oauth2/token',
@@ -74,23 +72,24 @@ export function setupEduplacesSSO(app) {
 
       const data = await response.json()
 
-      console.log(data)
+      // read sub from jwt id token
+      // @ts-expect-error I hope it works
+      const idToken = data.id_token
+      const [, payload] = idToken.split('.')
+      const decodedPayload = Buffer.from(payload, 'base64').toString()
+      const { sub } = JSON.parse(decodedPayload)
 
-      res.send(JSON.stringify(data))
+      res.send(`Hello ${sub}`)
     })
   )
 }
 
-// GENERATING CODE VERIFIER
 /**
- * @param {number} dec
+ * Generates a code verifier string using cryptographically secure random values.
+ * @returns {string} A code verifier.
  */
-function dec2hex(dec) {
-  return ('0' + dec.toString(16)).substr(-2)
-}
-
 function generateCodeVerifier() {
-  var array = new Uint32Array(56 / 2)
+  const array = new Uint32Array(28) // 56/2 === 28
   crypto.getRandomValues(array)
-  return Array.from(array, dec2hex).join('')
+  return Array.from(array, (dec) => dec.toString(16).padStart(2, '0')).join('')
 }

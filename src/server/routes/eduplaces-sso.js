@@ -43,6 +43,17 @@ export function setupEduplacesSSO(app) {
     '/sso/callback',
     safeRoute(async (req, res) => {
       const code = req.query.code?.toString() ?? ''
+      const body = new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: 'https://hack.arrrg.de/sso/callback',
+        code_verifier: req.session.ssoVerifier ?? '',
+      })
+      const Authorization = `Basic ${Buffer.from(
+        `${secrets('config_client_id')}:${secrets('config_client_secret')}`
+      ).toString('base64')}`
+
+      console.log({ code, body, Authorization })
 
       // exchange authorization code for access token
       const response = await fetch(
@@ -51,18 +62,9 @@ export function setupEduplacesSSO(app) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Basic ${Buffer.from(
-              `${secrets('config_client_id')}:${secrets(
-                'config_client_secret'
-              )}`
-            ).toString('base64')}`,
+            Authorization,
           },
-          body: new URLSearchParams({
-            grant_type: 'authorization_code',
-            code: code,
-            redirect_uri: 'https://hack.arrrg.de/sso/callback',
-            code_verifier: req.session.ssoVerifier ?? '',
-          }),
+          body,
         }
       )
 

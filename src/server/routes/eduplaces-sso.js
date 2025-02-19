@@ -124,6 +124,7 @@ export function setupEduplacesSSO(App) {
   )
 
   App.express.post('/sso/logout', async (req, res) => {
+    console.log('debug sso logout', req.body)
     const logout_token = req.body.logout_token?.toString() ?? ''
 
     if (!logout_token) {

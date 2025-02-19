@@ -94,7 +94,7 @@ export function setupEduplacesSSO(App) {
 
       // TODO: verify jwt with public key
       if (!jwt.verify(idToken, sandboxpem, { algorithms: ['RS256'] })) {
-        console.log(idToken)
+        // console.log(idToken)
         res.status(400).send('Invalid JWT')
         return
       }
@@ -122,6 +122,50 @@ export function setupEduplacesSSO(App) {
       res.redirect('/register')
     })
   )
+
+  App.express.post('/sso/logout', async (req, res) => {
+    const logout_token = req.body.logout_token?.toString() ?? ''
+
+    if (!logout_token) {
+      res.status(400).send('Missing logout_token')
+      return
+    }
+
+    if (!jwt.verify(logout_token, sandboxpem, { algorithms: ['RS256'] })) {
+      console.log('invalid token', logout_token)
+      res.status(400).send('Invalid JWT')
+      return
+    }
+
+    const [, payload] = logout_token.split('.')
+    const decodedPayload = Buffer.from(payload, 'base64').toString()
+    const { sid } = JSON.parse(decodedPayload)
+
+    if (!sid) {
+      res.status(400).send('Missing sid')
+      return
+    }
+
+    const sessions = await App.db.models.Session.findAll({})
+
+    /** @type {string[]} */
+    const sessionsToDelete = []
+
+    sessions.forEach((session) => {
+      const data = JSON.parse(session.data)
+      if (data.sso_sid === sid) {
+        sessionsToDelete.push(session.sid)
+      }
+    })
+
+    await App.db.models.Session.destroy({
+      where: {
+        sid: sessionsToDelete,
+      },
+    })
+
+    res.send('ok')
+  })
 
   App.express.get('/sso/dummy', async (req, res) => {
     if (process.env.UBERSPACE) {

@@ -122,6 +122,36 @@ export function setupEduplacesSSO(App) {
       res.redirect('/register')
     })
   )
+
+  App.express.get('/sso/dummy', async (req, res) => {
+    if (process.env.UBERSPACE) {
+      res.send('not available')
+      return
+    }
+
+    const sub = req.query.sub?.toString() ?? ''
+    const sid = Math.random().toString(36).substring(7)
+
+    console.log('dummy session id', sid)
+
+    // if sub is known, set session and redirect to map, the simple case
+    const userId = parseInt(
+      (await App.storage.getItem(`eduplaces_sso_sub_${sub}`)) ?? 'xx'
+    )
+
+    req.session.sso_sid = sid
+    req.session.sso_sub = sub
+
+    if (!isNaN(userId)) {
+      req.session.userId = userId
+      res.redirect('/map')
+      return
+    }
+
+    delete req.session.userId
+
+    res.redirect('/register')
+  })
 }
 
 /**

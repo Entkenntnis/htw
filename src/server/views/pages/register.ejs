@@ -1,5 +1,5 @@
 <% if (props.sso) { %>
-  <p style="text-align: center; font-size: 18px; max-width: 580px; margin-left: auto; margin-right: auto;">Wähle einen Benutzernamen um deinen Login über Eduplaces abzuschließen. Du kannst später im Profil zusätzlich ein Passwort anlegen.</p>
+  <p style="text-align: center; font-size: 18px; max-width: 580px; margin-left: auto; margin-right: auto;">Wähle einen Benutzernamen. Dieser wird in der App angezeigt, du musst ihn dir aber nicht merken: Der Login erfolgt vollständig über Eduplaces!</p>
 <% } %>
 
 <% if (props.messages.length > 0) { %>
@@ -83,6 +83,10 @@
     </fieldset>
   </form>
 </div>
+
+<% if (props.sso) { %>
+  <p style="text-align: center; font-size: 12px; margin-top: 24px; color: gray; max-width: 66ch; margin-left: auto; margin-right: auto;">Du kannst später im Profil ein Passwort festlegen, wenn du dich unabhängig von Eduplaces einloggen willst. Das ist vollkommen optional.</p>
+<% } %>
 
 
 <script>

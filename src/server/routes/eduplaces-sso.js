@@ -124,7 +124,7 @@ export function setupEduplacesSSO(App) {
   )
 
   App.express.post('/sso/logout', async (req, res) => {
-    console.log('debug sso logout', req.body)
+    console.log('debug sso logout', req.body, req.session)
     const logout_token = req.body.logout_token?.toString() ?? ''
 
     if (!logout_token) {
@@ -142,6 +142,8 @@ export function setupEduplacesSSO(App) {
     const decodedPayload = Buffer.from(payload, 'base64').toString()
     const { sid } = JSON.parse(decodedPayload)
 
+    console.log('debug sso logout sid', sid)
+
     if (!sid) {
       res.status(400).send('Missing sid')
       return
@@ -158,6 +160,8 @@ export function setupEduplacesSSO(App) {
         sessionsToDelete.push(session.sid)
       }
     })
+
+    console.log('debug sso logout sessionsToDelete', sessionsToDelete)
 
     await App.db.models.Session.destroy({
       where: {

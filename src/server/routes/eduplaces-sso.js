@@ -124,7 +124,7 @@ export function setupEduplacesSSO(App) {
   )
 
   App.express.post('/sso/logout', async (req, res) => {
-    console.log('debug sso logout', req.body, req.session)
+    // console.log('debug sso logout', req.body, req.session)
     const logout_token = req.body.logout_token?.toString() ?? ''
 
     if (!logout_token) {
@@ -133,7 +133,7 @@ export function setupEduplacesSSO(App) {
     }
 
     if (!jwt.verify(logout_token, sandboxpem, { algorithms: ['RS256'] })) {
-      console.log('invalid token', logout_token)
+      // console.log('invalid token', logout_token)
       res.status(400).send('Invalid JWT')
       return
     }
@@ -142,7 +142,7 @@ export function setupEduplacesSSO(App) {
     const decodedPayload = Buffer.from(payload, 'base64').toString()
     const { sid } = JSON.parse(decodedPayload)
 
-    console.log('debug sso logout sid', sid)
+    // console.log('debug sso logout sid', sid)
 
     if (!sid) {
       res.status(400).send('Missing sid')
@@ -161,7 +161,7 @@ export function setupEduplacesSSO(App) {
       }
     })
 
-    console.log('debug sso logout sessionsToDelete', sessionsToDelete)
+    // console.log('debug sso logout sessionsToDelete', sessionsToDelete)
 
     await App.db.models.Session.destroy({
       where: {

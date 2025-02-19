@@ -699,6 +699,12 @@ export function setupChallenges(App) {
     } else {
       if (username === req.user.name) {
         await App.db.models.User.destroy({ where: { id: req.user.id } })
+        await App.db.models.KVPair.destroy({
+          where: {
+            value: req.user.id,
+            key: { [Op.like]: 'eduplaces_sso_sub_%' },
+          },
+        })
         App.challengeStats.nuke()
         delete req.session.userId
         delete req.user

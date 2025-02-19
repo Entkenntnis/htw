@@ -366,6 +366,10 @@ export function setupUser(App) {
     }
     const invalidLogin = req.session.loginFail
     delete req.session.loginFail
+    // visiting landing page will invalidate sso session
+    delete req.session.ssoVerifier
+    delete req.session.sso_sid
+    delete req.session.sso_sub
     const dbUsers = await App.db.models.User.findAll({
       attributes: ['name', 'score', 'updatedAt', 'createdAt'],
       where: {

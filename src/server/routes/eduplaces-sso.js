@@ -25,8 +25,8 @@ export function setupEduplacesSSO(App) {
   App.express.get(
     '/sso',
     safeRoute(async (req, res) => {
-      const iss = req.query.iss
-      const login_hint = req.query.login_hint
+      const iss = req.query.iss?.toString() ?? ''
+      const login_hint = req.query.login_hint?.toString() ?? ''
 
       // Check if the request is missing the iss or login_hint parameter
       if (!iss || !login_hint) {
@@ -38,6 +38,7 @@ export function setupEduplacesSSO(App) {
       const codeVerifier = generateCodeVerifier()
 
       req.session.ssoVerifier = codeVerifier
+      req.session.ssoIss = iss
 
       const codeChallenge = createHash('sha256')
         .update(codeVerifier)
@@ -74,17 +75,14 @@ export function setupEduplacesSSO(App) {
       ).toString('base64')}`
 
       // exchange authorization code for access token
-      const response = await fetch(
-        'https://auth.sandbox.eduplaces.dev/oauth2/token',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization,
-          },
-          body,
-        }
-      )
+      const response = await fetch(req.session.ssoIss + '/oauth2/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization,
+        },
+        body,
+      })
 
       const data = await response.json()
 

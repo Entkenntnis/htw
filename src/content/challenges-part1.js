@@ -3313,7 +3313,8 @@ PIXI.loader
       
       <p>Build the following code with Karol and run the program.
       </p>
-      
+
+      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
       
       <p>The answer is the number of yellow tokens at the end.</p>
       

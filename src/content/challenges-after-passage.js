@@ -2172,9 +2172,9 @@ print(hex_string)</pre></code>
         <p style="font-family:monospace;">bu7 07h3r p30pl3 w4n7 70 m4k3 7h31r 5k1ll5 v151bl3 - 4nd 7h3r3f0r3 wr173 7h31r m3554635 1n l337.
         </p>
         
-        <p style="font-family:monospace;">7|-|3|23 4|23 |)!|=|=3|23|\\\\|7 |_3\\\\/3|_5 4|\\\\||) \\\\/4|2!4|\\\\|75 0|= |_337 - |=|20/\\\\/\\\\ 345!|_\`/ |234|)4|3|_3 70 7074|_|_\`/ (|2\`/|D7!(.</p>
+        <p style="font-family:monospace;">7|-|3|23 4|23 |)!|=|=3|23|\\|7 |_3\\/3|_5 4|\\||) \\/4|2!4|\\|75 0|= |_337 - |=|20/\\/\\ 345!|_\`/ |234|)4|3|_3 70 7074|_|_\`/ (|2\`/|D7!(.</p>
         
-        <p style="font-family:monospace;">\`/0|_||2 4|\\\\|5\\\\|/3|2 !5 |_|1+!|\\\\/|4+!\\\\/.
+        <p style="font-family:monospace;">\`/0|_||2 4|\\|5\\|/3|2 !5 |_|1+!|\\/|4+!\\/.
         </p>
         
         <p><small><a href="https://www.robertecker.com/hp/research/leet-converter.php?lang=en" target="_blank">Hint</a></small></p>

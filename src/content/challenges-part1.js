@@ -523,7 +523,7 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Das Hacken verändert meine Sicht auf die Welt. Ich hätte das in meinem Alter nicht mehr erwartet und ich feiere das.</p>
+        <p>Das Hacken verändert meine Sicht auf die Welt. Ich hätte das in meinem Alter und auf die letzten Tage nicht mehr erwartet.</p>
 
         <p>Zum Beispiel diese Webseite. Mittlerweile weiß ich, dass ich nur einen kleinen Ausschnitt sehe. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Um dahin zu kommen, muss ich einen Blick in den HTML-Quellcode wagen. Es ist ein Blick, der sich lohnt - auch wenn man vielleicht am Anfang nicht alle Dinge sofort versteht.</p>
 

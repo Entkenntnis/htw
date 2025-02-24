@@ -785,9 +785,9 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Ich habe in der Eile ganz vergessen, mich vorzustellen. Mein Name ist Kiwi. Es freut mich, dass du hergefunden hast.</p>
+        <p>Das System möchte wissen, wie du heißt. Sollte eigentlich nicht schwer sein, deinen Namen einzugeben. Doch irgendwie gerät die Eingabe durcheinander.</p>
 
-        <p>Wie lautet dein Name?</p>
+        <p>Die Antwort ist dein Benutzername.</p>
       `
       ),
       en: `

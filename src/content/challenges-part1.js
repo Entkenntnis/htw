@@ -421,7 +421,7 @@ export const part1 = [
 
           ${renderTable('Code', 'Zeichen')}
           
-          <p>Eine Zahlenfolge kommt immer wieder vor und scheint bei den Jugendlichen beliebt zu sein. Deine Antwort in ASCII lautet:</p>
+          <p>Eine Zahlenfolge kommt immer wieder vor und scheint bei den Jugendlichen sehr beliebt zu sein. Deine Antwort in ASCII lautet:</p>
           
           <p>35 &nbsp; 97 &nbsp; 117 &nbsp; 114 &nbsp; 97
           </p>

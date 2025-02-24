@@ -413,13 +413,15 @@ export const part1 = [
         de: story(
           'Josh',
           `
-          <p>Texte werden im Computer mit dem ASCII-Code gespeichert. Schau dir die Tabelle an. Du findest dort die ASCII-Codes für verschiedene Zeichen.</p>
-          
-          <p>Ein Beispiel: Das Dollar-Zeichen hat im Computer den Code 36.</p>
+          <p>Viele Dokumente, die mir Kiwi zeigt, lassen sich nicht lesen, weil sie mit dem ASCII-Code gespeichert sind. Anstatt von Buchstaben sehe ich nur eine Reihe von Zahlen.</p>
+
+          <p>Zum Glück gibt es eine Übersetzungshilfe, damit kann man die Texte mit etwas Geduld entziffern. Schau dir die Tabelle an. Du findest die ASCII-Codes für verschiedene Zeichen.</p>
+
+          <p>Ein Beispiel: Der Buchstabe a hat den Code 97.</p>
 
           ${renderTable('Code', 'Zeichen')}
           
-          <p>Jetzt bist du dran. Deine Antwort (ein Jugendwort des Jahres) in ASCII lautet:</p>
+          <p>Eine Zahlenfolge kommt immer wieder vor und scheint bei den Jugendlichen beliebt zu sein. Deine Antwort in ASCII lautet:</p>
           
           <p>35 &nbsp; 97 &nbsp; 117 &nbsp; 114 &nbsp; 97
           </p>
@@ -456,10 +458,10 @@ export const part1 = [
         correct: trimmed === secrets('chal_4'),
       }
     },
-    afterSolveText: {
+    /*afterSolveText: {
       de: '<p>Die ursprüngliche Version von ASCII enthielt 95 druckbare Zeichen. Unicode enthält mittlerweile mehr als 100 000 Zeichen.</p>',
       en: '<p>The original version of ASCII included 95 printable characters. Unicode now contains more than 100,000 characters.</p>',
-    },
+    },*/
   },
 
   {

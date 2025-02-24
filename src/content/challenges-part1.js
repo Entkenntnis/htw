@@ -523,7 +523,9 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Wenn du dir eine Website am Computer anschaust, dann siehst du nur einen kleinen Teil davon. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Wie die Noten zu einem Musikstück oder das Drehbuch zu einem Film, gibt es auch den Quelltext zu einer Webseite.</p>
+        <p>Das Hacken verändert meine Sicht auf die Welt. Ich hätte das in meinem Alter nicht mehr erwartet und ich feiere das.</p>
+
+        <p>Zum Beispiel diese Webseite. Mittlerweile weiß ich, dass ich nur einen kleinen Ausschnitt sehe. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Um dahin zu kommen, muss ich einen Blick in den HTML-Quellcode wagen. Es ist ein Blick, der sich lohnt - auch wenn man vielleicht am Anfang nicht alle Dinge sofort versteht.</p>
 
         <p>Klicke auf den Button, um den Quelltext dieser Seite anzuzeigen. Dort siehst du die Antwort innerhalb des Kastens.</p>
         

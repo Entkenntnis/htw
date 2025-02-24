@@ -472,11 +472,11 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Komm, ich möchte dir was zeigen.</p>
+          <p>Mit Zitronentinte kann man geheime Botschaften schreiben. Ich wünschte, ich hätte das als Kind gewusst! Der Trick ist so einfach: Ich schreibe einen Text mit dem Saft einer Zitrone. Auf dem ersten Blick ist keine Nachricht zu erkennen. Doch sobald die andere Person das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
 
-          <p>Siehst du: Eine Zitrone ist eine Frucht, die man als Zutat in einer Speise verwendet. Das ist ihr vorgesehener Zweck. Doch kreative Menschen haben festgestellt, dass man mit Zitronensaft geheime Nachrichten verfassen kann: Schreibe mit dem Saft einen Text. Auf dem ersten Blick ist der Text für das Auge nicht erkennbar. Doch sobald man das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
+          <p>Ich hätte mir wahrscheinlich ständig selbst Nachrichten geschrieben, haha.</p>
 
-          <p>Das ganze funktioniert auch digital. Unten findest du ein "präpariertes" Blatt Papier. Finde die Antwort.</p>
+          <p>Beim Hacken gibt es etwas Ähnliches, das auch digital funktioniert. Unten findest du ein "präpariertes" Blatt Papier. Finde die Antwort.</p>
         `,
         `
           <p>--- Hier fängt das Blatt an ---</p>

@@ -627,7 +627,7 @@ export const part1 = [
     pos: { x: 720, y: 420 },
     title: { de: 'Fleißaufgabe', en: 'Hard work' },
     // date: '2017-05-17',
-    deps: [55, 114],
+    deps: [55],
     html: {
       de: story(
         'Josh',
@@ -837,7 +837,7 @@ export const part1 = [
     pos: { x: 745, y: 310 },
     title: { de: 'Verkehrt', en: 'Flipped' },
     // date: '2017-05-18',
-    deps: [55, 66, 114],
+    deps: [66, 114],
     html: {
       de: story(
         'Bex',
@@ -1008,7 +1008,7 @@ export const part1 = [
     pos: { x: 350, y: 665 },
     title: { de: 'Fingerzeig', en: 'Helping hand' },
     // date: '2017-08-25',
-    deps: [51, 80],
+    deps: [80],
     html: {
       de: story(
         'Bex',
@@ -2204,7 +2204,7 @@ export const part1 = [
     pos: { x: 540, y: 370 },
     title: { de: 'Farbe', en: 'Color' },
     // date: '2020-08-01',
-    deps: [16, 68],
+    deps: [16],
     html: {
       de: story(
         'Josh',
@@ -2395,7 +2395,7 @@ export const part1 = [
     pos: { x: 745, y: 795 },
     title: { de: 'Geheimtext', en: 'Secret Text' },
     // date: '2020-08-17',
-    deps: [52, 78],
+    deps: [52],
     html: {
       de: story(
         'Bex',
@@ -3721,7 +3721,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     pos: { x: 1145, y: 345 },
     title: { de: 'Formulare', en: 'Forms' },
     // date: '2022-12-28',
-    deps: [9, 37, 58],
+    deps: [37, 58],
     html: {
       de: story(
         'Kiwi',

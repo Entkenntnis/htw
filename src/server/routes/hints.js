@@ -176,32 +176,6 @@ export const hintsData = {
       },
     ],
   },
-  16: {
-    entries: [
-      {
-        question: 'was ist die lösung',
-        answer: 'deine aktuelle Punktzahl',
-      },
-      { question: 'was für eine punktzahl', answer: 'Schau oben rechts' },
-      {
-        question: 'da steht 32 es ist aber angeblich falsch jetzt steht da 33',
-        answer: 'Die Anzeige spinnt bisschen',
-      },
-      {
-        question: 'Die zahlen wackeln',
-        answer:
-          'genau, das ist der &quot;Fehler&quot;, kannst du herausfinden, was die richtige Punktzahl ist?',
-      },
-      {
-        question: 'wie finde ich herraus welche die richtige zahl ist? ',
-        answer: 'z.b. im Profil',
-      },
-      {
-        question: 'warum',
-        answer: 'manchmal sind nicht alle Dinge immer so, wie man sie erwartet',
-      },
-    ],
-  },
   17: {
     entries: [
       {
@@ -898,45 +872,6 @@ export const hintsData = {
         question: 'bin farbenblind',
         answer:
           'Alternative kannst du direkt versuchen, die Buchstaben zu einem Wort zu formen',
-      },
-    ],
-  },
-  68: {
-    entries: [
-      {
-        question: 'Krieg ich einen Tipp',
-        answer:
-          'Erkennst du das Bild? Schau mal, wer es gemalt hat oder lies den Text genauer',
-      },
-      {
-        question:
-          'Was ist die Lösung, Ich habe gegoogelt aber ist trotzdem falsch',
-        answer: 'Hast du nur das Jahr eingegeben? Ohne Tag und Monat?',
-      },
-      {
-        question:
-          'wir haben sein Geburtstag monat und tag eingegeben und jahr aber es ist trotzdem falsch',
-        answer: 'nur das jahr eingeben',
-      },
-      {
-        question:
-          'Wann ist <span class="spoiler-text">Leonardo DaVinschi</span> geboren',
-        answer: 'Wikipedia existiert',
-      },
-      {
-        question: 'ist 1935 richtig?',
-        answer:
-          'Nein, es ist nicht das Geburtsjahr von Normand Veilleux gesucht',
-      },
-      {
-        question: 'warum stimmt 1503 nicht?',
-        answer:
-          'in diesem Jahr wurde das Gemälde gemalt, aber in welchem Jahr ist der Künstler geboren?',
-      },
-      {
-        question:
-          'ich gib dir mal ein tipp wenn du eine lösung zu einem gibst und es schwarz makierst können auch die andere sehen wil man kann ja das text auswählen und man kann sehen',
-        answer: 'gut bemerkt',
       },
     ],
   },

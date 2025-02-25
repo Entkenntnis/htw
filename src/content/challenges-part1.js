@@ -811,45 +811,25 @@ export const part1 = [
   {
     id: 16,
     pos: { x: 340, y: 320 },
-    title: { de: 'Punktzahl', en: 'Score' },
+    title: { de: 'Notiz', en: 'Note' },
     // date: '2017-05-18',
     deps: [15, 24],
     html: {
       de: story(
         'Kiwi',
         `
-        <p>Die Anzeige oben rechts ist fehlerhaft. Die Antwort ist deine aktuelle und korrekte Punktzahl.</p>
+        <p>Diese Aufgabe sollte sehr leicht sein, doch ich komme einfach nicht drauf. Irgendwas muss ich übersehen haben. In der wichtigen Notiz sollte sich doch die Antwort finden lassen?</p>
 
-
-        <script src="/powerglitch.min.js"></script>
-        <script>
-          const previous = parseInt(document.getElementById('statusbar-user-score').innerHTML)
-          let diff = (Math.random() > 0.5 ? 1 : -1)
-
-          function update() {
-            const newVal = previous + diff
-            diff *= -1
-            document.getElementById('statusbar-user-score').innerHTML = newVal
-            PowerGlitch.glitch('#statusbar-user-score', {playMode: 'manual'}).startGlitch()
-
-            setTimeout(update, Math.random() * 1000 + 500)
-          }
-
-          update()
-        </script>
+        <p><a href="/chals/wihtige_notiz.txt" target="_blank">wichtige Notiz</a></p>
     `
       ),
       en: `
-      <p>The answer to this task is your current score. Similar to before, your input is a bit jumbled.</p>
+      <p>This task should be very easy, but I just can't figure it out. I must have overlooked something. Surely, the answer can be found in the important note?</p>
+      
+      <p><a href="/chals/imprtant_note.txt" target="_blank">important note</a></p>
     `,
     },
-    check: (answer, { req }) => {
-      const input = parseInt(answer)
-      return {
-        answer: isNaN(input) ? answer : input.toString(),
-        correct: input === req.user?.score,
-      }
-    },
+    solution: secrets('chal_16').split(','),
   },
 
   {

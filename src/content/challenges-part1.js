@@ -818,7 +818,7 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Diese Aufgabe sollte sehr leicht sein, doch ich komme einfach nicht drauf. Irgendwas muss ich übersehen haben. In der wichtigen Notiz sollte sich doch die Antwort finden lassen?</p>
+        <p>Ich komme bei dieser Aufgabe einfach nicht weiter. Irgendwas muss ich übersehen haben. In der wichtigen Notiz sollte sich eigentlich die Antwort finden lassen?</p>
 
         <p><a href="/chals/wihtige_notiz.txt" target="_blank">wichtige Notiz</a></p>
     `

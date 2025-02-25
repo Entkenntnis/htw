@@ -3052,9 +3052,9 @@ PIXI.loader
       de: story(
         'Kiwi',
         `
-        <p>Im Jahr MDIII schuf ein 51-jähriger Künstler ein Motiv, das bis heute neu interpretiert wird. Schau dir dieses Kunstwerk an. Obwohl es nur aus Zeichen besteht, wirst du das Motiv sehr wahrscheinlich erkennen.</p>
+        <p>Ich hatte nie die Geduld für Kunst. Aber diese Verbindung zwischen Kunst und Technik fasziniert mich. Verrückt, wie man mit einfachen Zeichen ein Bild erschaffen kann.</p>
 
-        <p>Sag mir: In welchem Jahr ist der Künstler des ursprünglichen Gemäldes geboren?</p>
+        <p>Du hast das Motiv sicherlich schon erkannt. Der Name des Gemäldes ist deine Antwort.</p>
         `,
         `
         
@@ -3180,7 +3180,7 @@ PIXI.loader
     <p>The implementation is creative and modern, but the motif itself is very old. What year was the artist of the original painting born?</p>
     `,
     },
-    solution: secrets('chal_68'),
+    solution: secrets('chal_68').split(','),
   },
 
   {

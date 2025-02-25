@@ -4458,9 +4458,13 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Ich spiele gerne Minecraft. Es ist gut und man kann da sehr viele kreative Dinge machen - die manchmal gar nicht so vorgesehen sind. Zeige, dass du dich mit Minecraft auskennst (oder bereit bist, es kennenzulernen). Deine Antwort ist die Block-ID von diesem Block.</p>
-      `,
-        `<p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+        <p>Ich war sehr überrascht, dass es unter Hackern so viele Minecraft-Fans gibt - und auch so manche Aufgabe aus der Welt von Minecraft.</p>
+
+        <p>Meine Mutter hat mir das Spiel damals geschenkt und ich habe mich so darüber gefreut, es das erste Mal zu spielen. Aber das ist schon lange her, bevor all dieser Weltraumkram begonnen hat. Ich vermisse diese Zeit wirklich.</p>
+
+        <p>Ich kenne mich aber immer noch gut aus, du hoffentlich auch. Deine Antwort ist die Block-ID von diesem Block.</p>
+
+        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
         <p style="text-align: left; margin-top: -16px;"><small style="color: gray;" title ="ascii">Hinweis für Nicht-Minecraftler: 98 101 100 114 111 99 107 32 105 100 32 55 </small></p>
       `
       ),

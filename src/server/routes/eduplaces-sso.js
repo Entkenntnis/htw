@@ -2,63 +2,57 @@ import { safeRoute } from '../../helper/helper.js'
 import { secrets } from '../../helper/secrets-loader.js'
 import { createHash, randomBytes } from 'node:crypto'
 import jwt from 'jsonwebtoken'
-
-// kid: 947c43a6-ee3a-4838-879c-4a8e95ade2f5
-const sandboxpem = `-----BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwoYMGKuFLpylSQ13kp9W
-TYAB+QIMrDVdHWNYn0J50OvclTHqUlKJYr1YcRAE60uPajQXBw6zoX7uejdr5wLQ
-4oJLM9EdDgI61NVr6lOX8/0YGIE4qxK5Bo90jv4MeDm0NmJDoLGxNb/i9Dp864rY
-a6isR0gEHAM0lqBpqL8i7AivMB9z3CfjsqOjEpc+FYJaJNk6tFmI7z5GPhVt25Xk
-olcW/fQXJpQc2LgOegOVQ0aDM2LKwJGvDiXqRkW5hVxEVl3SoFVF3lPWvW0Mnpng
-lcvf1MjGN2KSLs6HxDmDiW9UAOX+sUZv+mREMQmdXQFyJxI+6Wg54qC9JDG2qwb0
-hZv7x6X1rOhDlXEIKC9xVH6n8Ir84LfnWFyFSJzPVoCmAYmtFLMGT3MaKXXB1Uy7
-kH91GOCkYRDTP8BOXNq9D+Ln4yjle9CtCmkx41Ku25/rh6lBnk55rYPT4dLCKt/+
-XH3pJd36+1F1SfYV8ZMETZNYBnXRzbe03wODGvPZ9pIes+YISyg740wn560VLKRP
-kBzoQPRG99Ac5gJjMEmNOoJoFeiYX1VTmdZ2VhP1tN6idpIsMcE+TbzshzqERDKa
-HuCT0tje3u2x7+q7QAxo0q630opLV5MB+hD2c6c1uDptEWLscI7c74nisaWn5mTK
-Oh1c5VLzXoqZ3eoog0bQ2+UCAwEAAQ==
------END PUBLIC KEY-----`
-
-// kid: a53619f9-b995-4898-8f54-2ee8810bc702
-const productionpem = `-----BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwubabkq9i/p0IAm+bEiN
-42GIyLOuSALojnR+vI87FdMvjdEoZQjvz90+kuCYOzllD/KLQCYs3qoezJDG4aNm
-fr5O3RBSAd9EaEggszpmdi11qs8T2PJ1IeKBYpAsbrCz0dLDMiwKT4y79TjIUDo8
-F78ebywFNvJdfvSJwwlv1AIY4hZCbK2zKKwLr/q4eHlmiakUR2dv6O83sqa/93Z7
-ip8xvjICQSwMMbzXE/tpjtwUt8GOtnaNQZWjF3kfYAn82ByjsIy77INB4fvD8oPQ
-Zr0uaCjeDqF5YhLTBUgAzppZiESP49F0X7JyTM1JlbK1lWDDBFMm4N0KFO6x5m0Q
-J9IF1Fe/gYYE0sAIwoMlc9/NPOZvWW6TXr0gSBuaGllT97m4tE1GChSmSgN/FYl7
-tci0CD30jJCbG8fgGiyVb7ZWhzN68gP/ggZiyWWGhhq2d/ADRTfj4xj3IJt7smkc
-y/Rmhr30B/hLnx/dsRHuzQk7ijLhVWLECJs0egAf29xK4a7TqX7UxPirf3qTfr0O
-wKKy7TwrSE4yhP7xgMVtkq2BjyB+Pz4HwT/GCL7L2UPbTUuLeBhEn0Q5Rbd34Hk3
-h3oZ0hw6z5CUOrmFY0RCjzMtNAp011OcxdT/35UnQcjfXRepnsg/mXzYrOyDA3BG
-IR9ICnZBA8FxNSe2ftSaaIECAwEAAQ==
------END PUBLIC KEY-----`
+import jwkToPem from 'jwk-to-pem'
 
 /**
- * Verifies a JWT using the appropriate public key based on its "kid" header.
+ * Asynchronously verifies a JWT by dynamically loading the signing keys
+ * from the issuer's JWKS endpoint.
  * @param {string} token - The JWT to verify.
- * @returns {any} The decoded token payload if valid.
+ * @returns {Promise<any>} The decoded token payload if valid.
  * @throws {Error} If the token is invalid or the kid is unknown.
  */
-function verifyJWTToken(token) {
-  // Decode the token header without verifying the signature
-  const decoded = jwt.decode(token, { complete: true })
-  if (!decoded || !decoded.header || !decoded.header.kid) {
-    throw new Error('Invalid JWT token: missing kid')
-  }
-  const { kid } = decoded.header
-  let publicKey
+async function verifyJWTToken(token) {
+  try {
+    // Decode the token header without verifying the signature
+    const decoded = jwt.decode(token, { complete: true })
+    if (!decoded || !decoded.header || !decoded.header.kid) {
+      throw new Error('Invalid JWT token: missing kid')
+    }
 
-  if (kid === '947c43a6-ee3a-4838-879c-4a8e95ade2f5') {
-    publicKey = sandboxpem
-  } else if (kid === 'a53619f9-b995-4898-8f54-2ee8810bc702') {
-    publicKey = productionpem
-  } else {
-    throw new Error('Invalid JWT token: unknown kid')
-  }
+    // Extract issuer from the token payload
+    // @ts-expect-error Assume iss exists in the payload
+    const { iss } = decoded.payload
+    if (!iss) {
+      throw new Error('Invalid JWT token: missing issuer (iss)')
+    }
 
-  return jwt.verify(token, publicKey, { algorithms: ['RS256'] })
+    const { kid } = decoded.header
+    // Construct the JWKS endpoint URL using the issuer from the token
+    const jwksUrl = new URL('.well-known/jwks.json', iss).toString()
+
+    // Fetch the JWKS from the issuer's well-known endpoint
+    const response = await fetch(jwksUrl)
+    if (!response.ok) {
+      throw new Error(`Failed to fetch JWKS from ${jwksUrl}`)
+    }
+
+    const jwks = await response.json()
+
+    // Find the key that matches the kid in the token header
+    // @ts-expect-error Assume keys exists in the JWKS
+    const jwk = jwks.keys.find((key) => key.kid === kid)
+    if (!jwk) {
+      throw new Error('Invalid JWT token: unknown kid')
+    }
+
+    // Convert the JWK to PEM format
+    const publicKey = jwkToPem(jwk)
+
+    // Verify the token using the public key
+    return jwt.verify(token, publicKey, { algorithms: ['RS256'] })
+  } catch (err) {
+    return false
+  }
 }
 
 /**
@@ -130,7 +124,7 @@ export function setupEduplacesSSO(App) {
 
       let decodedToken
       try {
-        decodedToken = verifyJWTToken(idToken)
+        decodedToken = await verifyJWTToken(idToken)
       } catch (err) {
         res.status(400).send('Invalid JWT')
         return
@@ -167,7 +161,7 @@ export function setupEduplacesSSO(App) {
 
     let decodedToken
     try {
-      decodedToken = verifyJWTToken(logout_token)
+      decodedToken = await verifyJWTToken(logout_token)
     } catch (err) {
       res.status(400).send('Invalid JWT')
       return

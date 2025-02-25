@@ -4056,7 +4056,9 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Ich möchte sehen, wie du mit Herausforderungen umgehst. Das ist ein defekter Taschenrechner. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.</p>
+        <p>Kaputte Dinge musst du nicht gleich wegschmeißen. Jeder verdient eine zweite Chance. Auch dieser defekte Taschenrechner.</p>
+
+        <p>Du kannst nur noch einstellige Zahlen eingeben - doch das hält dich nicht auf. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
 
         ${calculator()}
     `

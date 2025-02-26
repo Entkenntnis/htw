@@ -473,43 +473,41 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-          <p>Mit Zitronentinte kann man geheime Botschaften schreiben. Ich wünschte, ich hätte das als Kind gewusst! Der Trick ist so einfach: Ich schreibe einen Text mit dem Saft einer Zitrone. Auf dem ersten Blick ist keine Nachricht zu erkennen. Doch sobald die andere Person das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die Nachricht wird sichtbar.</p>
-
-          <p>Ich hätte mir wahrscheinlich ständig selbst Nachrichten geschrieben, haha.</p>
-
-          <p>Beim Hacken gibt es etwas Ähnliches, das auch digital funktioniert. Unten findest du ein "präpariertes" Blatt Papier. Finde die Antwort.</p>
+            <p>Mit Zitronentinte kann man geheime Botschaften schreiben. Ich wünschte, ich hätte das als Kind gewusst! Der Trick ist so einfach: Ich schreibe einen Text mit dem Saft einer Zitrone. Auf den ersten Blick scheint das Papier leer zu sein. Doch sobald jemand das Papier über einer Flamme erhitzt, färbt sich der Zitronensaft und die verborgene Nachricht wird sichtbar.</p>
+  
+            <p>Ich hätte mir wahrscheinlich ständig selbst Nachrichten geschrieben, haha.</p>
+  
+            <p>Beim Hacken gibt es etwas Ähnliches, das auch digital funktioniert. Unten findest du ein "präpariertes" Blatt Papier. Finde die Antwort.</p>
         `,
         `
-          <p>--- Hier fängt das Blatt an ---</p>
-        
-          <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets(
-            'chal_5'
-          )}</span><br><br>
-          </p>
+            <p>--- Hier fängt das Blatt an ---</p>
           
-          <p>--- Hier endet das Blatt ---</p>
+            <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets('chal_5').split(',')[0]}</span><br><br>
+            </p>
+            
+            <p>--- Hier endet das Blatt ---</p>
         `
       ),
-      en: `
-        <p>This challenge here works like writing with lemon juice: You take a fountain pen and dip it in the juice of a freshly squeezed lemon. With it, you write your secret message on a white sheet of paper. Because the juice is transparent, you write "white on white" and another person cannot read the message. The person who receives the message holds the paper over a flame. The heat colors the lemon juice and the message becomes visible.
-        </p>
-        
-        <p>The whole thing also works digitally. Below you will find a "prepared" sheet of paper with the answer:
-        </p>
-        
-        <br>
-        
-        <p>--- Here starts the sheet ---</p>
-        
-        <p><br><span style="color:#222222;padding-left:150px">Here is nothing.</span><br><br><span style="color:#222222">Lalala, the weather is beautiful.</span><br><br><br><br><span style="color:#222222;padding-left:400px">The answer is: ${secrets(
-          'chal_5'
-        )}</span><br><br>
-        </p>
-        
-        <p>--- Here ends the sheet ---</p>
-      `,
+      en: story(
+        'Kiwi',
+        `
+            <p>You can use lemon juice to write secret messages. I wish I’d known that as a child! The trick is very simple: I write a text using the juice of a lemon. At first glance, the paper appears blank. But as soon as someone heats it over a flame, the lemon juice darkens and the hidden message is revealed.</p>
+  
+            <p>I probably would have written secret notes to myself all the time, haha.</p>
+  
+            <p>There’s a similar technique in hacking that works digitally. Below you will find a "prepared" sheet of paper. Find the answer.</p>
+        `,
+        `
+            <p>--- Here the sheet begins ---</p>
+          
+            <p><br><span style="color:#222222;padding-left:150px">There is nothing here.</span><br><br><span style="color:#222222">Lalala, the weather is beautiful.</span><br><br><br><br><span style="color:#222222;padding-left:400px">The answer is: ${secrets('chal_5').split(',')[1]}</span><br><br>
+            </p>
+            
+            <p>--- Here the sheet ends ---</p>
+        `
+      ),
     },
-    solution: secrets('chal_5'),
+    solution: secrets('chal_5').split(','),
   },
 
   {

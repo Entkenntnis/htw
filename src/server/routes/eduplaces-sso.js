@@ -26,6 +26,10 @@ async function verifyJWTToken(token) {
       throw new Error('Invalid JWT token: missing issuer (iss)')
     }
 
+    if (!isValidIss(iss)) {
+      throw new Error('Invalid JWT token: invalid issuer (iss)')
+    }
+
     const { kid } = decoded.header
     // Construct the JWKS endpoint URL using the issuer from the token
     const jwksUrl = new URL('.well-known/jwks.json', iss).toString()
@@ -56,6 +60,16 @@ async function verifyJWTToken(token) {
 }
 
 /**
+ * @param {string} iss
+ */
+function isValidIss(iss) {
+  return (
+    iss === 'https://auth.eduplaces.io' ||
+    iss == 'https://auth.sandbox.eduplaces.dev/'
+  )
+}
+
+/**
  * @param {import("../../data/types.js").App} App
  */
 export function setupEduplacesSSO(App) {
@@ -68,6 +82,11 @@ export function setupEduplacesSSO(App) {
       // Check if the request is missing the iss or login_hint parameter
       if (!iss || !login_hint) {
         res.status(400).send('Missing parameters')
+        return
+      }
+
+      if (!isValidIss(iss)) {
+        res.status(400).send('Invalid iss')
         return
       }
 
@@ -105,7 +124,9 @@ export function setupEduplacesSSO(App) {
       }).toString()
 
       const Authorization = `Basic ${Buffer.from(
-        `${secrets('config_client_id')}:${secrets('config_client_secret')}`
+        req.session.ssoIss == 'https://auth.eduplaces.io'
+          ? `${secrets('config_client_id')}:${secrets('config_client_secret')}`
+          : `${secrets('config_client_id_sandbox')}:${secrets('config_client_secret_sandbox')}`
       ).toString('base64')}`
 
       // Exchange authorization code for access token

@@ -161,35 +161,61 @@ export function getI18nExtension() {
     lng: 'en',
     key: 'home.invite_',
     value: `
+      <style>
+        #hackergirl {
+          max-width: 450px;
+          width: 100%;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        @media only screen and (min-width: 768px) {
+          #hackergirl {
+            max-width: 450px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+        @media only screen and (min-width: 992px) {
+          #hackergirl {
+            max-width: 430px;
+            display: block;
+            margin-top: 32px;
+          }
+        }
+        @media only screen and (min-width: 1200px) {
+          #hackergirl {
+            max-width: 460px;
+            display: block;
+            margin-top: 6px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      </style>
+
       <div class="container" style="margin-top:48px;">
         <div class="row">
-          <div class="col-lg" style="margin-left:-15px;">
-            <div style="padding:24px;padding-bottom:1px" class="jumbotron">
+          <div class="col-lg" style="">
+            <div style="padding-top: 12px;">
 
-              <p>At the age of 13, I decided to become a hacker.</p>
-
-              <p>I admired these people. Those who know a system down to the smallest detail. And those who, with their creativity and perseverance, make even the seemingly impossible possible.</p>
-
-              <p>Great role models showed me the way and accompanied me through many challenges. I learned a lot, and for that, I consider myself lucky.</p>
-
-              <p>So I would like to accompany you a little on your journey. Here you will find things that fascinate me then and now. I hope they will be useful to you.</p>
-
-              <p style="text-align:right;">Anna42</p>
+             <img src="/hacker_girl.jpg" style="border-radius: 8px" id="hackergirl">
 
             </div>
           </div>
           <div class="col-lg" style="padding:24px;">
-            <p>On Hack The Web, you will find a playful introduction to the world of hacking. In various puzzles, you can demonstrate your knowledge and creativity. The creative use of technology is the focus here - you won't find instructions on how to hack a website.</p>
+            <p>On Hack The Web, you'll find a playful introduction to the world of hacking. Through various puzzles, you can demonstrate your knowledge and creativity. The creative use of technology is our focus - you won't find instructions for illegal activities here.</p>
             
-            <p>Entry is possible without prior knowledge and is suitable from the 7th grade. It is best to take 30 - 90 minutes. A self-chosen name and a password are sufficient for registration.</p>
+            <p>This platform is suitable for students from 7th grade onwards. We recommend setting aside 30 - 90 minutes. Register with a username and password to get started.
+            </p>
 
             <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Register now</a></p>
 
-            <p>Through our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> you can get in touch with the community. To get a quick look, use the login data <code>demo</code> / <code>htw123</code>.</p>
+            <p>Connect with our community through our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>. To try it out immediately, use the login credentials <code>demo</code> / <code>htw123</code>.</p>
           </div>
         </div>
       </div>
-
     `,
   })
 

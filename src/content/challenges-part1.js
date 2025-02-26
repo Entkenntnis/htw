@@ -129,7 +129,6 @@ export const part1 = [
         de: story(
           'Kiwi',
           `
-
           <p>Hejo <strong>${req.user?.name}</strong>,</p>
 
           <p>schön dich an Bord zu haben! Ich dachte fast, du verlässt unsere Heimat Naxion nie. Sirtach und ihre Wunder werden dir die Augen öffnen. Ich hoffe nur, dass wir bis dahin auf der zweimonatigen Reise durch den Weltraum nicht sterben - vor Langeweile.</p>
@@ -144,27 +143,27 @@ export const part1 = [
           <script>
             PowerGlitch.glitch('#calculation', {playMode: 'hover'})
           </script>
-        `
+          `
         ),
-        en: `
-          <p>Welcome to Hack The Web! Here begins your exciting journey through the world of hacking. It will be a journey full of adventures. Challenges from very different areas are waiting for you. You can prove your skills or struggle with them.</p>
-    
-          <p>Most of the challenges are about finding an answer from the information given. However, this can usually only be found if you look at the task from the right perspective — the perspective of a hacker.</p>
-
-          <p>When working on the challenges, all aids are expressly allowed. You may search the Internet, use a calculator or chatbot, make notes with pen and paper... Feel free and use the tools that help you the most when working on the tasks.</p>
-          
-          <p>Hack The Web started out as a German project. That's the reason why many answers are German words. I hope you enjoy learning some German along the way :)
-          </p>
-          
-          ${
-            req.user?.RoomId !== null
-              ? `<p>If you have joined a room and are participating in a hacking session: After completing this task, the 30 minutes will start. Within this time, it is your goal to work on as many tasks as possible. Your score for these 30 minutes will be entered into the room's highscore.
-          </p>`
-              : ''
-          }
-
-          <p>Are you ready? Then let's go! The answer to this first challenge is the result of 6 + 4 · 9.</p>
-        `,
+        en: story(
+          'Kiwi',
+          `
+            <p>Hey <strong>${req.user?.name}</strong>,</p>
+  
+            <p>Great to have you on board! I almost thought you’d never leave our homeland, Naxion. Sirtach and its wonders will open your eyes. I only hope that during our two-month journey through space, we won’t die… of boredom.</p>
+  
+            <p>By the way, I’ve got something here to help pass the time. While studying the inhabitants of the planet “Earth”, I discovered an activity called “hacking” that is incredibly addictive. Ever since I found it two weeks ago, I just haven’t been able to stop. I even showed it to Josh and Bex — they got hooked just as quickly.</p>
+  
+            <p>The process is simple: You’ll be given a small challenge which you solve by either finding the answer or interacting with the website. Completing challenges unlocks new ones. There are no limits to the tools you can use — do whatever seems useful to you. I sometimes come up with the craziest ideas.</p>
+  
+            <p>I can hardly wait to show it to you. Let’s get started! The answer to this first challenge is the result of <span id="calculation">6 + 4 · 9</span>. This number is known among the inhabitants of Earth as “the answer” 🤭</p>
+            
+            <script src="/powerglitch.min.js"></script>
+            <script>
+              PowerGlitch.glitch('#calculation', {playMode: 'hover'})
+            </script>
+          `
+        ),
       }
     },
     solution: secrets('chal_1'),

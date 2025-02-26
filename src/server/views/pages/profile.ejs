@@ -1,7 +1,7 @@
 
 <%- include('../languagePicker', {t, App, locale}) %>
 
-<p style="margin-top: -24px; margin-bottom:48px;"><a href="/map">zurück</a></p>
+<p style="margin-top: -24px; margin-bottom:48px;"><a href="/map"><%= t('challenge.back') %></a></p>
 
 <p><%= t('username') %> <%= user.name %></p>
 <p><%= t('score') %> <%= user.score %></p>

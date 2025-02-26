@@ -65,7 +65,7 @@ async function verifyJWTToken(token) {
 function isValidIss(iss) {
   return (
     iss === 'https://auth.eduplaces.io' ||
-    iss == 'https://auth.sandbox.eduplaces.dev/'
+    iss == 'https://auth.sandbox.eduplaces.dev'
   )
 }
 

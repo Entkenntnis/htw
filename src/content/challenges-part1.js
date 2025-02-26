@@ -1129,9 +1129,7 @@ export const part1 = [
         
         <script>
           setTimeout(function(){
-            document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets(
-              'chal_24'
-            )}"
+            document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets('chal_24').split(',')[0]}"
             setTimeout(function(){
               document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
             }, 300)
@@ -1140,21 +1138,18 @@ export const part1 = [
       `,
       en: `
         <p id="poper">Don't blink!</p>
-        </p>
         
         <script>
           setTimeout(function(){
-            document.getElementById("poper").innerHTML = "The answer is ${secrets(
-              'chal_24'
-            )}"
+            document.getElementById("poper").innerHTML = "The answer to this challenge is ${secrets('chal_24').split(',')[1]}"
             setTimeout(function(){
-              document.getElementById("poper").innerHTML = "Oh. This was fast."
+              document.getElementById("poper").innerHTML = 'That was fast, <a href="" click="function(){location.reload()}">try again</a>'
             }, 300)
           }, 1500)
         </script>
       `,
     },
-    solution: secrets('chal_24'),
+    solution: secrets('chal_24').split(','),
     afterSolveText: {
       de: '<p>Ein geübter Leser braucht ungefähr 0,25 Sekunden, um ein Wort zu erkennen.</p>',
       en: '<p>An experienced reader takes approximately 0.25 seconds to recognize a word.</p>',

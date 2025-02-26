@@ -793,10 +793,14 @@ export const part1 = [
         <p>Die Antwort ist dein Benutzername.</p>
       `
       ),
-      en: `
-      <p>The answer to this challenge is simply your username. However, it may be that your input gets a little mixed up when you submit it. Can you find out what you have to enter?
-      </p>
-    `,
+      en: story(
+        'Kiwi',
+        `
+        <p>The system wants to know your name. It should be easy enough to enter, but somehow the input gets a little scrambled.</p>
+
+        <p>The answer to this challenge is simply your username.</p>
+      `
+      ),
     },
     check: (answer, { req }) => {
       const reversed = stringreverse(answer)

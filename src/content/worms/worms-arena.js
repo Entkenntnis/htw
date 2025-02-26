@@ -1057,7 +1057,7 @@ export function setupWormsArena(App) {
 
           <h4 style="text-align: center; margin-bottom: 48px;">von ${escapeHTML(player.name)}</h4>
 
-          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">Schließen</a></p>
+          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">schließen</a></p>
 
           <canvas id="chart" style="margin-top: 32px; margin-bottom: 32px;"></canvas>
 

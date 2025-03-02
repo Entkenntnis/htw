@@ -31,7 +31,7 @@ export function setupGithubSSO(App) {
       }),
     })
 
-    const data = await token.json()
+    const data = /** @type {{ access_token?: string }} */ (await token.json())
     if (!data.access_token) {
       res.status(400).send('Invalid code')
       return

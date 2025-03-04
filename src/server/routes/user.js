@@ -28,6 +28,12 @@ export function setupUser(App) {
     )
     const i18n = App.i18n.get(req.lng)
     const sso = !!(req.session.sso_sid && req.session.sso_sub)
+    const isGithub = req.session.sso_sid?.startsWith('github:')
+    // @ts-ignore - values are handles by ejs template
+    if (isGithub && !values.username) {
+      // @ts-ignore
+      values.username = req.session.sso_sid?.substring(7)
+    }
     renderPage(App, req, res, {
       page: 'register',
       props: {
@@ -36,9 +42,13 @@ export function setupUser(App) {
         token,
         room,
         sso,
+        isGithub,
+        isEduplaces: !isGithub,
       },
       heading: sso
-        ? 'Willkommen bei Hack The Web!'
+        ? req.lng == 'de'
+          ? 'Willkommen bei Hack The Web!'
+          : 'Welcome to Hack The Web!'
         : room
           ? i18n.t('register.joinRoomHeading', { room })
           : i18n.t('register.normalHeading'),
@@ -129,10 +139,17 @@ export function setupUser(App) {
           session_phase: roomId?.toString() && 'READY',
         })
         if (sso) {
-          await App.storage.setItem(
-            `eduplaces_sso_sub_${req.session.sso_sub}`,
-            result.id.toString()
-          )
+          if (req.session.sso_sid?.startsWith('github:')) {
+            await App.storage.setItem(
+              `github_oauth_user_id_${req.session.sso_sub}`,
+              result.id.toString()
+            )
+          } else {
+            await App.storage.setItem(
+              `eduplaces_sso_sub_${req.session.sso_sub}`,
+              result.id.toString()
+            )
+          }
         }
         req.session.userId = result.id
         res.redirect('/')

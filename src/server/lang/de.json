@@ -47,7 +47,9 @@
     "submit": "Los",
     "available": "verfügbar",
     "checking": "wird überprüft",
-    "warnEmail": "Dein Benutzername ist öffentlich sichtbar. Deshalb wird stark davon abgeraten, als Benutzername eine E-Mail-Adresse zu verwenden."
+    "warnEmail": "Dein Benutzername ist öffentlich sichtbar. Deshalb wird stark davon abgeraten, als Benutzername eine E-Mail-Adresse zu verwenden.",
+    "githubSSOHint": "Wähle einen Namen und schon kannst du loslegen.",
+    "githubPasswordHint": "Du kannst später jederzeit in deinem Profil ein Passwort festlegen und dich unabhängig von GitHub anmelden."
   },
   "join": {
     "heading": "Beitreten",

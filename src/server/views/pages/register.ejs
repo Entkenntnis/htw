@@ -1,5 +1,9 @@
-<% if (props.sso) { %>
+<% if (props.sso && props.isEduplaces) { %>
   <p style="text-align: center; font-size: 18px; max-width: 580px; margin-left: auto; margin-right: auto;">Wähle einen Benutzernamen. Dieser wird in der App angezeigt, du musst ihn dir aber nicht merken: Der Login erfolgt vollständig über Eduplaces!</p>
+<% } %>
+
+<% if (props.sso && props.isGithub) { %>
+  <p style="text-align: center; font-size: 18px; max-width: 580px; margin-left: auto; margin-right: auto;"><%= t('githubSSOHint') %></p>
 <% } %>
 
 <% if (props.messages.length > 0) { %>
@@ -73,7 +77,7 @@
       <div class="form-group row">
         <div class="col-md-6 offset-md-4">
           <p style="margin-top:8px;margin-bottom:32px;">
-            <%- t('noteOn_', {link: `<a href="${prefix}/privacy">${ t('dataProtection') }</a>`}) %>
+            <%- t('noteOn_', {link: `<a href="${prefix}/privacy" target="_blank">${ t('dataProtection') }</a>`}) %>
           </p>
           <button type="submit" class="btn btn-success" id="submit-button"><%= t('submit') %></button>
         </div>
@@ -84,8 +88,13 @@
   </form>
 </div>
 
-<% if (props.sso) { %>
+<% if (props.sso && props.isEduplaces) { %>
   <p style="text-align: center; font-size: 12px; margin-top: 24px; color: gray; max-width: 66ch; margin-left: auto; margin-right: auto;">Falls du nach der Schulzeit deinen Account weiterverwenden willst, kannst du im Profil ein Passwort festlegen und dich  unabhängig von Eduplaces einloggen. Das ist vollkommen optional und du kannst das zu jeder Zeit später machen.</p>
+<% } %>
+
+
+<% if (props.sso && props.isGithub) { %>
+  <p style="text-align: center; font-size: 12px; margin-top: 24px; color: gray; max-width: 66ch; margin-left: auto; margin-right: auto;"><%= t('githubPasswordHint') %></p>
 <% } %>
 
 
@@ -172,6 +181,7 @@
     render()
   }
   
+  checkUsername()
   render()
 
 </script>

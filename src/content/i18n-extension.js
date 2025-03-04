@@ -227,7 +227,7 @@ export function getI18nExtension() {
       </style>
 
       <!-- Eduplaces Button -->
-      <div style="margin-top: 24px; display: flex; justify-content: center; gap: 16px;">
+      <div style="margin-top: 24px; display: flex; justify-content: center; flex-wrap: wrap; gap: 24px;">
         <a href="/github-login" class="github-button">
           <svg viewBox="0 0 16 16" width="32" height="32" style="vertical-align: middle; margin-right: 8px;" fill="white" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
@@ -348,7 +348,6 @@ export function getI18nExtension() {
         }
       </style>
 
-      <!-- Eduplaces Button -->
       <div style="margin-top: 24px; display: flex; justify-content: center; gap: 16px;">
         <a href="/github-login" class="github-button">
           <svg viewBox="0 0 16 16" width="32" height="32" style="vertical-align: middle; margin-right: 8px;" fill="white" xmlns="http://www.w3.org/2000/svg">

@@ -47,7 +47,9 @@
     "submit": "Submit",
     "available": "available",
     "checking": "checking",
-    "warnEmail": "Your username is publicly visible. Therefore, it is strongly discouraged to use an email address as your username."
+    "warnEmail": "Your username is publicly visible. Therefore, it is strongly discouraged to use an email address as your username.",
+    "githubSSOHint": "Choose a username and get started.",
+    "githubPasswordHint": "You can set a password later in your profile and login independently from GitHub."
   },
   "join": {
     "heading": "Join",

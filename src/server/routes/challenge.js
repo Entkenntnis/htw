@@ -705,6 +705,12 @@ export function setupChallenges(App) {
             key: { [Op.like]: 'eduplaces_sso_sub_%' },
           },
         })
+        await App.db.models.KVPair.destroy({
+          where: {
+            value: req.user.id,
+            key: { [Op.like]: 'github_oauth_user_id_%' },
+          },
+        })
         App.challengeStats.nuke()
         delete req.session.userId
         delete req.user

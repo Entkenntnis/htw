@@ -129,10 +129,17 @@ export function setupUser(App) {
           session_phase: roomId?.toString() && 'READY',
         })
         if (sso) {
-          await App.storage.setItem(
-            `eduplaces_sso_sub_${req.session.sso_sub}`,
-            result.id.toString()
-          )
+          if (req.session.sso_sid?.startsWith('github:')) {
+            await App.storage.setItem(
+              `github_oauth_user_id_${req.session.sso_sub}`,
+              result.id.toString()
+            )
+          } else {
+            await App.storage.setItem(
+              `eduplaces_sso_sub_${req.session.sso_sub}`,
+              result.id.toString()
+            )
+          }
         }
         req.session.userId = result.id
         res.redirect('/')

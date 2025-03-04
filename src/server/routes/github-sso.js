@@ -1,3 +1,4 @@
+import { safeRoute } from '../../helper/helper.js'
 import { secrets } from '../../helper/secrets-loader.js'
 
 /**
@@ -10,46 +11,71 @@ export function setupGithubSSO(App) {
     )
   })
 
-  App.express.get('/github-callback', async (req, res) => {
-    const code = req.query.code?.toString() ?? ''
-    if (!code) {
-      res.status(400).send('Missing code')
-      return
-    }
+  App.express.get(
+    '/github-callback',
+    safeRoute(async (req, res) => {
+      const code = req.query.code?.toString() ?? ''
+      if (!code) {
+        res.redirect('/')
+        return
+      }
 
-    const token = await fetch('https://github.com/login/oauth/access_token', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'hack-the-web',
-      },
-      body: JSON.stringify({
-        client_id: secrets('config_github_client_id'),
-        client_secret: secrets('config_github_client_secret'),
-        code,
-      }),
+      const token = await fetch('https://github.com/login/oauth/access_token', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          client_id: secrets('config_github_client_id'),
+          client_secret: secrets('config_github_client_secret'),
+          code,
+        }),
+      })
+
+      const data = /** @type {{ access_token?: string }} */ (await token.json())
+      if (!data || !data.access_token) {
+        res.status(400).send('Invalid code')
+        return
+      }
+
+      const userProfileResponse = await fetch('https://api.github.com/user', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${data.access_token}`,
+        },
+      })
+
+      const userProfileData = /** @type {{ id?: number, login: string }} */ (
+        await userProfileResponse.json()
+      )
+
+      const userId = userProfileData.id
+      const login = userProfileData.login
+
+      if (typeof userId !== 'number' || !login) {
+        res.status(400).send('Invalid user id and login')
+        return
+      }
+
+      const sid = 'github:' + login
+
+      const localUserId = parseInt(
+        (await App.storage.getItem(`github_oauth_user_id_${userId}`)) ?? 'xx'
+      )
+
+      req.session.sso_sid = sid
+      req.session.sso_sub = userId.toString()
+
+      if (!isNaN(localUserId)) {
+        req.session.userId = localUserId
+        res.redirect('/map')
+        return
+      }
+
+      delete req.session.userId
+      res.redirect('/register')
     })
-
-    const data = /** @type {{ access_token?: string }} */ (await token.json())
-    if (!data.access_token) {
-      res.status(400).send('Invalid code')
-      return
-    }
-
-    const userProfileResponse = await fetch('https://api.github.com/user', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/vnd.github+json',
-        Authorization: `Bearer ${data.access_token}`,
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-    })
-
-    console.log(data.access_token)
-
-    const userProfileData = await userProfileResponse.json()
-
-    return res.send(userProfileData)
-  })
+  )
 }

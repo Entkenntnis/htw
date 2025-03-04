@@ -85,6 +85,8 @@ export function getI18nExtension() {
     value: `
       <p>Dieses Projekt wird freundlicherweise unterstützt von der <a href="https://fg-bil.gi.de/">Fachgruppe Bayerische Informatiklehrkräfte</a>.</p>
       <hr class="my-5"/>
+      <p>Besuche auch <a href="https://blog.arrrg.de/">meinen Blog</a>.</p>
+      <hr class="my-5"/>
     `,
   })
   values.push({

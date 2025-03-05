@@ -520,11 +520,11 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Das Hacken verändert meine Sicht auf die Welt. Ich hätte das in meinem Alter und auf die letzten Tage nicht mehr erwartet.</p>
+        <p>Hacken hat meine Augen geöffnet - und das in meinem Alter und auf die letzten Tage! Wer hätte gedacht, dass ich nochmal so staunen würde wie ein Kind im Spielzeugladen?</p>
 
-        <p>Zum Beispiel diese Webseite. Mittlerweile weiß ich, dass ich nur einen kleinen Ausschnitt sehe. Hinter den Kulissen versteckt sich eine ganze Welt voller Technik. Um dahin zu kommen, muss ich einen Blick in den HTML-Quellcode wagen. Es ist ein Blick, der sich lohnt - auch wenn man vielleicht am Anfang nicht alle Dinge sofort versteht.</p>
+        <p>Sieh dir diese Website an: Was du hier siehst, ist nur die Bühnenkulisse. Dahinter tobt das eigentliche Leben - eine Welt aus Code, Logik und genialen Tricks! Früher dachte ich: Das verstehe ich nie. Heute weiß ich: Man muss nicht alles kapieren, um fasziniert zu sein.</p>
 
-        <p>Klicke auf den Button, um den Quelltext dieser Seite anzuzeigen. Dort siehst du die Antwort innerhalb des Kastens.</p>
+        <p>Mach's wie ich: Klick auf den Button, tauch in den Quelltext ein und finde die Antwort innerhalb dieser Box.</p>
         
         <pre>
         

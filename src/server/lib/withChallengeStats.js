@@ -1,3 +1,5 @@
+import { Op } from 'sequelize'
+
 /** @type {{[key: number]: import("../../data/types.js").ChallengeStatsData}} */
 let cache = {}
 
@@ -9,6 +11,15 @@ export function withChallengeStats(App) {
     async refreshData(cid) {
       const solvedBy = await App.db.models.Solution.count({
         where: { cid },
+      })
+
+      const solvedByLast30Days = await App.db.models.Solution.count({
+        where: {
+          cid,
+          createdAt: {
+            [Op.gte]: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          },
+        },
       })
       let lastSolvedUserName = null
 
@@ -37,6 +48,7 @@ export function withChallengeStats(App) {
 
       cache[cid] = {
         solvedBy,
+        solvedByLast30Days,
         lastSolved,
         lastSolvedUserName,
       }

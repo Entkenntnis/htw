@@ -137,8 +137,8 @@
   },
   "challenge": {
     "back": "back",
-    "solvedBy_one": "solved by {{count}} person",
-    "solvedBy_other": "solved by {{count}} people",
+    "solvedBy_one": "in total by {{count}} person",
+    "solvedBy_other": "in total by {{count}} people",
     "continue": "continue",
     "correct": "is correct",
     "wrong": "is wrong",

@@ -2,3 +2,5 @@ public/**/*.js
 
 !public/worms/worms.js
 !public/worms/wormer.js
+
+src/**/*.ejs

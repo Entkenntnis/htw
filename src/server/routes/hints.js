@@ -2188,7 +2188,7 @@ export function setupHints(App) {
       heading: `Neue Frage`,
       backButton: false,
       content: `
-        <p style="margin-top: 48px;">Vielen Dank! Deine Frage wurde gespeichert und wird demnächst beantwortet - dies kann ein paar Tage dauern 🙏</p>
+        <p style="margin-top: 48px;">Vielen Dank! Leider dauert aktuell die Beantwortung der Fragen etwas länger. Nutze für eine schnellere Antwort unseren Discord-Server 🙏</p>
 
         <p><a href="/map">zurück</a></p>
 

@@ -21,7 +21,7 @@ export function setupEnough(App) {
       content: `
         <p><a href="/map">zurück</a></p>
 
-        <p style="margin-bottom:48px; margin-top:36px; max-width: 65ch; ">Du gehst in die Bibliothek von Hack The Web. Du nimmst ein Buch aus dem Regal und beginnst zu lesen.</p>
+        <p style="margin-bottom:48px; margin-top:36px; max-width: 65ch;">Du gehst in die Bibliothek. Dort nimmst du ein Buch aus dem Regal und beginnst zu lesen.</p>
 
         <script>
 

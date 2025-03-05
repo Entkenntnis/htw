@@ -97,6 +97,7 @@ export interface HtwChallenge {
 
 export interface ChallengeStatsData {
   solvedBy: number
+  solvedByLast30Days: number
   lastSolved: string | Date | null
   lastSolvedUserName: string | null
 }

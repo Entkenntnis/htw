@@ -2293,26 +2293,24 @@ print(hex_string)</pre></code>
     html: {
       de: `
         <p>Im Jahr 2023 kamen viele Menschen zusammen, um gemeinsam ein Bild zu zeichnen - Pixel für Pixel. Aus dem Chaos heraus organisierten sich die Menschen und es entstanden einige Kunstwerke (und manche Beleidigung).</p>
-
+  
         <p><img src="/chals/final_2023_place.png" style="max-width:100%" width="600" /></p>
-
+  
         <p>Um sich zu navigieren, brauchen die Pixel natürlich Koordinaten. Es gibt ein offizielles Koordinatensystem, dessen Ursprung in der Mitte der Leinwand liegt, die positive x-Achse verläuft nach rechts, die positive y-Achse verläuft nach unten.</p>
-
-        <p>Im Bereich 1286,225 bis 1379,394 hat sich eine Fan-Gemeinschaft verewigt. Der Name der Computerspiel-Reihe ist deine Antwort.</p>
-
+  
+        <p>Im Bereich von (1286,225) bis (1379,394) jeweils in offiziellen Koordinaten (x, y) hat sich eine Fan-Gemeinschaft verewigt. Der Name der Computerspiel-Reihe ist deine Antwort.</p>
       `,
       en: `
-       <p>In 2023, many people came together to draw a picture, pixel by pixel. From the chaos, people organized themselves, creating some artworks (and some insults).</p>
-
-      <p><img src="https://placedata.reddit.com/data/final_2023_place.png" style="max-width:100%" width="600" /></p>
-
-      <p>To navigate, the pixels naturally need coordinates. There is an official coordinate system, with its origin at the center of the canvas, the positive x-axis running to the right, and the positive y-axis running downward.</p>
-
-      <p>In the area from 1286,225 to 1379,394, a fan community has immortalized itself. The name of the video game series is your answer.</p>
-
+        <p>In 2023, many people came together to draw a picture - pixel by pixel. Out of the chaos, people organized themselves, and some artworks (and a few insults) emerged.</p>
+  
+        <p><img src="/chals/final_2023_place.png" style="max-width:100%" width="600" /></p>
+  
+        <p>To navigate, the pixels naturally need coordinates. There is an official coordinate system, with its origin at the center of the canvas, the positive x-axis running to the right, and the positive y-axis running downward.</p>
+  
+        <p>In the area from (1286,225) to (1379,394), given in official coordinates (x, y), a fan community has immortalized itself. The name of the computer game series is your answer.</p>
       `,
     },
-    solution: secrets('chal_115'),
+    solution: secrets('chal_115').split(','),
   },
 
   {

@@ -522,7 +522,7 @@ export const part1 = [
         `
         <p>Hacken hat meine Augen geöffnet - und das in meinem Alter und auf die letzten Tage! Wer hätte gedacht, dass ich nochmal so staunen würde wie ein Kind im Spielzeugladen?</p>
 
-        <p>Sieh dir diese Website an: Was du hier siehst, ist nur die Bühnenkulisse. Dahinter tobt das eigentliche Leben - eine Welt aus Code, Logik und genialen Tricks! Früher dachte ich: Das verstehe ich nie. Heute weiß ich: Man muss nicht alles kapieren, um fasziniert zu sein.</p>
+        <p>Schau dir diese Website an: Was du hier siehst, ist nur die Oberfläche. Dahinter findet sich eine ganze Welt voller Technik! Früher dachte ich: Das verstehe ich nie. Heute weiß ich: Man muss nicht alles kapieren, um fasziniert zu sein.</p>
 
         <p>Mach's wie ich: Klick auf den Button, tauch in den Quelltext ein und finde die Antwort innerhalb dieser Box.</p>
         

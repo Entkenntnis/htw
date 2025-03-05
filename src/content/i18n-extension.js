@@ -205,7 +205,7 @@ export function getI18nExtension() {
           text-decoration: none !important;
           background-color: transparent;
           border-radius: 8px;
-          border: 2px solid #24292e;
+          border: 2px solid rgb(87, 99, 110);
           text-align: center;
           overflow: hidden;
         }

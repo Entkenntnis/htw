@@ -819,15 +819,15 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Ich komme bei dieser Aufgabe einfach nicht weiter. Irgendwas muss ich übersehen haben. In der wichtigen Notiz sollte sich eigentlich die Antwort finden lassen?</p>
+        <p>Ich komme bei dieser Aufgabe nicht weiter. Irgendwas muss ich übersehen haben. In der wichtigen Notiz sollte sich eigentlich die Antwort finden lassen?</p>
 
-        <p><a href="/chals/wihtige_notiz.txt" target="_blank">wichtige Notiz</a></p>
+        <p><a href="/wihtige_notiz.txt" target="_blank">wichtige Notiz</a></p>
     `
       ),
       en: `
       <p>This task should be very easy, but I just can't figure it out. I must have overlooked something. Surely, the answer can be found in the important note?</p>
       
-      <p><a href="/chals/imprtant_note.txt" target="_blank">important note</a></p>
+      <p><a href="/imprtant_note.txt" target="_blank">important note</a></p>
     `,
     },
     solution: secrets('chal_16').split(','),

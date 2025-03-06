@@ -201,6 +201,10 @@ export function setupUser(App) {
 
   App.express.post('/join', async (req, res) => {
     const room = req.body.room
+    if (!room) {
+      res.redirect('/')
+      return
+    }
     const i18n = App.i18n.get(req.lng)
     const roomId = await App.db.models.Room.findOne({ where: { name: room } })
     if (!roomId) {
@@ -230,6 +234,10 @@ export function setupUser(App) {
 
   App.express.post('/create', async (req, res) => {
     const room = req.body.room
+    if (!room) {
+      res.redirect('/')
+      return
+    }
     const roomId = await App.db.models.Room.findOne({ where: { name: room } })
 
     const i18n = App.i18n.get(req.lng)

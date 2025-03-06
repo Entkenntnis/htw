@@ -6,6 +6,8 @@ import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
 import { safeRoute } from '../../helper/helper.js'
 
+let matchSteps = -1
+
 /**
  * Standalone server-side worms runner
  * @param {string} srcRed
@@ -119,6 +121,7 @@ async function runWorms(srcRed, srcGreen) {
   // todo: provide console.log in context
 
   while (!replay.winner) {
+    matchSteps++
     if (Date.now() - lastInterrupt > 50) {
       await new Promise((resolve) => setTimeout(resolve, 50))
       lastInterrupt = Date.now()
@@ -660,6 +663,8 @@ export function setupWormsArena(App) {
             }
           }
 
+          matchSteps = 0
+
           // now I am the oldest pending match, I can start
           await App.db.models.WormsArenaMatch.update(
             {
@@ -822,7 +827,7 @@ export function setupWormsArena(App) {
       }
 
       if (match.status == 'running') {
-        res.send('Match läuft ...')
+        res.send(`Match läuft ... (Schritt ${matchSteps})`)
         return
       }
 

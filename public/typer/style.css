@@ -47,3 +47,12 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #000000;
 }
+
+#console::after {
+  content: '|';
+  display: none;
+  transform: translate(-45%);
+}
+#console.show::after {
+  display: inline-block;
+}

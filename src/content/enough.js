@@ -21,7 +21,7 @@ export function setupEnough(App) {
       content: `
         <p><a href="/map">zurück</a></p>
 
-        <p style="margin-bottom:48px; margin-top:36px; max-width: 65ch;">Du gehst in die Bibliothek des interplanetaren Raumschiffs. Dort nimmst du ein Buch aus dem Regal und beginnst zu lesen.</p>
+        <p style="margin-bottom:48px; margin-top:36px; max-width: 65ch;">Die interplanetare Bibliothek umfängt dich mit sanftem Neonlicht, während das leise Surren des Raumschiffs dich sanft an deine Reise erinnert. Deine Finger streifen den Buchrücken eines Holobuchs, auf dessen Einband das Wort <i>Enough</i> schimmert. Plötzlich verblassen die Chromwände hinter dir und ein leuchtender Text füllt dein Sichtfeld.</p>
 
         <script>
 

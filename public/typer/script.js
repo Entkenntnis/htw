@@ -70,7 +70,7 @@ var Typer={
 			if(Typer.accessCount>=3){// if it's pressed 3 times
 				Typer.makeAccess(); // make access popup
 			}
-		}else if(key.key==='CapsLock'){// key 20 = caps lock
+		}else if(key.key==='Shift' || key.key == 'CapsLock'){// key 20 = caps lock
 			Typer.deniedCount++; // increase counter
 			if(Typer.deniedCount>=3){ // if it's pressed 3 times
 				Typer.makeDenied(); // make denied popup

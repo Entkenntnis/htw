@@ -293,12 +293,6 @@ export function setupUser(App) {
   App.express.post('/login', async (req, res) => {
     const username = (req.body.username || '').trim()
     const password = req.body.password || ''
-    console.log(
-      'debug',
-      username,
-      req.headers['user-agent'],
-      req.headers['cookie']
-    )
     const user = await App.db.models.User.findOne({
       where: { name: username },
     })

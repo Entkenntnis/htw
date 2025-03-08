@@ -721,7 +721,7 @@ export function setupChallenges(App) {
     // end guard
 
     const i18n = App.i18n.get(req.lng)
-    const username = req.body.username || ''
+    const username = req.body.confirmation || ''
     if (!App.csrf.verify(req, req.body.csrf)) {
       req.flash('delete', i18n.t('register.invalidToken'))
     } else {

@@ -293,34 +293,6 @@ export function setupChallenges(App) {
       where: { UserId: req.user.id },
     })
 
-    // count solved challenges in the last 10 seconds
-    const solvedCount = solvedDb.filter((s) => {
-      const solvedTime = App.moment(s.updatedAt)
-      const now = App.moment()
-      return solvedTime.isAfter(now.subtract(10, 'seconds'))
-    }).length
-
-    if (solvedCount > 10 && process.env.UBERSPACE) {
-      // this account is a bot
-      await App.db.models.User.destroy({ where: { id: req.user.id } })
-      await App.db.models.KVPair.destroy({
-        where: {
-          value: req.user.id,
-          key: { [Op.like]: 'eduplaces_sso_sub_%' },
-        },
-      })
-      await App.db.models.KVPair.destroy({
-        where: {
-          value: req.user.id,
-          key: { [Op.like]: 'github_oauth_user_id_%' },
-        },
-      })
-      App.challengeStats.nuke()
-      delete req.session.userId
-      delete req.user
-      return res.redirect('/')
-    }
-
     let accessible = false
 
     if (solvedDb.some((s) => s.cid === id)) {

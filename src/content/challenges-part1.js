@@ -1131,7 +1131,7 @@ export const part1 = [
         
         <script>
           setTimeout(function(){
-            document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets('chal_24').split(',')[0]}."
+            document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets('chal_24').split(',')[0]}"
             setTimeout(function(){
               document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
             }, 300)
@@ -1143,7 +1143,7 @@ export const part1 = [
         
         <script>
           setTimeout(function(){
-            document.getElementById("poper").innerHTML = "The answer to this challenge is ${secrets('chal_24').split(',')[1]}."
+            document.getElementById("poper").innerHTML = "The answer to this challenge is ${secrets('chal_24').split(',')[1]}"
             setTimeout(function(){
               document.getElementById("poper").innerHTML = 'That was fast, <a href="" click="function(){location.reload()}">try again</a>'
             }, 300)

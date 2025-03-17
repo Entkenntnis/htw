@@ -311,13 +311,6 @@ export function setupUser(App) {
   })
 
   App.express.get('/highscore', async (req, res) => {
-    // have some fun for bots
-    if (req.headers['user-agent']?.startsWith('python-requests/')) {
-      console.log('@ bot detected')
-      res.redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-      return
-    }
-
     const pageSize = App.config.accounts.highscoreLimit
 
     const sort = req.query.sort?.toString() || ''

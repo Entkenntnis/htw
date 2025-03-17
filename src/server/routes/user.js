@@ -291,12 +291,6 @@ export function setupUser(App) {
   })
 
   App.express.post('/login', async (req, res) => {
-    if (req.headers['user-agent']?.startsWith('python-requests/')) {
-      console.log('@ bot detected')
-      res.redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-      return
-    }
-
     const username = (req.body.username || '').trim()
     const password = req.body.password || ''
     const user = await App.db.models.User.findOne({

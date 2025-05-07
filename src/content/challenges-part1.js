@@ -857,7 +857,7 @@ export const part1 = [
     `
       ),
       en: `
-        <p>If you can read this text, then you’ve already solved the task. The answer is simply "Vertical." Come on, grab a mirror, then you can read the text more easily.</p>
+        <p>If you can read this text, then you’ve already solved the task. The answer is simply "Vertical". Come on, grab a mirror, then you can read the text more easily.</p>
 
         <style>
           body {
@@ -870,7 +870,7 @@ export const part1 = [
         </style>
     `,
     },
-    solution: secrets('chal_17'),
+    solution: secrets('chal_17').split(','),
   },
 
   {

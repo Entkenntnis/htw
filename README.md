@@ -14,6 +14,8 @@ cd htw
 npm install
 ```
 
+Note: Depending on the system, installing `sqlite3` can be a bit tricky. If you see any `node-gyp` errors, see https://github.com/Entkenntnis/htw/issues/671
+
 **Important**: Copy `secrets.placeholder.js` and rename it to `secrets.js`.
 
 Now all prerequisites are fulfilled. You can start the server with `npm start` and have a working server on `localhost:3000`. To develop, you can also use `npm run dev` to automatically update the source code.

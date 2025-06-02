@@ -317,7 +317,11 @@ export function setupUser(App) {
     const parsedQueryPage =
       req.query.page && !sort ? parseInt(req.query.page.toString()) : 1
     const page =
-      isNaN(parsedQueryPage) || parsedQueryPage < 1 ? 1 : parsedQueryPage
+      isNaN(parsedQueryPage) ||
+      parsedQueryPage < 1 ||
+      parsedQueryPage > 999999999
+        ? 1
+        : parsedQueryPage
     const offset = (page - 1) * pageSize
 
     const { count, rows: dbUsers } = await App.db.models.User.findAndCountAll({

@@ -495,7 +495,7 @@ export function setupChallenges(App) {
     } else if (solvedByLast30Days > 2 * 4) {
       ratio =
         req.lng == 'de'
-          ? `${Math.round(solvedPerWeek)} mal in pro Woche gelöst`
+          ? `${Math.round(solvedPerWeek)} mal pro Woche gelöst`
           : `solved ${Math.round(solvedPerWeek)} times a week`
     } else if (solvedByLast30Days > 0) {
       ratio =

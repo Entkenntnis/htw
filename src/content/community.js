@@ -1560,7 +1560,7 @@ RS#1</pre>
     solution: secrets('chal_330'),
   },
 
-  {
+  /*{
     id: 329,
     pos: { x: 1535, y: 615 },
     title: { de: 'Hacking Challenges', en: 'Hacking Challenges' },
@@ -1588,7 +1588,7 @@ RS#1</pre>
       `,
     },
     solution: secrets('chal_329'),
-  },
+  },*/
 
   {
     id: 331,

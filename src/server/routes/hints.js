@@ -2235,7 +2235,7 @@ export function setupHints(App) {
        ${questions
          .map(
            (q) => `
-          <p style="margin-top: 24px;"><strong>${App.challenges.dataMap[q.id].title['de']} [${q.id}]</strong> (${new Date(q.ts).toLocaleString('de-DE')})<br />${escapeHTML(q.question)}</p>
+          <p style="margin-top: 24px;"><strong>${App.challenges.dataMap[q.id]?.title['de']} [${q.id}]</strong> (${new Date(q.ts).toLocaleString('de-DE')})<br />${escapeHTML(q.question)}</p>
         `
          )
          .join('')}

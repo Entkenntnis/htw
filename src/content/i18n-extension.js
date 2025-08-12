@@ -438,16 +438,6 @@ export function getI18nExtension() {
       
       <p>Wenn du dich bei Hack The Web registrierst bzw. einloggst, setzt die Website einen Cookie mit einer Session-ID. Diese wird benötigt, um deinen Login-Status aufrechtzuerhalten. Der Cookie wird beim Schließen des Browserfensters oder nach einem Tag automatisch gelöscht. Ein Tracking findet damit nicht statt. Außerdem wird die eingestellte Sprache für eine Woche in deinem Browser gespeichert.
       </p>
-      
-      <p>Lokale Accounts werden dauerhaft in deinem Browser gespeichert. Du kannst durch einen Klick <a onclick="resetLocalUsers()" href="#">alle lokale Accounts entfernen</a>.
-      </p>
-      
-      <script>
-        function resetLocalUsers() {
-          localStorage.removeItem('htw_local_users')
-          alert('Accounts erfolgreich entfernt.')
-        }
-      </script>
     `,
   })
 
@@ -479,17 +469,6 @@ export function getI18nExtension() {
       
       <p>When you register or log in to Hack The Web, the website sets a cookie with a session ID. This is necessary to maintain your login status. The cookie is automatically deleted when you close your browser window or after one day. No tracking takes place with this cookie. Additionally, the selected language is stored in your browser for one week.
       </p>
-      
-      
-      <p>Local accounts are permanently stored in your browser. You can remove all local accounts by clicking <a onclick="resetLocalUsers()" href="#">here</a>.
-      </p>
-      
-      <script>
-        function resetLocalUsers() {
-          localStorage.removeItem('htw_local_users')
-          alert('Accounts erfolgreich entfernt.')
-        }
-      </script>
     `,
   })
 

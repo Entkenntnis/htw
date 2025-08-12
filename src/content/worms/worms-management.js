@@ -60,24 +60,33 @@ export function setupWormsManagement(App) {
         bots.length > 0
           ? `
       <div style="margin-bottom: 32px; display: flex; justify-content: center;">
-        <form action="/worms/your-bots/test-run" style="display: flex; align-items: baseline;">
-          <label>Rot: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
-            (bot) =>
-              `<option value="${bot.id}" ${
-                bot.id === req.session.lastTestRun?.[0]
-                  ? 'selected="selected"'
-                  : ''
-              }>${escapeHTML(bot.name)}</option>`
-          )}</select></label>
-          <label style="margin-left: 24px;">Grün: <select name="gId" style="padding: 8px; margin-left: 8px;">${bots.map(
-            (bot) =>
-              `<option value="${bot.id}" ${
-                bot.id === req.session.lastTestRun?.[1]
-                  ? 'selected="selected"'
-                  : ''
-              }>${escapeHTML(bot.name)}</option>`
-          )}</select></label>
-          <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="Testlauf starten">
+        <form action="/worms/your-bots/test-run" style="display: flex; flex-direction: column; align-items: center;">
+          <div style="display: flex; align-items: baseline;">
+            <label>Rot: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
+              (bot) =>
+                `<option value="${bot.id}" ${
+                  bot.id === req.session.lastTestRun?.[0]
+                    ? 'selected="selected"'
+                    : ''
+                }>${escapeHTML(bot.name)}</option>`
+            )}</select></label>
+            <label style="margin-left: 24px;">Grün: <select name="gId" style="padding: 8px; margin-left: 8px;">${bots.map(
+              (bot) =>
+                `<option value="${bot.id}" ${
+                  bot.id === req.session.lastTestRun?.[1]
+                    ? 'selected="selected"'
+                    : ''
+                }>${escapeHTML(bot.name)}</option>`
+            )}</select></label>
+            <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="Testlauf starten">
+          </div>
+          <div style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
+            <label style="display: inline-flex; align-items: center;">
+              <input type="checkbox" id="extensiveTest" onchange="document.getElementById('repeatInput').disabled = !this.checked" style="margin-right: 8px;" />
+              Ausgiebig testen
+            </label>
+            <input type="number" name="repeat" id="repeatInput" min="1" value="100" style="padding: 8px; width: 100px; margin-left: 8px; height: 28px;" disabled />
+          </div>
         </form>
       </div><hr>`
           : ''
@@ -499,6 +508,293 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       }
 
       req.session.lastTestRun = [rId, gId]
+
+      const repeat = req.query.repeat
+        ? parseInt(req.query.repeat.toString())
+        : NaN
+
+      if (!isNaN(repeat)) {
+        renderPage(App, req, res, {
+          page: 'worms-test-run-headless',
+          backButton: false,
+          title: 'Worms - Testlauf (headless)',
+          content: `
+            <h2>Headless-Testlauf</h2>
+            <p>Lasse Worms ${repeat}× gegeneinander antreten – ohne Rendering, so schnell wie die CPU erlaubt.</p>
+
+            <div style="margin: 16px 0;">
+              <button id="stop-btn" class="btn btn-sm btn-danger">Stopp</button>
+              <a href="/worms/your-bots" class="btn btn-sm btn-secondary" style="margin-left: 8px;">Zurück</a>
+            </div>
+
+            <div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; background:#0b1220; padding:12px; border-radius:8px;">
+              <div>Fortschritt: <span id="done">0</span>/<span id="total">${repeat}</span></div>
+              <div>Rot (${escapeHTML(rBot.name)}) gewinnt: <span id="rWins">0</span> (<span id="rPct">0</span>%)</div>
+              <div>Grün (${escapeHTML(gBot.name)}) gewinnt: <span id="gWins">0</span> (<span id="gPct">0</span>%)</div>
+              <div>Ø Züge pro Spiel (Tick-Paare): <span id="avgMoves">0</span></div>
+              <div>Vergangene Zeit: <span id="elapsed">0.00</span>s | Rate: <span id="rate">0</span>/s</div>
+            </div>
+
+            <div style="margin-top: 128px; margin-bottom: 96px; font-size: 13px; line-height: 1">
+              <pre
+                id="boards-dump"
+                style="margin:0; width: calc(100% / 1.7); background:#0b1220; color: #adadadff; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; white-space: pre; border-radius:8px; padding:12px; border: 1px solid #1f2937; transform: scaleX(1.7); transform-origin: top left;"></pre>
+            </div>
+
+            <script>
+        
+
+              // --- Headless Runner (Regeln entsprechen dem visuellen Wormer) ---
+              const OFFSETS = [ [0,-1], [1,0], [0,1], [-1,0] ]
+              const DX = 74, DY = 42
+
+              function newBoard() {
+                const board = new Array(DX)
+                for (let x = 0; x < DX; x++) {
+                  const col = new Array(DY)
+                  for (let y = 0; y < DY; y++) {
+                    col[y] = (x === 0 || y === 0 || x === DX - 1 || y === DY - 1) ? -1 : 0
+                  }
+                  board[x] = col
+                }
+                return board
+              }
+
+              function cloneBoard(src) {
+                const out = new Array(DX)
+                for (let x = 0; x < DX; x++) out[x] = src[x].slice()
+                return out
+              }
+
+              // Dump current board as ASCII for debugging using box-drawing chars
+              // Heads uppercase (R/G), red body = light lines, green body = double lines
+              function dumpBoard(board, rX, rY, gX, gY, redConn, greenConn) {
+                let out = ''
+                for (let y = 0; y < DY; y++) {
+                  let line = ''
+                  for (let x = 0; x < DX; x++) {
+                    const v = board[x][y]
+                    if (x === rX && y === rY) {
+                      line += 'R'
+                    } else if (x === gX && y === gY) {
+                      line += 'G'
+                    } else if (v === -1) {
+                      line += '#'
+                    } else if (v === 0) {
+                      line += '.'
+                    } else if (v === 1) {
+                      // Red body via connection bitmask (1=U,2=R,4=D,8=L)
+                      const bits = redConn[x][y] | 0
+                      const up = (bits & 1) !== 0
+                      const right = (bits & 2) !== 0
+                      const down = (bits & 4) !== 0
+                      const left = (bits & 8) !== 0
+                      const cnt = (up?1:0)+(right?1:0)+(down?1:0)+(left?1:0)
+                      if (cnt === 0) line += '·'
+                      else if (cnt === 1) {
+                        if (up || down) line += '│'; else line += '─'
+                      } else if (cnt === 2) {
+                        if (up && down) line += '│'
+                        else if (left && right) line += '─'
+                        else if (up && right) line += '└'
+                        else if (right && down) line += '┌'
+                        else if (down && left) line += '┐'
+                        else /* left && up */ line += '┘'
+                      } else if (cnt === 3) {
+                        if (!up) line += '┴'
+                        else if (!right) line += '┤'
+                        else if (!down) line += '┬'
+                        else /* !left */ line += '├'
+                      } else {
+                        line += '┼'
+                      }
+                    } else if (v === 2) {
+                      // Green body via connection bitmask (1=U,2=R,4=D,8=L)
+                      const bits = greenConn[x][y] | 0
+                      const up = (bits & 1) !== 0
+                      const right = (bits & 2) !== 0
+                      const down = (bits & 4) !== 0
+                      const left = (bits & 8) !== 0
+                      const cnt = (up?1:0)+(right?1:0)+(down?1:0)+(left?1:0)
+                      if (cnt === 0) line += '·'
+                      else if (cnt === 1) {
+                        if (up || down) line += '║'; else line += '═'
+                      } else if (cnt === 2) {
+                        if (up && down) line += '║'
+                        else if (left && right) line += '═'
+                        else if (up && right) line += '╚'
+                        else if (right && down) line += '╔'
+                        else if (down && left) line += '╗'
+                        else /* left && up */ line += '╝'
+                      } else if (cnt === 3) {
+                        if (!up) line += '╩'
+                        else if (!right) line += '╣'
+                        else if (!down) line += '╦'
+                        else /* !left */ line += '╠'
+                      } else {
+                        line += '╬'
+                      }
+                    } else {
+                      line += '?'
+                    }
+                  }
+                  out += line + '\\n'
+                }
+                return out
+              }
+
+              // --- Sink for ASCII board dumps (newest first) ---
+              let __boardDumpIndex = 0
+              function addBoardDump(winner, ascii) {
+                const el = document.getElementById('boards-dump')
+                if (!el) return
+                __boardDumpIndex += 1
+                const header = '#' + __boardDumpIndex + ' Final board (' + winner + ' wins)'
+                const entry = header + '\\n' + ascii + '\\n\\n\\n'
+                // Prepend newer entries so they appear at the top
+                el.textContent = entry + el.textContent
+              }
+
+              function runOne() {
+                // --- Bot-Funktionen aus den Entwürfen ---
+                const rThink = (() => {
+                  ;
+                  ${rBot.code}
+                  ;
+                  return think
+                })()
+                const gThink = (() => {
+                  ;
+                  ${gBot.code}
+                  ;
+                  return think
+                })()
+                const board = newBoard()
+                // per-cell connection bitmasks (1=U,2=R,4=D,8=L)
+                const redConn = Array.from({ length: DX }, () => new Uint8Array(DY))
+                const greenConn = Array.from({ length: DX }, () => new Uint8Array(DY))
+                const DIR_TO_BIT = [1,2,4,8]
+                const OPP_BIT = [4,8,1,2] // opposite of U,R,D,L respectively
+
+                let redX = 10 + Math.floor(Math.random() * 8 - 4)
+                let redY = 20 + Math.floor(Math.random() * 8 - 4)
+                let redDir = 1
+                let greenX = 61 + Math.floor(Math.random() * 8 - 4)
+                let greenY = 21 + Math.floor(Math.random() * 8 - 4)
+                let greenDir = 3
+
+                board[redX][redY] = 1
+                board[greenX][greenY] = 2
+
+                let steps = 0 // Anzahl Tick-Paare (Rot+Grün)
+                const MAX_STEPS = 4000 // Sicherheitsnetz (sollte nie erreicht werden)
+
+                const end = (winner) => {
+                  try {
+                    const ascii = dumpBoard(board, redX, redY, greenX, greenY, redConn, greenConn)
+                    addBoardDump(winner, ascii)
+                  } catch {}
+                  return { winner, steps }
+                }
+
+                while (true) {
+                  // Rot zieht
+                  let ndR
+                  try { ndR = rThink(DX, DY, cloneBoard(board), redX, redY, redDir, greenX, greenY) } catch { ndR = NaN }
+                  if (!(ndR === 0 || ndR === 1 || ndR === 2 || ndR === 3)) return end('green')
+                  redDir = ndR
+                  const nrx = redX + OFFSETS[redDir][0]
+                  const nry = redY + OFFSETS[redDir][1]
+                  if (board[nrx][nry] === 0) {
+                    // link previous red cell to new red cell
+                    redConn[redX][redY] |= DIR_TO_BIT[redDir]
+                    redConn[nrx][nry] |= OPP_BIT[redDir]
+                    redX = nrx; redY = nry; board[redX][redY] = 1
+                  } else {
+                    return end('green')
+                  }
+
+                  // Grün zieht
+                  let ndG
+                  try { ndG = gThink(DX, DY, cloneBoard(board), greenX, greenY, greenDir, redX, redY) } catch { ndG = NaN }
+                  if (!(ndG === 0 || ndG === 1 || ndG === 2 || ndG === 3)) return end('red')
+                  greenDir = ndG
+                  const ngx = greenX + OFFSETS[greenDir][0]
+                  const ngy = greenY + OFFSETS[greenDir][1]
+                  if (board[ngx][ngy] === 0) {
+                    // link previous green cell to new green cell
+                    greenConn[greenX][greenY] |= DIR_TO_BIT[greenDir]
+                    greenConn[ngx][ngy] |= OPP_BIT[greenDir]
+                    greenX = ngx; greenY = ngy; board[greenX][greenY] = 2
+                  } else {
+                    return end('red')
+                  }
+
+                  steps++
+                  if (steps > MAX_STEPS) return end('draw')
+                }
+              }
+
+              // --- Orchestrierung vieler Spiele mit UI-Updates ---
+              const TOTAL = ${repeat}
+              const $ = (id) => document.getElementById(id)
+              $('total').textContent = TOTAL
+
+              let stop = false
+              document.getElementById('stop-btn').onclick = () => { stop = true }
+
+              let rWins = 0, gWins = 0, draws = 0, sumMoves = 0
+              let done = 0
+              const t0 = performance.now()
+
+              const BATCH = 1 // in einem Rutsch berechnen, dann UI updaten/yield
+
+              const yieldToUI = () => new Promise((resolve) => {
+                if (typeof window.requestIdleCallback === 'function') {
+                  requestIdleCallback(() => resolve())
+                } else if (typeof window.requestAnimationFrame === 'function') {
+                  requestAnimationFrame(() => resolve())
+                } else {
+                  setTimeout(resolve, 0)
+                }
+              })
+
+              function updateUI() {
+                $('done').textContent = done
+                $('rWins').textContent = rWins
+                $('gWins').textContent = gWins
+                const pct = done > 0 ? (v) => Math.round((v / done) * 100) : () => 0
+                $('rPct').textContent = pct(rWins)
+                $('gPct').textContent = pct(gWins)
+                $('avgMoves').textContent = done > 0 ? (sumMoves / done).toFixed(1) : '0'
+                const dt = (performance.now() - t0) / 1000
+                $('elapsed').textContent = dt.toFixed(2)
+                $('rate').textContent = dt > 0 ? Math.round(done / dt) : 0
+              }
+
+              async function runAll() {
+                while (!stop && done < TOTAL) {
+                  const target = Math.min(TOTAL - done, BATCH)
+                  for (let i = 0; i < target; i++) {
+                    const r = runOne()
+                    if (r.winner === 'red') rWins++
+                    else if (r.winner === 'green') gWins++
+                    else draws++
+                    sumMoves += r.steps
+                  }
+                  done += target
+                  updateUI()
+                  await yieldToUI() // UI-Thread freigeben
+                }
+              }
+
+              // Start
+              runAll()
+            </script>
+          `,
+        })
+        return
+      }
 
       renderPage(App, req, res, {
         page: 'worms-test-run',

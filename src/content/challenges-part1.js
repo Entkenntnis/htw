@@ -4470,14 +4470,14 @@ To: ${req.user?.name}@arrrg.de</pre>
         `
         <p>Die erste Aufgabe hast du gemeistert. Anscheinend hast du was auf dem Kasten.</p>
 
-        <p>Meine nächste Frage: Welches Konzept wird hier dargestellt?
+        <p>Meine nächste Frage: Welche Block-Kategorie wird hier dargestellt?
 
         <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
         <p style="text-align: center; margin-top: -16px;"><small style="color: gray;" title ="base64">RGllIEFudHdvcnQgbGF1dGV0IFJlZHN0b25lLiBGYWxscyBkdSBrZWluIE1pbmVjcmFmdCBzcGllbHN0Lg==</small></p>
         `
       ),
       en: `
-        <p>Which concept is presented here?</p>
+        <p>Which block category is presented here?</p>
             
         <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
       `,

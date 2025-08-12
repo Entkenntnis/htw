@@ -4370,11 +4370,11 @@ To: ${req.user?.name}@arrrg.de</pre>
             <p style="margin-top:32px;">Würdest du Hack The Web weiterempfehlen?</p>
             ${buildYesNo('recommend')}
 
-            <p style="margin-top:32px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (optional, max. 300 Zeichen)</p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="good"></textarea>
+            <p style="margin-top:32px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen)</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="good" required></textarea>
 
-            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (optional, max. 300 Zeichen)</p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="improve"></textarea>
+            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</p>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="improve" required></textarea>
 
             <p style="margin-top:32px;">Ich willige ein, dass meine Antworten in der Auswertung berücksichtigt werden.</p>
             ${buildYesNo('agree')}

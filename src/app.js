@@ -41,6 +41,7 @@ import { setupWormsManagement } from './content/worms/worms-management.js'
 import { setupWormsArena } from './content/worms/worms-arena.js'
 import { setupEduplacesSSO } from './server/routes/eduplaces-sso.js'
 import { setupGithubSSO } from './server/routes/github-sso.js'
+import { setupLiveAnalyze } from './server/routes/live-analyze.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -93,6 +94,8 @@ setupWormsArena(App)
 
 setupEduplacesSSO(App)
 setupGithubSSO(App)
+
+setupLiveAnalyze(App)
 
 // keep it for now
 _deprecated__setupDecodeMe(App)

@@ -4177,7 +4177,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
   {
     id: 116,
-    pos: { x: 740, y: 52 },
+    pos: { x: 740, y: 42 },
     title: { de: 'Taschenrechner III', en: 'Calculator III' },
     deps: [111],
     html: {

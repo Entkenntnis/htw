@@ -83,9 +83,7 @@ export function getI18nExtension() {
     lng: 'de',
     key: 'home.supporter_',
     value: `
-      <p>Dieses Projekt wird freundlicherweise unterstützt von der <a href="https://fg-bil.gi.de/">Fachgruppe Bayerische Informatiklehrkräfte</a>.</p>
-      <hr class="my-5"/>
-      <p>Besuche auch <a href="https://blog.arrrg.de/">meinen Blog</a>.</p>
+      <p>Besuche auch <strong><a href="https://blog.arrrg.de/">meinen Blog</a></strong>.</p>
       <hr class="my-5"/>
     `,
   })
@@ -141,7 +139,7 @@ export function getI18nExtension() {
           <div class="col-lg" style="">
             <div style="padding-top: 12px;">
 
-             <img src="/hacker_girl.jpg" style="border-radius: 8px" id="hackergirl">
+             <img src="/hacker_girl.jpg" style="border-radius: 8px" id="hackergirl" alt="Ein Mädchen spielt Hack The Web zuhause am Computer und hat Spaß dabei.">
 
             </div>
           </div>
@@ -151,9 +149,9 @@ export function getI18nExtension() {
             <p>Der Einstieg ist ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Registriere dich mit Benutzername und Passwort.
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Jetzt registrieren</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg register-button">Jetzt registrieren</a></p>
 
-            <p>Über unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>htw123</code>.</p>
+            <p>Über unseren <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a></strong> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code style="color: #EA4D96">demo</code> / <code style="color: #EA4D96">htw123</code>.</p>
           </div>
         </div>
       </div>
@@ -226,12 +224,57 @@ export function getI18nExtension() {
         .github-button:hover::before {
           opacity: 1;
         }
+
+        /* Register button (Eduplaces-style hover) */
+        .register-button {
+          position: relative;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          width: 280px;
+          max-width: 100%;
+          padding: 0.4em 1em;
+          color: white !important;
+          text-decoration: none !important;
+          background-color: transparent;
+          border-radius: 8px;
+          border: 3px solid #009771ff;
+          text-align: center;
+          overflow: hidden; /* ensure pseudo-element doesn't spill out */
+          z-index: 0; /* create stacking context for ::before */
+        }
+
+        .register-button:hover {
+          background-color: transparent; /* keep background transparent on hover */
+        }
+
+        .register-button::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(150deg, #05dfa8ff, #007e5cff);
+          opacity: 0;
+          transition: opacity 0.5s ease;
+          z-index: -1;
+        }
+
+        .register-button:hover::before {
+          opacity: 1;
+        }
+
+        .register-button:focus-visible {
+          outline: 3px solid #c8f7e9; /* light teal outline */
+          outline-offset: 2px;
+        }
       </style>
 
       <!-- Eduplaces Button -->
       <div style="margin-top: 24px; display: flex; justify-content: center; flex-wrap: wrap; gap: 24px;">
         <a href="/github-login" class="github-button">
-          <svg viewBox="0 0 16 16" width="32" height="32" style="vertical-align: middle; margin-right: 8px;" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 16 16" width="32" height="32" style="vertical-align: middle; margin-right: 8px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 
             1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 
@@ -243,7 +286,7 @@ export function getI18nExtension() {
           <span>Mit GitHub anmelden</span>
         </a>
         <a href="https://app.eduplaces.de/app/hacktheweb/launch" class="eduplaces-button">
-          <svg viewBox="0 0 115.28 81" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 8px;" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 115.28 81" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 8px;" aria-label="Eduplaces Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill="white" stroke="white" d="m115.28 33.48c-.51-7.52-10.05-10.35-22.19-11.13-6.38-14.04-20.97-23.36-37.27-22.26-16.24 1.1-29.4 12.21-33.88 26.9-12.62 2.36-22.45 6.47-21.92 14.29.52 7.75 10.69 11.1 23.4 12.32 3.79 8.9 10.98 15.97 19.88 19.76-.08.38-.12.78-.12 1.18 0 3.27 2.65 5.93 5.93 5.93 2.68 0 4.94-1.78 5.67-4.21 2.03.19 4.1.22 6.2.07 16.74-1.13 30.21-12.74 34.23-27.83 11.71-2.94 20.58-7.55 20.08-15s0 0 0 0zm-54.83 35.08c-11.69.79-22.29-5.12-28.04-14.45.98.03 1.97.04 2.97.05 8.15.08 16.44-.35 23.35-.82 7.32-.5 16.17-1.23 24.68-2.55.99-.15 1.97-.31 2.94-.48-4.41 10.09-14.15 17.45-25.91 18.24zm43.45-35.24c.16 2.41-2.8 4.29-7.46 5.79-2.22.71-4.84 1.33-7.68 1.88-9.28 1.78-21.05 2.75-29.94 3.35-8.89.6-20.68 1.23-30.12.71-2.89-.16-5.57-.42-7.86-.83-4.81-.85-8.01-2.32-8.17-4.73-.17-2.47 2.97-4.28 7.86-5.63-.14 1.25-.22 2.51-.23 3.79 1.93.69 4.57 1.14 7.61 1.43-.53-16.35 11.99-30.3 28.44-31.41s30.73 11.03 32.4 27.3c2.98-.69 5.53-1.49 7.35-2.44-.19-1.27-.44-2.51-.74-3.73 5.03.68 8.38 2.05 8.55 4.52z"></path>
             <path fill="white" stroke="white" d="m66.33 33.18c-.03-.13-.05-.27-.09-.4-.01-.04-.03-.08-.04-.11-.04-.13-.08-.26-.13-.39-.01-.03-.03-.05-.04-.08-.06-.14-.12-.27-.19-.4 0-.02-.02-.03-.03-.05-.08-.14-.16-.27-.24-.41 0 0-.01-.01-.02-.02-.09-.14-.19-.27-.3-.4-.22-.27-.47-.51-.74-.73-.25-.2-.52-.38-.8-.54-.14-.07-.28-.15-.43-.21-.01 0-.03-.01-.04-.02-.14-.06-.27-.11-.41-.16-.03-.01-.06-.02-.1-.03-.13-.04-.25-.08-.38-.11-.05-.01-.11-.02-.16-.03-.11-.02-.22-.04-.33-.06-.09-.01-.18-.02-.27-.02-.08 0-.16-.02-.25-.02-.18 0-.35 0-.53 0-.18.01-.36.03-.53.06-.08.01-.17.03-.25.05-.09.02-.17.03-.26.05-.11.03-.22.06-.32.1-.05.02-.11.03-.16.05-.13.04-.25.1-.37.15-.03.01-.06.02-.09.04-.13.06-.27.13-.39.21-.01 0-.03.01-.04.02-.14.08-.27.17-.4.26-.26.19-.51.4-.73.63-.24.25-.46.52-.65.82-.09.14-.17.28-.25.43 0 0 0 .02-.01.03-.07.14-.13.28-.19.43 0 .02-.02.04-.02.06-.05.14-.1.28-.14.42 0 .03-.02.06-.03.09-.03.13-.06.27-.09.4 0 .04-.02.08-.02.12-.02.13-.03.27-.04.4 0 .04-.01.09-.01.13v.54c.17 2.86 2.69 5.03 5.62 4.86s5.17-2.63 5-5.49c-.01-.18-.03-.36-.06-.54 0-.04-.02-.08-.03-.13z"></path>
             <path fill="white" stroke="white" d="m80.25 32.42c-.03-.13-.05-.27-.09-.4-.01-.04-.02-.07-.04-.11-.04-.13-.08-.26-.13-.39 0-.02-.02-.02-.03-.02-.08-.14-.16-.28-.24-.41 0 0 0 0 0-.01-.29-.43-.63-.81-1.03-1.14s0 0 0 0c-.38-.31-.8-.57-1.25-.77 0 0-.02 0-.03-.01-.14-.06-.29-.12-.44-.17-.02 0-.05-.01-.08-.02-.13-.04-.27-.08-.41-.11-.05-.01-.1-.02-.15-.03-.11-.02-.23-.05-.35-.06-.09-.01-.18-.02-.26-.02-.09 0-.17-.02-.26-.02-.18 0-.35 0-.54 0-.18.01-.35.03-.52.06-.08.01-.15.03-.23.05-.09.02-.18.03-.27.06-.1.03-.2.06-.3.09-.06.02-.12.04-.18.06-.11.04-.22.09-.33.13-.04.02-.08.03-.12.05-.12.06-.24.12-.36.18-.02.01-.04.02-.06.03-.13.07-.25.15-.37.23 0 0-.02.01-.03.02-.13.09-.25.18-.36.28-.12.1-.24.21-.35.32-.13.13-.24.26-.35.39-.11.13-.21.27-.3.41 0 0 0 .01-.01.02-.09.14-.17.28-.25.42 0 .02-.02.03-.03.05-.07.14-.13.27-.19.42-.01.03-.02.05-.03.08-.05.13-.09.27-.13.4-.01.04-.02.07-.03.11-.03.13-.06.26-.09.39 0 .05-.02.09-.03.14-.02.13-.03.26-.04.4 0 .05-.01.09-.01.14v.55c.17 2.86 2.69 5.03 5.62 4.86s5.17-2.63 5-5.49c-.01-.18-.03-.36-.06-.54 0-.04-.02-.08-.03-.12z"></path>

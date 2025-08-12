@@ -1,13 +1,13 @@
 <% if (App.config.languages.length > 1) { %>
-  <div style="text-align:right; margin-top:-8px;margin-bottom:8px;">
-    <%=t('home.language')%>: <select id="language-switcher">
+  <nav style="text-align:right; margin-top:-8px;margin-bottom:8px;">
+    <label><%=t('home.language')%>: <select id="language-switcher">
       <% for (let i = 0; i < App.config.languages.length; i++) { %>
         <option value="<%=App.config.languages[i]%>" <%=App.config.languages[i] == locale ? 'selected' : ''%>>
           <%=App.config.languages[i].toUpperCase()%>
         </option>
       <% } %>
-    </select>
-  </div>
+    </select></label>
+  </nav>
   
   <script src="/js.cookie.min.js"></script>
   

@@ -14,7 +14,7 @@
     <span style="display:inline-block;width:10px;"></span>
     <label><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw"/></label>
     <span style="display:inline-block;width:5px;"></span>
-    <button type="submit" class="btn btn-success" style="margin-top:-4px"><%= t('go') %></button>
+    <button type="submit" class="btn btn-success" style="margin-top:-4px; background-color: #008563; border-color: #007054"><%= t('go') %></button>
   </div>
 </form>
 
@@ -132,7 +132,7 @@
 
 <h2><%= t('rooms') %></h2>
 
-<p><%- t('inviteOrga_', {link: `<a href="${prefix}/create">${t('createRoom')}</a>`}) %></p>
+<p><%- t('inviteOrga_', {link: `<strong><a href="${prefix}/create">${t('createRoom')}</a></strong>`}) %></p>
 
 <p>[<a href="<%=prefix%>/join"><%= t('joinRoom') %></a>]</p>
 

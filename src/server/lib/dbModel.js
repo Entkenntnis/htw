@@ -144,4 +144,20 @@ export function dbModel(App) {
 
   User.hasMany(WormsArenaMatch, { onDelete: 'cascade' })
   WormsArenaMatch.belongsTo(User)
+
+  App.db.define('Event', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    key: {
+      type: DataTypes.STRING(1024),
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+  })
 }

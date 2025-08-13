@@ -32,6 +32,7 @@ export interface App {
       KVPair: ModelStatic<KVPairModel>
       WormsBotDraft: ModelStatic<WormsBotDraftModel>
       WormsArenaMatch: ModelStatic<WormsArenaMatchModel>
+      Event: ModelStatic<EventModel>
     }
   }
   i18n: { get(lng: 'de' | 'en'): i18n }
@@ -185,6 +186,17 @@ export class WormsArenaMatchModel extends Model<
   declare greenBotId: number
   declare UserId: number
   declare replay: string
+  declare createdAt: CreationOptional<string | Date>
+  declare updatedAt: CreationOptional<string | Date>
+}
+
+export class EventModel extends Model<
+  InferAttributes<EventModel>,
+  InferCreationAttributes<EventModel>
+> {
+  declare id: CreationOptional<number>
+  declare key: string
+  declare userId: number | null
   declare createdAt: CreationOptional<string | Date>
   declare updatedAt: CreationOptional<string | Date>
 }

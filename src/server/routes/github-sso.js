@@ -69,6 +69,7 @@ export function setupGithubSSO(App) {
       req.session.sso_sub = userId.toString()
 
       if (!isNaN(localUserId)) {
+        App.event.create('login_github', localUserId)
         req.session.userId = localUserId
         res.redirect('/map')
         return

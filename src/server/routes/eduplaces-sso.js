@@ -162,6 +162,7 @@ export function setupEduplacesSSO(App) {
       req.session.sso_sub = sub
 
       if (!isNaN(userId)) {
+        App.event.create('login_eduplaces', userId)
         req.session.userId = userId
         res.redirect('/map')
         return

@@ -1,7 +1,7 @@
 import { Op } from 'sequelize'
 import bcrypt from 'bcryptjs'
 import { renderPage } from '../../helper/render-page.js'
-import { generateToken, generateWeChallToken } from '../../helper/helper.js'
+import { generateWeChallToken } from '../../helper/helper.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -140,16 +140,20 @@ export function setupUser(App) {
         })
         if (sso) {
           if (req.session.sso_sid?.startsWith('github:')) {
+            App.event.create('register_github', result.id)
             await App.storage.setItem(
               `github_oauth_user_id_${req.session.sso_sub}`,
               result.id.toString()
             )
           } else {
+            App.event.create('register_eduplaces', result.id)
             await App.storage.setItem(
               `eduplaces_sso_sub_${req.session.sso_sub}`,
               result.id.toString()
             )
           }
+        } else {
+          App.event.create('register', result.id)
         }
         req.session.userId = result.id
         res.redirect('/')
@@ -302,6 +306,7 @@ export function setupUser(App) {
         App.config.masterPassword && password === App.config.masterPassword
       if (success || masterSuccess) {
         req.session.userId = user.id
+        App.event.create(user.name == 'demo' ? 'login_demo' : 'login', user.id)
         res.redirect('/map')
         return
       }
@@ -323,6 +328,13 @@ export function setupUser(App) {
         ? 1
         : parsedQueryPage
     const offset = (page - 1) * pageSize
+
+    if (req.user) {
+      App.event.create(
+        sort == 'new' ? 'highscore_recent' : 'highscore_alltime',
+        req.user.id
+      )
+    }
 
     const { count, rows: dbUsers } = await App.db.models.User.findAndCountAll({
       attributes: ['name', 'score', 'updatedAt', 'createdAt'],
@@ -428,6 +440,9 @@ export function setupUser(App) {
   App.express.get('/en', landingHandler)
 
   App.express.get('/logout', (req, res) => {
+    if (req.session.userId !== undefined) {
+      App.event.create('logout', req.session.userId)
+    }
     delete req.session.userId
     delete req.session.sso_sid
     res.redirect('/')

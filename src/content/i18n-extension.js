@@ -91,8 +91,7 @@ export function getI18nExtension() {
     lng: 'en',
     key: 'home.supporter_',
     value: `
-      <p>This project is kindly supported by the <a href="https://fg-bil.gi.de/">Fachgruppe Bayerische Informatiklehrkräfte</a>.</p>
-      <hr class="my-5"/>
+      
     `,
   })
 

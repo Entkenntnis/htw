@@ -1,5 +1,6 @@
 import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
+import { resolveFromDate } from '../../helper/date-range.js'
 import escapeHTML from 'escape-html'
 
 /**
@@ -10,27 +11,12 @@ export function setupLiveAnalyze(App) {
     if (!req.user || req.user.name != 'editor')
       return res.send('Zugriff nur für Editor')
 
-    // Determine start date: default last 30 days, optionally overridden by valid ?from=
-    /** @type {string | undefined} */
-    const fromQuery =
-      typeof req.query.from === 'string' ? req.query.from : undefined
-    let startDate = null
-    if (fromQuery) {
-      const parsed = new Date(fromQuery)
-      if (!isNaN(parsed.getTime())) {
-        startDate = parsed
-      }
-    }
-    if (!startDate) {
-      startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-    }
-    // Use normalized YYYY-MM-DD string for display and Date for queries
-    const fromDateStr = startDate.toISOString().slice(0, 10)
+    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from)
 
     // Only fetch what we need: active users since fromDate and their solutions
     const users = await App.db.models.User.findAll({
       where: {
-        createdAt: { [Op.gte]: new Date(fromDateStr) },
+        createdAt: { [Op.gte]: fromDateUTC },
         score: { [Op.gt]: 0 },
       },
       // include timestamps to compute active time like in /dashboard
@@ -63,7 +49,7 @@ export function setupLiveAnalyze(App) {
 
     // Total solution counts since fromDate (regardless of active users)
     const allSolutionsSince = await App.db.models.Solution.findAll({
-      where: { createdAt: { [Op.gte]: new Date(fromDateStr) } },
+      where: { createdAt: { [Op.gte]: fromDateUTC } },
       attributes: ['cid'],
       raw: true,
     })
@@ -197,26 +183,12 @@ export function setupLiveAnalyze(App) {
       return
     }
 
-    // Determine start date: default last 30 days, optionally overridden by valid ?from=YYYY-MM-DD or any parseable date
-    /** @type {string | undefined} */
-    const fromQuery =
-      typeof req.query.from === 'string' ? req.query.from : undefined
-    let startDate = null
-    if (fromQuery) {
-      const parsed = new Date(fromQuery)
-      if (!isNaN(parsed.getTime())) {
-        startDate = parsed
-      }
-    }
-    if (!startDate) {
-      startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-    }
-    const fromDateStr = startDate.toISOString().slice(0, 10)
+    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from)
 
     try {
       // Fetch only needed fields in the time window
       const rows = await App.db.models.Event.findAll({
-        where: { createdAt: { [Op.gte]: new Date(fromDateStr) } },
+        where: { createdAt: { [Op.gte]: fromDateUTC } },
         attributes: ['key', 'userId'],
         raw: true,
       })

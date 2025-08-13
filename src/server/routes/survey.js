@@ -1,7 +1,6 @@
 import Sequelize from 'sequelize'
 import escapeHtml from 'escape-html'
-
-const cutoff = '2025-02-01'
+import { resolveFromDate } from '../../helper/date-range.js'
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -11,15 +10,15 @@ export function setupSurvey(App) {
     if (!req.user || req.user.name != 'editor')
       return res.send('Zugriff nur für Editor')
 
+    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from)
+
     const entries = (
       await App.db.models.KVPair.findAll({
         where: {
           key: {
             [Sequelize.Op.like]: 'survey_v1_%',
           },
-          updatedAt: {
-            [Sequelize.Op.gte]: new Date(cutoff),
-          },
+          updatedAt: { [Sequelize.Op.gte]: fromDateUTC },
         },
         raw: true,
       })
@@ -116,7 +115,7 @@ export function setupSurvey(App) {
           </tr>
         </thead>
         <tr>
-          <td>Interesse</td>
+          <td>Wie sehr hat Hack The Web dein Interesse am Thema Hacking und Technologie geweckt?</td>
           <td>${meanInterest}</td>
           <td>${freqInterest[1]}</td>
           <td>${freqInterest[2]}</td>
@@ -125,7 +124,7 @@ export function setupSurvey(App) {
           <td>${freqInterest[5]}</td>
         </tr>
         <tr>
-          <td>Herausforderung</td>
+          <td>Wie herausfordernd fandest du die Aufgaben auf Hack The Web?</td>
           <td>${meanChallenge}</td>
           <td>${freqChallenge[1]}</td>
           <td>${freqChallenge[2]}</td>
@@ -134,7 +133,7 @@ export function setupSurvey(App) {
           <td>${freqChallenge[5]}</td>
         </tr>
         <tr>
-          <td>Spaß</td>
+          <td>Wie viel Spaß hattest du beim Lösen der Aufgaben auf Hack The Web?</td>
           <td>${meanFun}</td>
           <td>${freqFun[1]}</td>
           <td>${freqFun[2]}</td>
@@ -185,22 +184,22 @@ export function setupSurvey(App) {
             </tr>
           </thead>
           <tr>
-            <td>Mehr Lernen von Hacking</td>
+            <td>Würdest du nach dieser Erfahrung mehr über Hacking und IT-Sicherheit lernen wollen?</td>
             <td>${counts.learnmore.no}</td>
             <td>${counts.learnmore.yes} (${Math.round((counts.learnmore.yes * 100) / ENT.length)}%)</td>
           </tr>
           <tr>
-            <td>Kreativer</td>
+            <td>Hast du das Gefühl, dass du durch die Rätsel kreativer geworden bist oder deine Problemlösungsfähigkeiten verbessert hast?</td>
             <td>${counts.morecreative.no}</td>
             <td>${counts.morecreative.yes} (${Math.round((counts.morecreative.yes * 100) / ENT.length)}%)</td>
           </tr>
           <tr>
-            <td>Start ohne Vorwissen möglich</td>
+            <td>Hattest du das Gefühl, dass du die Aufgaben auch ohne Vorwissen lösen konntest?</td>
             <td>${counts.easystart.no}</td>
             <td>${counts.easystart.yes} (${Math.round((counts.easystart.yes * 100) / ENT.length)}%)</td>
           </tr>
           <tr>
-            <td>Weiterempfehlung</td>
+            <td>Würdest du Hack The Web weiterempfehlen?</td>
             <td>${counts.recommend.no}</td>
             <td>${counts.recommend.yes} (${Math.round((counts.recommend.yes * 100) / ENT.length)}%)</td>
           </tr>
@@ -286,30 +285,29 @@ export function setupSurvey(App) {
         <div class="container-fluid">
           <h1 class="my-5">Umfrage Auswertung</h1>
           <h2>Auswertung</h2>
-          <p>Einträge: ${ENT.length}</p>
+          <p>Zeitraum ab: ${fromDateStr} • Einträge: ${ENT.length}</p>
           ${likert}
           ${generateBinaryAspectReport(ENT)}
-          ${generateFreitextReport(ENT)}
           <h2 style="margin-top:32px;">Einzelansicht</h2>
+          <small style="margin-bottom: 48px; display: inline-block;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen) / Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</small>
           ${entries
             .map((entry) => {
-              return `<p>${new Date(entry.ts).toLocaleString()} / ${escapeHtml(
+              return `<p><span style="color: gray">${new Date(entry.ts).toLocaleString()} / ${escapeHtml(
                 userIndex[entry.userId]?.name ?? '--- gelöscht ---'
-              )} (${userIndex[entry.userId]?.score ?? -1})<br />Interesse: ${
+              )} (${userIndex[entry.userId]?.score ?? -1}) / ${
                 entry.obj.interest
-              }, Herausforderung: ${entry.obj.challenge}, Spaß: ${
+              }_${entry.obj.challenge}_${
                 entry.obj.fun
-              }, mehr Lernen: ${entry.obj.learnmore}, kreativer: ${
+              }_${entry.obj.learnmore}_${
                 entry.obj.morecreative
-              }, ohne Vorwissen: ${entry.obj.easystart}, empfehlen: ${
-                entry.obj.recommend
-              }, positiv: &quot;${escapeHtml(
+              }_${entry.obj.easystart}_${entry.obj.recommend}_<strong>${entry.obj.agree}</strong></span> &nbsp;&nbsp;•&nbsp;&nbsp; ${escapeHtml(
                 entry.obj.good || '--'
-              )}&quot;, negativ: &quot;${escapeHtml(
+              )} &nbsp;&nbsp;•&nbsp;&nbsp; ${escapeHtml(
                 entry.obj.improve || '--'
-              )}&quot;, Zustimmung: <strong>${entry.obj.agree}</strong></p>`
+              )}</p>`
             })
             .join('')}
+          ${generateFreitextReport(ENT)}
           </div>
       </body>
     </html>

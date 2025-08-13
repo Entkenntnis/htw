@@ -81,6 +81,8 @@ export const appConfig = {
         req.user &&
         (req.user.score >= 90 || App.config.editors.includes(req.user.name))
 
+      const showStatsLinks = req.user && req.user.name == 'editor'
+
       return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
@@ -101,6 +103,10 @@ export const appConfig = {
        showPleaseFixMeAndMortalCoil
          ? '<a href="/mortal-coil" style="position:absolute;left:2250px;top:500px;" class="text-reset text-decoration-none fade-in"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
            '<a href="/please-fix-me" style="position:absolute;left:1370px;top:745px;" class="text-reset text-decoration-none fade-in"><div>Please Fix Me!</div><img src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;"></a>'
+         : ''
+     }${
+       showStatsLinks
+         ? '<div style="position: absolute; left: 1000px; top: -25px;"><a href="/mapflow">MapFlow</a><a href="/events" style="margin-left: 24px;">Events</a><a href="/survey" style="margin-left: 24px;">Survey</a></div>'
          : ''
      }
   `

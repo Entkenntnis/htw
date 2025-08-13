@@ -6,7 +6,7 @@ import escapeHTML from 'escape-html'
  * @param {import("../../data/types.js").App} App
  */
 export function setupLiveAnalyze(App) {
-  App.express.get('/mapWithStats', async (req, res) => {
+  App.express.get('/mapflow', async (req, res) => {
     if (!req.user || req.user.name != 'editor')
       return res.send('Zugriff nur für Editor')
 

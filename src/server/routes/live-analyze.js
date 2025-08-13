@@ -165,7 +165,7 @@ export function setupLiveAnalyze(App) {
           svgStart +
           svgLines.join('') +
           svgCircles.join('') +
-          `<text x="4" y="16" text-anchor="start">Daten ab: ${fromDateStr} • Median Aktivzeit: ${medianMinutes} min</text>` +
+          `<text x="4" y="16" text-anchor="start">Daten ab: ${fromDateStr} • Median Aktivzeit: ${medianMinutes} min • <a href="/" style="fill: #00bc8c">zurück</a></text>` +
           svgEnd +
           '<style>.drawing{background-color:white!important}</style>',
       },

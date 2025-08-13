@@ -7,6 +7,11 @@ export function setupEvent(App) {
       res.status(403).send('Forbidden')
       return
     }
+    if (req.user.name == 'editor') {
+      // skip
+      res.status(200).send('skipped')
+      return
+    }
     const userId = req.user.id
     const event = req.query.key
     if (

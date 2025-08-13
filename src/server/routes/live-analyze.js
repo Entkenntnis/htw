@@ -1,5 +1,6 @@
 import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
+import escapeHTML from 'escape-html'
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -168,5 +169,143 @@ export function setupLiveAnalyze(App) {
       backButton: false,
       title: 'Karte mit Statistiken',
     })
+  })
+
+  // List all events (editor only), human-readable with grouping and stats
+  // AI generated
+  App.express.get('/events', async (req, res) => {
+    if (!req.user || req.user.name != 'editor') {
+      res.status(403).send('Zugriff nur für Editor')
+      return
+    }
+
+    // Determine start date: default last 30 days, optionally overridden by valid ?from=YYYY-MM-DD or any parseable date
+    /** @type {string | undefined} */
+    const fromQuery =
+      typeof req.query.from === 'string' ? req.query.from : undefined
+    let startDate = null
+    if (fromQuery) {
+      const parsed = new Date(fromQuery)
+      if (!isNaN(parsed.getTime())) {
+        startDate = parsed
+      }
+    }
+    if (!startDate) {
+      startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+    }
+    const fromDateStr = startDate.toISOString().slice(0, 10)
+
+    try {
+      // Fetch only needed fields in the time window
+      const rows = await App.db.models.Event.findAll({
+        where: { createdAt: { [Op.gte]: new Date(fromDateStr) } },
+        attributes: ['key', 'userId'],
+        raw: true,
+      })
+
+      /** @type {Map<string, { total: number; users: Set<number>; perUser: Map<number, number> }>} */
+      const byKey = new Map()
+      for (const r of rows) {
+        const key = /** @type {string} */ (r.key)
+        const uid = /** @type {number|null} */ (r.userId)
+        let agg = byKey.get(key)
+        if (!agg) {
+          agg = { total: 0, users: new Set(), perUser: new Map() }
+          byKey.set(key, agg)
+        }
+        agg.total += 1
+        if (uid != null) {
+          agg.users.add(uid)
+          agg.perUser.set(uid, (agg.perUser.get(uid) || 0) + 1)
+        }
+      }
+
+      // Prepare sorted rows by total desc
+      const tableRows = [...byKey.entries()]
+        .map(([key, agg]) => {
+          const userCount = agg.users.size
+          const avg = userCount > 0 ? agg.total / userCount : 0
+          return { key, userCount, avg, total: agg.total }
+        })
+        .sort((a, b) => b.total - a.total)
+
+      // Build a small HTML page
+      const html = `
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 16px; color: #111; }
+    h1 { margin: 0 0 8px 0; font-size: 20px; }
+    .meta { color: #555; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #e5e5e5; text-align: left; }
+    th { background: #fafafa; position: sticky; top: 0; }
+    tbody tr:hover { background: #f9f9ff; }
+    .right { text-align: right; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .controls { margin-bottom: 10px; }
+  </style>
+  <script>
+    function applyFrom() {
+      var v = document.getElementById('from').value;
+      var url = new URL(window.location.href);
+      if (v) url.searchParams.set('from', v); else url.searchParams.delete('from');
+      window.location.href = url.toString();
+    }
+
+    function reset() {
+      var url = new URL(window.location.href);
+      url.searchParams.delete('from');
+      window.location.href = url.toString();
+    }
+  </script>
+  </head>
+<body>
+  <h1>Events</h1>
+  <div class="meta">Zeitraum ab: <span class="mono">${fromDateStr}</span> • Einträge: ${rows.length}</div>
+  <div class="controls">
+    <label>From: <input id="from" type="date" value="${fromDateStr}" /></label>
+    <button onclick="applyFrom()">Filter</button>
+    <button onclick="reset()" style="margin-left: 12px;"> Filter zurücksetzen</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th class="right">Nutzer</th>
+        <th class="right">Ø je Nutzer</th>
+        <th class="right">Summe</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${tableRows
+        .map(
+          (r) => `
+        <tr>
+          <td class="mono">${escapeHTML(r.key)}</td>
+          <td class="right">${r.userCount}</td>
+          <td class="right">${r.avg.toLocaleString('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}</td>
+          <td class="right">${r.total}</td>
+        </tr>`
+        )
+        .join('')}
+    </tbody>
+  </table>
+  </body>
+  </html>
+      `
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8')
+      res.send(html)
+    } catch (e) {
+      res.status(500).send('Internal Server Error')
+    }
   })
 }

@@ -33,10 +33,28 @@ export function setupLiveAnalyze(App) {
         createdAt: { [Op.gte]: new Date(fromDateStr) },
         score: { [Op.gt]: 0 },
       },
-      attributes: ['id'],
+      // include timestamps to compute active time like in /dashboard
+      attributes: ['id', 'createdAt', 'updatedAt'],
       raw: true,
     })
     const userIds = users.map((u) => u.id)
+    // Compute median active time (minutes) for users in range, same as /dashboard
+    const activeTimes = users
+      .map((u) =>
+        App.moment(u.updatedAt).diff(App.moment(u.createdAt), 'minutes')
+      )
+      .sort((a, b) => a - b)
+    let medianMinutes = 0
+    if (activeTimes.length > 0) {
+      const n = activeTimes.length
+      if (n % 2 === 1) {
+        medianMinutes = activeTimes[(n - 1) / 2]
+      } else {
+        medianMinutes = Math.floor(
+          (activeTimes[n / 2 - 1] + activeTimes[n / 2]) / 2
+        )
+      }
+    }
     const solutions = await App.db.models.Solution.findAll({
       where: { UserId: { [Op.in]: userIds } },
       attributes: ['UserId', 'cid'],
@@ -161,7 +179,7 @@ export function setupLiveAnalyze(App) {
           svgStart +
           svgLines.join('') +
           svgCircles.join('') +
-          `<text x="4" y="16" text-anchor="start">Daten ab: ${fromDateStr}</text>` +
+          `<text x="4" y="16" text-anchor="start">Daten ab: ${fromDateStr} • Median Aktivzeit: ${medianMinutes} min</text>` +
           svgEnd +
           '<style>.drawing{background-color:white!important}</style>',
       },

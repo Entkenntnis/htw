@@ -228,16 +228,29 @@ export function setupLiveAnalyze(App) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Events</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 16px; color: #111; }
-    h1 { margin: 0 0 8px 0; font-size: 20px; }
-    .meta { color: #555; margin-bottom: 16px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 8px 10px; border-bottom: 1px solid #e5e5e5; text-align: left; }
-    th { background: #fafafa; position: sticky; top: 0; }
-    tbody tr:hover { background: #f9f9ff; }
-    .right { text-align: right; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .controls { margin-bottom: 10px; }
+  :root { color-scheme: dark; }
+  body { font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; padding:16px; background:#121212; color:#e5e5e5; }
+  h1 { margin:0 0 8px 0; font-size:20px; color:#ffffff; }
+  .meta { color:#b0b0b0; margin-bottom:16px; }
+  table { width:100%; border-collapse:collapse; background:#181818; border:1px solid #2a2a2a; border-radius:6px; overflow:hidden; }
+  th, td { padding:8px 10px; border-bottom:1px solid #242424; text-align:left; }
+  th { background:#1f1f1f; position:sticky; top:0; z-index:1; }
+  tbody tr:hover { background:#24242f; }
+  tbody tr:last-child td { border-bottom:none; }
+  .right { text-align:right; }
+  .mono { font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:#dcdcdc; }
+  .controls { margin-bottom:10px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  input[type=date] { background:#1f1f1f; color:#e5e5e5; border:1px solid #333; padding:4px 6px; border-radius:4px; }
+  button { background:#2d2d2d; color:#ffffff; border:1px solid #3a3a3a; padding:6px 12px; border-radius:4px; cursor:pointer; }
+  button:hover { background:#3a3a3a; }
+  button:active { background:#454545; }
+  button:focus, input:focus { outline:2px solid #4a90e2; outline-offset:2px; }
+  a { color:#00bc8c; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  a:focus { outline:2px solid #00bc8c; outline-offset:2px; }
+  a:visited { color:#00a077; }
+  .back { margin:0 0 12px 0; }
+  .back a { font-size:14px; }
   </style>
   <script>
     function applyFrom() {
@@ -255,6 +268,7 @@ export function setupLiveAnalyze(App) {
   </script>
   </head>
 <body>
+  <div class="back"><a href="/">← Zurück</a></div>
   <h1>Events</h1>
   <div class="meta">Zeitraum ab: <span class="mono">${fromDateStr}</span> • Einträge: ${rows.length}</div>
   <div class="controls">

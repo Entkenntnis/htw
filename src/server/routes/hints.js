@@ -2153,10 +2153,12 @@ export function setupHints(App) {
         <form action="/hints/ask" method="post" style="max-width: 65ch; margin-top: 100px;">
           <input type="hidden" name="id" value="${id}"/>
           <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="Stelle eine neue Frage ..."></textarea>
-          <input type="submit" value="Frage abschicken" class="btn btn-primary"/>
+          <input type="submit" value="Frage abschicken*" class="btn btn-primary"/>
         </form>
 
-        <p style="margin-top: 48px;">Nutze auch gerne unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>.</p>
+        <p style="margin-top: 48px;"><small>(*) Deine Frage hilft dabei, Unklarheiten zu vermeiden und die Aufgaben besser verständlich zu gestalten. Es kann eine Weile dauern, bis deine Frage mit Antwort hier erscheint.</small></p>
+
+        <p style="margin-top: 48px;">Nutze für eine schnelle Antwort unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>.</p>
         <p>
           <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 150px; background: #313131; padding-left:8px; padding-right: 8px; border-radius:4px; padding-top:2px; " alt="discord"></a>
         </p>
@@ -2188,14 +2190,9 @@ export function setupHints(App) {
       heading: `Neue Frage`,
       backButton: false,
       content: `
-        <p style="margin-top: 48px;">Vielen Dank! Leider dauert aktuell die Beantwortung der Fragen etwas länger. Nutze für eine schnellere Antwort unseren Discord-Server 🙏</p>
+        <p style="margin-top: 48px;">Vielen Dank!</p>
 
         <p><a href="/map">zurück</a></p>
-
-        <p style="margin-top: 120px;">Nutze auch gerne unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>.</p>
-        <p>
-          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 150px; background: #313131; padding-left:8px; padding-right: 8px; border-radius:4px; padding-top:2px; " alt="discord"></a>
-        </p>
 
         <div style="height:150px;"></div>
       `,

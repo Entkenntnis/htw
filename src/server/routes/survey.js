@@ -283,6 +283,7 @@ export function setupSurvey(App) {
       </head>
       <body>
         <div class="container-fluid">
+          <div style="margin-top: 24px;"><a href="/">← Zurück</a></div>
           <h1 class="my-5">Umfrage Auswertung</h1>
           <h2>Auswertung</h2>
           <p>Zeitraum ab: ${fromDateStr} • Einträge: ${ENT.length}</p>

@@ -66,6 +66,21 @@ v</pre>
             if (container) {
               container.insertAdjacentElement("afterend", iframeContainer);
             }
+            
+            window.addEventListener(
+              "message",
+              (event) => {
+                console.log(event)
+                if (event.origin !== "https://entkenntnis.github.io") {
+                  return;
+                }
+                if (typeof event.data !== "string") {
+                  return;
+                }
+                const page = event.data.trim();
+                fetch('/api/event?key=' + encodeURIComponent('enough_page_' + page))
+              },
+            );
           });
         </script>
       `,

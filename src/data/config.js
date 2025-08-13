@@ -106,7 +106,7 @@ export const appConfig = {
          : ''
      }${
        showStatsLinks
-         ? '<div style="position: absolute; left: 1000px; top: -25px;"><a href="/mapflow">MapFlow</a><a href="/events" style="margin-left: 24px;">Events</a><a href="/survey" style="margin-left: 24px;">Survey</a></div>'
+         ? '<div style="position: absolute; left: 1000px; top: -25px;"><a href="/mapflow">MapFlow</a><a href="/events" style="margin-left: 24px;">Events</a><a href="/survey" style="margin-left: 24px;">Survey</a><a href="/questions" style="margin-left: 24px;">Questions</a></div>'
          : ''
      }
   `

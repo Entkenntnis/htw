@@ -45,16 +45,6 @@ export function setupWormsBasic(App) {
   App.express.get(
     '/worms/two-player',
     safeRoute(async (req, res) => {
-      // rare race conditions are possible, but shouldn't be tragic
-      let count = await App.storage.getItem('worms_counter_v0')
-      if (!count) {
-        count = '0'
-      }
-      await App.storage.setItem(
-        'worms_counter_v0',
-        (parseInt(count) + 1).toString()
-      )
-
       req.session.lastWormsTab = 'two-player'
 
       renderPage(App, req, res, {

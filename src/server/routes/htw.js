@@ -153,23 +153,6 @@ export function setupHtw(App) {
     )
   })
 
-  App.express.get('/simple-stats', async (req, res) => {
-    let count = await App.storage.getItem('worms_counter_v0')
-    let count2 = await App.storage.getItem('enough_counter_v0')
-    let count3 = await App.storage.getItem('enough_long_counter_v0')
-
-    renderPage(App, req, res, {
-      page: 'simple-stats',
-      heading: 'Simple Stats',
-      backButton: false,
-      content: `
-        <p>Worms: ${count}</p>
-        <p>Enough: ${count2}</p>
-        <p>Enough, länger verweilt (5min): ${count3}</p>
-      `,
-    })
-  })
-
   if (process.env.SAVE2LOCAL && !process.env.UBERSPACE) {
     run()
 

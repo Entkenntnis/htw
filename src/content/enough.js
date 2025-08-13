@@ -5,15 +5,6 @@ import { renderPage } from '../helper/render-page.js'
  */
 export function setupEnough(App) {
   App.express.get('/enough', async (req, res) => {
-    // rare race conditions are possible, but shouldn't be tragic
-    let count = await App.storage.getItem('enough_counter_v0')
-    if (!count) {
-      count = '0'
-    }
-    await App.storage.setItem(
-      'enough_counter_v0',
-      (parseInt(count) + 1).toString()
-    )
     renderPage(App, req, res, {
       page: 'enough',
       heading: 'Enough',
@@ -53,30 +44,8 @@ export function setupEnough(App) {
               container.insertAdjacentElement("afterend", iframeContainer);
             }
           });
-
-          window.addEventListener('load', () => {
-            // Set a 5-minute delay (300,000 milliseconds)
-            setTimeout(() => {
-              // Make the GET request to /enough-longer-session, ignoring response and errors
-              fetch('/enough-longer-session').catch(() => {
-                // Intentionally ignore any errors
-              });
-            }, 300000); // 5 minutes in milliseconds
-          });
         </script>
       `,
     })
-  })
-
-  App.express.get('/enough-longer-session', async (req, res) => {
-    let count = await App.storage.getItem('enough_long_counter_v0')
-    if (!count) {
-      count = '0'
-    }
-    await App.storage.setItem(
-      'enough_long_counter_v0',
-      (parseInt(count) + 1).toString()
-    )
-    res.send('ok')
   })
 }

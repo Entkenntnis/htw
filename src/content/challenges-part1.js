@@ -1020,7 +1020,7 @@ export const part1 = [
 
         <p>So sieht das Forum aus. In diesem Screenshot findest du die Antwort zu dieser Aufgabe.</p>
 
-        <a href="/chals/21.png" target="_blank"><img src="/chals/21.png" width="500px" style="margin-top:12px;margin-bottom:24px;"/></a>
+        <a href="/chals/21.png" target="_blank"><img src="/chals/21.png" width="500" style="max-width: 100%; margin-top:12px;margin-bottom:24px;"/></a>
 
         <p>Du bist herzlich einladen, dem Server beizutreten!</p>
 

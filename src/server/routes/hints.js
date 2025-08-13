@@ -2214,29 +2214,71 @@ export function setupHints(App) {
       raw: true,
     })
 
-    const questions = allQuestions.map((row) => {
-      return {
+    // AI generated
+    // Flatten rows into question objects
+    const questions = allQuestions
+      .map((row) => ({
         ts: new Date(row.createdAt).getTime(),
         question: row.value,
         id: parseInt(row.key.split('_')[1]),
+      }))
+      .filter((q) => !Number.isNaN(q.id))
+
+    // Group by challenge id
+    const groupMap = questions.reduce((acc, q) => {
+      if (!acc[q.id]) {
+        acc[q.id] = {
+          id: q.id,
+          title:
+            App.challenges.dataMap[q.id]?.title?.['de'] || 'Unbekannte Aufgabe',
+          questions: [],
+          latest: 0,
+        }
       }
+      acc[q.id].questions.push(q)
+      if (q.ts > acc[q.id].latest) acc[q.id].latest = q.ts
+      return acc
+    }, /** @type {Record<number, {id:number,title:string,questions:any[],latest:number}>} */ ({}))
+
+    /** @type {{id:number,title:string,questions:any[],latest:number}[]} */
+    const groups = Object.values(groupMap)
+
+    // Sort groups: most questions first, then by most recent question timestamp
+    groups.sort((a, b) => {
+      const diff = b.questions.length - a.questions.length
+      if (diff !== 0) return diff
+      return b.latest - a.latest
     })
 
-    questions.sort((a, b) => b.ts - a.ts)
+    // For display inside each group, list questions newest first
+    const html =
+      groups.length === 0
+        ? '<p style="margin-top:48px;">Keine Fragen gefunden.</p>'
+        : groups
+            .map((g) => {
+              const qList = g.questions
+                .slice()
+                .sort((a, b) => b.ts - a.ts)
+                .map(
+                  (q) => `
+                <p style="margin-top:12px;"><span style="color: gray;">(${new Date(q.ts).toLocaleString('de-DE')})</span> ${escapeHTML(
+                  q.question
+                )}</p>`
+                )
+                .join('')
+              return `
+              <div style="margin-top:32px;">
+                <h3 style="margin:0;">${escapeHTML(g.title)} [${g.id}] <small style="font-weight:normal; color:#888;">(${g.questions.length})</small></h3>
+                ${qList}
+              </div>`
+            })
+            .join('')
 
     renderPage(App, req, res, {
       page: 'internal-question-list',
       heading: `Liste offener Fragen`,
       backButton: false,
-      content: `
-       ${questions
-         .map(
-           (q) => `
-          <p style="margin-top: 24px;"><strong>${App.challenges.dataMap[q.id]?.title['de']} [${q.id}]</strong> (${new Date(q.ts).toLocaleString('de-DE')})<br />${escapeHTML(q.question)}</p>
-        `
-         )
-         .join('')}
-      `,
+      content: html,
     })
   })
 }

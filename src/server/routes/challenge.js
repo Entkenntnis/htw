@@ -122,6 +122,7 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+    App.event.create(req.lng == 'de' ? 'map_de' : 'map_en', req.user.id)
 
     const solvedDb = await App.db.models.Solution.findAll({
       where: { UserId: req.user.id },
@@ -539,6 +540,7 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+    App.event.create('profile', req.user.id)
 
     let room
     if (req.user.RoomId) {
@@ -698,6 +700,7 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+    App.event.create('visit_delete', req.user.id)
 
     if (App.config.noSelfAdmin.includes(req.user.name)) {
       return res.redirect('/map')
@@ -758,6 +761,7 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+    App.event.create('visit_changepw', req.user.id)
 
     if (App.config.noSelfAdmin.includes(req.user.name)) {
       return res.redirect('/map')

@@ -241,6 +241,15 @@ export function setupHtw(App) {
 
       console.log('  WormsArenaMatch vollständig')
 
+      console.log('Starte Import Events ...')
+
+      const events = await App.db.models.Event.findAll({
+        raw: true,
+      })
+      await LOCALAPP.db.models.Event.bulkCreate(events)
+
+      console.log('  Events vollständig')
+
       process.exit()
     }
   }

@@ -149,7 +149,7 @@ export function getI18nExtension() {
             <p>Der Einstieg ist ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Registriere dich mit Benutzername und Passwort.
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg register-button">Jetzt registrieren</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button">Jetzt registrieren</a></p>
 
             <p>Über unseren <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a></strong> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code style="color: #EA4D96">demo</code> / <code style="color: #EA4D96">htw123</code>.</p>
           </div>
@@ -161,9 +161,8 @@ export function getI18nExtension() {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 280px;
+          width: 240px;
           padding: 0.4em 1em;
-          font-weight: bold;
           color: white !important;
           text-decoration: none !important;
           background-color: transparent;
@@ -196,9 +195,8 @@ export function getI18nExtension() {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 280px;
+          width: 240px;
           padding: 0.4em 1em;
-          font-weight: bold;
           color: white !important;
           text-decoration: none !important;
           background-color: transparent;
@@ -231,6 +229,7 @@ export function getI18nExtension() {
           display: inline-flex;
           justify-content: center;
           align-items: center;
+          font-weight: bold;
           width: 280px;
           max-width: 100%;
           padding: 0.4em 1em;
@@ -272,9 +271,9 @@ export function getI18nExtension() {
       </style>
 
       <!-- Eduplaces Button -->
-      <div style="margin-top: 24px; display: flex; justify-content: center; flex-wrap: wrap; gap: 24px;">
+      <div style="margin-top: 36px; display: flex; justify-content: center; flex-wrap: wrap; gap: 48px;">
         <a href="/github-login" class="github-button">
-          <svg viewBox="0 0 16 16" width="32" height="32" style="vertical-align: middle; margin-right: 8px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 
             1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 

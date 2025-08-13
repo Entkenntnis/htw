@@ -59,6 +59,9 @@ export interface App {
     nuke: () => void
   }
   version: string
+  event: {
+    create: (key: string, userId: number) => Promise<void>
+  }
 }
 
 export interface HtwChallenge {

@@ -11,6 +11,8 @@ import { withPeriodic } from './server/lib/withPeriodic.js'
 import { withChallenges } from './server/lib/withChallenges.js'
 import { withStorage } from './server/lib/withStorage.js'
 import { withChallengeStats } from './server/lib/withChallengeStats.js'
+import { withEvent } from './server/lib/withEvent.js'
+import { withVersion } from './server/lib/withVersion.js'
 
 import { dbModel } from './server/lib/dbModel.js'
 import { expressHeaders } from './server/lib/expressHeaders.js'
@@ -36,12 +38,12 @@ import { setupWormsBasic } from './content/worms/worms-basic.js'
 
 import { _deprecated__setupDecodeMe } from './content/decode-me-deprecated.js'
 import { setupHints } from './server/routes/hints.js'
-import { withVersion } from './server/lib/withVersion.js'
 import { setupWormsManagement } from './content/worms/worms-management.js'
 import { setupWormsArena } from './content/worms/worms-arena.js'
 import { setupEduplacesSSO } from './server/routes/eduplaces-sso.js'
 import { setupGithubSSO } from './server/routes/github-sso.js'
 import { setupLiveAnalyze } from './server/routes/live-analyze.js'
+import { setupEvent } from './server/routes/event.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -61,6 +63,7 @@ withChallenges(preApp)
 withStorage(preApp)
 withChallengeStats(preApp)
 withVersion(preApp)
+withEvent(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp
@@ -96,6 +99,7 @@ setupEduplacesSSO(App)
 setupGithubSSO(App)
 
 setupLiveAnalyze(App)
+setupEvent(App)
 
 // keep it for now
 _deprecated__setupDecodeMe(App)

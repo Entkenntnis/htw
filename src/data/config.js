@@ -95,8 +95,8 @@ export const appConfig = {
     }
      ${
        showEnough
-         ? '<a href="/enough" style="position:absolute;left:1360px;top:415px;" class="text-reset text-decoration-none fade-in"><div>&nbsp;&nbsp;&nbsp;Enough</div><img src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
-           '<a href="/typer/index.html" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in"><div>Typer</div><img src="/typer.png" style="width:35px;margin-top:6px;margin-left:1px;"></a>'
+         ? '<a href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in"><div>&nbsp;&nbsp;&nbsp;Enough</div><img src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
+           '<a href="/wer-wird-wort-millionaer" style="position:absolute;left:1360px;top:415px;" class="text-reset text-decoration-none fade-in"><img src="/wwwm.png" style="width:78px;"></a>'
          : ''
      }
      ${

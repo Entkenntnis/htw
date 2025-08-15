@@ -1,0 +1,1270 @@
+<script src="/wwwm/levels.js"></script>
+
+<p id="back-button"><a href="/map">zurück</a></p>
+
+<div style="max-width: 65ch; margin: 0 auto" id="intro-screen">
+  <!-- pre-game stuff -->
+  <div style="display: flex; justify-content: center; margin-bottom: 20px">
+    <img src="/wwwm/logo.png" style="width: 100%; max-width: 400px" />
+  </div>
+
+  <div>
+    <p>
+      Bei diesem Spiel dreht sich alles um die deutsche Sprache! Finde zu
+      gegebenen drei Buchstaben ein passendes Wort, z.B. für den Hinweis TRA
+      passen die Antworten Straße, tragen, Mantra ... jedes Wort, das in der
+      deutschen Sprache irgendwie verwendet wird.
+    </p>
+    <p>
+      Du hast einen Joker zur Verfügung, der dir einen zusätzlichen Hinweis
+      liefert.
+    </p>
+    <p>Schaffst du es in 15 Fragen zum Wort-Millionär?</p>
+    <button
+      id="start-button"
+      class="btn btn-success btn-lg"
+      disabled
+      style="display: block; margin: 0 auto; width: 300px"
+      onclick="startGame()"
+    >
+      ... Spiel wird geladen ...
+    </button>
+  </div>
+</div>
+<div
+  id="game-welcome"
+  style="
+    display: none;
+    width: 360px;
+    margin: 0 auto;
+    margin-top: 80px;
+    margin-bottom: 100px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, #351e5b 0%, #1d0f33 70%);
+    border: 3px solid rgba(0, 188, 140, 0.4);
+    box-shadow:
+      0 0 18px -4px #00bc8c,
+      0 0 40px -8px rgb(0, 188, 140),
+      0 0 70px -10px #351e5b inset;
+    border-radius: 18px;
+  "
+>
+  <div class="intro-stage">
+    <img src="/wwwm/logo.png" alt="Wort-Millionär" class="intro-logo" />
+  </div>
+</div>
+<div
+  id="main-screen"
+  style="
+    height: 420px;
+    width: 600px;
+    background-color: rgb(58, 58, 58);
+    border-radius: 12px;
+    display: none;
+    margin: 0 auto;
+    margin-top: 80px;
+    position: relative;
+  "
+>
+  <div id="counter" style="position: absolute; left: 10px; top: 10px">
+    1 / 15
+  </div>
+  <div
+    id="joker"
+    style="
+      position: absolute;
+      top: 10px;
+      right: 240px;
+      text-decoration: underline;
+      cursor: pointer;
+    "
+    onclick="useJoker()"
+  >
+    Joker
+  </div>
+  <div
+    id="money"
+    style="
+      position: absolute;
+      right: 50px;
+      top: 6px;
+      border: 2px solid #00bc8c;
+      padding: 4px 8px;
+      width: 160px;
+      text-align: center;
+      border-radius: 8px;
+    "
+  >
+    50 €
+  </div>
+  <div style="position: absolute; right: 10px; top: 10px">
+    <button onclick="endGame()" class="btn btn-sm btn-secondary">X</button>
+  </div>
+  <div
+    id="hint"
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100px;
+      text-align: center;
+      font-size: 48px;
+      font-family: monospace;
+      letter-spacing: 12px;
+      user-select: none;
+    "
+  >
+    TRA
+  </div>
+  <div
+    id="joker-hint"
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 170px;
+      text-align: center;
+      font-size: 24px;
+      font-family: monospace;
+      user-select: none;
+      color: gainsboro;
+    "
+  >
+    TRA
+  </div>
+  <div
+    id="tries"
+    style="
+      position: absolute;
+      top: 250px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    "
+  >
+    Versuch 1/3:
+  </div>
+  <div
+    style="
+      position: absolute;
+      top: 250px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    "
+  >
+    <form onsubmit="attempt(event); return false">
+      <input
+        style="width: 300px; font-size: 24px; font-family: monospace"
+        oninput="handleInput(event)"
+      /><button
+        disabled
+        id="submit-button"
+        class="btn btn-success btn-lg"
+        style="margin-left: 12px; vertical-align: 3px"
+      >
+        ✓
+      </button>
+    </form>
+  </div>
+  <!-- feedback message area -->
+  <div
+    id="feedback"
+    aria-live="polite"
+    style="
+      position: absolute;
+      top: 335px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-family: system-ui, sans-serif;
+      min-height: 34px;
+      pointer-events: none;
+    "
+  ></div>
+  <div
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      bottom: 8px;
+      color: gray;
+    "
+  >
+    Finde ein deutsches Wort, dass die angezeigte Buchstabenfolge enthält.
+  </div>
+</div>
+<div
+  id="game-over"
+  style="
+    height: 420px;
+    width: 600px;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 80px;
+    display: none;
+  "
+>
+  <div class="game-over-banner">
+    <div class="game-over-backglow"></div>
+    <h1 class="game-over-title" aria-label="Game Over">
+      <span>G</span><span>a</span><span>m</span><span>e</span>
+      <span class="gap"></span>
+      <span>O</span><span>v</span><span>e</span><span>r</span>
+    </h1>
+  </div>
+  <div
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 310px;
+      text-align: center;
+    "
+  >
+    <button id="replay-button" class="btn btn-primary" onclick="startGame()">
+      Noch einmal spielen
+    </button>
+  </div>
+  <div style="position: absolute; left: 8px; top: 8px" id="solution"></div>
+</div>
+
+<div
+  id="winner"
+  style="display: none; width: 600px; margin: 80px auto 0; position: relative"
+>
+  <div id="confetti-wrapper" aria-hidden="true">
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+  <img
+    src="/wwwm/logo.png"
+    alt="Wort-Millionär"
+    style="
+      width: 100%;
+      filter: drop-shadow(0 0 6px #fdfd03) drop-shadow(0 0 16px #00bc8c);
+    "
+  />
+  <h1 class="winner-title" aria-live="polite">Herzlichen Glückwunsch!</h1>
+  <p class="winner-sub">
+    Du hast alle 15 Fragen gemeistert und bist jetzt ein echter Wort‑Millionär!
+    🎉
+  </p>
+  <p class="winner-prize">
+    Dein Preis:
+    <span id="final-prize" class="winner-prize-amount">1.000.000 €</span
+    ><span class="winner-prize-fake"> (fiktiv – aber Ruhm für immer!)</span>
+  </p>
+  <div class="winner-actions">
+    <button class="btn btn-success btn-lg" onclick="reset()">
+      Zurück zum Start
+    </button>
+  </div>
+</div>
+
+<div style="height: 300px"></div>
+
+<script>
+  const $ = (selector) => document.querySelector(selector)
+  // if search parameter nointro is set, skip the intro
+  const urlParams = new URLSearchParams(window.location.search)
+  const SKIP_INTRO = urlParams.get('nointro') === '1'
+  const WORD_LIST =
+    'https://gist.githubusercontent.com/MarvinJWendt/2f4f4154b8ae218600eb091a5706b5f4/raw/36b70dd6be330aa61cd4d4cdfda6234dcb0b8784/wordlist-german.txt'
+
+  let words = []
+  let wordLowerCaseCheck = {}
+
+  const PRIZE_MONEY = [
+    '50 €',
+    '100 €',
+    '200 €',
+    '300 €',
+    '500 €',
+    '1.000 €',
+    '2.000 €',
+    '4.000 €',
+    '8.000 €',
+    '16.000 €',
+    '32.000 €',
+    '64.000 €',
+    '125.000 €',
+    '500.000 €',
+    '1.000.000 €',
+  ]
+
+  let currentAudio = null
+
+  let level = 0
+  let joker = true
+
+  let tries = 3
+  let hint = ''
+  // confetti control
+  let confettiRAF = null
+  let confettiActive = false
+  // Uppercase helper that keeps the German "ß" as "ß" (instead of converting to "SS")
+  function upperPreserveEszett(str) {
+    return Array.from(str)
+      .map((ch) => (ch === 'ß' ? 'ß' : ch.toUpperCase()))
+      .join('')
+  }
+
+  window.onload = async () => {
+    try {
+      const response = await fetch(WORD_LIST)
+      if (!response.ok)
+        throw new Error(`HTTP ${response.status} – ${response.statusText}`)
+      const data = await response.text()
+      // split by newlines and filter out empty lines
+      words = data
+        .split('\n')
+        .map((word) => word.trim())
+        .filter((word) => word !== '')
+      for (const word of words) {
+        wordLowerCaseCheck[word.toLowerCase()] = true
+      }
+      console.log('Word list loaded:', words.length, 'words')
+      const startBtn = $('#start-button')
+      if (startBtn) {
+        startBtn.textContent = 'Spiel starten'
+        startBtn.disabled = false
+      }
+    } catch (error) {
+      console.error('Error loading word list:', error)
+    }
+  }
+
+  function playAudio(path, offset, loop = false) {
+    if (currentAudio) {
+      currentAudio.pause()
+      currentAudio = null
+    }
+    // play sound
+    const audio = new Audio(path)
+    if (offset) {
+      audio.currentTime = offset
+    }
+    if (loop) {
+      audio.loop = true
+    }
+    audio.play().catch((error) => {
+      console.error('Error playing audio:', error)
+    })
+    currentAudio = audio
+  }
+
+  function startGame() {
+    $('#game-over').style.display = 'none'
+    $('#intro-screen').style.display = 'none'
+    $('#game-welcome').style.display = 'block'
+    $('#back-button').style.display = 'none'
+    // play sound
+    const audio = new Audio('/wwwm/start.mp3')
+    if (!SKIP_INTRO) {
+      audio.play()
+    }
+    setTimeout(
+      () => {
+        // TODO - a good place for expensive preanalysis
+
+        $('#game-welcome').style.display = 'none'
+        $('#main-screen').style.display = 'block'
+        $('#joker').style.display = 'block'
+        level = 0
+        joker = true
+        startLevel()
+      },
+      SKIP_INTRO ? 0 : 15000
+    ) // 20 seconds for the intro sequence
+  }
+
+  function startLevel() {
+    if (level == 0) {
+      playAudio('/wwwm/easy.mp3', 8.62, true)
+    } else if (level == 5) {
+      // use different sound
+      playAudio('/wwwm/medium.mp3', 0, true)
+    } else if (level == 10) {
+      playAudio('/wwwm/hard.mp3', 0, true)
+    } else if (level == 14) {
+      playAudio('/wwwm/final.mp3', 0, true)
+    }
+    $('#money').textContent = PRIZE_MONEY[level]
+    $('#counter').textContent = `${level + 1} / 15`
+    tries = 3
+    const levelData = levels.levels[level]
+    hint = levelData[Math.floor(Math.random() * levelData.length)]
+    $('#hint').textContent = upperPreserveEszett(hint)
+    // clear any previous joker hint each new level
+    const jokerHintEl = $('#joker-hint')
+    if (jokerHintEl) jokerHintEl.textContent = ''
+    // reset input field
+    const input = $('#main-screen input')
+    input.value = ''
+    input.disabled = false
+    input.focus()
+    const button = $('#submit-button')
+    button.disabled = true
+    $('#tries').textContent = `Versuch ${4 - tries}/3:`
+  }
+
+  const handleInput = (event) => {
+    const input = event.target
+    const button = $('#submit-button')
+    const value = input.value.trim().toLowerCase()
+    if (input.value.trim().toLowerCase().includes(hint.toLowerCase())) {
+      button.disabled = false
+    } else {
+      button.disabled = true
+    }
+  }
+
+  function showFeedback(message, type) {
+    const el = $('#feedback')
+    if (!el) return
+    el.textContent = message
+    el.className = '' // reset
+    el.style.opacity = '1'
+    el.style.transition = 'none'
+    // color based on type
+    if (type === 'success') {
+      el.style.color = '#00e29d'
+      el.style.textShadow = '0 0 6px #00bc8c, 0 0 14px #00bc8c'
+    } else if (type === 'error') {
+      el.style.color = '#ff4d4f'
+      el.style.textShadow = '0 0 6px #ff4d4f, 0 0 14px #ff4d4f'
+    } else {
+      el.style.color = '#ddd'
+      el.style.textShadow = '0 0 4px rgba(255,255,255,0.4)'
+    }
+    // fade out after delay (except we will restart level sooner on success)
+    setTimeout(
+      () => {
+        el.style.transition = 'opacity 600ms ease'
+        el.style.opacity = '0'
+      },
+      type === 'success' ? 600 : 1400
+    )
+  }
+
+  function useJoker() {
+    // Prevent reuse
+    if (!joker) {
+      alert('Der Joker wurde bereits verwendet!')
+      return
+    }
+    if (!confirm('Bist du sicher, dass du den Joker verwenden möchtest?')) {
+      return
+    }
+    // Mark joker as used & hide control
+    joker = false
+    $('#joker').style.display = 'none'
+    // Ensure word list loaded
+    if (!words || words.length === 0) {
+      alert('Wortliste noch nicht geladen – bitte kurz warten.')
+      return
+    }
+    // Collect all words containing the current 3‑Buchstaben-Hinweis
+    const matchingWords = words.filter((w) =>
+      w.toLowerCase().includes(hint.toLowerCase())
+    )
+    // Build possible 5‑grams (windows of length 5) that contain the trigram
+    // For each occurrence we consider window starts from (idx-2) .. (idx+2) so that
+    // the 3-letter hint lies somewhere inside the 5-letter window.
+    const pentaCounts = {}
+    for (const w of matchingWords) {
+      const lower = w.toLowerCase()
+      let idx = -1
+      while ((idx = lower.indexOf(hint.toLowerCase(), idx + 1)) !== -1) {
+        for (let offset = -2; offset <= 2; offset++) {
+          const start = idx + offset
+          if (start < 0) continue
+          const segment = lower.substring(start, start + 5)
+          if (segment.length === 5 && segment.includes(hint.toLowerCase())) {
+            pentaCounts[segment] = (pentaCounts[segment] || 0) + 1
+          }
+        }
+      }
+    }
+    const topPentas = Object.keys(pentaCounts)
+      .sort((a, b) => pentaCounts[b] - pentaCounts[a])
+      .slice(0, 3)
+    const jokerHintEl = $('#joker-hint')
+    if (jokerHintEl) {
+      if (topPentas.length) {
+        jokerHintEl.textContent =
+          'Joker: ' + topPentas.map((q) => upperPreserveEszett(q)).join('  •  ')
+      } else {
+        jokerHintEl.textContent = 'Joker: Keine zusätzlichen Hinweise gefunden.'
+      }
+    }
+    // focus input field
+    const input = $('#main-screen input')
+    input.focus()
+  }
+
+  function attempt(event) {
+    event.preventDefault()
+    const input = $('#main-screen input')
+    const value = input.value.trim().toLowerCase()
+    if (!value.includes(hint.toLowerCase())) {
+      return // ignore
+    }
+    const isCorrect = wordLowerCaseCheck[value.toLowerCase()]
+    $('#main-screen input').value = ''
+    // alert(`Dein Wort: ${value.toUpperCase()}`)
+    if (isCorrect) {
+      const audio = new Audio('/wwwm/correct.mp3')
+      audio.play()
+      showFeedback('Richtig! 🎉', 'success')
+      fetch(`/api/event?key=wwwm_correct_${level + 1}`)
+      if (level == 14) {
+        // final level
+        playAudio('/wwwm/win.mp3')
+        $('#main-screen').style.display = 'none'
+        startCelebration()
+      } else {
+        // short delay so player can see the feedback
+        setTimeout(() => {
+          level++
+          startLevel()
+        }, 650)
+      }
+    } else {
+      tries--
+      if (tries <= 0) {
+        gameOver()
+        return
+      } else {
+        $('#tries').textContent = `Versuch ${4 - tries}/3:`
+        const audio = new Audio('/wwwm/incorrect.mp3')
+        audio.play()
+        showFeedback('Leider falsch! 😢', 'error')
+      }
+    }
+  }
+
+  function gameOver() {
+    playAudio('/wwwm/over.mp3')
+    $('#main-screen').style.display = 'none'
+    $('#game-over').style.display = 'block'
+    const replay = document.getElementById('replay-button')
+    if (replay) {
+      replay.classList.remove('fade-in-visible')
+      // force reflow to restart animation
+      void replay.offsetWidth
+      replay.classList.add('fade-in-visible')
+    }
+    $('#back-button').style.display = 'block'
+    const matchingWords = words.filter((word) =>
+      word.toLowerCase().includes(hint.toLowerCase())
+    )
+    // take the 20 shortest (or fewer if not enough) and randomly choose 5 of them
+    const shortest20 = matchingWords
+      .slice() // copy
+      .sort((a, b) => a.length - b.length)
+      .slice(0, 20)
+    // Exclude words where a shorter already-chosen word is a substring
+    const filtered = []
+    for (const w of shortest20) {
+      const lw = w.toLowerCase()
+      if (!filtered.some((f) => lw.includes(f.toLowerCase()))) {
+        filtered.push(w)
+      }
+    }
+    // shuffle filtered (Fisher–Yates) then take first 5
+    for (let i = filtered.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[filtered[i], filtered[j]] = [filtered[j], filtered[i]]
+    }
+    const selectedWords = filtered.slice(0, 5)
+    $('#solution').textContent =
+      `Mögliche Lösungen zu ${upperPreserveEszett(hint)}: ${selectedWords.join(', ')}`
+  }
+
+  function endGame() {
+    // confirm
+    if (!confirm('Bist du sicher, dass du das Spiel beenden möchtest?')) {
+      return
+    }
+    if (currentAudio) {
+      currentAudio.pause()
+      currentAudio = null
+    }
+    $('#main-screen').style.display = 'none'
+    $('#intro-screen').style.display = 'block'
+    $('#back-button').style.display = 'block'
+  }
+
+  function reset() {
+    $('#winner').style.display = 'none'
+    $('#back-button').style.display = 'block'
+    $('#intro-screen').style.display = 'block'
+    stopConfetti()
+
+    if (currentAudio) {
+      currentAudio.pause()
+      currentAudio = null
+    }
+  }
+
+  // ================= WINNER CELEBRATION =================
+  function startCelebration() {
+    const winner = $('#winner')
+    if (!winner) return
+    winner.style.display = 'block'
+    winner.classList.remove('winner-visible')
+    void winner.offsetWidth // reflow
+    winner.classList.add('winner-visible')
+    animatePrize()
+    launchConfetti()
+  }
+
+  function animatePrize() {
+    const el = document.getElementById('final-prize')
+    if (!el) return
+    // Count up effect (visual only)
+    const target = 1000000
+    const duration = 1800
+    const startTime = performance.now()
+    function format(n) {
+      return n.toLocaleString('de-DE') + ' €'
+    }
+    function step(now) {
+      const t = Math.min(1, (now - startTime) / duration)
+      // easeOutQuad
+      const eased = 1 - (1 - t) * (1 - t)
+      const value = Math.round(target * eased)
+      el.textContent = format(value)
+      if (t < 1) requestAnimationFrame(step)
+      else el.textContent = '1.000.000 €'
+    }
+    el.textContent = '0 €'
+    requestAnimationFrame(step)
+  }
+
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas')
+    if (!canvas) return
+    stopConfetti() // ensure no double instances
+    const ctx = canvas.getContext('2d')
+    const dpr = window.devicePixelRatio || 1
+    function resize() {
+      canvas.width = canvas.clientWidth * dpr
+      canvas.height = canvas.clientHeight * dpr
+      ctx.scale(dpr, dpr)
+    }
+    canvas.style.width = '100%'
+    canvas.style.height = '100%'
+    resize()
+    window.addEventListener('resize', resize)
+    const colors = ['#fdfd03', '#ff6b6b', '#00bc8c', '#8e44ff', '#ffffff']
+    const pieces = []
+    const COUNT = 140
+    for (let i = 0; i < COUNT; i++) {
+      pieces.push({
+        x: Math.random() * canvas.clientWidth,
+        y: -20 - Math.random() * 200,
+        r: 6 + Math.random() * 8,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        vy: 60 + Math.random() * 140,
+        vx: -80 + Math.random() * 160,
+        rot: Math.random() * Math.PI * 2,
+        vr: -0.2 + Math.random() * 0.4,
+        shape: Math.random() < 0.4 ? 'circle' : 'rect',
+      })
+    }
+    confettiActive = true
+    function loop() {
+      if (!confettiActive) return
+      ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
+      pieces.forEach((p) => {
+        p.x += p.vx * 0.016
+        p.y += p.vy * 0.016
+        p.rot += p.vr
+        if (p.y > canvas.clientHeight + 40) {
+          p.y = -20
+          p.x = Math.random() * canvas.clientWidth
+        }
+        ctx.save()
+        ctx.translate(p.x, p.y)
+        ctx.rotate(p.rot)
+        ctx.fillStyle = p.c
+        if (p.shape === 'circle') {
+          ctx.beginPath()
+          ctx.arc(0, 0, p.r * (0.6 + 0.4 * Math.sin(p.rot * 2)), 0, Math.PI * 2)
+          ctx.fill()
+        } else {
+          const w = p.r * (0.6 + 0.4 * Math.cos(p.rot * 2))
+          ctx.fillRect(-w / 2, -p.r / 2, w, p.r)
+        }
+        ctx.restore()
+      })
+      confettiRAF = requestAnimationFrame(loop)
+    }
+    confettiRAF = requestAnimationFrame(loop)
+  }
+  function stopConfetti() {
+    confettiActive = false
+    if (confettiRAF) cancelAnimationFrame(confettiRAF)
+    confettiRAF = null
+    const canvas = document.getElementById('confetti-canvas')
+    if (canvas) {
+      const ctx = canvas.getContext('2d')
+      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height)
+    }
+    window.removeEventListener('resize', () => {}) // noop safeguard
+  }
+</script>
+
+<!-- ================================================ SCARY STUFF ======================================== -->
+<style>
+  /* 20s cinematic intro without JS */
+  #game-welcome .intro-stage {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1400px;
+    font-family: system-ui, sans-serif;
+  }
+  #game-welcome .intro-logo {
+    width: 90%;
+    max-width: 340px;
+    filter: drop-shadow(0 0 3px #fdfd03) drop-shadow(0 0 10px #00bc8c);
+    animation: wm-seq2 20s ease-in-out forwards;
+    transform-origin: 50% 50%;
+  }
+  /* Redesigned clean sequence (20s, climax @50% ≈10s) */
+  #game-welcome .intro-stage::before,
+  #game-welcome .intro-stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  /* soft radial glow */
+  #game-welcome .intro-stage::before {
+    background: radial-gradient(
+      circle at 50% 55%,
+      rgba(253, 253, 3, 0.22),
+      transparent 70%
+    );
+    opacity: 0;
+    animation: glowPulse 20s ease-in-out forwards;
+  }
+  /* accent ring */
+  #game-welcome .intro-stage::after {
+    width: 74%;
+    height: 74%;
+    margin: auto;
+    border: 2px solid rgba(0, 188, 140, 0);
+    border-radius: 50%;
+    transform: scale(0.4) rotate(0deg);
+    box-shadow:
+      0 0 0 0 rgba(253, 253, 3, 0),
+      0 0 0 0 rgba(0, 188, 140, 0);
+    animation: ringRise 20s ease-in-out forwards;
+  }
+  @keyframes wm-seq2 {
+    0% {
+      opacity: 0;
+      transform: scale(0.35) rotateX(35deg) rotateZ(-140deg);
+      filter: blur(4px) brightness(0.6);
+    }
+    6% {
+      opacity: 1;
+      transform: scale(0.55) rotateX(28deg) rotateZ(-90deg);
+      filter: blur(2.5px) brightness(0.85);
+    }
+    14% {
+      transform: scale(0.85) rotateX(18deg) rotateY(8deg) rotateZ(-30deg);
+      filter: blur(1.5px) brightness(0.95);
+    }
+    22% {
+      transform: scale(1) rotateX(10deg) rotateY(2deg) rotateZ(-5deg);
+      filter: blur(1px) brightness(1.05);
+    }
+    32% {
+      transform: scale(1.05) rotateX(6deg) rotateY(-4deg) rotateZ(2deg);
+      filter: blur(0.8px) brightness(1.1);
+    }
+    40% {
+      transform: scale(1.08) rotateX(4deg) rotateY(0deg) rotateZ(0deg);
+      filter: blur(0.6px) brightness(1.12);
+    }
+    48% {
+      transform: scale(1.12) rotateX(3deg) rotateY(-3deg) rotateZ(2deg);
+      filter: blur(0.4px) brightness(1.18);
+    }
+    50% {
+      /* CLIMAX */
+      transform: scale(1.28) rotateX(2deg) rotateY(-2deg) rotateZ(4deg);
+      filter: drop-shadow(0 0 5px #fdfd03) drop-shadow(0 0 20px #00bc8c)
+        brightness(1.34);
+      opacity: 1;
+    }
+    56% {
+      transform: scale(1.18) rotateX(2deg) rotateY(0deg) rotateZ(0deg);
+      filter: drop-shadow(0 0 3px #fdfd03) drop-shadow(0 0 12px #00bc8c)
+        brightness(1.2);
+    }
+    66% {
+      transform: scale(1.09) rotateX(1deg) rotateY(0deg);
+      filter: brightness(1.08);
+    }
+    78% {
+      transform: scale(1.05);
+      filter: brightness(1.03) contrast(1.02);
+    }
+    88% {
+      transform: scale(1.06) rotateZ(-2deg);
+      opacity: 0.85;
+      filter: brightness(0.98) saturate(0.95);
+    }
+    95% {
+      transform: scale(1.04) rotateZ(-4deg);
+      opacity: 0.55;
+      filter: blur(1px) brightness(0.85);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.02) rotateX(8deg) rotateZ(-8deg);
+      filter: blur(2px) brightness(0.7);
+    }
+  }
+  @keyframes glowPulse {
+    0% {
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.85;
+    }
+    70% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes ringRise {
+    0% {
+      border-color: rgba(0, 188, 140, 0);
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    18% {
+      border-color: rgba(0, 188, 140, 0.25);
+      transform: scale(0.75);
+      opacity: 0.5;
+    }
+    32% {
+      border-color: rgba(0, 188, 140, 0.35);
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+    50% {
+      border-color: rgba(253, 253, 3, 0.9);
+      box-shadow:
+        0 0 8px 2px rgba(253, 253, 3, 0.9),
+        0 0 22px 6px rgba(0, 188, 140, 0.55);
+      transform: scale(1.05) rotate(25deg);
+      opacity: 1;
+    }
+    60% {
+      border-color: rgba(253, 253, 3, 0.55);
+      box-shadow:
+        0 0 6px 1px rgba(253, 253, 3, 0.6),
+        0 0 14px 4px rgba(0, 188, 140, 0.4);
+    }
+    78% {
+      border-color: rgba(0, 188, 140, 0.2);
+      transform: scale(1.1) rotate(55deg);
+      opacity: 0.45;
+    }
+    100% {
+      border-color: rgba(0, 188, 140, 0);
+      transform: scale(1.25) rotate(90deg);
+      opacity: 0;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+  }
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #game-welcome .intro-logo {
+      animation: none !important;
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+    }
+    #game-welcome .intro-stage {
+      perspective: none;
+    }
+    #game-welcome .intro-stage::before,
+    #game-welcome .intro-stage::after {
+      display: none !important;
+    }
+  }
+
+  /* ================= GAME OVER DRAMA ================= */
+  #game-over {
+    font-family: system-ui, 'Segoe UI', Arial, sans-serif;
+    color: #eee;
+  }
+  /* replay button fade-in */
+  #replay-button {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 3600ms ease,
+      transform 1600ms ease;
+  }
+  #replay-button.fade-in-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .game-over-banner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .game-over-backglow {
+    position: absolute;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(253, 253, 3, 0.15),
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at 30% 40%,
+        rgba(0, 188, 140, 0.25),
+        transparent 70%
+      ),
+      radial-gradient(
+        circle at 70% 60%,
+        rgba(111, 0, 255, 0.28),
+        transparent 70%
+      );
+    filter: blur(26px) brightness(1.15) saturate(1.2);
+    opacity: 0;
+    animation: goGlow 3.6s ease-in-out forwards;
+  }
+  .game-over-title {
+    position: relative;
+    font-size: 74px;
+    letter-spacing: 4px;
+    margin: 0;
+    display: flex;
+    gap: 4px;
+    font-weight: 700;
+    color: #ff2a2a;
+    text-shadow:
+      0 0 4px rgba(255, 0, 0, 0.9),
+      0 0 12px rgba(255, 40, 40, 0.8),
+      0 0 28px rgba(140, 0, 0, 0.9);
+    filter: brightness(1.15) contrast(1.1);
+    opacity: 0;
+    transform: scale(0.65) rotateX(45deg) rotateZ(-25deg);
+    animation: goTitle 1.2s 0.2s cubic-bezier(0.25, 0.9, 0.38, 1.4) forwards;
+  }
+  .game-over-title span {
+    display: inline-block;
+    animation: goLetter 2.4s ease-in-out forwards;
+  }
+  .game-over-title span:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  .game-over-title span:nth-child(2) {
+    animation-delay: 0.09s;
+  }
+  .game-over-title span:nth-child(3) {
+    animation-delay: 0.13s;
+  }
+  .game-over-title span:nth-child(4) {
+    animation-delay: 0.17s;
+  }
+  .game-over-title span:nth-child(5) {
+    animation-delay: 0.29s;
+  }
+  .game-over-title span:nth-child(6) {
+    animation-delay: 0.33s;
+  }
+  .game-over-title span:nth-child(7) {
+    animation-delay: 0.37s;
+  }
+  .game-over-title span:nth-child(8) {
+    animation-delay: 0.41s;
+  }
+  .game-over-title span:nth-child(9) {
+    animation-delay: 0.45s;
+  }
+  .game-over-title .gap {
+    width: 18px;
+  }
+  .final-prize {
+    margin-top: 20px;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fff, #fdfd03 40%, #00bc8c 80%);
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 4px rgba(253, 253, 3, 0.6))
+      drop-shadow(0 0 10px rgba(0, 188, 140, 0.55));
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    animation: goPrize 1s 1s ease-out forwards;
+  }
+  .game-over-banner.show .game-over-title {
+    animation-play-state: running;
+  }
+  @keyframes goGlow {
+    0% {
+      opacity: 0;
+      transform: scale(1.2) rotate(0deg);
+    }
+    35% {
+      opacity: 0.9;
+    }
+    55% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.15;
+      transform: scale(1.4) rotate(25deg);
+    }
+  }
+  @keyframes goTitle {
+    0% {
+      opacity: 0;
+      transform: scale(0.4) rotateX(60deg) rotateZ(-50deg);
+      filter: blur(6px) brightness(0.4);
+    }
+    55% {
+      opacity: 1;
+      transform: scale(1.08) rotateX(4deg) rotateZ(3deg);
+      filter: blur(1px) brightness(1.3);
+    }
+    70% {
+      transform: scale(1) rotateX(0deg) rotateZ(0deg);
+      filter: blur(0.5px) brightness(1.15);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1.02);
+      filter: blur(0.6px) brightness(1.05);
+    }
+  }
+  @keyframes goLetter {
+    0% {
+      transform: translateY(80px) scale(0.3) rotate(-50deg);
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+    60% {
+      transform: translateY(-10px) scale(1.15) rotate(4deg);
+    }
+    80% {
+      transform: translateY(4px) scale(0.98) rotate(-2deg);
+    }
+    100% {
+      transform: translateY(0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  @keyframes goPrize {
+    0% {
+      opacity: 0;
+      transform: translateY(40px) scale(0.5);
+      filter: blur(8px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-6px) scale(1.08);
+      filter: blur(1px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0.5px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .game-over-backglow,
+    .game-over-title,
+    .game-over-title span,
+    .final-prize {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+  }
+
+  /* ================= WINNER SCREEN ================= */
+  #winner {
+    font-family: system-ui, 'Segoe UI', Arial, sans-serif;
+    background: radial-gradient(circle at 50% 50%, #351e5b 0%, #1d0f33 75%);
+    border: 3px solid rgba(0, 188, 140, 0.5);
+    box-shadow:
+      0 0 12px -2px #00bc8c,
+      0 0 40px -10px rgba(0, 188, 140, 0.8),
+      0 0 60px -12px #351e5b inset;
+    border-radius: 18px;
+    padding: 28px 36px 40px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    opacity: 0;
+    transform: scale(0.9) translateY(24px);
+    transition:
+      opacity 900ms ease,
+      transform 900ms ease;
+  }
+  #winner.winner-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  #winner::before,
+  #winner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  #winner::before {
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(253, 253, 3, 0.18),
+      transparent 70%
+    );
+    mix-blend-mode: screen;
+    animation: winnerPulse 6s ease-in-out infinite;
+  }
+  #winner::after {
+    background: repeating-linear-gradient(
+      60deg,
+      rgba(0, 188, 140, 0.15) 0 14px,
+      rgba(0, 0, 0, 0) 14px 28px
+    );
+    opacity: 0.25;
+    animation: winnerStripes 14s linear infinite;
+  }
+  @keyframes winnerPulse {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+  @keyframes winnerStripes {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(120px);
+    }
+  }
+  .winner-title {
+    font-size: 56px;
+    margin: 14px 0 8px;
+    letter-spacing: 2px;
+    background: linear-gradient(95deg, #fff, #fdfd03 40%, #00bc8c 80%);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow:
+      0 0 8px rgba(253, 253, 3, 0.65),
+      0 0 22px rgba(0, 188, 140, 0.55);
+    animation: winnerTitle 2.2s ease forwards;
+  }
+  @keyframes winnerTitle {
+    0% {
+      opacity: 0;
+      transform: translateY(30px) scale(0.8) rotateX(40deg);
+      filter: blur(6px);
+    }
+    55% {
+      opacity: 1;
+      transform: translateY(-6px) scale(1.05) rotateX(6deg);
+      filter: blur(1px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0.4px);
+    }
+  }
+  .winner-sub {
+    font-size: 18px;
+    color: #eee;
+    margin-bottom: 18px;
+  }
+  .winner-prize {
+    font-size: 22px;
+    margin-bottom: 28px;
+  }
+  .winner-prize-amount {
+    font-weight: 700;
+    font-size: 30px;
+    display: inline-block;
+    background: linear-gradient(90deg, #fff, #fdfd03 45%, #00bc8c 90%);
+    -webkit-background-clip: text;
+    color: transparent;
+    position: relative;
+    animation: prizeShimmer 3.2s ease-in-out infinite;
+  }
+  @keyframes prizeShimmer {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 4px rgba(253, 253, 3, 0.5))
+        drop-shadow(0 0 8px rgba(0, 188, 140, 0.4));
+    }
+    50% {
+      filter: drop-shadow(0 0 8px rgba(253, 253, 3, 0.9))
+        drop-shadow(0 0 16px rgba(0, 188, 140, 0.7));
+    }
+  }
+  .winner-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  #confetti-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  #confetti-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #winner,
+    .winner-title,
+    .winner-prize-amount {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>

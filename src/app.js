@@ -44,6 +44,7 @@ import { setupEduplacesSSO } from './server/routes/eduplaces-sso.js'
 import { setupGithubSSO } from './server/routes/github-sso.js'
 import { setupLiveAnalyze } from './server/routes/live-analyze.js'
 import { setupEvent } from './server/routes/event.js'
+import { setupWWWM } from './server/routes/wwwm.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -90,6 +91,7 @@ setupSurvey(App)
 setupMortalCoil(App)
 setupPleaseFixMe(App)
 setupEnough(App)
+setupWWWM(App)
 
 setupWormsBasic(App)
 setupWormsManagement(App)

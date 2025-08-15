@@ -4,3 +4,5 @@ public/**/*.js
 !public/worms/wormer.js
 
 src/**/*.ejs
+
+!src/server/views/pages/wwwm.ejs

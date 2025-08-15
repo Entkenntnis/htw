@@ -420,13 +420,14 @@
     if (!value.includes(hint.toLowerCase())) {
       return // ignore
     }
-    const isCorrect = true // wordLowerCaseCheck[value.toLowerCase()]
+    const isCorrect = wordLowerCaseCheck[value.toLowerCase()]
     $('#main-screen input').value = ''
     // alert(`Dein Wort: ${value.toUpperCase()}`)
     if (isCorrect) {
       const audio = new Audio('/wwwm/correct.mp3')
       audio.play()
       showFeedback('Richtig! 🎉', 'success')
+      fetch(`/api/event?key=wwwm_correct_${level + 1}`)
       if (level == 14) {
         // final level
         playAudio('/wwwm/win.mp3')

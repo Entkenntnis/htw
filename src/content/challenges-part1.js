@@ -118,13 +118,7 @@ export const part1 = [
     title: { de: 'Start', en: 'Start' },
     // date: '2017-03-30',
     deps: [],
-    render: async ({ req, App }) => {
-      if (req.lng === 'en' && req.user) {
-        await App.storage.setItem(
-          'visit_english_' + new Date().getTime(),
-          req.user.name
-        )
-      }
+    render: async ({ req }) => {
       return {
         de: story(
           'Kiwi',

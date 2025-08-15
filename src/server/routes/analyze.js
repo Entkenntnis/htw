@@ -1,6 +1,5 @@
 import { Op } from 'sequelize'
 import escapeHTML from 'escape-html'
-import { renderPage } from '../../helper/render-page.js'
 
 const fromDate = '2025-02-08'
 

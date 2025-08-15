@@ -148,6 +148,39 @@
     Finde ein deutsches Wort, dass die angezeigte Buchstabenfolge enthält.
   </div>
 </div>
+<div
+  id="game-over"
+  style="
+    height: 420px;
+    width: 600px;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 80px;
+  "
+>
+  <div class="game-over-banner">
+    <div class="game-over-backglow"></div>
+    <h1 class="game-over-title" aria-label="Game Over">
+      <span>G</span><span>a</span><span>m</span><span>e</span>
+      <span class="gap"></span>
+      <span>O</span><span>v</span><span>e</span><span>r</span>
+    </h1>
+    <div id="final-prize" class="final-prize" aria-live="polite"></div>
+  </div>
+  <div
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 340px;
+      text-align: center;
+    "
+  >
+    <button class="btn btn-primary" onclick="startGame()">
+      Noch einmal spielen
+    </button>
+  </div>
+</div>
 
 <div style="height: 300px"></div>
 
@@ -233,6 +266,7 @@
   }
 
   function startGame() {
+    $('#game-over').style.display = 'none'
     $('#intro-screen').style.display = 'none'
     $('#game-welcome').style.display = 'block'
     $('#back-button').style.display = 'none'
@@ -268,7 +302,7 @@
     input.value = ''
     input.disabled = false
     input.focus()
-    const button = $('#main-screen button')
+    const button = $('#submit-button')
     button.disabled = true
     $('#tries').textContent = `Versuch ${4 - tries}/3:`
   }
@@ -292,10 +326,8 @@
       return // ignore
     }
     const isCorrect = wordLowerCaseCheck[value.toLowerCase()]
-    alert(`Dein Wort: ${value.toUpperCase()}`)
-    if (
-      words.some((word) => word.toLowerCase().includes(value.toLowerCase()))
-    ) {
+    // alert(`Dein Wort: ${value.toUpperCase()}`)
+    if (isCorrect) {
       alert('richtig! 🎉')
       level++
       startLevel()
@@ -304,9 +336,16 @@
       tries--
       $('#tries').textContent = `Versuch ${4 - tries}/3:`
       if (tries <= 0) {
-        alert('Leider verloren! 😢')
+        gameOver()
+        return
       }
     }
+  }
+
+  function gameOver() {
+    playAudio('/wwwm/over.mp3')
+    $('#main-screen').style.display = 'none'
+    $('#game-over').style.display = 'block'
   }
 
   function endGame() {
@@ -515,6 +554,197 @@
     #game-welcome .intro-stage::before,
     #game-welcome .intro-stage::after {
       display: none !important;
+    }
+  }
+
+  /* ================= GAME OVER DRAMA ================= */
+  #game-over {
+    font-family: system-ui, 'Segoe UI', Arial, sans-serif;
+    color: #eee;
+  }
+  .game-over-banner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .game-over-backglow {
+    position: absolute;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(253, 253, 3, 0.15),
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at 30% 40%,
+        rgba(0, 188, 140, 0.25),
+        transparent 70%
+      ),
+      radial-gradient(
+        circle at 70% 60%,
+        rgba(111, 0, 255, 0.28),
+        transparent 70%
+      );
+    filter: blur(26px) brightness(1.15) saturate(1.2);
+    opacity: 0;
+    animation: goGlow 3.6s ease-in-out forwards;
+  }
+  .game-over-title {
+    position: relative;
+    font-size: 74px;
+    letter-spacing: 4px;
+    margin: 0;
+    display: flex;
+    gap: 4px;
+    font-weight: 700;
+    color: #ff2a2a;
+    text-shadow:
+      0 0 4px rgba(255, 0, 0, 0.9),
+      0 0 12px rgba(255, 40, 40, 0.8),
+      0 0 28px rgba(140, 0, 0, 0.9);
+    filter: brightness(1.15) contrast(1.1);
+    opacity: 0;
+    transform: scale(0.65) rotateX(45deg) rotateZ(-25deg);
+    animation: goTitle 1.2s 0.2s cubic-bezier(0.25, 0.9, 0.38, 1.4) forwards;
+  }
+  .game-over-title span {
+    display: inline-block;
+    animation: goLetter 2.4s ease-in-out forwards;
+  }
+  .game-over-title span:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  .game-over-title span:nth-child(2) {
+    animation-delay: 0.09s;
+  }
+  .game-over-title span:nth-child(3) {
+    animation-delay: 0.13s;
+  }
+  .game-over-title span:nth-child(4) {
+    animation-delay: 0.17s;
+  }
+  .game-over-title span:nth-child(5) {
+    animation-delay: 0.29s;
+  }
+  .game-over-title span:nth-child(6) {
+    animation-delay: 0.33s;
+  }
+  .game-over-title span:nth-child(7) {
+    animation-delay: 0.37s;
+  }
+  .game-over-title span:nth-child(8) {
+    animation-delay: 0.41s;
+  }
+  .game-over-title span:nth-child(9) {
+    animation-delay: 0.45s;
+  }
+  .game-over-title .gap {
+    width: 18px;
+  }
+  .final-prize {
+    margin-top: 20px;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fff, #fdfd03 40%, #00bc8c 80%);
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 4px rgba(253, 253, 3, 0.6))
+      drop-shadow(0 0 10px rgba(0, 188, 140, 0.55));
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    animation: goPrize 1s 1s ease-out forwards;
+  }
+  .game-over-banner.show .game-over-title {
+    animation-play-state: running;
+  }
+  @keyframes goGlow {
+    0% {
+      opacity: 0;
+      transform: scale(1.2) rotate(0deg);
+    }
+    35% {
+      opacity: 0.9;
+    }
+    55% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.15;
+      transform: scale(1.4) rotate(25deg);
+    }
+  }
+  @keyframes goTitle {
+    0% {
+      opacity: 0;
+      transform: scale(0.4) rotateX(60deg) rotateZ(-50deg);
+      filter: blur(6px) brightness(0.4);
+    }
+    55% {
+      opacity: 1;
+      transform: scale(1.08) rotateX(4deg) rotateZ(3deg);
+      filter: blur(1px) brightness(1.3);
+    }
+    70% {
+      transform: scale(1) rotateX(0deg) rotateZ(0deg);
+      filter: blur(0.5px) brightness(1.15);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1.02);
+      filter: blur(0.6px) brightness(1.05);
+    }
+  }
+  @keyframes goLetter {
+    0% {
+      transform: translateY(80px) scale(0.3) rotate(-50deg);
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+    60% {
+      transform: translateY(-10px) scale(1.15) rotate(4deg);
+    }
+    80% {
+      transform: translateY(4px) scale(0.98) rotate(-2deg);
+    }
+    100% {
+      transform: translateY(0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  @keyframes goPrize {
+    0% {
+      opacity: 0;
+      transform: translateY(40px) scale(0.5);
+      filter: blur(8px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-6px) scale(1.08);
+      filter: blur(1px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0.5px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .game-over-backglow,
+    .game-over-title,
+    .game-over-title span,
+    .final-prize {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
     }
   }
 </style>

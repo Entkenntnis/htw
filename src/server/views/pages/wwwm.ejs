@@ -53,21 +53,100 @@
 <div
   id="main-screen"
   style="
-    height: 480px;
+    height: 420px;
     width: 600px;
-    border: 3px solid rgba(0, 188, 140, 0.4);
+    background-color: rgb(58, 58, 58);
+    border-radius: 12px;
     display: none;
     margin: 0 auto;
     margin-top: 80px;
+    position: relative;
   "
 >
-  <div><button onclick="endGame()">Spiel beenden</button></div>
-  <div>1 / 15 Aktuelle Frage: 500 €</div>
-  <div>Joker verfügbar</div>
-  <div>Dein aktueller Hinweis: <strong>ABC</strong></div>
-  <div>Eingabe: <input /></div>
-  <div><button>Eingabe abschicken</button></div>
-  <div>Versuche: 3/3</div>
+  <div id="counter" style="position: absolute; left: 10px; top: 10px">
+    1 / 15
+  </div>
+  <div
+    id="money"
+    style="
+      position: absolute;
+      right: 50px;
+      top: 6px;
+      border: 2px solid #00bc8c;
+      padding: 4px 8px;
+      width: 160px;
+      text-align: center;
+      border-radius: 8px;
+    "
+  >
+    1.000.000 €
+  </div>
+  <div style="position: absolute; right: 10px; top: 10px">
+    <button onclick="endGame()" class="btn btn-sm btn-secondary">X</button>
+  </div>
+  <div
+    id="hint"
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100px;
+      text-align: center;
+      font-size: 48px;
+      font-family: monospace;
+      letter-spacing: 12px;
+      user-select: none;
+    "
+  >
+    TRA
+  </div>
+  <div
+    id="tries"
+    style="
+      position: absolute;
+      top: 250px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    "
+  >
+    Versuch 1/3:
+  </div>
+  <div
+    style="
+      position: absolute;
+      top: 250px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    "
+  >
+    <form onsubmit="attempt(event); return false">
+      <input
+        style="width: 300px; font-size: 24px; font-family: monospace"
+        oninput="handleInput(event)"
+      /><button
+        disabled
+        id="submit-button"
+        class="btn btn-success btn-lg"
+        style="margin-left: 12px; vertical-align: 3px"
+      >
+        ✓
+      </button>
+    </form>
+  </div>
+  <div
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      bottom: 8px;
+      color: gray;
+    "
+  >
+    Finde ein deutsches Wort, dass die angezeigte Buchstabenfolge enthält.
+  </div>
 </div>
 
 <div style="height: 300px"></div>
@@ -81,8 +160,33 @@
     'https://gist.githubusercontent.com/MarvinJWendt/2f4f4154b8ae218600eb091a5706b5f4/raw/36b70dd6be330aa61cd4d4cdfda6234dcb0b8784/wordlist-german.txt'
 
   let words = []
+  let wordLowerCaseCheck = {}
 
-  console.log(levels)
+  const PRIZE_MONEY = [
+    '50 €',
+    '100 €',
+    '200 €',
+    '300 €',
+    '500 €',
+    '1.000 €',
+    '2.000 €',
+    '4.000 €',
+    '8.000 €',
+    '16.000 €',
+    '32.000 €',
+    '64.000 €',
+    '125.000 €',
+    '500.000 €',
+    '1.000.000 €',
+  ]
+
+  let currentAudio = null
+
+  let level = 0
+  let joker = true
+
+  let tries = 3
+  let hint = ''
 
   window.onload = async () => {
     try {
@@ -91,7 +195,13 @@
         throw new Error(`HTTP ${response.status} – ${response.statusText}`)
       const data = await response.text()
       // split by newlines and filter out empty lines
-      words = data.split('\n').filter((word) => word.trim() !== '')
+      words = data
+        .split('\n')
+        .map((word) => word.trim())
+        .filter((word) => word !== '')
+      for (const word of words) {
+        wordLowerCaseCheck[word.toLowerCase()] = true
+      }
       console.log('Word list loaded:', words.length, 'words')
       const startBtn = $('#start-button')
       if (startBtn) {
@@ -101,6 +211,25 @@
     } catch (error) {
       console.error('Error loading word list:', error)
     }
+  }
+
+  function playAudio(path, offset, loop = false) {
+    if (currentAudio) {
+      currentAudio.pause()
+      currentAudio = null
+    }
+    // play sound
+    const audio = new Audio(path)
+    if (offset) {
+      audio.currentTime = offset
+    }
+    if (loop) {
+      audio.loop = true
+    }
+    audio.play().catch((error) => {
+      console.error('Error playing audio:', error)
+    })
+    currentAudio = audio
   }
 
   function startGame() {
@@ -118,12 +247,77 @@
 
         $('#game-welcome').style.display = 'none'
         $('#main-screen').style.display = 'block'
+        level = 0
+        joker = true
+        startLevel()
       },
       SKIP_INTRO ? 0 : 15000
     ) // 20 seconds for the intro sequence
   }
 
+  function startLevel() {
+    playAudio('/wwwm/easy.mp3', 8.62, true)
+    $('#money').textContent = PRIZE_MONEY[level]
+    $('#counter').textContent = `${level + 1} / 15`
+    tries = 3
+    const levelData = levels.levels[level]
+    hint = levelData[Math.floor(Math.random() * levelData.length)]
+    $('#hint').textContent = hint.toUpperCase()
+    // reset input field
+    const input = $('#main-screen input')
+    input.value = ''
+    input.disabled = false
+    input.focus()
+    const button = $('#main-screen button')
+    button.disabled = true
+    $('#tries').textContent = `Versuch ${4 - tries}/3:`
+  }
+
+  const handleInput = (event) => {
+    const input = event.target
+    const button = $('#submit-button')
+    const value = input.value.trim().toLowerCase()
+    if (input.value.trim().toLowerCase().includes(hint.toLowerCase())) {
+      button.disabled = false
+    } else {
+      button.disabled = true
+    }
+  }
+
+  function attempt(event) {
+    event.preventDefault()
+    const input = $('#main-screen input')
+    const value = input.value.trim().toLowerCase()
+    if (!value.includes(hint.toLowerCase())) {
+      return // ignore
+    }
+    const isCorrect = wordLowerCaseCheck[value.toLowerCase()]
+    alert(`Dein Wort: ${value.toUpperCase()}`)
+    if (
+      words.some((word) => word.toLowerCase().includes(value.toLowerCase()))
+    ) {
+      alert('richtig! 🎉')
+      level++
+      startLevel()
+    } else {
+      alert('Leider falsch! 😢')
+      tries--
+      $('#tries').textContent = `Versuch ${4 - tries}/3:`
+      if (tries <= 0) {
+        alert('Leider verloren! 😢')
+      }
+    }
+  }
+
   function endGame() {
+    // confirm
+    if (!confirm('Bist du sicher, dass du das Spiel beenden möchtest?')) {
+      return
+    }
+    if (currentAudio) {
+      currentAudio.pause()
+      currentAudio = null
+    }
     $('#main-screen').style.display = 'none'
     $('#intro-screen').style.display = 'block'
     $('#back-button').style.display = 'block'

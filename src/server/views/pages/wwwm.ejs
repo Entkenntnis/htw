@@ -1,6 +1,8 @@
-<p><a href="/map">zurück</a></p>
+<script src="/wwwm/levels.js"></script>
 
-<div style="max-width: 65ch; margin: 0 auto">
+<p id="back-button"><a href="/map">zurück</a></p>
+
+<div style="max-width: 65ch; margin: 0 auto" id="intro-screen">
   <!-- pre-game stuff -->
   <div style="display: flex; justify-content: center; margin-bottom: 20px">
     <img src="/wwwm/logo.png" style="width: 100%; max-width: 400px" />
@@ -10,17 +12,315 @@
     <p>
       Bei diesem Spiel dreht sich alles um die deutsche Sprache! Finde zu
       gegebenen drei Buchstaben ein passendes Wort, z.B. für den Hinweis TRA
-      passen die Antworten Straße, tragen, Mantra ... jedes Wort, das in
-      Deutschland irgendwie verwendet wird.
+      passen die Antworten Straße, tragen, Mantra ... jedes Wort, das in der
+      deutschen Sprache irgendwie verwendet wird.
     </p>
     <p>Schaffst du es in 15 Fragen zum Wort-Millionär?</p>
     <button
-      class="btn btn-success"
-      style="display: block; margin: 0 auto; width: 200px"
+      id="start-button"
+      class="btn btn-success btn-lg"
+      disabled
+      style="display: block; margin: 0 auto; width: 300px"
+      onclick="startGame()"
     >
-      Start!
+      ... Spiel wird geladen ...
     </button>
   </div>
 </div>
+<div
+  id="game-welcome"
+  style="
+    display: none;
+    width: 360px;
+    margin: 0 auto;
+    margin-top: 80px;
+    margin-bottom: 100px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, #351e5b 0%, #1d0f33 70%);
+    border: 3px solid rgba(0, 188, 140, 0.4);
+    box-shadow:
+      0 0 18px -4px #00bc8c,
+      0 0 40px -8px rgb(0, 188, 140),
+      0 0 70px -10px #351e5b inset;
+    border-radius: 18px;
+  "
+>
+  <div class="intro-stage">
+    <img src="/wwwm/logo.png" alt="Wort-Millionär" class="intro-logo" />
+  </div>
+</div>
+<div
+  id="main-screen"
+  style="
+    height: 480px;
+    width: 600px;
+    border: 3px solid rgba(0, 188, 140, 0.4);
+    display: none;
+    margin: 0 auto;
+    margin-top: 80px;
+  "
+>
+  <div><button onclick="endGame()">Spiel beenden</button></div>
+  <div>1 / 15 Aktuelle Frage: 500 €</div>
+  <div>Joker verfügbar</div>
+  <div>Dein aktueller Hinweis: <strong>ABC</strong></div>
+  <div>Eingabe: <input /></div>
+  <div><button>Eingabe abschicken</button></div>
+  <div>Versuche: 3/3</div>
+</div>
 
 <div style="height: 300px"></div>
+
+<script>
+  const $ = (selector) => document.querySelector(selector)
+  // if search parameter nointro is set, skip the intro
+  const urlParams = new URLSearchParams(window.location.search)
+  const SKIP_INTRO = urlParams.get('nointro') === '1'
+  const WORD_LIST =
+    'https://gist.githubusercontent.com/MarvinJWendt/2f4f4154b8ae218600eb091a5706b5f4/raw/36b70dd6be330aa61cd4d4cdfda6234dcb0b8784/wordlist-german.txt'
+
+  let words = []
+
+  console.log(levels)
+
+  window.onload = async () => {
+    try {
+      const response = await fetch(WORD_LIST)
+      if (!response.ok)
+        throw new Error(`HTTP ${response.status} – ${response.statusText}`)
+      const data = await response.text()
+      // split by newlines and filter out empty lines
+      words = data.split('\n').filter((word) => word.trim() !== '')
+      console.log('Word list loaded:', words.length, 'words')
+      const startBtn = $('#start-button')
+      if (startBtn) {
+        startBtn.textContent = 'Spiel starten'
+        startBtn.disabled = false
+      }
+    } catch (error) {
+      console.error('Error loading word list:', error)
+    }
+  }
+
+  function startGame() {
+    $('#intro-screen').style.display = 'none'
+    $('#game-welcome').style.display = 'block'
+    $('#back-button').style.display = 'none'
+    // play sound
+    const audio = new Audio('/wwwm/start.mp3')
+    if (!SKIP_INTRO) {
+      audio.play()
+    }
+    setTimeout(
+      () => {
+        // TODO - a good place for expensive preanalysis
+
+        $('#game-welcome').style.display = 'none'
+        $('#main-screen').style.display = 'block'
+      },
+      SKIP_INTRO ? 0 : 15000
+    ) // 20 seconds for the intro sequence
+  }
+
+  function endGame() {
+    $('#main-screen').style.display = 'none'
+    $('#intro-screen').style.display = 'block'
+    $('#back-button').style.display = 'block'
+  }
+</script>
+
+<!-- ================================================ SCARY STUFF ======================================== -->
+<style>
+  /* 20s cinematic intro without JS */
+  #game-welcome .intro-stage {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1400px;
+    font-family: system-ui, sans-serif;
+  }
+  #game-welcome .intro-logo {
+    width: 90%;
+    max-width: 340px;
+    filter: drop-shadow(0 0 3px #fdfd03) drop-shadow(0 0 10px #00bc8c);
+    animation: wm-seq2 20s ease-in-out forwards;
+    transform-origin: 50% 50%;
+  }
+  /* Redesigned clean sequence (20s, climax @50% ≈10s) */
+  #game-welcome .intro-stage::before,
+  #game-welcome .intro-stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  /* soft radial glow */
+  #game-welcome .intro-stage::before {
+    background: radial-gradient(
+      circle at 50% 55%,
+      rgba(253, 253, 3, 0.22),
+      transparent 70%
+    );
+    opacity: 0;
+    animation: glowPulse 20s ease-in-out forwards;
+  }
+  /* accent ring */
+  #game-welcome .intro-stage::after {
+    width: 74%;
+    height: 74%;
+    margin: auto;
+    border: 2px solid rgba(0, 188, 140, 0);
+    border-radius: 50%;
+    transform: scale(0.4) rotate(0deg);
+    box-shadow:
+      0 0 0 0 rgba(253, 253, 3, 0),
+      0 0 0 0 rgba(0, 188, 140, 0);
+    animation: ringRise 20s ease-in-out forwards;
+  }
+  @keyframes wm-seq2 {
+    0% {
+      opacity: 0;
+      transform: scale(0.35) rotateX(35deg) rotateZ(-140deg);
+      filter: blur(4px) brightness(0.6);
+    }
+    6% {
+      opacity: 1;
+      transform: scale(0.55) rotateX(28deg) rotateZ(-90deg);
+      filter: blur(2.5px) brightness(0.85);
+    }
+    14% {
+      transform: scale(0.85) rotateX(18deg) rotateY(8deg) rotateZ(-30deg);
+      filter: blur(1.5px) brightness(0.95);
+    }
+    22% {
+      transform: scale(1) rotateX(10deg) rotateY(2deg) rotateZ(-5deg);
+      filter: blur(1px) brightness(1.05);
+    }
+    32% {
+      transform: scale(1.05) rotateX(6deg) rotateY(-4deg) rotateZ(2deg);
+      filter: blur(0.8px) brightness(1.1);
+    }
+    40% {
+      transform: scale(1.08) rotateX(4deg) rotateY(0deg) rotateZ(0deg);
+      filter: blur(0.6px) brightness(1.12);
+    }
+    48% {
+      transform: scale(1.12) rotateX(3deg) rotateY(-3deg) rotateZ(2deg);
+      filter: blur(0.4px) brightness(1.18);
+    }
+    50% {
+      /* CLIMAX */
+      transform: scale(1.28) rotateX(2deg) rotateY(-2deg) rotateZ(4deg);
+      filter: drop-shadow(0 0 5px #fdfd03) drop-shadow(0 0 20px #00bc8c)
+        brightness(1.34);
+      opacity: 1;
+    }
+    56% {
+      transform: scale(1.18) rotateX(2deg) rotateY(0deg) rotateZ(0deg);
+      filter: drop-shadow(0 0 3px #fdfd03) drop-shadow(0 0 12px #00bc8c)
+        brightness(1.2);
+    }
+    66% {
+      transform: scale(1.09) rotateX(1deg) rotateY(0deg);
+      filter: brightness(1.08);
+    }
+    78% {
+      transform: scale(1.05);
+      filter: brightness(1.03) contrast(1.02);
+    }
+    88% {
+      transform: scale(1.06) rotateZ(-2deg);
+      opacity: 0.85;
+      filter: brightness(0.98) saturate(0.95);
+    }
+    95% {
+      transform: scale(1.04) rotateZ(-4deg);
+      opacity: 0.55;
+      filter: blur(1px) brightness(0.85);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.02) rotateX(8deg) rotateZ(-8deg);
+      filter: blur(2px) brightness(0.7);
+    }
+  }
+  @keyframes glowPulse {
+    0% {
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.85;
+    }
+    70% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes ringRise {
+    0% {
+      border-color: rgba(0, 188, 140, 0);
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    18% {
+      border-color: rgba(0, 188, 140, 0.25);
+      transform: scale(0.75);
+      opacity: 0.5;
+    }
+    32% {
+      border-color: rgba(0, 188, 140, 0.35);
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+    50% {
+      border-color: rgba(253, 253, 3, 0.9);
+      box-shadow:
+        0 0 8px 2px rgba(253, 253, 3, 0.9),
+        0 0 22px 6px rgba(0, 188, 140, 0.55);
+      transform: scale(1.05) rotate(25deg);
+      opacity: 1;
+    }
+    60% {
+      border-color: rgba(253, 253, 3, 0.55);
+      box-shadow:
+        0 0 6px 1px rgba(253, 253, 3, 0.6),
+        0 0 14px 4px rgba(0, 188, 140, 0.4);
+    }
+    78% {
+      border-color: rgba(0, 188, 140, 0.2);
+      transform: scale(1.1) rotate(55deg);
+      opacity: 0.45;
+    }
+    100% {
+      border-color: rgba(0, 188, 140, 0);
+      transform: scale(1.25) rotate(90deg);
+      opacity: 0;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+  }
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #game-welcome .intro-logo {
+      animation: none !important;
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+    }
+    #game-welcome .intro-stage {
+      perspective: none;
+    }
+    #game-welcome .intro-stage::before,
+    #game-welcome .intro-stage::after {
+      display: none !important;
+    }
+  }
+</style>

@@ -502,7 +502,7 @@ export function setupPleaseFixMe(App) {
                 }
                   updateSidebarItem(levelId, ranks, distance);
 
-                fetch('/please-fix-me/submission?code=' + encodeURIComponent(myEditor.getValue()) + '&id=' + levelId)
+                //fetch('/please-fix-me/submission?code=' + encodeURIComponent(myEditor.getValue()) + '&id=' + levelId)
 
                 document.getElementById('info-box').classList.remove('alert-dark')
                 document.getElementById('info-box').classList.add('alert-success')
@@ -556,7 +556,7 @@ export function setupPleaseFixMe(App) {
     })
   })
 
-  App.express.get('/please-fix-me/submission', async (req, res) => {
+  /*App.express.get('/please-fix-me/submission', async (req, res) => {
     const code = req.query.code?.toString()
     const id = parseInt(req.query.id?.toString() ?? '-')
     if (code && !isNaN(id) && id > 0) {
@@ -566,7 +566,7 @@ export function setupPleaseFixMe(App) {
       )
     }
     res.send('ok')
-  })
+  })*/
 
   App.express.get('/please-fix-me/records', async (req, res) => {
     const records = req.query.records?.toString()

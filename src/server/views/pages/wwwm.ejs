@@ -15,6 +15,10 @@
       passen die Antworten Straße, tragen, Mantra ... jedes Wort, das in der
       deutschen Sprache irgendwie verwendet wird.
     </p>
+    <p>
+      Du hast einen Joker zur Verfügung, der dir einen zusätzlichen Hinweis
+      liefert.
+    </p>
     <p>Schaffst du es in 15 Fragen zum Wort-Millionär?</p>
     <button
       id="start-button"
@@ -67,6 +71,19 @@
     1 / 15
   </div>
   <div
+    id="joker"
+    style="
+      position: absolute;
+      top: 10px;
+      right: 240px;
+      text-decoration: underline;
+      cursor: pointer;
+    "
+    onclick="useJoker()"
+  >
+    Joker
+  </div>
+  <div
     id="money"
     style="
       position: absolute;
@@ -79,7 +96,7 @@
       border-radius: 8px;
     "
   >
-    1.000.000 €
+    50 €
   </div>
   <div style="position: absolute; right: 10px; top: 10px">
     <button onclick="endGame()" class="btn btn-sm btn-secondary">X</button>
@@ -96,6 +113,22 @@
       font-family: monospace;
       letter-spacing: 12px;
       user-select: none;
+    "
+  >
+    TRA
+  </div>
+  <div
+    id="joker-hint"
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 170px;
+      text-align: center;
+      font-size: 24px;
+      font-family: monospace;
+      user-select: none;
+      color: gainsboro;
     "
   >
     TRA
@@ -339,6 +372,7 @@
 
         $('#game-welcome').style.display = 'none'
         $('#main-screen').style.display = 'block'
+        $('#joker').style.display = 'block'
         level = 0
         joker = true
         startLevel()
@@ -364,6 +398,9 @@
     const levelData = levels.levels[level]
     hint = levelData[Math.floor(Math.random() * levelData.length)]
     $('#hint').textContent = upperPreserveEszett(hint)
+    // clear any previous joker hint each new level
+    const jokerHintEl = $('#joker-hint')
+    if (jokerHintEl) jokerHintEl.textContent = ''
     // reset input field
     const input = $('#main-screen input')
     input.value = ''
@@ -411,6 +448,62 @@
       },
       type === 'success' ? 600 : 1400
     )
+  }
+
+  function useJoker() {
+    // Prevent reuse
+    if (!joker) {
+      alert('Der Joker wurde bereits verwendet!')
+      return
+    }
+    if (!confirm('Bist du sicher, dass du den Joker verwenden möchtest?')) {
+      return
+    }
+    // Mark joker as used & hide control
+    joker = false
+    $('#joker').style.display = 'none'
+    // Ensure word list loaded
+    if (!words || words.length === 0) {
+      alert('Wortliste noch nicht geladen – bitte kurz warten.')
+      return
+    }
+    // Collect all words containing the current 3‑Buchstaben-Hinweis
+    const matchingWords = words.filter((w) =>
+      w.toLowerCase().includes(hint.toLowerCase())
+    )
+    // Build possible 5‑grams (windows of length 5) that contain the trigram
+    // For each occurrence we consider window starts from (idx-2) .. (idx+2) so that
+    // the 3-letter hint lies somewhere inside the 5-letter window.
+    const pentaCounts = {}
+    for (const w of matchingWords) {
+      const lower = w.toLowerCase()
+      let idx = -1
+      while ((idx = lower.indexOf(hint.toLowerCase(), idx + 1)) !== -1) {
+        for (let offset = -2; offset <= 2; offset++) {
+          const start = idx + offset
+          if (start < 0) continue
+          const segment = lower.substring(start, start + 5)
+          if (segment.length === 5 && segment.includes(hint.toLowerCase())) {
+            pentaCounts[segment] = (pentaCounts[segment] || 0) + 1
+          }
+        }
+      }
+    }
+    const topPentas = Object.keys(pentaCounts)
+      .sort((a, b) => pentaCounts[b] - pentaCounts[a])
+      .slice(0, 3)
+    const jokerHintEl = $('#joker-hint')
+    if (jokerHintEl) {
+      if (topPentas.length) {
+        jokerHintEl.textContent =
+          'Joker: ' + topPentas.map((q) => upperPreserveEszett(q)).join('  •  ')
+      } else {
+        jokerHintEl.textContent = 'Joker: Keine zusätzlichen Hinweise gefunden.'
+      }
+    }
+    // focus input field
+    const input = $('#main-screen input')
+    input.focus()
   }
 
   function attempt(event) {

@@ -190,11 +190,35 @@
       left: 0;
       right: 0;
       text-align: center;
-      bottom: 8px;
+      bottom: 24px;
       color: gray;
     "
   >
     Finde ein deutsches Wort, dass die angezeigte Buchstabenfolge enthält.
+  </div>
+  <!-- per-level countdown bar (2 min) -->
+  <div
+    id="time-bar-container"
+    style="
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 6px;
+      background: #222;
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+    "
+  >
+    <div
+      id="time-bar"
+      style="
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(90deg, #00bc8c, #007a5d);
+        transition: width 1s linear;
+      "
+    ></div>
   </div>
 </div>
 <div
@@ -302,6 +326,15 @@
 
   let tries = 3
   let hint = ''
+  // level timer (2 minutes per level)
+  const LEVEL_TIME_MS = 2 * 60 * 1000
+  let levelTimerId = null
+  function clearLevelTimer() {
+    if (levelTimerId) {
+      clearInterval(levelTimerId)
+      levelTimerId = null
+    }
+  }
   // confetti control
   let confettiRAF = null
   let confettiActive = false
@@ -382,6 +415,8 @@
   }
 
   function startLevel() {
+    // reset / start per-level countdown
+    clearLevelTimer()
     if (level == 0) {
       playAudio('/wwwm/easy.mp3', 8.62, true)
     } else if (level == 5) {
@@ -409,6 +444,25 @@
     const button = $('#submit-button')
     button.disabled = true
     $('#tries').textContent = `Versuch ${4 - tries}/3:`
+    const bar = $('#time-bar')
+    if (bar) {
+      // instant reset to full width (remove transition for the reset frame)
+      bar.style.transition = 'none'
+      bar.style.width = '100%'
+      void bar.offsetWidth // force reflow
+      bar.style.transition = 'width 1s linear'
+    }
+    const start = Date.now()
+    levelTimerId = setInterval(() => {
+      const elapsed = Date.now() - start
+      const remaining = Math.max(0, LEVEL_TIME_MS - elapsed)
+      const frac = remaining / LEVEL_TIME_MS
+      if (bar) bar.style.width = (frac * 100).toFixed(2) + '%'
+      if (remaining <= 0) {
+        clearLevelTimer()
+        gameOver()
+      }
+    }, 1000)
   }
 
   const handleInput = (event) => {
@@ -454,9 +508,6 @@
     // Prevent reuse
     if (!joker) {
       alert('Der Joker wurde bereits verwendet!')
-      return
-    }
-    if (!confirm('Bist du sicher, dass du den Joker verwenden möchtest?')) {
       return
     }
     // Mark joker as used & hide control
@@ -524,6 +575,7 @@
       if (level == 14) {
         // final level
         playAudio('/wwwm/win.mp3')
+        clearLevelTimer()
         $('#main-screen').style.display = 'none'
         startCelebration()
       } else {
@@ -548,6 +600,7 @@
   }
 
   function gameOver() {
+    clearLevelTimer()
     playAudio('/wwwm/over.mp3')
     $('#main-screen').style.display = 'none'
     $('#game-over').style.display = 'block'
@@ -590,6 +643,7 @@
     if (!confirm('Bist du sicher, dass du das Spiel beenden möchtest?')) {
       return
     }
+    clearLevelTimer()
     if (currentAudio) {
       currentAudio.pause()
       currentAudio = null
@@ -604,6 +658,7 @@
     $('#back-button').style.display = 'block'
     $('#intro-screen').style.display = 'block'
     stopConfetti()
+    clearLevelTimer()
 
     if (currentAudio) {
       currentAudio.pause()

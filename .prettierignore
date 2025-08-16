@@ -2,6 +2,7 @@ public/**/*.js
 
 !public/worms/worms.js
 !public/worms/wormer.js
+!public/chat/client.js
 
 src/**/*.ejs
 

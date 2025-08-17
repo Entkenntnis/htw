@@ -14,11 +14,21 @@
   container = document.getElementById('comlink')
   header = document.getElementById('comlink-header')
 
+  let messagesStarted = false
+  let typing = false
+
   header.addEventListener('click', () => {
     const isExpanded = header.getAttribute('aria-expanded') === 'true'
+    if (!isExpanded && !messagesStarted) {
+      runMessage('start')
+      messagesStarted = true
+    }
     header.setAttribute('aria-expanded', !isExpanded)
     container.classList.toggle('expanded', !isExpanded)
   })
+
+  msgEl = document.getElementById('comlink-messages')
+  optionsEl = document.getElementById('comlink-options')
 
   // ============================================================
 
@@ -43,5 +53,74 @@
       </div>
     `
     document.body.appendChild(chatContainer)
+  }
+
+  async function runMessage(key) {
+    const message = DATA.messages[key]
+    if (!message) {
+      return
+    }
+    // Allow message.text to be either a single string or an array of strings
+    const texts = Array.isArray(message.text) ? message.text : [message.text]
+    for (const t of texts) {
+      if (typeof t !== 'string') continue
+      await typeMsg('system', t)
+    }
+
+    if (message.next) {
+      // if message has a next key, run that message
+      await new Promise((r) => setTimeout(r, 300))
+      runMessage(message.next)
+      return
+    }
+
+    await new Promise((r) => setTimeout(r, 150))
+    setOptions(message.options)
+  }
+
+  async function typeMsg(role, text) {
+    const wrap = document.createElement('div')
+    wrap.className = `comlink-msg ${role}`
+    const bubble = document.createElement('div')
+    bubble.className = 'comlink-bubble'
+    wrap.appendChild(bubble)
+    msgEl.appendChild(wrap)
+    typing = true
+    for (let i = 0; i < text.length; i++) {
+      bubble.textContent += text[i]
+      scrollToBottom()
+      await new Promise((r) => setTimeout(r, 12 + Math.random() * 25))
+    }
+    typing = false
+    scrollToBottom()
+  }
+
+  function scrollToBottom() {
+    msgEl.scrollTop = msgEl.scrollHeight
+  }
+  function clearOptions() {
+    optionsEl.innerHTML = ''
+  }
+
+  function setOptions(list) {
+    clearOptions()
+    list.forEach((opt) => {
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'comlink-opt-btn'
+      btn.textContent = opt.label
+      btn.addEventListener('click', () => selectOption(opt))
+      optionsEl.appendChild(btn)
+    })
+    scrollToBottom()
+  }
+
+  async function selectOption(opt) {
+    if (typing) {
+      return // ignore if already typing
+    }
+    clearOptions()
+    await typeMsg('user', opt.label)
+    runMessage(opt.next)
   }
 })()

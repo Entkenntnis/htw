@@ -13,7 +13,6 @@
     monospace;
 
   --comlink-text-dim: #76b4a2;
-  --comlink-border-glow: 162 100% 38%;
   --comlink-accent: #00bc8c;
   --comlink-accent-rgb: 0, 188, 140;
   --comlink-accent-dim: #00795c;
@@ -83,7 +82,7 @@
 
 #comlink-toggle {
   position: absolute;
-  top: 7px;
+  top: 8px;
   right: 6px;
   width: 24px;
   height: 24px;
@@ -94,4 +93,77 @@
 
 #comlink.expanded #comlink-toggle {
   transform: rotate(135deg);
+}
+
+#comlink-content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 37px);
+  filter: blur(10px);
+  transition: filter 100ms ease-in-out;
+}
+
+#comlink.expanded #comlink-content {
+  filter: blur(0);
+}
+
+#comlink-messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: none;
+  scrollbar-width: thin; /* Firefox */
+  min-height: 0;
+}
+
+#comlink-options {
+  flex: 0 0 auto; /* don’t shrink */
+  background-color: white;
+  min-height: 48px;
+}
+
+.comlink-msg {
+  margin: 10px;
+  display: flex;
+}
+.comlink-msg.system {
+  justify-content: flex-start;
+}
+.comlink-msg.user {
+  justify-content: flex-end;
+}
+.comlink-bubble {
+  max-width: 92%;
+  padding: 6px 8px 5px;
+  font-size: 11.5px;
+  border: 1px solid #0d3a2e;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.comlink-msg.system .comlink-bubble {
+  background: rgba(0, 188, 140, 0.08);
+  border-color: rgba(var(--comlink-accent-rgb), 0.5);
+}
+
+#comlink-options {
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.35));
+  border-top: 1px solid var(--comlink-accent-dim);
+}
+
+.comlink-opt-btn {
+  cursor: pointer;
+  border: 1px solid #0d3a2e;
+  background: rgba(0, 0, 0, 0.12);
+  color: var(--comlink-text);
+  font-size: 12px;
+  padding: 5px 10px 5px;
+  line-height: 1.15;
+  border-radius: 5px;
+  letter-spacing: 0;
+  max-width: 90%;
+  text-align: left;
 }

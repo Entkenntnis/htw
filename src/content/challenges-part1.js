@@ -125,13 +125,15 @@ export const part1 = [
           `
           <p>Hejo <strong>${req.user?.name}</strong>,</p>
 
-          <p>schön dich an Bord zu haben! Ich dachte fast, du verlässt unsere Heimat Naxion nie. Sirtach und ihre Wunder werden dir die Augen öffnen. Ich hoffe nur, dass wir bis dahin auf der zweimonatigen Reise durch den Weltraum nicht sterben - vor Langeweile.</p>
+          <p>schön dich an Bord zu haben! Ich dachte fast, du verlässt unsere Heimat Naxion nie. Sirtach und ihre Wunder werden dir die Augen öffnen. Ich hoffe nur, dass wir bis dahin auf der zweimonatigen Reise durch den Weltraum nicht sterben - vor LAAAANGEWEILE.</p>
 
           <p>Wobei, ich habe da was, das uns die Zeit vertreiben könnte. Bei meinen Studien zu den Bewohnern des Planeten &quot;Erde&quot; bin ich auf eine Aktivität namens &quot;Hacken&quot; gestoßen, die unglaublich süchtig macht. Seitdem ich das vor zwei Wochen entdeckt habe, kann ich einfach nicht mehr aufhören. Ich hab&apos;s Josh und Bex gezeigt und sie haben sich genauso anstecken lassen.</p>
 
           <p>Der Ablauf ist simpel: Es wird dir eine kleine Aufgabe gestellt, die du durch Finden der Antwort oder Interaktion mit der Webseite löst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich erscheint. Ich komme da manchmal auf die verrücktesten Ideen.</p>
 
           <p>Ich kann es kaum erwarten, es dir zu zeigen. Lasst uns gleich starten! Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>. Diese Zahl ist bei den Bewohnern der Erde auch als &quot;die Antwort&quot; bekannt 🤭</p>
+
+          <p>Und falls du Hilfe braucht, ping mich jederzeit über das COM-LINK.</p>
           
           <script src="/powerglitch.min.js"></script>
           <script>

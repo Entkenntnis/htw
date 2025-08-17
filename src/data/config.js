@@ -56,10 +56,7 @@ export const appConfig = {
   },
   map: {
     background: '/background.jpg',
-    backgroundLicenseHtml: `
-    <a href="http://www.flickr.com/photos/scotbot/9686457096">scotbot</a>
-    (<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>), Satellit: <a href="https://www.freepik.com/free-vector/illustration-satellite_2606121.htm" target="_blank">Image by rawpixel.com</a> on Freepik
-  `,
+    backgroundLicenseHtml: ``,
     centeringOffset: 0.5,
     width: 3000,
     height: 2400,

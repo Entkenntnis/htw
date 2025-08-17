@@ -103,7 +103,7 @@
     "back": "Login"
   },
   "map": {
-    "background": "Background:"
+    "background": ""
   },
   "statusBar": {
     "name": "Name:",

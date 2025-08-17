@@ -31,3 +31,7 @@ In production mode, the project uses a separate database. The password for this 
 ### Step 4: Adaptations
 
 Depending on how you host the project, other requirements may arise. Feel free to adapt the source code accordingly.
+
+### Credits
+
+Hintergrundbild (Milchstraße): scotbot, CC BY 2.0

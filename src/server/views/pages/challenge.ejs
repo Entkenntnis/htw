@@ -30,7 +30,7 @@ function goBack() {
     <% } %><% if (!props.challenge.date && props.challenge.author) { %><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
         <span style="color:gray"><%= t('created')%> <%= t('by') %> <%= props.challenge.author %></span>
     <% } %><% if (props.correct !== true) { %>
-      <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/hints/<%= props.challenge.id %>" style="color:gray">Hinweise (<%= props.hintsCount%>)</a>
+      <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><% if (props.noHints) { %><a href="/report-problem/<%= props.challenge.id %>" style="color:gray">Problem melden</a><% } else { %><a href="/hints/<%= props.challenge.id %>" style="color:gray">Hinweise (<%= props.hintsCount%>)</a><% } %>
     <% } %>
   </p>
 
@@ -50,7 +50,7 @@ function goBack() {
 
   <% if (props.correct === true) { %>
     <%- props.afterSolveText %>
-    <p><a href="<%=prefix%>/map"><%= t('continue') %></a></p>
+    <p><a href="<%=prefix%>/map" id="continue-button"><%= t('continue') %></a></p>
   <% } else { %>
     <%- props.html %>
     <% if (!props.challenge.hidesubmit) { %>
@@ -63,4 +63,10 @@ function goBack() {
 
   <div style="height:200px"></div>
 
+<% } %>
+
+<% if (locale === 'de') { %>
+  <link rel="stylesheet" href="/comlink/styles.css">
+  <script src="/comlink/data.js"></script>
+  <script src="/comlink/client.js"></script>
 <% } %>

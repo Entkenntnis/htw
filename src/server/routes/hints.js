@@ -2,6 +2,9 @@ import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
 
+// these challenges are transitioning to COM-LINK
+export const noHints = [1]
+
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {
   1: {
@@ -2168,6 +2171,44 @@ export function setupHints(App) {
     })
   })
 
+  App.express.get('/report-problem/:id', (req, res) => {
+    const id_ = req.params.id?.toString()
+    const id = id_ ? parseInt(id_) : -1
+
+    const challenge = App.challenges.dataMap[id]
+    const hints = hintsData[id]
+
+    if (!challenge) {
+      res.redirect('/')
+      return
+    }
+
+    renderPage(App, req, res, {
+      page: 'report-problem',
+      heading: `Problem melden für "${challenge.title['de']}"`,
+      backButton: false,
+      content: `
+      
+        <p><a href="/challenge/${id}">zurück</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">Karte</a></p>
+
+        <p style="margin-top: 64px;">Gibt es ein Problem bei der Aufgabe? Melde hier dein Anliegen. Deine Meldung hilft dabei, die Inhalte auf Hack The Web laufend weiterzuentwickeln.</p>
+
+        <form action="/hints/ask" method="post" style="max-width: 65ch; margin-top: 30px;">
+          <input type="hidden" name="id" value="${id}"/>
+          <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="Beschreibe dein Anliegen ..."></textarea>
+          <input type="submit" value="Problem melden" class="btn btn-primary"/>
+        </form>
+
+        <p style="margin-top: 48px;">Nutze auch gerne unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>:</p>
+        <p>
+          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 150px; background: #313131; padding-left:8px; padding-right: 8px; border-radius:4px; padding-top:2px; " alt="discord"></a>
+        </p>
+
+        <div style="height:150px;"></div>
+      `,
+    })
+  })
+
   App.express.post('/hints/ask', (req, res) => {
     /** @type {string} */
     const question = req.body.question?.toString()
@@ -2187,7 +2228,7 @@ export function setupHints(App) {
 
     renderPage(App, req, res, {
       page: 'ask',
-      heading: `Neue Frage`,
+      heading: `Anfrage abgeschickt!`,
       backButton: false,
       content: `
         <p style="margin-top: 48px;">Vielen Dank!</p>

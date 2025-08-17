@@ -2,6 +2,8 @@ public/**/*.js
 
 !public/worms/worms.js
 !public/worms/wormer.js
+!public/comlink/client.js
+!public/comlink/data.js
 
 src/**/*.ejs
 

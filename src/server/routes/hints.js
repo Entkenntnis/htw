@@ -3,7 +3,7 @@ import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
 
 // these challenges are transitioning to COM-LINK
-export const noHints = [1]
+export const withComlink = [1]
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {

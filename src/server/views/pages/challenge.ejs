@@ -30,7 +30,7 @@ function goBack() {
     <% } %><% if (!props.challenge.date && props.challenge.author) { %><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
         <span style="color:gray"><%= t('created')%> <%= t('by') %> <%= props.challenge.author %></span>
     <% } %><% if (props.correct !== true) { %>
-      <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><% if (props.noHints) { %><a href="/report-problem/<%= props.challenge.id %>" style="color:gray">Problem melden</a><% } else { %><a href="/hints/<%= props.challenge.id %>" style="color:gray">Hinweise (<%= props.hintsCount%>)</a><% } %>
+      <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><% if (props.withComlink) { %><a href="/report-problem/<%= props.challenge.id %>" style="color:gray">Problem melden</a><% } else { %><a href="/hints/<%= props.challenge.id %>" style="color:gray">Hinweise (<%= props.hintsCount%>)</a><% } %>
     <% } %>
   </p>
 
@@ -65,8 +65,8 @@ function goBack() {
 
 <% } %>
 
-<% if (locale === 'de') { %>
+<% if (locale === 'de' && props.withComlink) { %>
   <link rel="stylesheet" href="/comlink/styles.css">
-  <script src="/comlink/data.js"></script>
+  <script src="/comlink/<%=props.challenge.id%>.js"></script>
   <script src="/comlink/client.js"></script>
 <% } %>

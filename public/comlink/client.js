@@ -3,7 +3,7 @@
   const url = new URL(window.location.href)
   const challengeId = parseInt(url.pathname.split('/').pop())
 
-  const DATA = COM_TREE[challengeId]
+  const DATA = COM_TREE
   if (!DATA) {
     return // not available for this challenge
   }
@@ -18,6 +18,26 @@
   injectChat()
   container = document.getElementById('comlink')
   header = document.getElementById('comlink-header')
+  resetEl = document.getElementById('comlink-reset')
+  resetEl.addEventListener('click', () => {
+    if (typing) return
+    state = { messages: [], options: [] }
+    msgEl.innerHTML = '' // clear messages
+    msgEl.appendChild(resetEl) // re-add reset button
+    optionsEl.innerHTML = ''
+    clearOptions()
+    saveState()
+    runMessage('start') // restart conversation
+  })
+
+  // don't pass on scroll events to the body
+  container.addEventListener(
+    'scroll',
+    (e) => {
+      e.stopPropagation()
+    },
+    { passive: true }
+  )
 
   let messagesStarted = false
   let typing = false
@@ -64,7 +84,7 @@
           </svg>
         </div>
         <div id="comlink-content" role="region" aria-live="polite" aria-label="Conversation with KIWI">
-          <div id="comlink-messages"></div>
+          <div id="comlink-messages"><div id="comlink-reset">Chat zurücksetzen</div></div>
           <div id="comlink-options" aria-label="Response Options"></div>
         </div>
       </div>

@@ -34,4 +34,4 @@ Depending on how you host the project, other requirements may arise. Feel free t
 
 ### Credits
 
-Hintergrundbild (Milchstraße): scotbot, CC BY 2.0
+Background image (milky way): scotbot, CC BY 2.0

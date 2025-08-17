@@ -1,0 +1,97 @@
+:root {
+  --comlink-bg: radial-gradient(
+    circle at 20% 110%,
+    #0f2e26 0%,
+    #081d18 60%,
+    #04100d 100%
+  );
+  --comlink-border: #0d6f56;
+  --comlink-shadow: 0 0 0 1px #0d3a2e, 0 0 4px #06231b,
+    0 0 12px rgba(0, 188, 140, 0.28);
+  --comlink-text: #dbf7f0;
+  --comlink-font: 'Consolas', 'SFMono-Regular', ui-monospace, 'Roboto Mono',
+    monospace;
+
+  --comlink-text-dim: #76b4a2;
+  --comlink-border-glow: 162 100% 38%;
+  --comlink-accent: #00bc8c;
+  --comlink-accent-rgb: 0, 188, 140;
+  --comlink-accent-dim: #00795c;
+  --comlink-accent-soft: #38e1b8;
+}
+
+#comlink {
+  position: fixed;
+  right: 24px;
+  bottom: -512px;
+  width: 300px;
+  height: 560px;
+  transition:
+    bottom 340ms cubic-bezier(0.4, 0.14, 0.18, 1),
+    box-shadow 300ms ease-in-out;
+
+  background: var(--comlink-bg);
+
+  border: 1px solid var(--comlink-border);
+  border-bottom: none;
+  border-radius: 9px 9px 0 0;
+
+  font-family: var(--comlink-font);
+  color: var(--comlink-text);
+}
+
+#comlink.expanded {
+  bottom: 0px;
+  box-shadow: var(--comlink-shadow);
+}
+
+#comlink-header {
+  position: relative;
+  padding: 6px 40px 6px 6px;
+  height: 37px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  font-size: 13px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.2;
+  background: linear-gradient(
+    94deg,
+    rgba(var(--comlink-accent-rgb), 0.18),
+    rgba(var(--comlink-accent-rgb), 0.04) 60%,
+    rgba(var(--comlink-accent-rgb), 0.14)
+  );
+  border-bottom: 1px solid #0d2d24;
+}
+
+#comlink-title-text {
+  flex: 1 1 auto;
+  color: var(--comlink-text-dim);
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+#comlink-character {
+  text-shadow: 0 0 2px rgba(var(--comlink-accent-rgb), 0.55);
+  color: var(--comlink-text);
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+#comlink-toggle {
+  position: absolute;
+  top: 7px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5px;
+  color: var(--comlink-accent);
+  transition: transform 300ms ease-in-out;
+}
+
+#comlink.expanded #comlink-toggle {
+  transform: rotate(135deg);
+}

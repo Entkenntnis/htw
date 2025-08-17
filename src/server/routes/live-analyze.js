@@ -198,6 +198,9 @@ export function setupLiveAnalyze(App) {
       for (const r of rows) {
         const key = /** @type {string} */ (r.key)
         const uid = /** @type {number|null} */ (r.userId)
+        if (uid == 75754) {
+          continue // temporary: Skip ipad user events
+        }
         let agg = byKey.get(key)
         if (!agg) {
           agg = { total: 0, users: new Set(), perUser: new Map() }

@@ -1,7 +1,7 @@
 import { Op, Transaction } from 'sequelize'
 import bcrypt from 'bcryptjs'
 import { renderPage } from '../../helper/render-page.js'
-import { hintsData } from './hints.js'
+import { hintsData, noHints } from './hints.js'
 import { generateWeChallToken } from '../../helper/helper.js'
 
 /**
@@ -526,6 +526,7 @@ export function setupChallenges(App) {
         hintsCount,
         afterSolveText,
         ratio,
+        noHints: noHints.includes(id),
       },
       backButton: false,
       title: challengeTitle,

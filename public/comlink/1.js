@@ -51,7 +51,20 @@ const COM_TREE = {
           label: 'Ja, daran erinnere ich mich ...',
           next: 'prompt-first-step',
         },
-        { label: 'Kannst du das nochmal erklären?', next: 'explain' },
+        { label: 'Kannst du das genauer erklären?', next: 'explain2' },
+      ],
+    },
+    explain2: {
+      text: [
+        'Punktrechnungen (Multiplikation, Division) werden vor Strichrechnungen (Addition, Subtraktion) durchgeführt. Das ist unabhängig von der Reihenfolge der Rechnungen.',
+        'Wenn also zuerst eine Addition und dann eine Multiplikation kommt, wird die Multiplikation trotzdem zuerst gerechnet.',
+        'Beispiel: 3 + 4 · 5. Obwohl die Addition vorne steht, wird die Multiplikation zuerst gerechnet.',
+      ],
+      options: [
+        {
+          label: 'OK, jetzt verstehe ich es!',
+          next: 'prompt-first-step',
+        },
       ],
     },
     'prompt-first-step': {

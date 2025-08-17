@@ -30,15 +30,6 @@
     runMessage('start') // restart conversation
   })
 
-  // don't pass on scroll events to the body
-  container.addEventListener(
-    'scroll',
-    (e) => {
-      e.stopPropagation()
-    },
-    { passive: true }
-  )
-
   let messagesStarted = false
   let typing = false
 
@@ -56,6 +47,24 @@
 
   msgEl = document.getElementById('comlink-messages')
   optionsEl = document.getElementById('comlink-options')
+
+  function handler(e) {
+    let cur = e.target
+    while (!cur.id) {
+      cur = cur.parentElement
+      if (!cur) return // no parent found, stop
+    }
+    if (
+      cur.id == 'comlink-messages' &&
+      msgEl.scrollHeight > msgEl.clientHeight
+    ) {
+      return // allow scrolling in messages
+    }
+    e.preventDefault()
+  }
+  // don't pass on scroll events to the body
+  container.addEventListener('wheel', handler, { passive: false })
+  container.addEventListener('touchmove', handler, { passive: false })
 
   // Attempt restore after elements exist
   let restored = false

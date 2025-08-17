@@ -1,6 +1,6 @@
 // special keys:
 // - "start" when user starts the conversation
-// - "nudge" when UI triggers a message
+// - "nudge" when UI triggers a message (not implemented yet)
 
 const COM_TREE = {
   1: {

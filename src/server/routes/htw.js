@@ -20,6 +20,85 @@ export function setupHtw(App) {
     })
   })
 
+  App.express.get('/export-data', async (req, res) => {
+    if (!req.user) {
+      res.status(403).send('Forbidden')
+      return
+    }
+    try {
+      const username = req.user.name
+
+      let output = `HTW Data Export for ${username}\n`
+      output += `Generated at ${new Date().toISOString()}\n\n`
+
+      output += `User Information: ${JSON.stringify(req.user)}\n`
+
+      // Fetch all solutions for the user
+      const solutions = await App.db.models.Solution.findAll({
+        where: { UserId: req.user.id },
+        raw: true,
+      })
+
+      output += `\nSolutions:\n`
+      if (solutions.length === 0) {
+        output += `No solutions found for user ${username}.\n`
+      }
+      solutions.forEach((sol) => {
+        output += `Challenge ID: ${sol.cid}, Timestamp: ${sol.createdAt}\n`
+      })
+
+      // Mortal Coil Level mortalcoil_<id> in KVPairs
+      const mortalCoilLevels = await App.db.models.KVPair.findAll({
+        where: {
+          key: 'mortalcoil_' + req.user.id,
+        },
+        raw: true,
+      })
+      if (mortalCoilLevels.length > 0) {
+        output += `\nMortal Coil Level: ${mortalCoilLevels[0].value}\n`
+      }
+
+      // Same for please_fix_me_records_27036
+      const pleaseFixMeRecords = await App.db.models.KVPair.findAll({
+        where: {
+          key: 'please_fix_me_records_' + req.user.id,
+        },
+        raw: true,
+      })
+
+      if (pleaseFixMeRecords.length > 0) {
+        output += `\nPlease Fix Me Records: ${pleaseFixMeRecords[0].value}\n`
+      }
+
+      // Bots
+      const bots = await App.db.models.WormsBotDraft.findAll({
+        where: { UserId: req.user.id },
+        raw: true,
+      })
+
+      output += `\nWorms Bots:\n`
+      if (bots.length === 0) {
+        output += `No Worms bots found for user ${username}.\n`
+      }
+      bots.forEach((bot) => {
+        output += `Bot ID: ${bot.id}, Name: ${bot.name}, Created At: ${bot.createdAt}\n`
+        // include source code
+        output += `Source Code:\n${bot.code}\n\n`
+      })
+
+      // offer output as txt download
+      res.setHeader(
+        'Content-disposition',
+        `attachment; filename=${username}-htw-data.txt`
+      )
+      res.setHeader('Content-type', 'text/plain')
+      res.send(output)
+    } catch (err) {
+      console.error('Error during /export-data generation', err)
+      if (!res.headersSent) res.send('Error')
+    }
+  })
+
   App.express.get('/api/top100', async (req, res) => {
     const users = await App.db.models.User.findAll({
       attributes: ['name', 'score', 'updatedAt'],

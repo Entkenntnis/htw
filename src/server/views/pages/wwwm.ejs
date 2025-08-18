@@ -5,8 +5,18 @@
 <div style="max-width: 65ch; margin: 0 auto" id="intro-screen">
   <!-- pre-game stuff -->
   <div style="display: flex; justify-content: center; margin-bottom: 20px">
-    <img src="/wwwm/logo.png" style="width: 100%; max-width: 400px" />
+    <img src="/wwwm/logo.png" style="width: 100%; max-width: 200px" />
   </div>
+
+  <button
+    id="start-button"
+    class="btn btn-success btn-lg"
+    disabled
+    style="display: block; margin: 0 auto; width: 300px; margin-bottom: 20px"
+    onclick="startGame()"
+  >
+    ... Spiel wird geladen ...
+  </button>
 
   <div>
     <p>
@@ -20,15 +30,6 @@
       liefert.
     </p>
     <p>Schaffst du es in 15 Fragen zum Wort-Millionär?</p>
-    <button
-      id="start-button"
-      class="btn btn-success btn-lg"
-      disabled
-      style="display: block; margin: 0 auto; width: 300px"
-      onclick="startGame()"
-    >
-      ... Spiel wird geladen ...
-    </button>
   </div>
 </div>
 <div

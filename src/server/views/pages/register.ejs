@@ -26,7 +26,6 @@
             maxlength="<%=App.config.accounts.maxUsername%>"
             pattern="<%=App.config.accounts.regex.source%>"
             autofocus
-            oninput="checkUsername()"
           >
           <small><%= t('usernameNote', {minUsername: App.config.accounts.minUsername}) %></small>
           <span id="msg-span" style="margin-left:12px;font-size:13px;vertical-align:-1px;">test</span>
@@ -127,6 +126,9 @@
     msgSpan.innerHTML = state.msg ? state.msg : '&nbsp;'
     msgSpan.className = state.class
   }
+
+  nameInput.addEventListener('input', checkUsername)
+
   
   function checkUsername() {
     const name = nameInput.value.trim()

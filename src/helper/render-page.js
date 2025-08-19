@@ -12,13 +12,8 @@ export function renderPage(App, req, res, opts) {
 
   const i18n = App.i18n.get(req.lng)
 
-  /**
-   * Translation helper that tries page-prefixed, then 'share', then raw key.
-   * Falls back to returning the key itself if no translation exists.
-   * @param {string} key
-   * @param {any} [opts] optional interpolation / formatting options passed to i18n
-   */
-  const t = function (key, opts) {
+  // REMARK: automatically prefix page or 'share'
+  const t = function (/** @type {string} */ key, /** @type {any} */ opts) {
     const pageKey = page + '.' + key
     if (i18n.exists(pageKey)) {
       return i18n.t(pageKey, opts)

@@ -782,9 +782,8 @@ export const part1 = [
       de: story(
         'Kiwi',
         `
-        <p>Das System möchte wissen, wie du heißt. Sollte eigentlich nicht schwer sein, deinen Namen einzugeben. Doch irgendwie gerät die Eingabe durcheinander.</p>
+        <p>Das System möchte wissen, wie du heißt: gib deinen Benutzernamen als Antwort ein. Doch irgendwie gerät die Eingabe durcheinander.</p>
 
-        <p>Die Antwort ist dein Benutzername.</p>
       `
       ),
       en: story(

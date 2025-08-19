@@ -6,11 +6,11 @@
     #04100d 100%
   );
   --comlink-border: #0d6f56;
-  --comlink-shadow: 0 0 0 1px #0d3a2e, 0 0 4px #06231b,
-    0 0 12px rgba(0, 188, 140, 0.28);
+  --comlink-shadow:
+    0 0 0 1px #0d3a2e, 0 0 4px #06231b, 0 0 12px rgba(0, 188, 140, 0.28);
   --comlink-text: #dbf7f0;
-  --comlink-font: 'Consolas', 'SFMono-Regular', ui-monospace, 'Roboto Mono',
-    monospace;
+  --comlink-font:
+    'Consolas', 'SFMono-Regular', ui-monospace, 'Roboto Mono', monospace;
 
   --comlink-text-dim: #76b4a2;
   --comlink-accent: #00bc8c;
@@ -143,6 +143,9 @@
 }
 .comlink-msg.user {
   justify-content: flex-end;
+}
+.comlink-msg.long .comlink-bubble {
+  width: 92%;
 }
 .comlink-bubble {
   max-width: 92%;

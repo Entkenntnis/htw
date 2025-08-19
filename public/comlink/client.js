@@ -130,7 +130,7 @@
 
   async function typeMsg(role, text) {
     const wrap = document.createElement('div')
-    wrap.className = `comlink-msg ${role}`
+    wrap.className = `comlink-msg ${role} ${role == 'user' ? 'long' : ''}`
     const bubble = document.createElement('div')
     bubble.className = 'comlink-bubble'
     wrap.appendChild(bubble)

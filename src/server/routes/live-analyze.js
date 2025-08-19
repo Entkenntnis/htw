@@ -200,7 +200,7 @@ export function setupLiveAnalyze(App) {
     for (const r of rows) {
       const key = r.key
       const uid = r.userId
-      if (uid == 75754) {
+      if (uid == 74754) {
         continue // temporary: Skip ipad user events
       }
       let agg = byKey.get(key)

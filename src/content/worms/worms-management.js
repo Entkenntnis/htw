@@ -174,7 +174,7 @@ export function setupWormsManagement(App) {
         return
       }
 
-      const name = req.body.name ? req.body.name.toString() : ''
+      const name = req.body?.name ? req.body.name.toString() : ''
 
       if (!name || name.length > 32) {
         res.send('Fehler: Name fehlt oder zu lang (maximal 32 Zeichen)')
@@ -237,7 +237,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         return
       }
 
-      const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
+      const id = req.body?.id ? parseInt(req.body.id.toString()) : NaN
 
       if (isNaN(id)) {
         res.sendStatus(400)
@@ -260,8 +260,8 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         return
       }
 
-      const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
-      const name = req.body.name ? req.body.name.toString() : ''
+      const id = req.body?.id ? parseInt(req.body.id.toString()) : NaN
+      const name = req.body?.name ? req.body.name.toString() : ''
 
       if (isNaN(id) || !name || name.length > 32) {
         res.sendStatus(400)
@@ -449,14 +449,14 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         return
       }
 
-      const id = req.body.id ? parseInt(req.body.id.toString()) : NaN
+      const id = req.body?.id ? parseInt(req.body.id.toString()) : NaN
 
       if (isNaN(id)) {
         res.send('Invalid ID')
         return
       }
 
-      const code = req.body.code ? req.body.code.toString() : ''
+      const code = req.body?.code ? req.body.code.toString() : ''
 
       // ensure code is not too long
       if (code.length > 100000) {

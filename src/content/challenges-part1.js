@@ -4403,7 +4403,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         'survey_v1_' + req.user?.id + '_' + new Date().getTime(),
         result
       )
-      if (!req.body.agree) {
+      if (!req.body?.agree) {
         return {
           answer: 'Keine Formulardaten erhalten',
           correct: false,

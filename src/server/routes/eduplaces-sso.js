@@ -174,7 +174,7 @@ export function setupEduplacesSSO(App) {
   )
 
   App.express.post('/sso/logout', async (req, res) => {
-    const logout_token = req.body.logout_token?.toString() ?? ''
+    const logout_token = req.body?.logout_token?.toString() ?? ''
 
     if (!logout_token) {
       res.status(400).send('Missing logout_token')

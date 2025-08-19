@@ -2,7 +2,7 @@ const COM_TREE = {
   character: 'KIWI',
   messages: {
     start: {
-      text: 'PUh ... ich hoffe deine Augen sind nicht ausgetrocknet.',
+      text: 'Puh ... ich hoffe deine Augen sind nicht ausgetrocknet.',
       next: 'entry',
     },
     entry: {

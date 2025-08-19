@@ -67,14 +67,16 @@
   container.addEventListener('touchmove', handler, { passive: false })
 
   // Attempt restore after elements exist
-  let restored = false
-  // defer until next tick so msgEl/optionsEl are ready
-  setTimeout(() => {
-    restored = restoreState()
-    if (restored) {
-      messagesStarted = true // prevent auto start
-    }
-  }, 0)
+  if (!DATA.dev) {
+    let restored = false
+    // defer until next tick so msgEl/optionsEl are ready
+    setTimeout(() => {
+      restored = restoreState()
+      if (restored) {
+        messagesStarted = true // prevent auto start
+      }
+    }, 0)
+  }
 
   // ============================================================
 

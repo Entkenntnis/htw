@@ -241,7 +241,7 @@ export function setupChallenges(App) {
     if (
       id &&
       req.user.id &&
-      req.body.answer &&
+      req.body?.answer &&
       App.challenges.data.some((c) => c.id === id)
     ) {
       const key = req.user.id + '-' + id
@@ -350,7 +350,7 @@ export function setupChallenges(App) {
     let rawAnswer = false
 
     try {
-      if (typeof req.body.answer === 'string') {
+      if (typeof req.body?.answer === 'string') {
         const result = await check(req.body.answer || '', { req, App })
         if (typeof result == 'object' && result.answer !== undefined) {
           answer = result.answer
@@ -359,7 +359,7 @@ export function setupChallenges(App) {
             rawAnswer = true
           }
         } else {
-          answer = req.body.answer
+          answer = req.body?.answer
           correct = !!result
         }
       }
@@ -725,8 +725,8 @@ export function setupChallenges(App) {
     // end guard
 
     const i18n = App.i18n.get(req.lng)
-    const username = req.body.confirmation || ''
-    if (!App.csrf.verify(req, req.body.csrf)) {
+    const username = req.body?.confirmation || ''
+    if (!App.csrf.verify(req, req.body?.csrf)) {
       req.flash('delete', i18n.t('register.invalidToken'))
     } else {
       if (username === req.user.name) {
@@ -788,11 +788,11 @@ export function setupChallenges(App) {
     // end guard
 
     const i18n = App.i18n.get(req.lng)
-    const pw = req.body.pw || ''
-    const newpw1 = req.body.newpw1 || ''
-    const newpw2 = req.body.newpw2 || ''
+    const pw = req.body?.pw || ''
+    const newpw1 = req.body?.newpw1 || ''
+    const newpw2 = req.body?.newpw2 || ''
 
-    if (!App.csrf.verify(req, req.body.csrf)) {
+    if (!App.csrf.verify(req, req.body?.csrf)) {
       req.flash('changepw', i18n.t('register.invalidToken'))
     } else {
       const success = await bcrypt.compare(pw, req.user.password)

@@ -2211,8 +2211,8 @@ export function setupHints(App) {
 
   App.express.post('/hints/ask', (req, res) => {
     /** @type {string} */
-    const question = req.body.question?.toString()
-    const id_ = req.body.id?.toString()
+    const question = req.body?.question?.toString()
+    const id_ = req.body?.id?.toString()
 
     const id = id_ ? parseInt(id_) : -1
 

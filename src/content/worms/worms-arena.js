@@ -590,8 +590,8 @@ export function setupWormsArena(App) {
         return
       }
 
-      const botId = req.body.bot ? parseInt(req.body.bot.toString()) : NaN
-      const opponentId = req.body.opponent
+      const botId = req.body?.bot ? parseInt(req.body.bot.toString()) : NaN
+      const opponentId = req.body?.opponent
         ? parseInt(req.body.opponent.toString())
         : NaN
 

@@ -59,13 +59,13 @@ export function setupUser(App) {
 
   App.express.post('/register', async (req, res) => {
     /** @type {string} */
-    const username = (req.body.username || '').trim()
+    const username = (req.body?.username || '').trim()
     /** @type {string} */
-    const pw1 = req.body.pw1 || ''
+    const pw1 = req.body?.pw1 || ''
     /** @type {string} */
-    const pw2 = req.body.pw2 || ''
+    const pw2 = req.body?.pw2 || ''
     /** @type {string} */
-    const room = req.body.room
+    const room = req.body?.room
     let roomId
 
     const i18n = App.i18n.get(req.lng)
@@ -86,7 +86,7 @@ export function setupUser(App) {
     }
 
     async function check() {
-      if (!App.csrf.verify(req, req.body.csrf))
+      if (!App.csrf.verify(req, req.body?.csrf))
         return i18n.t('register.invalidToken')
       if (username.length < App.config.accounts.minUsername)
         return i18n.t('register.nameTooShort')
@@ -204,7 +204,7 @@ export function setupUser(App) {
   })
 
   App.express.post('/join', async (req, res) => {
-    const room = req.body.room
+    const room = req.body?.room
     if (!room) {
       res.redirect('/')
       return
@@ -237,7 +237,7 @@ export function setupUser(App) {
   })
 
   App.express.post('/create', async (req, res) => {
-    const room = req.body.room
+    const room = req.body?.room
     if (!room) {
       res.redirect('/')
       return
@@ -295,8 +295,8 @@ export function setupUser(App) {
   })
 
   App.express.post('/login', async (req, res) => {
-    const username = (req.body.username || '').trim()
-    const password = req.body.password || ''
+    const username = (req.body?.username || '').trim()
+    const password = req.body?.password || ''
     const user = await App.db.models.User.findOne({
       where: { name: username },
     })

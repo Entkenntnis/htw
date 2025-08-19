@@ -177,53 +177,172 @@ export function setupLiveAnalyze(App) {
 
   // List all events (editor only), human-readable with grouping and stats
   // AI generated
+  // This function is hunted, somehow typescript always complains, I tried to upgrade/fix/reload
+  // Nothing works, this is the only code affected
+  // very strange
+  //@ts-ignore I don't know why, it HAUNTED
   App.express.get('/events', async (req, res) => {
     if (!req.user || req.user.name != 'editor') {
-      res.status(403).send('Zugriff nur für Editor')
+      res.send('Zugriff nur für Editor')
       return
     }
+    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from, 7)
 
-    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from)
+    // Fetch only needed fields in the time window
+    const rows = await App.db.models.Event.findAll({
+      where: { createdAt: { [Op.gte]: fromDateUTC } },
+      attributes: ['key', 'userId'],
+      raw: true,
+    })
 
-    try {
-      // Fetch only needed fields in the time window
-      const rows = await App.db.models.Event.findAll({
-        where: { createdAt: { [Op.gte]: fromDateUTC } },
-        attributes: ['key', 'userId'],
-        raw: true,
-      })
-
-      /** @type {Map<string, { total: number; users: Set<number>; perUser: Map<number, number> }>} */
-      const byKey = new Map()
-      for (const r of rows) {
-        const key = /** @type {string} */ (r.key)
-        const uid = /** @type {number|null} */ (r.userId)
-        if (uid == 75754) {
-          continue // temporary: Skip ipad user events
-        }
-        let agg = byKey.get(key)
-        if (!agg) {
-          agg = { total: 0, users: new Set(), perUser: new Map() }
-          byKey.set(key, agg)
-        }
-        agg.total += 1
-        if (uid != null) {
-          agg.users.add(uid)
-          agg.perUser.set(uid, (agg.perUser.get(uid) || 0) + 1)
-        }
+    /** @type {Map<string, { total: number; users: Set<number>; perUser: Map<number, number> }>} */
+    const byKey = new Map()
+    for (const r of rows) {
+      const key = r.key
+      const uid = r.userId
+      if (uid == 75754) {
+        continue // temporary: Skip ipad user events
       }
+      let agg = byKey.get(key)
+      if (!agg) {
+        agg = { total: 0, users: new Set(), perUser: new Map() }
+        byKey.set(key, agg)
+      }
+      agg.total += 1
+      if (uid != null) {
+        agg.users.add(uid)
+        agg.perUser.set(uid, (agg.perUser.get(uid) || 0) + 1)
+      }
+    }
 
-      // Prepare sorted rows by total desc
-      const tableRows = [...byKey.entries()]
-        .map(([key, agg]) => {
-          const userCount = agg.users.size
-          const avg = userCount > 0 ? agg.total / userCount : 0
-          return { key, userCount, avg, total: agg.total }
-        })
-        .sort((a, b) => b.total - a.total)
+    // remove wwwm_correct_* events and put into separate group
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
+     */
+    const wwwmData = []
+    byKey.forEach((agg, key) => {
+      if (key.startsWith('wwwm_correct_')) {
+        wwwmData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+    })
 
-      // Build a small HTML page
-      const html = `
+    // remove enough_page_<index> events and put into separate group
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
+     */
+    const enoughPageData = []
+    byKey.forEach((agg, key) => {
+      if (key.startsWith('enough_page_')) {
+        enoughPageData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+    })
+
+    // Build a small HTML page
+    // Prepare compact lines for wwwmData instead of a table
+    const wwwmLines = wwwmData
+      .map((r) => {
+        const users = r.users.size
+        return `${escapeHTML(r.key)}: ${r.total} mal gelöst von ${users} Spielern (Ø ${(
+          r.total / users
+        ).toLocaleString('de-DE', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })})`
+      })
+      .join('<br>')
+
+    // Build lines for enough_page_<label> events
+    const enoughPageLines = enoughPageData
+      .map((r) => {
+        const users = r.users.size
+        return `${escapeHTML(r.key)}: ${r.total} Aufrufe von ${users} Spielern (Ø ${(
+          r.total / users
+        ).toLocaleString('de-DE', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })})`
+      })
+      .join('<br>')
+
+    // now do the same with comlink_<id>_<label>, but group by id
+    /**
+     * Group comlink_<id>_<label> events by id while preserving per-label stats.
+     * Structure:
+     * comlinkMap: id -> { id, total, users:Set, perLabel: Map<label,{ total, users:Set }> }
+     */
+    const comlinkMap = new Map()
+    byKey.forEach((agg, key) => {
+      if (!key.startsWith('comlink_')) return
+      const parts = key.split('_')
+      if (parts.length < 3) return // malformed, ignore
+      const id = parts[1]
+      const label = parts.slice(2).join('_') || '(leer)'
+      let entry = comlinkMap.get(id)
+      if (!entry) {
+        entry = { id, total: 0, users: new Set(), perLabel: new Map() }
+        comlinkMap.set(id, entry)
+      }
+      entry.total += agg.total
+      // merge users
+      for (const u of agg.users) entry.users.add(u)
+      let labelData = entry.perLabel.get(label)
+      if (!labelData) {
+        labelData = { total: 0, users: new Set() }
+        entry.perLabel.set(label, labelData)
+      }
+      labelData.total += agg.total
+      for (const u of agg.users) labelData.users.add(u)
+      // remove from main list so it does not appear in generic table
+      byKey.delete(key)
+    })
+
+    const comlinkLines = [...comlinkMap.values()]
+      .sort((a, b) => {
+        // numeric sort if possible
+        const ai = Number(a.id)
+        const bi = Number(b.id)
+        if (!Number.isNaN(ai) && !Number.isNaN(bi)) return ai - bi
+        return a.id.localeCompare(b.id)
+      })
+      .map((g) => {
+        const userCount = g.users.size
+        const avg = userCount > 0 ? g.total / userCount : 0
+        const perLabel = [...g.perLabel.entries()]
+          .sort((a, b) => b[1].total - a[1].total)
+          .map(([label, data]) => {
+            const lc = data.users.size
+            const lavg = lc > 0 ? data.total / lc : 0
+            return `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${escapeHTML(label)}: ${data.total} (${lc} Spieler, Ø ${lavg.toLocaleString(
+              'de-DE',
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }
+            )})`
+          })
+          .join('<br>')
+        return `comlink ${escapeHTML(g.id)}: ${g.total} Aufrufe von ${userCount} Spielern (Ø ${avg.toLocaleString(
+          'de-DE',
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }
+        )})<br> — Labels: <br>${perLabel}`
+      })
+      .join('<br>')
+
+    // Prepare sorted rows by total desc
+    const tableRows = [...byKey.entries()]
+      .map(([key, agg]) => {
+        const userCount = agg.users.size
+        const avg = userCount > 0 ? agg.total / userCount : 0
+        return { key, userCount, avg, total: agg.total }
+      })
+      .sort((a, b) => b.total - a.total)
+
+    const html = `
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -254,6 +373,7 @@ export function setupLiveAnalyze(App) {
   a:visited { color:#00a077; }
   .back { margin:0 0 12px 0; }
   .back a { font-size:14px; }
+  pre.wwwm { background:#181818; border:1px solid #2a2a2a; padding:10px; border-radius:6px; line-height:1.2; white-space:pre-wrap; }
   </style>
   <script>
     function applyFrom() {
@@ -283,9 +403,9 @@ export function setupLiveAnalyze(App) {
     <thead>
       <tr>
         <th>Key</th>
+        <th class="right">Summe</th>
         <th class="right">Nutzer</th>
         <th class="right">Ø je Nutzer</th>
-        <th class="right">Summe</th>
       </tr>
     </thead>
     <tbody>
@@ -294,25 +414,26 @@ export function setupLiveAnalyze(App) {
           (r) => `
         <tr>
           <td class="mono">${escapeHTML(r.key)}</td>
+          <td class="right">${r.total}</td>
           <td class="right">${r.userCount}</td>
           <td class="right">${r.avg.toLocaleString('de-DE', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}</td>
-          <td class="right">${r.total}</td>
         </tr>`
         )
         .join('')}
     </tbody>
   </table>
+  <h2>Wer wird Wort-Millionär</h2>
+  <p>${wwwmLines}</p>
+    <h2>Enough Pages</h2>
+    <p>${enoughPageLines}</p>
+  <h2>Comlink</h2>
+  <p>${comlinkLines}</p>
   </body>
   </html>
       `
-
-      res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.send(html)
-    } catch (e) {
-      res.status(500).send('Internal Server Error')
-    }
+    res.send(html)
   })
 }

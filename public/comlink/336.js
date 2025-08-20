@@ -63,7 +63,7 @@ const COM_TREE = {
       options: [{ label: 'Danke!', next: 'start' }],
     },
     block: {
-      text: ['Ich gib dir vier Möglichkeiten zur Auswahl:'],
+      text: ['Ich gebe dir vier Möglichkeiten zur Auswahl:'],
       options: [
         { label: 'Bruchstein', next: 'wrong' },
         { label: 'Granit', next: 'wrong' },

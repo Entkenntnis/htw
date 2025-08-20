@@ -88,7 +88,7 @@
       <div id="comlink" role="dialog" aria-labelledby="comlink-header" aria-describedby="comlink-content">
         <div id="comlink-header" role="button" tabindex="0" aria-label="Toggle COM-LINK" aria-expanded="false">
           <span class="led" aria-hidden="true"></span>
-          <span id="comlink-title-text">COM-LINK&nbsp;&nbsp;<span id="comlink-character">KIWI</span></span>
+          <span id="comlink-title-text">COM-LINK&nbsp;&nbsp;<span id="comlink-character">${DATA.character}</span></span>
           <svg id="comlink-toggle" aria-hidden="true" viewBox="0 0 24 24" focusable="false">
             <line x1="12" y1="5" x2="12" y2="19" stroke-linecap="round" stroke="currentColor"/>
             <line x1="5" y1="12" x2="19" y2="12" stroke-linecap="round" stroke="currentColor" />

@@ -4433,19 +4433,19 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Meine Mutter hat mir das Spiel damals geschenkt und ich habe mich so darüber gefreut, es das erste Mal zu spielen. Aber das ist schon lange her, bevor all dieser Weltraumkram begonnen hat. Ich vermisse diese Zeit wirklich.</p>
 
-        <p>Ich kenne mich aber immer noch gut aus, du hoffentlich auch. Deine Antwort ist die Block-ID von diesem Block.</p>
+        <p>Ich kenne mich aber immer noch gut aus, du hoffentlich auch. Deine Antwort ist die Block-ID (numerisch oder mit Namespace) von diesem Block.</p>
 
         <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
-        <p style="text-align: left; margin-top: -16px;"><small style="color: gray;" title ="ascii">Hinweis für Nicht-Minecraftler: 98 101 100 114 111 99 107 32 105 100 32 55 </small></p>
+        <p style="text-align: left; margin-top: -16px;"><small style="color: gray;" title ="ascii">Wenn du kein Minecraft spielst, findest du Hilfe im COM-LINK.</small></p>
       `
       ),
       en: `
-        <p>What is the block-ID for this block?</p>
+        <p>What is the block-ID (numeric or with namespace) for this block?</p>
           
         <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
       `,
     },
-    solution: secrets('chal_336'),
+    solution: secrets('chal_336').split(','),
     afterSolveText: {
       de: '<p>Durch Bugs kann Bedrock auch im Survival Mode abgebaut werden.</p>',
       en: '<p>Due to bugs, bedrock can also be mined in Survival mode.</p>',

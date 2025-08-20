@@ -30,8 +30,11 @@ const COM_TREE = {
       text: [
         'Der Trick ist ...',
         '... den Text zu markieren! Dann wird er sichtbar.',
-        'Brauchst du noch mehr Hilfe?',
       ],
+      next: 'hintoptions',
+    },
+    hintoptions: {
+      text: ['Brauchst du noch mehr Hilfe?'],
       options: [
         {
           label:
@@ -44,14 +47,14 @@ const COM_TREE = {
     },
     area: {
       text: ['Markiere den gesamten Bereich!', 'Da stehen noch mehr Sachen.'],
-      next: 'start',
+      next: 'hintoptions',
     },
     touch: {
       text: [
         'Halte deinen Finger lange auf dem Text!',
         'Danach kannst du die Auswahl verschieben und vergrößern.',
       ],
-      next: 'start',
+      next: 'hintoptions',
     },
   },
 }

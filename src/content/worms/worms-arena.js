@@ -388,7 +388,40 @@ export function setupWormsArena(App) {
         content: `
         ${renderNavigation(2)}
 
-        <div style="text-align: center; margin-bottom: 24px;">
+        <h4>Letzte Matches</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Bot Rot</th>
+              <th>Bot Grün</th>
+              <th>Ergebnis</th>
+              <th>Datum</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${matches
+              .slice(0, 10)
+              .map(
+                (match) => `
+              <tr>
+                <td>${escapeHTML(
+                  botData.find((b) => b.id == match.redBotId)?.name ??
+                    '[gelöschter Bot]'
+                )}${match.status == 'red-win' ? ' 🏆' : ''}</td>
+                <td>${escapeHTML(
+                  botData.find((b) => b.id == match.greenBotId)?.name ??
+                    '[gelöschter Bot]'
+                )}${match.status == 'green-win' ? ' 🏆' : ''}</td>
+                <td>${match.status == 'red-win' ? 'Rot' : 'Grün'} gewinnt [<a href="/worms/arena/replay?id=${match.id}">ansehen</a>]</td>
+                <td>${App.moment(match.createdAt).locale('de').fromNow()}</td>
+              </tr>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
+
+        <div style="text-align: center; margin-bottom: 24px; margin-top: 56px;">
           <img src="/worms/arena.jpg">
         </div>
 
@@ -528,40 +561,6 @@ export function setupWormsArena(App) {
           
           updateBotIdAndUpdateUI(parseInt(document.querySelector('select[name="bot"]').value))
         </script>
-
-        <h4 style="margin-top: 56px;">Letzte Matches</h4>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Bot Rot</th>
-              <th>Bot Grün</th>
-              <th>Ergebnis</th>
-              <th>Datum</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${matches
-              .slice(0, 10)
-              .map(
-                (match) => `
-              <tr>
-                <td>${escapeHTML(
-                  botData.find((b) => b.id == match.redBotId)?.name ??
-                    '[gelöschter Bot]'
-                )}${match.status == 'red-win' ? ' 🏆' : ''}</td>
-                <td>${escapeHTML(
-                  botData.find((b) => b.id == match.greenBotId)?.name ??
-                    '[gelöschter Bot]'
-                )}${match.status == 'green-win' ? ' 🏆' : ''}</td>
-                <td>${match.status == 'red-win' ? 'Rot' : 'Grün'} gewinnt [<a href="/worms/arena/replay?id=${match.id}">ansehen</a>]</td>
-                <td>${App.moment(match.createdAt).locale('de').fromNow()}</td>
-              </tr>
-            `
-              )
-              .join('')}
-          </tbody>
-        </table>
-
 
         <div style="height: 200px;"></div>
       `,

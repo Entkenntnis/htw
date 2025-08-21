@@ -2176,30 +2176,34 @@ export function setupHints(App) {
     const id = id_ ? parseInt(id_) : -1
 
     const challenge = App.challenges.dataMap[id]
-    const hints = hintsData[id]
 
     if (!challenge) {
       res.redirect('/')
       return
     }
 
+    // language handling (default: de)
+    const lng = req.lng === 'en' ? 'en' : 'de'
+    const localizedTitle =
+      (challenge.title && (challenge.title[lng] || challenge.title['de'])) || ''
+
     renderPage(App, req, res, {
       page: 'feedback',
-      heading: `Feedback für "${challenge.title['de']}"`,
+      heading: `${lng === 'de' ? 'Feedback für' : 'Feedback for'} "${localizedTitle}"`,
       backButton: false,
       content: `
       
-        <p><a href="/challenge/${id}">zurück</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">Karte</a></p>
+        <p><a href="/challenge/${id}">${lng === 'de' ? 'zurück' : 'back'}</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">${lng === 'de' ? 'Karte' : 'map'}</a></p>
 
-        <p style="margin-top: 64px;">Egal ob Unklarheit, Probleme oder ein Lob: Dein Feedback hilft dabei, die Inhalte auf Hack The Web laufend weiterzuentwickeln 	\\( ﾟヮﾟ)/</p>
+        <p style="margin-top: 64px;">${lng === 'de' ? 'Egal ob Unklarheit, Probleme oder ein Lob: Dein Feedback hilft dabei, die Inhalte auf Hack The Web laufend weiterzuentwickeln \\( ﾟヮﾟ)/' : 'Whether confusion, issues or praise: your feedback helps us to continually improve the content on Hack The Web \\( ﾟヮﾟ)/'}</p>
 
         <form action="/hints/ask" method="post" style="max-width: 65ch; margin-top: 30px;">
           <input type="hidden" name="id" value="${id}"/>
-          <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="Beschreibe dein Anliegen ..."></textarea>
-          <input type="submit" value="Feedback senden" class="btn btn-primary"/>
+          <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="${lng === 'de' ? 'Beschreibe dein Anliegen ...' : 'Describe your feedback ...'}"></textarea>
+          <input type="submit" value="${lng === 'de' ? 'Feedback senden' : 'Send feedback'}" class="btn btn-primary"/>
         </form>
 
-        <p style="margin-top: 48px;">Nutze auch gerne unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>:</p>
+        <p style="margin-top: 48px;">${lng === 'de' ? 'Nutze auch gerne unseren' : 'Feel free to also join our'} <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord${lng === 'de' ? '-Server' : ' server'}</a>:</p>
         <p>
           <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 150px; background: #313131; padding-left:8px; padding-right: 8px; border-radius:4px; padding-top:2px; " alt="discord"></a>
         </p>

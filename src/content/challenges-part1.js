@@ -789,9 +789,9 @@ export const part1 = [
       en: story(
         'Kiwi',
         `
-        <p>The system wants to know your name. It should be easy enough to enter, but somehow the input gets a little scrambled.</p>
+  <p>The system wants to know your name: enter your username as the answer. But somehow the input gets scrambled.</p>
 
-        <p>The answer to this challenge is simply your username.</p>
+  <p>(If things look backwards — just go with it.)</p>
       `
       ),
     },
@@ -807,22 +807,26 @@ export const part1 = [
   {
     id: 16,
     pos: { x: 340, y: 320 },
-    title: { de: 'Notiz', en: 'Note' },
+    title: { de: 'Tippfehler', en: 'Typo' },
     // date: '2017-05-18',
     deps: [15, 24],
     html: {
       de: story(
         'Kiwi',
         `
-        <p>Ich komme bei dieser Aufgabe nicht weiter. Irgendwas muss ich übersehen haben. In der wichtigen Notiz sollte sich eigentlich die Antwort finden lassen?</p>
+        <p>Flüchtigkeitsfehler sind die schlimmsten. Man hat die schwere Arbeit gemacht, aber dann fehlt nur ein Buchstabe und es funktioniert nicht. Das ist echt ärgerlich.</p>
 
-        <p><a href="/wihtige_notiz.txt" target="_blank">wichtige Notiz</a></p>
+        <p>Ich wollte dir eigentlich die wichtige Notiz verlinken, aber jetzt musst du einen Weg um meinen Fehler herum finden:</p>
+
+        <p><a href="/wihtige_notiz.txt" target="_blank">https://hack.arrrg.de/wihtige_notiz.txt</a></p>
     `
       ),
       en: `
-      <p>This task should be very easy, but I just can't figure it out. I must have overlooked something. Surely, the answer can be found in the important note?</p>
-      
-      <p><a href="/imprtant_note.txt" target="_blank">important note</a></p>
+        <p>Careless typos are the worst. You do all the hard work and then a single missing (or swapped) letter breaks everything.</p>
+
+        <p>I wanted to link you the important note, but I made a typo. Find a way around my mistake:</p>
+
+        <p><a href="/imprtant_note.txt" target="_blank">https://hack.arrrg.de/imprtant_note.txt</a></p>
     `,
     },
     solution: secrets('chal_16').split(','),

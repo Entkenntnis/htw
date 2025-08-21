@@ -9,10 +9,10 @@ const COM_TREE = {
     entry: {
       text: 'Ich helfe dir gerne weiter, wenn du Fragen hast.',
       options: [
-        { label: 'Was ist die Lösung?', next: 'quengel' },
-        { label: 'Ich mag kein Mathe :/', next: 'mathe' },
+        { label: '... was muss ich machen? ...', next: 'strategy' },
+        { label: '... konkrete frage ...', next: 'question' },
         {
-          label: 'Wie weit ist die Erde von Naxion entfernt?',
+          label: '... Erzähl mal was von dir ...',
           next: 'backstory',
         },
       ],

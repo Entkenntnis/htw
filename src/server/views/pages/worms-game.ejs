@@ -3,17 +3,17 @@
 <script src="/worms/wormer.js"></script>
 
 <div id="game" style="position: relative; padding-top: 4px;">
-  <p style="color: gray;">
+  <p style="color: gray; padding-left: 8px;">
     Roter Wurm: <span style="color: lightgray">WASD</span>
     <% if (props.mode === 'two') { %>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grüner Wurm: <span style="color: lightgray">PFEILTASTEN</span>
     <% } else { %>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: lightgray">Besiege den grünen Wurm!</span>
     <% } %>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-secondary" style="margin-bottom:1px;" onclick="restart()">Neustart (ENTER)</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Neustart: <span style="color: lightgray">ENTER</span>
   </p>
-  <div id="fullscreenToggle" style="position:absolute; top:4px; right: 2px; color: gray; text-decoration: underline; cursor: pointer;">Vollbild</div>
-  <div id="board" style="max-width: min(90vw, 150vh); margin: 0 auto;"></div>
+  <div id="fullscreenToggle" style="position:absolute; top:4px; right: 0; padding-right: 4px; color: gray; text-decoration: underline; cursor: pointer;">Vollbild</div>
+  <div id="board" style="max-width: min(90vw, 130vh); margin: 0 auto;"></div>
 </div>
 
 <div style="height:70px"></div>

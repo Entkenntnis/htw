@@ -8,28 +8,35 @@
     <img src="/wwwm/logo.png" style="width: 100%; max-width: 200px" />
   </div>
 
-  <button
-    id="start-button"
-    class="btn btn-success btn-lg"
-    disabled
-    style="display: block; margin: 0 auto; width: 300px; margin-bottom: 20px"
-    onclick="startGame()"
-  >
-    ... Spiel wird geladen ...
-  </button>
-
   <div>
     <p>
-      Bei diesem Spiel dreht sich alles um die deutsche Sprache! Finde zu
-      gegebenen drei Buchstaben ein passendes Wort, z.B. für den Hinweis TRA
-      passen die Antworten Straße, tragen, Mantra ... jedes Wort, das in der
-      deutschen Sprache irgendwie verwendet wird.
+      Jeden Abend auf der Intergalaktiva läuft eine neue Runde „Wer wird
+      Wort‑Millionär?“. In 15 Fragen stellen die KandidatInnen ihr Sprachgefühl
+      unter Beweis. Sie bekommen jeweils drei Buchstaben und suchen ein
+      beliebiges deutsches Wort, das diese Buchstaben in genau dieser
+      Reihenfolge irgendwo enthält. Beispiel: Zu
+      <span style="color: pink">TRA</span> wären S<span style="color: pink"
+        >tra</span
+      >ße, <span style="color: pink">tra</span>gen oder Man<span
+        style="color: pink"
+        >tra</span
+      >
+      gültige Lösungen. Ein Joker liefert zusätzliche Hinweise.
     </p>
     <p>
-      Du hast einen Joker zur Verfügung, der dir einen zusätzlichen Hinweis
-      liefert.
+      Und heute Abend stehst <strong>du</strong> auf der Bühne – bereit? Dann
+      starte, wenn du soweit bist!
     </p>
-    <p>Schaffst du es in 15 Fragen zum Wort-Millionär?</p>
+
+    <button
+      id="start-button"
+      class="btn btn-success btn-lg"
+      disabled
+      style="display: block; margin: 30px auto; width: 300px"
+      onclick="startGame()"
+    >
+      ... Spiel wird geladen ...
+    </button>
   </div>
 </div>
 <div
@@ -1000,7 +1007,8 @@
     position: absolute;
     width: 140%;
     height: 140%;
-    background: radial-gradient(
+    background:
+      radial-gradient(
         circle at 50% 50%,
         rgba(253, 253, 3, 0.15),
         transparent 60%

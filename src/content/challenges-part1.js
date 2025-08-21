@@ -321,7 +321,7 @@ export const part1 = [
   {
     id: 4,
     pos: { x: 260, y: 380 },
-    title: { de: 'ASCII', en: 'ASCII' },
+    title: { de: 'Zahlensalat', en: 'Number Salad' },
     // date: '2017-05-17',
     deps: [15, 24],
     render: () => {
@@ -408,42 +408,37 @@ export const part1 = [
         de: story(
           'Josh',
           `
-          <p>Viele Dokumente, die mir Kiwi zeigt, lassen sich nicht lesen, weil sie mit dem ASCII-Code gespeichert sind. Anstatt von Buchstaben sehe ich nur eine Reihe von Zahlen.</p>
+          <p>Computer sind eine geheimnisvolle Welt, wenn man ihre Sprache nicht spricht. Aus einem Wort werden eine Reihe von Zahlen und da hast du den Salat.</p>
 
-          <p>Zum Glück gibt es eine Übersetzungshilfe, damit kann man die Texte mit etwas Geduld entziffern. Schau dir die Tabelle an. Du findest die ASCII-Codes für verschiedene Zeichen.</p>
+          <p>Zum Glück gibt es eine Übersetzungshilfe, mit der du die Zahlen entziffern kannst. Schau dir die Tabelle an. Du findest die ASCII-Codes für verschiedene Zeichen.</p>
 
           <p>Ein Beispiel: Der Buchstabe a hat den Code 97.</p>
 
           ${renderTable('Code', 'Zeichen')}
           
-          <p>Eine Zahlenfolge kommt immer wieder vor und scheint bei den Jugendlichen sehr beliebt zu sein. Deine Antwort in ASCII lautet:</p>
+          <p>Ein beliebtes Wort von Jugendlichen ist deine Antwort:</p>
           
           <p>35 &nbsp; 97 &nbsp; 117 &nbsp; 114 &nbsp; 97
           </p>
         `
         ),
-        en: `
-          <p>You are a brave person! You were not deterred by the cryptic letters in the title of this challenge.
-          </p>
-          
-          <p>
-            Many things in computer science can seem confusing at first glance. Especially if you don't have translation aid. But as soon as you know
-            where to look for things, they become less foreign.
-          </p>
-          
-          <p>
-            This is also the case with the ASCII code. Because computers can only work with numbers, there is a uniform code for each character.
-            You can find an excerpt from this in this table.
-          </p>
-          
+        en: story(
+          'Josh',
+          `
+          <p>Computers are a mysterious world if you don't speak their language. A word becomes a series of numbers, and there you have it: a number salad.</p>
+
+          <p>Luckily, there's a translation aid you can use to decipher the numbers. Take a look at the table. You'll find the ASCII codes for various characters.</p>
+
+          <p>For example: The letter 'a' has the code 97.</p>
+
           ${renderTable('Code', 'Character')}
           
-          <p>An example: The dollar sign is stored in the computer with the number 36. Voilà, now it's your turn. Your answer in codes is:
-          </p>
+          <p>A word popular with young people is your answer:</p>
           
           <p>35 &nbsp; 97 &nbsp; 117 &nbsp; 114 &nbsp; 97
           </p>
-        `,
+        `
+        ),
       }
     },
     check: (answer) => {
@@ -453,10 +448,6 @@ export const part1 = [
         correct: trimmed === secrets('chal_4'),
       }
     },
-    /*afterSolveText: {
-      de: '<p>Die ursprüngliche Version von ASCII enthielt 95 druckbare Zeichen. Unicode enthält mittlerweile mehr als 100 000 Zeichen.</p>',
-      en: '<p>The original version of ASCII included 95 printable characters. Unicode now contains more than 100,000 characters.</p>',
-    },*/
   },
 
   {

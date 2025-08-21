@@ -1,6 +1,5 @@
 const COM_TREE = {
   character: 'KIWI',
-  dev: true,
   messages: {
     start: {
       text: 'Na, kommst du klar?',

@@ -222,50 +222,166 @@ class Wormer {
   }
 }
 
-function createKeyboardPlayer(up, right, down, left, resetRef) {
-  let lastDir = -1 // Initialize with no direction
-  let newDir = -1
+function createKeyboardPlayer(up, right, down, left, resetRef, opts = {}) {
+  let lastDir = -1 // last applied direction
+  let newDir = -1 // pending direction (consumed each tick)
 
+  // --- RESET HANDLER ---
   resetRef.reset = () => {
     lastDir = -1
     newDir = -1
+    // Clear active button visual state if touch pad exists
+    if (padEl) {
+      padEl
+        .querySelectorAll('.worm-touch-btn.active')
+        .forEach((el) => el.classList.remove('active'))
+    }
   }
 
-  // Event listener to set direction based on key press
+  // --- KEYBOARD EVENTS ---
   window.addEventListener('keydown', (event) => {
     switch (event.key) {
       case up:
-        if (lastDir !== 2) newDir = 0 // Up, disallow if lastDir is Down
+        if (lastDir !== 2) newDir = 0
         event.preventDefault()
         break
       case right:
-        if (lastDir !== 3) newDir = 1 // Right, disallow if lastDir is Left
+        if (lastDir !== 3) newDir = 1
         event.preventDefault()
         break
       case down:
-        if (lastDir !== 0) newDir = 2 // Down, disallow if lastDir is Up
+        if (lastDir !== 0) newDir = 2
         event.preventDefault()
         break
       case left:
-        if (lastDir !== 1) newDir = 3 // Left, disallow if lastDir is Right
+        if (lastDir !== 1) newDir = 3
         event.preventDefault()
         break
       default:
-        return // Do nothing if another key is pressed
+        return
     }
   })
 
-  // The returned function which will handle tick
+  // --- TOUCH / POINTER D-PAD (optional) ---
+  const hasTouch =
+    opts.forceTouch === true ||
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0
+  let padEl = null
+
+  function injectTouchStylesOnce() {
+    if (window.__wormTouchStyles) return
+    const style = document.createElement('style')
+    style.id = 'worm-touch-styles'
+    style.textContent = `
+      .worm-touch-pad {position:fixed; bottom:12px; z-index:1500; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); grid-template-areas:"empty1 up empty2" "left empty3 right" "empty4 down empty5"; gap:6px; --worm-btn-size:60px; opacity:0.55; touch-action:none;}
+      .worm-touch-pad.left {left:12px;}
+      .worm-touch-pad.right {right:12px;}
+      .worm-touch-pad .worm-touch-btn { grid-area:auto; width:var(--worm-btn-size); height:var(--worm-btn-size); background:rgba(30,58,138,0.45); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.25); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff; user-select:none; -webkit-user-select:none; touch-action:none; font-family:system-ui,sans-serif;}
+      .worm-touch-pad .worm-touch-btn.up {grid-area:up;}
+      .worm-touch-pad .worm-touch-btn.down {grid-area:down;}
+      .worm-touch-pad .worm-touch-btn.left {grid-area:left;}
+      .worm-touch-pad .worm-touch-btn.right {grid-area:right;}
+      .worm-touch-pad .worm-touch-btn:active, .worm-touch-pad .worm-touch-btn.active {background:rgba(59,130,246,0.7); border-color:rgba(255,255,255,0.5);}
+      @media (max-width:480px) { .worm-touch-pad { gap:4px; } .worm-touch-pad { --worm-btn-size:48px; } .worm-touch-pad .worm-touch-btn { font-size:20px; } }
+    `
+    document.getElementById('game').appendChild(style)
+    window.__wormTouchStyles = true
+  }
+
+  function buildPad(position) {
+    injectTouchStylesOnce()
+    const pad = document.createElement('div')
+    pad.className =
+      'worm-touch-pad ' + (position === 'right' ? 'right' : 'left')
+    if (opts.opacity != null) pad.style.opacity = String(opts.opacity)
+    if (opts.size != null)
+      pad.style.setProperty('--worm-btn-size', opts.size + 'px')
+    if (opts.styleClass) pad.classList.add(opts.styleClass)
+
+    const buttons = [
+      { dir: 0, label: '▲', cls: 'up', aria: 'Move Up' },
+      { dir: 3, label: '◀', cls: 'left', aria: 'Move Left' },
+      { dir: 1, label: '▶', cls: 'right', aria: 'Move Right' },
+      { dir: 2, label: '▼', cls: 'down', aria: 'Move Down' },
+    ]
+    buttons.forEach((b) => {
+      const btn = document.createElement('div')
+      btn.className = 'worm-touch-btn ' + b.cls
+      btn.textContent = b.label
+      btn.setAttribute('role', 'button')
+      btn.setAttribute('aria-label', b.aria)
+      btn.dataset.dir = String(b.dir)
+      pad.appendChild(btn)
+    })
+
+    // Pointer handling (works for touch, pen, mouse)
+    const isOpposite = (a, b) =>
+      (a === 0 && b === 2) ||
+      (a === 2 && b === 0) ||
+      (a === 1 && b === 3) ||
+      (a === 3 && b === 1)
+
+    pad.addEventListener(
+      'pointerdown',
+      (e) => {
+        const btn = e.target.closest('.worm-touch-btn')
+        if (!btn) return
+        const intended = parseInt(btn.dataset.dir)
+        if (isNaN(intended)) return
+        // Guard against 180° reversal relative to lastDir
+        if (!isOpposite(intended, lastDir)) {
+          newDir = intended
+          btn.classList.add('active')
+          // Optional light haptic feedback
+          if (navigator.vibrate) {
+            try {
+              navigator.vibrate(10)
+            } catch (_) {}
+          }
+        }
+        e.preventDefault()
+      },
+      { passive: false }
+    )
+    pad.addEventListener('pointerup', (e) => {
+      const btn = e.target.closest('.worm-touch-btn')
+      if (btn) btn.classList.remove('active')
+    })
+    pad.addEventListener('pointercancel', (e) => {
+      const btn = e.target.closest('.worm-touch-btn')
+      if (btn) btn.classList.remove('active')
+    })
+    pad.addEventListener('contextmenu', (e) => e.preventDefault())
+    return pad
+  }
+
+  if (hasTouch && opts.enableTouch !== false) {
+    padEl = buildPad(opts.touchPosition === 'right' ? 'right' : 'left')
+    document.getElementById('game').appendChild(padEl)
+
+    // API hooks
+    resetRef.setTouchPosition = (pos) => {
+      if (!padEl) return
+      padEl.classList.remove('left', 'right')
+      padEl.classList.add(pos === 'right' ? 'right' : 'left')
+    }
+    resetRef.destroyTouchPad = () => {
+      if (padEl && padEl.parentNode) padEl.parentNode.removeChild(padEl)
+      padEl = null
+    }
+  }
+
+  // --- TICK HANDLER ---
   return (dx, dy, board, x, y, dir) => {
     const t = newDir
-    newDir = -1
-
-    if (t == -1) {
+    newDir = -1 // consume
+    if (t === -1) {
       lastDir = dir
       return dir
     }
     lastDir = t
-    return t // Return the latest direction for this tick
+    return t
   }
 }
 

@@ -13,17 +13,17 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-secondary" style="margin-bottom:1px;" onclick="restart()">Neustart (ENTER)</button>
   </p>
   <div id="fullscreenToggle" style="position:absolute; top:4px; right: 2px; color: gray; text-decoration: underline; cursor: pointer;">Vollbild</div>
-  <div id="board" style="max-width: 90vw; margin: 0 auto;"></div>
+  <div id="board" style="max-width: min(90vw, 150vh); margin: 0 auto;"></div>
 </div>
 
 <div style="height:70px"></div>
 
 <script>
   const redResetRef = {}
-  const red = createKeyboardPlayer('w', 'd', 's', 'a', redResetRef)
+  const red = createKeyboardPlayer('w', 'd', 's', 'a', redResetRef, {touchPosition: 'left'})
   <% if (props.mode === 'two') { %>
     const greenResetRef = {}
-    const green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef)
+    const green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef, {touchPosition: 'right'})
   <% } else { %>
     const green = createDemoBot()
   <% } %>

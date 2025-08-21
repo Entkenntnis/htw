@@ -300,11 +300,8 @@ export function setupLiveAnalyze(App) {
 
     const comlinkLines = [...comlinkMap.values()]
       .sort((a, b) => {
-        // numeric sort if possible
-        const ai = Number(a.id)
-        const bi = Number(b.id)
-        if (!Number.isNaN(ai) && !Number.isNaN(bi)) return ai - bi
-        return a.id.localeCompare(b.id)
+        // sort by total
+        return b.total - a.total
       })
       .map((g) => {
         const userCount = g.users.size
@@ -314,7 +311,7 @@ export function setupLiveAnalyze(App) {
           .map(([label, data]) => {
             const lc = data.users.size
             const lavg = lc > 0 ? data.total / lc : 0
-            return `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${escapeHTML(label)}: ${data.total} (${lc} Spieler, Ø ${lavg.toLocaleString(
+            return `<span style="width: 200px; display: inline-block; margin-left: 24px;">${escapeHTML(label)}</span>${lc} Spieler (${data.total} Hits, Ø ${lavg.toLocaleString(
               'de-DE',
               {
                 minimumFractionDigits: 2,
@@ -323,13 +320,7 @@ export function setupLiveAnalyze(App) {
             )})`
           })
           .join('<br>')
-        return `comlink ${escapeHTML(g.id)}: ${g.total} Aufrufe von ${userCount} Spielern (Ø ${avg.toLocaleString(
-          'de-DE',
-          {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }
-        )})<br> — Labels: <br>${perLabel}`
+        return `${escapeHTML(App.challenges.dataMap[g.id].title.de)} [${escapeHTML(g.id)}]: ${userCount} Spieler<br>${perLabel}<br>`
       })
       .join('<br>')
 

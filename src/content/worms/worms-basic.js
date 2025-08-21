@@ -46,102 +46,14 @@ export function setupWormsBasic(App) {
     '/worms/two-player',
     safeRoute(async (req, res) => {
       req.session.lastWormsTab = 'two-player'
-
       renderPage(App, req, res, {
-        page: 'worms',
+        page: 'worms-game',
         heading: 'Worms',
         backButton: false,
-        content: `
-        ${renderNavigation(0)}
-
-        <script src="/worms/wormer.js"></script>
-
-        <div id="game" style="position: relative; padding: 4px;">
-          <p style="color: gray;">Roter Wurm: <span style="color: lightgray">WASD</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grüner Wurm: <span style="color: lightgray">PFEILTASTEN</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-secondary" onclick="restart()"  style="margin-bottom: 1px;">Neustart (ENTER)</button></p>
-          <div id="fullscreenToggle" style="position:absolute; top:4px; right: 2px; color: gray; text-decoration: underline; cursor: pointer;">Vollbild</div>
-          <div id="board" style="max-width: 90vw; margin: 0 auto;"></div>
-        </div>
-        
-        <div style="height:70px"></div>
-
-        <script>
-          const redResetRef = {}
-          const red = createKeyboardPlayer('w', 'd', 's', 'a', redResetRef)
-
-          
-          const greenResetRef = {}
-          const green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef)
-
-          const wormer = new Wormer(document.getElementById('board'), red, green)
-
-          wormer.run()
-
-          function restart() {
-            wormer.run()
-            redResetRef.reset()
-            greenResetRef.reset()
-          }
-
-          // --- Fullscreen handling (toggle + auto label update) ---
-          const fsBtn = document.getElementById('fullscreenToggle')
-          const gameEl = document.getElementById('game')
-
-          function isFullscreen() {
-            return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement
-          }
-
-          function updateFsButton() {
-            if (!fsBtn) return
-            fsBtn.textContent = isFullscreen() ? 'Vollbild schließen' : 'Vollbild'
-          }
-
-          function requestFs(element) {
-            if (element.requestFullscreen) {
-              element.requestFullscreen()
-            } else if (element.mozRequestFullScreen) { // Firefox
-              element.mozRequestFullScreen()
-            } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
-              element.webkitRequestFullscreen()
-            } else if (element.msRequestFullscreen) { // IE/Edge
-              element.msRequestFullscreen()
-            }
-          }
-
-          function exitFs() {
-            if (document.exitFullscreen) {
-              document.exitFullscreen()
-            } else if (document.mozCancelFullScreen) {
-              document.mozCancelFullScreen()
-            } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen()
-            } else if (document.msExitFullscreen) {
-              document.msExitFullscreen()
-            }
-          }
-
-          function toggleFullscreen() {
-            if (!isFullscreen()) {
-              requestFs(gameEl)
-            } else {
-              exitFs()
-            }
-          }
-
-          fsBtn.addEventListener('click', toggleFullscreen)
-          ;['fullscreenchange','webkitfullscreenchange','mozfullscreenchange','MSFullscreenChange'].forEach(evt => {
-            document.addEventListener(evt, updateFsButton)
-          })
-          updateFsButton()
-
-          window.addEventListener('keydown', (event) => {
-            if (event.key == 'Enter') {
-              wormer.run()
-              redResetRef.reset()
-              greenResetRef.reset()
-            }
-          })
-        </script>
-      `,
+        props: {
+          navigation: renderNavigation(0),
+          mode: 'two',
+        },
       })
     })
   )
@@ -151,100 +63,13 @@ export function setupWormsBasic(App) {
     safeRoute(async (req, res) => {
       req.session.lastWormsTab = 'single-player'
       renderPage(App, req, res, {
-        page: 'worms',
+        page: 'worms-game',
         heading: 'Worms',
         backButton: false,
-        content: `
-        ${renderNavigation(1)}
-
-        <script src="/worms/wormer.js"></script>
-
-        <div style="position: relative; padding: 4px;" id="game">
-          <p style="color: gray;">Roter Wurm: <span style="color: lightgray">WASD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Besiege den grünen Wurm!</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-secondary" style="margin-bottom: 1px;" onclick="restart()">Neustart (ENTER)</button></p>
-          <div id="fullscreenToggle" style="position: absolute; top: 4px; right: 2px; color: gray; text-decoration: underline; cursor: pointer;">
-            Vollbild
-          </div>
-          <div id="board" style="max-width: 90vw; margin: 0 auto;"></div>
-        </div>
-        
-        <div style="height:70px"></div>
-
-        <script>
-          const redResetRef = {}
-          const red =  createKeyboardPlayer('w', 'd', 's', 'a', redResetRef)
-
-          const green = createDemoBot()
-
-          const wormer = new Wormer(document.getElementById('board'), red, green)
-
-          wormer.run()
-
-          function restart() {
-            wormer.run()
-            redResetRef.reset()
-            greenResetRef.reset()
-          }
-
-          // --- Fullscreen handling (toggle + auto label update) ---
-          const fsBtn = document.getElementById('fullscreenToggle')
-          const gameEl = document.getElementById('game')
-
-          function isFullscreen() {
-            return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement
-          }
-
-          function updateFsButton() {
-            if (!fsBtn) return
-            fsBtn.textContent = isFullscreen() ? 'Vollbild schließen' : 'Vollbild'
-          }
-
-            function requestFs(element) {
-              if (element.requestFullscreen) {
-                element.requestFullscreen()
-              } else if (element.mozRequestFullScreen) { // Firefox
-                element.mozRequestFullScreen()
-              } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
-                element.webkitRequestFullscreen()
-              } else if (element.msRequestFullscreen) { // IE/Edge
-                element.msRequestFullscreen()
-              }
-            }
-
-            function exitFs() {
-              if (document.exitFullscreen) {
-                document.exitFullscreen()
-              } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen()
-              } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen()
-              } else if (document.msExitFullscreen) {
-                document.msExitFullscreen()
-              }
-            }
-
-          function toggleFullscreen() {
-            if (!isFullscreen()) {
-              requestFs(gameEl)
-            } else {
-              exitFs()
-            }
-          }
-
-          fsBtn.addEventListener('click', toggleFullscreen)
-
-          ;['fullscreenchange','webkitfullscreenchange','mozfullscreenchange','MSFullscreenChange'].forEach(evt => {
-            document.addEventListener(evt, updateFsButton)
-          })
-          updateFsButton()
-
-          window.addEventListener('keydown', (event) => {
-            if (event.key == 'Enter') {
-              wormer.run()
-              redResetRef.reset()
-            }
-          })
-        </script>
-      `,
+        props: {
+          navigation: renderNavigation(1),
+          mode: 'single',
+        },
       })
     })
   )

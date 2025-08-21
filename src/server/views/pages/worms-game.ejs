@@ -18,15 +18,26 @@
 
 <div style="height:70px"></div>
 
+<% if (props.mode === 'two') { %>
+<script>
+  window.MODE = 'two'
+</script>
+<% } else { %>
+<script>
+  window.MODE = 'one'
+</script>
+<% } %>
+
 <script>
   const redResetRef = {}
   const red = createKeyboardPlayer('w', 'd', 's', 'a', redResetRef, {touchPosition: 'left'})
-  <% if (props.mode === 'two') { %>
-    const greenResetRef = {}
-    const green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef, {touchPosition: 'right'})
-  <% } else { %>
-    const green = createDemoBot()
-  <% } %>
+  let green = null
+  let greenResetRef = {}
+  if (window.MODE === 'two') {
+    green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef, {touchPosition: 'right'})
+  } else {
+    green = createDemoBot()
+  }
 
   const wormer = new Wormer(document.getElementById('board'), red, green)
   wormer.run()
@@ -34,7 +45,9 @@
   function restart() {
     wormer.run()
     redResetRef.reset()
-    <% if (props.mode === 'two') { %>greenResetRef.reset()<% } %>
+    if (window.MODE === 'two') {
+      greenResetRef.reset()
+    }
   }
 
   window.addEventListener('keydown', (event) => {

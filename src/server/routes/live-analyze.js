@@ -11,7 +11,7 @@ export function setupLiveAnalyze(App) {
     if (!req.user || req.user.name != 'editor')
       return res.send('Zugriff nur für Editor')
 
-    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from)
+    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from, 7)
 
     // Only fetch what we need: active users since fromDate and their solutions
     const users = await App.db.models.User.findAll({

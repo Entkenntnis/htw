@@ -10,7 +10,7 @@ export function setupSurvey(App) {
     if (!req.user || req.user.name != 'editor')
       return res.send('Zugriff nur für Editor')
 
-    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from)
+    const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from, 7)
 
     const entries = (
       await App.db.models.KVPair.findAll({

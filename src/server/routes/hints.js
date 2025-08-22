@@ -1,6 +1,7 @@
 import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
+import { setDefaultAutoSelectFamily } from 'node:net'
 
 // these challenges are transitioning to COM-LINK
 export const withComlink = [1, 24, 15, 5, 336, 16, 4]
@@ -2197,7 +2198,7 @@ export function setupHints(App) {
 
         <p style="margin-top: 64px;">${lng === 'de' ? 'Egal ob Unklarheit, Probleme oder ein Lob: Dein Feedback hilft dabei, die Inhalte auf Hack The Web laufend weiterzuentwickeln \\( ﾟヮﾟ)/' : 'Whether confusion, issues or praise: your feedback helps us to continually improve the content on Hack The Web \\( ﾟヮﾟ)/'}</p>
 
-        <form action="/hints/ask" method="post" style="max-width: 65ch; margin-top: 30px;">
+        <form action="/feedback/send" method="post" style="max-width: 65ch; margin-top: 30px;">
           <input type="hidden" name="id" value="${id}"/>
           <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="${lng === 'de' ? 'Beschreibe dein Anliegen ...' : 'Describe your feedback ...'}"></textarea>
           <input type="submit" value="${lng === 'de' ? 'Feedback senden' : 'Send feedback'}" class="btn btn-primary"/>
@@ -2232,7 +2233,7 @@ export function setupHints(App) {
 
     renderPage(App, req, res, {
       page: 'ask',
-      heading: `Anfrage abgeschickt!`,
+      heading: `Frage gespeichert`,
       backButton: false,
       content: `
         <p style="margin-top: 48px;">Vielen Dank!</p>
@@ -2243,6 +2244,92 @@ export function setupHints(App) {
       `,
     })
   })
+
+  App.express.post('/feedback/send', (req, res) => {
+    /** @type {string} */
+    const question = req.body?.question?.toString()
+    const id_ = req.body?.id?.toString()
+
+    const id = id_ ? parseInt(id_) : -1
+
+    if (!question || !App.challenges.dataMap[id]) {
+      res.redirect('/map')
+      return
+    }
+
+    const key = `feedback_${id}_${new Date().getTime()}`
+
+    // hard-code max-length
+    App.storage.setItem(key, question.slice(0, 2000))
+
+    renderPage(App, req, res, {
+      page: 'ask',
+      heading: `Dein Feedback wurde gespeichert!`,
+      backButton: false,
+      content: `
+        <p style="margin-top: 48px;">Vielen Dank!</p>
+
+        <p><a href="/map">zurück</a></p>
+
+        <div style="height:150px;"></div>
+      `,
+    })
+  })
+
+  // Internal feedback list (editor only)
+  App.express.get('/feedback', feedbackHandler)
+  /**
+   * @param {import("express").Request} req
+   * @param {import("express").Response} res
+   */
+  async function feedbackHandler(req, res) {
+    if (!req.user || req.user.name != 'editor') return res.redirect('/')
+
+    // fetch all feedback entries (no cutoff/time restriction as requested)
+    const allFeedback = await App.db.models.KVPair.findAll({
+      where: {
+        key: { [Op.like]: 'feedback_%' },
+      },
+      order: [['createdAt', 'DESC']], // most recent first directly in DB
+      raw: true,
+    })
+
+    const list = allFeedback
+      .map((row) => {
+        const parts = row.key.split('_')
+        const id = parseInt(parts[1])
+        if (Number.isNaN(id)) return null
+        return {
+          id,
+          title:
+            App.challenges.dataMap[id]?.title?.['de'] || 'Unbekannte Aufgabe',
+          feedback: row.value,
+          ts: new Date(row.createdAt).getTime(),
+        }
+      })
+      .filter((x) => x !== null)
+
+    const html =
+      list.length === 0
+        ? '<p style="margin-top:48px;">Keine Feedback-Einträge gefunden.</p>'
+        : list
+            .map(
+              (f) => `
+          <p style="margin-top:12px;">
+            <span style="color: gray;">(${new Date(f.ts).toLocaleString('de-DE')})</span>
+            <strong>[${f.id}] ${escapeHTML(f.title)}</strong>:
+            ${escapeHTML(f.feedback)}
+          </p>`
+            )
+            .join('')
+
+    renderPage(App, req, res, {
+      page: 'internal-feedback-list',
+      heading: 'Liste Feedback',
+      backButton: false,
+      content: html,
+    })
+  }
 
   App.express.get('/questions', async (req, res) => {
     if (!req.user || req.user.name != 'editor') return res.redirect('/')

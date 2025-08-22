@@ -2277,12 +2277,7 @@ export function setupHints(App) {
   })
 
   // Internal feedback list (editor only)
-  App.express.get('/feedback', feedbackHandler)
-  /**
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   */
-  async function feedbackHandler(req, res) {
+  App.express.get_async_fix('/feedback', async (req, res) => {
     if (!req.user || req.user.name != 'editor') return res.redirect('/')
 
     // fetch all feedback entries (no cutoff/time restriction as requested)
@@ -2329,7 +2324,7 @@ export function setupHints(App) {
       backButton: false,
       content: html,
     })
-  }
+  })
 
   App.express.get('/questions', async (req, res) => {
     if (!req.user || req.user.name != 'editor') return res.redirect('/')

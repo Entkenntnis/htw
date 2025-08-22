@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
  */
 export function withExpress(App) {
   App.express = express()
+  App.express.get_async_fix = App.express.get
 
   // Caching is still not optimal, a fixed max age is maybe not the best
   if (App.config.staticFolder) {

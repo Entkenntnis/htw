@@ -180,8 +180,7 @@ export function setupLiveAnalyze(App) {
   // This function is hunted, somehow typescript always complains, I tried to upgrade/fix/reload
   // Nothing works, this is the only code affected
   // very strange
-  //@ts-ignore I don't know why, it HAUNTED
-  App.express.get('/events', async (req, res) => {
+  App.express.get_async_fix('/events', async (req, res) => {
     if (!req.user || req.user.name != 'editor') {
       res.send('Zugriff nur für Editor')
       return

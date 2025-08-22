@@ -210,6 +210,15 @@ declare global {
       user?: UserModel
       lng: 'de' | 'en'
     }
+    interface Application {
+      // This is mostly happening with AI generated code (weird)
+      // and the types are just somehow not matched for reasons that really I can't find out
+      // so use this (it's the same as get, only explicitly typed)
+      get_async_fix: (
+        route: string,
+        handler: (req: express.Request, res: express.Response) => Promise<void>
+      ) => void
+    }
   }
 }
 

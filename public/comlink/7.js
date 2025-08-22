@@ -248,5 +248,13 @@ const COM_TREE = {
         },
       ],
     },
+    fight: {
+      text: [
+        'Im Chrome kannst du "view-source:" vor den Link schreiben.',
+        'Für Apple-Geräte gibt es einen anderen Trick, den du am besten mit "website source ipad/iphone" findest.',
+        'Viel Glück!',
+      ],
+      options: [{ label: 'Ich versuch mein Bestes.', next: 'entry' }],
+    },
   },
 }

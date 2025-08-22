@@ -602,7 +602,7 @@ export const part1 = [
 
         <p>&nbsp;</p>
 
-        <p>Aber ich nehme dir den Button von der letzen Aufgabe weg, mit dem du den Quelltext öffnen kannst! Siehst du? Ich steuere dein Leben mit Technik.</p>
+        <p>Aber ich nehme dir den Button von der letzen Aufgabe weg, mit dem du den Quelltext öffnen kannst ... Siehst du? So könnte Kontrolle aussehen 😢</p>
 
         <p>Wehre dich! Du brauchst meinen blöden Button nicht, um den Quelltext zu sehen. Falls du nicht weiterkommst, vergiss nicht: ich bin per COM-LINK erreichbar.</p>
     `

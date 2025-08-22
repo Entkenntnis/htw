@@ -3467,17 +3467,17 @@ To: ${req.user?.name}@arrrg.de</pre>
 
   {
     id: 80,
-    pos: { x: 250, y: 535 },
-    title: { de: 'Animation', en: 'Animation' },
+    pos: { x: 270, y: 535 },
+    title: { de: 'Bist du ein Mensch?', en: 'Animation' },
     // date: '2022-02-24',
     deps: [4, 6],
     html: {
       de: story(
         'Kiwi',
         `
-        <p>Wer mag schon langweilige Webseiten? Nutzen wir doch die Möglichkeiten des Browsers und bringen etwas Action rein!</p>
+        <p>Anscheinend haben die Roboter die Kontrolle über das Internet übernommen. Die Menschen auf der "Erde" denken sich deshalb immer kreativere Systeme aus, um Menschen von Roboter zu unterscheiden.</p>
 
-        <p>Klicke auf die Buchstaben und fange sie in  der richtigen Reihenfolge ein, um die Aufgabe zu lösen.</p>
+        <p>Zeige das du ein Mensch bist und klicke auf die Buchstaben in der richtigen Reihenfolge.</p>
 
         <div id="canvas">
         <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
@@ -3503,10 +3503,24 @@ To: ${req.user?.name}@arrrg.de</pre>
         });
         document.addEventListener('DOMContentLoaded', function() {
           document.getElementById("challenge_answer").readOnly = true
+          document.getElementById("challenge_answer").addEventListener("dblclick", function() {
+            this.readOnly = false;
+          })
         });
       </script>
 
       <style>
+        #challenge_answer {
+          border: 1px solid #666;
+          display: inline;
+          font-family: inherit;
+          font-size: inherit;
+          padding: none;
+          width: auto;
+          background-color: #222222;
+          color: white;
+          outline: none;
+        }
         /* Container */
         #canvas {
           position: relative;

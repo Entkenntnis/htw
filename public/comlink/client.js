@@ -172,6 +172,9 @@
       return // ignore if already typing
     }
     clearOptions()
+    if (typeof opt.effect === 'function') {
+      opt.effect()
+    }
     await typeMsg('user', opt.label)
     await new Promise((r) => setTimeout(r, 150))
     runMessage(opt.next)

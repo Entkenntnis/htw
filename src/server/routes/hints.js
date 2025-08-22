@@ -1,10 +1,9 @@
 import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
-import { setDefaultAutoSelectFamily } from 'node:net'
 
 // these challenges are transitioning to COM-LINK
-export const withComlink = [1, 24, 15, 5, 336, 16, 4]
+export const withComlink = [1, 24, 15, 5, 336, 16, 4, 6, 7]
 
 /** @type {import('../../data/types.js').HintsData} */
 export const hintsData = {

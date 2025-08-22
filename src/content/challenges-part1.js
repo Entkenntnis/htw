@@ -584,14 +584,27 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Du machst gute Fortschritte. Jetzt bist du bereit, auch selbstständig den Quelltext der Seite zu öffnen und dich dort zurechtzufinden.</p>
+        <p>Einige Menschen auf der &quot;Erde&quot; haben die Macht der Technik genutzt, um ihre Mitmenschen auszubeuten. Ich stelle es mir schrecklich vor, wenn plötzlich dein Leben so sehr von dieser Technologie kontrolliert wird.</p>
 
-        <p>In den meisten Browser findest du im Kontextmenü (Rechts-Klick) die passende Schaltfläche (<a href="/chals/chal7_hint1.png" target="_blank">Beispiel 1</a> / <a href="/chals/chal7_hint2.png" target="_blank">Beispiel 2</a>). Im Safari geht das über einen <a href="https://www.heise.de/tipps-tricks/Safari-Quelltext-anzeigen-4638280.html" target="_blank">kleinen Umweg</a>.</p> 
+        <p>Ein Beispiel? Man könnte dir etwas wegnehmen, dass du davor als selbstverständlich angenommen hast. Bei dieser Aufgabe ist die Antwort wieder im Quellcode zu finden und zwar genau hier:</p>
 
-        <p>Die Antwort befindet sich direkt unter dieser Zeile ...
-        </p>
-        
-        <!-- ... und lautet ${secrets('chal_7')}. -->
+
+        <!--        ======================================= -->
+        <!--                                                -->
+        <!--                                                -->
+        <!--                                                -->
+        <!-- Die Antwort lautet ${secrets('chal_7')}.                 -->
+        <!--                                                -->
+        <!--                                                -->
+        <!--                                                -->
+        <!--        ======================================= -->
+
+
+        <p>&nbsp;</p>
+
+        <p>Aber ich nehme dir den Button von der letzen Aufgabe weg, mit dem du den Quelltext öffnen kannst! Siehst du? Ich steuere dein Leben mit Technik.</p>
+
+        <p>Wehre dich! Du brauchst meinen blöden Button nicht, um den Quelltext zu sehen. Falls du nicht weiterkommst, vergiss nicht: ich bin per COM-LINK erreichbar.</p>
     `
       ),
       en: `

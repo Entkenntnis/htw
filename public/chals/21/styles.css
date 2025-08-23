@@ -1,0 +1,134 @@
+/* AI GENERATED - Dark theme chat styling for challenge 21 */
+
+#chat {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 200px;
+  border: 1px solid #333;
+}
+
+body,
+html {
+  background: #222222;
+  color: #eeeeee;
+}
+
+#messages {
+  list-style: none;
+  padding: 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+#messages::-webkit-scrollbar {
+  width: 10px;
+}
+#messages::-webkit-scrollbar-track {
+  background: #1b1b1b;
+}
+#messages::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 6px;
+}
+#messages::-webkit-scrollbar-thumb:hover {
+  background: #3d3d3d;
+}
+
+.msg {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  line-height: 1.4;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  word-break: break-word;
+  background: #333;
+  position: relative;
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: #00bc8c;
+  color: #062d20;
+}
+
+.msg.assistant {
+  align-self: flex-start;
+  background: #2f2f2f;
+  border: 1px solid #3a3a3a;
+}
+
+.msg.assistant.typing:after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: #00bc8c;
+  margin-left: 4px;
+  animation: caret-blink 1s steps(1, end) infinite;
+  vertical-align: bottom;
+  border-radius: 2px;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+#chat-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #333;
+  background: #1b1b1b;
+}
+
+#chat-form input[type='text'] {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #3a3a3a;
+  background: #2a2a2a;
+  color: #eee;
+  outline: none;
+}
+
+#chat-form input[type='text']:focus {
+  border-color: #00bc8c;
+  box-shadow: 0 0 0 1px #00bc8c;
+}
+
+#chat-form button {
+  background: #00bc8c;
+  color: #062d20;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+#chat-form button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  #chat {
+    height: 100dvh;
+  }
+  .msg {
+    font-size: 0.92rem;
+  }
+}

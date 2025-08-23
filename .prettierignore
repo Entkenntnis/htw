@@ -3,6 +3,8 @@ public/**/*.js
 !public/worms/worms.js
 !public/worms/wormer.js
 !public/comlink/*.js
+!public/chals/21/script.js
+!public/chals/21/styles.css
 
 src/**/*.ejs
 

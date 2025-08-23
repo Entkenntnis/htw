@@ -473,6 +473,11 @@ export function getI18nExtension() {
       <p>Diese Website wird bei <a href="https://uberspace.de">uberspace.de</a> gehostet. Die Datenverarbeitung findet vollständig in Deutschland statt und unterliegt der DSGVO. Bei der Nutzung der Website werden z.T. Protokolle über Aufrufe und Fehler geführt. Die IP-Adresse wird dabei maskiert.
       </p>
       
+      <h3 class="my-4">LLM</h3>
+      
+      <p>Einzelne Aufgaben verwenden ein Sprachmodell (Mistral Small). Die Eingaben werden dabei an den französichen Anbieter <a href="https://mistral.ai">mistral.ai</a> übermittelt. Es werden keine personenbezogenen Daten übermittelt. Die Eingaben werden nur für die Beantwortung der Anfrage verwendet und nicht gespeichert oder zum Trainieren von Modellen genutzt.
+      </p>
+      
       <h3 class="my-4">Protokolle</h3>
       
       <p>Zur Verbesserung der Aufgaben und um mögliche Probleme zu entdecken, werden intern Protokolle geführt und ausgewertet. Diese Protokolle sind nicht öffentlich zugänglich, werden nicht weitergegeben und auch für keine anderen Zwecke gebraucht. Die Protokolle enthalten deine gelösten Aufgaben und die Eingaben für die Aufgaben (ohne Bezug auf einen einzelnen Nutzer). Nach spätestens einem Jahr werden die Protokolle zu den Eingaben gelöscht.
@@ -502,6 +507,11 @@ export function getI18nExtension() {
       <h3 class="my-4">Hosting</h3>
       
       <p>This website is hosted on <a href="https://uberspace.de">uberspace.de</a>. Data processing takes place entirely in Germany and is subject to the GDPR. When using the website, logs of visits and errors are kept in part. The IP address is masked during this process.
+      </p>
+
+      <h3 class="my-4">LLM</h3>
+
+      <p>Some tasks use a language model (Mistral Small). The inputs are transmitted to the French provider <a href="https://mistral.ai">mistral.ai</a>. No personal data is transmitted. The inputs are only used to answer the request and are not stored or used to train models.
       </p>
       
       <h3 class="my-4">Logs</h3>

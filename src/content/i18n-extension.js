@@ -295,6 +295,7 @@ export function getI18nExtension() {
 
     `,
   })
+
   values.push({
     lng: 'en',
     key: 'home.invite_',
@@ -338,7 +339,7 @@ export function getI18nExtension() {
           <div class="col-lg" style="">
             <div style="padding-top: 12px;">
 
-             <img src="/hacker_girl.jpg" style="border-radius: 8px" id="hackergirl">
+            <img src="/hacker_girl.jpg" style="border-radius: 8px" id="hackergirl" alt="A girl is having fun playing Hack The Web on her computer at home.">
 
             </div>
           </div>
@@ -348,9 +349,9 @@ export function getI18nExtension() {
             <p>This platform is suitable for students from 7th grade onwards. We recommend setting aside 30 - 90 minutes. Register with a username and password to get started.
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center;"><a href="/register" class="btn btn-success btn-lg">Register now</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button">Register now</a></p>
 
-            <p>Connect with our community through our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>. To try it out immediately, use the login credentials <code>demo</code> / <code>htw123</code>.</p>
+            <p>Connect with our community through our <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a></strong>. To try it out immediately, use the login credentials <code style="color: #EA4D96">demo</code> / <code style="color: #EA4D96">htw123</code>.</p>
           </div>
         </div>
       </div>
@@ -361,14 +362,13 @@ export function getI18nExtension() {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 280px;
+          width: 240px;
           padding: 0.4em 1em;
-          font-weight: bold;
           color: white !important;
           text-decoration: none !important;
           background-color: transparent;
           border-radius: 8px;
-          border: 2px solid #24292e;
+          border: 2px solid rgb(87, 99, 110);
           text-align: center;
           overflow: hidden;
         }
@@ -389,11 +389,57 @@ export function getI18nExtension() {
         .github-button:hover::before {
           opacity: 1;
         }
+
+        /* Register button (Eduplaces-style hover) */
+        .register-button {
+          position: relative;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: bold;
+          width: 280px;
+          max-width: 100%;
+          padding: 0.4em 1em;
+          color: white !important;
+          text-decoration: none !important;
+          background-color: transparent;
+          border-radius: 8px;
+          border: 3px solid #009771ff;
+          text-align: center;
+          overflow: hidden; /* ensure pseudo-element doesn't spill out */
+          z-index: 0; /* create stacking context for ::before */
+        }
+
+        .register-button:hover {
+          background-color: transparent; /* keep background transparent on hover */
+        }
+
+        .register-button::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(150deg, #05dfa8ff, #007e5cff);
+          opacity: 0;
+          transition: opacity 0.5s ease;
+          z-index: -1;
+        }
+
+        .register-button:hover::before {
+          opacity: 1;
+        }
+
+        .register-button:focus-visible {
+          outline: 3px solid #c8f7e9; /* light teal outline */
+          outline-offset: 2px;
+        }
       </style>
 
-      <div style="margin-top: 24px; display: flex; justify-content: center; gap: 16px;">
+      <div style="margin-top: 36px; display: flex; justify-content: center; flex-wrap: wrap; gap: 48px;">
         <a href="/github-login" class="github-button">
-          <svg viewBox="0 0 16 16" width="32" height="32" style="vertical-align: middle; margin-right: 8px;" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 
             1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 

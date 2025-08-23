@@ -1017,7 +1017,13 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
+        <script src="/chals/21/script.js" ></script>
+
+        <p>Hier kommt die Beschreibung hier</p>
+
+        <div id="chat"></div>
+
+        <!--- <p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
 
         <p>Falls wir mal nicht erreichbar sind, kannst du auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web Fragen stellen und dir Tipps zu den Aufgaben holen.</p>
 
@@ -1029,7 +1035,7 @@ export const part1 = [
 
         <p>
         <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
-        </p>
+        </p> -->
     `
       ),
       en: `

@@ -426,4 +426,39 @@ export function setupChallengesServer(App) {
   // 117 - Schatzkammer
 
   setupDungeon(App)
+
+  // Chat challenges
+  App.express.get('/chat-test', async (req, res) => {
+    const response = await App.chat.complete([
+      { role: 'system', content: 'You are a helpful assistant.' },
+      { role: 'user', content: 'Was ist 2 + 2?' },
+    ])
+    res.send(response)
+  })
+
+  App.express.post('/chal/chal21/complete', async (req, res) => {
+    if (!req.user) {
+      res.send('Please log in.')
+    }
+    /** @type {import('../data/types.js').Message[]} */
+    try {
+      const inputMsgs = req.body.messages
+      // check that input messages are user or assistant role only
+      for (const msg of inputMsgs) {
+        if (
+          !msg ||
+          (msg.role !== 'user' && msg.role !== 'assistant') ||
+          typeof msg.content !== 'string' ||
+          msg.content.length > 1000
+        ) {
+          throw new Error('Invalid message input')
+        }
+      }
+      const messages = [{ role: 'system', content: '' }, ...inputMsgs]
+      const response = await App.chat.complete(messages)
+      res.send('OK:' + response)
+    } catch (e) {
+      res.status(500).send('Error: ' + /** @type { Error}*/ (e).message)
+    }
+  })
 }

@@ -45,6 +45,7 @@ import { setupGithubSSO } from './server/routes/github-sso.js'
 import { setupLiveAnalyze } from './server/routes/live-analyze.js'
 import { setupEvent } from './server/routes/event.js'
 import { setupWWWM } from './server/routes/wwwm.js'
+import { withChat } from './server/lib/withChat.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -65,6 +66,7 @@ withStorage(preApp)
 withChallengeStats(preApp)
 withVersion(preApp)
 withEvent(preApp)
+withChat(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp

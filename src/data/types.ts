@@ -62,6 +62,14 @@ export interface App {
   event: {
     create: (key: string, userId: number) => Promise<void>
   }
+  chat: {
+    complete: (messages: Message[]) => Promise<string>
+  }
+}
+
+export interface Message {
+  role: 'user' | 'system' | 'assistant'
+  content: string
 }
 
 export interface HtwChallenge {

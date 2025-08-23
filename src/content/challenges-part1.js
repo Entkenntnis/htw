@@ -503,10 +503,24 @@ export const part1 = [
     title: { de: 'HTML', en: 'HTML' },
     // date: '2017-05-17',
     deps: [24],
-    html: {
-      de: story(
-        'Josh',
-        `
+    render: () => {
+      const script = `
+        <script>
+          function transform() {
+            const code = document.body.outerHTML
+            document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
+            document.body.style.lineHeight = '1.2'
+            document.body.style.fontFamily = 'monospace'
+            document.body.style.marginLeft = '4px'
+            history.pushState({}, '')
+            onpopstate = (_) => { window.location.reload() };
+          }
+        </script>
+      `
+      return {
+        de: story(
+          'Josh',
+          `
         <p>Hacken hat meine Augen geöffnet - und das in meinem Alter und auf die letzten Tage! Wer hätte gedacht, dass ich nochmal so staunen würde wie ein Kind im Spielzeugladen?</p>
 
         <p>Schau dir diese Website an: Was du hier siehst, ist nur die Oberfläche. Dahinter findet sich eine ganze Welt voller Technik! Früher dachte ich: Das verstehe ich nie. Heute weiß ich: Man muss nicht alles kapieren, um fasziniert zu sein.</p>
@@ -525,51 +539,35 @@ export const part1 = [
         </pre>
 
         <p><button onclick="transform()" class="btn btn-sm btn-primary" style="margin-bottom:24px;">Quelltext anzeigen</button></p>
-
-        <script>
-          function transform() {
-            const code = document.body.outerHTML
-            document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
-            document.body.style.lineHeight = '1.2'
-            document.body.style.fontFamily = 'monospace'
-            document.body.style.marginLeft = '4px'
-            history.pushState({}, '')
-            onpopstate = (_) => { window.location.reload() };
-          }
-        </script>
+        ${script}
+        
     `
-      ),
-      en: `
-      <p>When you look at a website on your computer, you actually only see a small part of the website. But behind the scenes, there is a whole world full of technology to discover.
-      </p>
+        ),
+        en: story(
+          'Josh',
+          `
+          <p>Hacking has opened my eyes—even at my age and in my final days! Who would have thought I'd be as amazed as a child in a toy store again?</p>
+          
+          <p>Look at this website: What you see here is just the surface. Behind it, there's a whole world of technology! I used to think I'd never understand it. Today I know: you don't have to get everything to be fascinated.</p>
+          
+          <p>Do what I do: Click the button, dive into the source code, and find the answer inside this box.</p>
+          
+          <pre>
       
-      <p>Similar to the notes to a piece of music or the script to a film, there is also the code to a website. And in it, you can find information that is not visible otherwise. In the source code of the website, the answer is visible in this box:</p>
-      
-      <pre>
-      
-      __________________________________________
-      |                                        |
-      |<!-- The answer is ${secrets(
-        'chal_6'
-      )}. -->                                        |
-      |________________________________________|
-                
-      </pre>
-      
-      <p><button onclick="transform()">Show sourcecode</button></p>
-      
-      <script>
-        function transform() {
-          const code = document.body.outerHTML
-          document.body.outerHTML = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\\n/g, '<br>').replace(/ /g, '&nbsp;');
-          document.body.style.lineHeight = '1.2';
-          document.body.style.fontFamily = 'monospace';
-          document.body.style.marginLeft = '4px';
-          history.pushState({}, '');
-          onpopstate = () => { window.location.reload(); };
-        }
-      </script>
-      `,
+          __________________________________________
+          |                                        |
+          |<!-- The answer is ${secrets(
+            'chal_6'
+          )}. -->                                        |
+          |________________________________________|
+                    
+          </pre>
+          
+          <p><button onclick="transform()" class="btn btn-sm btn-primary" style="margin-bottom:24px;">Show source code</button></p>
+          ${script}
+      `
+        ),
+      }
     },
     solution: secrets('chal_6'),
   },
@@ -607,14 +605,32 @@ export const part1 = [
         <p>Wehre dich! Du brauchst meinen blöden Button nicht, um den Quelltext zu sehen. Falls du nicht weiterkommst, vergiss nicht: ich bin per COM-LINK erreichbar.</p>
     `
       ),
-      en: `
-        <p>This time, too, it takes a look at the source code of the page. However, you have to find the portal yourself. The answer is directly below this line ...
-        </p>
-        
-        <!-- ... and is ${secrets('chal_7')}. -->
-        
-        <p><small><a href="/chals/chal7_hint_en.png" target="_blank">Hint</a></small></p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>Some people on "Earth" have used the power of technology to exploit their fellow human beings. I imagine it's terrible when your life is suddenly so controlled by this technology.</p>
+
+        <p>An example? Someone could take away something you previously took for granted. In this task, the answer is again found in the source code, right here:</p>
+
+
+        <!--        ======================================= -->
+        <!--                                                -->
+        <!--                                                -->
+        <!--                                                -->
+        <!-- The answer is ${secrets('chal_7')}.                 -->
+        <!--                                                -->
+        <!--                                                -->
+        <!--                                                -->
+        <!--        ======================================= -->
+
+
+        <p>&nbsp;</p>
+
+        <p>But I'm taking away the button from the last task that let you open the source code... See? This is what control could look like 😢</p>
+
+        <p>Fight back! You don't need my silly button to see the source code.</p>
+    `
+      ),
     },
     solution: secrets('chal_7'),
   },
@@ -793,9 +809,7 @@ export const part1 = [
       en: story(
         'Kiwi',
         `
-  <p>The system wants to know your name: enter your username as the answer. But somehow the input gets scrambled.</p>
-
-  <p>(If things look backwards — just go with it.)</p>
+        <p>The system wants to know your name: enter your username as the answer. But somehow the input gets scrambled.</p>
       `
       ),
     },
@@ -825,13 +839,16 @@ export const part1 = [
         <p><a href="/wihtige_notiz.txt" target="_blank">https://hack.arrrg.de/wihtige_notiz.txt</a></p>
     `
       ),
-      en: `
-        <p>Careless typos are the worst. You do all the hard work and then a single missing (or swapped) letter breaks everything.</p>
+      en: story(
+        'Kiwi',
+        `
+        <p>Careless mistakes are the worst. You've done the hard work, but then just one letter is missing and it doesn't work. That's really annoying.</p>
 
-        <p>I wanted to link you the important note, but I made a typo. Find a way around my mistake:</p>
+        <p>I actually wanted to link the important note for you, but now you have to find a way around my mistake:</p>
 
         <p><a href="/imprtant_note.txt" target="_blank">https://hack.arrrg.de/imprtant_note.txt</a></p>
-    `,
+    `
+      ),
     },
     solution: secrets('chal_16').split(','),
   },
@@ -3479,263 +3496,120 @@ To: ${req.user?.name}@arrrg.de</pre>
   {
     id: 80,
     pos: { x: 270, y: 535 },
-    title: { de: 'Bist du ein Mensch?', en: 'Animation' },
+    title: { de: 'Bist du ein Mensch?', en: 'Are you human?' },
     // date: '2022-02-24',
     deps: [4, 6],
-    html: {
-      de: story(
-        'Kiwi',
+    render: () => {
+      const canvas = `
+        <div id="canvas">
+          <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
+          <span class="letter" style="top:  70px; left: 60px; animation-duration: 9s;  animation-delay:    4s;">R</span>
+          <span class="letter" style="top:  70px; left:  90px; animation-duration: 11s; animation-delay:   3.5s;">A</span>
+          <span class="letter" style="top:  70px; left: 120px; animation-duration: 8s;  animation-delay:    3s;">N</span>
+          <span class="letter" style="top:  70px; left: 150px; animation-duration: 10s; animation-delay:    2.5s;">S</span>
+          <span class="letter" style="top:  70px; left: 180px; animation-duration: 7s;  animation-delay:    2s;">I</span>
+          <span class="letter" style="top:  70px; left: 190px; animation-duration: 12s; animation-delay:    1.5s;">T</span>
+          <span class="letter" style="top:  70px; left: 220px; animation-duration: 9s;  animation-delay:   1s;">I</span>
+          <span class="letter" style="top:  70px; left: 230px; animation-duration: 6s;  animation-delay:    0.5s;">O</span>
+          <span class="letter" style="top:  70px; left: 260px; animation-duration: 10s; animation-delay:    0s;">N</span>
+        </div>
+      `
+
+      const style = `
+        <style>
+          #challenge_answer {
+            border: 1px solid #666;
+            display: inline;
+            font-family: inherit;
+            font-size: inherit;
+            padding: none;
+            width: auto;
+            background-color: #222222;
+            color: white;
+            outline: none;
+          }
+          #canvas {
+            position: relative;
+            width: 600px;
+            height: 300px;
+            border: 2px solid #666;
+            overflow: hidden;
+            margin-bottom: 10px;
+          }
+          .letter {
+            position: absolute;
+            font-family: sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            animation-name: floatAround;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-fill-mode: forwards;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+          }
+          .letter:hover {
+            animation-play-state: paused;
+          }
+          @keyframes floatAround {
+            0%   { transform: translate(0px, 0px) rotate(0deg); color: #f44336; }
+            10%  { transform: translate(80px, 20px) rotate(36deg); color: #e91e63; }
+            20%  { transform: translate(120px, 40px) rotate(72deg); color: #9c27b0; }
+            30%  { transform: translate(200px, 60px) rotate(108deg); color: #673ab7; }
+            40%  { transform: translate(300px, 80px) rotate(144deg); color: #3f51b5; }
+            50%  { transform: translate(280px, 100px) rotate(180deg); color: #2196f3; }
+            60%  { transform: translate(200px, 120px) rotate(216deg); color: #03a9f4; }
+            70%  { transform: translate(120px, 140px) rotate(252deg); color: #00bcd4; }
+            80%  { transform: translate(60px, 160px) rotate(288deg); color: #009688; }
+            90%  { transform: translate(30px, 100px) rotate(324deg); color: #4caf50; }
+            100% { transform: translate(0px, 0px) rotate(360deg); color: #f44336; }
+          }
+        </style>
+      `
+
+      const getScript = () => `
+        <script>
+          document.querySelectorAll('.letter').forEach(function(letter) {
+            letter.addEventListener('click', function() {
+              var input = document.getElementById('challenge_answer');
+              input.value += letter.textContent;
+              letter.remove();
+            });
+          });
+          document.addEventListener('DOMContentLoaded', function() {
+            const answerEl = document.getElementById("challenge_answer")
+            answerEl.readOnly = true
+            answerEl.addEventListener("dblclick", function() { this.readOnly = false; })
+          });
+        </script>
+      `
+
+      return {
+        de: story(
+          'Kiwi',
+          `
+          <p>Anscheinend haben die Roboter die Kontrolle über das Internet übernommen. Die Menschen auf der "Erde" denken sich deshalb immer kreativere Systeme aus, um Menschen von Roboter zu unterscheiden.</p>
+  
+          <p>Zeige das du ein Mensch bist und klicke auf die Buchstaben in der richtigen Reihenfolge.</p>
+  
+          ${canvas}
+          ${getScript()}
+          ${style}
         `
-        <p>Anscheinend haben die Roboter die Kontrolle über das Internet übernommen. Die Menschen auf der "Erde" denken sich deshalb immer kreativere Systeme aus, um Menschen von Roboter zu unterscheiden.</p>
+        ),
+        en: story(
+          'Kiwi',
+          `
+          <p>Apparently, the robots have taken control of the internet. That's why the people on "Earth" are coming up with more and more creative systems to distinguish humans from robots.</p>
+          
+          <p>Show that you are a human and click on the letters in the correct order.</p>
 
-        <p>Zeige das du ein Mensch bist und klicke auf die Buchstaben in der richtigen Reihenfolge.</p>
-
-        <div id="canvas">
-        <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
-        <span class="letter" style="top:  70px; left: 60px; animation-duration: 9s;  animation-delay:    4s;">R</span>
-        <span class="letter" style="top:  70px; left:  90px; animation-duration: 11s; animation-delay:   3.5s;">A</span>
-        <span class="letter" style="top:  70px; left: 120px; animation-duration: 8s;  animation-delay:    3s;">N</span>
-        <span class="letter" style="top:  70px; left: 150px; animation-duration: 10s; animation-delay:    2.5s;">S</span>
-        <span class="letter" style="top:  70px; left: 180px; animation-duration: 7s;  animation-delay:    2s;">I</span>
-        <span class="letter" style="top:  70px; left: 190px; animation-duration: 12s; animation-delay:    1.5s;">T</span>
-        <span class="letter" style="top:  70px; left: 220px; animation-duration: 9s;  animation-delay:   1s;">I</span>
-        <span class="letter" style="top:  70px; left: 230px; animation-duration: 6s;  animation-delay:    0.5s;">O</span>
-        <span class="letter" style="top:  70px; left: 260px; animation-duration: 10s; animation-delay:    0s;">N</span>
-      </div>
-
-      <script>
-        // Clicking a letter appends it to the #challenge_answer and removes it from the canvas
-        document.querySelectorAll('.letter').forEach(function(letter) {
-          letter.addEventListener('click', function() {
-            var input = document.getElementById('challenge_answer');
-            input.value += letter.textContent;
-            letter.remove();
-          });
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-          document.getElementById("challenge_answer").readOnly = true
-          document.getElementById("challenge_answer").addEventListener("dblclick", function() {
-            this.readOnly = false;
-          })
-        });
-      </script>
-
-      <style>
-        #challenge_answer {
-          border: 1px solid #666;
-          display: inline;
-          font-family: inherit;
-          font-size: inherit;
-          padding: none;
-          width: auto;
-          background-color: #222222;
-          color: white;
-          outline: none;
-        }
-        /* Container */
-        #canvas {
-          position: relative;
-          width: 600px;
-          height: 300px;
-          border: 2px solid #666;
-          overflow: hidden; /* hide overflow just in case */
-          margin-bottom: 10px;
-        }
-
-        /* Styling each letter */
-        .letter {
-          position: absolute;
-          font-family: sans-serif;
-          font-size: 36px;
-          font-weight: bold;
-          cursor: pointer;
-          animation-name: floatAround;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-          animation-fill-mode: forwards;
-          /* Add a little shadow to make it fancy */
-          text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-        }
-
-        /* Pause animation on hover */
-        .letter:hover {
-          animation-play-state: paused;
-        }
-
-        /*
-          "floatAround" keyframes:
-          - 10 segments (0%, 10%, 20% ... 100%)
-          - Each step changes translate (x, y), rotation, and color
-          - The chosen values try to keep letters within the 400×300 box
-            (depending on initial position)
-        */
-        @keyframes floatAround {
-          0% {
-            transform: translate(0px, 0px) rotate(0deg);
-            color: #f44336;
-          }
-          10% {
-            transform: translate(80px, 20px) rotate(36deg);
-            color: #e91e63;
-          }
-          20% {
-            transform: translate(120px, 40px) rotate(72deg);
-            color: #9c27b0;
-          }
-          30% {
-            transform: translate(200px, 60px) rotate(108deg);
-            color: #673ab7;
-          }
-          40% {
-            transform: translate(300px, 80px) rotate(144deg);
-            color: #3f51b5;
-          }
-          50% {
-            transform: translate(280px, 100px) rotate(180deg);
-            color: #2196f3;
-          }
-          60% {
-            transform: translate(200px, 120px) rotate(216deg);
-            color: #03a9f4;
-          }
-          70% {
-            transform: translate(120px, 140px) rotate(252deg);
-            color: #00bcd4;
-          }
-          80% {
-            transform: translate(60px, 160px) rotate(288deg);
-            color: #009688;
-          }
-          90% {
-            transform: translate(30px, 100px) rotate(324deg);
-            color: #4caf50;
-          }
-          100% {
-            transform: translate(0px, 0px) rotate(360deg);
-            color: #f44336;
-          }
-        }
-      </style>
-    `
-      ),
-      en: `
-        <p>Who likes boring websites? Let's use the capabilities of the browser and bring some action!</p>
-        
-        <p>Catch the letters of your answer in the correct order to solve the task.</p>
-
-        <div id="canvas">
-        <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
-        <span class="letter" style="top:  70px; left: 60px; animation-duration: 9s;  animation-delay:    4s;">R</span>
-        <span class="letter" style="top:  70px; left:  90px; animation-duration: 11s; animation-delay:   3.5s;">A</span>
-        <span class="letter" style="top:  70px; left: 120px; animation-duration: 8s;  animation-delay:    3s;">N</span>
-        <span class="letter" style="top:  70px; left: 150px; animation-duration: 10s; animation-delay:    2.5s;">S</span>
-        <span class="letter" style="top:  70px; left: 180px; animation-duration: 7s;  animation-delay:    2s;">I</span>
-        <span class="letter" style="top:  70px; left: 190px; animation-duration: 12s; animation-delay:    1.5s;">T</span>
-        <span class="letter" style="top:  70px; left: 220px; animation-duration: 9s;  animation-delay:   1s;">I</span>
-        <span class="letter" style="top:  70px; left: 230px; animation-duration: 6s;  animation-delay:    0.5s;">O</span>
-        <span class="letter" style="top:  70px; left: 260px; animation-duration: 10s; animation-delay:    0s;">N</span>
-      </div>
-
-      <script>
-        // Clicking a letter appends it to the #challenge_answer and removes it from the canvas
-        document.querySelectorAll('.letter').forEach(function(letter) {
-          letter.addEventListener('click', function() {
-            var input = document.getElementById('challenge_answer');
-            input.value += letter.textContent;
-            letter.remove();
-          });
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-          document.getElementById("challenge_answer").readOnly = true  
-        });
-      </script>
-
-      <style>
-        /* Container */
-        #canvas {
-          position: relative;
-          width: 600px;
-          height: 300px;
-          border: 2px solid #666;
-          overflow: hidden; /* hide overflow just in case */
-          margin-bottom: 10px;
-        }
-
-        /* Styling each letter */
-        .letter {
-          position: absolute;
-          font-family: sans-serif;
-          font-size: 36px;
-          font-weight: bold;
-          cursor: pointer;
-          animation-name: floatAround;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-          animation-fill-mode: forwards;
-          /* Add a little shadow to make it fancy */
-          text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-        }
-
-        /* Pause animation on hover */
-        .letter:hover {
-          animation-play-state: paused;
-        }
-
-        /*
-          "floatAround" keyframes:
-          - 10 segments (0%, 10%, 20% ... 100%)
-          - Each step changes translate (x, y), rotation, and color
-          - The chosen values try to keep letters within the 400×300 box
-            (depending on initial position)
-        */
-        @keyframes floatAround {
-          0% {
-            transform: translate(0px, 0px) rotate(0deg);
-            color: #f44336;
-          }
-          10% {
-            transform: translate(80px, 20px) rotate(36deg);
-            color: #e91e63;
-          }
-          20% {
-            transform: translate(120px, 40px) rotate(72deg);
-            color: #9c27b0;
-          }
-          30% {
-            transform: translate(200px, 60px) rotate(108deg);
-            color: #673ab7;
-          }
-          40% {
-            transform: translate(300px, 80px) rotate(144deg);
-            color: #3f51b5;
-          }
-          50% {
-            transform: translate(280px, 100px) rotate(180deg);
-            color: #2196f3;
-          }
-          60% {
-            transform: translate(200px, 120px) rotate(216deg);
-            color: #03a9f4;
-          }
-          70% {
-            transform: translate(120px, 140px) rotate(252deg);
-            color: #00bcd4;
-          }
-          80% {
-            transform: translate(60px, 160px) rotate(288deg);
-            color: #009688;
-          }
-          90% {
-            transform: translate(30px, 100px) rotate(324deg);
-            color: #4caf50;
-          }
-          100% {
-            transform: translate(0px, 0px) rotate(360deg);
-            color: #f44336;
-          }
-        }
-      </style>
-    `,
+          ${canvas}
+          ${getScript()}
+          ${style}
+        `
+        ),
+      }
     },
     solution: secrets('chal_80'),
   },
@@ -4472,11 +4346,18 @@ To: ${req.user?.name}@arrrg.de</pre>
         <p style="text-align: left; margin-top: -16px;"><small style="color: gray;" title ="ascii">Wenn du kein Minecraft spielst, findest du Hilfe im COM-LINK.</small></p>
       `
       ),
-      en: `
-        <p>What is the block-ID (numeric or with namespace) for this block?</p>
-          
-        <p><img src="/chals/chal336.png" alt="block in minecraft"></p>
-      `,
+      en: story(
+        'Bex',
+        `
+        <p>I was very surprised to find so many Minecraft fans among hackers—and even some tasks from the world of Minecraft.</p>
+
+        <p>My mother gave me the game back then, and I was so happy to play it for the first time. But that was a long time ago, before all this space stuff started. I really miss that time.</p>
+
+        <p>I still know my way around pretty well, and I hope you do too. Your answer is the block ID (numeric or with namespace) of this block.</p>
+
+        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+      `
+      ),
     },
     solution: secrets('chal_336').split(','),
     afterSolveText: {

@@ -855,7 +855,7 @@ export function setupWormsArena(App) {
       if (match.status == 'running') {
         res.send(
           matchSteps == 0
-            ? 'Match läuft ... (kann bis zu einer Minute dauern)'
+            ? 'Match läuft ... (kann bis zu eine Minute dauern)'
             : `Match läuft ... (Schritt ${matchSteps})`
         )
         return

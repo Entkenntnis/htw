@@ -1027,7 +1027,7 @@ export const part1 = [
   {
     id: 21,
     pos: { x: 350, y: 665 },
-    title: { de: 'Fingerzeig', en: 'Helping hand' },
+    title: { de: 'Schüchtern', en: 'Helping hand' },
     // date: '2017-08-25',
     deps: [80],
     render: ({ req }) => ({
@@ -1037,29 +1037,15 @@ export const part1 = [
         <link rel="stylesheet" href="/chals/chat/styles.css">
 
         <script>
-          window.greeting = "Hallo, sprich mit mir 👉👈"
+          window.greeting = "Hallo 👉👈"
           window.endpoint = "/chal/chal21/complete"
           window.locale = "${req.lng}"
         </script>
 
-        <p>Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin.</p>
+        <p>Mich nervt es, wenn diese Chatbots alle in ihrem selbstsicheren Ton daher kommen. Das ist doch völlig unauthentisch. Ich habe mal einen anderen Bot gebaut. Der Bot kennt deine Antwort, aber davor musst du erstmal sein Vertrauen gewinnen. Keine Ahnung, ich glaube, dass Komplimente ein guter Ansatz sind ...</p>
 
         <div id="chat" style="margin-top: 48px; margin-bottom: 32px;"></div>
         <script src="/chals/chat/script.js" ></script>
-
-        <!--<p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
-
-        <p>Falls wir mal nicht erreichbar sind, kannst du auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web Fragen stellen und dir Tipps zu den Aufgaben holen.</p>
-
-        <p>So sieht das Forum aus. In diesem Screenshot findest du die Antwort zu dieser Aufgabe.</p>
-
-        <a href="/chals/21.png" target="_blank"><img src="/chals/21.png" width="500" style="max-width: 100%; margin-top:12px;margin-bottom:24px;"/></a>
-
-        <p>Du bist herzlich einladen, dem Server beizutreten!</p>
-
-        <p>
-        <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
-        </p>-->
     `
       ),
       en: `

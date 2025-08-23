@@ -428,13 +428,6 @@ export function setupChallengesServer(App) {
   setupDungeon(App)
 
   // Chat challenges
-  App.express.get('/chat-test', async (req, res) => {
-    const response = await App.chat.complete([
-      { role: 'system', content: 'You are a helpful assistant.' },
-      { role: 'user', content: 'Was ist 2 + 2?' },
-    ])
-    res.send(response)
-  })
 
   App.express.post('/chal/chal21/complete', async (req, res) => {
     if (!req.user) {

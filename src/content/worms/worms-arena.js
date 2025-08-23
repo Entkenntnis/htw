@@ -673,7 +673,37 @@ export function setupWormsArena(App) {
             }
           )
 
-          const replay = await runWorms(bot.code, opponentBot.code)
+          // first try running match with external runner
+          const ENDPOINT = 'https://worms-runner.vercel.app/api/run'
+
+          /** @type {import('../../data/types.js').WormsReplay | null} */
+          let replay = null
+          try {
+            // make post request with json and redCode and greenCode
+            const response = await fetch(ENDPOINT, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                redCode: bot.code,
+                greenCode: opponentBot.code,
+              }),
+            })
+            replay = /** @type {any} */ (await response.json())
+            if (
+              !replay ||
+              !replay.winner ||
+              !Array.isArray(replay.dirs) ||
+              !replay.dirs.every((d) => [0, 1, 2, 3].includes(d))
+            ) {
+              throw new Error('Invalid replay data from endpoint')
+            }
+          } catch (e) {
+            console.log(
+              'External runner failed, falling back to internal runner',
+              e
+            )
+            replay = await runWorms(bot.code, opponentBot.code)
+          }
 
           // load elo of bots
           const botELO = parseFloat(
@@ -823,7 +853,11 @@ export function setupWormsArena(App) {
       }
 
       if (match.status == 'running') {
-        res.send(`Match läuft ... (Schritt ${matchSteps})`)
+        res.send(
+          matchSteps == 0
+            ? 'Match läuft ... (kann bis zu einer Minute dauern)'
+            : `Match läuft ... (Schritt ${matchSteps})`
+        )
         return
       }
 

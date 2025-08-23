@@ -104,7 +104,9 @@ class Wormer {
     const message = document.createElement('div')
     message.innerHTML =
       (this.winner == 'red' ? 'Rot gewinnt' : 'Grün gewinnt') +
-      '<br><span onclick="restart()" style="text-decoration:underline; cursor: pointer; color: gray; font-size: 16px;">Neustart</span>'
+      (window.restart
+        ? '<br><span onclick="restart()" style="text-decoration:underline; cursor: pointer; color: gray; font-size: 16px;">Neustart</span>'
+        : '')
     message.style.position = 'absolute'
     message.style.top = '30%'
     message.style.left = '50%'

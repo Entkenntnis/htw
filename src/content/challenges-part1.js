@@ -1034,18 +1034,19 @@ export const part1 = [
       de: story(
         'Bex',
         `
-        <!--<link rel="stylesheet" href="/chals/21/styles.css">
+        <link rel="stylesheet" href="/chals/chat/styles.css">
 
         <script>
-          window.greeting = "Hallo, ich bin der Bot!"
+          window.greeting = "Hallo, sprich mit mir 👉👈"
+          window.endoint = "/chal/chal21/complete"
         </script>
 
         <p>Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin.</p>
 
         <div id="chat"></div>
-        <script src="/chals/21/script.js" ></script>-->
+        <script src="/chals/chat/script.js" ></script>
 
-        <p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
+        <!--<p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
 
         <p>Falls wir mal nicht erreichbar sind, kannst du auf dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> von Hack The Web Fragen stellen und dir Tipps zu den Aufgaben holen.</p>
 
@@ -1057,7 +1058,7 @@ export const part1 = [
 
         <p>
         <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
-        </p>
+        </p>-->
     `
       ),
       en: `

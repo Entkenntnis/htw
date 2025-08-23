@@ -9,10 +9,6 @@
 // - German UI, dark theme handled via styles.css
 
 ;(function () {
-  const MAX_SERVER_INPUT_LEN = 1000
-  const MAX_ASSISTANT_DISPLAY = 4000 // truncate beyond this
-
-  /** @type {{messages: {role:'user'|'assistant', content:string}[], inFlight:boolean}} */
   const state = { messages: [], inFlight: false }
 
   // DOM creation / bootstrap
@@ -71,11 +67,6 @@
     e.preventDefault()
     if (state.inFlight) return
     const value = input.value.trim()
-    if (!value) return
-    if (value.length > MAX_SERVER_INPUT_LEN) {
-      alert('Eingabe zu lang (>' + MAX_SERVER_INPUT_LEN + ' Zeichen).')
-      return
-    }
     // Echo user message
     const userMsg = { role: 'user', content: value }
     state.messages.push(userMsg)
@@ -131,7 +122,7 @@
       })),
     }
 
-    fetch('/chal/chal21/complete', {
+    fetch(window.endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -142,9 +133,6 @@
           throw new Error(text || 'Unbekannter Fehler')
         }
         let assistant = text.slice(3).trim()
-        if (assistant.length > MAX_ASSISTANT_DISPLAY) {
-          assistant = assistant.slice(0, MAX_ASSISTANT_DISPLAY).trimEnd() + ' …'
-        }
         const msg = { role: 'assistant', content: assistant }
         // add to state before typewriter so consistent with future context
         state.messages.push(msg)

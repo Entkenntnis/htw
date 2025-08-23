@@ -122,13 +122,3 @@ html {
   opacity: 0.5;
   cursor: default;
 }
-
-/* Responsive tweaks */
-@media (max-width: 640px) {
-  #chat {
-    height: 100dvh;
-  }
-  .msg {
-    font-size: 0.92rem;
-  }
-}

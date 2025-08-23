@@ -1030,7 +1030,7 @@ export const part1 = [
     title: { de: 'Fingerzeig', en: 'Helping hand' },
     // date: '2017-08-25',
     deps: [80],
-    html: {
+    render: ({ req }) => ({
       de: story(
         'Bex',
         `
@@ -1038,12 +1038,13 @@ export const part1 = [
 
         <script>
           window.greeting = "Hallo, sprich mit mir 👉👈"
-          window.endoint = "/chal/chal21/complete"
+          window.endpoint = "/chal/chal21/complete"
+          window.locale = "${req.lng}"
         </script>
 
         <p>Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin.</p>
 
-        <div id="chat"></div>
+        <div id="chat" style="margin-top: 48px; margin-bottom: 32px;"></div>
         <script src="/chals/chat/script.js" ></script>
 
         <!--<p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
@@ -1062,7 +1063,20 @@ export const part1 = [
     `
       ),
       en: `
-       <p>
+      <link rel="stylesheet" href="/chals/chat/styles.css">
+
+        <script>
+          window.greeting = "Hallo, sprich mit mir 👉👈"
+          window.endpoint = "/chal/chal21/complete"
+          window.locale = "${req.lng}"
+        </script>
+
+        <p>Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin.</p>
+
+        <div id="chat" style="margin-top: 48px; margin-bottom: 32px;"></div>
+        <script src="/chals/chat/script.js" ></script> 
+      
+      <p>
            It is super cool to have helpful people like you. It makes everyday life so much more pleasant when you don't know the way or forget your wallet at the checkout :)
        </p>
        
@@ -1082,7 +1096,7 @@ export const part1 = [
 
        <p style="margin-top:24px;font-size:10px;color:darkgray">It's completely not a problem if you don't have a Discord account or don't want to register on Discord. In this case, you can find the answer <a href="/chals/21.png">here</a>.</p>
    `,
-    },
+    }),
     solution: secrets('chal_21'),
   },
 

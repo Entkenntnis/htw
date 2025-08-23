@@ -6,7 +6,6 @@
 // - Maintain full convo (user + assistant) client-side only (no persistence)
 // - Block parallel requests
 // - Typewriter effect for assistant reply
-// - German UI, dark theme handled via styles.css
 
 ;(function () {
   const state = { messages: [], inFlight: false }
@@ -37,8 +36,8 @@
     form.id = 'chat-form'
     form.autocomplete = 'off'
     form.innerHTML = `
-			<input id="chat-input" type="text" placeholder="Frage stellen…" aria-label="Nachricht eingeben" />
-			<button id="chat-send" type="submit">Senden</button>
+			<input id="chat-input" type="text" placeholder="${window.locale === 'de' ? 'Frage stellen…' : 'Ask a question…'}" aria-label="${window.locale === 'de' ? 'Nachricht eingeben' : 'Enter message'}" />
+			<button id="chat-send" type="submit">${window.locale === 'de' ? 'Senden' : 'Send'}</button>
 		`
     chatRoot.appendChild(form)
   }
@@ -67,6 +66,7 @@
     e.preventDefault()
     if (state.inFlight) return
     const value = input.value.trim()
+    if (!value) return // Do not send empty messages
     // Echo user message
     const userMsg = { role: 'user', content: value }
     state.messages.push(userMsg)
@@ -130,7 +130,7 @@
       .then(async (res) => {
         const text = await res.text()
         if (!res.ok || !text.startsWith('OK:')) {
-          throw new Error(text || 'Unbekannter Fehler')
+          throw new Error(text || (window.locale === 'de' ? 'Unbekannter Fehler' : 'Unknown error'))
         }
         let assistant = text.slice(3).trim()
         const msg = { role: 'assistant', content: assistant }
@@ -148,7 +148,7 @@
       })
       .catch((err) => {
         placeholder.remove()
-        alert('Fehler: ' + err.message)
+        alert((window.locale === 'de' ? 'Fehler: ' : 'Error: ') + err.message)
         // Error: allow new input
         state.inFlight = false
         setDisabled(false)

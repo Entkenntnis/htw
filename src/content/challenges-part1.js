@@ -1010,18 +1010,23 @@ export const part1 = [
   {
     id: 21,
     pos: { x: 350, y: 665 },
-    title: { de: 'Fingerzeig', en: 'Helping hand' },
+    title: { de: 'Guter Bot', en: 'Helping hand' },
     // date: '2017-08-25',
     deps: [80],
     html: {
       de: story(
         'Bex',
         `
-        <script src="/chals/21/script.js" ></script>
+        <link rel="stylesheet" href="/chals/21/styles.css">
 
-        <p>Hier kommt die Beschreibung hier</p>
+        <script>
+          window.greeting = "Hallo, ich bin der Bot!"
+        </script>
+
+        <p>Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin.</p>
 
         <div id="chat"></div>
+        <script src="/chals/21/script.js" ></script>
 
         <!--- <p>Es ist kein Problem, um Hilfe zu bitten. Wir alle kommen irgendwann mal nicht weiter. Ich habe paar harte Jahre gebraucht, das zu lernen.</p>
 

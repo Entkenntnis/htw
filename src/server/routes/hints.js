@@ -198,15 +198,6 @@ export const hintsData = {
       },
     ],
   },
-  21: {
-    entries: [
-      {
-        question: 'Krieg ich einen Tipp?',
-        answer: 'Schaue genauer auf den Screenshot',
-      },
-      { question: 'wo auf den Screenshot', answer: 'ziemlich in der Mitte' },
-    ],
-  },
   23: {
     entries: [
       {

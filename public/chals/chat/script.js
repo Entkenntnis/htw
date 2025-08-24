@@ -36,7 +36,7 @@
     form.id = 'chat-form'
     form.autocomplete = 'off'
     form.innerHTML = `
-			<input id="chat-input" type="text" placeholder="${window.locale === 'de' ? 'Frage stellen…' : 'Ask a question…'}" aria-label="${window.locale === 'de' ? 'Nachricht eingeben' : 'Enter message'}" />
+			<input id="chat-input" type="text" aria-label="${window.locale === 'de' ? 'Nachricht eingeben' : 'Enter message'}" />
 			<button id="chat-send" type="submit">${window.locale === 'de' ? 'Senden' : 'Send'}</button>
 		`
     chatRoot.appendChild(form)

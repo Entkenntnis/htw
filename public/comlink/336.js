@@ -2,6 +2,10 @@ const COM_TREE = {
   character: 'BEX',
   messages: {
     start: {
+      text: 'Was geht?',
+      next: 'entry',
+    },
+    entry: {
       text: ['Brauchst du Hilfe bei der Aufgabe?'],
       options: [
         { label: 'Ich spiele kein Minecraft!', next: 'clueless' },
@@ -21,7 +25,7 @@ const COM_TREE = {
         'Was für eine Scheiße!',
         'Sorry ',
       ],
-      options: [{ label: 'Oh.', next: 'start' }],
+      options: [{ label: 'Oh.', next: 'entry' }],
     },
     id: {
       text: [
@@ -32,7 +36,7 @@ const COM_TREE = {
       options: [
         { label: 'Wo finde ich diese ID?', next: 'recherche' },
         { label: 'Was ist das überhaupt für ein Block?', next: 'clueless' },
-        { label: 'Danke für den Hinweis', next: 'start' },
+        { label: 'Danke für den Hinweis', next: 'entry' },
       ],
     },
     clueless: {
@@ -42,13 +46,13 @@ const COM_TREE = {
       ],
       options: [
         { label: 'Ja, bitte!', next: 'block' },
-        { label: 'Nein, danke.', next: 'start' },
+        { label: 'Nein, danke.', next: 'entry' },
       ],
     },
     recherche: {
       text: ['Das Internet ist voll von Informationen über Minecraft.'],
       options: [
-        { label: 'Suchen, das kriege ich selbst hin!', next: 'start' },
+        { label: 'Suchen, das kriege ich selbst hin!', next: 'entry' },
         {
           label: 'Ich habe schon gesucht, aber nichts gefunden.',
           next: 'website-hint',
@@ -60,7 +64,7 @@ const COM_TREE = {
         'Es gibt eine tolle Website, die alle Blöcke auflistet:',
         'minecraft-ids.grahamedgecombe.com',
       ],
-      options: [{ label: 'Danke!', next: 'start' }],
+      options: [{ label: 'Danke!', next: 'entry' }],
     },
     block: {
       text: ['Ich gebe dir vier Möglichkeiten zur Auswahl:'],
@@ -82,7 +86,7 @@ const COM_TREE = {
         'Es ist unzerstörbar, außer mit einem Hack oder im Kreativmodus.',
       ],
       options: [
-        { label: 'Cool, danke!', next: 'start' },
+        { label: 'Cool, danke!', next: 'entry' },
         {
           label: 'Aber ich habe ihn doch im Survival-Modus abgebaut!',
           next: 'bug',
@@ -91,7 +95,7 @@ const COM_TREE = {
     },
     bug: {
       text: ['Haha, da ist jemand am Hacken!'],
-      next: 'start',
+      next: 'entry',
     },
   },
 }

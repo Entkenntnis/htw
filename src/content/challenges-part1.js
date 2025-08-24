@@ -1027,7 +1027,7 @@ export const part1 = [
   {
     id: 21,
     pos: { x: 350, y: 665 },
-    title: { de: 'Schüchtern', en: 'Helping hand' },
+    title: { de: 'Schüchtern', en: 'Shy' },
     // date: '2017-08-25',
     deps: [80],
     render: ({ req }) => ({
@@ -1048,40 +1048,23 @@ export const part1 = [
         <script src="/chals/chat/script.js" ></script>
     `
       ),
-      en: `
-      <link rel="stylesheet" href="/chals/chat/styles.css">
+      en: story(
+        'Bex',
+        `
+        <link rel="stylesheet" href="/chals/chat/styles.css">
 
         <script>
-          window.greeting = "Hallo, sprich mit mir 👉👈"
+          window.greeting = "Hello 👉👈"
           window.endpoint = "/chal/chal21/complete"
           window.locale = "${req.lng}"
         </script>
 
-        <p>Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin. Hier kommt die Beschreibung hin.</p>
+        <p>It annoys me when these chatbots all come across with their self-confident tone. It's completely inauthentic. I've built a different kind of bot. This bot knows your answer, but first, you have to win its trust. I don't know, I think compliments are a good approach...</p>
 
         <div id="chat" style="margin-top: 48px; margin-bottom: 32px;"></div>
-        <script src="/chals/chat/script.js" ></script> 
-      
-      <p>
-           It is super cool to have helpful people like you. It makes everyday life so much more pleasant when you don't know the way or forget your wallet at the checkout :)
-       </p>
-       
-       <p> At the same time, it is no problem to ask for help. We all have times when we need help.
-       </p>
-       
-       <p>
-       <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 300px;" alt="discord"></a>
-       </p>
-     
-       <p>On the <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> of Hack the Web, you have the possibility to find hints or ask questions yourself. Click on the logo to join the server. In the German forum you will find a post with the title "Fingerzeig". There you will find your answer.
-       </p>
-       
-       <p>
-         Note: Hack the Web is a German website, which is why the Discord server is in German. Please write only in German on the server except the channels labeled as english (e.g., forum-en or general-en). But with the help of a translator, you should be able to find the answer anyway ;)
-       </p>
-
-       <p style="margin-top:24px;font-size:10px;color:darkgray">It's completely not a problem if you don't have a Discord account or don't want to register on Discord. In this case, you can find the answer <a href="/chals/21.png">here</a>.</p>
-   `,
+        <script src="/chals/chat/script.js" ></script>
+      `
+      ),
     }),
     solution: secrets('chal_21'),
   },

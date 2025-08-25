@@ -2180,13 +2180,17 @@ export function setupHints(App) {
 
     renderPage(App, req, res, {
       page: 'feedback',
-      heading: `${lng === 'de' ? 'Feedback für' : 'Feedback for'} "${localizedTitle}"`,
+      heading: `${lng === 'de' ? 'Support für' : 'Support for'} "${localizedTitle}"`,
       backButton: false,
       content: `
       
         <p><a href="/challenge/${id}">${lng === 'de' ? 'zurück' : 'back'}</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">${lng === 'de' ? 'Karte' : 'map'}</a></p>
 
-        <p style="margin-top: 64px;">${lng === 'de' ? 'Egal ob Unklarheit, Probleme oder ein Lob: Dein Feedback hilft dabei, die Inhalte auf Hack The Web laufend weiterzuentwickeln \\( ﾟヮﾟ)/' : 'Whether confusion, issues or praise: your feedback helps us to continually improve the content on Hack The Web \\( ﾟヮﾟ)/'}</p>
+        <p style="margin-top: 64px;">${
+          lng === 'de'
+            ? 'Etwas unklar oder funktioniert nicht wie erwartet? Uns ist es wichtig, dass du Spaß an den Aufgaben hast und sie gut lösen kannst. Zögere nicht, bei Problemen oder Unklarheiten ein Feedback zu hinterlassen! \\( ﾟヮﾟ)/'
+            : "Something unclear or not working as expected? It's important to us that you enjoy the challenges and can solve them well. Don't hesitate to leave feedback if you run into problems or something is unclear! \\( ﾟヮﾟ)/"
+        }</p>
 
         <form action="/feedback/send" method="post" style="max-width: 65ch; margin-top: 30px;">
           <input type="hidden" name="id" value="${id}"/>

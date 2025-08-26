@@ -48,6 +48,7 @@
     if (window.MODE === 'two') {
       greenResetRef.reset()
     }
+    fetch(`/api/event?key=${window.MODE == 'two' ? 'worms_2p_restart' : 'worms_1p_restart'}`)
   }
 
   window.addEventListener('keydown', (event) => {

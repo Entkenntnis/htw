@@ -3041,7 +3041,7 @@ PIXI.loader
     deps: [5, 15],
     render: () => {
       const asciiArt = `
-        <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace">                                  _______
+        <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace; font-size:clamp(8px,1.2vw,14px);">                                  _______
                             _,,ad8888888888bba,_
                          ,ad88888I888888888888888ba,
                        ,88888888I88888888888888888888a,

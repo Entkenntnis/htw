@@ -94,3 +94,67 @@
   </span>
   <%- props.customMapHtml %>
 </div>
+
+    
+<script>
+  // Select the elements that will be scrolled
+  const scroller = document.documentElement; // This is the <html> tag
+
+  // State variables
+  let isDown = false;
+  let startX, startY;
+  let scrollTopHtml, scrollLeftDrawing;
+
+  // We attach the main listener to the entire document/html tag
+  scroller.addEventListener('mousedown', (e) => {
+    // IMPORTANT: Prevent drag from starting on interactive elements
+    // like links, buttons, or inputs.
+    if (e.target.closest('a, button, input, select, textarea')) {
+      return;
+    }
+      
+    isDown = true;
+    scroller.classList.add('is-dragging');
+
+    // Record the initial positions and scroll offsets
+    // Use clientX/clientY which are relative to the viewport and NOT affected by scroll
+    startX = e.clientX; // <--- CHANGED
+    startY = e.clientY; // <--- CHANGED
+    scrollTopHtml = scroller.scrollTop;
+    scrollLeftDrawing = scroller.scrollLeft;
+  });
+
+  // Attach mouseup to the window to catch the event even if the
+  // user releases the mouse outside of the browser window.
+  window.addEventListener('mouseup', () => {
+    isDown = false;
+    scroller.classList.remove('is-dragging');
+  });
+
+  scroller.addEventListener('mousemove', (e) => {
+    if (!isDown) return; // Exit if mouse button is not held down
+
+    e.preventDefault(); // Prevent default actions like text selection
+
+    // Calculate mouse movement based on viewport coordinates
+    const walkX = e.clientX - startX; // <--- CHANGED
+    const walkY = e.clientY - startY; // <--- CHANGED
+
+    // Apply the scroll to the correct elements
+    // We subtract 'walk' because moving the mouse right (positive walk)
+    // should move the content left (a negative scroll direction).
+    scroller.scrollTop = scrollTopHtml - walkY;
+    scroller.scrollLeft = scrollLeftDrawing - walkX;
+  });
+
+</script>
+
+<style>
+  /* Optional: Add a cursor to give user feedback */
+  html.is-dragging {
+    cursor: grabbing;
+    user-select: none; /* Prevent text selection during drag */
+  }
+</style>
+
+  

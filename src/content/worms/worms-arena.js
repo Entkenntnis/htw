@@ -379,12 +379,20 @@ export function setupWormsArena(App) {
 
     req.session.lastWormsTab = 'arena'
 
+    const matchesToShow = matches.slice(0, 40)
+
     renderPage(App, req, res, {
       page: 'worms-drafts',
       heading: 'Worms',
       backButton: false,
       content: `
         ${renderNavigation(2)}
+
+        <style>
+          .hidden {
+            display: none;
+          }
+        </style>
 
         <h4>Letzte Matches</h4>
         <table class="table">
@@ -397,11 +405,10 @@ export function setupWormsArena(App) {
             </tr>
           </thead>
           <tbody>
-            ${matches
-              .slice(0, 10)
+            ${matchesToShow
               .map(
-                (match) => `
-              <tr>
+                (match, i) => `
+              <tr ${i < 10 ? '' : 'class="hidden"'}>
                 <td>${escapeHTML(
                   botData.find((b) => b.id == match.redBotId)?.name ??
                     '[gelöschter Bot]'
@@ -418,6 +425,8 @@ export function setupWormsArena(App) {
               .join('')}
           </tbody>
         </table>
+
+        ${matchesToShow.length > 10 ? '<a id="show-more" href="#">mehr ...</a>' : ''}
 
         <div style="text-align: center; margin-bottom: 24px; margin-top: 56px;">
           <img src="/worms/arena.jpg">
@@ -558,6 +567,15 @@ export function setupWormsArena(App) {
           })
           
           updateBotIdAndUpdateUI(parseInt(document.querySelector('select[name="bot"]').value))
+
+          document.getElementById('show-more')?.addEventListener('click', function(e) {
+            e.preventDefault()
+            const hiddenRows = document.querySelectorAll('tr.hidden')
+            hiddenRows.forEach(row => {
+              row.classList.remove('hidden')
+            })
+            this.style.display = 'none'
+          })
         </script>
 
         <div style="height: 200px;"></div>
@@ -1132,11 +1150,11 @@ export function setupWormsArena(App) {
                     match.redBotId == bot.id
                       ? escapeHTML(
                           opponents.find((opp) => opp.id == match.greenBotId)
-                            ?.name ?? '[gelöster Bot]'
+                            ?.name ?? '[gelöschter Bot]'
                         )
                       : escapeHTML(
                           opponents.find((opp) => opp.id == match.redBotId)
-                            ?.name ?? '[gelöster Bot]'
+                            ?.name ?? '[gelöschter Bot]'
                         )
                   } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">ansehen</a>]</td>
                   <td>${

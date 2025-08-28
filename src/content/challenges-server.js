@@ -443,7 +443,7 @@ export function setupChallengesServer(App) {
           !msg ||
           (msg.role !== 'user' && msg.role !== 'assistant') ||
           typeof msg.content !== 'string' ||
-          msg.content.length > 1000
+          msg.content.length > 2000
         ) {
           throw new Error('Invalid message input')
         }
@@ -467,9 +467,9 @@ export function setupChallengesServer(App) {
       ]
 
       const response = await App.chat.complete(messages)
-      res.send('OK:' + response)
+      res.send('OK:' + response.slice(0, 1950))
     } catch (e) {
-      res.status(500).send('Error: ' + /** @type { Error}*/ (e).message)
+      res.status(200).send('Error: ' + /** @type { Error}*/ (e).message)
     }
   })
 }

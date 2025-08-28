@@ -321,7 +321,7 @@ export const part1 = [
   {
     id: 4,
     pos: { x: 260, y: 380 },
-    title: { de: 'Zahlensalat', en: 'Number Salad' },
+    title: { de: 'ASCII', en: 'ASCII' },
     // date: '2017-05-17',
     deps: [15, 24],
     render: () => {
@@ -3118,7 +3118,13 @@ PIXI.loader
         ),
       }
     },
-    solution: secrets('chal_68').split(','),
+    check: (answer) => {
+      const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
+      return {
+        answer: trimmed,
+        correct: trimmed === secrets('chal_68'),
+      }
+    },
   },
 
   {

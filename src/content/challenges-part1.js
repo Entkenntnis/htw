@@ -3238,7 +3238,7 @@ PIXI.loader
       de: story(
         'Josh',
         `
-        <p>Bei dieser Aufgaben haben wir Robot Karol zu Gast. Baue dieses Programm.</p>
+        <p>Bei dieser Aufgabe haben wir Robot Karol zu Gast. Baue dieses Programm.</p>
 
         <p><img src="/chals/chal70_2.png" alt="blockly"></p>
 

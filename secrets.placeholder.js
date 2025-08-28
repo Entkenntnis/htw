@@ -9,6 +9,8 @@ export const secretValues = {
   config_client_secret_sandbox: '42',
   config_github_client_id: '42',
   config_github_client_secret: '42',
+  config_discord_client_id: '42',
+  config_discord_client_secret: '42',
   config_wechall_authkey: '42',
   config_openrouter_api_key: '42',
   chal_72: '42',

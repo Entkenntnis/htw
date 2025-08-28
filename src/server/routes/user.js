@@ -34,6 +34,13 @@ export function setupUser(App) {
       // @ts-ignore
       values.username = req.session.sso_sid?.substring(7)
     }
+
+    const isDiscord = req.session.sso_sid?.startsWith('discord:')
+    // @ts-ignore - values are handles by ejs template
+    if (isDiscord && !values.username) {
+      // @ts-ignore
+      values.username = req.session.sso_sid?.substring(8)
+    }
     renderPage(App, req, res, {
       page: 'register',
       props: {
@@ -43,7 +50,8 @@ export function setupUser(App) {
         room,
         sso,
         isGithub,
-        isEduplaces: !isGithub,
+        isDiscord,
+        isEduplaces: !isGithub && !isDiscord,
       },
       heading: sso
         ? req.lng == 'de'
@@ -143,6 +151,13 @@ export function setupUser(App) {
             App.event.create('register_github', result.id)
             await App.storage.setItem(
               `github_oauth_user_id_${req.session.sso_sub}`,
+              result.id.toString()
+            )
+          }
+          if (req.session.sso_sid?.startsWith('discord:')) {
+            App.event.create('register_discord', result.id)
+            await App.storage.setItem(
+              `discord_oauth_user_id_${req.session.sso_sub}`,
               result.id.toString()
             )
           } else {

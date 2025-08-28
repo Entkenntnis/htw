@@ -50,7 +50,9 @@
     "checking": "checking",
     "warnEmail": "Your username is publicly visible. Therefore, it is strongly discouraged to use an email address as your username.",
     "githubSSOHint": "Choose a username and get started.",
-    "githubPasswordHint": "You can set a password later in your profile and login independently from GitHub."
+    "githubPasswordHint": "You can set a password later in your profile and login independently from GitHub.",
+    "discordSSOHint": "Choose a username and get started.",
+    "discordPasswordHint": "You can set a password later in your profile and login independently from Discord."
   },
   "join": {
     "heading": "Join",

@@ -46,6 +46,7 @@ import { setupLiveAnalyze } from './server/routes/live-analyze.js'
 import { setupEvent } from './server/routes/event.js'
 import { setupWWWM } from './server/routes/wwwm.js'
 import { withChat } from './server/lib/withChat.js'
+import { setupDiscordSSO } from './server/routes/discord-sso.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -101,6 +102,7 @@ setupWormsArena(App)
 
 setupEduplacesSSO(App)
 setupGithubSSO(App)
+setupDiscordSSO(App)
 
 setupLiveAnalyze(App)
 setupEvent(App)

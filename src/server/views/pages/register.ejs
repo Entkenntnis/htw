@@ -8,6 +8,10 @@
   <p style="text-align: center; font-size: 18px; max-width: 580px; margin-left: auto; margin-right: auto;"><%= t('githubSSOHint') %></p>
 <% } %>
 
+<% if (props.sso && props.isDiscord) { %>
+  <p style="text-align: center; font-size: 18px; max-width: 580px; margin-left: auto; margin-right: auto;"><%= t('discordSSOHint') %></p>
+<% } %>
+
 <% if (props.messages.length > 0) { %>
   <div class="alert alert-danger"><%-props.messages.join('<br>')%></div>
 <% } %>
@@ -98,6 +102,11 @@
 
 <% if (props.sso && props.isGithub) { %>
   <p style="text-align: center; font-size: 12px; margin-top: 24px; color: gray; max-width: 66ch; margin-left: auto; margin-right: auto;"><%= t('githubPasswordHint') %></p>
+<% } %>
+
+
+<% if (props.sso && props.isDiscord) { %>
+  <p style="text-align: center; font-size: 12px; margin-top: 24px; color: gray; max-width: 66ch; margin-left: auto; margin-right: auto;"><%= t('discordPasswordHint') %></p>
 <% } %>
 
 

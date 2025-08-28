@@ -7,7 +7,7 @@ import { secrets } from '../../helper/secrets-loader.js'
 export function setupDiscordSSO(App) {
   App.express.get('/discord-login', async (req, res) => {
     res.redirect(
-      `https://discord.com/oauth2/authorize?client_id=${secrets('config_discord_client_id')}&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fdiscord-callback&scope=identify`
+      `https://discord.com/oauth2/authorize?client_id=${secrets('config_discord_client_id')}&response_type=code&redirect_uri=https%3A%2F%2Fhack.arrrg.de%2Fdiscord-callback&scope=identify`
     )
   })
 
@@ -34,7 +34,7 @@ export function setupDiscordSSO(App) {
         body: new URLSearchParams({
           grant_type: 'authorization_code',
           code,
-          redirect_uri: 'http://localhost:3000/discord-callback',
+          redirect_uri: 'https://hack.arrrg.de/discord-callback',
         }),
       })
 

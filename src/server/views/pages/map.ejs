@@ -9,6 +9,8 @@
     width: <%= App.config.map.width %>px;
     height: <%= App.config.map.height %>px;
     position: relative;
+    -webkit-user-select: none; /* iOS Safari */
+    user-select: none;         /* standard */
   }
   .license {
     position: absolute;

@@ -33,12 +33,16 @@
   <% } %>
 <% } %>
 
+<p style="color: gray;">
+  <a href="https://www.wechall.net/" style="color: gray" target="_blank"><strong>WeChall</strong></a>-Token: <%= props.token %> 
+  <button onclick="copyToken()" id="copy-button" style="background:none;border:none;padding:0;cursor:pointer;width:12px;height:12px;margin-left:8px;outline:none" title="<%= t('copy') %>">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z"/></svg>
+  </button>
+</p>
 
-<% if (locale == 'de') { %>
-  <p style="color: gray;">
-    <a href="/export-data" style="color: gray">Daten exportieren</a>
-  </p>
-<% } %>
+<p style="color: gray;">
+  <a href="/export-data" style="color: gray"><%= t('exportData') %></a>
+</p>
 
 <% if (!App.config.noSelfAdmin.includes(user.name)) { %>
 
@@ -48,12 +52,12 @@
 
 <% } %>
 
-<p style="color: gray; margin-top: 48px;">
-  <a href="https://www.wechall.net/" style="color: gray" target="_blank">WeChall</a>-Token: <%= props.token %> 
-  <button onclick="copyToken()" id="copy-button" style="background:none;border:none;padding:0;cursor:pointer;width:12px;height:12px;margin-left:8px;outline:none" title="<%= t('copy') %>">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z"/></svg>
-  </button>
-</p>
+
+<div style="margin-top: 48px;">
+  <p><%= t('discordInvite') %></p>
+  <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
+</div>
+
 <script>
   function copyToken() {
     const token = '<%= props.token %>';

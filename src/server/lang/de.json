@@ -134,7 +134,9 @@
     "changepw": "Passwort ändern ...",
     "rank": "Platz",
     "lastSolved": "Zuletzt gelöst",
-    "copy": "Kopieren"
+    "copy": "Kopieren",
+    "exportData": "Daten exportieren",
+    "discordInvite": "Besuche uns auch auf Discord:"
   },
   "challenge": {
     "back": "zurück",

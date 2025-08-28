@@ -134,7 +134,9 @@
     "changepw": "Change password ...",
     "rank": "Rank",
     "lastSolved": "Last solved",
-    "copy": "Copy"
+    "copy": "Copy",
+    "exportData": "Export data",
+    "discordInvite": "Visit us on Discord:"
   },
   "challenge": {
     "back": "back",

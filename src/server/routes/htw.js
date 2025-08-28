@@ -28,6 +28,8 @@ export function setupHtw(App) {
     try {
       const username = req.user.name
 
+      App.event.create('export_data', req.user.id)
+
       let output = `HTW Data Export for ${username}\n`
       output += `Generated at ${new Date().toISOString()}\n\n`
 

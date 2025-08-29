@@ -138,7 +138,9 @@
     "lastSolved": "Last solved",
     "copy": "Copy",
     "exportData": "Export data",
-    "discordInvite": "Visit us on Discord:"
+    "discordInvite": "Visit us on Discord:",
+    "discordLink": "Link Discord",
+    "discordLinkingNote_": "Add your Discord account as an alternative login method. This way you can still login if you forget your password: {{-link}}"
   },
   "challenge": {
     "back": "back",

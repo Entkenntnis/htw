@@ -261,6 +261,7 @@ declare module 'express-session' {
     ssoIss?: string
     sso_sid?: string
     sso_sub?: string
+    sso_linkExisting?: boolean
   }
 }
 

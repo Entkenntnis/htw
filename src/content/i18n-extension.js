@@ -145,10 +145,10 @@ export function getI18nExtension() {
           <div class="col-lg" style="padding:24px;">
             <p>Auf Hack The Web findest du einen spielerischen Einstieg in die Welt des Hackings. In vielfältigen Rätseln kannst du dein Wissen und deine Kreativität unter Beweis stellen. Der kreative Umgang mit Technologie steht im Vordergrund - hier gibt es keine Anleitungen für verbotene Sachen.</p>
             
-            <p>Der Einstieg ist ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Registriere dich mit Benutzername und Passwort.
+            <p>Der Einstieg ist ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Registriere dich mit Benutzername und Passwort:
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button">Neu registrieren</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button">Account erstellen</a></p>
 
             <p>Über unseren <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a></strong> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code style="color: #EA4D96">demo</code> / <code style="color: #EA4D96">htw123</code>.</p>
           </div>

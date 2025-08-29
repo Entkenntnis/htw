@@ -4,7 +4,7 @@
 <% } %>
 
 <p class="mt-4 mb-5 text-right"><%= t('orderby') %>:
-<select onchange="window.location.href = this.value; return false;">
+<select onchange="window.location.href = this.value; return false;" style="padding: 2px 4px;">
   <option value="/highscore"><%= t('points') %></option>
   <option value="/highscore?sort=new" <%= props.sort == 'new' ? 'selected' : ''%>><%= t('lastActive') %></option>
 </select></p>

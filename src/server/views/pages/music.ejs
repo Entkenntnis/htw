@@ -1,0 +1,226 @@
+<!-- Ambient Sound Player Widget -->
+<style>
+  .ambient-player {
+    font-family: system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #play-toggle-button {
+    /* Reset button styles */
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+
+    /* Custom Styles */
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #2c3e50;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:
+      background-color 0.2s ease-in-out,
+      transform 0.1s ease-in-out;
+  }
+
+  #play-toggle-button:hover {
+    background-color: #34495e;
+  }
+
+  #play-toggle-button:active {
+    transform: scale(0.95);
+  }
+
+  #play-toggle-button svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+
+  /* Icon visibility logic */
+  .ambient-player .icon-pause {
+    display: none;
+  }
+  .ambient-player.is-playing .icon-pause {
+    display: block;
+  }
+  .ambient-player.is-playing .icon-play {
+    display: none;
+  }
+</style>
+
+<div class="ambient-player" id="ambient-player-widget">
+  <button id="play-toggle-button" aria-label="Play ambient sound">
+    <!-- Play Icon -->
+    <svg
+      class="icon-play"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M8 5v14l11-7z" />
+    </svg>
+    <!-- Pause Icon -->
+    <svg
+      class="icon-pause"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+    </svg>
+  </button>
+
+  <!-- NOTE: Replace 'spacey.mp3' with the actual path to your audio file. -->
+  <audio id="ambient-audio" src="/music/spacy.mp3" loop></audio>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const playerWidget = document.getElementById('ambient-player-widget')
+    const button = document.getElementById('play-toggle-button')
+    const audio = document.getElementById('ambient-audio')
+
+    // Web Audio API variables
+    let audioContext
+    let gainNode
+    let lowpassFilter
+    let audioSource
+    let isAudioContextInitialized = false
+
+    let effectInterval = null
+
+    function initializeAudioContext() {
+      if (isAudioContextInitialized) return
+      audioContext = new (window.AudioContext || window.webkitAudioContext)()
+      audioSource = audioContext.createMediaElementSource(audio)
+      gainNode = audioContext.createGain()
+      lowpassFilter = audioContext.createBiquadFilter()
+      lowpassFilter.type = 'lowpass'
+      lowpassFilter.frequency.setValueAtTime(20000, audioContext.currentTime)
+      audioSource
+        .connect(gainNode)
+        .connect(lowpassFilter)
+        .connect(audioContext.destination)
+      isAudioContextInitialized = true
+    }
+
+    button.addEventListener('click', () => {
+      if (!isAudioContextInitialized) {
+        initializeAudioContext()
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume()
+      }
+
+      if (audio.paused) {
+        audio.play()
+        playerWidget.classList.add('is-playing')
+        button.setAttribute('aria-label', 'Pause ambient sound')
+        startEffects()
+        fetch('/api/event?key=music_play')
+      } else {
+        audio.pause()
+        playerWidget.classList.remove('is-playing')
+        button.setAttribute('aria-label', 'Play ambient sound')
+        stopEffects()
+      }
+    })
+
+    function startEffects() {
+      clearInterval(effectInterval)
+      effectInterval = setInterval(() => {
+        if (audio.paused || !isAudioContextInitialized) return
+
+        const randomEffect =
+          Math.random() > 0.5 ? applyVolumeDip : applyFilterSweep
+        console.log(`Applying effect: ${randomEffect.name}`)
+
+        resetToNormal(1).then(() => {
+          randomEffect()
+        })
+      }, 120000) // Apply an effect every 2 minutes
+    }
+
+    function stopEffects() {
+      clearInterval(effectInterval)
+      effectInterval = null
+      if (isAudioContextInitialized) {
+        resetToNormal(0.5) // Smoothly reset when user pauses
+      }
+    }
+
+    function resetToNormal(duration) {
+      return new Promise((resolve) => {
+        if (!isAudioContextInitialized) {
+          resolve()
+          return
+        }
+        const now = audioContext.currentTime
+        // Cancel any future automations to prevent them from firing after pause
+        gainNode.gain.cancelScheduledValues(now)
+        lowpassFilter.frequency.cancelScheduledValues(now)
+        // Ramp back to normal values
+        gainNode.gain.linearRampToValueAtTime(1.0, now + duration)
+        lowpassFilter.frequency.linearRampToValueAtTime(20000, now + duration)
+        setTimeout(resolve, duration * 1000)
+      })
+    }
+
+    // Effect 1: Reduces volume temporarily
+    function applyVolumeDip() {
+      if (!isAudioContextInitialized) return
+      const now = audioContext.currentTime
+      const transitionTime = 15 // 15 seconds to fade in/out
+      const holdDuration = 40 // 40 seconds to stay at the modified volume
+
+      const rampDownEndTime = now + transitionTime
+      const rampUpStartTime = rampDownEndTime + holdDuration
+      const rampUpEndTime = rampUpStartTime + transitionTime
+
+      console.log('Dipping volume for 40s with 15s transitions...')
+
+      // Schedule the fade down
+      gainNode.gain.linearRampToValueAtTime(0.3, rampDownEndTime)
+
+      // Schedule the fade up to start after the hold duration.
+      // By setting the value at the start of the ramp-up, we create the 'hold' period.
+      gainNode.gain.setValueAtTime(0.3, rampUpStartTime)
+      gainNode.gain.linearRampToValueAtTime(1.0, rampUpEndTime)
+    }
+
+    // Effect 2: Adds a high-cut filter temporarily
+    function applyFilterSweep() {
+      if (!isAudioContextInitialized) return
+      const now = audioContext.currentTime
+      const transitionTime = 15 // 15 seconds for sweep
+      const holdDuration = 40 // 40 seconds to stay muffled
+
+      const sweepDownEndTime = now + transitionTime
+      const sweepUpStartTime = sweepDownEndTime + holdDuration
+      const sweepUpEndTime = sweepUpStartTime + transitionTime
+
+      console.log('Applying filter for 40s with 15s transitions...')
+
+      // Sweep frequency down to make it sound muffled/distant
+      lowpassFilter.frequency.linearRampToValueAtTime(500, sweepDownEndTime)
+
+      // Set the start point for the sweep-up to create the 'hold' period
+      lowpassFilter.frequency.setValueAtTime(500, sweepUpStartTime)
+      lowpassFilter.frequency.linearRampToValueAtTime(20000, sweepUpEndTime)
+    }
+  })
+</script>

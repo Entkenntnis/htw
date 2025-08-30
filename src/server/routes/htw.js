@@ -20,6 +20,18 @@ export function setupHtw(App) {
     })
   })
 
+  App.express.get('/music', (req, res) => {
+    if (req.user) {
+      App.event.create('music', req.user.id)
+    }
+    renderPage(App, req, res, {
+      page: 'music',
+      title: 'Musik',
+      heading: 'Musik',
+      backButton: false,
+    })
+  })
+
   App.express.get('/export-data', async (req, res) => {
     if (!req.user) {
       res.status(403).send('Forbidden')

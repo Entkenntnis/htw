@@ -87,7 +87,7 @@ export const appConfig = {
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
     ${
       showWorms
-        ? '<a href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img src="/worms.png" style="width:46px"></a>'
+        ? '<a href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img src="/worms.png" style="width:46px"></a><a href="/music" target="_blank" style="position:absolute;left:1740px;top:70px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>'
         : ''
     }
      ${

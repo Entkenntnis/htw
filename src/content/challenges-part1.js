@@ -107,6 +107,19 @@ function story(name, intro, task) {
 `
 }
 
+/**
+ * @param {string} ans
+ */
+function ignoreSpaces(ans) {
+  return (/** @type {string} */ answer) => {
+    const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
+    return {
+      answer: trimmed,
+      correct: trimmed === ans.toLowerCase().replace(/ /g, '').trim(),
+    }
+  }
+}
+
 /** @type {import('../data/types.js').HtwChallenge[]} */
 export const part1 = [
   {
@@ -438,13 +451,7 @@ export const part1 = [
         ),
       }
     },
-    check: (answer) => {
-      const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
-      return {
-        answer: trimmed,
-        correct: trimmed === secrets('chal_4'),
-      }
-    },
+    check: ignoreSpaces(secrets('chal_4')),
   },
 
   {
@@ -3115,13 +3122,7 @@ PIXI.loader
         ),
       }
     },
-    check: (answer) => {
-      const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
-      return {
-        answer: trimmed,
-        correct: trimmed === secrets('chal_68'),
-      }
-    },
+    check: ignoreSpaces(secrets('chal_68')),
   },
 
   {
@@ -3913,12 +3914,23 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Ich sehe, du bist nicht ganz unbeholfen. Nicht schlecht. Aber ich will, ehm, noch mehr Beweise sehen. </p>
+        <p>Oh mein Gott!!! Ist das eine Nachricht von meinen Eltern? *schnappt nach Luft* ... gib mir einen Moment, das zu verdauen ...</p>
 
+        <p>Ich habe so lange nichts mehr von ihnen gehört!</p>
 
-        <p>Berechne diesmal die Zahl <strong>10 000</strong>.
-        </p>
-        
+        <p>Bitte mach weiter. Es gab noch einen zweiten Hinweis:</p>
+
+        <p style="font-size: 28px;"><code>10⁴</code></p>
+
+        <script>
+          window.TARGET = 10000
+          window.SOLUTION = [${secrets('chal_111')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
+
         ${calculator()}
     `
       ),
@@ -3930,8 +3942,7 @@ To: ${req.user?.name}@arrrg.de</pre>
       ${calculator('en')}
     `,
     },
-    solution: '10000',
-    hidesubmit: true,
+    check: ignoreSpaces(secrets('chal_111')),
   },
 
   {

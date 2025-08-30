@@ -4041,41 +4041,20 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Ich gebe zu, du hast mehr Ausdauer als ich dachte. Lasse mich kurz überlegen. Hier ist noch eine Aufgabe, die viel schwieriger ist. Ich habe damals sehr lange gebraucht, sie zu lösen.</p>
-        
-        <p>Josh meinte, wenn ich die Primfaktorzerlegung genutzt hätte, wäre ich in wenigen Minuten fertig gewesen. Keine Ahnung, was er damit sagen wollte.</p>
+        <p>Weiter! Es gibt noch einen letzten Hinweis! Ich bin so aufgeregt. Was wollen meine Eltern mir sagen?</p>
 
-        <p>Berechne die Zahl <strong>15876000</strong>.</p>
-      
-        <div class="calculator">
-          <div class="calculator__display">0</div>
+        <p style="font-size: 28px;"><code>2⁵ · 3⁴ · 5³ · 7²</code></p>
 
-          <div class="calculator__keys">
-            <button class="key--operator invisible" data-action="add">+</button>
-            <button class="key--operator invisible" data-action="subtract">-</button>
-            <button class="key--operator" data-action="multiply">&times;</button>
-            <button class="key--operator invisible" data-action="divide">÷</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>0</button>
-            <button data-action="decimal">,</button>
-            <button data-action="clear">AC</button>
-            <button class="key--equal" data-action="calculate">=</button>
-          </div>
-        </div>
-        
-        <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
-        
-        <link rel="stylesheet" href="/chals/chal110.css">
-        
-        <script src="/chals/chal110.js"></script>
+        <script>
+          window.TARGET = 15876000
+          window.SOLUTION = [${secrets('chal_116')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
+
+        ${calculator()}
       `
       ),
       en: `
@@ -4114,8 +4093,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script src="/chals/chal110.js"></script>
       `,
     },
-    solution: '15876000',
-    hidesubmit: true,
+    check: ignoreSpaces(secrets('chal_116')),
   },
 
   {

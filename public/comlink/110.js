@@ -1,6 +1,5 @@
 const COM_TREE = {
   character: 'BEX',
-  dev: true,
   messages: {
     start: {
       text: 'Was geht?',

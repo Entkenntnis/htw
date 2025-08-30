@@ -22,6 +22,7 @@ function calculatorCheck(a) {
 function calculator(lng = 'de') {
   return `
     <div class="calculator">
+      <div class="progress__bar"></div>
       <div class="calculator__display">0</div>
 
       <div class="calculator__keys">
@@ -44,10 +45,6 @@ function calculator(lng = 'de') {
         <button class="key--equal" data-action="calculate">=</button>
       </div>
     </div>
-
-    <p style="margin-top:32px;" id="submit"><button>${
-      lng == 'de' ? 'Ergebnis abschicken' : 'Submit result'
-    }</button></p>
 
     <link rel="stylesheet" href="/chals/chal110.css">
 
@@ -3871,11 +3868,22 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Kaputte Dinge musst du nicht gleich wegschmeißen. Jeder verdient eine zweite Chance. Auch dieser defekte Taschenrechner.</p>
+        <p>Jemand hat mir vor paar Wochen dieses mysteriöse Gerät zugeschickt, zusammen mit dem Hinweis <code>Startcode 256</code>:</p>
 
-        <p>Du kannst nur noch einstellige Zahlen eingeben - doch das hält dich nicht auf. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
+        <script>
+          window.TARGET = 256
+          window.SOLUTION = [${secrets('chal_110')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
 
         ${calculator()}
+
+        <p>Siehst aus wie ein Taschenrechner und funktioniert auch so - bis auf die Tatsache, dass ich keine mehrstelligen Zahlen eintippen kann. Ich frage mich, was das zu bedeuten hast.</p>
+
+        <p>Komm, probiere du es mal aus!</p>
     `
       ),
       en: `
@@ -3892,8 +3900,7 @@ To: ${req.user?.name}@arrrg.de</pre>
       ${calculator('en')}
     `,
     },
-    solution: '256',
-    hidesubmit: true,
+    solution: secrets('chal_110'),
   },
 
   {

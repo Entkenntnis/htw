@@ -1,4 +1,4 @@
- .calculator__keys > button {
+.calculator__keys > button {
   border: 0;
   border-radius: 0;
   font-size: inherit;
@@ -12,9 +12,11 @@
 .calculator {
   border-radius: 12px;
   box-shadow: 0 0 40px 0px rgba(255, 255, 255, 0.15);
-  margin-top: 3em;
+  margin-top: 2em;
   max-width: 15em;
   overflow: hidden;
+  position: relative;
+  margin-bottom: 2em;
 }
 
 .calculator__display {
@@ -44,7 +46,7 @@
   background-color: rgba(0, 0, 0, 0.2);
   bottom: 0;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5) inset;
-  content: "";
+  content: '';
   left: 0;
   opacity: 0.3;
   position: absolute;
@@ -60,5 +62,41 @@
 .key--equal {
   background-image: linear-gradient(to bottom, #fe886a, #ff7033);
   grid-column: -2;
-  grid-row: 2/span 4;
+  grid-row: 2 / span 4;
+}
+
+.error {
+  animation: errorFlash 0.5s;
+}
+
+@keyframes errorFlash {
+  0% {
+    background-color: #ff4d4d;
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+
+.progress__bar {
+  height: 5px;
+  width: 0%;
+  transition: width 0.3s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%,
+  100% {
+    color: transparent;
+  }
+  50% {
+    color: #fff;
+  }
 }

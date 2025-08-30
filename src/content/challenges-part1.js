@@ -22,6 +22,7 @@ function calculatorCheck(a) {
 function calculator(lng = 'de') {
   return `
     <div class="calculator">
+      <div class="progress__bar"></div>
       <div class="calculator__display">0</div>
 
       <div class="calculator__keys">
@@ -44,10 +45,6 @@ function calculator(lng = 'de') {
         <button class="key--equal" data-action="calculate">=</button>
       </div>
     </div>
-
-    <p style="margin-top:32px;" id="submit"><button>${
-      lng == 'de' ? 'Ergebnis abschicken' : 'Submit result'
-    }</button></p>
 
     <link rel="stylesheet" href="/chals/chal110.css">
 
@@ -108,6 +105,19 @@ function story(name, intro, task) {
 
     ${task ? task : ''}
 `
+}
+
+/**
+ * @param {string} ans
+ */
+function ignoreSpaces(ans) {
+  return (/** @type {string} */ answer) => {
+    const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
+    return {
+      answer: trimmed,
+      correct: trimmed === ans.toLowerCase().replace(/ /g, '').trim(),
+    }
+  }
 }
 
 /** @type {import('../data/types.js').HtwChallenge[]} */
@@ -441,13 +451,7 @@ export const part1 = [
         ),
       }
     },
-    check: (answer) => {
-      const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
-      return {
-        answer: trimmed,
-        correct: trimmed === secrets('chal_4'),
-      }
-    },
+    check: ignoreSpaces(secrets('chal_4')),
   },
 
   {
@@ -3118,13 +3122,7 @@ PIXI.loader
         ),
       }
     },
-    check: (answer) => {
-      const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
-      return {
-        answer: trimmed,
-        correct: trimmed === secrets('chal_68'),
-      }
-    },
+    check: ignoreSpaces(secrets('chal_68')),
   },
 
   {
@@ -3871,29 +3869,47 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Kaputte Dinge musst du nicht gleich wegschmeißen. Jeder verdient eine zweite Chance. Auch dieser defekte Taschenrechner.</p>
+        <p>Jemand hat mir vor paar Wochen dieses mysteriöse Gerät zugeschickt, zusammen mit dem Hinweis <code>Startcode 256</code>:</p>
 
-        <p>Du kannst nur noch einstellige Zahlen eingeben - doch das hält dich nicht auf. Berechne die Zahl <strong>256</strong> und schicke das Ergebnis ab.
+        <script>
+          window.TARGET = 256
+          window.SOLUTION = [${secrets('chal_110')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
 
         ${calculator()}
+
+        <p>Siehst aus wie ein Taschenrechner und funktioniert auch so - bis auf die Tatsache, dass ich keine mehrstelligen Zahlen eintippen kann.</p>
+
+        <p>Komm, probiere du es mal aus!</p>
     `
       ),
-      en: `
-      <p>Difficulties don't stop you from your goals. On the contrary: you use your creativity to solve the challenge.
-      </p>
-      
-      <p>Here is a calculator from a tutorial. I followed the tutorial, but I must have made a mistake somewhere — you can't enter multi-digit numbers.
-      </p>
-      
-      <p>Your creativity is now required. Calculate the number <strong>256</strong> and submit the result.
-      </p>
-      
-      
-      ${calculator('en')}
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>A few weeks ago, someone sent me this mysterious device, along with the hint <code>Startcode 256</code>:</p>
+
+        <script>
+          window.TARGET = 256
+          window.SOLUTION = [${secrets('chal_110')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
+
+        ${calculator('en')}
+
+        <p>It looks and works like a calculator - except for the fact that I can't type in multi-digit numbers.</p>
+
+        <p>Go ahead, you give it a try!</p>
+    `
+      ),
     },
-    solution: '256',
-    hidesubmit: true,
+    solution: secrets('chal_110'),
   },
 
   {
@@ -3906,25 +3922,51 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Ich sehe, du bist nicht ganz unbeholfen. Nicht schlecht. Aber ich will, ehm, noch mehr Beweise sehen. </p>
+        <p>Oh mein Gott!!! Ist das eine Nachricht von meinen Eltern? *schnappt nach Luft* ... gib mir einen Moment, das zu verdauen ...</p>
 
+        <p>Ich habe so lange nichts mehr von ihnen gehört!</p>
 
-        <p>Berechne diesmal die Zahl <strong>10 000</strong>.
-        </p>
-        
+        <p>Bitte mach weiter. Es gab noch einen zweiten Hinweis:</p>
+
+        <p style="font-size: 28px;"><code>10⁴</code></p>
+
+        <script>
+          window.TARGET = 10000
+          window.SOLUTION = [${secrets('chal_111')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
+
         ${calculator()}
     `
       ),
-      en: `
-      <p>This time calculate the number <strong>10 000</strong>.
-      </p>
-      
-      
-      ${calculator('en')}
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>Oh my God!!! Is that a message from my parents? *gasps* ... give me a moment to process this ...</p>
+
+        <p>I haven't heard from them in so long!</p>
+
+        <p>Please, keep going. There was a second hint:</p>
+
+        <p style="font-size: 28px;"><code>10⁴</code></p>
+
+        <script>
+          window.TARGET = 10000
+          window.SOLUTION = [${secrets('chal_111')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
+
+        ${calculator('en')}
+    `
+      ),
     },
-    solution: '10000',
-    hidesubmit: true,
+    check: ignoreSpaces(secrets('chal_111')),
   },
 
   {
@@ -4023,81 +4065,43 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Ich gebe zu, du hast mehr Ausdauer als ich dachte. Lasse mich kurz überlegen. Hier ist noch eine Aufgabe, die viel schwieriger ist. Ich habe damals sehr lange gebraucht, sie zu lösen.</p>
-        
-        <p>Josh meinte, wenn ich die Primfaktorzerlegung genutzt hätte, wäre ich in wenigen Minuten fertig gewesen. Keine Ahnung, was er damit sagen wollte.</p>
+        <p>Weiter! Es gibt noch einen letzten Hinweis! Ich bin so aufgeregt. Was wollen meine Eltern mir sagen?</p>
 
-        <p>Berechne die Zahl <strong>15876000</strong>.</p>
-      
-        <div class="calculator">
-          <div class="calculator__display">0</div>
+        <p style="font-size: 28px;"><code>2⁵ · 3⁴ · 5³ · 7²</code></p>
 
-          <div class="calculator__keys">
-            <button class="key--operator invisible" data-action="add">+</button>
-            <button class="key--operator invisible" data-action="subtract">-</button>
-            <button class="key--operator" data-action="multiply">&times;</button>
-            <button class="key--operator invisible" data-action="divide">÷</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>0</button>
-            <button data-action="decimal">,</button>
-            <button data-action="clear">AC</button>
-            <button class="key--equal" data-action="calculate">=</button>
-          </div>
-        </div>
-        
-        <p style="margin-top:32px;" id="submit"><button>Ergebnis abschicken</button></p>
-        
-        <link rel="stylesheet" href="/chals/chal110.css">
-        
-        <script src="/chals/chal110.js"></script>
+        <script>
+          window.TARGET = 15876000
+          window.SOLUTION = [${secrets('chal_116')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
+
+        ${calculator()}
       `
       ),
-      en: `
-        <p>Blind guessing will not lead you to success here. Choose a wise strategy.</p>
+      en: story(
+        'Bex',
+        `
+        <p>Go on! There's one last hint! I'm so excited. What are my parents trying to tell me?</p>
 
-        <p>Calculate the number <strong>15876000</strong>.</p>
+        <p style="font-size: 28px;"><code>2⁵ · 3⁴ · 5³ · 7²</code></p>
 
-        <div class="calculator">
-          <div class="calculator__display">0</div>
+        <script>
+          window.TARGET = 15876000
+          window.SOLUTION = [${secrets('chal_116')
+            .split('')
+            .map((el) =>
+              el.charCodeAt(0)
+            )}].map(el => String.fromCharCode(el)).join('')
+        </script>
 
-          <div class="calculator__keys">
-            <button class="key--operator invisible" data-action="add">+</button>
-            <button class="key--operator invisible" data-action="subtract">-</button>
-            <button class="key--operator" data-action="multiply">&times;</button>
-            <button class="key--operator invisible" data-action="divide">÷</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>0</button>
-            <button data-action="decimal">,</button>
-            <button data-action="clear">AC</button>
-            <button class="key--equal" data-action="calculate">=</button>
-          </div>
-        </div>
-        
-        <p style="margin-top:32px;" id="submit"><button>Submit result</button></p>
-        
-        <link rel="stylesheet" href="/chals/chal110.css">
-        
-        <script src="/chals/chal110.js"></script>
-      `,
+        ${calculator('en')}
+      `
+      ),
     },
-    solution: '15876000',
-    hidesubmit: true,
+    check: ignoreSpaces(secrets('chal_116')),
   },
 
   {

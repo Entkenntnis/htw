@@ -3928,7 +3928,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Bitte mach weiter. Es gab noch einen zweiten Hinweis:</p>
 
-        <p style="font-size: 28px;"><code>10⁴</code></p>
+        <p style="font-size: 28px;"><code>10<sup>4</sup></code></p>
 
         <script>
           window.TARGET = 10000
@@ -3951,7 +3951,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Please, keep going. There was a second hint:</p>
 
-        <p style="font-size: 28px;"><code>10⁴</code></p>
+        <p style="font-size: 28px;"><code>10<sup>4</sup></code></p>
 
         <script>
           window.TARGET = 10000
@@ -4067,7 +4067,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         `
         <p>Weiter! Es gibt noch einen letzten Hinweis! Ich bin so aufgeregt. Was wollen meine Eltern mir sagen?</p>
 
-        <p style="font-size: 28px;"><code>2⁵ · 3⁴ · 5³ · 7²</code></p>
+        <p style="font-size: 28px;"><code>2<sup>5</sup> · 3<sup>4</sup> · 5<sup>3</sup> · 7<sup>2</sup></code></p>
 
         <script>
           window.TARGET = 15876000
@@ -4086,7 +4086,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         `
         <p>Go on! There's one last hint! I'm so excited. What are my parents trying to tell me?</p>
 
-        <p style="font-size: 28px;"><code>2⁵ · 3⁴ · 5³ · 7²</code></p>
+        <p style="font-size: 28px;"><code>2<sup>5</sup> · 3<sup>4</sup> · 5<sup>3</sup> · 7<sup>2</sup></code></p>
 
         <script>
           window.TARGET = 15876000

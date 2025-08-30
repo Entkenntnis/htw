@@ -140,7 +140,7 @@
     "exportData": "Daten exportieren",
     "discordInvite": "Besuche uns auch auf Discord:",
     "discordLink": "Discord verknüpfen",
-    "discordLinkingNote_": "Setze deinen Discord-Account als alternative Login-Methode. Dadurch kannst du dich auch dann anmelden, wenn du dein Passwort vergessen hast: {{-link}}"
+    "discordLinkingNote_": "Verknüpfe deinen Discord-Account. Dadurch kannst du dich auch dann anmelden, wenn du dein Passwort vergessen hast: {{-link}}"
   },
   "challenge": {
     "back": "zurück",

@@ -1942,6 +1942,25 @@ END</pre>`,
     solution: secrets('chal_339'),
   },
 
+  {
+    id: 340,
+    pos: { x: 1550, y: 615 },
+    title: { de: 'Oktopus', en: 'Octopus' },
+    date: '2025-08-31',
+    deps: [300],
+    noScore: true,
+    author: 'CleverLemming',
+    html: {
+      de: `
+        <p>Ein Mensch zählt mit 10 Fingern, ein Oktopus mit 8 Tentakeln. Die Antwort lautet oktopus2471.</p>
+      `,
+      en: `
+        <p>A human counts with 10 fingers, an octopus with 8 tentacles. The answer is octopus2471.</p>
+      `,
+    },
+    solution: secrets('chal_340').split(','),
+  },
+
   /*{
     id: 339,
     pos: { x: 1530, y: 705 },

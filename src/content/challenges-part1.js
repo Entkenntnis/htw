@@ -3882,7 +3882,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         ${calculator()}
 
-        <p>Siehst aus wie ein Taschenrechner und funktioniert auch so - bis auf die Tatsache, dass ich keine mehrstelligen Zahlen eintippen kann. Ich frage mich, was das zu bedeuten hast.</p>
+        <p>Siehst aus wie ein Taschenrechner und funktioniert auch so - bis auf die Tatsache, dass ich keine mehrstelligen Zahlen eintippen kann.</p>
 
         <p>Komm, probiere du es mal aus!</p>
     `

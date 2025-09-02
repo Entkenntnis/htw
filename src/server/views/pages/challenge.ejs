@@ -55,9 +55,14 @@ function goBack() {
     <%- props.html %>
     <% if (!props.challenge.hidesubmit) { %>
       <form autocomplete="off" method="post" id="challenge_form">
-        <input id="challenge_answer" type="text" name="answer" style="height:32px">
-        <input type="submit" id="challenge_submit" value="<%= t('go') %>" style="height:32px;line-height:1;vertical-align:bottom;">
-      </form>
+        <div class="form-group">
+          <label>
+            <input id="challenge_answer" class="form-control" type="text" name="answer" style="height: 32px">
+          </label>
+          <span style="display:inline-block;width:3px;"></span>
+          <button type="submit" id="challenge_submit" class="btn btn-success" style="height: 32px; line-height: 1; background-color: #008563; border-color: #007054; margin-top: -1px"><%= t('go') %></button>
+  </div>
+</form>
     <% } %>
   <% } %>
 

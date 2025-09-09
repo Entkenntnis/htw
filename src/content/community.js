@@ -1961,6 +1961,30 @@ END</pre>`,
     solution: secrets('chal_340').split(','),
   },
 
+  {
+    id: 341,
+    pos: { x: 1945, y: 845 },
+    title: { de: 'Klangraum', en: 'Sound Space' },
+    date: '2025-09-10',
+    deps: [300],
+    noScore: true,
+    author: 'CARLO',
+    html: {
+      de: `
+        <p>In den nautischen Tiefen dieser Klänge ist eine geheime Nachricht verborgen. Finde die Nachricht um die Aufgabe zu lösen.</p>
+
+        <p><a href="/chals/dreamy.mp3">dreamy.mp3</a></p>
+      `,
+      en: `
+        <p>A secret message is hidden in the nautical depths of these sounds. Find the message to solve the challenge.</p>
+
+        <p><a href="/chals/dreamy.mp3">dreamy.mp3</a></p>
+
+      `,
+    },
+    solution: secrets('chal_341'),
+  },
+
   /*{
     id: 339,
     pos: { x: 1530, y: 705 },

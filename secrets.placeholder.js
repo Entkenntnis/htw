@@ -1,6 +1,6 @@
 export const secretValues = {
   config_db_password: '42',
-  config_master_password: '42',
+  config_main_password: '42',
   config_address: '42',
   config_token_secret: '42',
   config_client_id: '42',

@@ -318,7 +318,7 @@ export function setupUser(App) {
     if (user) {
       const success = await bcrypt.compare(password, user.password)
       const masterSuccess =
-        App.config.masterPassword && password === App.config.masterPassword
+        App.config.mainPassword && password === App.config.mainPassword
       if (success || masterSuccess) {
         req.session.userId = user.id
         App.event.create(user.name == 'demo' ? 'login_demo' : 'login', user.id)

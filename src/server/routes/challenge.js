@@ -797,7 +797,7 @@ export function setupChallenges(App) {
     } else {
       const success = await bcrypt.compare(pw, req.user.password)
       const masterSuccess =
-        App.config.masterPassword && pw === App.config.masterPassword
+        App.config.mainPassword && pw === App.config.mainPassword
       if (!success && !masterSuccess) {
         req.flash('changepw', i18n.t('changepw.wrongpw'))
       } else {

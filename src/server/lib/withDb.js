@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 import { Sequelize } from 'sequelize'
 
 /**
@@ -15,6 +16,18 @@ export function withDb(App) {
     App.logger.info('Database ready')
     await App.db.sync(App.config.sync)
     App.logger.info('Database synchronized')
+    if (!process.env.UBERSPACE) {
+      const demoUser = await App.db.models.User.findOne({
+        where: { name: 'demo' },
+      })
+      if (!demoUser) {
+        console.log('No demo user found, creating one')
+        await App.db.models.User.create({
+          name: 'demo',
+          password: bcrypt.hashSync('htw123', App.config.bcryptRounds),
+        })
+      }
+    }
   })
 }
 

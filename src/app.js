@@ -73,19 +73,19 @@ withChat(preApp)
 const App = preApp
 
 // load base functionality
-dbModel(preApp)
-expressHeaders(preApp)
-expressSession(preApp)
-expressPerfMonitor(preApp)
-expressLanguage(preApp)
-expressLoadUser(preApp)
-expressRateLimit(preApp)
-expressViews(preApp)
+dbModel(App)
+expressHeaders(App)
+expressSession(App)
+expressPerfMonitor(App)
+expressLanguage(App)
+expressLoadUser(App)
+expressRateLimit(App)
+expressViews(App)
 
 // setup routes
-setupStaticPages(preApp)
-setupUser(preApp)
-setupChallenges(preApp)
+setupStaticPages(App)
+setupUser(App)
+setupChallenges(App)
 setupHtw(App)
 setupHints(App)
 

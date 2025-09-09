@@ -143,8 +143,8 @@ export const appConfig = {
   editors: ['editor', 'demo'],
   noSelfAdmin: ['demo'],
   customCSS: '',
-  masterPassword: process.env.UBERSPACE
-    ? secrets('config_master_password')
+  mainPassword: process.env.UBERSPACE
+    ? secrets('config_main_password')
     : '1234',
   githubHref: '/links',
   githubTargetBlank: false,

@@ -16,9 +16,7 @@ npm install
 
 Note: Depending on the system, installing `sqlite3` can be a bit tricky. If you see any `node-gyp` errors, see https://github.com/Entkenntnis/htw/issues/671
 
-**Important**: Copy `secrets.placeholder.js` and rename it to `secrets.js`.
-
-Now all prerequisites are fulfilled. You can start the server with `npm start` and have a working server on `localhost:3000`. To develop, you can also use `npm run dev` to automatically update the source code.
+Now all prerequisites are fulfilled. Start the dev server with `npm run dev` and have a local version of Hack The Web on `localhost:3000`. The code will automatically update on changes. Use `demo` / `htw123` to login or create a new user with the name `editor` to gain access to all admin features.
 
 ### Step 2: Enter answers
 
@@ -26,7 +24,7 @@ In the next step it is your task to enter the answers in the file `secrets.js`. 
 
 ### Step 3: Hosting
 
-In production mode, the project uses a separate database. The password for this must also be entered. In addition, an imprint must be inserted. Optionally, a master password can be set to moderate. For the server you need your own subdomain, because all URLs work from the root. That's it. The rest of the code is for administration, such as the possibility to recalculate the score or an extensive analysis function (the latter only activated on localhost, `localhost:3000/dashboard`).
+Run the server with `npm start` for production. Using an external database is recommended for more stable operation (sqlite has slow writes). In addition, an imprint must be inserted. Optionally, a main password can be set to moderate and access all accounts. For the server you need your own subdomain, because all URLs work from the root.
 
 ### Step 4: Adaptations
 

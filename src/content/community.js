@@ -1979,7 +1979,6 @@ END</pre>`,
         <p>A secret message is hidden in the nautical depths of these sounds. Find the message to solve the challenge.</p>
 
         <p><a href="/chals/dreamy.mp3">dreamy.mp3</a></p>
-
       `,
     },
     solution: secrets('chal_341'),

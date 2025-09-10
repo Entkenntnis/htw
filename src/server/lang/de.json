@@ -144,8 +144,8 @@
   },
   "challenge": {
     "back": "zurück",
-    "solvedBy_one": "insgesamt von {{count}} Person",
-    "solvedBy_other": "insgesamt von {{count}} Personen",
+    "solvedBy_one": "insgesamt von {{count}} Person gelöst",
+    "solvedBy_other": "insgesamt von {{count}} Personen gelöst",
     "continue": "weiter",
     "correct": "ist richtig",
     "wrong": "ist falsch",

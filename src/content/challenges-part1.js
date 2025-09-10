@@ -878,11 +878,6 @@ export const part1 = [
             transform: scale(-1, 1);
           }
         </style>
-
-        <script>
-          const el = document.getElementById('solved-by-info')
-          el.setAttribute('title', el.getAttribute('title').split('').reverse().join(''))
-        </script>
     `
       ),
       en: `
@@ -897,11 +892,6 @@ export const part1 = [
             transform: scale(-1, 1);
           }
         </style>
-
-        <script>
-          const el = document.getElementById('solved-by-info')
-          el.setAttribute('title', el.getAttribute('title').split('').reverse().join(''))
-        </script>
     `,
     },
     solution: secrets('chal_17').split(','),

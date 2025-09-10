@@ -18,7 +18,7 @@
           <% if (!hideRank) { %>
             <td><%=row.rank%></td>
           <% } %>
-          <td title="<%=t('highscore.joined')%> <%=row.age%>"><%=row.name%></td>
+          <td style="padding-bottom: 6px;"><%=row.name%><br><small style="color: gray;"><%=locale == 'de' ? `seit ${row.age.replace('vor', '')} dabei` : t('highscore.joined') + ' ' + row.age%></small></td>
           <td><%=row.score%></td>
           <td><%=row.lastActive%></td>
         </tr>

@@ -3514,7 +3514,11 @@ To: ${req.user?.name}@arrrg.de</pre>
           document.addEventListener('DOMContentLoaded', function() {
             const answerEl = document.getElementById("challenge_answer")
             answerEl.readOnly = true
-            answerEl.addEventListener("dblclick", function() { this.readOnly = false; })
+            answerEl.addEventListener("click", function(event) { 
+              if (event.detail === 3) {
+                this.readOnly = false;
+              }
+            })
           });
         </script>
       `
@@ -3884,7 +3888,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Siehst aus wie ein Taschenrechner und funktioniert auch so - bis auf die Tatsache, dass ich keine mehrstelligen Zahlen eintippen kann.</p>
 
-        <p>Komm, probiere du es mal aus!</p>
+        <p>Ich kann den Startcode also nicht direkt eingeben. Aber es wird sicher noch einen anderen Weg geben.</p>
     `
       ),
       en: story(
@@ -3905,7 +3909,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>It looks and works like a calculator - except for the fact that I can't type in multi-digit numbers.</p>
 
-        <p>Go ahead, you give it a try!</p>
+        <p>So I can't enter the start code directly. But there must be another way.</p>
     `
       ),
     },
@@ -3928,7 +3932,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Bitte mach weiter. Es gab noch einen zweiten Hinweis:</p>
 
-        <p style="font-size: 28px;"><code>10<sup>4</sup></code></p>
+        <p style="font-size: 28px;"><code>10000</code></p>
 
         <script>
           window.TARGET = 10000

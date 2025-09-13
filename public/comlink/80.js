@@ -21,7 +21,7 @@ const COM_TREE = {
     },
     trick: {
       text: [
-        'Doppelklick auf das Eingabefeld :)',
+        'Dreifach-Klick auf das Eingabefeld :)',
         'Dann kannst du den Text bearbeiten, hihi.',
       ],
       options: [{ label: 'Praktisch!', next: 'start' }],

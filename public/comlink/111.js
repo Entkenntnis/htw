@@ -9,26 +9,11 @@ const COM_TREE = {
       text: 'Brauchst du Hilfe bei der Aufgabe?',
       options: [
         { label: 'Was muss ich machen?', next: 'strategy' },
-        { label: 'Was bedeutet diese hochgestellte 4?', next: 'power' },
         {
           label: 'Was ist mit deinen Eltern passiert?',
           next: 'backstory',
         },
       ],
-    },
-    power: {
-      text: ['Das ist eine Potenz.', 'Das heißt, 10⁴ = 10 · 10 · 10 · 10'],
-      options: [
-        { label: 'Alles klar', next: 'entry' },
-        { label: 'Was ist das Ergebnis?', next: 'calculation' },
-      ],
-    },
-    calculation: {
-      text: [
-        '10 hoch 4 ist 10000.',
-        'Immer so viele Nullen wie die Potenz, easy peasy.',
-      ],
-      options: [{ label: 'Ok', next: 'entry' }],
     },
     strategy: {
       text: [

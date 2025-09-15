@@ -1984,6 +1984,29 @@ END</pre>`,
     solution: secrets('chal_341'),
   },
 
+  {
+    id: 342,
+    pos: { x: 1465, y: 555 },
+    title: { de: 'UTF-5', en: 'UTF-5' },
+    date: '2025-09-15',
+    deps: [300],
+    noScore: true,
+    author: 'bennosaurusrex',
+    html: {
+      de: `
+        <p>Deine Antwort findest sich in diesem Muster:</p>
+
+        <p style="font-family:'M PLUS Rounded 1c',sans-serif">□■■□□⁃□■■■■⁃□□□■■⁃□■□□□⁃□■□■■⁃□□□□■⁃■□□■□⁃■□■□□⁃□□■□■</p>
+      `,
+      en: `
+        <p>Find your answer in this pattern:</p>
+
+        <p style="font-family:'M PLUS Rounded 1c',sans-serif">□■■□□⁃□■■■■⁃□□□■■⁃□■□□□⁃□■□■■⁃□□□□■⁃■□□■□⁃■□■□□⁃□□■□■</p>
+      `,
+    },
+    solution: secrets('chal_342'),
+  },
+
   /*{
     id: 339,
     pos: { x: 1530, y: 705 },

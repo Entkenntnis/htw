@@ -829,7 +829,7 @@ export const part1 = [
   {
     id: 16,
     pos: { x: 340, y: 320 },
-    title: { de: 'Tippfehler', en: 'Typo' },
+    title: { de: 'Notiz', en: 'Note' },
     // date: '2017-05-18',
     deps: [15, 24],
     html: {

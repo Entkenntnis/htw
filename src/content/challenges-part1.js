@@ -4111,7 +4111,7 @@ To: ${req.user?.name}@arrrg.de</pre>
   {
     id: 118,
     pos: { x: 668, y: 480 },
-    title: { de: ' [Umfrage]', en: '[Survey]' },
+    title: { de: '[Umfrage]', en: '[Survey]' },
     deps: [51, 55, 69],
     render: () => {
       const reverse = Math.random() < 0.5

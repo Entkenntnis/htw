@@ -308,10 +308,9 @@ export function getI18nExtension() {
         }
       </style>
 
-      <p style="margin-top: 56px; color: gray;">Keine Lust auf Passwort-Merken? Melde dich über einen externen Account an:</p>
-
-      <!-- Eduplaces Button -->
-      <div style="margin-top: 36px; display: flex; justify-content: center; flex-wrap: wrap; gap: 48px;">
+      <details style="margin-top: 16px">
+        <summary>Anmeldung über SSO</summary>
+        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button">
           <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
@@ -343,7 +342,8 @@ export function getI18nExtension() {
           </svg> 
           <span>Mit Eduplaces anmelden</span>
         </a>
-      </div>
+        </div>
+      </details>
 
     `,
   })
@@ -531,9 +531,9 @@ export function getI18nExtension() {
       </style>
       
 
-      <p style="margin-top: 56px; color: gray;">Don't want to remember a password? Sign in with an external account:</p>
-
-      <div style="margin-top: 36px; display: flex; justify-content: center; flex-wrap: wrap; gap: 48px;">
+      <details style="margin-top: 16px">
+        <summary>Login with SSO</summary>
+        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button">
           <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
@@ -555,7 +555,8 @@ export function getI18nExtension() {
           </svg>
           <span>Login with Discord</span>
         </a>
-      </div>
+        </div>
+      </details>
     `,
   })
 

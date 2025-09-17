@@ -53,6 +53,11 @@ export function setupHtw(App) {
         raw: true,
       })
 
+      solutions.sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      )
+
       output += `\nSolutions:\n`
       if (solutions.length === 0) {
         output += `No solutions found for user ${username}.\n`

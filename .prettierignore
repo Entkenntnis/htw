@@ -6,6 +6,7 @@ public/**/*.js
 !public/chals/21/script.js
 !public/chals/21/styles.css
 !public/chals/chal110.js
+!public/chals/chal51_2.js
 
 src/**/*.ejs
 

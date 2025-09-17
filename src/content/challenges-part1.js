@@ -2039,12 +2039,11 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Du hast sicherlich schon vom Binärsystem gehört. Es ist die Sprache der Computer, welche aus 1 und 0 besteht.
-        </p>
+        <p>Als Jugendlicher ging es mir nicht in den Kopf, wie ein Computer nur mit 1er und 0er arbeiten kann. Erst viel später habe ich das Prinzip verstanden. Lass mich versuchen, dir das Binärsystem zu erklären. Verzeihe mir, wenn meine Erklärung nicht perfekt ist - ich gebe mein Bestes.</p>
 
-        <p>Gesucht ist die Zahl 7 im Binärsystem. Tippe deine Antwort in das Eingabefeld oder nutze die Hilfestellung. Klicke auf die Zweierpotenzen, um die jeweilige Stelle zu aktivieren.</p>
-        
-        <p style="margin-top:24px;"><svg id="binary"></svg></p>
+        <p>Über jeder Binär-Ziffer ist in einem Kreis die passende Zweierpotenz geschrieben. Klicke auf die Kreise, um die Ziffern zu ändern:</p>
+
+        <p style="margin-top:24px; margin-bottom: 32px;"><svg id="binary"></svg></p>
         
         <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
         
@@ -2057,35 +2056,38 @@ export const part1 = [
             opacity: 0.9;
           }
         </style>
-    `
+
+        <p>Wenn du ein wenig herumklickst, wirst du ein Prinzip feststellen: die Summe der aktiven Zweierpotenzen entspricht immer dem Wert der Binärzahl! Wenn du zum Beispiel <code>100100</code> einstellst, dann sind 32 und 4 aktiv und das entspricht 36.</p>
+
+        <p>Jetzt bist du dran. Deine Antwort ist die Zahl <strong>7</strong> in Binärdarstellung.</p>
+  `
       ),
-      en: `
-      <p>You've probably heard of the binary system. It is the language of computers, which consists of 1s and 0s.
-      </p>
-      
-      <p>Even if you've never worked with it before — with a little logical thinking, you'll quickly get started.
-      </p>
-      
-      <p>To help you, you can see the first six powers of two here. You can turn them on or off when you click on them. All active numbers are added to the result.
-      </p>
-      
-      <p>Enter the number 7 in binary and submit it.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>As a teenager, I couldn't get my head around how computers can work with just 1s and 0s. It wasn't until much later that I understood the principle. Let me try to explain the binary system to you. Forgive me if my explanation isn't perfect — I'm doing my best.</p>
+
+        <p>Above each binary digit, the corresponding power of two is written in a circle. Click on the circles to change the digits:</p>
+
+        <p style="margin-top:24px; margin-bottom: 32px;"><svg id="binary"></svg></p>
+        
+        <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal51_2.js"></script>
+        
+        <style>
+          .hoverEffect:hover {
+            cursor:pointer;
+            opacity: 0.9;
+          }
+        </style>
+
+        <p>If you click around a bit, you'll discover a principle: the sum of the active powers of two always equals the value of the binary number! For example, if you set <code>100100</code>, then 32 and 4 are active, which equals 36.</p>
+
+        <p>Now it's your turn. Your answer is the number <strong>7</strong> in binary representation.</p>
+      `
+      ),
     },
     solution: secrets('chal_51'),
   },

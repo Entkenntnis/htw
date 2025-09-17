@@ -59,7 +59,7 @@ const COM_TREE = {
         'Ok, lass mich einen Trick verraten:',
         'Klicke auf das Bild und schaue auf den Dateinamen.',
       ],
-      options: [{ label: 'Danke', next: 'entry' }],
+      options: [{ label: 'Clever!', next: 'entry' }],
     },
     tools: {
       text: [

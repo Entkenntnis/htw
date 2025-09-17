@@ -11,7 +11,7 @@ const COM_TREE = {
         { label: 'Was muss ich machen?', next: 'task' },
         { label: 'Ich verstehe diesen Kasten nicht.', next: 'manual' },
         {
-          label: 'Arbeiten Computer wirklich nur mit 0 und 1?',
+          label: 'Arbeiten Computer wirklich nur mit 0er und 1er?',
           next: 'backstory',
         },
       ],

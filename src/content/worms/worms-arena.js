@@ -550,7 +550,10 @@ export function setupWormsArena(App) {
                 el2.style.visibility = 'hidden'
               }
             }
-            document.getElementById('bot-selector').value = id
+            const selector = document.getElementById('bot-selector')
+            if (selector) {
+              selector.value = id
+            }
           }
 
            // Add botId to challenge forms dynamically
@@ -566,7 +569,7 @@ export function setupWormsArena(App) {
             })
           })
           
-          updateBotIdAndUpdateUI(parseInt(document.querySelector('select[name="bot"]').value))
+          updateBotIdAndUpdateUI(parseInt(document.querySelector('select[name="bot"]')?.value))
 
           document.getElementById('show-more')?.addEventListener('click', function(e) {
             e.preventDefault()

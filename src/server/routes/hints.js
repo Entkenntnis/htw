@@ -4,7 +4,7 @@ import escapeHTML from 'escape-html'
 
 // these challenges are transitioning to COM-LINK
 export const withComlink = [
-  1, 24, 15, 5, 336, 16, 4, 6, 7, 80, 21, 68, 110, 111, 116,
+  1, 24, 15, 5, 336, 16, 4, 6, 7, 80, 21, 68, 110, 111, 116, 114,
 ]
 
 /** @type {import('../../data/types.js').HintsData} */

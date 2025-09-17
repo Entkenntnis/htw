@@ -4041,21 +4041,23 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Kiwi',
         `
-        <p>Josh wollte dir unbedingt beibringen, wie man Baumarten erkennt. Aus meiner Sicht ist das in der aktuellen Lage nicht die höchste Priorität. Aber ich habe ihm versprochen, dir eine Aufgabe mit Natur zu geben.</p>
+        <p>Ich vermisse die Natur sehr. Ich finde es schade, dass es hier auf dem Raumschiff keinen Park oder Garten gibt. Hoffentlich drehe ich nicht durch 🙈 - haha, ganz sooo schlimm ist es (noch) nicht ...</p>
 
-        <p>Also dann, schaue dir diesen Baum an. Deine Antwort ist der wissenschaftlichen Name dieser Baumgattung. Und pssst, ich habe dir einen Tipp versteckt.</p>
+        <p>Wo wir schon bei Natur sind, hier ist ein Bild von einem Baum, aufgenommen auf der Erde im Gebiet Europa. Die Pflanzen dort sind ganz anders als bei uns. Der Name dieser Baumart ist deine Antwort.</p>
 
-        <p><a href="/chals/chal114_rosskastanie_aesculus.jpg" target="_blank"><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>
+        <p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>
       `
       ),
-      en: `
-        <p>Computers and nature are two different worlds. I enjoy spending time in both. And both can enrich each other.</p>
+      en: story(
+        'Kiwi',
+        `
+        <p>I really miss nature. It's a pity there's no park or garden here on the spaceship. I hope I don't go crazy 🙈 - haha, it's not quite that bad (yet)...</p>
 
-        <p><img src="/chals/chal114_rosskastanie_aesculus.jpg" alt="Identify tree genus" style="max-width:500px"></p>
+        <p>Speaking of nature, here's a picture of a tree, taken on Earth in the Europe area. The plants there are completely different from ours. The name of this tree species is your answer.</p>
 
-        <p>The scientific name of this tree genus is your answer. Don't worry if you're not familiar with trees: there are hints here and there in the source code.</p>
-
-      `,
+        <p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Identify the tree species" style="max-height:500px"></a></p>
+      `
+      ),
     },
     solution: secrets('chal_114').split(','),
   },

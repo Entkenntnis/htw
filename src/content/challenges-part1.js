@@ -2089,7 +2089,7 @@ export const part1 = [
       `
       ),
     },
-    solution: secrets('chal_51'),
+    solution: secrets('chal_51').split(','),
   },
 
   {

@@ -173,7 +173,7 @@
 .comlink-opt-btn {
   cursor: pointer;
   border: 1px solid #0d3a2e;
-  background: rgba(0, 0, 0, 0.12);
+  background-color: rgba(0, 0, 0, 0.12);
   color: var(--comlink-text);
   font-size: 12px;
   padding: 5px 10px 5px;
@@ -182,4 +182,9 @@
   letter-spacing: 0;
   max-width: 90%;
   text-align: left;
+  transition: background-color 150ms ease-in-out;
+}
+
+.comlink-opt-btn:hover {
+  background-color: rgba(63, 63, 63, 0.12);
 }

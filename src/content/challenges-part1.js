@@ -4343,6 +4343,8 @@ To: ${req.user?.name}@arrrg.de</pre>
         <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
 
         <p>Der Name der Kategorie dieser Blöcke ist deine Antwort.</p>
+
+        <p style="text-align: left; margin-top: 16px;"><small style="color: gray;" title ="ascii">Hilfe findest du wieder im COM-LINK.</small></p>
         `
       ),
       en: story(

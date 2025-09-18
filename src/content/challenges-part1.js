@@ -3143,14 +3143,8 @@ PIXI.loader
     title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
     // date: '2021-03-19',
     deps: [4, 16],
-    html: {
-      de: story(
-        'Bex',
-        `
-          <p style="margin-bottom: 48px;">Jedes Bild zeigt einen Teil der Antwort. Lege sie übereinander, um das Wort zu lesen. Du kannst die Bilder mit der Maus verschieben.</p>
-        `,
-        `
-        
+    render: () => {
+      const widget = `
         <div style="display:flex;flex-wrap:wrap;" id="puzzle-container">
           <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
           <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
@@ -3167,6 +3161,7 @@ PIXI.loader
             margin: 12px;
             touch-action: none;
             user-select: none;
+            cursor: move;
           }
           #puzzle-container {
             position: relative;
@@ -3205,35 +3200,26 @@ PIXI.loader
           });
         </script>
       `
-      ),
-      en: `
-      <p>I couldn't be so precise with the mouse because you have great sensitivity! The 6 images can be moved with the mouse. When placed one on top of the other, they provide the answer.
-      </p>
-      
-      <div style="display:flex;flex-wrap:wrap;">
-      <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
-      <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
-      <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
-      <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
-      <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
-      <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
-      </div>
-      
-      <script src="/jquery-3.6.0.js"></script>
-      <script src="/jquery-ui.js"></script>
-      
-      <style>
-        .draggable {
-          margin: 12px;
-        }
-      </style>
-      
-      <script>
-          $( function() {
-            $( ".draggable" ).draggable()
-          } )
-      </script>
-    `,
+      return {
+        de: story(
+          'Bex',
+          `
+          <p>Ich schaue so oft auf mein Leben und denke mir: Was soll das Ganze? Ich hoffe, es gibt einen Tag, an dem ich die Teile zusammensetzen kann und den Sinn verstehe.</p>
+
+          <p>Bei dieser Aufgabe hast du es leichter. Lege die sechs Teile mit der Maus oder dem Finger übereinander und erhalte deine Antwort.</p>
+          `,
+          widget
+        ),
+        en: story(
+          'Bex',
+          `
+          <p>I so often look at my life and think to myself: What's the point of it all? I hope there will be a day when I can put the pieces together and understand the meaning.</p>
+
+          <p>With this task, you have it easier. Place the six parts on top of each other with your mouse or finger to get your answer.</p>
+          `,
+          widget
+        ),
+      }
     },
     solution: secrets('chal_69'),
   },

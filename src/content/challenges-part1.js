@@ -3012,10 +3012,13 @@ PIXI.loader
         </p>
     `
       ),
-      en: `
-      <p>There is a word hidden in the background of the <a href="/chals/chal66/index.html" target="_blank">Matrix</a>. Look closely and pay attention to the shadows.
-      </p>
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>There is a word hidden in the background of the <a href="/chals/chal66/index.html" target="_blank">Matrix</a>. Look closely and pay attention to the shadows.
+        </p>
+    `
+      ),
     },
     solution: secrets('chal_66'),
   },

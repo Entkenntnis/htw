@@ -4336,19 +4336,29 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Die erste Aufgabe hast du gemeistert. Anscheinend hast du was auf dem Kasten.</p>
-
-        <p>Meine nächste Frage: Welche Block-Kategorie wird hier dargestellt?
+        <p>Es gibt Leute, die bauen in Minecraft richtig verrückte Sachen - wie einen Computer! Ja, du hast richtig gehört, in Minecraft! Und dann sollen die Erwachsenen sagen, dass Minecraft keine sinnvolle Sache ist - was die schon wissen.</p>
+        
+        <p>In dem Bild siehst du ein paar Blöcke dafür:</p>
 
         <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
-        <p style="text-align: center; margin-top: -16px;"><small style="color: gray;" title ="base64">RGllIEFudHdvcnQgbGF1dGV0IFJlZHN0b25lLiBGYWxscyBkdSBrZWluIE1pbmVjcmFmdCBzcGllbHN0Lg==</small></p>
+
+        <p>Der Name der Kategorie dieser Blöcke ist deine Antwort.</p>
+
+        <p style="text-align: left; margin-top: 16px;"><small style="color: gray;" title ="ascii">Hilfe findest du wieder im COM-LINK.</small></p>
         `
       ),
-      en: `
-        <p>Which block category is presented here?</p>
-            
-        <p><img src="/chals/chal337.png" alt="block in minecraft"></p>
-      `,
+      en: story(
+        'Bex',
+        `
+        <p>Some people build really crazy things in Minecraft - like a computer! Yes, you heard that right, in Minecraft! And then some adults still say that Minecraft isn't a useful thing - what do they know.</p>
+
+        <p>In the picture, you can see a few of the blocks for that:</p>
+
+        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
+        
+        <p>The name of this category of blocks is your answer.</p>
+      `
+      ),
     },
     solution: secrets('chal_337'),
   },

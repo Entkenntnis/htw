@@ -2226,25 +2226,32 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Die Welt ist voller Farben. Doch im Internet gibt es nur für <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Farben</a> einen offiziellen Name.</p>
+        <p>Ich erinnere mich an eine Welt voller Farben. Aber meine Augen lassen mit dem Alter nach und ich habe das Gefühl, dass ich weniger gut Farben unterscheiden kann.</p>
 
-        <div style="height:108px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><img src="/chals/55.png"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:black;font-size:11px;">#663399</small></div></div>
+        <p>Hilf mir auf die Sprünge und sage mir, welche aus den <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Internetfarben</a> hier zu sehen ist:</p>
+
+        <div style="height:85px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:rgba(0, 0, 0, 0.66);font-size:12px;">#663399</small></div></div>
 
         <p>Der Name dieser Farbe ist deine Antwort.</p>
     `
       ),
-      en: `
-      <p>The world is full of colors. On the internet, there are fixed names for <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 colors</a>.</p>
+      en: story(
+        'Josh',
+        `
+        <p>I remember a world full of colors. But my eyes are getting weaker with age, and I feel like I'm less able to distinguish between them.</p>
 
-      <p>Your answer is the name of this color.</p>
-      
-      <div style="height:80px;width:250px;background-color:#663399;position:relative"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:gray;">#663399</small></div></div>
-      `,
+        <p>Help me out and tell me, which of the <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 web colors</a> can be seen here:</p>
+        
+        <div style="height:85px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:rgba(0, 0, 0, 0.66);font-size:12px;">#663399</small></div></div>
+
+        <p>The name of this color is your answer.</p>
+      `
+      ),
     },
     solution: secrets('chal_55').split(','),
     afterSolveText: {
       de: '<p>Die Farbe wurde zum Gedenken an die verstorbene Tochter des CSS-Entwicklers Eric A. Meyer benannt und findet sich im neuen <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS-Logo</a>.</p>',
-      en: '<p>The color was named in memory of the late daughter of CSS developer Eric A. Meyer and is featured in the new <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS logo</a>.</p>',
+      en: '<p>The color was named in memory of the late daughter of CSS developer Eric A. Meyer and is featured in the new <a href="https://en.wikipedia.org/wiki/File:CSS3_logo.svg" target="_blank">CSS logo</a>.</p>',
     },
   },
 

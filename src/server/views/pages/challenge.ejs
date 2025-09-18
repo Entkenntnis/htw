@@ -64,7 +64,7 @@ function goBack() {
   <div style="height:200px"></div>
 
   <p>
-    <small style="display: inline-block; color: rgb(87, 87, 87); margin-top: 6px; margin-bottom: 8px;"><%= props.solvedBy == 1 ? t('solvedBy_one', {count: props.solvedBy}) : t('solvedBy_other', {count: props.solvedBy}) %><% if (props.lastSolved !== null) { %><%= ', ' + t('lastSolved', {ago: App.moment(props.lastSolved).locale(locale).fromNow(), name: props.lastSolvedUserName})%><%}%></small>
+    <small style="display: inline-block; color: rgb(110, 110, 110); margin-top: 6px; margin-bottom: 8px;"><%= props.solvedBy == 1 ? t('solvedBy_one', {count: props.solvedBy}) : t('solvedBy_other', {count: props.solvedBy}) %><% if (props.lastSolved !== null) { %><%= ', ' + t('lastSolved', {ago: App.moment(props.lastSolved).locale(locale).fromNow(), name: props.lastSolvedUserName})%><%}%></small>
   </p>
 
 <% } %>

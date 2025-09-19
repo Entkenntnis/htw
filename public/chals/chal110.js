@@ -132,8 +132,8 @@ const updateVisualState = (key, calculator) => {
     if (currentWidth > 100) {
       progressBar.style.backgroundColor = 'red'
       progressBar.style.width = '100%'
-      var audio = new Audio('/chals/calculator/error.mp3')
-      audio.play()
+      // var audio = new Audio('/chals/calculator/error.mp3')
+      // audio.play()
     } else if (currentWidth < 100) {
       progressBar.style.width = currentWidth + '%'
       progressBar.style.backgroundColor = 'yellow'

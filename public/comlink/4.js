@@ -21,7 +21,7 @@ const COM_TREE = {
         'Die Frage ist eher: wie haben Kiwi und Bex mich gefunden, haha.',
         'Ich habe nach jungen Menschen gesucht, denen ich in meiner restlichen Zeit was gutes Tun kann.',
         'Und tja, wie es der Zufall will, bin ich Kiwi begegnet.',
-        'Ich wollte eh noch Sirtach und hab die beiden einfach mitgenommen.',
+        'Ich wollte eh nach Sirtach und hab die beiden einfach mitgenommen.',
       ],
       options: [{ label: 'Aha!', next: 'entry' }],
     },

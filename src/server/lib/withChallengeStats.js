@@ -66,4 +66,14 @@ export function withChallengeStats(App) {
       cache = {}
     },
   }
+
+  App.entry.add(async () => {
+    App.logger.info('Preloading challenge stats cache...')
+    console.time('Preloading challenge stats cache')
+    await App.challengeStats.getData(1)
+    await App.challengeStats.getData(5)
+    await App.challengeStats.getData(15)
+    await App.challengeStats.getData(24)
+    console.timeEnd('Preloading challenge stats cache')
+  })
 }

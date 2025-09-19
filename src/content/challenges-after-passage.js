@@ -2063,7 +2063,7 @@ print(hex_string)</pre></code>
       <p>There are people who are just always there. You can rely on these people.
       </p>
       
-      <p>This is a quality you have in common with the answer to this task: the answer has always been there. You can find them on the back side of the planet in this task.
+      <p>This is a quality you have in common with the answer to this task: the answer has always been there. You can find it on the back side of the planet leading to this task.
       </p>
     `,
     },

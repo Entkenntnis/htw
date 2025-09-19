@@ -4113,48 +4113,27 @@ To: ${req.user?.name}@arrrg.de</pre>
     pos: { x: 668, y: 480 },
     title: { de: '[Umfrage]', en: '[Survey]' },
     deps: [51, 55, 69],
-    render: () => {
-      const reverse = Math.random() < 0.5
+    render: ({ req }) => {
       /**
-       * @param {string} lower
-       * @param {string} higher
        * @param {string} name
        */
-      function buildLikert5(lower, higher, name) {
-        const values = [
-          `
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="${name}" id="${name}-1" value="1" required="required">
-            <label class="form-check-label" for="${name}-1">1 - ${lower}</label>
-          </div>
-          `,
-          `
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="${name}" id="${name}-2" value="2">
-            <label class="form-check-label" for="${name}-2">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-          </div>
-          `,
-          `
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="${name}" id="${name}-3" value="3">
-            <label class="form-check-label" for="${name}-3">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-          </div>
-          `,
-          `
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="${name}" id="${name}-4" value="4">
-            <label class="form-check-label" for="${name}-4">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-          </div>
-          `,
-          `
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="${name}" id="${name}-5" value="5">
-            <label class="form-check-label" for="${name}-5">5 - ${higher}</label>
-          </div>
-          `,
-        ]
-        if (reverse) values.reverse()
-        return values.join('')
+      function buildHLikert(name) {
+        return `
+          <ul class="likert">
+            <li><label><input type="radio" name="${name}" value="1" required="required"/><br>${
+              req.lng == 'de' ? 'Trifft gar nicht zu' : 'Does not apply at all'
+            }</label></li>
+            <li><label><input type="radio" name="${name}" value="2" /><br>${
+              req.lng == 'de' ? 'Trifft eher nicht zu' : 'Rather does not apply'
+            }</label></li>
+            <li><label><input type="radio" name="${name}" value="3" /><br>${
+              req.lng == 'de' ? 'Trifft eher zu' : 'Rather applies'
+            }</label></li>
+            <li><label><input type="radio" name="${name}" value="4" /><br>${
+              req.lng == 'de' ? 'Trifft voll zu' : 'Fully applies'
+            }</label></li>
+          </ul>
+        `
       }
       /**
        * @param {string} name
@@ -4164,21 +4143,59 @@ To: ${req.user?.name}@arrrg.de</pre>
           `
           <div class="form-check">
             <input class="form-check-input" type="radio" name="${name}" id="${name}-yes" value="yes" required="required">
-            <label class="form-check-label" for="${name}-yes">Ja&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label class="form-check-label" for="${name}-yes">${
+              req.lng == 'de' ? 'Ja' : 'Yes'
+            }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </div>
           `,
           `
-          <div class="form-check">
+          <div class="form-check" style="cursor: pointer;">
             <input class="form-check-input" type="radio" name="${name}" id="${name}-no" value="no" required="required">
-            <label class="form-check-label" for="${name}-no">Nein&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label class="form-check-label" for="${name}-no">${
+              req.lng == 'de' ? 'Nein' : 'No'
+            }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </div>
           `,
         ]
-        if (reverse) values.reverse()
         return values.join('')
       }
+      const style = `
+        <style>
+          .likert {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            align-items: bottom;
+            justify-content: start;
+            gap: 32px;
+          }
+          .likert input {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #00bc8c;
+          }
+          .likert li {
+            text-align: center;
+            color: rgba(168, 168, 168, 1);
+            font-size: 14px;
+          }
+          .likert li label {
+            cursor: pointer;
+          }
+          .form-check input {
+            cursor: pointer;
+            accent-color: #00bc8c;
+          }
+          .form-check label {
+            cursor: pointer;
+          }
+        </style>
+      `
       return {
         de: `
+        ${style}
+
         <p>Ich weiß: eine Umfrage ist nicht das spannenste Abenteuer auf dieser Welt (ja, ja, keiner liebt sie), aber hey ... diese hier dauert nur 3 Minuten, versprochen. Deine Meinung hilft sehr, Hack The Web noch besser zu machen. Unsere Zeit ist wertvoll und ich möchte diese Zeit daher auch wirklich nur mit den besten Inhalten füllen.</p>
 
         <details>
@@ -4188,73 +4205,83 @@ To: ${req.user?.name}@arrrg.de</pre>
           <hr />
           <form autocomplete="off" method="post">
 
-            <p>Auf einer Skala von 1 bis 5: Wie sehr hat Hack The Web dein Interesse am Thema Hacking und Technologie geweckt?</p>
-            ${buildLikert5(
-              'kein Interesse geweckt',
-              'sehr viel Interesse geweckt',
-              'interest'
-            )}
+            <p style="margin-top:64px;">1. Der Einstieg bei Hack The Web ist klar und verständlich.</p>
+            ${buildHLikert('q1')}
+            
+            <p style="margin-top:48px;">2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird.</p>
+            ${buildHLikert('q2')}
 
-            <p style="margin-top:32px;">Auf einer Skala von 1 bis 5: Wie herausfordernd fandest du die Aufgaben auf Hack The Web?</p>
-            ${buildLikert5(
-              'nicht herausfordernd',
-              'sehr herausfordernd',
-              'challenge'
-            )}
+            <p style="margin-top:48px;">3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking.</p>
+            ${buildHLikert('q3')}
 
-            <p style="margin-top:32px;">Auf einer Skala von 1 bis 5: Wie viel Spaß hattest du beim Lösen der Aufgaben auf Hack The Web?</p>
-            ${buildLikert5('kein Spaß', 'sehr viel Spaß', 'fun')}
+            <p style="margin-top:48px;">4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig.</p>
+            ${buildHLikert('q4')}
 
-            <p style="margin-top:32px;">Würdest du nach dieser Erfahrung mehr über Hacking und IT-Sicherheit lernen wollen?</p>
-            ${buildYesNo('learnmore')}
+            <p style="margin-top:64px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 500 Zeichen)</p>
+            <textarea class="form-control" rows="3" maxlength="500" name="good" required></textarea>
 
-            <p style="margin-top:32px;">Hast du das Gefühl, dass du durch die Rätsel kreativer geworden bist oder deine Problemlösungsfähigkeiten verbessert hast?</p>
-            ${buildYesNo('morecreative')}
+            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (max. 500 Zeichen)</p>
+            <textarea class="form-control" rows="3" maxlength="500" name="improve" required></textarea>
 
-            <p style="margin-top:32px;">Hattest du das Gefühl, dass du die Aufgaben auch ohne Vorwissen lösen konntest?</p>
-            ${buildYesNo('easystart')}
-
-            <p style="margin-top:32px;">Würdest du Hack The Web weiterempfehlen?</p>
+            <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
             ${buildYesNo('recommend')}
 
-            <p style="margin-top:32px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen)</p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="good" required></textarea>
-
-            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</p>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="300" name="improve" required></textarea>
-
-            <p style="margin-top:32px;">Ich willige ein, dass meine Antworten in der Auswertung berücksichtigt werden.</p>
-            ${buildYesNo('agree')}
-            <p style="margin-top:10px;"><small>Wähle Nein, wenn du die Aufgabe lösen willst, aber deine Antworten nicht in die anonyme Auswertung einfließen lassen möchtest.</small></p>
-
-            <p style="margin-top:32px;"><button type="submit" class="btn btn-primary">Abschicken</button></p>
+            <p style="margin-top:32px;"><button type="submit" class="btn btn-success">Abschicken</button></p>
             
             <input type="hidden" name="answer" value="_">
           </form>
         </details>
       `,
         en: `
-        <p>The survey is currently only available in German.</p>
-        <form autocomplete="off" method="post">
-          <input type="hidden" name="answer" value="skip">
-          <button type="submit" class="btn btn-primary">Skip</button>
-        </form>
+        ${style}
+
+        <p>I know: a survey isn’t the most thrilling adventure in the world (yeah, yeah, nobody loves them), but hey... this one only takes 3 minutes, promise. Your opinion really helps make Hack The Web even better. Our time is valuable, so I want to fill it with the best content.</p>
+
+        <details>
+          <summary>
+              <span><strong>Start survey</strong></span>
+          </summary>
+          <hr />
+          <form autocomplete="off" method="post">
+
+            <p style="margin-top:64px;">1. The onboarding in Hack The Web is clear and understandable.</p>
+            ${buildHLikert('q1')}
+            
+            <p style="margin-top:48px;">2. At the beginning, I felt a bit lost and wasn’t sure what was expected of me.</p>
+            ${buildHLikert('q2')}
+
+            <p style="margin-top:48px;">3. The first tasks provide a motivating and suitable introduction to hacking.</p>
+            ${buildHLikert('q3')}
+
+            <p style="margin-top:48px;">4. I find the first steps too slow or boring, or immediately too difficult.</p>
+            ${buildHLikert('q4')}
+
+            <p style="margin-top:64px;">What did you particularly like about Hack The Web and why? (max. 500 characters)</p>
+            <textarea class="form-control" rows="3" maxlength="500" name="good" required></textarea>
+
+            <p style="margin-top:32px;">What would you improve or do differently in Hack The Web? (max. 500 characters)</p>
+            <textarea class="form-control" rows="3" maxlength="500" name="improve" required></textarea>
+
+            <p style="margin-top:32px;">Would you recommend Hack The Web to your friends?</p>
+            ${buildYesNo('recommend')}
+
+            <p style="margin-top:32px;"><button type="submit" class="btn btn-success">Submit</button></p>
+            
+            <input type="hidden" name="answer" value="_">
+          </form>
+        </details>
       `,
       }
     },
-    check: async (answer, { App, req }) => {
-      if (answer == 'skip') {
-        return {
-          answer: 'skip',
-          correct: true,
-        }
-      }
+    check: async (_, { App, req }) => {
+      const body = req.body || {}
+      body.lng = req.lng
       const result = JSON.stringify(req.body).slice(0, 10000)
       await App.storage.setItem(
-        'survey_v1_' + req.user?.id + '_' + new Date().getTime(),
+        'survey_v2_' + req.user?.id + '_' + new Date().getTime(),
         result
       )
-      if (!req.body?.agree) {
+      if (!req.body?.recommend) {
         return {
           answer: 'Keine Formulardaten erhalten',
           correct: false,

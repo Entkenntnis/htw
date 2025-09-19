@@ -53,227 +53,65 @@ export function setupSurvey(App) {
       }
     })
 
-    let ENT = entries.slice()
-    ENT.reverse()
+    let chronoEntries = entries.slice()
+    chronoEntries.reverse()
 
     const userIds = new Set()
 
-    ENT = ENT.filter((entry) => {
-      // if (userIds.has(entry.userId)) {
-      //   return false
-      // }
+    let skipDup = 0
+    let skipNoise = 0
+
+    const relevantEnt = chronoEntries.filter((entry) => {
+      if (userIds.has(entry.userId)) {
+        return false
+      }
+      if (
+        entry.obj.q1 === entry.obj.q2 &&
+        entry.obj.q2 === entry.obj.q3 &&
+        entry.obj.q3 === entry.obj.q4
+      ) {
+        skipNoise++
+        return false
+      }
       userIds.add(entry.userId)
       return entry.obj
     })
 
-    // // Helper function to calculate mean
-    // /**
-    //  * @param {number[]} values
-    //  */
-    // function calculateMean(values) {
-    //   const sum = values.reduce((acc, val) => acc + val, 0)
-    //   return (sum / values.length).toLocaleString('de-DE')
-    // }
+    let sumQ1 = 0
+    let sumQ2 = 0
+    let sumQ3 = 0
+    let sumQ4 = 0
 
-    // // Helper function to calculate frequency of each Likert scale (1-5)
-    // /**
-    //  * @param {number[]} values
-    //  */
-    // function calculateFrequency(values) {
-    //   const frequency = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
-    //   values.forEach((val) => {
-    //     frequency[/** @type {1 | 2 | 3 | 4 | 5} */ (val)]++
-    //   })
-    //   return frequency
-    // }
+    let recommendYes = 0
+    let recommendNo = 0
+    let de = 0
+    let en = 0
 
-    // // Extract values for interest, challenge, and fun
-    // const interests = ENT.map((entry) => parseInt(entry.obj.interest))
-    // const challenges = ENT.map((entry) => parseInt(entry.obj.challenge))
-    // const funs = ENT.map((entry) => parseInt(entry.obj.fun))
+    relevantEnt.forEach((entry) => {
+      sumQ1 += parseInt(entry.obj.q1)
+      sumQ2 += 5 - parseInt(entry.obj.q2)
+      sumQ3 += parseInt(entry.obj.q3)
+      sumQ4 += 5 - parseInt(entry.obj.q4)
+      if (entry.obj.recommend === 'yes') recommendYes++
+      if (entry.obj.recommend === 'no') recommendNo++
+      if (entry.obj.lng === 'de') de++
+      if (entry.obj.lng === 'en') en++
+    })
 
-    // // Calculate means
-    // const meanInterest = calculateMean(interests)
-    // const meanChallenge = calculateMean(challenges)
-    // const meanFun = calculateMean(funs)
+    /**
+     * @param {number} value
+     */
+    function convertToPercentage(value) {
+      // 1 -> -100%, 4 -> + 100%
+      return ((value - 1) / 3) * 200 - 100
+    }
 
-    // // Calculate frequencies
-    // const freqInterest = calculateFrequency(interests)
-    // const freqChallenge = calculateFrequency(challenges)
-    // const freqFun = calculateFrequency(funs)
+    const avgQ1 = convertToPercentage(sumQ1 / relevantEnt.length)
+    const avgQ2 = convertToPercentage(sumQ2 / relevantEnt.length)
+    const avgQ3 = convertToPercentage(sumQ3 / relevantEnt.length)
+    const avgQ4 = convertToPercentage(sumQ4 / relevantEnt.length)
 
-    // // Generate HTML output
-    // const likert = `
-    //   <table class="table" style="margin-top:24px;">
-    //     <thead>
-    //       <tr>
-    //         <th>Aspekt</th>
-    //         <th>Mittelwert</th>
-    //         <th>Häufigkeit (1)</th>
-    //         <th>Häufigkeit (2)</th>
-    //         <th>Häufigkeit (3)</th>
-    //         <th>Häufigkeit (4)</th>
-    //         <th>Häufigkeit (5)</th>
-    //       </tr>
-    //     </thead>
-    //     <tr>
-    //       <td>Wie sehr hat Hack The Web dein Interesse am Thema Hacking und Technologie geweckt?</td>
-    //       <td>${meanInterest}</td>
-    //       <td>${freqInterest[1]}</td>
-    //       <td>${freqInterest[2]}</td>
-    //       <td>${freqInterest[3]}</td>
-    //       <td>${freqInterest[4]}</td>
-    //       <td>${freqInterest[5]}</td>
-    //     </tr>
-    //     <tr>
-    //       <td>Wie herausfordernd fandest du die Aufgaben auf Hack The Web?</td>
-    //       <td>${meanChallenge}</td>
-    //       <td>${freqChallenge[1]}</td>
-    //       <td>${freqChallenge[2]}</td>
-    //       <td>${freqChallenge[3]}</td>
-    //       <td>${freqChallenge[4]}</td>
-    //       <td>${freqChallenge[5]}</td>
-    //     </tr>
-    //     <tr>
-    //       <td>Wie viel Spaß hattest du beim Lösen der Aufgaben auf Hack The Web?</td>
-    //       <td>${meanFun}</td>
-    //       <td>${freqFun[1]}</td>
-    //       <td>${freqFun[2]}</td>
-    //       <td>${freqFun[3]}</td>
-    //       <td>${freqFun[4]}</td>
-    //       <td>${freqFun[5]}</td>
-    //     </tr>
-    //   </table>
-    // `
-
-    // /**
-    //  * @param {{ obj: {learnmore: 'yes'|'no', morecreative: 'yes'|'no', easystart: 'yes'|'no', recommend: 'yes'|'no'}}[]} entries
-    //  */
-    // function generateBinaryAspectReport(entries) {
-    //   // Initialisiere die Zähler für Ja/Nein für jeden Aspekt
-    //   const counts = {
-    //     learnmore: { yes: 0, no: 0 },
-    //     morecreative: { yes: 0, no: 0 },
-    //     easystart: { yes: 0, no: 0 },
-    //     recommend: { yes: 0, no: 0 },
-    //   }
-
-    //   // Durchlaufe alle Einträge und zähle die Antworten
-    //   entries.forEach((entry) => {
-    //     const obj = entry.obj
-
-    //     if (obj.learnmore === 'yes') counts.learnmore.yes++
-    //     else counts.learnmore.no++
-
-    //     if (obj.morecreative === 'yes') counts.morecreative.yes++
-    //     else counts.morecreative.no++
-
-    //     if (obj.easystart === 'yes') counts.easystart.yes++
-    //     else counts.easystart.no++
-
-    //     if (obj.recommend === 'yes') counts.recommend.yes++
-    //     else counts.recommend.no++
-    //   })
-
-    //   // Generiere die HTML-Tabelle
-    //   let html = `
-    //     <table class="table" style="margin-top:36px;">
-    //       <thead>
-    //         <tr>
-    //           <th>Aspekt</th>
-    //           <th>Anzahl "Nein"</th>
-    //           <th>Anzahl "Ja"</th>
-    //         </tr>
-    //       </thead>
-    //       <tr>
-    //         <td>Würdest du nach dieser Erfahrung mehr über Hacking und IT-Sicherheit lernen wollen?</td>
-    //         <td>${counts.learnmore.no}</td>
-    //         <td>${counts.learnmore.yes} (${Math.round((counts.learnmore.yes * 100) / ENT.length)}%)</td>
-    //       </tr>
-    //       <tr>
-    //         <td>Hast du das Gefühl, dass du durch die Rätsel kreativer geworden bist oder deine Problemlösungsfähigkeiten verbessert hast?</td>
-    //         <td>${counts.morecreative.no}</td>
-    //         <td>${counts.morecreative.yes} (${Math.round((counts.morecreative.yes * 100) / ENT.length)}%)</td>
-    //       </tr>
-    //       <tr>
-    //         <td>Hattest du das Gefühl, dass du die Aufgaben auch ohne Vorwissen lösen konntest?</td>
-    //         <td>${counts.easystart.no}</td>
-    //         <td>${counts.easystart.yes} (${Math.round((counts.easystart.yes * 100) / ENT.length)}%)</td>
-    //       </tr>
-    //       <tr>
-    //         <td>Würdest du Hack The Web weiterempfehlen?</td>
-    //         <td>${counts.recommend.no}</td>
-    //         <td>${counts.recommend.yes} (${Math.round((counts.recommend.yes * 100) / ENT.length)}%)</td>
-    //       </tr>
-    //     </table>
-    //   `
-
-    //   return html
-    // }
-
-    // /**
-    //  * @param {{obj: {good: string, improve: string}}[]} entries
-    //  */
-    // function generateFreitextReport(entries) {
-    //   // Listen für die Freitext-Antworten
-    //   /**
-    //    * @type {string[]}
-    //    */
-    //   let goodTexts = []
-    //   /**
-    //    * @type {string[]}
-    //    */
-    //   let improveTexts = []
-
-    //   // Durchlaufen der Einträge und Sammeln der Freitext-Antworten
-    //   entries.forEach((entry) => {
-    //     const obj = entry.obj
-
-    //     // Sammeln der 'good' Antworten, falls vorhanden
-    //     if (obj.good) {
-    //       goodTexts.push(escapeHtml(obj.good))
-    //     }
-
-    //     // Sammeln der 'improve' Antworten, falls vorhanden
-    //     if (obj.improve) {
-    //       improveTexts.push(escapeHtml(obj.improve))
-    //     }
-    //   })
-
-    //   goodTexts.reverse()
-    //   improveTexts.reverse()
-
-    //   // Generieren der HTML-Ausgabe für die Freitext-Antworten
-    //   let html = `<div style="margin-top:36px;">`
-
-    //   // Freitext-Antworten für 'good' hinzufügen, falls vorhanden
-    //   if (goodTexts.length > 0) {
-    //     html += `
-    //       <h3>Freitext-Antworten "Gut":</h3>
-    //       <ul>
-    //         ${goodTexts.map((text) => `<li>${text}</li>`).join('')}
-    //       </ul>
-    //     `
-    //   } else {
-    //     html += `<h5>Keine Freitext-Antworten zu "Gut" vorhanden.</h5>`
-    //   }
-
-    //   // Freitext-Antworten für 'improve' hinzufügen, falls vorhanden
-    //   if (improveTexts.length > 0) {
-    //     html += `
-    //       <h3>Freitext-Antworten "Verbesserung":</h3>
-    //       <ul>
-    //         ${improveTexts.map((text) => `<li>${text}</li>`).join('')}
-    //       </ul>
-    //     `
-    //   } else {
-    //     html += `<h5>Keine Freitext-Antworten zu "Verbesserung" vorhanden.</h5>`
-    //   }
-
-    //   html += `</div>`
-
-    //   return html
-    // }
+    const overall = (avgQ1 + avgQ2 + avgQ3 + avgQ4) / 4
 
     res.send(`
     <!DOCTYPE html>
@@ -288,11 +126,22 @@ export function setupSurvey(App) {
           <div style="margin-top: 24px;"><a href="/">← Zurück</a></div>
           <h1 class="my-5">Umfrage Auswertung</h1>
           <h2>Auswertung</h2>
-          <p>Zeitraum ab: ${fromDateStr} • Einträge: ${ENT.length}</p>
+          <p>Zeitraum ab: ${fromDateStr} • Einträge: ${chronoEntries.length} / abzüglich Duplikate: ${skipDup}, Low Effort: ${skipNoise}</p>
 
-          <p>TOOD: Guter-Start-Indikator, Details, Filterung, Weiterempfehlung, ...</p>
+          <p style="margin-top: 48px">1. Der Einstieg bei Hack The Web ist klar und verständlich: <strong>${Math.round(avgQ1)}%</strong></p>
 
-          <pre style="height: 400px; background-color: gray; overflow-y: auto;">${JSON.stringify(ENT, null, 2)}</pre>
+          <p>2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird [NEG]: <strong>${Math.round(avgQ2)}%</strong></p>
+
+          <p>3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking: <strong>${Math.round(avgQ3)}%</strong></p>
+
+          <p>4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig [NEG]: <strong>${Math.round(avgQ4)}%</strong></p>
+
+          <p><strong>→ Guter-Start-Faktor: ${Math.round(overall)}%</strong></p>
+
+          <p style="margin-top: 32px">Sprache: DE: ${de} / EN: ${en}</p>
+          <p>Würdest du Hack The Web deinen Freunden weiterempfehlen: Ja: ${recommendYes} (<strong>${Math.round(
+            (recommendYes * 100) / (recommendYes + recommendNo)
+          )}%</strong>) / Nein: ${recommendNo}</p>
 
           <h2 style="margin-top:32px;">Einzelansicht</h2>
           <small style="margin-bottom: 48px; display: inline-block;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen) / Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</small>
@@ -312,6 +161,7 @@ export function setupSurvey(App) {
             })
             .join('')}
           </div>
+          <div style="height: 250px;"></div>
       </body>
     </html>
       `)

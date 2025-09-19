@@ -224,7 +224,9 @@ declare global {
       // so use this (it's the same as get, only explicitly typed)
       get_async_fix: (
         route: string,
-        handler: (req: express.Request, res: express.Response) => Promise<void>
+        handler:
+          | ((req: express.Request, res: express.Response) => Promise<void>)
+          | {} // <-- sometimes the editor gives a longer async function the wrong type {}, catch it here
       ) => void
     }
   }

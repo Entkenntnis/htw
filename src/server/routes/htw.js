@@ -32,6 +32,18 @@ export function setupHtw(App) {
     })
   })
 
+  App.express.get('/resistance', (req, res) => {
+    if (req.user) {
+      App.event.create('resistance', req.user.id)
+    }
+    renderPage(App, req, res, {
+      page: 'resistance',
+      title: 'Notizen des Widerstands',
+      heading: 'Notizen des Widerstands',
+      backButton: false,
+    })
+  })
+
   App.express.get('/export-data', async (req, res) => {
     if (!req.user) {
       res.status(403).send('Forbidden')

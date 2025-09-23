@@ -63,6 +63,7 @@ export function setupSurvey(App) {
 
     const relevantEnt = chronoEntries.filter((entry) => {
       if (userIds.has(entry.userId)) {
+        skipDup++
         return false
       }
       if (

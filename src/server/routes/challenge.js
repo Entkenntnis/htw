@@ -175,9 +175,10 @@ export function setupChallenges(App) {
         points.push(point)
         challenge.deps.forEach((dep) => {
           const previous = App.challenges.data.filter((c) => c.id === dep)[0]
+          const dashed = challenge.noScore && !previous.noScore
           if (solved.includes(previous.id)) {
             svgLines.push(
-              `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round"></line>`
+              `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round" ${dashed ? 'class="dashed"' : ''}></line>`
             )
           }
         })

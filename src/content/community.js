@@ -11,7 +11,9 @@ export const communityChallenges = [
     deps: [57],
     noScore: true,
     render: async ({ App, req }) => {
-      const communityChals = App.challenges.data.filter((chal) => chal.noScore)
+      const communityChals = App.challenges.data.filter(
+        (chal) => chal.noScore && chal.id >= 300
+      )
       const ids = communityChals.map((chal) => chal.id)
 
       const sols = await App.db.models.Solution.findAll({
@@ -1600,10 +1602,10 @@ RS#1</pre>
     noScore: true,
     html: {
       de: `
-        <p>Auf dieser Website wird dein Geschick beim Lösen verschiedener Rätsel und Probleme auf die Probe gestellt. Jede gelöste Aufgabe trägt dazu bei, eine spezielle Zahl zu generieren, die am Ende als Lösung dieser Aufgabe benötigt wird. Sammle deine Ergebnisse und kombiniere sie, um die ultimative Antwort zu erhalten. Betrachte alle Aufgaben vor der Passage.</p>
+        <p>Auf dieser Website wird dein Geschick beim Lösen verschiedener Rätsel und Probleme auf die Probe gestellt. Jede gelöste Aufgabe trägt dazu bei, eine spezielle Zahl zu generieren, die am Ende als Lösung dieser Aufgabe benötigt wird. Sammle deine Ergebnisse und kombiniere sie, um die ultimative Antwort zu erhalten. Betrachte alle Aufgaben vor "Ankunft in Sirtach".</p>
       `,
       en: `
-        <p>On this website, your skill in solving various puzzles and problems will be put to the test. Each solved challenge contributes to generating a specific number, which is needed as the solution to this challenge. Collect your results and combine them to obtain the ultimate answer. Consider all challenges before the passage.</p>
+        <p>On this website, your skill in solving various puzzles and problems will be put to the test. Each solved challenge contributes to generating a specific number, which is needed as the solution to this challenge. Collect your results and combine them to obtain the ultimate answer. Consider all challenges before the "Arrival in Sirtach".</p>
       `,
     },
     check: async (answer, { App }) => {

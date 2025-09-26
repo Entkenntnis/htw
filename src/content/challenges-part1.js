@@ -2357,20 +2357,59 @@ export const part1 = [
   {
     id: 57,
     pos: { x: 1350, y: 950 },
-    title: { de: 'Passage', en: 'Passage' },
+    title: { de: 'Ankunft in Sirtach', en: 'Passage' },
     // date: '2020-08-17',
     deps: [27, 41, 64],
     html: {
-      de: story(
-        'Bex',
-        `
-        <p>Herzlichen Glückwunsch! Du hast den ersten Teil von Hack The Web erfolgreich gemeistert. Ab hier kannst du auf eigene Faust viele weitere Aufgaben erkunden. Ich wünsche dir  viel Spaß und Erfolg!</p>
+      de: `
+        <div style="max-width: 100ch">
+          <p><i>Die Reise ist geschafft! Die Intergalaktiva hat in Sirtach angedockt und die Reisenden versammeln sich beim Check-Out, wo auch Kiwi und Josh gerade in der Schlange stehen.</i></p>
 
-        <p>Lass uns davor noch einmal zurückblicken. Die Anfangsbuchstaben der verlinkten Aufgaben ergeben deine Antwort.</p>
-        
-        <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
-    `
-      ),
+          <p>
+            <strong>Kiwi:</strong> Verrückt nicht, dass die Reise schon zu Ende ist? Ich hätte sie mir länger vorgestellt.<br>
+            <strong>Josh:</strong> Geht mir genauso. Wir haben die Zeit wirklich gut gefüllt, mit all den Rätseln und dem gemeinsamen Tüfteln ...<br>
+            <strong>Kiwi:</strong> Aber hey, wo steckt Bex eigentlich? Er sollte doch schon längst da sein?
+          </p>
+
+          <p><i>In diesem Moment ist eine Durchsage zu hören: Die Begleitperson von Bex soll bitte in die Kapitänskajüte kommen. Kiwi schaut besorgt zu Josh und macht sich sofort auf dem Weg. Dort angekommen, wird sie von einer Mitarbeiterin empfangen. Zu Kiwis Schrecken ist Bex in einer Zelle eingesperrt.</i></p>
+
+          <p>
+            <strong>Miss:</strong> Sie sind der Vormund?<br>
+            <strong>Kiwi:</strong> Ja, sozusagen.<br>
+            <strong>Miss:</strong> Dieser junge Mann hier hat sich unerlaubten Zugriff zum internen System des Raumschiffs verschafft. Wir stufen das hier als Versuch des Terrorismu...<br>
+            <strong>Kiwi:</strong> (erhitzt) Was? Aber er ist doch nur ein Jugendlicher!! Sicherlich war das ein Versehen. Sag schon Bex, was ist passiert?<br>
+            <strong>Bex:</strong> (den Tränen nahe, aus der Zelle) Ich sah eine Mitarbeiterin von ihrem Computer weggehen, und dann habe ich ... mich an den Computer gesetzt. Ich weiß nicht, was ich tun wollte. Vielleich hätte ich ein paar Infos ...<br>
+            <strong>Kiwi:</strong> (zur Miss) Sehen Sie? Es war nur eine dumme Idee. Wie Jugendliche halt drauf kommen.<br>
+            <strong>Miss:</strong> Es gibt Regeln. Und diese sind in dieser Hinsicht sehr streng. Sie werden in Sirtach vor Gericht vorsprechen müssen. Wir müssen leider eine Kaution hinterlegen in Höhe von ... (nennt hohen Betrag)<br>
+            <strong>Kiwi:</strong> WAS!? Das ist verrückt viel Geld.<br>
+            <strong>Miss:</strong> Protokoll ist Protokoll. Ansonsten muss Bex an Bord verbleiben<br>
+            <strong>Kiwi:</strong> Kommt nicht in Frage. Es ist ok. Ich zahle die Kaution hier und jetzt.
+          </p>
+
+          <p><i>Kiwi holt ihren Laptop heraus. Die Miss reicht ihr ein Terminal, auf dem Kiwi die Zahlungsinformationen eingibt. Die Daten werden akzeptiert, bis das Gerät plötzlich piept. Es ist ein zweiter Sicherheitspin notwendig! Kiwi kommt ins Schwitzen und kramt in ihrem Rucksack herum.</i></p>
+
+          <p>
+            <strong>Miss:</strong> Bitte schließen Sie den Zahlungsvorgang jetzt ab.<br>
+            <strong>Kiwi:</strong> Gleich, gleich ...<br> 
+            <strong>Miss:</strong> Ansonsten muss ich sie auch noch wegen Zahlungsbetrug in Haft nehmen.<br>
+            <strong>Kiwi </strong> Nicht nötig, ich habs gefunden!
+          </p>
+
+          <p><i>Kiwi holt einen Zettel heraus, den ihr Josh vor paar Wochen gegeben hat. Für den Notfall. Falls das Geld mal knapp wird. Die Zeit wird knapp. Hilf Kiwi, den zweiten Sicherheitspin zu entschlüsseln. Der Pin ist deine Antwort.</i></p>
+
+          <div style="border: 1px solid #00bc8c; padding: 12px;">
+            <p>Liebe Kiwi, lieber Bex.</p>
+            
+            <p>Die Zeit auf der Intergalaktika mit euch. Sie war eine der schönsten in meinem Leben. Auch wenn sie so kurz war - ich werde sie in meinem Herzen behalten. Es soll auch nicht an finanziellen Mitteln mangeln, daher ist hier ein Hinweis (Kiwi weiß Bescheid):</p>
+
+            <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
+            
+            <p>Die Anfangsbuchstaben der verlinkten Aufgaben bilden den Pin.
+            </p>
+          </div>
+
+        </div>
+    `,
       en: `
             <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
             <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 31</p>

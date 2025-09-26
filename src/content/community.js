@@ -11,7 +11,9 @@ export const communityChallenges = [
     deps: [57],
     noScore: true,
     render: async ({ App, req }) => {
-      const communityChals = App.challenges.data.filter((chal) => chal.noScore)
+      const communityChals = App.challenges.data.filter(
+        (chal) => chal.noScore && chal.id >= 300
+      )
       const ids = communityChals.map((chal) => chal.id)
 
       const sols = await App.db.models.Solution.findAll({

@@ -2315,7 +2315,7 @@ print(hex_string)</pre></code>
 
   {
     id: 117,
-    pos: { x: 1538, y: 983 },
+    pos: { x: 1138, y: 1003 },
     title: { de: 'Schatzkammer', en: 'Treasure chamber' },
     deps: [57],
     html: {
@@ -2421,5 +2421,22 @@ print(hex_string)</pre></code>
       `,
     },
     solution: secrets('chal_120'),
+  },
+
+  {
+    id: 121,
+    noScore: true,
+    pos: { x: 1580, y: 975 },
+    title: { de: '[Epilog]', en: 'TODO' },
+    deps: [57],
+    html: {
+      de: `
+        Hier kommt der Text für den Epilog hin
+      `,
+      en: `
+        TODO
+      `,
+    },
+    solution: 'hack the web',
   },
 ]

@@ -2362,8 +2362,11 @@ export const part1 = [
     deps: [27, 41, 64],
     html: {
       de: `
-        <div style="max-width: 100ch">
-          <p><i>Die Reise ist geschafft! Die Intergalaktiva hat in Sirtach angedockt und die Reisenden versammeln sich beim Check-Out, wo auch Kiwi und Josh gerade in der Schlange stehen.</i></p>
+        <div style="max-width: 90ch">
+        
+          <p><img src="/story/sirtach.jpg" alt="Sirtach"></p>
+
+          <p style="margin-bottom: 40px; margin-top: 40px;"><i>Die Reise ist geschafft! Die Intergalaktika hat in Sirtach angedockt und die Reisenden versammeln sich beim Check-Out, wo auch Kiwi und Josh gerade in der Schlange stehen.</i></p>
 
           <p>
             <strong>Kiwi:</strong> Verrückt nicht, dass die Reise schon zu Ende ist? Ich hätte sie mir länger vorgestellt.<br>
@@ -2371,42 +2374,46 @@ export const part1 = [
             <strong>Kiwi:</strong> Aber hey, wo steckt Bex eigentlich? Er sollte doch schon längst da sein?
           </p>
 
-          <p><i>In diesem Moment ist eine Durchsage zu hören: Die Begleitperson von Bex soll bitte in die Kapitänskajüte kommen. Kiwi schaut besorgt zu Josh und macht sich sofort auf dem Weg. Dort angekommen, wird sie von einer Mitarbeiterin empfangen. Zu Kiwis Schrecken ist Bex in einer Zelle eingesperrt.</i></p>
+          <p style="margin-top: 40px; margin-bottom: 40px;"><i>In diesem Moment ist eine Durchsage zu hören: Die Begleitperson von Bex soll bitte in die Kapitänskajüte kommen. Kiwi schaut besorgt zu Josh und macht sich sofort auf den Weg. Dort angekommen, wird sie von einer Stewardess empfangen. Zu Kiwis Schrecken ist Bex in einer Zelle eingesperrt.</i></p>
 
           <p>
             <strong>Miss:</strong> Sie sind der Vormund?<br>
             <strong>Kiwi:</strong> Ja, sozusagen.<br>
             <strong>Miss:</strong> Dieser junge Mann hier hat sich unerlaubten Zugriff zum internen System des Raumschiffs verschafft. Wir stufen das hier als Versuch des Terrorismu...<br>
-            <strong>Kiwi:</strong> (erhitzt) Was? Aber er ist doch nur ein Jugendlicher!! Sicherlich war das ein Versehen. Sag schon Bex, was ist passiert?<br>
-            <strong>Bex:</strong> (den Tränen nahe, aus der Zelle) Ich sah eine Mitarbeiterin von ihrem Computer weggehen, und dann habe ich ... mich an den Computer gesetzt. Ich weiß nicht, was ich tun wollte. Vielleich hätte ich ein paar Infos ...<br>
+            <strong>Kiwi:</strong> (erhitzt) Was? Aber er ist doch nur ein Jugendlicher!! Sicherlich war das ein Versehen. Hey Bex, was ist denn passiert?<br>
+            <strong>Bex:</strong> (den Tränen nahe, aus der Zelle heraus) Ähm, naja, also ... Ich sah eine Mitarbeiterin von ihrem Computer weggehen, und dann habe ich ... mich an den Computer gesetzt. Ich weiß nicht, was ich tun wollte. Vielleich hätte ich ein paar Infos ...<br>
             <strong>Kiwi:</strong> (zur Miss) Sehen Sie? Es war nur eine dumme Idee. Wie Jugendliche halt drauf kommen.<br>
-            <strong>Miss:</strong> Es gibt Regeln. Und diese sind in dieser Hinsicht sehr streng. Sie werden in Sirtach vor Gericht vorsprechen müssen. Wir müssen leider eine Kaution hinterlegen in Höhe von ... (nennt hohen Betrag)<br>
+            <strong>Miss:</strong> Es gibt Regeln. Und diese sind in dieser Hinsicht sehr streng. Sie werden in Sirtach vor Gericht vorsprechen müssen. Und Sie müssen leider eine Kaution hinterlegen in Höhe von ... (nennt hohen Betrag)<br>
             <strong>Kiwi:</strong> WAS!? Das ist verrückt viel Geld.<br>
-            <strong>Miss:</strong> Protokoll ist Protokoll. Ansonsten muss Bex an Bord verbleiben<br>
+            <strong>Miss:</strong> Protokoll ist Protokoll. Ansonsten muss Bex an Bord verbleiben.<br>
             <strong>Kiwi:</strong> Kommt nicht in Frage. Es ist ok. Ich zahle die Kaution hier und jetzt.
           </p>
 
-          <p><i>Kiwi holt ihren Laptop heraus. Die Miss reicht ihr ein Terminal, auf dem Kiwi die Zahlungsinformationen eingibt. Die Daten werden akzeptiert, bis das Gerät plötzlich piept. Es ist ein zweiter Sicherheitspin notwendig! Kiwi kommt ins Schwitzen und kramt in ihrem Rucksack herum.</i></p>
+          <p style="margin-top: 40px; margin-bottom: 40px;"><i>Kiwi holt ihr Mobilgerät heraus. Die Stewardess reicht ihr ein Terminal, auf dem Kiwi die Zahlungsinformationen eingibt. Die Daten werden akzeptiert, bis das Gerät plötzlich piept. Es ist ein Sicherheitspin notwendig! Kiwi kommt ins Schwitzen und kramt in ihrem Rucksack herum.</i></p>
 
           <p>
             <strong>Miss:</strong> Bitte schließen Sie den Zahlungsvorgang jetzt ab.<br>
             <strong>Kiwi:</strong> Gleich, gleich ...<br> 
-            <strong>Miss:</strong> Ansonsten muss ich sie auch noch wegen Zahlungsbetrug in Haft nehmen.<br>
-            <strong>Kiwi </strong> Nicht nötig, ich habs gefunden!
+            <strong>Miss:</strong> Ansonsten muss ich Sie auch noch wegen Zahlungsbetrug in Haft nehmen.<br>
+            <strong>Kiwi: </strong> Nicht nötig, ich habs gefunden!
           </p>
 
-          <p><i>Kiwi holt einen Zettel heraus, den ihr Josh vor paar Wochen gegeben hat. Für den Notfall. Falls das Geld mal knapp wird. Die Zeit wird knapp. Hilf Kiwi, den zweiten Sicherheitspin zu entschlüsseln. Der Pin ist deine Antwort.</i></p>
+          <p style="margin-top: 40px; margin-bottom: 40px;"><i>Kiwi holt einen Zettel heraus, den ihr Josh vor ein paar Tagen gegeben hat. Für den Notfall. Falls das Geld mal knapp wird. Hilf Kiwi, den Sicherheitspin zu entschlüsseln.</i></p>
 
           <div style="border: 1px solid #00bc8c; padding: 12px;">
             <p>Liebe Kiwi, lieber Bex.</p>
             
-            <p>Die Zeit auf der Intergalaktika mit euch. Sie war eine der schönsten in meinem Leben. Auch wenn sie so kurz war - ich werde sie in meinem Herzen behalten. Es soll auch nicht an finanziellen Mitteln mangeln, daher ist hier ein Hinweis (Kiwi weiß Bescheid):</p>
+            <p>Die Zeit auf der Intergalaktika mit euch war eine der schönsten in meinem Leben. Auch wenn sie so kurz war - ich werde sie in meinem Herzen behalten. Es soll euch nicht an finanziellen Mitteln mangeln.</p>
 
             <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
             
-            <p>Die Anfangsbuchstaben der verlinkten Aufgaben bilden den Pin.
+            <p>Die Anfangsbuchstaben der verlinkten Aufgaben ergeben den Pin.
             </p>
+
+            <p>Hochachtungsvoll<br>Josh</p>
           </div>
+
+          <p style="margin-top: 40px;"><code>&gt; Bitte geben Sie den Sicherheitspin ein, um die Zahlung zu autorisieren:</code></p>
 
         </div>
     `,
@@ -2416,6 +2423,22 @@ export const part1 = [
             <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
             <p>The first letters of the <strong>German</strong> challenge names form the answer. Please switch to the German version for this challenge.</p>
     `,
+    },
+    afterSolveText: {
+      de: `
+        <p><code>&gt; Zahlung genemigt &lt;</code></p>
+        
+        <p>Kiwi ist sehr erleichtert, als diese Wörter auf dem Terminal erscheinen. Nach ein paar weiteren Formalitäten verlassen Kiwi und Bex die Kajüte und treffen sich mit Josh beim Check-Out. Was für ein turbulentes Willkommen in Sirtach! Gerade nochmal alles gut gelaufen.</p>
+
+        <p>Bex kriegt im Nachhinein einen Anschiss von Kiwi. Josh nimmt es (fast) gelassen, als er erfährt, wo sein Geld hin ist. So ist das Leben, nicht? Ein Abenteuer nach dem anderen.</p>
+
+        <p>&nbsp;</p>
+        
+        <p>&nbsp;</p>
+      `,
+      en: `
+        <p>TODO
+      `,
     },
     solution: secrets('chal_57'),
   },

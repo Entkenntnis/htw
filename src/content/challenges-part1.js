@@ -2357,7 +2357,7 @@ export const part1 = [
   {
     id: 57,
     pos: { x: 1350, y: 950 },
-    title: { de: 'Ankunft in Sirtach', en: 'Passage' },
+    title: { de: 'Ankunft in Sirtach', en: 'Arrival in Sirtach' },
     // date: '2020-08-17',
     deps: [27, 41, 64],
     html: {
@@ -2418,10 +2418,60 @@ export const part1 = [
         </div>
     `,
       en: `
-            <p>Behind this passage you will find the second part of Hack The Web - even more worlds to discover and challenges that will make you bite your teeth.</p>
-            <p>24 &nbsp; 37 &nbsp; 30 &nbsp; 68 &nbsp; 84 &nbsp; 58 &nbsp; 31</p>
-            <p>Each number corresponds to the number of a challenge. Look at the address bar. There you can see that this challenge has the number 57.</p>
-            <p>The first letters of the <strong>German</strong> challenge names form the answer. Please switch to the German version for this challenge.</p>
+        <div style="max-width: 90ch">
+        
+          <p><img src="/story/sirtach.jpg" alt="Sirtach"></p>
+
+          <p style="margin-bottom: 40px; margin-top: 40px;"><i>The journey is over! The Intergalaktika has docked in Sirtach and the travelers are gathering at check-out, where Kiwi and Josh are also standing in line.</i></p>
+
+          <p>
+            <strong>Kiwi:</strong> Isn't it crazy that the journey is already over? I'd imagined it would be longer.<br>
+            <strong>Josh:</strong> I feel the same. We really filled the time well, with all the puzzles and tinkering together...<br>
+            <strong>Kiwi:</strong> But hey, where is Bex anyway? He should have been here long ago.
+          </p>
+
+          <p style="margin-top: 40px; margin-bottom: 40px;"><i>At that moment, an announcement is heard: The guardian of Bex is asked to please come to the captain's cabin. Kiwi looks worriedly at Josh and immediately sets off. Arriving there, she is met by a stewardess. To Kiwi's horror, Bex is locked in a cell.</i></p>
+
+          <p>
+            <strong>Miss:</strong> Are you the guardian?<br>
+            <strong>Kiwi:</strong> Yes, so to speak.<br>
+            <strong>Miss:</strong> This young man here has gained unauthorized access to the starship's internal system. We are classifying this as an act of terrori...<br>
+            <strong>Kiwi:</strong> (heatedly) What? But he's just a teenager!! I'm sure it was an accident. Hey Bex, what happened?<br>
+            <strong>Bex:</strong> (close to tears, from the cell) Um, well, so... I saw an employee walk away from her computer, and then I... I sat down at the computer. I don't know what I was trying to do. Maybe get some info...<br>
+            <strong>Kiwi:</strong> (to the Miss) See? It was just a stupid idea. The kind of thing teenagers do.<br>
+            <strong>Miss:</strong> There are rules. And they are very strict in this regard. You will have to appear in court in Sirtach. And unfortunately you will have to post bail in the amount of... (names a high amount)<br>
+            <strong>Kiwi:</strong> WHAT!? That's a crazy amount of money.<br>
+            <strong>Miss:</strong> Protocol is protocol. Otherwise Bex will have to remain on board.<br>
+            <strong>Kiwi:</strong> Out of the question. It's ok. I'll pay the bail here and now.
+          </p>
+
+          <p style="margin-top: 40px; margin-bottom: 40px;"><i>Kiwi takes out her mobile device. The stewardess hands her a terminal, on which Kiwi enters the payment information. The data is accepted, until the device suddenly beeps. A security pin is required! Kiwi breaks into a sweat and rummages around in her backpack.</i></p>
+
+          <p>
+            <strong>Miss:</strong> Please complete the payment process now.<br>
+            <strong>Kiwi:</strong> Just a sec, just a sec...<br> 
+            <strong>Miss:</strong> Otherwise I will have to take you into custody for payment fraud as well.<br>
+            <strong>Kiwi: </strong> Not necessary, I've found it!
+          </p>
+
+          <p style="margin-top: 40px; margin-bottom: 40px;"><i>Kiwi pulls out a piece of paper that Josh gave her a few days ago. For an emergency. In case money gets tight. Help Kiwi to decode the security pin.</i></p>
+
+          <div style="border: 1px solid #00bc8c; padding: 12px;">
+            <p>Dear Kiwi, dear Bex.</p>
+            
+            <p>The time on the Intergalaktika with you was one of the most beautiful in my life. Even though it was so short - I will keep it in my heart. You shall not want for financial resources.</p>
+
+            <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
+            
+            <p>The first letters of the linked challenges form the pin.
+            </p>
+
+            <p>Sincerely<br>Josh</p>
+          </div>
+
+          <p style="margin-top: 40px;"><code>&gt; Please enter the security pin to authorize the payment:</code></p>
+
+        </div>
     `,
     },
     afterSolveText: {
@@ -2437,7 +2487,15 @@ export const part1 = [
         <p>&nbsp;</p>
       `,
       en: `
-        <p>TODO
+        <p><code>&gt; Payment approved &lt;</code></p>
+        
+        <p>Kiwi is very relieved as these words appear on the terminal. After a few more formalities, Kiwi and Bex leave the cabin and meet Josh at the check-out. What a turbulent welcome to Sirtach! Everything turned out well in the end.</p>
+
+        <p>Afterwards, Bex gets a telling-off from Kiwi. Josh takes it (almost) calmly when he finds out where his money has gone. That's life, isn't it? One adventure after another.</p>
+
+        <p>&nbsp;</p>
+        
+        <p>&nbsp;</p>
       `,
     },
     solution: secrets('chal_57'),

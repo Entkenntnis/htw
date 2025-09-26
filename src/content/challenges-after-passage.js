@@ -2423,7 +2423,7 @@ print(hex_string)</pre></code>
     solution: secrets('chal_120'),
   },
 
-  {
+  /*{
     id: 121,
     noScore: true,
     pos: { x: 1580, y: 975 },
@@ -2438,5 +2438,5 @@ print(hex_string)</pre></code>
       `,
     },
     solution: 'hack the web',
-  },
+  },*/
 ]

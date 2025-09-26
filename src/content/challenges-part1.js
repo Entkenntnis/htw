@@ -2380,7 +2380,7 @@ export const part1 = [
             <strong>Miss:</strong> Sie sind der Vormund?<br>
             <strong>Kiwi:</strong> Ja, sozusagen.<br>
             <strong>Miss:</strong> Dieser junge Mann hier hat sich unerlaubten Zugriff zum internen System des Raumschiffs verschafft. Wir stufen das hier als Versuch des Terrorismu...<br>
-            <strong>Kiwi:</strong> (erhitzt) Was? Aber er ist doch nur ein Jugendlicher!! Sicherlich war das ein Versehen. Hey Bex, was ist denn passiert?<br>
+            <strong>Kiwi:</strong> (erhitzt) Was? Aber er ist doch nur ein Jugendlicher!! Sicherlich war das ein Versehen. Sag Bex, was ist denn passiert?<br>
             <strong>Bex:</strong> (den Tränen nahe, aus der Zelle heraus) Ähm, naja, also ... Ich sah eine Mitarbeiterin von ihrem Computer weggehen, und dann habe ich ... mich an den Computer gesetzt. Ich weiß nicht, was ich tun wollte. Vielleich hätte ich ein paar Infos ...<br>
             <strong>Kiwi:</strong> (zur Miss) Sehen Sie? Es war nur eine dumme Idee. Wie Jugendliche halt drauf kommen.<br>
             <strong>Miss:</strong> Es gibt Regeln. Und diese sind in dieser Hinsicht sehr streng. Sie werden in Sirtach vor Gericht vorsprechen müssen. Und Sie müssen leider eine Kaution hinterlegen in Höhe von ... (nennt hohen Betrag)<br>
@@ -2480,10 +2480,11 @@ export const part1 = [
         
         <p>Kiwi ist sehr erleichtert, als diese Wörter auf dem Terminal erscheinen. Nach ein paar weiteren Formalitäten verlassen Kiwi und Bex die Kajüte und treffen sich mit Josh beim Check-Out. Was für ein turbulentes Willkommen in Sirtach! Gerade nochmal alles gut gelaufen.</p>
 
-        <p>Bex kriegt im Nachhinein einen Anschiss von Kiwi. Josh nimmt es (fast) gelassen, als er erfährt, wo sein Geld hin ist. So ist das Leben, nicht? Ein Abenteuer nach dem anderen.</p>
+        <p>Bex kriegt im Nachhinein einen Anschiss von Kiwi. Josh nimmt es (fast) gelassen, als er erfährt, wo sein Geld hin ist. Die Reise nach Sirtach ist nun zu Ende und wir werden Kiwi, Bex und Josh vorerst verlassen. Aber so ist das Leben, nicht? Ein Abenteuer geht zu Ende. Viele neue Abenteuer warten.</p>
+
+        <p style="text-align: right;"><i>Quinn</i></p>
 
         <p>&nbsp;</p>
-        
         <p>&nbsp;</p>
       `,
       en: `

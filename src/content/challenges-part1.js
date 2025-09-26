@@ -2461,7 +2461,12 @@ export const part1 = [
             
             <p>The time on the Intergalaktika with you was one of the most beautiful in my life. Even though it was so short - I will keep it in my heart. You shall not want for financial resources.</p>
 
-            <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
+            <p><a href="/challenge/53" target="_blank">53</a> &nbsp;
+               <a href="/challenge/30" target="_blank">30</a> &nbsp;
+               <a href="/challenge/37" target="_blank">37</a> &nbsp;
+               <a href="/challenge/21" target="_blank">21</a> &nbsp;
+               <a href="/challenge/114" target="_blank">114</a> &nbsp;
+            </p>
             
             <p>The first letters of the linked challenges form the pin.
             </p>
@@ -2499,7 +2504,7 @@ export const part1 = [
         <p>&nbsp;</p>
       `,
     },
-    solution: secrets('chal_57'),
+    solution: secrets('chal_57').split(','),
   },
 
   {

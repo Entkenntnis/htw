@@ -1048,7 +1048,8 @@ export const part1 = [
 
         <p>Mich nervt es, wenn diese Chatbots alle in ihrem selbstsicheren Ton daher kommen. Das ist doch völlig unauthentisch. Ich habe mal einen anderen Bot gebaut. Der Bot kennt deine Antwort, aber davor musst du erstmal sein Vertrauen gewinnen. Keine Ahnung, ich glaube, dass Komplimente ein guter Ansatz sind ...</p>
 
-        <div id="chat" style="margin-top: 48px; margin-bottom: 32px;"></div>
+        <div id="chat" style="margin-top: 48px;"></div>
+        <p style="color: gray; margin-bottom: 32px;"><small>LLM-Modell: mistralai/mistral-small-3.2-24b-instruct</small></p>
         <script src="/chals/chat/script.js" ></script>
     `
       ),
@@ -1065,7 +1066,8 @@ export const part1 = [
 
         <p>It annoys me when these chatbots all come across with their self-confident tone. It's completely inauthentic. I've built a different kind of bot. This bot knows your answer, but first, you have to win its trust. I don't know, I think compliments are a good approach...</p>
 
-        <div id="chat" style="margin-top: 48px; margin-bottom: 32px;"></div>
+        <div id="chat" style="margin-top: 48px;"></div>
+        <p style="color: gray; margin-bottom: 32px;"><small>LLM model: mistralai/mistral-small-3.2-24b-instruct</small></p>
         <script src="/chals/chat/script.js" ></script>
       `
       ),

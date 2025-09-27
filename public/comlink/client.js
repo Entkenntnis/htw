@@ -96,7 +96,7 @@
         </div>
         <div id="comlink-content" role="region" aria-live="polite" aria-label="Conversation with KIWI">
           <div id="comlink-messages"><div id="comlink-reset">Chat zurücksetzen</div></div>
-          <div id="comlink-options" aria-label="Response Options"></div>
+          <div id="comlink-options" aria-label="Response Options"><span style="font-size: 10px;">Keine KI, alle Chats sind liebevoll per Hand geschrieben.</span></div>
         </div>
       </div>
     `
@@ -193,7 +193,12 @@
       const raw = sessionStorage.getItem(STORE_KEY)
       if (!raw) return false
       const parsed = JSON.parse(raw)
-      if (!parsed || !Array.isArray(parsed.messages)) return false
+      if (
+        !parsed ||
+        !Array.isArray(parsed.messages) ||
+        parsed.messages.length == 0
+      )
+        return false
       state = { messages: parsed.messages, options: parsed.options || [] }
       // recreate message DOM (no typing effect for restored messages)
       state.messages.forEach(({ role, text }) => {

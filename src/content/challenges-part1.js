@@ -2129,7 +2129,7 @@ export const part1 = [
         `
           <p>Wie, ich soll bei dieser Aufgabe 2000 Mal auf einen Button klicken? Was für ein Kack ist das denn?</p>
 
-          <p>Ich hoffe, du tust dir diese Dummheit nicht an. Schau doch mal in den Seitenquelltext und suche nach einer Hack oder so ähnlich. Oder nutze ein Programm, dass die Klicks für dich erledigt ...</p>
+          <p>Ich hoffe, du tust dir diese Dummheit nicht an. Schau doch mal in den Seitenquelltext und suche nach einem Hack oder so ähnlich. Oder nutze ein Programm, das die Klicks für dich erledigt ...</p>
 
           <p>... wobei, bisschen witzig ist es schon, einfach nur zu klicken 🤷‍♀️</p>
 

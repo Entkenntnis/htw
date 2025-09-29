@@ -135,15 +135,12 @@ export const appConfig = {
     connectionColor: '#464545',
     pointColor: 'var(--success)',
     pointColor_solved: '#666699',
-    hrColor: '#313030',
     solutionClass_correct: 'primary',
     solutionClass_wrong: 'danger',
     tableHighlightClass: 'secondary',
-    fontSize: '16px',
   },
   editors: ['editor', 'demo'],
   noSelfAdmin: ['demo'],
-  customCSS: '',
   mainPassword: process.env.UBERSPACE
     ? secrets('config_main_password')
     : '1234',

@@ -1,20 +1,8 @@
-<script>
-function goBack() {
-  if (document.referrer && document.referrer.includes('/map')) {
-    window.history.back()
-  } else {
-    window.location.href = '/map'
-  }
-}
-</script>
-
 <% if (!props.accessible) { %>
   
   <p><i><%= t('locked')%></i></p>
 
-<% } else { %>
-
-  <p>
+<% } else { %><p>
     <% if (props.correct !== true) { %>
       <a href="<%=prefix%>/map" <%- App.config.historyBack ? 'onclick="goBack()"' : ''%>><%= t('back') %></a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
     <% } %>

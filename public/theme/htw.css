@@ -1,0 +1,60 @@
+body {
+  font-size: 16px;
+}
+h1 {
+  font-size: 3em;
+  margin: 40px 0 20px 0;
+}
+.page-header {
+  margin-bottom: 30px;
+}
+.lead {
+  font-size: 1.5em;
+}
+.table th {
+  border-top: none;
+}
+h2 {
+  margin-bottom: 16px;
+}
+form {
+  margin-top: 30px;
+}
+hr {
+  border-color: #313030;
+}
+
+@media (min-width: 1000px) {
+  .status {
+    margin-bottom: -30px;
+  }
+}
+.status {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.story-container {
+  display: flex;
+  justify-content: start;
+  flex-direction: column-reverse;
+  align-items: end;
+  margin-top: -40px;
+}
+.story-content :last-child {
+  margin-bottom: 0px;
+}
+@media (min-width: 768px) {
+  .story-container {
+    flex-direction: row;
+    align-items: start;
+    margin-top: 0px;
+  }
+  .avatar {
+    margin-top: -40px;
+  }
+}
+.avatar {
+  margin-left: 48px;
+  padding-bottom: 6px;
+}

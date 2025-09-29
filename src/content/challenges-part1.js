@@ -59,33 +59,6 @@ function calculator(lng = 'de') {
  */
 function story(name, intro, task) {
   return `
-    <style>
-      .story-container {
-        display: flex;
-        justify-content: start;
-        flex-direction: column-reverse;
-        align-items:end;
-        margin-top: -40px;
-      }
-      .story-content :last-child {
-        margin-bottom:0px
-      }
-      @media (min-width: 768px) {
-        .story-container {
-          flex-direction: row;
-          align-items:start;
-          margin-top: 0px;
-        }
-        .avatar {
-          margin-top: -40px
-        }
-      }
-      .avatar {
-        margin-left: 48px;
-        padding-bottom: 6px;
-      }
-    </style>
-
     <div style="height:16px"></div>
 
     <div class="story-container">
@@ -2147,33 +2120,35 @@ export const part1 = [
   {
     id: 53,
     pos: { x: 760, y: 190 },
-    title: { de: 'Quiz', en: 'Quiz' },
+    title: { de: 'Klicker', en: 'Quiz' },
     // date: '2020-08-01',
     deps: [66, 111],
     html: {
       de: story(
         'Bex',
         `
-        <p>Ich möchte noch ganz gerne meine Base fertig bauen. Beschäftige dich doch in der Zwischenzeit mit diesem Quiz. In ungefähr einer Stunde bin ich bei dir.</p>
+          <p>Wie, man soll bei dieser Aufgabe 2000 Mal auf einen Button klicken? Was für ein Kack ist das denn?</p>
+
+          <p>Ich hoffe, du tust dir diese Dummheit nicht an. Schau doch mal in den Seitenquelltext und suche nach einer Hack oder so ähnlich. Oder nutze ein Programm, dass die Klicks für dich erledigt ...</p>
+
+          <p>... wobei: bisschen witzig ist es schon, einfach nur zu klicken 🤷‍♀️</p>
+
+          <script>
+            var solutionURL = "https://hack.arrrg.de/chals/klicker.png"
+            var count = 20
+          </script>
         
-        <hr />
-        
-        <p class="my-4">Klicke auf das X:</p>
-        
-        <p>
-          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1">X</button>
-          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2">.</button>
-          <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3">.</button>
-        </p>
-        
-        <div class="progress my-4">
-          <div class="progress-bar" role="progressbar" style="width: 0;" id="progress"></div>
-        </div>
-        
-        <p id="status"></p>
-        
-        
-        <script src="/chals/chal53.js"></script>
+          <p style="margin-top: 48px;">
+            <button type="button" class="btn btn-warning mb-2 mr-5" id="ans1">Klick mich</button>
+          </p>
+          
+          <div class="progress my-4">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: 0;" id="progress"></div>
+          </div>
+          
+          <p id="status"></p>
+          
+          <script src="/chals/chal53.js"></script>
     `
       ),
       en: `
@@ -2185,9 +2160,7 @@ export const part1 = [
       <p class="my-4">Click on the X:</p>
       
       <p>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans1">X</button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans2">.</button>
-        <button type="button" class="btn btn-secondary mb-2 mr-5" id="ans3">.</button>
+        <button type="button" class="btn btn-warning mb-2 mr-5" id="ans1">X</button>
       </p>
       
       <div class="progress my-4">
@@ -2203,7 +2176,6 @@ export const part1 = [
     check: (answer) => {
       return { answer, correct: answer === '2000/2000' }
     },
-    hidesubmit: true,
   },
 
   /*{

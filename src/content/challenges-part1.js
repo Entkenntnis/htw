@@ -2407,7 +2407,13 @@ export const part1 = [
             
             <p>Die Zeit auf der Intergalaktika mit euch war eine der schönsten in meinem Leben. Auch wenn sie so kurz war - ich werde sie in meinem Herzen behalten. Es soll euch nicht an finanziellen Mitteln mangeln.</p>
 
-            <p><a href="/challenge/24" target="_blank">24</a> &nbsp; <a href="/challenge/37" target="_blank">37</a> &nbsp; <a href="/challenge/30" target="_blank">30</a> &nbsp; <a href="/challenge/68" target="_blank">68</a> &nbsp; <a href="/challenge/84" target="_blank">84</a> &nbsp; <a href="/challenge/58" target="_blank">58</a> &nbsp; <a href="/challenge/31" target="_blank">31</a></p>
+            <p>
+              <a href="/challenge/62" target="_blank">62</a> &nbsp; 
+              <a href="/challenge/4" target="_blank">4</a> &nbsp; 
+              <a href="/challenge/16" target="_blank">16</a> &nbsp; 
+              <a href="/challenge/70" target="_blank">70</a> &nbsp; 
+              <a href="/challenge/23" target="_blank">23</a> &nbsp; 
+            </p>
             
             <p>Die Anfangsbuchstaben der verlinkten Aufgaben ergeben den Pin.
             </p>
@@ -2463,11 +2469,12 @@ export const part1 = [
             
             <p>The time on the Intergalaktika with you was one of the most beautiful in my life. Even though it was so short - I will keep it in my heart. You shall not want for financial resources.</p>
 
-            <p><a href="/challenge/53" target="_blank">53</a> &nbsp;
+            <p><a href="/challenge/31" target="_blank">31</a> &nbsp;
+               <a href="/challenge/6" target="_blank">6</a> &nbsp;
+               <a href="/challenge/4" target="_blank">4</a> &nbsp;
+               <a href="/challenge/16" target="_blank">16</a> &nbsp;
+               <a href="/challenge/70" target="_blank">70</a> &nbsp;
                <a href="/challenge/30" target="_blank">30</a> &nbsp;
-               <a href="/challenge/37" target="_blank">37</a> &nbsp;
-               <a href="/challenge/21" target="_blank">21</a> &nbsp;
-               <a href="/challenge/114" target="_blank">114</a> &nbsp;
             </p>
             
             <p>The first letters of the linked challenges form the pin.

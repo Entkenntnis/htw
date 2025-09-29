@@ -9,51 +9,16 @@
 
     <!-- Bootstrap -->
     <link href="<%=App.config.urlPrefix%>/theme/<%= App.config.theme %>.min.css" rel="stylesheet">
+    <link href="<%=App.config.urlPrefix%>/theme/htw.css" rel="stylesheet">
+
+    <script src="/htw.js"></script>
 
     <title><%= title %></title>
-    
-    <style>
-      <% if (App.config.styles.fontSize) { %>
-      body {
-        font-size: <%-App.config.styles.fontSize%>;
-      }
-      <% } %>
-      h1 {
-        font-size: 3em;
-        margin: 40px 0 20px 0;
-      }
-      .page-header {
-        margin-bottom: 30px;
-      }
-      .lead {
-        font-size: 1.5em;
-      }
-      .table th {
-        border-top: none;
-      }
-      h2 {
-        margin-bottom: 16px;
-      }
-      form {
-        margin-top: 30px;
-      }
-      <% if (App.config.styles.hrColor) { %>
-      hr {
-        border-color: <%-App.config.styles.hrColor%>;
-      }
-      <% } %>
-      
-      <%- App.config.customCSS %>
-      
-    </style>
   </head>
   <body>
-    <div class="container">
-    
-      <% if (user) { %>
+    <div class="container"><% if (user) { %>
         <%- include('./statusBar', {user, t, prefix: App.config.urlPrefix, App}) %>
       <% } %>
-      
       <header class="page-header">
         <h1><a href="<%=App.config.urlPrefix%>/"><%= brand %></a></h1>
         <p class="lead"><%= t('home.slogan') %></p>
@@ -64,7 +29,6 @@
       <% if (heading) { %>
         <h2><%= heading %></h2>
       <% } %>
-    
       <% const contentHtml = content ? content : include(pagePath, {props, t, user, App, prefix: App.config.urlPrefix}) %>
     
     <% if (!outsideOfContainer) { %>

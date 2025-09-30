@@ -46,6 +46,19 @@ function pop() {
   return el
 }
 
+// New function to clear the entire stack
+function clearAll() {
+  stack.forEach(function (el) {
+    el.animate(animationSpeed)
+      .attr({ opacity: 0.0 })
+      .dmove(70, 0)
+      .afterAll(function () {
+        el.remove()
+      })
+  })
+  stack = [] // Empty the array
+}
+
 var nump = document.getElementById('num-buttons')
 var opp = document.getElementById('op-buttons')
 
@@ -128,17 +141,11 @@ addBtn(opp, '/', function () {
   else alert('Keine Division durch 0')
 })
 
-addBtn(opp, 'drop', function () {
+// Changed 'drop' button to 'clear' and updated its function
+addBtn(opp, 'clear', function () {
   interact(function () {
-    pop()
+    clearAll()
   })
-})
-
-addBtn(opp, 'dup', function () {
-  if (stack.length > 0)
-    interact(function () {
-      push(stack[stack.length - 1].myValue)
-    })
 })
 
 addBtn(opp, 'submit', function () {

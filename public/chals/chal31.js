@@ -1,21 +1,24 @@
 var draw = SVG('stack')
-draw.width(530)
+draw.width(630)
 draw.height(60)
 
-draw.rect(530, 60).fill('white')
-draw.rect(530, 10).fill('gray')
-draw.rect(530, 10).fill('gray').move(0, 50)
+draw.rect(600, 60).fill('white')
+draw.rect(510, 10).fill('gray')
+draw.rect(510, 10).fill('gray').move(0, 50)
 draw.rect(10, 42).fill('gray').move(0, 9)
+draw.rect(70, 40).fill('#91f5dcff').move(435, 10)
 
 var stack = []
 
 var animationSpeed = 300
 
-function push(num) {
+function push(num, startCoords, skipDmove) {
   if (stack.length >= 7) return
-  stack.forEach(function (v) {
-    v.animate(animationSpeed).dmove(-70, 0)
-  })
+  if (!skipDmove) {
+    stack.forEach(function (v) {
+      v.animate(animationSpeed).dmove(-70, 0)
+    })
+  }
 
   var obj = draw.nested()
   obj.rect(60, 32).radius(3).fill('#666699')
@@ -24,7 +27,13 @@ function push(num) {
     .font({ size: 20 })
     .center(30, 16)
     .fill('white')
-  obj.move(510, 14).attr({ opacity: 0 })
+
+  // If startCoords are given, use them. Otherwise, use the default right-side position.
+  var startX = startCoords ? startCoords.x : 510
+  var startY = startCoords ? startCoords.y : 14
+
+  // Use these new variables for the starting move
+  obj.move(startX, startY).attr({ opacity: 0 })
   obj.animate(animationSpeed).move(440, 14).attr({ opacity: 1 })
   obj.myValue = num
   stack.push(obj)
@@ -84,18 +93,60 @@ function interact(f) {
   }
 }
 
-function biop(f, check) {
-  if (!animationLock && stack.length >= 2) {
-    animationLock = true
-    var el1 = pop()
-    var el2 = pop()
-    setTimeout(function () {
-      animationLock = false
-      interact(function () {
-        push(f(el1.myValue, el2.myValue))
-      })
-    }, animationSpeed * 2)
-  }
+// STEP 3: Replaced the biop function
+function biop(f, opString) {
+  if (animationLock || stack.length < 2) return
+  animationLock = true
+
+  // 1. Manually pop the elements from the array without running the pop() animation
+  var el1 = stack.pop() // This is 'b' in the calculation
+  var el2 = stack.pop() // This is 'a' in the calculation
+
+  // 2. Make room visually by moving the rest of the stack
+
+  // 3. Animate the two elements up to the "Calculation Zone"
+  //    When the animation is done, the .afterAll() function will run.
+  el1.animate(animationSpeed).move(530, 13)
+  el2
+    .animate(animationSpeed)
+    .move(450, 13)
+    .afterAll(function () {
+      // 4. Create the operator text and fade it in
+      var opText = draw
+        .text(opString)
+        .font({ size: 20 })
+        .center(520, 29)
+        .attr({ opacity: 0 })
+      opText.animate(150).attr({ opacity: 1 })
+
+      // 5. Wait for a moment, then fade everything out
+      setTimeout(function () {
+        el1.animate(animationSpeed).attr({ opacity: 0 })
+        el2.animate(animationSpeed).attr({ opacity: 0 })
+        opText
+          .animate(animationSpeed)
+          .attr({ opacity: 0 })
+          .afterAll(function () {
+            // 6. After fading out, remove the old elements from the drawing
+            el1.remove()
+            el2.remove()
+            opText.remove()
+
+            // 7. Calculate the result and push it from the calculation zone
+            var result = f(el1.myValue, el2.myValue)
+            stack.forEach(function (v) {
+              v.animate(animationSpeed).dmove(70, 0) // Move right by two spots
+            })
+
+            push(result, { x: 520, y: 13 }, true) // Use our modified push!
+
+            // 8. Wait for the push animation to finish, then unlock interactions
+            setTimeout(function () {
+              animationLock = false
+            }, animationSpeed)
+          })
+      }, 400) // This is how long the operator is visible
+    })
 }
 
 function createNumCb(num) {
@@ -110,34 +161,35 @@ for (var i = 0; i < 10; i++) {
   addBtn(nump, i, createNumCb(i), i == 0)
 }
 
+// STEP 2: Modified the operator buttons
 addBtn(
   opp,
   '+',
   function () {
     biop(function (a, b) {
-      return a + b
-    })
+      return b + a
+    }, '+')
   },
   true
 )
 
-addBtn(opp, '-', function () {
+addBtn(opp, '−', function () {
   biop(function (a, b) {
     return b - a
-  })
+  }, '−')
 })
 
-addBtn(opp, '*', function () {
+addBtn(opp, '×', function () {
   biop(function (a, b) {
     return b * a
-  })
+  }, '×')
 })
 
-addBtn(opp, '/', function () {
-  if (stack.length > 0 && stack[stack.length - 1].myValue != 0)
+addBtn(opp, '÷', function () {
+  if (stack.length > 1 && stack[stack.length - 2].myValue != 0)
     biop(function (a, b) {
       return Math.floor(b / a)
-    })
+    }, '÷')
   else alert('Keine Division durch 0')
 })
 

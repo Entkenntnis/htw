@@ -1391,7 +1391,7 @@ export const part1 = [
         `
         <p>Bex hat eine schwere Zeit hinter sind - verzeih ihm, wenn er manchmal etwas ... aufgedreht ist. Er hat ein gutes Herz.</p>
 
-        <p>Aber erstmal zurück zum Taschenrechner. Ich möchte dir auch eine Variante zeigen. Und diese funktioniert mit einer Röhre:</p>
+        <p>Aber zurück zum Taschenrechner. Ich möchte dir auch eine Variante zeigen. Und diese funktioniert mit einer Röhre:</p>
         
         <br>
         
@@ -1410,10 +1410,10 @@ export const part1 = [
         <p>Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
         </p>
         
-        <p>Es gibt zwei Sonderbefehle: <strong>drop</strong> entfernt die letzte Zahl aus der Röhre (also die Zahl ganz rechts), <strong>dup</strong> fügt die letzte Zahl noch einmal hinzu (duplizieren).
+        <p>Es gibt zwei Sonderbefehle: Mit <strong>clear</strong> entfernst du alle Zahlen aus der Röhre und wenn du bereit bist, kannst du mit <strong>submit</strong> die markierte Zahl ganz rechts als Antwort einreichen.
         </p>
         
-        <p>Berechne das Ergebnis 1000 und klicke submit:
+        <p>Reiche als Antwort die Zahl 1000 ein:
         </p>
         
         <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>

@@ -2077,42 +2077,45 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Dein Kopf ist jetzt warm. Gesucht ist die Zahl 45 im Binärsystem.
-        </p>
-        
-        <p><svg id="binary"></svg></p>
-        
-        <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
-        
-        <script src="/svg.min.js"></script>
-        <script src="/chals/chal51_2.js"></script>
-        
-        <style>
-          .hoverEffect:hover {
-            cursor:pointer;
-            opacity: 0.9;
-          }
-        </style>
+          <p style="margin-bottom:32px;">Dein Kopf ist jetzt warm. Gesucht ist die Zahl 45 im Binärsystem.
+          </p>
+          
+          <p><svg id="binary"></svg></p>
+          
+          <p class="d-none"><code>Binärzahl: <span id="output">0</span></code></p>
+          
+          <script src="/svg.min.js"></script>
+          <script src="/chals/chal51_2.js"></script>
+          
+          <style>
+            .hoverEffect:hover {
+              cursor:pointer;
+              opacity: 0.9;
+            }
+          </style>
     `
       ),
-      en: `
-      <p>Well done! Now enter the number 45 in binary.
-      </p>
-      
-      <p><svg id="binary"></svg></p>
-      
-      <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal51_2.js"></script>
-      
-      <style>
-        .hoverEffect:hover {
-          cursor:pointer;
-          opacity: 0.9;
-        }
-      </style>
-    `,
+      en: story(
+        'Josh',
+        `
+          <p style="margin-bottom:32px;">Well done! Now enter the number 45 in binary.
+          </p>
+          
+          <p><svg id="binary"></svg></p>
+          
+          <p class="d-none"><code>Binary number: <span id="output">0</span></code></p>
+          
+          <script src="/svg.min.js"></script>
+          <script src="/chals/chal51_2.js"></script>
+          
+          <style>
+            .hoverEffect:hover {
+              cursor:pointer;
+              opacity: 0.9;
+            }
+          </style>
+    `
+      ),
     },
     solution: secrets('chal_52'),
   },

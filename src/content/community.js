@@ -514,7 +514,7 @@ export const communityChallenges = [
 
   {
     id: 306,
-    pos: { x: 1700, y: 430 },
+    pos: { x: 1670, y: 420 },
     title: { de: 'Ticket', en: 'Ticket' },
     author: 'cuzimbisonratte',
     date: '2023-08-31',
@@ -1870,7 +1870,7 @@ RS#1</pre>
 
   {
     id: 339,
-    pos: { x: 1760, y: 345 },
+    pos: { x: 1720, y: 345 },
     title: { de: 'Mr. Plow', en: 'Mr. Plow' },
     date: '2024-04-30',
     deps: [300],
@@ -2007,6 +2007,30 @@ END</pre>`,
       `,
     },
     solution: secrets('chal_342'),
+  },
+
+  {
+    id: 343,
+    pos: { x: 1784, y: 405 },
+    title: { de: 'Schwarzes Schaf', en: 'Black Sheep' },
+    date: '2025-09-30',
+    deps: [300],
+    noScore: true,
+    author: 'peter34788',
+    html: {
+      de: `
+        <p>Mir war heute mal langweilig und da habe ich in diese <a href="/chals/Challenge343.txt">Textdatei</a> ein paar Zeichen geschrieben, aber ich glaube mir ist ein Fehler unterlaufen. Finde den Fehler und gib mir die Stelle des Fehlers als Antwort.</p>
+
+        <p><small>(In ABC ist A die 1. Stelle)</small></p>
+       
+      `,
+      en: `
+        <p>I was bored today, so I wrote a few characters into this <a href="/chals/Challenge343.txt">text file</a>, but I believe I made a mistake. Find the mistake and provide its position as the answer.</p>
+
+        <p><small>(In ABC, A is the 1st position)</small></p>
+      `,
+    },
+    solution: secrets('chal_343'),
   },
 
   /*{

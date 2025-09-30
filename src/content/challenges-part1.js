@@ -62,7 +62,7 @@ function story(name, intro, task) {
     <div style="height:16px"></div>
 
     <div class="story-container">
-      <div style="max-width:65ch" class="story-content">
+      <div style="max-width:calc(min(65ch,90vw))" class="story-content">
         ${intro}
         ${task ? `<hr><br>` : ''}
       </div>
@@ -3538,7 +3538,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     deps: [4, 6],
     render: () => {
       const canvas = `
-        <div id="canvas" style="max-width: 90vw;">
+        <div id="canvas">
           <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
           <span class="letter" style="top:  70px; left: 60px; animation-duration: 9s;  animation-delay:    4s;">R</span>
           <span class="letter" style="top:  70px; left:  90px; animation-duration: 11s; animation-delay:   3.5s;">A</span>

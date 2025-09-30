@@ -1412,35 +1412,32 @@ export const part1 = [
         <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
     `
       ),
-      en: `
-      <p>It's time for a new calculator:
-      </p>
-      
-      <br>
-      
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <br>
-      
-      <p>This calculator consists of a "tube" that is open on the right. You can use the number keys to push individual numbers into this tube.
-      </p>
-      
-      <p>To generate more numbers, you have to do math. There are four basic arithmetic operations. With these keys, the two numbers on the far right are taken out of the tube and added, subtracted, multiplied or divided together. Try this and see what happens!
-      </p>
-      
-      <p>There are two special commands: <strong>drop</strong> removes the last number from the tube (i.e. the number on the far right), <strong>dup</strong> adds the last number again (duplicates).
-      </p>
-      
-      <p>Calculate the result 1000:
-      </p>
-      
-      <p><img src="/chals/chal31_result.png" style="max-width: 300px" alt="chal31"></p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>In case you thought Bex's calculator was bad - I've dug up something even better for you: A calculator in the shape of a tube. Yes, something like that exists and it's messing with my head 😵‍💫</p>
+        
+        <br>
+        
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+        
+        <br>
+
+        <p>What I've found out so far: The tube is open on the right. You can use the number buttons to push individual numbers into the tube. The four basic arithmetic operations each take two numbers out of the tube and calculate them. The result is then put back into the tube.</p>
+
+        <p>A bit hard to explain, just click <code>1</code>, then <code>2</code> and then <code>+</code> and watch the animation.</p>
+        
+        <p>Calculate the number 1000 and submit the result with <strong>submit</strong>:
+        </p>
+        
+        <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
+    `
+      ),
     },
     check: (answer) => {
       const val = calculatorCheck(answer)

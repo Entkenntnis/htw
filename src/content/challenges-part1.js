@@ -3538,7 +3538,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     deps: [4, 6],
     render: () => {
       const canvas = `
-        <div id="canvas">
+        <div id="canvas" style="max-width: 90vw;">
           <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
           <span class="letter" style="top:  70px; left: 60px; animation-duration: 9s;  animation-delay:    4s;">R</span>
           <span class="letter" style="top:  70px; left:  90px; animation-duration: 11s; animation-delay:   3.5s;">A</span>

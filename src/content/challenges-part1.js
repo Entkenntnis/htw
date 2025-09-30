@@ -2448,7 +2448,7 @@ export const part1 = [
             
             <p>The time on the Intergalaktika with you was one of the most beautiful in my life. Even though it was so short - I will keep it in my heart. You shall not want for financial resources.</p>
 
-            <p><a href="/challenge/31" target="_blank">31</a> &nbsp;
+            <p><a href="/challenge/26" target="_blank">26</a> &nbsp;
                <a href="/challenge/6" target="_blank">6</a> &nbsp;
                <a href="/challenge/4" target="_blank">4</a> &nbsp;
                <a href="/challenge/16" target="_blank">16</a> &nbsp;

@@ -3,17 +3,17 @@ draw.width(630)
 draw.height(60)
 
 draw.rect(600, 60).fill('white')
-draw.rect(510, 10).fill('gray')
-draw.rect(510, 10).fill('gray').move(0, 50)
+draw.rect(440, 10).fill('gray')
+draw.rect(440, 10).fill('gray').move(0, 50)
 draw.rect(10, 42).fill('gray').move(0, 9)
-draw.rect(70, 40).fill('#91f5dcff').move(435, 10)
+draw.rect(70, 40).fill('#91f5dcff').move(365, 10)
 
 var stack = []
 
 var animationSpeed = 300
 
 function push(num, startCoords, skipDmove) {
-  if (stack.length >= 7) return
+  if (stack.length >= 6) return
   if (!skipDmove) {
     stack.forEach(function (v) {
       v.animate(animationSpeed).dmove(-70, 0)
@@ -29,12 +29,12 @@ function push(num, startCoords, skipDmove) {
     .fill('white')
 
   // If startCoords are given, use them. Otherwise, use the default right-side position.
-  var startX = startCoords ? startCoords.x : 510
+  var startX = startCoords ? startCoords.x : 440
   var startY = startCoords ? startCoords.y : 14
 
   // Use these new variables for the starting move
   obj.move(startX, startY).attr({ opacity: 0 })
-  obj.animate(animationSpeed).move(440, 14).attr({ opacity: 1 })
+  obj.animate(animationSpeed).move(370, 14).attr({ opacity: 1 })
   obj.myValue = num
   stack.push(obj)
 }
@@ -103,19 +103,22 @@ function biop(f, opString) {
   var el2 = stack.pop() // This is 'a' in the calculation
 
   // 2. Make room visually by moving the rest of the stack
+  stack.forEach(function (v) {
+    v.animate(animationSpeed).dmove(70, 0) // Move right by two spots
+  })
 
   // 3. Animate the two elements up to the "Calculation Zone"
   //    When the animation is done, the .afterAll() function will run.
-  el1.animate(animationSpeed).move(530, 13)
+  el1.animate(animationSpeed).move(530, 14)
   el2
     .animate(animationSpeed)
-    .move(450, 13)
+    .move(450, 14)
     .afterAll(function () {
       // 4. Create the operator text and fade it in
       var opText = draw
         .text(opString)
         .font({ size: 20 })
-        .center(520, 29)
+        .center(520, 30)
         .attr({ opacity: 0 })
       opText.animate(150).attr({ opacity: 1 })
 
@@ -134,11 +137,8 @@ function biop(f, opString) {
 
             // 7. Calculate the result and push it from the calculation zone
             var result = f(el1.myValue, el2.myValue)
-            stack.forEach(function (v) {
-              v.animate(animationSpeed).dmove(70, 0) // Move right by two spots
-            })
 
-            push(result, { x: 520, y: 13 }, true) // Use our modified push!
+            push(result, { x: 480, y: 14 }, true) // Use our modified push!
 
             // 8. Wait for the push animation to finish, then unlock interactions
             setTimeout(function () {

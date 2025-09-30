@@ -1381,7 +1381,7 @@ export const part1 = [
 
   {
     id: 31,
-    pos: { x: 780, y: 95 },
+    pos: { x: 810, y: 95 },
     title: { de: 'Röhre', en: 'Tube' },
     // date: '2017-08-26',
     deps: [111],
@@ -1389,9 +1389,7 @@ export const part1 = [
       de: story(
         'Josh',
         `
-        <p>Bex hat eine schwere Zeit hinter sind - verzeih ihm, wenn er manchmal etwas ... aufgedreht ist. Er hat ein gutes Herz.</p>
-
-        <p>Aber zurück zum Taschenrechner. Ich möchte dir auch eine Variante zeigen. Und diese funktioniert mit einer Röhre:</p>
+        <p>Falls du dachtest, der Taschenrechner von Bex wäre schlimm - ich habe hier etwas noch besseres für dich ausgegraben: Ein Taschenrechner in der Form einer Röhre. Ja, sowas gibt es auch und es verdreht meinen Kopf 😵‍💫</p>
         
         <br>
         
@@ -1403,17 +1401,12 @@ export const part1 = [
         <script src="/chals/chal31.js"></script>
         
         <br>
+
+        <p>Was ich bisher herausgefunden habe: Die Röhre ist rechts offen. Mit den Zahlentasten kannst du einzelne Zahlen in die Röhre schieben. Die vier Grundrechenarten nehmen jeweils zwei Zahlen aus der Röhre raus und verrechnen sie. Das Ergebnis kommt dann wieder in die Röhre hinein.</p>
+
+        <p>Ein bisschen schwer zu erklären, klicke doch mal <code>1</code>, dann <code>2</code> und dann <code>+</code> und schaue dir die Animation an.</p>
         
-        <p>Die Röhre ist rechts offen. Mit den Zahlentasten kannst du einzelne Zahlen in diese Röhre schieben.
-        </p>
-        
-        <p>Dazu gibt es die vier Grundrechenarten. Bei diesen Tasten werden die zwei Zahlen ganz rechts aus der Röhre herausgeholt und miteinander addiert, subtrahiert, multipliziert oder dividert. Probiere das aus und sieh, was passiert!
-        </p>
-        
-        <p>Es gibt zwei Sonderbefehle: Mit <strong>clear</strong> entfernst du alle Zahlen aus der Röhre und wenn du bereit bist, kannst du mit <strong>submit</strong> die markierte Zahl ganz rechts als Antwort einreichen.
-        </p>
-        
-        <p>Reiche als Antwort die Zahl 1000 ein:
+        <p>Berechne die Zahl 1000 und schicke das Ergebnis mit <strong>submit</strong> ab:
         </p>
         
         <p><img src="/chals/chal31_result.png" style="max-width: 400px" alt="1000"></p>
@@ -4116,7 +4109,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
   {
     id: 113,
-    pos: { x: 797, y: 144 },
+    pos: { x: 727, y: 124 },
     title: { de: 'Minecraft IV', en: 'Minecraft IV' },
     deps: [337],
     html: {

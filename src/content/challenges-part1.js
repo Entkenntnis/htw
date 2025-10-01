@@ -564,7 +564,7 @@ export const part1 = [
         <p>Ein Beispiel? Man könnte dir etwas wegnehmen, dass du davor als selbstverständlich angenommen hast. Bei dieser Aufgabe ist die Antwort wieder im Quellcode zu finden und zwar genau hier:</p>
 
 
-        <!--        ======================================= -->
+        <!-- ============================================== -->
         <!--                                                -->
         <!--                                                -->
         <!--                                                -->
@@ -572,7 +572,7 @@ export const part1 = [
         <!--                                                -->
         <!--                                                -->
         <!--                                                -->
-        <!--        ======================================= -->
+        <!-- ============================================== -->
 
 
         <p>&nbsp;</p>
@@ -590,7 +590,7 @@ export const part1 = [
         <p>An example? Someone could take away something you previously took for granted. In this task, the answer is again found in the source code, right here:</p>
 
 
-        <!--        ======================================= -->
+        <!-- ============================================== -->
         <!--                                                -->
         <!--                                                -->
         <!--                                                -->
@@ -598,7 +598,7 @@ export const part1 = [
         <!--                                                -->
         <!--                                                -->
         <!--                                                -->
-        <!--        ======================================= -->
+        <!-- ============================================== -->
 
 
         <p>&nbsp;</p>

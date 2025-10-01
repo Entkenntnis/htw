@@ -615,30 +615,34 @@ export const part1 = [
   {
     id: 8,
     pos: { x: 720, y: 420 },
-    title: { de: 'Fleißaufgabe', en: 'Hard work' },
+    title: { de: 'Fleißaufgabe', en: 'Tedious Work' },
     // date: '2017-05-17',
     deps: [55],
     html: {
       de: story(
         'Josh',
         `
-        <p>Hallo, Kopfrechen-KünstlerIn! Du löst Aufgaben schneller, als ich sie in den Taschenrechner eingeben kann.</p>
+        <p>Im Mathe-Unterricht hat uns unser Lehrer mit Aufgaben gequält! Seine Spezialität waren lange Kettenaufgaben wie diese hier:</p>
 
-        <p>Das glaubst du nicht? Hier ein Beispiel: Deine Antwort ist das Ergebnis von 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.</p>
-      
-        <p>Warte kurz, ich hole schnell meinen Taschenrechner ...</p>
+        <p>1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = <span style="color: gray"><strong>?</strong></span></p>
+
+        <p>Ich hab sie immer brav der Reihe nach berechnet. Ich konnte es damals nicht verstehen, wie manche aus meiner Klasse das im Kopf hingekriegt haben.</p>
+
+        <p>Auch heute nutze ich in solchen Fällen lieber den Taschenrechner. Aber egal welche Methode du nutzt: Das Ergebnis der Rechnung ist deine Antwort.</p>
     `
       ),
-      en: `
-      <p>Hello, mental arithmetic artist! You solve tasks faster than I can enter them in the calculator.
-      </p>
-      
-      <p>You don't believe it? Here is an example: Your answer is the result of 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10.
-      </p>
-      
-      <p>Wait a minute, I'll get my calculator quickly ...
-      </p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>In math class, our teacher tortured us with assignments! His specialty was long chain calculations like this one:</p>
+
+        <p>1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 = <span style="color: gray"><strong>?</strong></span></p>
+
+        <p>I always dutifully calculated them in order. Back then I couldn't understand how some of my classmates managed to do it in their heads.</p>
+
+        <p>Even today, I prefer to use a calculator in such cases. But no matter which method you use: The result of the calculation is your answer.</p>
+    `
+      ),
     },
     solution: secrets('chal_8'),
   },
@@ -646,7 +650,7 @@ export const part1 = [
   {
     id: 9,
     pos: { x: 890, y: 370 },
-    title: { de: 'Fleißaufgabe II', en: 'Hard work II' },
+    title: { de: 'Fleißaufgabe II', en: 'Tedious Work II' },
     // date: '2017-05-17',
     deps: [8],
     html: {
@@ -670,7 +674,7 @@ export const part1 = [
   {
     id: 10,
     pos: { x: 990, y: 440 },
-    title: { de: 'Fleißaufgabe III', en: 'Hard work III' },
+    title: { de: 'Fleißaufgabe III', en: 'Tedious Work III' },
     // date: '2017-05-18',
     deps: [9],
     html: {

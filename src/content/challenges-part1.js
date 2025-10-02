@@ -2701,42 +2701,38 @@ export const part1 = [
   {
     id: 63,
     pos: { x: 230, y: 690 },
-    title: { de: 'skill issue', en: 'Skill Issue' },
+    title: { de: 'skill issue', en: 'Skill issue' },
     // date: '2020-08-17',
     deps: [7, 80],
-    render: async ({ App }) => {
+    render: async ({ App, req }) => {
       const game = await new Promise((res) => {
-        App.express.render('../../content/views/cheater', {}, (err, html) => {
-          if (err) return res('<p>Fehler: ' + err + '</p>')
-          res(html)
-        })
+        App.express.render(
+          '../../content/views/cheater',
+          { locale: req.lng },
+          (err, html) => {
+            if (err) return res('<p>Fehler: ' + err + '</p>')
+            res(html)
+          }
+        )
       })
       return {
         de: story(
           'Kiwi',
           `
-          <p>Ein "skill issue" liegt vor, wenn es einem an Kompetenz mangelt. So geht es mir bei diesem dämlichen Spiel. Du steuerst den Ball mit den Pfeiltasten und versuchst, abwechselnd die linke und rechte Wand zu berühren. Nach 100 Mal erhältst du die Antwort. Bex ist ein richtiges Naturtalent, <a href="/chals/volleyball.mp4" target="blank">hier siehst du ein Video</a> wie er das spielt.</p>
+          <p>Ein "skill issue" liegt vor, wenn es einer Person an Kompetenz mangelt. So geht es mir bei diesem dämlichen Spiel. Du steuerst den Ball mit den Pfeiltasten und versuchst, abwechselnd die linke und rechte Wand zu berühren. Nach 100 Mal erhältst du die Antwort. Bex ist ein richtiges Naturtalent, <a href="/chals/volleyball.mp4" target="blank">hier siehst du ein Video</a> wie er das spielt.</p>
 
-          <p>Vielleicht bist du ja auch so kompetent - ich bin es nicht. ...</p>
-
-          <p>So ist das Spiel gedacht: Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet. Du siehst die Antwort, sobald du 100 Punkte erreichst.</p>
-
-          <p>Wie man das Spiel auch gewinnen kann: Unter dem Spiel findest du den Quellcode. Diesen kannst du verändern und das Spiel aktualiseren. In der Funktion <code>initGame()</code> wird ziemlich am Anfang <code>updateScore(0)</code> ausgeführt. Ändere diese Zeile zu einer hohen Zahl und gewinne das Spiel sofort.</p>
-          
-          <p>Wähle deinen Weg.</p>
-          
-          <script>var locale = 'de'</script>`,
+          <p>Vielleicht bist du ja auch so kompetent - ich bin es nicht. Dafür kann ich hacken, haha. Du kannst dir den Quellcode des Spiels anschauen und bearbeiten. Ich habe dir eine Stelle im Code markiert, mit der du ganz einfach gewinnen kannst. Viel Erfolg!</p>
+          `,
           game
         ),
         en: story(
           'Kiwi',
           `
-        <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
-        
-        <p>You will see the answer as soon as you reach 1000 points. The game doesn't have any cheats built in - so you have to hack it yourself.
-        </p>
-
-        <script>var locale = 'en'</script>`,
+          <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
+          
+          <p>You will see the answer as soon as you reach 1000 points. The game doesn't have any cheats built in - so you have to hack it yourself.
+          </p>
+          `,
           game
         ),
       }

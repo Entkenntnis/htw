@@ -8,12 +8,11 @@
     height: 600px;
     /* Optional: helps center the game on the page */
     margin: 0 auto;
+    margin-bottom: 64px;
   }
 
   /* The main container for the touch overlays. */
   .touch-controls {
-    /* Hidden by default. A media query will show it on touch devices. */
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -22,14 +21,6 @@
     z-index: 10;
     /* Allows events to pass through the container's empty space. */
     pointer-events: none;
-  }
-
-  /* This is the modern, reliable way to detect touch devices in CSS.
-     It shows the controls on devices that don't support hover (like touchscreens)
-     and have a coarse pointer (like a finger). */
-
-  .touch-controls {
-    display: block;
   }
 
   /* Common styling for each touch button. */
@@ -43,6 +34,9 @@
     pointer-events: auto;
     /* Removes the tap highlight on mobile browsers. */
     -webkit-tap-highlight-color: transparent;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
   }
 
   /* Visual feedback for when a button is being pressed. */
@@ -57,9 +51,6 @@
     width: 80px;
     height: 80px;
     font-size: 50px;
-    text-align: center;
-    vertical-align: middle;
-    user-select: none;
   }
   #touch-right {
     bottom: 20px;
@@ -67,9 +58,6 @@
     width: 80px;
     height: 80px;
     font-size: 50px;
-    text-align: center;
-    vertical-align: middle;
-    user-select: none;
   }
 
   /* Positioning for the 'Up' button on the bottom-right. */
@@ -79,15 +67,27 @@
     width: 100px;
     height: 100px;
     font-size: 60px;
-    text-align: center;
-    vertical-align: middle;
-    user-select: none;
+  }
+
+  /* Styling for the new Restart button */
+  #restart-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20; /* Make sure it's on top of other elements */
+    cursor: pointer;
+    padding: 8px 16px;
   }
 </style>
 
 <!-- The game canvas is now inside a container for positioning the overlays. -->
 <div id="game-container" tabindex="1">
   <div id="game" style="outline: none"></div>
+
+  <!-- The button is renamed and moved inside the game container -->
+  <button id="restart-button" onclick="update()">
+    <%= locale == 'de' ? 'Neustart' : 'Restart' %>
+  </button>
 
   <!-- These are the new touch control overlays. -->
   <div class="touch-controls">
@@ -104,49 +104,38 @@
 <script src="/pixi.min.js"></script>
 <script src="/chals/chal63/matter.js"></script>
 
-<!-- The original <button> elements for Left, Up, and Right have been removed. -->
-
-<p>
-  <button onclick="update()" style="margin-top: 20px">
-    Spiel aktualisieren
-  </button>
-</p>
-
-<p>
+<p style="display: none">
   <textarea
     style="width: 100%; height: 500px; font-family: monospace"
     id="code"
   >
-const HOLZ = '/chals/chal63/holz.jpg'
-const BALL = '/chals/chal63/ball.png'
+const { Engine, World, Bodies, Body, Events } = Matter
+const { Application, loader, extras, Sprite, Text } = PIXI
 
-const gameEl = document.getElementById('game')
+const engine = Engine.create(),
+  world = engine.world,
+  HOLZ = '/chals/chal63/holz.jpg',
+  BALL = '/chals/chal63/ball.png'
 
-if (window.app) app.ticker.stop()
-window.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb })
-gameEl.innerHTML = ''
-gameEl.appendChild(app.view)
+window.app = new Application(800, 600, { backgroundColor: 0x1099bb })
+$('game').replaceChildren(app.view)
 
-const engine = Matter.Engine.create()
-const world = engine.world
+function updateScore(newScore) {
+  window.score = newScore
+  status.text = newScore.toString()
+}
 
 function initGame() {
-  const basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
-  window.basicText = basicText
-  basicText.x = 30
-  basicText.y = 90
-
-  function updateScore(newScore) {
-    window.score = newScore
-    basicText.text = window.score.toString()
-  }
+  window.status = app.stage.addChild(new Text(''))
+  status.x = 30
+  status.y = 90
 
   updateScore(0)
 
-  const woodTexture = PIXI.loader.resources[HOLZ].texture
+  const woodTexture = loader.resources[HOLZ].texture
 
   function buildWoodBlock(x, y, w, h, id) {
-    var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
+    var block = new extras.TilingSprite(woodTexture, w, h)
     app.stage.addChild(block)
     Matter.World.add(
       world,
@@ -164,7 +153,7 @@ function initGame() {
   buildWoodBlock(770, 170, 30, 400, 3)
   buildWoodBlock(350, 50, 100, 100, 4)
 
-  const ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
+  const ball = new Sprite(loader.resources[BALL].texture)
   ball.x = 300
   ball.y = 200
   ball.width = 100
@@ -174,9 +163,9 @@ function initGame() {
 
   let border = undefined
 
-  const circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
-  Matter.World.add(world, circle)
-  Matter.Events.on(engine, 'collisionStart', (data) => {
+  const circle = Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
+  World.add(world, circle)
+  Events.on(engine, 'collisionStart', (data) => {
     if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
       updateScore(0)
     } else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
@@ -199,25 +188,25 @@ function initGame() {
   function handleUp() {
     const angle = Math.random() * 40 - 20 - 90
     const r = (angle / 180) * Math.PI
-    Matter.Body.applyForce(circle, circle.position, {
+    Body.applyForce(circle, circle.position, {
       x: Math.cos(r) * 0.24,
       y: Math.sin(r) * 0.24,
     })
   }
 
   function handleLeft() {
-    Matter.Body.applyForce(circle, circle.position, { x: -0.2, y: -0.05 })
+    Body.applyForce(circle, circle.position, { x: -0.2, y: -0.05 })
   }
 
   function handleRight() {
-    Matter.Body.applyForce(circle, circle.position, { x: +0.2, y: -0.05 })
+    Body.applyForce(circle, circle.position, { x: +0.2, y: -0.05 })
   }
 
   document.handleLeft = handleLeft
   document.handleUp = handleUp
   document.handleRight = handleRight
 
-  document.getElementById('game-container').onkeydown = (key) => {
+  $('game-container').onkeydown = (key) => {
     if (key.code == 'ArrowUp') {
       handleUp()
       key.preventDefault()
@@ -234,28 +223,29 @@ function initGame() {
     }
   }
 
-  gameEl.focus()
+  $('game').focus()
 
   app.ticker.add(() => {
-    Matter.Engine.update(engine)
+    Engine.update(engine)
     ball.x = circle.position.x
     ball.y = circle.position.y
   })
 }
 
-PIXI.loader.reset().add(HOLZ).add(BALL).load(initGame)
-</textarea
-  >
+loader.reset().add(HOLZ).add(BALL).load(initGame)
+  </textarea>
 </p>
 
 <script>
+  window.$ = (s) => document.getElementById(s)
   function update() {
+    window.app?.ticker.stop()
     eval(document.getElementById('code').value)
   }
 
   function checkDone() {
     if (window.score >= 100) {
-      window.basicText.text =
+      window.status.text =
         'Die Antwort lautet ' +
         String.fromCharCode(83, 109, 117, 114, 102, 101, 110) +
         '.'

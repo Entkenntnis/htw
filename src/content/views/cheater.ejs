@@ -1,11 +1,110 @@
-<div id="game" tabindex="1" style="outline: none"></div>
+<!-- Styles for the touch control overlays -->
+<style>
+  /* This container wraps the game and the controls to position them correctly. */
+  #game-container {
+    position: relative;
+    /* Match the dimensions of the PIXI application from the script */
+    width: 800px;
+    height: 600px;
+    /* Optional: helps center the game on the page */
+    margin: 0 auto;
+  }
+
+  /* The main container for the touch overlays. */
+  .touch-controls {
+    /* Hidden by default. A media query will show it on touch devices. */
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    /* Allows events to pass through the container's empty space. */
+    pointer-events: none;
+  }
+
+  /* This is the modern, reliable way to detect touch devices in CSS.
+     It shows the controls on devices that don't support hover (like touchscreens)
+     and have a coarse pointer (like a finger). */
+
+  .touch-controls {
+    display: block;
+  }
+
+  /* Common styling for each touch button. */
+  .touch-button {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    /* Re-enables pointer events for the buttons themselves. */
+    pointer-events: auto;
+    /* Removes the tap highlight on mobile browsers. */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Visual feedback for when a button is being pressed. */
+  .touch-button:active {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Positioning for the 'Left' and 'Right' buttons on the bottom-left. */
+  #touch-left {
+    bottom: 20px;
+    left: 20px;
+    width: 80px;
+    height: 80px;
+    font-size: 50px;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+  }
+  #touch-right {
+    bottom: 20px;
+    left: 120px; /* 20px left + 80px width + 20px gap */
+    width: 80px;
+    height: 80px;
+    font-size: 50px;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+  }
+
+  /* Positioning for the 'Up' button on the bottom-right. */
+  #touch-up {
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    font-size: 60px;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+  }
+</style>
+
+<!-- The game canvas is now inside a container for positioning the overlays. -->
+<div id="game-container" tabindex="1">
+  <div id="game" style="outline: none"></div>
+
+  <!-- These are the new touch control overlays. -->
+  <div class="touch-controls">
+    <div id="touch-left" class="touch-button" onpointerdown="handleLeft()">
+      ←
+    </div>
+    <div id="touch-up" class="touch-button" onpointerdown="handleUp()">↑</div>
+    <div id="touch-right" class="touch-button" onpointerdown="handleRight()">
+      →
+    </div>
+  </div>
+</div>
 
 <script src="/pixi.min.js"></script>
 <script src="/chals/chal63/matter.js"></script>
 
-<button onclick="handleLeft()">Left</button>
-<button onclick="handleUp()">Up</button>
-<button onclick="handleRight()">Right</button>
+<!-- The original <button> elements for Left, Up, and Right have been removed. -->
 
 <p>
   <button onclick="update()" style="margin-top: 20px">
@@ -118,7 +217,7 @@ function initGame() {
   document.handleUp = handleUp
   document.handleRight = handleRight
 
-  document.getElementById('game').onkeydown = (key) => {
+  document.getElementById('game-container').onkeydown = (key) => {
     if (key.code == 'ArrowUp') {
       handleUp()
       key.preventDefault()

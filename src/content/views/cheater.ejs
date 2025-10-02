@@ -69,7 +69,7 @@
     font-size: 60px;
   }
 
-  /* Styling for the new Restart button */
+  /* Styling for the Restart button */
   #restart-button {
     position: absolute;
     top: 10px;
@@ -77,6 +77,78 @@
     z-index: 20; /* Make sure it's on top of other elements */
     cursor: pointer;
     padding: 8px 16px;
+  }
+
+  /* MODIFIED: Styling for the new "Show Source" button */
+  #show-source-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 20;
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+
+  /* MODIFIED: Styling for the source code overlay */
+  #source-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    /* Use flexbox to easily center the content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Hide it by default */
+    display: none;
+  }
+
+  #source-content {
+    position: relative;
+    background-color: #333;
+    color: #eee;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    height: 90%;
+    display: flex; /* Allow the textarea to fill the space */
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  #source-content h3 {
+    margin-top: 0;
+    text-align: center;
+    font-family: sans-serif;
+  }
+
+  #source-content textarea {
+    flex-grow: 1; /* Make the textarea take all available vertical space */
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  #close-source-button {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 35px;
+    height: 35px;
+    background-color: #079933;
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 32px; /* Center the 'X' */
+    text-align: center;
   }
 </style>
 
@@ -89,6 +161,11 @@
     <%= locale == 'de' ? 'Neustart' : 'Restart' %>
   </button>
 
+  <!-- MODIFIED: New button to show the source code -->
+  <button id="show-source-button" onclick="showSource()">
+    <%= locale == 'de' ? 'Quellcode anzeigen' : 'Show sourcecode' %>
+  </button>
+
   <!-- These are the new touch control overlays. -->
   <div class="touch-controls">
     <div id="touch-left" class="touch-button" onpointerdown="handleLeft()">
@@ -99,16 +176,13 @@
       →
     </div>
   </div>
-</div>
 
-<script src="/pixi.min.js"></script>
-<script src="/chals/chal63/matter.js"></script>
-
-<p style="display: none">
-  <textarea
-    style="width: 100%; height: 500px; font-family: monospace"
-    id="code"
-  >
+  <!-- MODIFIED: The overlay for showing the source code. The textarea is moved inside. -->
+  <div id="source-overlay">
+    <div id="source-content">
+      <button id="close-source-button" onclick="hideSource()">✓</button>
+      <h3>Quellcode</h3>
+      <textarea style="font-family: monospace" id="code">
 const { Engine, World, Bodies, Body, Events } = Matter
 const { Application, loader, extras, Sprite, Text } = PIXI
 
@@ -122,14 +196,25 @@ $('game').replaceChildren(app.view)
 
 function updateScore(newScore) {
   window.score = newScore
-  status.text = newScore.toString()
+  window.setText(newScore.toString())
 }
 
 function initGame() {
-  window.status = app.stage.addChild(new Text(''))
+  const status = new Text('Test')
+  app.stage.addChild(status)
   status.x = 30
   status.y = 90
 
+  window.setText = (text) => {
+    status.text = text
+  }
+
+  // ============================================
+  // ============== SCHAU MAL ===================
+  // ============================================
+  // = Hier wird die Start-Punkzahl festgelegt, =
+  // = die könntest du z.B. auf 50 setzen.      =
+  // ============================================
   updateScore(0)
 
   const woodTexture = loader.resources[HOLZ].texture
@@ -232,9 +317,14 @@ function initGame() {
   })
 }
 
-loader.reset().add(HOLZ).add(BALL).load(initGame)
-  </textarea>
-</p>
+loader.reset().add(HOLZ).add(BALL).load(initGame)</textarea
+      >
+    </div>
+  </div>
+</div>
+
+<script src="/pixi.min.js"></script>
+<script src="/chals/chal63/matter.js"></script>
 
 <script>
   window.$ = (s) => document.getElementById(s)
@@ -245,12 +335,24 @@ loader.reset().add(HOLZ).add(BALL).load(initGame)
 
   function checkDone() {
     if (window.score >= 100) {
-      window.status.text =
+      window.setText(
         'Die Antwort lautet ' +
-        String.fromCharCode(83, 109, 117, 114, 102, 101, 110) +
-        '.'
+          String.fromCharCode(83, 109, 117, 114, 102, 101, 110) +
+          '.'
+      )
     }
     setTimeout(checkDone, 10)
+  }
+
+  function showSource() {
+    // We use 'flex' because that's what we used in the CSS to center it.
+    $('source-overlay').style.display = 'flex'
+  }
+
+  function hideSource() {
+    $('source-overlay').style.display = 'none'
+    // Restart the game when the overlay is closed, as requested.
+    update()
   }
 
   window.onload = () => {

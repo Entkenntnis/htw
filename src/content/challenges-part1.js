@@ -2728,10 +2728,9 @@ export const part1 = [
         en: story(
           'Kiwi',
           `
-          <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
+          <p>A "skill issue" is when a person simply lacks competence. That's exactly how I feel about this stupid game. You control the ball with the arrow keys and have to alternately touch the left and right walls. After doing that 100 times, you get the answer. Bex is a real natural at this, <a href="/chals/volleyball.mp4" target="blank">here's a video of him playing</a>.</p>
           
-          <p>You will see the answer as soon as you reach 1000 points. The game doesn't have any cheats built in - so you have to hack it yourself.
-          </p>
+          <p>Maybe you're that competent - I'm not. But what I can do is hack, haha. You can view and edit the game's source code. I've even marked a spot in the code for you that'll let you win easily. Good luck!</p>
           `,
           game
         ),

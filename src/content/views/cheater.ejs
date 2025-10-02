@@ -1,0 +1,246 @@
+<div id="game" tabindex="1" style="outline: none"></div>
+
+<script src="/pixi.min.js"></script>
+<script src="/chals/chal63/matter.js"></script>
+
+<button onclick="handleLeft()">Left</button>
+<button onclick="handleUp()">Up</button>
+<button onclick="handleRight()">Right</button>
+
+<p>
+  <button onclick="update()" style="margin-top: 20px">
+    Spiel aktualisieren
+  </button>
+</p>
+
+<p>
+  <textarea
+    style="width: 100%; height: 500px; font-family: monospace"
+    id="code"
+  >
+const HOLZ = '/chals/chal63/holz.jpg'
+const BALL = '/chals/chal63/ball.png'
+
+const gameEl = document.getElementById('game')
+
+if (window.app) app.ticker.stop()
+window.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb })
+gameEl.innerHTML = ''
+gameEl.appendChild(app.view)
+
+const engine = Matter.Engine.create()
+const world = engine.world
+
+function initGame() {
+  const basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
+  window.basicText = basicText
+  basicText.x = 30
+  basicText.y = 90
+
+  function updateScore(newScore) {
+    window.score = newScore
+    basicText.text = window.score.toString()
+  }
+
+  updateScore(0)
+
+  const woodTexture = PIXI.loader.resources[HOLZ].texture
+
+  function buildWoodBlock(x, y, w, h, id) {
+    var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
+    app.stage.addChild(block)
+    Matter.World.add(
+      world,
+      Matter.Bodies.rectangle(x + w / 2, y + h / 2, w, h, {
+        isStatic: true,
+        id,
+      })
+    )
+    block.x = x
+    block.y = y
+  }
+
+  buildWoodBlock(0, 570, 800, 30, 1)
+  buildWoodBlock(0, 170, 30, 400, 2)
+  buildWoodBlock(770, 170, 30, 400, 3)
+  buildWoodBlock(350, 50, 100, 100, 4)
+
+  const ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
+  ball.x = 300
+  ball.y = 200
+  ball.width = 100
+  ball.height = 100
+  ball.anchor.set(0.5)
+  app.stage.addChild(ball)
+
+  let border = undefined
+
+  const circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
+  Matter.World.add(world, circle)
+  Matter.Events.on(engine, 'collisionStart', (data) => {
+    if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
+      updateScore(0)
+    } else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined) border = 2
+
+      if (data.pairs[0].bodyA.id == border) {
+        updateScore(window.score + 1)
+        border = 3
+      }
+    } else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
+      if (border == undefined) border = 3
+
+      if (data.pairs[0].bodyA.id == border) {
+        updateScore(window.score + 1)
+        border = 2
+      }
+    }
+  })
+
+  function handleUp() {
+    const angle = Math.random() * 40 - 20 - 90
+    const r = (angle / 180) * Math.PI
+    Matter.Body.applyForce(circle, circle.position, {
+      x: Math.cos(r) * 0.24,
+      y: Math.sin(r) * 0.24,
+    })
+  }
+
+  function handleLeft() {
+    Matter.Body.applyForce(circle, circle.position, { x: -0.2, y: -0.05 })
+  }
+
+  function handleRight() {
+    Matter.Body.applyForce(circle, circle.position, { x: +0.2, y: -0.05 })
+  }
+
+  document.handleLeft = handleLeft
+  document.handleUp = handleUp
+  document.handleRight = handleRight
+
+  document.getElementById('game').onkeydown = (key) => {
+    if (key.code == 'ArrowUp') {
+      handleUp()
+      key.preventDefault()
+    }
+
+    if (key.code == 'ArrowLeft') {
+      handleLeft()
+      key.preventDefault()
+    }
+
+    if (key.code == 'ArrowRight') {
+      handleRight()
+      key.preventDefault()
+    }
+  }
+
+  gameEl.focus()
+
+  app.ticker.add(() => {
+    Matter.Engine.update(engine)
+    ball.x = circle.position.x
+    ball.y = circle.position.y
+  })
+}
+
+PIXI.loader.reset().add(HOLZ).add(BALL).load(initGame)
+</textarea
+  >
+</p>
+
+<script>
+  function update() {
+    eval(document.getElementById('code').value)
+  }
+
+  function checkDone() {
+    if (window.score >= 100) {
+      window.basicText.text =
+        'Die Antwort lautet ' +
+        ((+[] +
+          ([] + [])[
+            ([][
+              (![] + [])[+[]] +
+                (![] + [])[!+[] + !+[]] +
+                (![] + [])[+!+[]] +
+                (!![] + [])[+[]]
+            ] + [])[!+[] + !+[] + !+[]] +
+              (!![] +
+                [][
+                  (![] + [])[+[]] +
+                    (![] + [])[!+[] + !+[]] +
+                    (![] + [])[+!+[]] +
+                    (!![] + [])[+[]]
+                ])[+!+[] + [+[]]] +
+              ([][[]] + [])[+!+[]] +
+              (![] + [])[!+[] + !+[] + !+[]] +
+              (!![] + [])[+[]] +
+              (!![] + [])[+!+[]] +
+              ([][[]] + [])[+[]] +
+              ([][
+                (![] + [])[+[]] +
+                  (![] + [])[!+[] + !+[]] +
+                  (![] + [])[+!+[]] +
+                  (!![] + [])[+[]]
+              ] + [])[!+[] + !+[] + !+[]] +
+              (!![] + [])[+[]] +
+              (!![] +
+                [][
+                  (![] + [])[+[]] +
+                    (![] + [])[!+[] + !+[]] +
+                    (![] + [])[+!+[]] +
+                    (!![] + [])[+[]]
+                ])[+!+[] + [+[]]] +
+              (!![] + [])[+!+[]]
+          ])[+!+[] + [+[]]] +
+          ((+[])[
+            ([][
+              (![] + [])[+[]] +
+                (![] + [])[!+[] + !+[]] +
+                (![] + [])[+!+[]] +
+                (!![] + [])[+[]]
+            ] + [])[!+[] + !+[] + !+[]] +
+              (!![] +
+                [][
+                  (![] + [])[+[]] +
+                    (![] + [])[!+[] + !+[]] +
+                    (![] + [])[+!+[]] +
+                    (!![] + [])[+[]]
+                ])[+!+[] + [+[]]] +
+              ([][[]] + [])[+!+[]] +
+              (![] + [])[!+[] + !+[] + !+[]] +
+              (!![] + [])[+[]] +
+              (!![] + [])[+!+[]] +
+              ([][[]] + [])[+[]] +
+              ([][
+                (![] + [])[+[]] +
+                  (![] + [])[!+[] + !+[]] +
+                  (![] + [])[+!+[]] +
+                  (!![] + [])[+[]]
+              ] + [])[!+[] + !+[] + !+[]] +
+              (!![] + [])[+[]] +
+              (!![] +
+                [][
+                  (![] + [])[+[]] +
+                    (![] + [])[!+[] + !+[]] +
+                    (![] + [])[+!+[]] +
+                    (!![] + [])[+[]]
+                ])[+!+[] + [+[]]] +
+              (!![] + [])[+!+[]]
+          ] + [])[+!+[] + [+!+[]]] +
+          ([][[]] + [])[+[]] +
+          (!![] + [])[+!+[]] +
+          (![] + [])[+[]] +
+          (!![] + [])[!+[] + !+[] + !+[]] +
+          ([][[]] + [])[+!+[]]) +
+        '.'
+    }
+    setTimeout(checkDone, 10)
+  }
+
+  window.onload = () => {
+    update()
+    checkDone()
+  }
+</script>

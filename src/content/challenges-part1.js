@@ -2704,339 +2704,38 @@ export const part1 = [
     title: { de: 'Cheater', en: 'Cheater' },
     // date: '2020-08-17',
     deps: [7, 80],
-    html: {
-      de: story(
-        'Kiwi',
-        `
+    render: async ({ App }) => {
+      const game = await new Promise((res) => {
+        App.express.render('../../content/views/cheater', {}, (err, html) => {
+          if (err) return res('<p>Fehler: ' + err + '</p>')
+          res(html)
+        })
+      })
+      return {
+        de: story(
+          'Kiwi',
+          `
         <p>So ist das Spiel gedacht: Steuere den Volleyball mit den Pfeiltasten. Berühre abwechselnd die linke und rechte Wand. Dadurch erhöhst du den Zähler. Du verlierst, wenn der Ball den Boden berührt oder aus dem Spielfeld verschwindet. Du siehst die Antwort, sobald du 100 Punkte erreichst.</p>
 
         <p>Wie man das Spiel auch gewinnen kann: Unter dem Spiel findest du den Quellcode. Diesen kannst du verändern und das Spiel aktualiseren. In der Funktion <code>initGame()</code> wird ziemlich am Anfang <code>updateScore(0)</code> ausgeführt. Ändere diese Zeile zu einer hohen Zahl und gewinne das Spiel sofort.</p>
         
-        <p>Wähle deinen Weg.</p>`,
-        `
-        <div id="game" tabindex="1" style="outline:none;"></div>
+        <p>Wähle deinen Weg.</p>
         
-        <script src="/pixi.min.js"></script>
-        <script src="/chals/chal63/matter.js"></script>
+        <script>var locale = 'de'</script>`,
+          game
+        ),
+        en: story(
+          'Kiwi',
+          `
+        <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
         
-        <button onclick="handleLeft()">Left</button>
-        <button onclick="handleUp()">Up</button>
-        <button onclick="handleRight()">Right</button>
+        <p>You will see the answer as soon as you reach 1000 points. The game doesn't have any cheats built in - so you have to hack it yourself.
+        </p>
 
-        <p><button onclick="update()" style="margin-top:20px">Spiel aktualisieren</button></p>
-        
-        <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">const HOLZ = '/chals/chal63/holz.jpg'
-const BALL = '/chals/chal63/ball.png'
-
-const gameEl = document.getElementById('game')
-
-if (window.app) app.ticker.stop()
-window.app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb })
-gameEl.innerHTML = ''
-gameEl.appendChild(app.view)
-
-const engine = Matter.Engine.create()
-const world = engine.world
-
-function initGame() {
-  const basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
-  window.basicText = basicText
-  basicText.x = 30
-  basicText.y = 90
-
-  function updateScore(newScore) {
-    window.score = newScore
-    basicText.text = window.score.toString()
-  }
-
-  updateScore(0)
-
-  const woodTexture = PIXI.loader.resources[HOLZ].texture
-
-  function buildWoodBlock(x, y, w, h, id) {
-    var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
-    app.stage.addChild(block)
-    Matter.World.add(
-      world,
-      Matter.Bodies.rectangle(x + w / 2, y + h / 2, w, h, {
-        isStatic: true,
-        id,
-      })
-    )
-    block.x = x
-    block.y = y
-  }
-
-  buildWoodBlock(0, 570, 800, 30, 1)
-  buildWoodBlock(0, 170, 30, 400, 2)
-  buildWoodBlock(770, 170, 30, 400, 3)
-  buildWoodBlock(350, 50, 100, 100, 4)
-
-  const ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
-  ball.x = 300
-  ball.y = 200
-  ball.width = 100
-  ball.height = 100
-  ball.anchor.set(0.5)
-  app.stage.addChild(ball)
-
-  let border = undefined
-
-  const circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
-  Matter.World.add(world, circle)
-  Matter.Events.on(engine, 'collisionStart', (data) => {
-    if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
-      updateScore(0)
-    } else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined) border = 2
-
-      if (data.pairs[0].bodyA.id == border) {
-        updateScore(window.score + 1)
-        border = 3
+        <script>var locale = 'en'</script>`,
+          game
+        ),
       }
-    } else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined) border = 3
-
-      if (data.pairs[0].bodyA.id == border) {
-        updateScore(window.score + 1)
-        border = 2
-      }
-    }
-  })
-
-  function handleUp() {
-    const angle = Math.random() * 40 - 20 - 90
-    const r = (angle / 180) * Math.PI
-    Matter.Body.applyForce(circle, circle.position, {
-      x: Math.cos(r) * 0.24,
-      y: Math.sin(r) * 0.24,
-    })
-  }
-
-  function handleLeft() {
-    Matter.Body.applyForce(circle, circle.position, { x: -0.2, y: -0.05 })
-  }
-
-  function handleRight() {
-    Matter.Body.applyForce(circle, circle.position, { x: +0.2, y: -0.05 })
-  }
-
-  document.handleLeft = handleLeft
-  document.handleUp = handleUp
-  document.handleRight = handleRight
-
-  document.getElementById('game').onkeydown = (key) => {
-    if (key.code == 'ArrowUp') {
-      handleUp()
-      key.preventDefault()
-    }
-
-    if (key.code == 'ArrowLeft') {
-      handleLeft()
-      key.preventDefault()
-    }
-
-    if (key.code == 'ArrowRight') {
-      handleRight()
-      key.preventDefault()
-    }
-  }
-
-  gameEl.focus()
-
-  app.ticker.add(() => {
-    Matter.Engine.update(engine)
-    ball.x = circle.position.x
-    ball.y = circle.position.y
-  })
-}
-
-PIXI.loader.reset().add(HOLZ).add(BALL).load(initGame)
-</textarea></p>
-    
-      <script>
-        function update() {
-          eval(document.getElementById('code').value)
-        }
-        
-        function checkDone() {
-          if (window.score >= 100) {
-            window.basicText.text = 'Die Antwort lautet ' + ((+[]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]) + '.'
-          }
-          setTimeout(checkDone, 10)
-        }
-        
-        window.onload = () => {
-          update()
-          checkDone()
-        }
-      </script>
-
-    `
-      ),
-      en: `
-      <p>Instructions: Click on the game. Control the volleyball with the arrow keys. Touch the left and right walls alternately. This will increase the counter. You lose if the ball hits the ground or goes out of bounds.</p>
-      
-      <p>You will see the answer as soon as you reach 1000 points. The game doesn't have any cheats built in - so you have to hack it yourself.
-      </p>
-      
-      <div id="game" tabindex="1"></div>
-      
-      <script src="/pixi.min.js"></script>
-      <script src="/chals/chal63/matter.js"></script>
-      
-      <button onclick="handleLeft()">Left</button>
-      <button onclick="handleUp()">Up</button>
-      <button onclick="handleRight()">Right</button>
-
-      <p><button onclick="update()" style="margin-top:20px">Update code</button></p>
-      
-      <p><textarea style="width:100%;height:500px;font-family:monospace" id="code">if (app) app.ticker.stop();
-var app = new PIXI.Application(800,600,{backgroundColor:0x1099bb});
-document.getElementById('game').innerHTML = ''
-document.getElementById('game').appendChild(app.view);
-
-var engine = Matter.Engine.create(),
-world = engine.world;
-
-var WOOD = "/chals/chal63/holz.jpg"
-var BALL = "/chals/chal63/ball.png"
-
-PIXI.loader.reset()
-
-PIXI.loader
-.add(WOOD)
-.add(BALL)
-.load(() => {
-
-  var basicText = app.stage.addChild(new PIXI.Text('Basic text in pixi'))
-  window.basicText = basicText
-  basicText.x = 30
-  basicText.y = 90
-  
-  var woodTexture = PIXI.loader.resources[WOOD].texture
-  
-  function buildWoodBlock(x, y, w, h, id) {
-    var block = new PIXI.extras.TilingSprite(woodTexture, w, h)
-    app.stage.addChild(block)
-    Matter.World.add(world, Matter.Bodies.rectangle(x+w/2, y+h/2, w, h, {isStatic:true, id}))
-    block.x = x
-    block.y = y
-  }
-  
-  buildWoodBlock(0, 570, 800, 30, 1)
-  buildWoodBlock(0, 170, 30, 400, 2)
-  buildWoodBlock(770, 170, 30, 400, 3)
-  buildWoodBlock(350,50,100,100, 4)
-  
-  
-  var ball = new PIXI.Sprite(PIXI.loader.resources[BALL].texture)
-  ball.x = 300
-  ball.y = 200
-  ball.width = 100
-  ball.height = 100
-  ball.anchor.set(0.5)
-  app.stage.addChild(ball)
-  
-  var border = undefined
-  
-  if (window.score === undefined) {
-    window.score = 0
-    basicText.text = window.score.toString()
-  }
-  
-  var circle = Matter.Bodies.circle(300, 200, 50, { restitution: 1, id: 5 })
-  Matter.World.add(world, circle)
-  Matter.Events.on(engine, "collisionStart", data => {
-    if (data.pairs[0].bodyA.id == 1 && data.pairs[0].bodyB.id == 5) {
-      window.score = 0
-      basicText.text = window.score.toString()
-    }
-    else if (data.pairs[0].bodyA.id == 2 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined)
-        border = 2
-      
-      if (data.pairs[0].bodyA.id == border) {
-        window.score++
-        basicText.text = window.score.toString()
-        border = 3
-      }
-    }
-    else if (data.pairs[0].bodyA.id == 3 && data.pairs[0].bodyB.id == 5) {
-      if (border == undefined)
-        border = 3
-      
-      if (data.pairs[0].bodyA.id == border) {
-        window.score++
-        basicText.text = window.score.toString()
-        border = 2
-      }
-    }
-  })
-  
-  function handleUp() {
-    var angle = Math.random()*40-20-90
-    var r = angle/180*Math.PI
-    Matter.Body.applyForce(circle, circle.position, {x:Math.cos(r)*0.24,y:Math.sin(r)*0.24})
-  }
-  
-  function handleLeft() {
-    Matter.Body.applyForce(circle, circle.position, {x:-0.2,y:-0.05})
-  }
-  
-  function handleRight() {
-    Matter.Body.applyForce(circle, circle.position, {x:+0.2,y:-0.05})
-  }
-  
-  document.handleLeft = handleLeft
-  document.handleUp = handleUp
-  document.handleRight = handleRight
-  
-  
-  document.getElementById('game').onkeydown = (key) => {
-    if (key.keyCode == 38) {
-      handleUp()
-      key.preventDefault()
-    }
-    
-    if (key.keyCode == 37) {
-      handleLeft()
-      key.preventDefault()
-    }
-    
-    if (key.keyCode == 39) {
-      handleRight()
-      key.preventDefault()
-    }
-  }
-  
-  app.ticker.add(delta => {
-    Matter.Engine.update(engine)
-    ball.x = circle.position.x
-    ball.y = circle.position.y
-  })
-})
-</textarea></p>
-    
-    <script>
-      function update() {
-        eval(document.getElementById('code').value)
-      }
-      
-      function checkDone() {
-        if (window.score >= 1000) {
-          window.basicText.text = 'The answer is ' + (![]+[])[!+[]+!+[]+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+(![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]
-        }
-        setTimeout(checkDone, 10)
-      }
-      
-      window.onload = () => {
-        update()
-        checkDone()
-      }
-    </script>
-
-    `,
     },
     solution: secrets('chal_63'),
   },

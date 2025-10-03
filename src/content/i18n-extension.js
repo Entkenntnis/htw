@@ -61,7 +61,7 @@ export function getI18nExtension() {
     key: 'contact.content_',
     value: `
       <p class="my-5">
-        David Li<br>
+        Quinn Li<br>
         ${secrets('config_address')}<br>
         E-Mail: <a rel="nofollow" href="mailto:hack@arrrg.de">hack@arrrg.de</a>
       </p>
@@ -72,7 +72,7 @@ export function getI18nExtension() {
     key: 'contact.content_',
     value: `
       <p class="my-5">
-        David Li<br>
+        Quinn Li<br>
         ${secrets('config_address')}<br>
         Email: <a rel="nofollow" href="mailto:hack@arrrg.de">hack@arrrg.de</a>
       </p>

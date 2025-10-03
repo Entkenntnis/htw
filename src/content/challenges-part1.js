@@ -4032,7 +4032,7 @@ To: ${req.user?.name}@arrrg.de</pre>
             <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
             ${buildYesNo('recommend')}
 
-            <p style="margin-top:32px;"><button type="submit" class="btn btn-success">Abschicken</button></p>
+            <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Abschicken</button></p>
             
             <input type="hidden" name="answer" value="_">
           </form>
@@ -4071,7 +4071,7 @@ To: ${req.user?.name}@arrrg.de</pre>
             <p style="margin-top:32px;">Would you recommend Hack The Web to your friends?</p>
             ${buildYesNo('recommend')}
 
-            <p style="margin-top:32px;"><button type="submit" class="btn btn-success">Submit</button></p>
+            <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Submit</button></p>
             
             <input type="hidden" name="answer" value="_">
           </form>

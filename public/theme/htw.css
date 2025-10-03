@@ -58,3 +58,26 @@ hr {
   margin-left: 48px;
   padding-bottom: 6px;
 }
+
+.btn-interaction {
+  color: #fff;
+  background-color: hsl(314, 100%, 37%);
+  border-color: #bd0091;
+}
+.btn-interaction:hover {
+  color: #fff;
+  background-color: hsl(314, 100%, 43%);
+  border-color: hsl(314, 100%, 43%);
+}
+.btn-interaction:focus,
+.btn-interaction.focus {
+  color: #fff;
+  background-color: hsl(314, 100%, 43%);
+  border-color: hsl(314, 100%, 43%);
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(189, 0, 145, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(189, 0, 145, 0.5);
+}
+
+:root code {
+  color: #f39c12;
+}

@@ -8,12 +8,12 @@
 <% } %>
 
 <form action="<%=prefix%>/login" method="post" autocomplete="off" id="login-form">
-  <div class="form-group">
+  <div class="form-group" style="display: flex; align-items: end;">
     <label><%= t('name') %> <input class="form-control" type="text" name="username" value="" autofocus id="inputName" style="width: 212px;"/></label>
     <span style="display:inline-block;width:10px;"></span>
-    <label><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw" style="width: 212px;"/></label>
-    <span style="display:inline-block;width:5px;"></span>
-    <button type="submit" class="btn btn-interaction" style="margin-top:-4px;"><%= t('go') %></button>
+    <label style="margin-left:8px;"><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw" style="width: 212px;"/></label>
+    <span style="display:inline-block;width:13px;"></span>
+    <button type="submit" class="btn btn-interaction" style="margin-bottom:8px;"><%= t('go') %></button>
   </div>
 </form>
 

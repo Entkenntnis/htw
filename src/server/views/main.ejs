@@ -29,16 +29,12 @@
       <% if (heading) { %>
         <h2><%= heading %></h2>
       <% } %>
+      
+      <% if (backButton) { %><p style="margin-top: 24px; margin-bottom:48px;"><a href="<%=App.config.urlPrefix%><%-backHref%>" id="back-button"><%= t('challenge.back') %></a></p><% } %>
       <% const contentHtml = content ? content : include(pagePath, {props, t, user, App, prefix: App.config.urlPrefix}) %>
-    
     <% if (!outsideOfContainer) { %>
       <%- contentHtml %>
-      
-      <% if (backButton) { %>
-        <p style="margin-top:40px;margin-bottom:40px;" id="back-button">
-          <a href="<%=App.config.urlPrefix%><%-backHref%>" class="btn btn-primary btn-sm"><%= t('back') %></a>
-        </p>
-      <% } %>
+      <% if (backButton) { %><div style="height: 100px;"></div><% } %>
     </div>
     <% } else { %>
     </div>

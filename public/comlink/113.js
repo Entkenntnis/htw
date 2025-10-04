@@ -11,9 +11,8 @@ const COM_TREE = {
         { label: 'Wie soll ich den Kanal finden?', next: 'strategy' },
         { label: 'Was bringt mir die Galerie?', next: 'gallery' },
         {
-          label:
-            'Ist das eine Zeitreise? Der Kanal ist doch über 200 Jahre alt!?',
-          next: 'backstory',
+          label: 'Was bedeutet 2FA?',
+          next: '2fa',
         },
       ],
     },
@@ -31,13 +30,13 @@ const COM_TREE = {
       ],
       options: [{ label: 'OK', next: 'entry' }],
     },
-    backstory: {
+    '2fa': {
       text: [
-        'Ja, das ist ja das verrückte!',
-        'Sie reden davon, als ob es für sie noch aktuell ist.',
-        'Geschichten mit Zeitreisen sind kompliziert.',
+        '2FA steht für Zwei-Faktor-Authentifizierung.',
+        'Also wenn du neben dem Passwort noch auf dem Handy einen Code erhältest oder über eine App.',
+        'Das macht es viel sicherer und schwerer zu hacken.',
       ],
-      options: [{ label: 'Jetzt bin ich verwirrt.', next: 'entry' }],
+      options: [{ label: 'Danke für die Erklärung.', next: 'entry' }],
     },
   },
 }

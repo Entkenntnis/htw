@@ -3815,25 +3815,45 @@ To: ${req.user?.name}@arrrg.de</pre>
       de: story(
         'Bex',
         `
-        <p>Ich liebe den Mond bei Mitternacht. Der Mond hat etwas trauriges und einsames an sich, mit dem ich mich ...</p>
+        <p>Ich wurde gestern random in eine Hacker-Gruppe eingeladen und wieder rausgeworfen - ziemlich verrückt. In den Minuten konnte ich ein interessantes Gespräch aufzeichnen:</p>
 
-        <p><img src="/chals/chal113.png" alt="Mond bei Mitternacht" style="max-width:65ch"></p>
-        
-        <p>Was rede ich da für einen Unsinn! Vergiss sofort, was ich gerade gesagt habe. Wir gehen jetzt zur nächsten Aufgabe.</p>
-        
-        <p>In Minecraft ist es möglich, die Zeit zu ändern. Deine Antwort ist der Befehl, um die Zeit auf Mitternacht zu setzen.</p>
+        <p style="margin-top: 48px; margin-bottom: 48px;">
+          <i>Du wurdest von A. zu einer Gruppe hinzugefügt.</i><br><br>
+          <strong>A:</strong> So, jetzt sind wir komplett. Also, was ist der Plan?<br>
+          <strong>B:</strong> Lasst uns doch einen Youtube-Kanal hacken, das wird witzig.<br>
+          <strong>A:</strong> Genauere Vorschläge?<br>
+          <strong>B:</strong> Kennt ihr diesen Minecraft-Typ mit der weißen Maske und dem gestreiften Pulli? Der ist schon ne Weile inaktiv, das wäre doch ein gutes Ziel.<br>
+          <strong>A:</strong> Ja, den kenn ich. Und das ist ein älterer Account, vermutlich sogar noch ohne 2FA.<br>
+          <strong>C:</strong> Klingt gut! Was sagst du dazu, D.?<br>
+          <strong>A:</strong> Oh shit, ich hab die falsche Person hinzugefügt.<br><br>
+          <i>Du wurdest aus der Gruppe entfernt.</i>
+        </p>
+
+        <p>Wenn wir den Namen des Kanals herausfinden, können wir eine Warnung schicken! Deine Antwort ist der Name des YouTube-Kanals. Wenn du dich nicht so gut mit Minecraft auskennt, hilft dir diese <a href="https://github.com/Entkenntnis/robot-karol-online/blob/main/FIGUREN-GALERIE.md#basti-2025-laden" target="_blank">Figuren-Galerie</a> weiter.</p>
       `
       ),
-      en: `
-        <p>I love the moon at midnight. I wish I could jump to that moment whenever I want.</p>
+      en: story(
+        'Bex',
+        `
+        <p>Yesterday, I was randomly invited to a hacker group and then kicked out again - pretty crazy. In those few minutes, I was able to record an interesting conversation:</p>
 
-        <p><img src="/chals/chal113.png" alt="Moon at midnight" style="max-width:100%"></p>
+        <p style="margin-top: 48px; margin-bottom: 48px;">
+          <i>You were added to a group by A.</i><br><br>
+          <strong>A:</strong> Okay, we're all here now. So, what's the plan?<br>
+          <strong>B:</strong> Let's hack a YouTube channel, that'll be funny.<br>
+          <strong>A:</strong> Any specific suggestions?<br>
+          <strong>B:</strong> Do you guys know that Minecraft guy with the white mask and the striped sweater? He's been inactive for a while, so he'd be a good target.<br>
+          <strong>A:</strong> Yeah, I know him. And it's an older account, probably even without 2FA.<br>
+          <strong>C:</strong> Sounds good! What do you say, D.?<br>
+          <strong>A:</strong> Oh shit, I added the wrong person.<br><br>
+          <i>You were removed from the group.</i>
+        </p>
 
-        <p>The appropriate command for this is your answer.</p>
-
-      `,
+        <p>If we can figure out the name of the channel, we can send a warning! Your answer is the name of the YouTube channel. If you're not that familiar with Minecraft, this <a href="https://github.com/Entkenntnis/robot-karol-online/blob/main/FIGUREN-GALERIE.md#basti-2025-laden" target="_blank">character gallery</a> will help you.</p>
+      `
+      ),
     },
-    solution: [secrets('chal_113_1'), secrets('chal_113_2')],
+    solution: secrets('chal_113'),
   },
 
   {

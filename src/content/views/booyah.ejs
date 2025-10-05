@@ -73,9 +73,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     // --- CONSTANTS AND VARIABLES ---
     // Deactivation code stored Base64-encoded to avoid plain text in source
-    const DEACTIVATION_CODE = (typeof atob === 'function'
-      ? atob('U0hFR08tU1RJTktU')
-      : Buffer.from('U0hFR08tU1RJTktU', 'base64').toString('utf-8'))
+    const DEACTIVATION_CODE = atob('U0hFR08tU1RJTktU')
     const COUNTDOWN_SECONDS = 5
     const isGerman = '<%= locale %>' === 'de'
 

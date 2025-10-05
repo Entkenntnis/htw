@@ -3556,46 +3556,36 @@ To: ${req.user?.name}@arrrg.de</pre>
   {
     id: 86,
     pos: { x: 90, y: 706 },
-    title: { de: 'Fragil', en: 'Fragile' },
+    title: { de: 'Booyah!', en: 'Booyah!' },
     // date: '2023-04-02',
     deps: [7, 80],
-    html: {
-      de: story(
-        'Josh',
-        `
-        <p>Nicht viele Menschen wissen, dass es für Webseiten einen Bearbeitungsmodus gibt. Ein Schalter genügt und und schon kann man die Seite nach Belieben verändern. Ich bin immer wieder erstaunt, was für geheime Funktion es zu entdecken gibt.</p>
-
-        <p>Den Schalter habe ich hier aktiviert. Probiere es aus. Du kannst an jeder Stelle deinen Cursor setzen und den Inhalt verändern.</p>
-        
-        <p>Ein kleiner Auftrag: Ändere meinen Namen zu "Yoshi" und erhalte die Antwort.
-        </p>
-        
-        <p id="output">&nbsp;</p>
-        
-        <script>
-          document.documentElement.contentEditable = true
-            document.body.spellcheck = false
-          setTimeout(() => {
-            document.getElementById('challenge_form').contentEditable = false
-            check()
-          }, 100)
-          
-          function check() {
-            const lead = document.querySelector('.avatar > div')
-            if (lead) {
-              if (lead.textContent.trim().toLowerCase() === 'yoshi') {
-                document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
-                  secrets('chal_86')
-                ).toString('base64')}') + '.'
-                return // don't run check anymore
-              }
-            }
-            setTimeout(check, 500)
+    render: async ({ App, req }) => {
+      const content = await new Promise((res) => {
+        App.express.render(
+          '../../content/views/booyah',
+          { locale: req.lng },
+          (err, html) => {
+            if (err) return res('<p>Fehler: ' + err + '</p>')
+            res(html)
           }
-        </script>
+        )
+      })
+      return {
+        de: story(
+          'Josh',
+          `
+          <p>Früher bin ich in meinen Tagträumen oft als Agenten um die Welt gereist und haben die Menschheit vor bösen Schurken gerettet. Doch dann wird man erwachsen und hört einfach auf damit. Das ist doch voll schade.</p>
+
+          <p>"Agent Possible, es obliegt nun in Ihrer Hand, die Welt die retten. In dieser geheimen Nachricht finden die den Deaktivierungs-Code für die Bombe. Wir wünschen Ihnen viel Erfolg auf Ihrer Mission!"</p>
+
+          <script>window.USERNAME = "${req.user?.name}"</script>
+
+          ${content}
+
+          <p>Der Deaktivierungs-Code ist deine Antwort.</p>
     `
-      ),
-      en: `
+        ),
+        en: `
       <p>This site is easily fragile. Try it out: You can edit all content.</p>
       
       <p>A small task: change the slogan to "Look what I can do!"
@@ -3625,6 +3615,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         }
       </script>
     `,
+      }
     },
     solution: secrets('chal_86'),
   },

@@ -1,0 +1,146 @@
+<style>
+  .msg-container {
+    width: 100%;
+    min-height: 300px; /* min-height ist besser als height für dynamischen Inhalt */
+    background-color: white;
+    color: black;
+    padding: 10px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+    font-family: monospace;
+    border: 1px solid #333;
+    transition: background-color 0.5s ease;
+  }
+
+  .unsupported {
+    color: #999;
+    text-decoration: line-through;
+  }
+
+  #deactivation-info, #countdown-container {
+    display: none; /* Initial versteckt */
+    color: red;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  
+  #self-destruct-msg {
+    color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 100px 0;
+  }
+</style>
+
+<!-- Der Hauptcontainer für die Nachricht -->
+<div class="msg-container" contenteditable="true" spellcheck="false">
+  <span id="auth-prompt">Authentifizierung.<br>Tragen Sie hier ihren Nutzernamen ein: [__________]</span>
+  <span id="action-section" style="display:none;">
+    <br><br>Welche Aktion wollen Sie ausführen? Markiere mit einem X:<br>
+    [<span id="upload-checkbox"> </span>] Datei hochladen<br>
+    [<span id="download-checkbox"> </span>] Datei herunterladen<br>
+    [<span id="decrypt-checkbox"> </span>] Nachricht entschlüsseln<br><br>
+    <div id="deactivation-info"></div>
+    <div id="countdown-container"></div>
+  </span>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- KONSTANTEN UND VARIABLEN ---
+    const DEACTIVATION_CODE = "OMEGA-GAMMA-9-ALPHA";
+    const COUNTDOWN_SECONDS = 5;
+
+    let isCountdownActive = false; // Zustand, um den Countdown nur einmal zu starten
+
+    // --- ELEMENT-REFERENZEN ---
+    const container = document.querySelector('.msg-container');
+    const actionSection = document.getElementById('action-section');
+    const decryptCheckbox = document.getElementById('decrypt-checkbox');
+    const uploadCheckbox = document.getElementById('upload-checkbox');
+    const downloadCheckbox = document.getElementById('download-checkbox');
+    const deactivationInfo = document.getElementById('deactivation-info');
+    const countdownContainer = document.getElementById('countdown-container');
+
+    // Robustheits-Check
+    if (!container || !actionSection || !decryptCheckbox) {
+      console.error('Erforderliche Elemente für die Skript-Logik nicht gefunden.');
+      return;
+    }
+
+    // --- AUTHENTIFIZIERUNGSLOGIK ---
+    const correctUsername = window.USERNAME || '';
+    if (correctUsername === '') {
+        console.warn('window.USERNAME ist nicht gesetzt. Die Authentifizierung wird nicht funktionieren.');
+    }
+
+    const checkUsername = () => {
+      const currentText = container.innerText || container.textContent;
+      const match = currentText.match(/Nutzernamen ein: \[(.*?)\]/);
+      let enteredUsername = '';
+      if (match && match[1]) {
+        enteredUsername = match[1].trim();
+      }
+      
+      if (correctUsername && enteredUsername === correctUsername) {
+        actionSection.style.display = 'inline';
+      } else {
+        actionSection.style.display = 'none';
+      }
+    };
+
+    // --- AKTIONSLOGIK (NEU) ---
+    const checkAction = () => {
+      // Diese Funktion nur ausführen, wenn die Sektion sichtbar und der Countdown nicht bereits aktiv ist.
+      if (actionSection.style.display === 'none' || isCountdownActive) {
+        return;
+      }
+
+      // Prüfen, ob der Benutzer 'X' in die Entschlüsseln-Checkbox eingegeben hat.
+      // .trim() ist wichtig, falls der Cursor Leerzeichen hinterlässt.
+      if (decryptCheckbox.innerText.trim().toUpperCase() === 'X') {
+        isCountdownActive = true; // Verhindert, dass der Countdown erneut startet.
+        startSelfDestructSequence();
+      }
+    };
+
+    // --- SELBSTZERSTÖRUNGS-SEQUENZ (NEU) ---
+    const startSelfDestructSequence = () => {
+      // 1. Weitere Eingaben blockieren und visuelles Feedback geben.
+      container.contenteditable = 'false';
+      container.style.backgroundColor = '#ffdddd'; // leichter Rotstich
+
+      // 2. Deaktivierungscode und Warnung anzeigen.
+      deactivationInfo.style.display = 'block';
+      deactivationInfo.innerHTML = `SELBSTZERSTÖRUNG EINGELEITET.<br>DEAKTIVIERUNGSCODE: <strong>${DEACTIVATION_CODE}</strong>`;
+      
+      // 3. Andere Optionen als "nicht unterstützt" markieren.
+      uploadCheckbox.parentElement.classList.add('unsupported');
+      downloadCheckbox.parentElement.classList.add('unsupported');
+
+      // 4. Countdown starten
+      countdownContainer.style.display = 'block';
+      let timeLeft = COUNTDOWN_SECONDS;
+      
+      const countdownInterval = setInterval(() => {
+        countdownContainer.innerText = `Nachricht zerstört sich in ${timeLeft}...`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+          clearInterval(countdownInterval);
+          // 5. Nachricht zerstören
+          container.innerHTML = `<div id="self-destruct-msg">-- VERBINDUNG GETRENNT / NACHRICHT ZERSTÖRT --</div>`;
+          container.style.backgroundColor = '#333';
+        }
+      }, 1000);
+    };
+
+    // --- EVENT LISTENER ---
+    container.addEventListener('input', () => {
+      checkUsername();
+      checkAction();
+    });
+  });
+</script>

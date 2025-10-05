@@ -1,0 +1,201 @@
+<style>
+  .msg-container {
+    width: 100%;
+    min-height: 300px; /* min-height is better than height for dynamic content */
+    background-color: white;
+    color: black;
+    padding: 10px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+    font-family: monospace;
+    border: 1px solid #333;
+    transition: background-color 0.5s ease;
+  }
+
+  .unsupported {
+    color: #999;
+    text-decoration: line-through;
+  }
+
+  #deactivation-info,
+  #countdown-container {
+    display: none; /* Initially hidden */
+    color: red;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+
+  #self-destruct-msg {
+    color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 100px 0;
+  }
+</style>
+<script>
+  ;`
+  <%
+    a = 'Authentifizierung.<br />Ihr Agenten-Kürzel (Nutzername): [__________]'
+    b = 'Authentication.<br />Your agent code (username): [__________]'
+    c = 'Welche Aktion wollen Sie ausführen? Markieren mit X:'
+    d = 'Which action do you want to perform? Mark with an X:'
+    e = 'Rückreise antreten'
+    f = 'Start return journey'
+    g = 'Datei hochladen'
+    h = 'Upload file'
+    i = 'Deaktivierungs-Code abrufen'
+    j = 'Retrieve deactivation code'
+  %>
+  `
+</script>
+
+<div class="msg-container" contenteditable="true" spellcheck="false">
+  <span id="auth-prompt"><%- locale == 'de' ? a : b %></span>
+  <span id="action-section" style="display: none">
+    <br /><br /><%= locale == 'de' ? c : d %><br />
+    <span
+      ><span id="travel-checkbox">[ ]</span> <%= locale == 'de' ? e : f %></span
+    ><br />
+    <span
+      ><span id="upload-checkbox">[ ]</span> <%= locale == 'de' ? g : h %></span
+    ><br />
+    <span
+      ><span id="decrypt-checkbox">[ ]</span> <%= locale == 'de' ? i : j
+      %></span
+    ><br /><br />
+    <div id="deactivation-info"></div>
+    <div id="countdown-container"></div>
+  </span>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- CONSTANTS AND VARIABLES ---
+    // Deactivation code stored Base64-encoded to avoid plain text in source
+    const DEACTIVATION_CODE = atob('U0hFR08tU1RJTktU')
+    const COUNTDOWN_SECONDS = 5
+    const isGerman = '<%= locale %>' === 'de'
+
+    let isCountdownActive = false // State to start the countdown only once
+    let isValidAction = false
+
+    // --- ELEMENT REFERENCES ---
+    const container = document.querySelector('.msg-container')
+    const actionSection = document.getElementById('action-section')
+    const decryptCheckbox = document.getElementById('decrypt-checkbox')
+    const uploadCheckbox = document.getElementById('upload-checkbox')
+    const travelCheckbox = document.getElementById('travel-checkbox')
+    const deactivationInfo = document.getElementById('deactivation-info')
+    const countdownContainer = document.getElementById('countdown-container')
+
+    // Robustness check
+    if (!container || !actionSection || !decryptCheckbox) {
+      console.error(
+        'Erforderliche Elemente für die Skript-Logik nicht gefunden.'
+      )
+      return
+    }
+
+    // --- AUTHENTICATION LOGIC ---
+    const correctUsername = window.USERNAME || ''
+    if (correctUsername === '') {
+      console.warn(
+        'window.USERNAME ist nicht gesetzt. Die Authentifizierung wird nicht funktionieren.'
+      )
+    }
+
+    const checkUsername = () => {
+      const currentText = container.innerText || container.textContent
+      // Updated regex to be language-agnostic
+      const match = currentText.match(
+        /\((username|Nutzername)\): \[\_*(.*?)\_*\]/
+      )
+      let enteredUsername = ''
+      if (match && match[2]) {
+        enteredUsername = match[2].trim()
+      }
+
+      if (correctUsername && enteredUsername === correctUsername) {
+        actionSection.style.display = 'inline'
+      } else {
+        actionSection.style.display = 'none'
+      }
+    }
+
+    // --- ACTION LOGIC ---
+    const checkAction = () => {
+      // Only run this function if the section is visible and the countdown is not already active.
+      if (actionSection.style.display === 'none' || isCountdownActive) {
+        return
+      }
+
+      // Check if the user has entered 'X' in the decrypt checkbox.
+      // .trim() is important in case the cursor leaves spaces.
+      if (decryptCheckbox.innerText.trim().toUpperCase().includes('X')) {
+        isCountdownActive = true // Prevents the countdown from starting again.
+        isValidAction = true
+        startSelfDestructSequence()
+        // Mark other options as "unsupported".
+        uploadCheckbox.parentElement.classList.add('unsupported')
+        travelCheckbox.parentElement.classList.add('unsupported')
+      } else if (travelCheckbox.innerText.trim().toUpperCase().includes('X')) {
+        isCountdownActive = true
+        isValidAction = false
+        startSelfDestructSequence()
+        decryptCheckbox.parentElement.classList.add('unsupported')
+        uploadCheckbox.parentElement.classList.add('unsupported')
+      } else if (uploadCheckbox.innerText.trim().toUpperCase().includes('X')) {
+        isCountdownActive = true
+        isValidAction = false
+        startSelfDestructSequence()
+        decryptCheckbox.parentElement.classList.add('unsupported')
+        travelCheckbox.parentElement.classList.add('unsupported')
+      }
+    }
+
+    // --- SELF-DESTRUCT SEQUENCE ---
+    const startSelfDestructSequence = () => {
+      // 1. Block further input and provide visual feedback.
+      container.contenteditable = 'false'
+      container.style.backgroundColor = '#ffdddd' // light red tint
+
+      // 2. Show deactivation code and warning.
+      deactivationInfo.style.display = 'block'
+      deactivationInfo.innerHTML = isValidAction
+        ? isGerman
+          ? `DEAKTIVIERUNGSCODE: <strong>${DEACTIVATION_CODE}</strong><br>SELBSTZERSTÖRUNG EINGELEITET.`
+          : `DEACTIVATION CODE: <strong>${DEACTIVATION_CODE}</strong><br>SELF-DESTRUCTION INITIATED.`
+        : isGerman
+          ? 'AKTION NICHT VERFÜGBAR.<br>SELBSTZERSTÖRUNG EINGELEITET.'
+          : 'ACTION NOT AVAILABLE.<br>SELF-DESTRUCTION INITIATED.'
+
+      // 4. Start countdown
+      countdownContainer.style.display = 'block'
+      let timeLeft = COUNTDOWN_SECONDS
+
+      const countdownInterval = setInterval(() => {
+        countdownContainer.innerText = isGerman
+          ? `Nachricht zerstört sich in ${timeLeft}...`
+          : `Message will self-destruct in ${timeLeft}...`
+        timeLeft--
+
+        if (timeLeft < 0) {
+          clearInterval(countdownInterval)
+          // 5. Destroy message
+          const destroyedMsg = isGerman
+            ? '-- VERBINDUNG GETRENNT / NACHRICHT ZERSTÖRT --'
+            : '-- CONNECTION LOST / MESSAGE DESTROYED --'
+          container.innerHTML = `<div id="self-destruct-msg">${destroyedMsg}</div>`
+          container.style.backgroundColor = '#333'
+        }
+      }, 1000)
+    }
+
+    // --- EVENT LISTENER ---
+    container.addEventListener('input', () => {
+      checkUsername()
+      checkAction()
+    })
+  })
+</script>

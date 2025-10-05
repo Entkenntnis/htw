@@ -3556,75 +3556,54 @@ To: ${req.user?.name}@arrrg.de</pre>
   {
     id: 86,
     pos: { x: 90, y: 706 },
-    title: { de: 'Fragil', en: 'Fragile' },
+    title: { de: 'Booyah!', en: 'Booyah!' },
     // date: '2023-04-02',
     deps: [7, 80],
-    html: {
-      de: story(
-        'Josh',
-        `
-        <p>Nicht viele Menschen wissen, dass es für Webseiten einen Bearbeitungsmodus gibt. Ein Schalter genügt und und schon kann man die Seite nach Belieben verändern. Ich bin immer wieder erstaunt, was für geheime Funktion es zu entdecken gibt.</p>
+    render: async ({ App, req }) => {
+      const content = await new Promise((res) => {
+        App.express.render(
+          '../../content/views/booyah',
+          { locale: req.lng },
+          (err, html) => {
+            if (err) return res('<p>Error: ' + err + '</p>')
+            res(html)
+          }
+        )
+      })
+      return {
+        de: story(
+          'Josh',
+          `
+          <p>Früher bin ich in meinen Träumen oft als Agent um die Welt gereist und haben gegen böse Schurken gekämpft. Doch dann wird man erwachsen und hört einfach auf damit. Das ist doch voll schade.</p>
 
-        <p>Den Schalter habe ich hier aktiviert. Probiere es aus. Du kannst an jeder Stelle deinen Cursor setzen und den Inhalt verändern.</p>
-        
-        <p>Ein kleiner Auftrag: Ändere meinen Namen zu "Yoshi" und erhalte die Antwort.
-        </p>
-        
-        <p id="output">&nbsp;</p>
-        
-        <script>
-          document.documentElement.contentEditable = true
-            document.body.spellcheck = false
-          setTimeout(() => {
-            document.getElementById('challenge_form').contentEditable = false
-            check()
-          }, 100)
-          
-          function check() {
-            const lead = document.querySelector('.avatar > div')
-            if (lead) {
-              if (lead.textContent.trim().toLowerCase() === 'yoshi') {
-                document.getElementById('output').innerHTML = 'Die Antwort lautet ' + atob('${Buffer.from(
-                  secrets('chal_86')
-                ).toString('base64')}') + '.'
-                return // don't run check anymore
-              }
-            }
-            setTimeout(check, 500)
-          }
-        </script>
-    `
-      ),
-      en: `
-      <p>This site is easily fragile. Try it out: You can edit all content.</p>
-      
-      <p>A small task: change the slogan to "Look what I can do!"
-      </p>
-      
-      <p id="output">&nbsp;</p>
-      
-      <script>
-        document.documentElement.contentEditable = true
-          document.body.spellcheck = false
-        setTimeout(() => {
-          document.getElementById('challenge_form').contentEditable = false
-          check()
-        }, 100)
-        
-        function check() {
-          const lead = document.querySelector('p[class="lead"]')
-          if (lead) {
-            if (lead.textContent.trim().toLowerCase() === 'look what i can do!') {
-              document.getElementById('output').innerHTML = 'The answer is ' + atob('${Buffer.from(
-                secrets('chal_86')
-              ).toString('base64')}') + '.'
-              return // don't run check anymore
-            }
-          }
-          setTimeout(check, 500)
-        }
-      </script>
-    `,
+          <p>"Agent Possible, es obliegt nun in Ihrer Hand, die Menschheit zu retten. In dieser geheimen Nachricht finden Sie den Deaktivierungs-Code für die Bombe. Wir verlassen uns auf Ihren Erfolg!"</p>
+
+          <script>
+            window.USERNAME = "${req.user?.name}"
+          </script>
+
+          ${content}
+
+          <p>Der Deaktivierungs-Code ist deine Antwort.</p>
+          `
+        ),
+        en: story(
+          'Josh',
+          `
+          <p>I used to travel the world in my dreams as an agent, fighting evil villains. But then you grow up and just stop doing it. That's a real shame.</p>
+
+          <p>"Agent Possible, it is now in your hands to save humanity. In this secret message you will find the deactivation code for the bomb. We are counting on your success!"</p>
+
+          <script>
+            window.USERNAME = "${req.user?.name}"
+          </script>
+
+          ${content}
+
+          <p>The deactivation code is your answer.</p>
+          `
+        ),
+      }
     },
     solution: secrets('chal_86'),
   },

@@ -3565,7 +3565,7 @@ To: ${req.user?.name}@arrrg.de</pre>
           '../../content/views/booyah',
           { locale: req.lng },
           (err, html) => {
-            if (err) return res('<p>Fehler: ' + err + '</p>')
+            if (err) return res('<p>Error: ' + err + '</p>')
             res(html)
           }
         )
@@ -3576,45 +3576,33 @@ To: ${req.user?.name}@arrrg.de</pre>
           `
           <p>Früher bin ich in meinen Träumen oft als Agent um die Welt gereist und haben gegen böse Schurken gekämpft. Doch dann wird man erwachsen und hört einfach auf damit. Das ist doch voll schade.</p>
 
-          <p>"Agent Possible, es obliegt nun in Ihrer Hand, die Welt die retten. In dieser geheimen Nachricht finden die den Deaktivierungs-Code für die Bombe. Wir verlassen uns auf Ihren Erfolg!"</p>
+          <p>"Agent Possible, es obliegt nun in Ihrer Hand, die Menschheit zu retten. In dieser geheimen Nachricht finden Sie den Deaktivierungs-Code für die Bombe. Wir verlassen uns auf Ihren Erfolg!"</p>
 
-          <script>window.USERNAME = "${req.user?.name}"</script>
+          <script>
+            window.USERNAME = "${req.user?.name}"
+          </script>
 
           ${content}
 
           <p>Der Deaktivierungs-Code ist deine Antwort.</p>
-    `
+          `
         ),
-        en: `
-      <p>This site is easily fragile. Try it out: You can edit all content.</p>
-      
-      <p>A small task: change the slogan to "Look what I can do!"
-      </p>
-      
-      <p id="output">&nbsp;</p>
-      
-      <script>
-        document.documentElement.contentEditable = true
-          document.body.spellcheck = false
-        setTimeout(() => {
-          document.getElementById('challenge_form').contentEditable = false
-          check()
-        }, 100)
-        
-        function check() {
-          const lead = document.querySelector('p[class="lead"]')
-          if (lead) {
-            if (lead.textContent.trim().toLowerCase() === 'look what i can do!') {
-              document.getElementById('output').innerHTML = 'The answer is ' + atob('${Buffer.from(
-                secrets('chal_86')
-              ).toString('base64')}') + '.'
-              return // don't run check anymore
-            }
-          }
-          setTimeout(check, 500)
-        }
-      </script>
-    `,
+        en: story(
+          'Josh',
+          `
+          <p>I used to travel the world in my dreams as an agent, fighting evil villains. But then you grow up and just stop doing it. That's a real shame.</p>
+
+          <p>"Agent Possible, it is now in your hands to save humanity. In this secret message you will find the deactivation code for the bomb. We are counting on your success!"</p>
+
+          <script>
+            window.USERNAME = "${req.user?.name}"
+          </script>
+
+          ${content}
+
+          <p>The deactivation code is your answer.</p>
+          `
+        ),
       }
     },
     solution: secrets('chal_86'),

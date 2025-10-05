@@ -3574,9 +3574,9 @@ To: ${req.user?.name}@arrrg.de</pre>
         de: story(
           'Josh',
           `
-          <p>Früher bin ich in meinen Tagträumen oft als Agenten um die Welt gereist und haben die Menschheit vor bösen Schurken gerettet. Doch dann wird man erwachsen und hört einfach auf damit. Das ist doch voll schade.</p>
+          <p>Früher bin ich in meinen Träumen oft als Agent um die Welt gereist und haben gegen böse Schurken gekämpft. Doch dann wird man erwachsen und hört einfach auf damit. Das ist doch voll schade.</p>
 
-          <p>"Agent Possible, es obliegt nun in Ihrer Hand, die Welt die retten. In dieser geheimen Nachricht finden die den Deaktivierungs-Code für die Bombe. Wir wünschen Ihnen viel Erfolg auf Ihrer Mission!"</p>
+          <p>"Agent Possible, es obliegt nun in Ihrer Hand, die Welt die retten. In dieser geheimen Nachricht finden die den Deaktivierungs-Code für die Bombe. Wir verlassen uns auf Ihren Erfolg!"</p>
 
           <script>window.USERNAME = "${req.user?.name}"</script>
 

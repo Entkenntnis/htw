@@ -14,3 +14,4 @@ src/**/*.ejs
 !src/server/views/pages/wwwm.ejs
 !src/server/views/pages/music.ejs
 !src/content/views/cheater.ejs
+!src/content/views/booyah.ejs

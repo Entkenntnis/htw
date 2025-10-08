@@ -2388,7 +2388,7 @@ export const part1 = [
               <a href="/challenge/23" target="_blank">23</a> &nbsp; 
             </p>
             
-            <p>Die Anfangsbuchstaben der verlinkten Aufgaben ergeben den Pin.
+            <p>Hier sind fünf Aufgaben über ihre ID verlinkt. Die Anfangsbuchstaben der verlinkten Aufgaben ergeben den Pin.
             </p>
 
             <p>Hochachtungsvoll<br>Josh</p>

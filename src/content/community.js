@@ -2033,6 +2033,25 @@ END</pre>`,
     solution: secrets('chal_343'),
   },
 
+  {
+    id: 344,
+    pos: { x: 2200, y: 105 },
+    title: { de: 'Discord IV', en: 'Discord IV' },
+    date: '2025-10-10',
+    deps: [335],
+    noScore: true,
+    author: 'Simonselles',
+    html: {
+      de: `
+        <p>Emoji IDs verstehst du ... Die Antwort auf diese Aufgabe ist die ID der ersten menschlichen Textnachricht auf unserem Server.</p>
+      `,
+      en: `
+        <p>You understand emoji ids... The answer to this task is the id of the first human text message on our server.</p>
+      `,
+    },
+    solution: secrets('chal_344'),
+  },
+
   /*{
     id: 339,
     pos: { x: 1530, y: 705 },

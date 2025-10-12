@@ -1589,6 +1589,7 @@ RS#1</pre>
     date: '2024-01-05',
     deps: [300],
     noScore: true,
+    mapHTML: `<div style="position: absolute; top: 690px; left: 2020px; text-align: center;">🎃 Halloween Daily Challenge 🎃<br>25.10 - 31.10 • 18 Uhr</div>`,
     author: 'User0',
     html: {
       de: `

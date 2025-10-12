@@ -1925,7 +1925,7 @@ END</pre>`,
 
   {
     id: 341,
-    pos: { x: 1945, y: 845 },
+    pos: { x: 1815, y: 845 },
     title: { de: 'Klangraum', en: 'Sound Space' },
     date: '2025-09-09',
     deps: [300],

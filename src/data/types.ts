@@ -80,6 +80,7 @@ export interface HtwChallenge {
   date?: string
   noScore?: boolean
   hideLink?: boolean
+  mapHTML?: string
   author?: string
   showAfterSolve?: boolean
   showAboveScore?: number

@@ -157,6 +157,8 @@ export function setupChallenges(App) {
      */
     const points = []
 
+    let challengeMapHTML = ''
+
     App.challenges.data.map((challenge) => {
       const isSolved = solved.includes(challenge.id)
       const point = {
@@ -183,6 +185,9 @@ export function setupChallenges(App) {
               )
             }
           })
+        }
+        if (challenge.mapHTML) {
+          challengeMapHTML += challenge.mapHTML
         }
       }
     })
@@ -216,7 +221,8 @@ export function setupChallenges(App) {
     const custom = App.config.map.customMapHtml
 
     const customMapHtml =
-      typeof custom === 'function' ? custom({ App, req }) : custom
+      (typeof custom === 'function' ? custom({ App, req }) : custom) +
+      challengeMapHTML
 
     renderPage(App, req, res, {
       page: 'map',

@@ -88,7 +88,7 @@ export const communityChallenges = [
         
         <h3 style="margin-top:96px;margin-bottom:24px;">Aktivität im Community-Bereich
         </h3>
-        <p style="color: gray;">Es gibt aktuell ${communityChals.length} Aufgaben im Community-Bereich.</p>
+        <p style="color: gray;">Es gibt aktuell <strong>${communityChals.length}</strong> Aufgaben im Community-Bereich. In den letzten 30 Tagen waren <strong>${usersList.length}</strong> SpielerInnen aktiv.</p>
         
         <table class="table table-hover" id="highscore-table">
           <thead>
@@ -105,7 +105,7 @@ export const communityChallenges = [
                 return `
               <tr >
                 <td>${userNameIndex[entry.userId]}</td>
-                <td>${entry.solved} Aufgaben</td>
+                <td>${entry.solved == 1 ? '1 Aufgabe' : `${entry.solved} Aufgaben`}</td>
                 <td style="padding-bottom: 6px;">
                   ${lastActive.locale('de').fromNow()}<br>
                   <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.de}</strong> ${entry.lastChalId == 300 ? 'freigeschaltet' : 'gelöst'}</small>
@@ -118,47 +118,50 @@ export const communityChallenges = [
         </table>
       `
         : `
-          <p>Welcome to the Community Area! Here you'll find a collection of varied challenges, created and inspired by players like you.</p>
-                  
-          <p>Anyone can participate. The best way to reach us is on our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>. Post your idea in #general-en vor #vorschläge.</p>
-                  
-          <!-- psst - hey - try /challenge/1337 -->
-                  
-          <p>Your progress in the Community section is independent of points. You won't receive points for solved challenges; instead, your progress will be shown in the highscore below the challenge.
-          </p>
+        <p>Welcome to the Community Area! Here you'll find a collection of varied challenges, created and inspired by players like you.</p>
+
+        <p>Anyone can participate. The best way to reach us is on our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> where you can post your ideas in #vorschläge. Your progress in the Community Area is independent of the main scoreboard. You won't receive points for solved challenges, but you can see who is currently active here.</p>
+
+        <!-- psst - hey - try /challenge/1337 -->
+
         ${
           userIds.includes(req.user ? req.user.id : -1)
             ? ''
-            : `<p>Ready to start? Then go ahead!
+            : `<p>Ready to start? Then let's go!
         </p>
-
-        <form method="post"><input type="hidden" name="answer" value="300">
-          <button class="btn btn-primary">Unlock Community Area</button>
+        
+        <form method="post"><input type="hidden" name="answer" value="htw4ever">
+          <button class="btn btn-interaction">Unlock Community Area</button>
         </form>`
         }
         
-        <h3 style="margin-top:96px;margin-bottom:24px;">Highscore for the community area
+        <h3 style="margin-top:96px;margin-bottom:24px;">Activity in the Community Area
         </h3>
+        <p style="color: gray;">There are currently ${communityChals.length} challenges in the Community Area. ${usersList.length} players were active in the last 30 days.</p>
         
-        <table class="table table-hover">
+        <table class="table table-hover" id="highscore-table">
           <thead>
             <tr>
               <th scope="col">Username</th>
-              <th scope="col">Solved challenges</th>
+              <th scope="col">Total solved</th>
               <th scope="col">Last active</th>
             </tr>
           </thead>
           <tbody>
             ${usersList
-              .map(
-                (entry) => `
-              <tr>
+              .map((entry) => {
+                const lastActive = App.moment(entry.lastActive)
+                return `
+              <tr >
                 <td>${userNameIndex[entry.userId]}</td>
-                <td>${entry.solved}</td>
-                <td>${App.moment(entry.lastActive).locale('en').fromNow()}</td>
+                <td>${entry.solved == 1 ? '1 challenge' : `${entry.solved} challenges`}</td>
+                <td style="padding-bottom: 6px;">
+                  ${lastActive.locale('en').fromNow()}<br>
+                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.en}</strong> ${entry.lastChalId == 300 ? 'unlocked' : 'solved'}</small>
+                </td>
               </tr>
             `
-              )
+              })
               .join('')}
           </tbody>
         </table>

@@ -29,31 +29,32 @@ export const communityChallenges = [
         const ts = App.moment(new Date(obj.createdAt).getTime()).valueOf()
         if (ts > entry.lastActive) {
           entry.lastActive = ts
+          entry.lastChalId = obj.cid
         }
         return res
-      }, /** @type {{[key: number]: {solved: number, lastActive: number}}} */ ({}))
+      }, /** @type {{[key: number]: {solved: number, lastActive: number, lastChalId: number}}} */ ({}))
 
       /**
        * @type {number[]}
        */
       const userIds = []
 
-      const usersList = Object.entries(users).map((entry) => {
-        userIds.push(parseInt(entry[0]))
-        return {
-          userId: parseInt(entry[0]),
-          solved: entry[1].solved,
-          lastActive: entry[1].lastActive,
-          rank: -1,
-        }
-      })
+      const oneMonthAgo = App.moment().subtract(30, 'days').valueOf()
+
+      const usersList = Object.entries(users)
+        .map((entry) => {
+          userIds.push(parseInt(entry[0]))
+          return {
+            userId: parseInt(entry[0]),
+            solved: entry[1].solved,
+            lastActive: entry[1].lastActive,
+            lastChalId: entry[1].lastChalId,
+          }
+        })
+        .filter((user) => user.lastActive >= oneMonthAgo)
 
       usersList.sort((a, b) => {
-        if (a.solved === b.solved) {
-          return a.lastActive - b.lastActive
-        } else {
-          return b.solved - a.solved
-        }
+        return b.lastActive - a.lastActive // Sort by last active time, newest first
       })
 
       const userNames = await App.db.models.User.findAll({
@@ -66,29 +67,13 @@ export const communityChallenges = [
         return res
       }, /** @type {{[key: number]: string}} */ ({}))
 
-      let rank = 1
-
-      for (let i = 0; i < usersList.length; i++) {
-        if (i === 0) {
-          usersList[i].rank = rank
-        } else {
-          if (usersList[i].solved !== usersList[i - 1].solved) {
-            rank = i + 1
-          }
-          usersList[i].rank = rank
-        }
-      }
-
       return req.lng.startsWith('de')
         ? `
         <p>Herzlich willkommen im Community-Bereich! Hier findest du eine Sammlung bunter Aufgaben, erstellt und inspiriert von SpielerInnen wie Du.</p>
         
-        <p>Jeder darf mitmachen. Am besten erreichst du uns über den <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> und schreibe deine Idee in #vorschläge.</p>
+        <p>Jeder darf mitmachen. Am besten erreichst du uns über den <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> und schreibst deine Idee in #vorschläge. Dein Fortschritt im Community-Bereich ist unabhängig von den Punkten. Du erhältst keine Punkte für gelöste Aufgaben, dafür siehst du hier, wer gerade aktiv ist.</p>
         
         <!-- psst - hey - probiere mal /challenge/1337 -->
-        
-        <p>Dein Fortschritt im Community-Bereich ist unabhängig von den Punkten. Du erhältst keine Punkte für gelöste Aufgaben, dafür wird dein Fortschritt in der Highscore hier unter der Aufgabe angezeigt.
-        </p>
         
         ${
           userIds.includes(req.user ? req.user.id : -1)
@@ -101,19 +86,15 @@ export const communityChallenges = [
         </form>`
         }
         
-        <h3 style="margin-top:96px;margin-bottom:24px;">Highscore für den Community-Bereich
+        <h3 style="margin-top:96px;margin-bottom:24px;">Aktivität im Community-Bereich
         </h3>
-        
-        <p style="text-align:right;"><label><input type="checkbox" onclick="handleClick(this)"> zeige nur aktiv in letzten 24 Stunden</label></p>
+        <p style="color: gray;">Es gibt aktuell ${communityChals.length} Aufgaben im Community-Bereich.</p>
         
         <table class="table table-hover" id="highscore-table">
           <thead>
             <tr>
-              
-                <th scope="col">Platz</th>
-              
               <th scope="col">Benutzername</th>
-              <th scope="col">gelöste Aufgaben</th>
+              <th scope="col">insgesamt gelöst</th>
               <th scope="col">zuletzt aktiv</th>
             </tr>
           </thead>
@@ -121,38 +102,20 @@ export const communityChallenges = [
             ${usersList
               .map((entry) => {
                 const lastActive = App.moment(entry.lastActive)
-                const days =
-                  (new Date().getTime() - lastActive.valueOf()) /
-                  (1000 * 60 * 60 * 24)
                 return `
-              <tr class="${days > 1 ? 'old' : ''}">
-                <td>${entry.rank}</td>
+              <tr >
                 <td>${userNameIndex[entry.userId]}</td>
-                <td>${entry.solved}</td>
-                <td>${lastActive.locale('de').fromNow()}</td>
+                <td>${entry.solved} Aufgaben</td>
+                <td style="padding-bottom: 6px;">
+                  ${lastActive.locale('de').fromNow()}<br>
+                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.de}</strong> ${entry.lastChalId == 300 ? 'freigeschaltet' : 'gelöst'}</small>
+                </td>
               </tr>
             `
               })
               .join('')}
           </tbody>
         </table>
-        
-        <script>
-          function handleClick(e) {
-            const table = document.getElementById('highscore-table')
-            if (e.checked) {
-              table.classList.add('hide-old')
-            } else {
-              table.classList.remove('hide-old')
-            }
-          }
-        </script>
-        
-        <style>
-          table.hide-old .old {
-            display: none;
-          }
-        </style>
       `
         : `
           <p>Welcome to the Community Area! Here you'll find a collection of varied challenges, created and inspired by players like you.</p>
@@ -180,9 +143,6 @@ export const communityChallenges = [
         <table class="table table-hover">
           <thead>
             <tr>
-              
-                <th scope="col">Place</th>
-              
               <th scope="col">Username</th>
               <th scope="col">Solved challenges</th>
               <th scope="col">Last active</th>
@@ -193,7 +153,6 @@ export const communityChallenges = [
               .map(
                 (entry) => `
               <tr>
-                <td>${entry.rank}</td>
                 <td>${userNameIndex[entry.userId]}</td>
                 <td>${entry.solved}</td>
                 <td>${App.moment(entry.lastActive).locale('en').fromNow()}</td>

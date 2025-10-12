@@ -154,7 +154,8 @@
     "created": "created",
     "locked": "You have not unlocked this challenge yet.",
     "by": "by",
-    "ratelimit": "Hey {{name}}, you have requested more than {{requests}} pages within {{timespan}} minutes. Please wait {{waiting}} seconds before requesting pages again."
+    "ratelimit": "Hey {{name}}, you have requested more than {{requests}} pages within {{timespan}} minutes. Please wait {{waiting}} seconds before requesting pages again.",
+    "history": "History"
   },
   "roomscore": {
     "title": "Highscore",

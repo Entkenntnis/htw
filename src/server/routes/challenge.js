@@ -135,9 +135,16 @@ export function setupChallenges(App) {
     const score = req.user.score
     if (App.config.editors.includes(name)) {
       App.challenges.data.map((c) => {
-        if (c.showAfterSolve && App.config.noSelfAdmin.includes(name)) {
-          // hidden challenges not visible for demo accounts
-          return
+        if (App.config.noSelfAdmin.includes(name)) {
+          if (c.showAfterSolve) {
+            // hidden challenges not visible for demo accounts
+            return
+          }
+
+          if (c.releaseTs && Date.now() < c.releaseTs) {
+            // unreleased challenges not visible for demo accounts
+            return
+          }
         }
 
         solved.push(c.id)
@@ -171,7 +178,8 @@ export function setupChallenges(App) {
       const visible =
         isSolved ||
         (challenge.deps.some((c) => solved.includes(c)) &&
-          !challenge.showAfterSolve) ||
+          !challenge.showAfterSolve &&
+          (!challenge.releaseTs || challenge.releaseTs <= Date.now())) ||
         challenge.deps.length === 0 ||
         (challenge.showAboveScore && score > challenge.showAboveScore)
       if (visible) {
@@ -299,6 +307,15 @@ export function setupChallenges(App) {
     }
 
     const challenge = App.challenges.data.filter((c) => c.id === id)[0]
+
+    if (
+      challenge.releaseTs &&
+      Date.now() < challenge.releaseTs &&
+      (!isEditor || App.config.noSelfAdmin.includes(req.user.name))
+    ) {
+      res.redirect('/map')
+      return
+    }
 
     const solvedDb = await App.db.models.Solution.findAll({
       where: { UserId: req.user.id },

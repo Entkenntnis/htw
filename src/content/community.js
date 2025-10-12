@@ -13,7 +13,10 @@ export const communityChallenges = [
     hideLink: true,
     render: async ({ App, req }) => {
       const communityChals = App.challenges.data.filter(
-        (chal) => chal.noScore && chal.id >= 300
+        (chal) =>
+          chal.noScore &&
+          chal.id >= 300 &&
+          (!chal.releaseTs || chal.releaseTs < Date.now())
       )
       const ids = communityChals.map((chal) => chal.id)
 
@@ -1417,7 +1420,10 @@ The compression program bzip2 uses such a method, which this text was prepared f
     hideLink: true,
     render: async ({ App, req }) => {
       const communityArea1Challenges = App.challenges.data
-        .filter((c) => c.deps.includes(300))
+        .filter(
+          (c) =>
+            c.deps.includes(300) && (!c.releaseTs || c.releaseTs < Date.now())
+        )
         .map((c) => c.id)
 
       const solvedDb = await App.db.models.Solution.findAll({
@@ -1996,7 +2002,7 @@ END</pre>`,
 
   {
     id: 344,
-    pos: { x: 2200, y: 105 },
+    pos: { x: 2080, y: 90 },
     title: { de: 'Discord IV', en: 'Discord IV' },
     date: '2025-10-10',
     deps: [335],
@@ -2011,6 +2017,29 @@ END</pre>`,
       `,
     },
     solution: secrets('chal_344'),
+  },
+
+  {
+    id: 345,
+    pos: { x: 2200, y: 105 },
+    title: { de: 'Discord V', en: 'Discord V' },
+    date: '2025-10-13',
+    deps: [335],
+    releaseTs: new Date(
+      'Sat Oct 12 2025 23:55:00 GMT+0200 (Mitteleuropäische Sommerzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'CARLO',
+    html: {
+      de: `
+        <p>Eine Person auf dem Server liebt das Wort "damn" und verwendet es mehr als alle anderen - wie oft hat diese Person das Wort bis zur Veröffentlichung (2025-10-13) dieser Aufgabe auf dem Server verwendet?</p>
+       
+      `,
+      en: `
+        <p>A person on the server loves the word "damn" and uses it more than everyone else - how many times has this person used the word on the server up until the release of this challenge (2025-10-13)?</p>
+      `,
+    },
+    solution: secrets('chal_345'),
   },
 
   /*{

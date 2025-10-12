@@ -87,7 +87,7 @@ export const appConfig = {
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
     ${
       showWorms
-        ? '<a href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img src="/worms.png" style="width:46px"></a><a href="/music" target="_blank" style="position:absolute;left:1790px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>'
+        ? '<a href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img src="/worms.png" style="width:46px"></a><a href="/music" target="_blank" style="position:absolute;left:1760px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>'
         : ''
     }
      ${
@@ -100,7 +100,7 @@ export const appConfig = {
      ${
        showPleaseFixMeAndMortalCoil
          ? '<a href="/mortal-coil" style="position:absolute;left:2250px;top:500px;" class="text-reset text-decoration-none fade-in"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
-           '<a href="/please-fix-me" style="position:absolute;left:1820px;top:995px;" class="text-reset text-decoration-none fade-in"><div>Please Fix Me!</div><img src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;"></a>'
+           '<a href="/please-fix-me" style="position:absolute;left:1950px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Please Fix Me!</div><img src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;"></a>'
          : ''
      }${
        showStatsLinks

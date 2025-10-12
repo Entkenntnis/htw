@@ -79,6 +79,7 @@ export interface HtwChallenge {
   deps: number[]
   date?: string
   noScore?: boolean
+  hideLink?: boolean
   author?: string
   showAfterSolve?: boolean
   showAboveScore?: number

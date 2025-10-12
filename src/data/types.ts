@@ -84,6 +84,7 @@ export interface HtwChallenge {
   author?: string
   showAfterSolve?: boolean
   showAboveScore?: number
+  releaseTs?: number
   html?: { de: string; en: string }
   render?: (context: {
     App: App

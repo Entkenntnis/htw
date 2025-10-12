@@ -197,10 +197,14 @@ export function setupHtw(App) {
 
   App.express.get('/api/map', async (req, res) => {
     res.json(
-      Object.keys(App.challenges.distance).filter(
-        (x) =>
-          x != secrets('secret_chal_1_id') && x != secrets('secret_chal_2_id')
-      )
+      App.challenges.data
+        .filter(
+          (x) =>
+            x.id != parseInt(secrets('secret_chal_1_id')) &&
+            x.id != parseInt(secrets('secret_chal_2_id')) &&
+            (!x.releaseTs || x.releaseTs <= Date.now())
+        )
+        .map((x) => x.id.toString())
     )
   })
 
@@ -253,7 +257,9 @@ export function setupHtw(App) {
 
     const maxScore = await App.db.models.User.max('score')
 
-    const cids = App.challenges.data.filter((c) => !c.noScore).map((c) => c.id)
+    const cids = App.challenges.data
+      .filter((c) => !c.noScore && (!c.releaseTs || c.releaseTs <= Date.now()))
+      .map((c) => c.id)
     const solved = await App.db.models.Solution.count({
       where: { UserId: user.id, cid: cids },
     })

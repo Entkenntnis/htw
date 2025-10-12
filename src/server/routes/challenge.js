@@ -849,11 +849,14 @@ export function setupChallenges(App) {
       where: { cid: id },
       include: [{ model: App.db.models.User, attributes: ['name'] }],
       order: [['createdAt', 'DESC']],
+      limit: 1001,
     })
+
+    const overLimit = solvedDb.length > 1000
 
     let content = ''
 
-    solvedDb.forEach((s) => {
+    solvedDb.slice(0, 1000).forEach((s) => {
       content += `<p>${escapeHTML(/** @type {any} */ (s).User.name)} <span style="color:gray">• ${App.moment(
         s.createdAt
       )
@@ -861,6 +864,10 @@ export function setupChallenges(App) {
         .fromNow()}</span></p>\n`
       //
     })
+
+    if (overLimit) {
+      content += `<p style="color:gray;">... ... ...</p>\n`
+    }
 
     renderPage(App, req, res, {
       page: 'solvers',

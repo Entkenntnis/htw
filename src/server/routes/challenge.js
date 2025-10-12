@@ -161,7 +161,7 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; isSolved: boolean; }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; isSolved: boolean; unreleased: boolean }[]}
      */
     const points = []
 
@@ -174,6 +174,7 @@ export function setupChallenges(App) {
         pos: challenge.pos,
         title: challenge.title[req.lng] || challenge.title,
         isSolved,
+        unreleased: challenge.releaseTs && Date.now() < challenge.releaseTs,
       }
       const visible =
         isSolved ||
@@ -209,9 +210,11 @@ export function setupChallenges(App) {
         }" class="no-underline"><g><circle r="9" cx="${point.pos.x}" cy="${
           point.pos.y
         }" fill="${
-          point.isSolved
-            ? App.config.styles.pointColor_solved
-            : App.config.styles.pointColor
+          point.unreleased
+            ? 'pink'
+            : point.isSolved
+              ? App.config.styles.pointColor_solved
+              : App.config.styles.pointColor
         }"></circle><circle r="16" cx="${point.pos.x}" cy="${
           point.pos.y
         }" fill="transparent"></circle><text font-family="inherit" fill="${

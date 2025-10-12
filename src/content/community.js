@@ -2183,7 +2183,7 @@ END</pre>`,
   {
     id: 352,
     pos: { x: 2510, y: 1215 },
-    title: { de: 'Das große Gruseln 🧟‍♀️', en: 'The Great Spookening 🧟‍♀️' },
+    title: { de: 'Halloween', en: 'Halloween' },
     date: '2025-10-31',
     deps: [351],
     releaseTs: new Date(
@@ -2191,14 +2191,82 @@ END</pre>`,
     ).getTime(),
     noScore: true,
     author: 'Anna',
-    html: {
-      de: `
-        <p>TODO</p>
-       
+    render: () => {
+      const script = `
+        <style>
+          #scare-div { 
+              display: none; 
+              position: fixed; 
+              top: 0; left: 0; 
+              width: 100vw; 
+              height: 100vh; 
+              z-index: 9999; 
+              background: black; 
+              pointer-events: none;
+          }
+          #scare-div.active { 
+              display: flex; 
+              justify-content: center; 
+              align-items: center; 
+          }
+          #scare-div img { 
+              max-width: 100%; 
+              max-height: 100%; 
+          }
+          #scare-div.active img { 
+              animation: f 0.1s linear infinite; 
+          }
+          @keyframes f { 
+              50% { opacity: 0.2; transform: scale(1.1); } 
+          }
+        </style>
+
+        <!-- The HTML elements -->
+        
+        <p><img src="/chals/hw25_7.jpg" id="trigger-div"></p> 
+        <div id="scare-div">
+            <img src="/chals/horror-5233620_960_720.jpg">
+        </div>
+
+        <!-- The JavaScript logic -->
+        <script>
+            const trigger = document.getElementById('trigger-div');
+            const scare = document.getElementById('scare-div');
+            let isScaring = false;
+             
+
+            if (!confirm("EPILEPSIE WARNUNG: Wenn du empfindlich auf plötzliche, helle Bilder reagierst, solltest du diese Aufgabe nicht machen. Fortfahren?")) {
+                window.location.href = '/';
+            } else {
+              setTimeout(() => {
+                trigger.onmouseover = () => {
+                    if (isScaring) return;
+                    isScaring = true;
+                    scare.classList.add('active');
+                    setTimeout(() => {
+                        scare.classList.remove('active');
+                        isScaring = false;
+                    }, 750); // Jumpscare duration in milliseconds
+                };
+              }, 500); // Delay before enabling the jumpscare 
+            }
+        </script>
+      `
+      return {
+        de: `
+
+        <p>Es klingelt. Du erwartest heute Abend natürlich Gruppen an Kinder. Stattdessen ... liegt da ein abgehacktest Kinderbein, blutverschmiert mit zuckenden Zehen.</p>
+
+        <p>Richtig Panik bekommst du aber erst, als du die Nachricht entzifferst:</p>
+
+        ${script}
       `,
-      en: `
-        <p>TODO</p>
+        en: `
+        <p>The doorbell rings. You are, of course, expecting groups of children tonight. Instead... there lies a hacked-off child's leg, smeared with blood, its toes twitching.</p>
+        <p>But the real panic only sets in when you decipher the message:</p>
+        ${script}
       `,
+      }
     },
     solution: secrets('chal_352'),
   },

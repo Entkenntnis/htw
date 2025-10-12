@@ -8,8 +8,9 @@ export const communityChallenges = [
     pos: { x: 1750, y: 600 },
     title: { de: 'Community-Bereich', en: 'Community Area' },
     date: '2023-07-28',
-    deps: [57],
+    deps: [8, 17, 21, 52, 63, 77, 86, 337],
     noScore: true,
+    hideLink: true,
     render: async ({ App, req }) => {
       const communityChals = App.challenges.data.filter(
         (chal) => chal.noScore && chal.id >= 300
@@ -486,7 +487,7 @@ export const communityChallenges = [
 
   {
     id: 305,
-    pos: { x: 750, y: 2200 },
+    pos: { x: 1050, y: 2000 },
     title: { de: 'Rätselhafte Kodierung', en: 'Mysterious encoding' },
     author: 'darkstar',
     date: '2023-08-25',
@@ -1054,11 +1055,11 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 314,
-    pos: { x: 1860, y: 370 },
+    pos: { x: 1050, y: 1950 },
     title: { de: 'Tor', en: 'Tor' },
     date: '2023-10-01',
     author: 'virusrpi',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -1153,11 +1154,11 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 316,
-    pos: { x: 1830, y: 815 },
+    pos: { x: 750, y: 2250 },
     title: { de: 'OSINT', en: 'OSINT' },
     date: '2023-10-19',
     author: 'User0',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -1177,7 +1178,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 317,
-    pos: { x: 1810, y: 1035 },
+    pos: { x: 350, y: 2250 },
     title: { de: 'OSINT III', en: 'OSINT III' },
     date: '2023-10-19',
     author: 'User0',
@@ -1358,7 +1359,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 324,
-    pos: { x: 1790, y: 915 },
+    pos: { x: 550, y: 2250 },
     title: { de: 'OSINT II', en: 'OSINT II' },
     date: '2023-11-07',
     author: 'User0',
@@ -1453,8 +1454,9 @@ The compression program bzip2 uses such a method, which this text was prepared f
     pos: { x: 888, y: 2070 },
     title: { de: 'Community-Archiv', en: 'Community Archive' },
     date: '2023-12-06',
-    deps: [103],
+    deps: [300],
     noScore: true,
+    hideLink: true,
     render: async ({ App, req }) => {
       const communityArea1Challenges = App.challenges.data
         .filter((c) => c.deps.includes(300))
@@ -1520,11 +1522,11 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 330,
-    pos: { x: 1930, y: 750 },
+    pos: { x: 750, y: 2300 },
     title: { de: 'Fab Four', en: 'Fab Four' },
     date: '2023-12-06',
     author: 'Ingo',
-    deps: [300],
+    deps: [328],
     noScore: true,
     html: {
       de: `
@@ -1594,10 +1596,10 @@ RS#1</pre>
 
   {
     id: 331,
-    pos: { x: 2015, y: 705 },
+    pos: { x: 750, y: 2350 },
     title: { de: 'Zusammengesetzt', en: 'Assembled' },
     date: '2023-12-23',
-    deps: [300],
+    deps: [328],
     author: 'LakyLuc',
     noScore: true,
     html: {
@@ -1870,10 +1872,10 @@ RS#1</pre>
 
   {
     id: 339,
-    pos: { x: 1720, y: 345 },
+    pos: { x: 750, y: 2200 },
     title: { de: 'Mr. Plow', en: 'Mr. Plow' },
     date: '2024-04-30',
-    deps: [300],
+    deps: [328],
     noScore: true,
     author: 'spaceinvader',
     html: {

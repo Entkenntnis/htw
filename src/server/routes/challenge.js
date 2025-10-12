@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import { renderPage } from '../../helper/render-page.js'
 import { hintsData, withComlink } from './hints.js'
 import { generateWeChallToken } from '../../helper/helper.js'
+import escapeHTML from 'escape-html'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -826,5 +827,49 @@ export function setupChallenges(App) {
       }
     }
     res.redirect('/changepw')
+  })
+
+  App.express.get('/solvers/:id', checkSession, async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
+    const id = parseInt(req.params.id)
+    if (!App.challenges.dataMap[id]) {
+      res.redirect('/map')
+      return
+    }
+
+    App.event.create('solvers_' + id, req.user.id)
+
+    const solvedDb = await App.db.models.Solution.findAll({
+      where: { cid: id },
+      include: [{ model: App.db.models.User, attributes: ['name'] }],
+      order: [['createdAt', 'DESC']],
+    })
+
+    let content = ''
+
+    solvedDb.forEach((s) => {
+      content += `<p>${escapeHTML(/** @type {any} */ (s).User.name)} <span style="color:gray">• ${App.moment(
+        s.createdAt
+      )
+        .locale(req.lng)
+        .fromNow()}</span></p>\n`
+      //
+    })
+
+    renderPage(App, req, res, {
+      page: 'solvers',
+      content,
+      heading:
+        App.challenges.dataMap[id].title[req.lng] +
+        ' - ' +
+        (req.lng == 'de' ? 'Verlauf' : 'History'),
+      backHref: App.config.urlPrefix + '/challenge/' + id,
+    })
   })
 }

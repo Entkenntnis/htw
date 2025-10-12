@@ -322,6 +322,12 @@ export function setupUser(App) {
       if (success || masterSuccess) {
         req.session.userId = user.id
         App.event.create(user.name == 'demo' ? 'login_demo' : 'login', user.id)
+        if (req.session.continuationUrl) {
+          const url = req.session.continuationUrl
+          delete req.session.continuationUrl
+          res.redirect(url)
+          return
+        }
         res.redirect('/map')
         return
       }

@@ -252,6 +252,7 @@ export function setupChallenges(App) {
     // start guard
     if (!req.user || !req.session.userId) {
       delete req.session.userId
+      req.session.continuationUrl = req.originalUrl
       return res.redirect('/')
     }
     // end guard
@@ -564,6 +565,15 @@ export function setupChallenges(App) {
     })
   })
 
+  App.express.get('/profile', (req, res, next) => {
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      req.session.continuationUrl = req.originalUrl
+      return res.redirect('/')
+    }
+    next()
+  })
+
   App.express.get('/profile', checkSession, async (req, res) => {
     // start guard
     if (!req.user || !req.session.userId) {
@@ -571,6 +581,7 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+
     App.event.create('profile', req.user.id)
 
     let room

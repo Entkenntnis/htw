@@ -81,11 +81,9 @@ export const communityChallenges = [
 
       return req.lng.startsWith('de')
         ? `
-        <p>Herzlich willkommen im Community-Bereich! Wir sind mittlerweile viele Leute auf Hack The Web und haben auch einige kreative Köpfe hier mit guten Ideen für neue Aufgaben. Daher gibt es hier regelmäßig neue Inhalte - von Euch für Euch.
-        </p>
+        <p>Herzlich willkommen im Community-Bereich! Hier findest du eine Sammlung bunter Aufgaben, erstellt und inspiriert von SpielerInnen wie Du.</p>
         
-        <p>Jeder darf mitmachen. Je mehr Ideen wir haben, umso bunter wird es. Die Aufgaben dürfen leicht sein oder sau schwer, witzig oder ernsthaft. Das ist dir überlassen. Falls du eine Idee hast, trete dem <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> bei und schreibe mir eine Nachricht.
-        </p>
+        <p>Jeder darf mitmachen. Am besten erreichst du uns über den <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> und schreibe deine Idee in #vorschläge.</p>
         
         <!-- psst - hey - probiere mal /challenge/1337 -->
         
@@ -98,8 +96,8 @@ export const communityChallenges = [
             : `<p>Startbereit? Dann nichts wie los!
         </p>
         
-        <form method="post"><input type="hidden" name="answer" value="300">
-          <button class="btn btn-primary">Community-Bereich freischalten</button>
+        <form method="post"><input type="hidden" name="answer" value="htw4ever">
+          <button class="btn btn-interaction">Community-Bereich freischalten</button>
         </form>`
         }
         
@@ -157,16 +155,14 @@ export const communityChallenges = [
         </style>
       `
         : `
-        <p>Welcome to the community area! There are now a lot of people on Hack The Web, and we also have some creative minds here with good ideas for new tasks. That's why there is new content here regularly — from you for you.
-        </p>
-        
-        <p>Everyone can take part. The more ideas we have, the more colorful it becomes. The tasks can be easy or extremely difficult, funny or serious. That's up to you. If you have an idea, join the <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> and write me a message.
-        </p>
-        
-        <!-- psst - hey - try /challenge/1337 -->
-        
-        <p>Your progress in the community area is independent of your score. You do not receive points for solving tasks; instead, your progress is displayed in the highscore below the task.</p>
-
+          <p>Welcome to the Community Area! Here you'll find a collection of varied challenges, created and inspired by players like you.</p>
+                  
+          <p>Anyone can participate. The best way to reach us is on our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>. Post your idea in #general-en vor #vorschläge.</p>
+                  
+          <!-- psst - hey - try /challenge/1337 -->
+                  
+          <p>Your progress in the Community section is independent of points. You won't receive points for solved challenges; instead, your progress will be shown in the highscore below the challenge.
+          </p>
         ${
           userIds.includes(req.user ? req.user.id : -1)
             ? ''
@@ -209,7 +205,7 @@ export const communityChallenges = [
         </table>
       `
     },
-    solution: '300',
+    solution: 'htw4ever',
     hidesubmit: true,
   },
 

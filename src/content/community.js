@@ -2042,6 +2042,167 @@ END</pre>`,
     solution: secrets('chal_345'),
   },
 
+  {
+    id: 346,
+    pos: { x: 2080, y: 815 },
+    title: { de: 'Tag 1 🍬', en: 'Day 1 🍬' },
+    date: '2025-10-25',
+    deps: [300],
+    releaseTs: new Date(
+      'Sat Oct 25 2025 18:00:00 GMT+0200 (Mitteleuropäische Sommerzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'Anna',
+    html: {
+      de: `
+        <p>TODO</p>
+       
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_346'),
+  },
+
+  {
+    id: 347,
+    pos: { x: 2300, y: 865 },
+    title: { de: 'Tag 2 🕸️', en: 'Day 2 🕸️' },
+    date: '2025-10-26',
+    deps: [346],
+    releaseTs: new Date(
+      'Sun Oct 26 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'Anna',
+    html: {
+      de: `
+        <p>TODO</p>
+       
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_347'),
+  },
+
+  {
+    id: 348,
+    pos: { x: 2230, y: 985 },
+    title: { de: 'Tag 3 🫣', en: 'Day 3 🫣' },
+    date: '2025-10-27',
+    deps: [346],
+    releaseTs: new Date(
+      'Mon Oct 27 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'Anna',
+    html: {
+      de: `
+        <p>TODO</p>
+       
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_348'),
+  },
+
+  {
+    id: 349,
+    pos: { x: 2490, y: 815 },
+    title: { de: 'Tag 4 🪦', en: 'Day 4 🪦' },
+    date: '2025-10-28',
+    deps: [347],
+    releaseTs: new Date(
+      'Tue Oct 28 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'Anna',
+    html: {
+      de: `
+        <p>TODO</p>
+       
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_349'),
+  },
+
+  {
+    id: 350,
+    pos: { x: 2280, y: 1135 },
+    title: { de: 'Tag 5 ☠️', en: 'Day 5 ☠️' },
+    date: '2025-10-29',
+    deps: [348],
+    releaseTs: new Date(
+      'Wed Oct 29 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'Anna',
+    html: {
+      de: `
+        <p>TODO</p>
+       
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_350'),
+  },
+
+  {
+    id: 351,
+    pos: { x: 2430, y: 1035 },
+    title: { de: 'Tag 6 ⚰️', en: 'Day 6 ⚰️' },
+    date: '2025-10-30',
+    deps: [347, 348],
+    releaseTs: new Date(
+      'Thu Oct 30 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'Anna',
+    html: {
+      de: `
+        <p>TODO</p>
+       
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_351'),
+  },
+
+  {
+    id: 352,
+    pos: { x: 2510, y: 1215 },
+    title: { de: 'Das große Gruseln 🧟‍♀️', en: 'The Great Spookening 🧟‍♀️' },
+    date: '2025-10-31',
+    deps: [351],
+    releaseTs: new Date(
+      'Fri Oct 31 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
+    ).getTime(),
+    noScore: true,
+    author: 'Anna',
+    html: {
+      de: `
+        <p>TODO</p>
+       
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_352'),
+  },
+
   /*{
     id: 339,
     pos: { x: 1530, y: 705 },

@@ -174,7 +174,7 @@ export function setupChallenges(App) {
         pos: challenge.pos,
         title: challenge.title[req.lng] || challenge.title,
         isSolved,
-        unreleased: challenge.releaseTs && Date.now() < challenge.releaseTs,
+        unreleased: !!(challenge.releaseTs && Date.now() < challenge.releaseTs),
       }
       const visible =
         isSolved ||

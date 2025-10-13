@@ -2117,7 +2117,7 @@ END</pre>`,
   {
     id: 349,
     pos: { x: 2490, y: 815 },
-    title: { de: 'Tag 4 🪦', en: 'Day 4 🪦' },
+    title: { de: 'Tag 4 😱', en: 'Day 4 😱' },
     date: '2025-10-28',
     deps: [347],
     releaseTs: new Date(
@@ -2128,14 +2128,18 @@ END</pre>`,
     author: 'Anna',
     html: {
       de: `
-        <p>TODO</p>
+        <p>Ein Schrei schallt durch die Nacht. Was der Schrei wohl bedeutet?</p>
+      
+        <p>A̱ẢÁ AÂĀȀÅȂĀ ÂAA̧A̰ A̱ÁȂ A̱Ä ÃÄA̧A̰Ā, ĂAÄĀÁĀ ȦĂÄĀ. ĂÁA̧ẠÁȂÁÃ, A̮ȂẢÃA̧A̰ÁÃ ȦĂÄĀ. A̱ÁẢÂ ȦĂÄĀ. ȦĂÄĀ. ȦĂÄĀ. ȦĂÄĀ.</p>
        
       `,
       en: `
-        <p>TODO</p>
+        <p>A scream echoes through the night. What could that scream mean?</p>
+      
+        <p>ĀA̰Á AÂÃȀÁȂ A̦ÅÄ AȂÁ ĂÅÅẠẢÂA̋ A̮ÅȂ ẢÃ ȦĂÅÅA̱. A̱ÁĂẢA̧ẢÅÄÃ, A̮ȂÁÃA̰ ȦĂÅÅA̱. A̦ÅÄȂ ȦĂÅÅA̱. ȦĂÅÅA̱. ȦĂÅÅA̱. ȦĂÅÅA̱.</p>
       `,
     },
-    solution: secrets('chal_349'),
+    solution: secrets('chal_349').split(','),
   },
 
   {

@@ -2176,11 +2176,11 @@ END</pre>`,
     author: 'Anna',
     html: {
       de: `
-        <p>TODO</p>
+        <p style="overflow-wrap: break-word;">SW4gZGVyIGxldHp0ZW4gTmFjaHQgaGFzdCBkdSB2b24gU+RyZ2VuIGdldHLkdW10LCBhdWYgZWluZW0gZGF2b24gc3RhbmQgc29nYXIgZGVpbiBOYW1lLiBFaW4gV29ydCBnZWh0IGRpciBuaWNodCBhdXMgZGVtIFNpbm4uIEJlaW4uIEJlaW4uIEJlaW4uIEJFRUVFRUlJSUlJTiEhISEhISEgRHUgaGFzdCBrZWluZSBBaG51bmcsIHdhcyBlcyBiZWRldXRlbiBzb2xsLiBFcyBtYWNodCBkaXIgQW5nc3QuIERpZSBBbnR3b3J0IGxhdXRldCBCZWluLiBNb3JnZW4gaXN0IEhhbGxvd2Vlbi4gV2FzIHNvbGwgc2Nob24gcGFzc2llcmVuLCB3ZW5uIGR1IGVpbmZhY2ggWnVoYXVzZSBibGVpYnN0PyBLaW5kZXIgd2VyZGVuIGFuIGRlciBU/HIga2xpbmdlbiwgZHUgc2NoYXVzdCBkaXIgZWluZW4gRmlsbSBhbiAoa2VpbiBIb3Jyb3JmaWxtKSB1bmQgZGFubiBpc3QgZGVyIGdhbnplIFNwdWsgYW0gbuRjaHN0ZW4gVGFnIHZvcmJlaS4=</p>
        
       `,
       en: `
-        <p>TODO</p>
+        <p style="overflow-wrap: break-word;">TGFzdCBuaWdodCB5b3UgZHJlYW1lZCBvZiBjb2ZmaW5zOyBvbmUgb2YgdGhlbSBldmVuIGhhZCB5b3VyIG5hbWUgb24gaXQuIFlvdSBjYW4ndCBnZXQgb25lIHdvcmQgb3V0IG9mIHlvdXIgaGVhZC4gQmVpbi4gQmVpbi4gQmVpbi4gQkVFRUVFRUlJSUlJTiEhISEhISEgWW91IGhhdmUgbm8gaWRlYSB3aGF0IGl0J3Mgc3VwcG9zZWQgdG8gbWVhbi4gSXQgc2NhcmVzIHlvdS4gVGhlIGFuc3dlciBpcyBCZWluLiBUb21vcnJvdyBpcyBIYWxsb3dlZW4uIFdoYXQgY291bGQgcG9zc2libHkgaGFwcGVuIGlmIHlvdSBqdXN0IHN0YXkgaG9tZT8gS2lkcyB3aWxsIHJpbmcgdGhlIGRvb3JiZWxsLCB5b3UnbGwgd2F0Y2ggYSBtb3ZpZSAobm90IGEgaG9ycm9yIGZpbG0pLCBhbmQgdGhlbiB0aGUgd2hvbGUgc3Bvb2sgd2lsbCBiZSBvdmVyIHRoZSBuZXh0IGRheS4=</p>
       `,
     },
     solution: secrets('chal_351'),

@@ -155,7 +155,15 @@
     "locked": "Du hast diese Aufgabe noch nicht freigeschaltet.",
     "by": "von",
     "ratelimit": "Hey {{name}}, du hast innerhalb von {{timespan}} Minuten mehr als {{requests}} Seiten aufgerufen. Bitte warte {{waiting}} Sekunden, bis du weitere Seiten aufrufst.",
-    "history": "Verlauf"
+    "history": "Verlauf",
+    "feedback": {
+      "heading": "Super, du hast die Aufgabe erfolgreich gelöst! Wie fühlst du dich nach dem Lösen der Aufgabe?",
+      "fun": "hat Spaß gemacht",
+      "learn": "hab was gelernt",
+      "nice": "nett gemacht",
+      "ok": "naja, war ok",
+      "thanks": "Danke für das Feedback!"
+    }
   },
   "roomscore": {
     "title": "Highscore",

@@ -2052,6 +2052,7 @@ END</pre>`,
       'Sat Oct 25 2025 18:00:00 GMT+0200 (Mitteleuropäische Sommerzeit)'
     ).getTime(),
     noScore: true,
+    enableFeedback: true,
     author: 'Anna',
     html: {
       de: `
@@ -2075,6 +2076,7 @@ END</pre>`,
       'Sun Oct 26 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
+    enableFeedback: true,
     author: 'Anna',
     html: {
       de: `
@@ -2098,6 +2100,7 @@ END</pre>`,
       'Mon Oct 27 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
+    enableFeedback: true,
     author: 'Anna',
     html: {
       de: `
@@ -2121,6 +2124,7 @@ END</pre>`,
       'Tue Oct 28 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
+    enableFeedback: true,
     author: 'Anna',
     html: {
       de: `
@@ -2144,6 +2148,7 @@ END</pre>`,
       'Wed Oct 29 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
+    enableFeedback: true,
     author: 'Anna',
     html: {
       de: `
@@ -2167,6 +2172,7 @@ END</pre>`,
       'Thu Oct 30 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
+    enableFeedback: true,
     author: 'Anna',
     html: {
       de: `
@@ -2190,6 +2196,7 @@ END</pre>`,
       'Fri Oct 31 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
+    enableFeedback: true,
     author: 'Anna',
     render: () => {
       const script = `

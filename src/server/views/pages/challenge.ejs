@@ -36,7 +36,53 @@
 
   <% if (props.correct === true) { %>
     <%- props.afterSolveText %>
-    <p><a href="<%=prefix%>/map" id="continue-button"><%= t('continue') %></a></p>
+    <% if (props.challenge.enableFeedback) { %>
+      <div id="feedback-section" data-chal-id="<%= props.challenge.id %>">
+        <p style="margin-top: 24px;"><%= t('feedback.heading') %></p>
+        <ul class="feedback-list">
+          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" id="continue-button" class="feedback-link" data-key="fun"><%= t('feedback.fun') %></a></li>
+          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" class="feedback-link" data-key="learn"><%= t('feedback.learn') %></a></li>
+          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" class="feedback-link" data-key="nice"><%= t('feedback.nice') %></a></li>
+          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" class="feedback-link" data-key="ok"><%= t('feedback.ok') %></a></li>
+        </ul>
+      </div>
+      <script>
+        (function() {
+          var container = document.getElementById('feedback-section');
+          if (!container) return;
+          var links = container.querySelectorAll('a');
+          for (var i = 0; i < links.length; i++) {
+            links[i].addEventListener('click', function (e) {
+              e.preventDefault();
+              try {
+                var dataKey = this.getAttribute('data-key') || 'unknown';
+                var chalId = container.getAttribute('data-chal-id');
+                var eventKey = 'feedback_' + chalId + '_' + dataKey;
+                var url = '/api/event?key=' + encodeURIComponent(eventKey);
+                if (window.fetch) {
+                  fetch(url)
+                } else {
+                  // Fallback
+                  var img = new Image();
+                  img.src = url;
+                }
+              } catch (err) {
+                // ignore telemetry errors
+              }
+              var href = this.getAttribute('href');
+              setTimeout(function() {
+                alert("<%- t('feedback.thanks') %>")
+                if (href) {
+                  window.location.href = href;
+                }
+              }, 200);
+            });
+          }
+        })();
+      </script>
+    <% } else { %>
+      <p><a href="<%=prefix%>/map" id="continue-button"><%= t('continue') %></a></p>
+    <% } %>
   <% } else { %>
     <%- props.html %>
     <% if (!props.challenge.hidesubmit) { %>

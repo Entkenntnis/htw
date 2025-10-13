@@ -155,7 +155,15 @@
     "locked": "You have not unlocked this challenge yet.",
     "by": "by",
     "ratelimit": "Hey {{name}}, you have requested more than {{requests}} pages within {{timespan}} minutes. Please wait {{waiting}} seconds before requesting pages again.",
-    "history": "History"
+    "history": "History",
+    "feedback": {
+      "heading": "Great, you solved the challenge! How do you feel after solving it?",
+      "fun": "was fun",
+      "learn": "learned something",
+      "nice": "well made",
+      "ok": "meh, was ok",
+      "thanks": "Thanks for the feedback!"
+    }
   },
   "roomscore": {
     "title": "Highscore",

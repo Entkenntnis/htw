@@ -1463,7 +1463,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
           
           <form method="post"><input type="hidden" name="answer" value="${secrets(
             'chal_328'
-          )}"><button class="btn btn-primary btn-sm">Archiv freischalten</button></form>
+          )}"><button class="btn btn-interaction btn-sm">Archiv freischalten</button></form>
         `,
         en: `
           <p>Hello Friend! Your motivation is unstoppable. As a reward, you now have access to the community archive.</p>
@@ -1476,7 +1476,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
           <form method="post"><input type="hidden" name="answer" value="${secrets(
             'chal_328'
-          )}"><button class="btn btn-primary btn-sm">Unlock Archive</button></form>
+          )}"><button class="btn btn-interaction btn-sm">Unlock Archive</button></form>
         `,
       }
     },

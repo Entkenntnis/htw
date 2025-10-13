@@ -2347,6 +2347,7 @@ END</pre>`,
               position: relative;
               color: #b30000;
               font-weight: 800;
+              font-size: 32px;
               letter-spacing: 0.02em;
               text-shadow:
                 0 0 2px #4d0000,

@@ -111,7 +111,7 @@ export const communityChallenges = [
                 <td>${entry.solved == 1 ? '1 Aufgabe' : `${entry.solved} Aufgaben`}</td>
                 <td style="padding-bottom: 6px;">
                   ${lastActive.locale('de').fromNow()}<br>
-                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.de}</strong> ${entry.lastChalId == 300 ? 'freigeschaltet' : 'gelöst'}</small>
+                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.de}</strong> ${entry.lastChalId == 300 || entry.lastChalId == 328 ? 'freigeschaltet' : 'gelöst'}</small>
                 </td>
               </tr>
             `
@@ -160,7 +160,7 @@ export const communityChallenges = [
                 <td>${entry.solved == 1 ? '1 challenge' : `${entry.solved} challenges`}</td>
                 <td style="padding-bottom: 6px;">
                   ${lastActive.locale('en').fromNow()}<br>
-                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.en}</strong> ${entry.lastChalId == 300 ? 'unlocked' : 'solved'}</small>
+                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.en}</strong> ${entry.lastChalId == 300 || entry.lastChalId == 328 ? 'unlocked' : 'solved'}</small>
                 </td>
               </tr>
             `

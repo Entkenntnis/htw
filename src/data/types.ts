@@ -269,6 +269,7 @@ declare module 'express-session' {
     sso_sub?: string
     sso_linkExisting?: boolean
     continuationUrl?: string
+    goHereOnMap?: number
   }
 }
 

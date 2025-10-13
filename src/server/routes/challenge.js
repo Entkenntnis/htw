@@ -161,11 +161,14 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; isSolved: boolean; unreleased: boolean }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; isSolved: boolean; unreleased: boolean, goHere: boolean }[]}
      */
     const points = []
 
     let challengeMapHTML = ''
+
+    const goHere = req.session.goHereOnMap
+    delete req.session.goHereOnMap
 
     App.challenges.data.map((challenge) => {
       const isSolved = solved.includes(challenge.id)
@@ -175,6 +178,7 @@ export function setupChallenges(App) {
         title: challenge.title[req.lng] || challenge.title,
         isSolved,
         unreleased: !!(challenge.releaseTs && Date.now() < challenge.releaseTs),
+        goHere: goHere === challenge.id,
       }
       const visible =
         isSolved ||
@@ -215,7 +219,9 @@ export function setupChallenges(App) {
             : point.isSolved
               ? App.config.styles.pointColor_solved
               : App.config.styles.pointColor
-        }"></circle><circle r="16" cx="${point.pos.x}" cy="${
+        }"></circle><circle ${
+          point.goHere ? 'id="go-here-after-loading-map"' : ''
+        } r="16" cx="${point.pos.x}" cy="${
           point.pos.y
         }" fill="transparent"></circle><text font-family="inherit" fill="${
           App.config.styles.mapTextColor
@@ -397,6 +403,11 @@ export function setupChallenges(App) {
     } catch (e) {
       console.log(e)
       // something didn't work out, avoid server crashing
+    }
+
+    if (correct) {
+      // mini uncritical ux improvement
+      req.session.goHereOnMap = id
     }
 
     if (correct && !App.config.editors.includes(req.user.name)) {

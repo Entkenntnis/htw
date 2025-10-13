@@ -131,3 +131,10 @@ function showSource() {
   // Focus for accessibility
   closeBtn.focus()
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  const mapEl = document.getElementById('go-here-after-loading-map')
+  if (mapEl) {
+    mapEl.scrollIntoView({ block: 'center', inline: 'center' })
+  }
+})

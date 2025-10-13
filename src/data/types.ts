@@ -108,6 +108,7 @@ export interface HtwChallenge {
     | Promise<{ rawAnswer?: boolean; answer: string; correct: boolean }>
   hidesubmit?: boolean
   afterSolveText?: { de: string; en: string }
+  enableFeedback?: boolean
 }
 
 export interface ChallengeStatsData {

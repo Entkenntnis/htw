@@ -2189,14 +2189,13 @@ END</pre>`,
   {
     id: 352,
     pos: { x: 2510, y: 1215 },
-    title: { de: 'Halloween', en: 'Halloween' },
+    title: { de: 'Happy Halloween?', en: 'Happy Halloween?' },
     date: '2025-10-31',
     deps: [351],
     releaseTs: new Date(
       'Fri Oct 31 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
-    enableFeedback: true,
     author: 'Anna',
     render: () => {
       const script = `
@@ -2240,22 +2239,26 @@ END</pre>`,
             const trigger = document.getElementById('trigger-div');
             const scare = document.getElementById('scare-div');
             let isScaring = false;
-             
 
-            if (!confirm("EPILEPSIE WARNUNG: Wenn du empfindlich auf plötzliche, helle Bilder reagierst, solltest du diese Aufgabe nicht machen. Fortfahren?")) {
-                window.location.href = '/';
+            let confirmed = false;
+            try { confirmed = sessionStorage.getItem('epilepsyWarnConfirmed') === '1'; } catch (_) {}
+            confirmed = confirmed || confirm("EPILEPSIE WARNUNG: Wenn du empfindlich auf plötzliche, helle Bilder reagierst, solltest du diese Aufgabe nicht machen. Fortfahren?");
+
+            if (!confirmed) {
+              window.location.href = '/';
             } else {
+              try { sessionStorage.setItem('epilepsyWarnConfirmed', '1'); } catch (_) {}
               setTimeout(() => {
                 trigger.onmouseover = () => {
-                    if (isScaring) return;
-                    isScaring = true;
-                    scare.classList.add('active');
-                    setTimeout(() => {
-                        scare.classList.remove('active');
-                        isScaring = false;
-                    }, 750); // Jumpscare duration in milliseconds
+                  if (isScaring) return;
+                  isScaring = true;
+                  scare.classList.add('active');
+                  setTimeout(() => {
+                    scare.classList.remove('active');
+                    isScaring = false;
+                  }, 750); // Jumpscare duration in milliseconds
                 };
-              }, 500); // Delay before enabling the jumpscare 
+              }, 500); // Delay before enabling the jumpscare
             }
         </script>
       `
@@ -2276,6 +2279,111 @@ END</pre>`,
       }
     },
     solution: secrets('chal_352'),
+    afterSolveText: {
+      de: `
+        <p>Am nächsten Morgen spazieren Kinder an deiner offenen Wohnungstür vorbei. Von dir ist keine Spur zu sehen. Eine Woche später wirst du als vermisst gemeldet und der Fall nach einem Jahr ohne Hinweise geschlossen 🪦</p>
+        <div id="halloween-blood-352" style="margin-bottom: 100px;">
+          <p class="blood-text">Happy Halloween!
+            <span class="drip d1"></span>
+            <span class="drip d2"></span>
+            <span class="drip d3"></span>
+          </p>
+          <style>
+            /* Scoped styles: only affect this snippet */
+            #halloween-blood-352 .blood-text {
+              display: inline-block;
+              position: relative;
+              color: #b30000;
+              font-weight: 800;
+              font-size: 32px;
+              letter-spacing: 0.02em;
+              text-shadow:
+                0 0 2px #4d0000,
+                0 0 8px #990000,
+                0 2px 0 #660000,
+                0 3px 4px rgba(64,0,0,0.6);
+              filter: drop-shadow(0 1px 0 #4d0000) drop-shadow(0 2px 2px rgba(64,0,0,0.5));
+            }
+
+            #halloween-blood-352 .blood-text .drip {
+              position: absolute;
+              top: 100%;
+              width: 6px;
+              height: 0;
+              background: linear-gradient(#cc0000, #5a0000);
+              border-radius: 0 0 50% 50%;
+              box-shadow: 0 0 4px #5a0000;
+              animation-name: hb352-drip;
+              animation-timing-function: ease-in;
+              animation-iteration-count: infinite;
+            }
+
+            #halloween-blood-352 .blood-text .d1 { left: 18%; animation-duration: 2.6s; animation-delay: .15s; }
+            #halloween-blood-352 .blood-text .d2 { left: 46%; animation-duration: 3.1s; animation-delay: .55s; }
+            #halloween-blood-352 .blood-text .d3 { left: 72%; animation-duration: 2.8s; animation-delay: .95s; }
+
+            @keyframes hb352-drip {
+              0%   { height: 0; opacity: 0; transform: translateY(0); }
+              10%  { height: 10px; opacity: 1; }
+              60%  { height: 16px; opacity: 1; transform: translateY(8px); }
+              90%  { height: 0; opacity: 0.9; transform: translateY(18px); }
+              100% { height: 0; opacity: 0; transform: translateY(22px); }
+            }
+          </style>
+        </div>
+      `,
+      en: `
+        <p>The next morning, children stroll past your apartment's open door. There's no trace of you. A week later, you are reported missing, and after a year with no leads, the case is closed 🪦</p>
+        <div id="halloween-blood-352-en" style="margin-bottom: 100px;">
+          <p class="blood-text">Happy Halloween!
+            <span class="drip d1"></span>
+            <span class="drip d2"></span>
+            <span class="drip d3"></span>
+          </p>
+          <style>
+            /* Scoped styles (EN): only affect this snippet */
+            #halloween-blood-352-en .blood-text {
+              display: inline-block;
+              position: relative;
+              color: #b30000;
+              font-weight: 800;
+              letter-spacing: 0.02em;
+              text-shadow:
+                0 0 2px #4d0000,
+                0 0 8px #990000,
+                0 2px 0 #660000,
+                0 3px 4px rgba(64,0,0,0.6);
+              filter: drop-shadow(0 1px 0 #4d0000) drop-shadow(0 2px 2px rgba(64,0,0,0.5));
+            }
+
+            #halloween-blood-352-en .blood-text .drip {
+              position: absolute;
+              top: 100%;
+              width: 6px;
+              height: 0;
+              background: linear-gradient(#cc0000, #5a0000);
+              border-radius: 0 0 50% 50%;
+              box-shadow: 0 0 4px #5a0000;
+              animation-name: hb352-drip;
+              animation-timing-function: ease-in;
+              animation-iteration-count: infinite;
+            }
+
+            #halloween-blood-352-en .blood-text .d1 { left: 18%; animation-duration: 2.6s; animation-delay: .15s; }
+            #halloween-blood-352-en .blood-text .d2 { left: 46%; animation-duration: 3.1s; animation-delay: .55s; }
+            #halloween-blood-352-en .blood-text .d3 { left: 72%; animation-duration: 2.8s; animation-delay: .95s; }
+
+            @keyframes hb352-drip {
+              0%   { height: 0; opacity: 0; transform: translateY(0); }
+              10%  { height: 10px; opacity: 1; }
+              60%  { height: 16px; opacity: 1; transform: translateY(8px); }
+              90%  { height: 0; opacity: 0.9; transform: translateY(18px); }
+              100% { height: 0; opacity: 0; transform: translateY(22px); }
+            }
+          </style>
+        </div>
+      `,
+    },
   },
 
   /*{

@@ -2156,11 +2156,15 @@ END</pre>`,
     author: 'Anna',
     html: {
       de: `
-        <p>TODO</p>
+        <p>Der arme Geist hat 6 Einschusslöcher. Vielleicht wollte er dir was sagen? Schaue genau auf den Rot-Ton:</p>
+
+        <p><img src="/chals/350.png"></p>
        
       `,
       en: `
-        <p>TODO</p>
+        <p>The poor ghost has 6 bullet holes. Maybe it was trying to tell you something? Look closely at the shade of red:</p>
+
+        <p><img src="/chals/350.png"></p>
       `,
     },
     solution: secrets('chal_350'),

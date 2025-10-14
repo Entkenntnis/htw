@@ -172,6 +172,7 @@ export const communityChallenges = [
     },
     solution: 'htw4ever',
     hidesubmit: true,
+    mapHTML: `<div style="position: absolute; top: 810px; left: 1900px; text-align: center;"><img src="/halloween25.png" style="width: 120px; border-radius: 16px;" /><br>Halloween Daily Challenge<br>25 - 31 Okt • 18 Uhr<br><small style="color: gray">im Community-Bereich</small></div>`,
   },
 
   {
@@ -1595,7 +1596,6 @@ RS#1</pre>
     date: '2024-01-05',
     deps: [300],
     noScore: true,
-    mapHTML: `<div style="position: absolute; top: 810px; left: 1900px; text-align: center;"><img src="/halloween25.png" style="width: 120px; border-radius: 16px;" /><br>Halloween Daily Challenge<br>25 - 31 Okt • 18 Uhr</div>`,
     author: 'User0',
     html: {
       de: `

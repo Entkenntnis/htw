@@ -2056,11 +2056,27 @@ END</pre>`,
     author: 'Anna',
     html: {
       de: `
-        <p>TODO</p>
+        ${'Genieße dein letztes Halloween! Die Antwort lautet RIP.'
+          .split('')
+          .map(
+            (letter) =>
+              `<p style="font-size:40px; padding-left: ${Math.round(Math.random() * 100)}px; color: #222;">${
+                letter == ' ' ? '&nbsp;' : letter
+              }</p>`
+          )
+          .join('')}
        
       `,
       en: `
-        <p>TODO</p>
+        ${'Enjoy your last Halloween! The answer is RIP.'
+          .split('')
+          .map(
+            (letter) =>
+              `<p style="font-size:40px; padding-left: ${Math.round(Math.random() * 100)}px; color: #222;">${
+                letter == ' ' ? '&nbsp;' : letter
+              }</p>`
+          )
+          .join('')}
       `,
     },
     solution: secrets('chal_346'),
@@ -2104,11 +2120,15 @@ END</pre>`,
     author: 'Anna',
     html: {
       de: `
-        <p>TODO</p>
+        <p>Dieses Python-Script gibt dir die Antwort. Es ist nur etwas langsam. (Das Skript ist harmlos und enthält keinen Virus, versprochen! - die Aufgabe lässt sich aber auch lösen, ohne das Script auszuführen)</p>
+
+        <p><a href="/chals/348.py">Python Script</a></p>
        
       `,
       en: `
-        <p>TODO</p>
+        <p>This Python script gives you the answer. It's just a bit slow. (The script is harmless and contains no virus, promise! — but you can also solve the challenge without running the script.)</p>
+
+        <p><a href="/chals/348.py">Python script</a></p>
       `,
     },
     solution: secrets('chal_348'),

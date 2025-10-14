@@ -46,7 +46,7 @@ export const communityChallenges2 = [
 
   {
     id: 346,
-    pos: { x: 2080, y: 815 },
+    pos: { x: 2080, y: 755 },
     title: { de: 'Tag 1 🍬', en: 'Day 1 🍬' },
     date: '2025-10-25',
     deps: [300],
@@ -122,18 +122,53 @@ export const communityChallenges2 = [
     noScore: true,
     enableFeedback: true,
     author: 'Anna',
-    html: {
-      de: `
-        <p>Dieses Python-Script gibt dir die Antwort. Es ist nur etwas langsam. (Das Skript ist harmlos und enthält keinen Virus, versprochen! - die Aufgabe lässt sich aber auch lösen, ohne das Script auszuführen)</p>
+    render: () => {
+      const deko = `<pre style="line-height: 1.2">
+                                  ;::;;::;,
+                            ;::;;::;;,
+                           ;;:::;;::;;,
+           .vnmmnv%vnmnv%,.;;;:::;;::;;,  .,vnmnv%vnmnv,
+        vnmmmnv%vnmmmnv%vnmmnv%;;;;;;;%nmmmnv%vnmmnv%vnmmnv
+      vnmmnv%vnmmmmmnv%vnmmmmmnv%;:;%nmmmmmmnv%vnmmmnv%vnmmmnv
+     vnmmnv%vnmmmmmnv%vnmmmmmmmmnv%vnmmmmmmmmnv%vnmmmnv%vnmmmnv
+    vnmmnv%vnmmmmmnv%vnmmmmmmmmnv%vnmmmmmmmmmmnv%vnmmmnv%vnmmmnv
+   vnmmnv%vnmmmmmnv%vnmm;mmmmmmnv%vnmmmmmmmm;mmnv%vnmmmnv%vnmmmnv,
+  vnmmnv%vnmmmmmnv%vnmm;' mmmmmnv%vnmmmmmmm;' mmnv%vnmmmnv%vnmmmnv
+  vnmmnv%vnmmmmmnv%vn;;    mmmmnv%vnmmmmmm;;    nv%vnmmmmnv%vnmmmnv
+ vnmmnv%vnmmmmmmnv%v;;      mmmnv%vnmmmmm;;      v%vnmmmmmnv%vnmmmnv
+ vnmmnv%vnmmmmmmnv%vnmmmmmmmmm;;       mmmmmmmmmnv%vnmmmmmmnv%vnmmmnv
+ vnmmnv%vnmmmmmmnv%vnmmmmmmmmmm;;     mmmmmmmmmmnv%vnmmmmmmnv%vnmmmnv
+ vnmmnv%vnmmmmm nv%vnmmmmmmmmmmnv;, mmmmmmmmmmmmnv%vn;mmmmmnv%vnmmmnv
+ vnmmnv%vnmmmmm  nv%vnmmmmmmmmmnv%;nmmmmmmmmmmmnv%vn; mmmmmnv%vnmmmnv
+ \`vnmmnv%vnmmmm,  v%vnmmmmmmmmmmnv%vnmmmmmmmmmmnv%v;  mmmmnv%vnnmmnv'
+  vnmmnv%vnmmmm;,   %vnmmmmmmmmmnv%vnmmmmmmmmmnv%;'   mmmnv%vnmmmmnv
+   vnmmnv%vnmmmm;;,   nmmm;'              mmmm;;'    mmmnv%vnmmmmnv'
+   \`vnmmnv%vnmmmmm;;,.         mmnv%v;,            mmmmnv%vnmmmmnv'
+    \`vnmmnv%vnmmmmmmnv%vnmmmmmmmmnv%vnmmmmmmnv%vnmmmmmnv%vnmmmmnv'
+      \`vnmvn%vnmmmmmmnv%vnmmmmmmmnv%vnmmmmmnv%vnmmmmmnv%vnmmmnv'
+          \`vn%vnmmmmmmn%:%vnmnmmmmnv%vnmmmnv%:%vnmmnv%vnmnv'
+
+</pre>
+      `
+      return {
+        de: `
+        ${deko}
 
         <p><a href="/chals/348.py">Python Script</a></p>
+
+        <p>Dieses Python-Script gibt dir die Antwort. Es ist nur etwas langsam. (Das Skript ist harmlos und enthält keinen Virus, versprochen! - die Aufgabe lässt sich aber auch lösen, ohne das Script auszuführen)</p>
+
        
       `,
-      en: `
+        en: `
+        ${deko}
+        
+        <p><a href="/chals/348.py">Python script</a></p>
+
         <p>This Python script gives you the answer. It's just a bit slow. (The script is harmless and contains no virus, promise! — but you can also solve the challenge without running the script.)</p>
 
-        <p><a href="/chals/348.py">Python script</a></p>
       `,
+      }
     },
     solution: secrets('chal_348'),
   },
@@ -208,11 +243,11 @@ export const communityChallenges2 = [
     author: 'Anna',
     html: {
       de: `
-        <p style="overflow-wrap: break-word;">SW4gZGVyIGxldHp0ZW4gTmFjaHQgaGFzdCBkdSB2b24gU+RyZ2VuIGdldHLkdW10LCBhdWYgZWluZW0gZGF2b24gc3RhbmQgc29nYXIgZGVpbiBOYW1lLiBFaW4gV29ydCBnZWh0IGRpciBuaWNodCBhdXMgZGVtIFNpbm4uIEJlaW4uIEJlaW4uIEJlaW4uIEJFRUVFRUlJSUlJTiEhISEhISEgRHUgaGFzdCBrZWluZSBBaG51bmcsIHdhcyBlcyBiZWRldXRlbiBzb2xsLiBFcyBtYWNodCBkaXIgQW5nc3QuIERpZSBBbnR3b3J0IGxhdXRldCBCZWluLiBNb3JnZW4gaXN0IEhhbGxvd2Vlbi4gV2FzIHNvbGwgc2Nob24gcGFzc2llcmVuLCB3ZW5uIGR1IGVpbmZhY2ggWnVoYXVzZSBibGVpYnN0PyBLaW5kZXIgd2VyZGVuIGFuIGRlciBU/HIga2xpbmdlbiwgZHUgc2NoYXVzdCBkaXIgZWluZW4gRmlsbSBhbiAoa2VpbiBIb3Jyb3JmaWxtKSB1bmQgZGFubiBpc3QgZGVyIGdhbnplIFNwdWsgYW0gbuRjaHN0ZW4gVGFnIHZvcmJlaS4=</p>
+        <p style="overflow-wrap: break-word; color: red; font-size: 200px;">SW4gZGVyIGxldHp0ZW4gTmFjaHQgaGFzdCBkdSB2b24gU+RyZ2VuIGdldHLkdW10LCBhdWYgZWluZW0gZGF2b24gc3RhbmQgc29nYXIgZGVpbiBOYW1lLiBFaW4gV29ydCBnZWh0IGRpciBuaWNodCBhdXMgZGVtIFNpbm4uIEJlaW4uIEJlaW4uIEJlaW4uIEJFRUVFRUlJSUlJTiEhISEhISEgRHUgaGFzdCBrZWluZSBBaG51bmcsIHdhcyBlcyBiZWRldXRlbiBzb2xsLiBFcyBtYWNodCBkaXIgQW5nc3QuIERpZSBBbnR3b3J0IGxhdXRldCBCZWluLiBNb3JnZW4gaXN0IEhhbGxvd2Vlbi4gV2FzIHNvbGwgc2Nob24gcGFzc2llcmVuLCB3ZW5uIGR1IGVpbmZhY2ggWnVoYXVzZSBibGVpYnN0PyBLaW5kZXIgd2VyZGVuIGFuIGRlciBU/HIga2xpbmdlbiwgZHUgc2NoYXVzdCBkaXIgZWluZW4gRmlsbSBhbiAoa2VpbiBIb3Jyb3JmaWxtKSB1bmQgZGFubiBpc3QgZGVyIGdhbnplIFNwdWsgYW0gbuRjaHN0ZW4gVGFnIHZvcmJlaS4=</p>
        
       `,
       en: `
-        <p style="overflow-wrap: break-word;">TGFzdCBuaWdodCB5b3UgZHJlYW1lZCBvZiBjb2ZmaW5zOyBvbmUgb2YgdGhlbSBldmVuIGhhZCB5b3VyIG5hbWUgb24gaXQuIFlvdSBjYW4ndCBnZXQgb25lIHdvcmQgb3V0IG9mIHlvdXIgaGVhZC4gQmVpbi4gQmVpbi4gQmVpbi4gQkVFRUVFRUlJSUlJTiEhISEhISEgWW91IGhhdmUgbm8gaWRlYSB3aGF0IGl0J3Mgc3VwcG9zZWQgdG8gbWVhbi4gSXQgc2NhcmVzIHlvdS4gVGhlIGFuc3dlciBpcyBCZWluLiBUb21vcnJvdyBpcyBIYWxsb3dlZW4uIFdoYXQgY291bGQgcG9zc2libHkgaGFwcGVuIGlmIHlvdSBqdXN0IHN0YXkgaG9tZT8gS2lkcyB3aWxsIHJpbmcgdGhlIGRvb3JiZWxsLCB5b3UnbGwgd2F0Y2ggYSBtb3ZpZSAobm90IGEgaG9ycm9yIGZpbG0pLCBhbmQgdGhlbiB0aGUgd2hvbGUgc3Bvb2sgd2lsbCBiZSBvdmVyIHRoZSBuZXh0IGRheS4=</p>
+        <p style="overflow-wrap: break-word; color: red; font-size: 200px;">TGFzdCBuaWdodCB5b3UgZHJlYW1lZCBvZiBjb2ZmaW5zOyBvbmUgb2YgdGhlbSBldmVuIGhhZCB5b3VyIG5hbWUgb24gaXQuIFlvdSBjYW4ndCBnZXQgb25lIHdvcmQgb3V0IG9mIHlvdXIgaGVhZC4gQmVpbi4gQmVpbi4gQmVpbi4gQkVFRUVFRUlJSUlJTiEhISEhISEgWW91IGhhdmUgbm8gaWRlYSB3aGF0IGl0J3Mgc3VwcG9zZWQgdG8gbWVhbi4gSXQgc2NhcmVzIHlvdS4gVGhlIGFuc3dlciBpcyBCZWluLiBUb21vcnJvdyBpcyBIYWxsb3dlZW4uIFdoYXQgY291bGQgcG9zc2libHkgaGFwcGVuIGlmIHlvdSBqdXN0IHN0YXkgaG9tZT8gS2lkcyB3aWxsIHJpbmcgdGhlIGRvb3JiZWxsLCB5b3UnbGwgd2F0Y2ggYSBtb3ZpZSAobm90IGEgaG9ycm9yIGZpbG0pLCBhbmQgdGhlbiB0aGUgd2hvbGUgc3Bvb2sgd2lsbCBiZSBvdmVyIHRoZSBuZXh0IGRheS4=</p>
       `,
     },
     solution: secrets('chal_351'),

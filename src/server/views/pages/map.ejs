@@ -100,6 +100,7 @@
 </div>
 
     
+    
 <script>
   // Select the elements that will be scrolled
   const scroller = document.documentElement; // This is the <html> tag
@@ -108,22 +109,19 @@
   let isDown = false;
   let startX, startY;
   let scrollTopHtml, scrollLeftDrawing;
+  let hasDragged = false; // Flag to track if a drag has occurred
 
   // We attach the main listener to the entire document/html tag
   scroller.addEventListener('mousedown', (e) => {
-    // IMPORTANT: Prevent drag from starting on interactive elements
-    // like links, buttons, or inputs.
-    if (e.target.closest('a, button, input, select, textarea')) {
-      return;
-    }
       
     isDown = true;
     scroller.classList.add('is-dragging');
+    hasDragged = false; // Reset the drag flag on mousedown
 
     // Record the initial positions and scroll offsets
     // Use clientX/clientY which are relative to the viewport and NOT affected by scroll
-    startX = e.clientX; // <--- CHANGED
-    startY = e.clientY; // <--- CHANGED
+    startX = e.clientX;
+    startY = e.clientY;
     scrollTopHtml = scroller.scrollTop;
     scrollLeftDrawing = scroller.scrollLeft;
   });
@@ -138,11 +136,12 @@
   scroller.addEventListener('mousemove', (e) => {
     if (!isDown) return; // Exit if mouse button is not held down
 
+    hasDragged = true; // Set the drag flag to true on mousemove
     e.preventDefault(); // Prevent default actions like text selection
 
     // Calculate mouse movement based on viewport coordinates
-    const walkX = e.clientX - startX; // <--- CHANGED
-    const walkY = e.clientY - startY; // <--- CHANGED
+    const walkX = e.clientX - startX;
+    const walkY = e.clientY - startY;
 
     // Apply the scroll to the correct elements
     // We subtract 'walk' because moving the mouse right (positive walk)
@@ -150,6 +149,14 @@
     scroller.scrollTop = scrollTopHtml - walkY;
     scroller.scrollLeft = scrollLeftDrawing - walkX;
   });
+
+  // Add a click event listener in the capturing phase to prevent clicks after dragging
+  scroller.addEventListener('click', (e) => {
+    if (hasDragged) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true); // The 'true' is crucial for capturing the event early
 
 </script>
 

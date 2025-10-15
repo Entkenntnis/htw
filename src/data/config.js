@@ -87,20 +87,23 @@ export const appConfig = {
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
     ${
       showWorms
-        ? '<a href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img src="/worms.png" style="width:46px"></a><a href="/music" target="_blank" style="position:absolute;left:1760px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>'
+        ? `
+          <a draggable="false" href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img draggable="false" src="/worms.png" style="width:46px"></a>
+        
+          <a draggable="false" href="/music" target="_blank" style="position:absolute;left:1760px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>`
         : ''
     }
      ${
        showEnough
-         ? '<a href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in"><div>&nbsp;&nbsp;&nbsp;Enough</div><img src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
-           '<a href="/wer-wird-wort-millionaer" style="position:absolute;left:1520px;top:125px;" class="text-reset text-decoration-none fade-in"><img src="/wwwm.png" style="width:78px;"></a>' +
-           '<a href="/resistance" style="position:absolute;left:170px;top:1425px;text-align: center;" class="text-reset text-decoration-none fade-in"><div>Notizen des<br>Widerstands</div><img src="/clippy.png" style="width:65px;margin-top:6px;"></a>'
+         ? '<a draggable="false" href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in"><div>&nbsp;&nbsp;&nbsp;Enough</div><img draggable="false" src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
+           '<a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1520px;top:125px;" class="text-reset text-decoration-none fade-in"><img draggable="false" src="/wwwm.png" style="width:78px;"></a>' +
+           '<a draggable="false" href="/resistance" style="position:absolute;left:170px;top:1425px;text-align: center;" class="text-reset text-decoration-none fade-in"><div>Notizen des<br>Widerstands</div><img draggable="false" src="/clippy.png" style="width:55px;margin-top:6px;"></a>'
          : ''
      }
      ${
        showPleaseFixMeAndMortalCoil
-         ? '<a href="/mortal-coil" style="position:absolute;left:2250px;top:110px;" class="text-reset text-decoration-none fade-in"><div>Mortal Coil</div><img src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
-           '<a href="/please-fix-me" style="position:absolute;left:1950px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Please Fix Me!</div><img src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;"></a>'
+         ? '<a draggable="false" href="/mortal-coil" style="position:absolute;left:2250px;top:110px;" class="text-reset text-decoration-none fade-in"><div>Mortal Coil</div><img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
+           '<a draggable="false" href="/please-fix-me" style="position:absolute;left:1950px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Please Fix Me!</div><img draggable="false" src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;"></a>'
          : ''
      }${
        showStatsLinks

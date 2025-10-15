@@ -197,7 +197,10 @@ export function setupLiveAnalyze(App) {
     /** @type {Map<string, { total: number; users: Set<number>; perUser: Map<number, number> }>} */
     const byKey = new Map()
     for (const r of rows) {
-      const key = r.key
+      let key = r.key
+      if (key.startsWith('solvers_')) {
+        key = 'solvers_*'
+      }
       const uid = r.userId
       if (uid == 74754) {
         continue // temporary: Skip ipad user events

@@ -291,7 +291,7 @@ export function setupAnalyze(App) {
     `)
   })
 
-  App.express.get('/dashboard', async (req, res) => {
+  App.express.get_async_fix('/dashboard', async (req, res) => {
     let output =
       '<!DOCTYPE html><html><head><style>body{background-color:#222222;color:white;}</style></head><h1>Dashboard</h1><title>Dashboard</title>'
 

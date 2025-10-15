@@ -98,6 +98,7 @@ export function setupLiveAnalyze(App) {
       for (const dep of challenge.deps || []) {
         const previous = challengeById.get(dep)
         if (!previous) continue
+        if (challenge.hideLink) continue
         svgLines.push(
           `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="lightgray" stroke-width="10" stroke-linecap="round"></line>`
         )

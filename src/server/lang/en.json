@@ -157,7 +157,7 @@
     "ratelimit": "Hey {{name}}, you have requested more than {{requests}} pages within {{timespan}} minutes. Please wait {{waiting}} seconds before requesting pages again.",
     "history": "History",
     "feedback": {
-      "heading": "Great, you solved the challenge! How do you feel after solving it?",
+      "heading": "How do you feel about the challenge?",
       "fun": "was fun",
       "learn": "learned something",
       "nice": "well made",

@@ -157,7 +157,7 @@
     "ratelimit": "Hey {{name}}, du hast innerhalb von {{timespan}} Minuten mehr als {{requests}} Seiten aufgerufen. Bitte warte {{waiting}} Sekunden, bis du weitere Seiten aufrufst.",
     "history": "Verlauf",
     "feedback": {
-      "heading": "Super, du hast die Aufgabe gelöst! Wie würdest du die Aufgabe bewerten?",
+      "heading": "Wie würdest du die Aufgabe bewerten?",
       "fun": "hat Spaß gemacht",
       "learn": "hab was gelernt",
       "nice": "nett gemacht",

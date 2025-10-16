@@ -566,12 +566,12 @@ export function getI18nExtension() {
     value: `
       <h3 class="my-4">Persönliche Daten</h3>
       
-      <p>Wir nehmen den Schutz deiner persönlichen Daten sehr ernst. Du kannst das Angebot von Hack The Web nutzen, ohne personenbezogene Daten weiterzugeben. Die Registrierung funktioniert ohne Angabe einer E-Mail-Adresse, stattdessen gibst du ein selbstgewähltes Pseudonym an. Falls du anonym bleiben möchtest, achte darauf, dass man durch das Pseudonym nicht auf deine Person zurückschließen kann.
+      <p>Wir nehmen den Schutz deiner persönlichen Daten sehr ernst. Du kannst das Angebot von Hack The Web nutzen, ohne personenbezogene Daten weiterzugeben. Die Registrierung funktioniert ohne Angabe einer E-Mail-Adresse, stattdessen gibst du ein selbstgewähltes Pseudonym an. Bitte achte darauf, dass das Pseudonym keine Rückschlüsse auf deine Person zulässt.
       </p>
       
       <h3 class="my-4">Accountdaten</h3>
       
-      <p>Dein Benutzername wird in der Highscore öffentlich angezeigt und möglicherweise auch auf der Startseite. Es wird der Zeitpunkt der letzten Aktivität auf der Plattform gespeichert und ebenfalls mit angezeigt. Bei jeder Aufgabe ist zudem einsehbar, wie viele Nutzer sie bereits gelöst haben (ohne Rückführung auf einen einzelnen Benutzer). Im Profil lässt sich dein Account jederzeit vollständig löschen. Der Betreiber behält sich das Recht vor, ohne Ankündigung Accounts zu verändern oder zu löschen.
+      <p>Dein Benutzername wird in der Highscore öffentlich angezeigt und möglicherweise auch auf der Startseite. Es wird der Zeitpunkt der letzten Aktivität auf der Plattform gespeichert und ebenfalls mit angezeigt. Bei jeder Aufgabe ist zudem einsehbar, welche Nutzer sie bereits gelöst haben und der Zeitpunkt der Lösung. Im Profil lässt sich dein Account jederzeit vollständig löschen oder deine vollständigen Daten exportieren. Der Betreiber behält sich das Recht vor, bei trifftigen Grund Accounts ohne Ankündigung zu verändern oder zu löschen.
       </p>
       
       <h3 class="my-4">Hosting</h3>
@@ -584,9 +584,9 @@ export function getI18nExtension() {
       <p>Einzelne Aufgaben verwenden ein Sprachmodell (Mistral Small). Die Eingaben werden dabei an den französichen Anbieter <a href="https://mistral.ai">mistral.ai</a> übermittelt. Es werden keine personenbezogenen Daten übermittelt. Die Eingaben werden nur für die Beantwortung der Anfrage verwendet und nicht gespeichert oder zum Trainieren von Modellen genutzt.
       </p>
       
-      <h3 class="my-4">Protokolle</h3>
+      <h3 class="my-4">Statistiken</h3>
       
-      <p>Zur Verbesserung der Aufgaben und um mögliche Probleme zu entdecken, werden intern Protokolle geführt und ausgewertet. Diese Protokolle sind nicht öffentlich zugänglich, werden nicht weitergegeben und auch für keine anderen Zwecke gebraucht. Die Protokolle enthalten deine gelösten Aufgaben und die Eingaben für die Aufgaben (ohne Bezug auf einen einzelnen Nutzer). Nach spätestens einem Jahr werden die Protokolle zu den Eingaben gelöscht.
+      <p>Es werden verschiedene Statistiken über die Nutzung der Plattform geführt, um die Aufgaben zu verbessern und mögliche Probleme zu erkennen. Die Statistiken werden ausschließlich zur Verbesserung der Plattform ausgewertet. Eine mögliche Nutzung für die wissenschaftliche Forschung ist vorbehalten.
       </p>
       
       <h3 class="my-4">Cookies</h3>
@@ -607,7 +607,7 @@ export function getI18nExtension() {
       
       <h3 class="my-4">Account data</h3>
       
-      <p>Your username is publicly displayed in the highscore and possibly on the homepage. The timestamp of your last activity on the platform is recorded and also displayed. Additionally, for each task, it is visible how many users have already solved it (without a reference to individual users). You have the option to completely delete your account at any time in your profile. The operator reserves the right to modify or delete accounts without a prior notice.
+      <p>Your username is publicly displayed in the highscore and may also appear on the homepage. The time of your last activity on the platform is stored and displayed. For each task, it is visible which users have already solved it and the time of the solution. In your profile, you can delete your account completely at any time or export your full data. The operator reserves the right to modify or delete accounts without prior notice for a valid reason.
       </p>
       
       <h3 class="my-4">Hosting</h3>
@@ -620,9 +620,9 @@ export function getI18nExtension() {
       <p>Some tasks use a language model (Mistral Small). The inputs are transmitted to the French provider <a href="https://mistral.ai">mistral.ai</a>. No personal data is transmitted. The inputs are only used to answer the request and are not stored or used to train models.
       </p>
       
-      <h3 class="my-4">Logs</h3>
+      <h3 class="my-4">Statistics</h3>
       
-      <p>To improve the tasks and detect possible issues, internal logs are kept and evaluated. These logs are not publicly accessible, not shared with others, and not used for any other purposes. The logs include your completed tasks and input for tasks (without reference to individual users). Logs related to inputs are deleted after a maximum of one year.
+      <p>Various statistics about the use of the platform are collected to improve the tasks and identify possible issues. These statistics are evaluated exclusively to improve the platform. Possible use for scientific research is reserved.
       </p>
       
       <h3 class="my-4">Cookies</h3>

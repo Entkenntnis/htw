@@ -12,162 +12,60 @@ export const communityChallenges = [
     noScore: true,
     hideLink: true,
     render: async ({ App, req }) => {
-      const communityChals = App.challenges.data.filter(
-        (chal) =>
-          chal.noScore &&
-          chal.id >= 300 &&
-          (!chal.releaseTs || chal.releaseTs < Date.now())
-      )
-      const ids = communityChals.map((chal) => chal.id)
-
-      const sols = await App.db.models.Solution.findAll({
-        where: { cid: ids },
-        raw: true,
+      const hasSolved = await App.db.models.Solution.findOne({
+        where: { cid: 300, UserId: req.user ? req.user.id : -1 },
       })
-
-      const users = sols.reduce((res, obj) => {
-        const key = obj.UserId
-        const entry = (res[key] = res[key] || { solved: 0, lastActive: -1 })
-        entry.solved++
-        const ts = App.moment(new Date(obj.createdAt).getTime()).valueOf()
-        if (ts > entry.lastActive) {
-          entry.lastActive = ts
-          entry.lastChalId = obj.cid
-        }
-        return res
-      }, /** @type {{[key: number]: {solved: number, lastActive: number, lastChalId: number}}} */ ({}))
-
-      /**
-       * @type {number[]}
-       */
-      const userIds = []
-
-      const oneMonthAgo = App.moment().subtract(30, 'days').valueOf()
-
-      const usersList = Object.entries(users)
-        .map((entry) => {
-          userIds.push(parseInt(entry[0]))
-          return {
-            userId: parseInt(entry[0]),
-            solved: entry[1].solved,
-            lastActive: entry[1].lastActive,
-            lastChalId: entry[1].lastChalId,
-          }
-        })
-        .filter((user) => user.lastActive >= oneMonthAgo)
-
-      usersList.sort((a, b) => {
-        return b.lastActive - a.lastActive // Sort by last active time, newest first
-      })
-
-      const userNames = await App.db.models.User.findAll({
-        where: { id: userIds },
-        raw: true,
-      })
-
-      const userNameIndex = userNames.reduce((res, obj) => {
-        res[obj.id] = obj.name
-        return res
-      }, /** @type {{[key: number]: string}} */ ({}))
 
       return req.lng.startsWith('de')
         ? `
         <p>Herzlich willkommen im Community-Bereich! Hier findest du eine Sammlung bunter Aufgaben, erstellt und inspiriert von SpielerInnen wie Du.</p>
         
-        <p>Jeder darf mitmachen. Am besten erreichst du uns über den <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> und schreibst deine Idee in #vorschläge. Dein Fortschritt im Community-Bereich ist unabhängig von den Punkten. Du erhältst keine Punkte für gelöste Aufgaben, dafür siehst du hier, wer gerade aktiv ist.</p>
+        <p>Jeder darf mitmachen. Am besten erreichst du uns über den <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> und schreibst deine Idee in #vorschläge.</p>
+        
+        <p>Dein Fortschritt im Community-Bereich ist unabhängig von den Punkten, für die Aktivität gibt es eine <a href="/community/activity">separate Übersicht</a>.</p>
         
         <!-- psst - hey - probiere mal /challenge/1337 -->
         
         ${
-          userIds.includes(req.user ? req.user.id : -1)
-            ? ''
-            : `<p>Startbereit? Dann nichts wie los!
+          hasSolved
+            ? `
+                <p style="margin-top: 52px;">Besuche uns auf Discord:</p>
+                <p>
+                  <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
+                </p>
+              `
+            : `<p style="margin-top: 48px;">Startbereit? Dann nichts wie los!
         </p>
         
         <form method="post"><input type="hidden" name="answer" value="htw4ever">
           <button class="btn btn-interaction">Community-Bereich freischalten</button>
         </form>`
         }
-        
-        <h3 style="margin-top:96px;margin-bottom:24px;">Aktivität im Community-Bereich
-        </h3>
-        <p style="color: gray;">Es gibt aktuell <strong>${communityChals.length}</strong> Aufgaben im Community-Bereich. In den letzten 30 Tagen waren <strong>${usersList.length}</strong> SpielerInnen aktiv.</p>
-        
-        <table class="table table-hover" id="highscore-table">
-          <thead>
-            <tr>
-              <th scope="col">Benutzername</th>
-              <th scope="col">insgesamt gelöst</th>
-              <th scope="col">zuletzt aktiv</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${usersList
-              .map((entry) => {
-                const lastActive = App.moment(entry.lastActive)
-                return `
-              <tr >
-                <td>${userNameIndex[entry.userId]}</td>
-                <td>${entry.solved == 1 ? '1 Aufgabe' : `${entry.solved} Aufgaben`}</td>
-                <td style="padding-bottom: 6px;">
-                  ${lastActive.locale('de').fromNow()}<br>
-                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.de}</strong> ${entry.lastChalId == 300 || entry.lastChalId == 328 ? 'freigeschaltet' : 'gelöst'}</small>
-                </td>
-              </tr>
-            `
-              })
-              .join('')}
-          </tbody>
-        </table>
       `
         : `
         <p>Welcome to the Community Area! Here you'll find a collection of varied challenges, created and inspired by players like you.</p>
 
-        <p>Anyone can participate. The best way to reach us is on our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> where you can post your ideas in #vorschläge. Your progress in the Community Area is independent of the main scoreboard. You won't receive points for solved challenges, but you can see who is currently active here.</p>
+        <p>Anyone can participate. The best way to reach us is on our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> where you can post your ideas in #vorschläge.</p>
+
+        <p>Your progress in the Community Area is independent of the main scoreboard; there's a <a href="/community/activity">separate activity overview</a>.</p>
 
         <!-- psst - hey - try /challenge/1337 -->
 
         ${
-          userIds.includes(req.user ? req.user.id : -1)
-            ? ''
-            : `<p>Ready to start? Then let's go!
+          hasSolved
+            ? `
+                <p style="margin-top: 52px;">Join us on Discord:</p>
+                <p>
+                  <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
+                </p>
+              `
+            : `<p style="margin-top: 48px;">Ready to start? Then let's go!
         </p>
         
         <form method="post"><input type="hidden" name="answer" value="htw4ever">
           <button class="btn btn-interaction">Unlock Community Area</button>
         </form>`
         }
-        
-        <h3 style="margin-top:96px;margin-bottom:24px;">Activity in the Community Area
-        </h3>
-        <p style="color: gray;">There are currently ${communityChals.length} challenges in the Community Area. ${usersList.length} players were active in the last 30 days.</p>
-        
-        <table class="table table-hover" id="highscore-table">
-          <thead>
-            <tr>
-              <th scope="col">Username</th>
-              <th scope="col">Total solved</th>
-              <th scope="col">Last active</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${usersList
-              .map((entry) => {
-                const lastActive = App.moment(entry.lastActive)
-                return `
-              <tr >
-                <td>${userNameIndex[entry.userId]}</td>
-                <td>${entry.solved == 1 ? '1 challenge' : `${entry.solved} challenges`}</td>
-                <td style="padding-bottom: 6px;">
-                  ${lastActive.locale('en').fromNow()}<br>
-                  <small style="color: gray;"><strong>${App.challenges.dataMap[entry.lastChalId].title.en}</strong> ${entry.lastChalId == 300 || entry.lastChalId == 328 ? 'unlocked' : 'solved'}</small>
-                </td>
-              </tr>
-            `
-              })
-              .join('')}
-          </tbody>
-        </table>
       `
     },
     solution: 'htw4ever',

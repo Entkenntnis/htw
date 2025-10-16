@@ -110,6 +110,8 @@
   let startX, startY;
   let scrollTopHtml, scrollLeftDrawing;
   let hasDragged = false; // Flag to track if a drag has occurred
+  let lastX, lastY; // Track last mouse position to accumulate path length
+  let totalDragDistance = 0; // Accumulated drag distance since mousedown
 
   // We attach the main listener to the entire document/html tag
   scroller.addEventListener('mousedown', (e) => {
@@ -122,6 +124,9 @@
     // Use clientX/clientY which are relative to the viewport and NOT affected by scroll
     startX = e.clientX;
     startY = e.clientY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    totalDragDistance = 0;
     scrollTopHtml = scroller.scrollTop;
     scrollLeftDrawing = scroller.scrollLeft;
   });
@@ -136,12 +141,26 @@
   scroller.addEventListener('mousemove', (e) => {
     if (!isDown) return; // Exit if mouse button is not held down
 
-    hasDragged = true; // Set the drag flag to true on mousemove
     e.preventDefault(); // Prevent default actions like text selection
 
     // Calculate mouse movement based on viewport coordinates
     const walkX = e.clientX - startX;
     const walkY = e.clientY - startY;
+
+    // Accumulate total drag distance since mousedown (sum of segment lengths)
+    if (!hasDragged) {
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      // Use Math.hypot for numerical stability and readability
+      totalDragDistance += Math.hypot(dx, dy);
+      if (totalDragDistance >= 42) {
+        hasDragged = true;
+      }
+    }
+
+    // Update last positions for next segment accumulation
+    lastX = e.clientX;
+    lastY = e.clientY;
 
     // Apply the scroll to the correct elements
     // We subtract 'walk' because moving the mouse right (positive walk)

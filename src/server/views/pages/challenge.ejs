@@ -102,6 +102,14 @@
 <% } %>
 
 <% if (locale === 'de' && props.withComlink) { %>
+  <style>
+    @media (max-width: 1005px) {
+      .comlink-spacer {
+        height: 48px;
+      }
+    }
+  </style>
+  <div class="comlink-spacer"></div>
   <link rel="stylesheet" href="/comlink/styles.css">
   <script src="/comlink/<%=props.challenge.id%>.js"></script>
   <script src="/comlink/client.js"></script>

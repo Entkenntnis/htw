@@ -1,4 +1,4 @@
-import { htwChallenges } from '../../content/challenges.js'
+import { htwChallenges } from '../../content/chal-index.js'
 
 /**
  * @param {import('../../data/types.js').App} App

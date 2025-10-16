@@ -15,6 +15,7 @@
     "joinRoom": "Join room",
     "top10": "Top 10 of the Month",
     "showRecent": "Latest Activity",
+    "community": "Community",
     "rooms": "Rooms",
     "inviteOrga_": "Are you hosting an event? Here you can {{-link}}.",
     "createRoom": "create a custom room",

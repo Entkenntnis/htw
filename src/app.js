@@ -28,6 +28,7 @@ import { setupStaticPages } from './server/routes/staticPages.js'
 import { setupUser } from './server/routes/user.js'
 import { setupChallenges } from './server/routes/challenge.js'
 import { setupHtw } from './server/routes/htw.js'
+import { setupCommunity } from './server/routes/community.js'
 
 import { setupChallengesServer } from './content/challenges-server.js'
 import { setupSurvey } from './server/routes/survey.js'
@@ -88,6 +89,7 @@ setupUser(App)
 setupChallenges(App)
 setupHtw(App)
 setupHints(App)
+setupCommunity(App)
 
 setupChallengesServer(App)
 setupSurvey(App)

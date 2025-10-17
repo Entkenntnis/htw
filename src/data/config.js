@@ -107,7 +107,7 @@ export const appConfig = {
          : ''
      }${
        showStatsLinks
-         ? '<div style="position: absolute; left: 1000px; top: -25px;"><a href="/mapflow" draggable="false">MapFlow</a><a draggable="false" href="/events" style="margin-left: 24px;">Events</a><a draggable="false" href="/survey" style="margin-left: 24px;">Survey</a><a draggable="false" href="/feedback" style="margin-left: 24px;">Feedback</a><a draggable="false" href="/questions" style="margin-left: 24px;">Questions</a></div>'
+         ? '<div style="position: absolute; left: 1000px; top: -25px;"><a href="/mapflow" draggable="false">MapFlow</a><a draggable="false" href="/events" style="margin-left: 24px;">Events</a><a draggable="false" href="/survey" style="margin-left: 24px;">Survey</a><a draggable="false" href="/feedback" style="margin-left: 24px;">Feedback</a><a draggable="false" href="/questions" style="margin-left: 24px;">Questions</a><a href="/experiments" draggable="false" style="margin-left: 24px;">Experiments</a></div>'
          : ''
      }
   `

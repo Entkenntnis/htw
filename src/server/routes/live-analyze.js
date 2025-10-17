@@ -2,6 +2,7 @@ import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
 import { resolveFromDate } from '../../helper/date-range.js'
 import escapeHTML from 'escape-html'
+import { experimentDefs } from '../lib/withExperiments.js'
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -429,5 +430,47 @@ export function setupLiveAnalyze(App) {
   </html>
       `
     res.send(html)
+  })
+
+  App.express.get('/experiments', async (req, res) => {
+    if (!req.user || req.user.name != 'editor')
+      return res.send('Zugriff nur für Editor')
+
+    let content = ''
+    const now = Date.now()
+
+    const entries = experimentDefs.slice().sort((a, b) => b.id - a.id)
+
+    for (const exp of entries) {
+      content += `
+        <h2>Experiment ${exp.id} ${
+          now < exp.startTs
+            ? '(geplant)'
+            : now > exp.endTs
+              ? '(abgeschlossen)'
+              : '(aktiv)'
+        }</h2>
+        <p>${escapeHTML(exp.description)}</p>
+        <p style="color: #8a8a8aff">${App.moment(exp.startTs)
+          .locale('de')
+          .format('LLLL')} —— ${App.moment(exp.endTs)
+          .locale('de')
+          .format('LLLL')}</p>
+        <p>${
+          now < exp.endTs
+            ? `<a href="/challenge/${exp.challenge}" target="_blank">base</a><a href="/challenge/${exp.challenge}?trial=1" target="_blank" style="margin-left: 32px;">trial</a>`
+            : exp.baseImg && exp.trialImg
+              ? `<a href="${exp.baseImg}" target="_blank">base</a><a href="${exp.trialImg}" target="_blank" style="margin-left: 32px;">trial</a>`
+              : '<i>keine Vorschau</i>'
+        }</p>
+        <hr style="margin-bottom: 64px; margin-top: 52px;">
+      `
+    }
+
+    renderPage(App, req, res, {
+      page: 'experiments',
+      heading: 'Experimente',
+      content,
+    })
   })
 }

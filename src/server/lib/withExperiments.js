@@ -1,10 +1,10 @@
 import crypto from 'crypto'
 
 /** @type {import("../../data/types.js").ExperimentDefinition[]} */
-const defs = [
+export const experimentDefs = [
   {
     id: 1,
-    description: '"Nicht blinzeln": Dry Run ohne Änderungen',
+    description: 'Nicht blinzeln: Dry Run ohne Änderungen',
     challenge: 24,
     startTs: new Date('2025-10-16').getTime(),
     endTs: new Date(
@@ -14,7 +14,7 @@ const defs = [
   {
     id: 2,
     description:
-      '"Zitronentinte": Was passiert, wenn ich den einen Füll-Satz von Kiwi weglasse? Im Base ist die längere Version, im Trial die kürzere. Hat die zusätzliche "Deko" einen Einfluss auf die Metrik?',
+      'Zitronentinte: Was passiert, wenn ich den einen Füll-Satz von Kiwi weglasse? Im Base ist die längere Version, im Trial die kürzere. Hat die zusätzliche "Deko" einen Einfluss auf die Metrik?',
     challenge: 5,
     startTs: new Date('Oct 17 2025 10:00:00 GMT+0200 ').getTime(),
     endTs: new Date('Oct 24 2025 23:55:00 GMT+0200 ').getTime(),
@@ -39,7 +39,7 @@ export function withExperiments(App) {
       }
 
       const ts = Date.now()
-      const relevantExperiments = defs.filter(
+      const relevantExperiments = experimentDefs.filter(
         (exp) => exp.challenge == id && ts > exp.startTs && ts < exp.endTs
       )
 

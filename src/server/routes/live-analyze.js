@@ -441,6 +441,27 @@ export function setupLiveAnalyze(App) {
 
     const entries = experimentDefs.slice().sort((a, b) => b.id - a.id)
 
+    // fetch data and preprocess
+    let fromTs = experimentDefs[0].startTs
+    let toTs = experimentDefs[0].endTs
+    for (const exp of experimentDefs) {
+      if (exp.startTs < fromTs) fromTs = exp.startTs
+      if (exp.endTs > toTs) toTs = exp.endTs
+    }
+
+    const events = await App.db.models.Event.findAll({
+      where: {
+        key: {
+          [Op.like]: 'ex_%',
+          [Op.not]: 'export_data', // really unlucky thing I learned too late that underscore is a wildcard in LIKE
+        },
+        createdAt: {
+          [Op.between]: [new Date(fromTs - 1000), new Date(toTs + 10000)],
+        },
+      },
+      raw: true,
+    })
+
     for (const exp of entries) {
       content += `
         <h2>Experiment ${exp.id} ${

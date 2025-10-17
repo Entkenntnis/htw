@@ -418,21 +418,23 @@ export function setupChallenges(App) {
       // something didn't work out, avoid server crashing
     }
 
-    // handle experiment events here
-    let experimentEvent = 'visit'
-    if (hasSubmitted) {
-      if (correct) {
-        experimentEvent = 'solve'
-      } else {
-        experimentEvent = 'fail'
+    // handle experiment events here, but only if not already solved
+    if (!solvedDb.some((s) => s.cid === id)) {
+      let experimentEvent = 'visit'
+      if (hasSubmitted) {
+        if (correct) {
+          experimentEvent = 'solve'
+        } else {
+          experimentEvent = 'fail'
+        }
       }
-    }
-    const status = App.experiments.getStatus(challenge.id, req)
-    if (status) {
-      App.event.create(
-        `ex_${status.experimentId}_${status.status}_${experimentEvent}`,
-        req.user.id
-      )
+      const status = App.experiments.getStatus(challenge.id, req)
+      if (status) {
+        App.event.create(
+          `ex_${status.experimentId}_${status.status}_${experimentEvent}`,
+          req.user.id
+        )
+      }
     }
 
     if (correct) {

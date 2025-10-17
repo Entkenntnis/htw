@@ -189,13 +189,16 @@ export function setupChallenges(App) {
         (challenge.showAboveScore && score > challenge.showAboveScore)
       if (visible) {
         points.push(point)
+
         // handle experimental "show" event
-        const status = App.experiments.getStatus(challenge.id, req)
-        if (status && req.user) {
-          App.event.create(
-            `ev_${status.experimentId}_${status.status}_show`,
-            req.user.id
-          )
+        if (req.user && !isSolved) {
+          const status = App.experiments.getStatus(challenge.id, req)
+          if (status) {
+            App.event.create(
+              `ex_${status.experimentId}_${status.status}_show`,
+              req.user.id
+            )
+          }
         }
 
         if (!challenge.hideLink) {
@@ -391,9 +394,13 @@ export function setupChallenges(App) {
     /** @type {boolean | 'none'} */
     let correct = false
     let rawAnswer = false
+    let hasSubmitted = false
 
     try {
       if (typeof req.body?.answer === 'string') {
+        if (req.body.answer) {
+          hasSubmitted = true
+        }
         const result = await check(req.body.answer || '', { req, App })
         if (typeof result == 'object' && result.answer !== undefined) {
           answer = result.answer
@@ -409,6 +416,23 @@ export function setupChallenges(App) {
     } catch (e) {
       console.log(e)
       // something didn't work out, avoid server crashing
+    }
+
+    // handle experiment events here
+    let experimentEvent = 'visit'
+    if (hasSubmitted) {
+      if (correct) {
+        experimentEvent = 'solve'
+      } else {
+        experimentEvent = 'fail'
+      }
+    }
+    const status = App.experiments.getStatus(challenge.id, req)
+    if (status) {
+      App.event.create(
+        `ex_${status.experimentId}_${status.status}_${experimentEvent}`,
+        req.user.id
+      )
     }
 
     if (correct) {

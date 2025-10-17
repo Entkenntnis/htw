@@ -325,3 +325,14 @@ export interface WormsReplay {
 export type HintsData = {
   [key: number]: { entries: { question: string; answer: string }[] }
 }
+
+export interface ExperimentDefinition {
+  id: number
+  challenge: number
+  description: string
+  baseImg?: string
+  trialImg?: string
+  startTs: number
+  endTs: number
+  archive?: boolean
+}

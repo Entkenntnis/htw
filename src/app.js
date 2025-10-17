@@ -48,6 +48,7 @@ import { setupEvent } from './server/routes/event.js'
 import { setupWWWM } from './server/routes/wwwm.js'
 import { withChat } from './server/lib/withChat.js'
 import { setupDiscordSSO } from './server/routes/discord-sso.js'
+import { withExperiments } from './server/lib/withExperiments.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -69,6 +70,7 @@ withChallengeStats(preApp)
 withVersion(preApp)
 withEvent(preApp)
 withChat(preApp)
+withExperiments(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp

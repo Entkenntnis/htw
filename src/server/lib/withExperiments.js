@@ -7,7 +7,7 @@ const defs = [
     description:
       'Macht eine Einleitung mit Kiwi im Vergleich zur nackten Aufgabe einen Unterschied?',
     challenge: 24, // Nicht blinzeln
-    startTs: new Date('2025-10-25').getTime(),
+    startTs: new Date('2025-10-10').getTime(),
     endTs: new Date('2026-12-15').getTime(),
   },
 ]
@@ -68,7 +68,10 @@ export function withExperiments(App) {
         .map((c) => parseInt(c, 16).toString(2).padStart(4, '0'))
         .join('')
 
-      return bitString[id % 256] == '0' ? 'base' : 'trial'
+      return {
+        status: bitString[id % 256] == '0' ? 'base' : 'trial',
+        experimentId: exp.id,
+      }
     },
     showTrial(id, req) {
       if (!req.user) {
@@ -79,7 +82,7 @@ export function withExperiments(App) {
         const trial = req.query.trial || '0'
         return trial == '1'
       }
-      return this.getStatus(id, req) == 'trial'
+      return App.experiments.getStatus(id, req)?.status == 'trial'
     },
   }
 }

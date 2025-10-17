@@ -67,7 +67,10 @@ export interface App {
     complete: (messages: Message[]) => Promise<string>
   }
   experiments: {
-    getStatus(id: number, req: Request): null | 'base' | 'trial'
+    getStatus(
+      id: number,
+      req: Request
+    ): null | { status: 'base' | 'trial'; experimentId: number }
     showTrial(id: number, req: Request): boolean
   }
 }

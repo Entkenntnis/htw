@@ -189,6 +189,15 @@ export function setupChallenges(App) {
         (challenge.showAboveScore && score > challenge.showAboveScore)
       if (visible) {
         points.push(point)
+        // handle experimental "show" event
+        const status = App.experiments.getStatus(challenge.id, req)
+        if (status && req.user) {
+          App.event.create(
+            `ev_${status.experimentId}_${status.status}_show`,
+            req.user.id
+          )
+        }
+
         if (!challenge.hideLink) {
           challenge.deps.forEach((dep) => {
             const previous = App.challenges.data.filter((c) => c.id === dep)[0]

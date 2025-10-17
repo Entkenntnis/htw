@@ -4,12 +4,22 @@ import crypto from 'crypto'
 const defs = [
   {
     id: 1,
-    description: 'Dry Run ohne Änderungen',
-    challenge: 24, // Nicht blinzeln
+    description: '"Nicht blinzeln": Dry Run ohne Änderungen',
+    challenge: 24,
     startTs: new Date('2025-10-16').getTime(),
     endTs: new Date(
       'Wed Oct 22 2025 23:55:00 GMT+0200 (Mitteleuropäische Sommerzeit)'
     ).getTime(),
+  },
+  {
+    id: 2,
+    description:
+      '"Zitronentinte": Was passiert, wenn ich den einen Füll-Satz von Kiwi weglasse? Im Base ist die längere Version, im Trial die kürzere. Hat die zusätzliche "Deko" einen Einfluss auf die Metrik?',
+    challenge: 5,
+    startTs: new Date('Oct 17 2025 10:00:00 GMT+0200 ').getTime(),
+    endTs: new Date('Oct 24 2025 23:55:00 GMT+0200 ').getTime(),
+    baseImg: '/experiments/2_base.png',
+    trialImg: '/experiments/2_trial.png',
   },
 ]
 

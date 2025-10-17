@@ -85,7 +85,7 @@ export function setupLiveAnalyze(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; solvedBy: number; seenBy: number; totalSolvedBy: number; }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string; solvedBy: number; seenBy: number; totalSolvedBy: number; }[]}
      */
     const points = []
 
@@ -128,7 +128,7 @@ export function setupLiveAnalyze(App) {
       points.push({
         id: challenge.id,
         pos: challenge.pos,
-        title: challenge.title['de'] || challenge.title,
+        title: App.challenges.getTitle(challenge.id, req),
         seenBy,
         solvedBy,
         totalSolvedBy,
@@ -149,9 +149,9 @@ export function setupLiveAnalyze(App) {
           App.config.styles.pointColor_solved
         }"></circle><text font-family="inherit" fill="black" font-weight="${
           App.config.styles.mapTextWeight
-        }" x="${point.pos.x}" y="${point.pos.y - 17}" text-anchor="middle">${
+        }" x="${point.pos.x}" y="${point.pos.y - 17}" text-anchor="middle">${escapeHTML(
           point.title
-        }</text><text font-family="inherit" fill="black" font-weight="${
+        )}</text><text font-family="inherit" fill="black" font-weight="${
           App.config.styles.mapTextWeight
         }" x="${point.pos.x}" y="${
           point.pos.y + 23
@@ -323,7 +323,7 @@ export function setupLiveAnalyze(App) {
             )})`
           })
           .join('<br>')
-        return `${escapeHTML(App.challenges.dataMap[g.id].title.de)} [${escapeHTML(g.id)}]: ${userCount} Spieler<br>${perLabel}<br>`
+        return `${escapeHTML(App.challenges.getTitle(g.id, req))} [${escapeHTML(g.id)}]: ${userCount} Spieler<br>${perLabel}<br>`
       })
       .join('<br>')
 

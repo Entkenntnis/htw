@@ -13,13 +13,6 @@ const defs = [
   },
 ]
 
-/** @type {Map<number, import("../../data/types.js").ExperimentDefinition>} */
-const defsIndex = new Map()
-
-defs.forEach((def) => {
-  defsIndex.set(def.id, def)
-})
-
 /**
  * @param {import("../../data/types.js").App} App
  */
@@ -70,7 +63,7 @@ export function withExperiments(App) {
         .join('')
 
       return {
-        status: bitString[id % 256] == '0' ? 'base' : 'trial',
+        status: bitString[id % bitString.length] == '0' ? 'base' : 'trial',
         experimentId: exp.id,
       }
     },

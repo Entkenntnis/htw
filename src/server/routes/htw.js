@@ -45,7 +45,7 @@ export function setupHtw(App) {
   })
 
   App.express.get('/export-data', async (req, res) => {
-    if (!req.user) {
+    if (!req.user || App.config.noSelfAdmin.includes(req.user.name)) {
       res.status(403).send('Forbidden')
       return
     }

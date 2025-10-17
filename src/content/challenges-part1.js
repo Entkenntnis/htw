@@ -1120,11 +1120,11 @@ export const part1 = [
     id: 24,
     pos: { x: 140, y: 280 },
     title: { de: 'Nicht blinzeln', en: "Don't blink" },
-    trialTitle: 'Trial für Nicht blinzeln',
+    // trialTitle: 'Trial für Nicht blinzeln',
     // date: '2017-08-25',
     deps: [1],
     render: ({ App, req }) => {
-      console.log(App.experiments.showTrial(24, req))
+      // console.log(App.experiments.showTrial(24, req))
       return {
         de: `
         <p id="poper">Achtung, nicht blinzeln!

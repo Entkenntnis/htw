@@ -4,11 +4,12 @@ import crypto from 'crypto'
 const defs = [
   {
     id: 1,
-    description:
-      'Macht eine Einleitung mit Kiwi im Vergleich zur nackten Aufgabe einen Unterschied?',
+    description: 'Dry Run ohne Änderungen',
     challenge: 24, // Nicht blinzeln
-    startTs: new Date('2025-10-10').getTime(),
-    endTs: new Date('2026-12-15').getTime(),
+    startTs: new Date('2025-10-16').getTime(),
+    endTs: new Date(
+      'Wed Oct 22 2025 23:55:00 GMT+0200 (Mitteleuropäische Sommerzeit)'
+    ).getTime(),
   },
 ]
 

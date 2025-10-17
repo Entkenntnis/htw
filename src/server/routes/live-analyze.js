@@ -462,7 +462,22 @@ export function setupLiveAnalyze(App) {
       raw: true,
     })
 
+    /** @type {Map<number, typeof events>} */
+    const eventsByExperiment = new Map()
+    for (const ev of events) {
+      const exp = parseInt(ev.key.match(/^ex_(\d+)_/)?.[1] || 'NaN')
+      if (isNaN(exp)) continue
+      let list = eventsByExperiment.get(exp)
+      if (!list) {
+        list = []
+        eventsByExperiment.set(exp, list)
+      }
+      list.push(ev)
+    }
+
     for (const exp of entries) {
+      const expEvents = eventsByExperiment.get(exp.id) || []
+
       content += `
         <h2>Experiment ${exp.id} ${
           now < exp.startTs
@@ -472,11 +487,6 @@ export function setupLiveAnalyze(App) {
               : '(aktiv)'
         }</h2>
         <p>${escapeHTML(exp.description)}</p>
-        <p style="color: #8a8a8aff">${App.moment(exp.startTs)
-          .locale('de')
-          .format('LLLL')} —— ${App.moment(exp.endTs)
-          .locale('de')
-          .format('LLLL')}</p>
         <p>${
           now < exp.endTs
             ? `<a href="/challenge/${exp.challenge}" target="_blank">base</a><a href="/challenge/${exp.challenge}?trial=1" target="_blank" style="margin-left: 32px;">trial</a>`
@@ -484,8 +494,169 @@ export function setupLiveAnalyze(App) {
               ? `<a href="${exp.baseImg}" target="_blank">base</a><a href="${exp.trialImg}" target="_blank" style="margin-left: 32px;">trial</a>`
               : '<i>keine Vorschau</i>'
         }</p>
-        <hr style="margin-bottom: 64px; margin-top: 52px;">
-      `
+        <p style="color: #8a8a8aff">${App.moment(exp.startTs)
+          .locale('de')
+          .format('LLLL')} — ${App.moment(exp.endTs)
+          .locale('de')
+          .format(
+            'LLLL'
+          )}, <span style="margin-left: 6px;">${expEvents.length} Events</span></p>
+        `
+
+      // TODO
+      if (expEvents.length === 0) {
+        content += '<p><i>Noch keine Daten für dieses Experiment.</i></p>'
+      } else {
+        /**
+         * @typedef {{ key: string, userId: number | null }} EventRecord
+         * @typedef {Record<'show' | 'visit' | 'attempt' | 'solve', Set<number>>} StatGroup
+         * @typedef {Record<'base' | 'trial', StatGroup>} StatsAccumulator
+         * @typedef {'base' | 'trial'} Variant
+         * @typedef {'show' | 'visit' | 'attempt' | 'solve'} Step
+         */
+
+        /** @type {StatsAccumulator} */
+        const initialStats = {
+          base: {
+            show: new Set(),
+            visit: new Set(),
+            attempt: new Set(),
+            solve: new Set(),
+          },
+          trial: {
+            show: new Set(),
+            visit: new Set(),
+            attempt: new Set(),
+            solve: new Set(),
+          },
+        }
+
+        // 1. Aggregate unique users for each step
+        const stats = expEvents.reduce(
+          (/** @type {StatsAccumulator} */ acc, entry) => {
+            const { key, userId } = entry
+            const [, , groupRaw, actionRaw] = key.split('_')
+            /** @type {Variant | undefined} */
+            const group =
+              groupRaw === 'base' || groupRaw === 'trial' ? groupRaw : undefined
+            /** @type {Step | undefined} */
+            const action =
+              actionRaw === 'show' ||
+              actionRaw === 'visit' ||
+              actionRaw === 'attempt' ||
+              actionRaw === 'solve'
+                ? actionRaw
+                : undefined
+            if (group && action && userId != null) {
+              acc[group][action].add(userId)
+              // Count any attempt when a solve or fail is recorded
+              if (action === 'solve' || actionRaw === 'fail')
+                acc[group].attempt.add(userId)
+            }
+            return acc
+          },
+          initialStats
+        )
+
+        // 2. Define compact helper functions with type definitions
+        /** @param {'base' | 'trial'} group @param {keyof StatGroup} key @returns {number} */
+        const count = (group, key) => stats[group][key].size
+        /** @param {number} n @param {number} d @returns {number} */
+        const rate = (n, d) => (d > 0 ? (n / d) * 100 : 0)
+        /** @param {number} val @returns {string} */
+        const fmtRate = (val) => val.toFixed(1) + '%'
+        /** @param {number} trialRate @param {number} baseRate @returns {string} */
+        const fmtUplift = (trialRate, baseRate) => {
+          if (baseRate === 0) return '-'
+          const val = (trialRate / baseRate - 1) * 100
+          // Use brighter colors for better contrast on dark backgrounds
+          const color =
+            val > 0
+              ? '#66bb6a' /* a pleasant green */
+              : '#ef5350' /* a clear red */
+          const sign = val > 0 ? '+' : ''
+          return `<span style="font-weight:bold;color:${color};">${sign}${val.toFixed(1)}%</span>`
+        }
+
+        // 3. Prepare data for rendering
+        /** @type {Record<'b' | 't', Record<'s' | 'v' | 'a' | 'o', number>>} */
+        const d = {
+          // d for data counts
+          b: {
+            s: count('base', 'show'),
+            v: count('base', 'visit'),
+            a: count('base', 'attempt'),
+            o: count('base', 'solve'),
+          },
+          t: {
+            s: count('trial', 'show'),
+            v: count('trial', 'visit'),
+            a: count('trial', 'attempt'),
+            o: count('trial', 'solve'),
+          },
+        }
+        /** @type {Record<'b' | 't', Record<'v' | 'a' | 'o' | 'ov', number>>} */
+        const r = {
+          // r for rates
+          b: {
+            v: rate(d.b.v, d.b.s),
+            a: rate(d.b.a, d.b.v),
+            o: rate(d.b.o, d.b.a),
+            ov: rate(d.b.o, d.b.v),
+          },
+          t: {
+            v: rate(d.t.v, d.t.s),
+            a: rate(d.t.a, d.t.v),
+            o: rate(d.t.o, d.t.a),
+            ov: rate(d.t.o, d.t.v),
+          },
+        }
+
+        // 4. Render the HTML table with dark theme styles
+        content += `
+          <style>
+            .stats-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+              font-size: .9em;
+              color: #e0e0e0; /* Light text color for readability */
+            }
+            .stats-table th, .stats-table td {
+              border: 1px solid #555; /* Darker borders */
+              padding: 8px;
+              text-align: right;
+            }
+            .stats-table th {
+              background-color: #404040; /* Slightly lighter header background */
+              text-align: left;
+            }
+            .stats-table td:first-child {
+              font-weight: bold;
+              text-align: left;
+            }
+            .rate {
+              color: #aaa; /* Dimmed color for secondary info */
+              font-size: .9em;
+            }
+          </style>
+          <table class="stats-table">
+            <tr><th>Funnel-Schritt (Nutzer)</th><th>Base</th><th>Trial</th><th>Veränderung</th></tr>
+            <tr><td>1. show</td><td>${d.b.s}</td><td>${d.t.s}</td><td>-</td></tr>
+            <tr><td>2. visit<br><span class="rate">from show</span></td><td>${d.b.v}<br><span class="rate">${fmtRate(r.b.v)}</span></td><td>${d.t.v}<br><span class="rate">${fmtRate(r.t.v)}</span></td><td>${fmtUplift(r.t.v, r.b.v)}</td></tr>
+            <tr><td>3. fail+solve<br><span class="rate">from visit</span></td><td>${d.b.a}<br><span class="rate">${fmtRate(r.b.a)}</span></td><td>${d.t.a}<br><span class="rate">${fmtRate(r.t.a)}</span></td><td>${fmtUplift(r.t.a, r.b.a)}</td></tr>
+            <tr><td>4. solve<br><span class="rate">from fail+solve</span></td><td>${d.b.o}<br><span class="rate">${fmtRate(r.b.o)}</span></td><td>${d.t.o}<br><span class="rate">${fmtRate(r.t.o)}</span></td><td>${fmtUplift(r.t.o, r.b.o)}</td></tr>
+            <tr style="background-color: #404040;">
+              <td><b>Gesamt: solve / visit</b></td>
+              <td><b>${fmtRate(r.b.ov)}</b></td>
+              <td><b>${fmtRate(r.t.ov)}</b></td>
+              <td><b>${fmtUplift(r.t.ov, r.b.ov)}</b></td>
+            </tr>
+          </table>
+        `
+      }
+
+      content += '<hr style="margin-bottom: 64px; margin-top: 52px;">'
     }
 
     renderPage(App, req, res, {

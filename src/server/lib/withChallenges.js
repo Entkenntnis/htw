@@ -4,7 +4,21 @@ import { htwChallenges } from '../../content/chal-index.js'
  * @param {import('../../data/types.js').App} App
  */
 export function withChallenges(App) {
-  App.challenges = { distance: {}, data: htwChallenges, dataMap: {} }
+  App.challenges = {
+    distance: {},
+    data: htwChallenges,
+    dataMap: {},
+    getTitle(cid, req) {
+      const showTrial = App.experiments.showTrial(cid, req)
+      const chal = App.challenges.dataMap[cid]
+      if (!chal) return '!! unknown challenge !!'
+
+      if (showTrial && chal.trialTitle) {
+        return chal.trialTitle
+      }
+      return chal.title[req.lng]
+    },
+  }
 
   App.challenges.data.forEach((c) => {
     App.challenges.dataMap[c.id] = c

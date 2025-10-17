@@ -161,7 +161,7 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string | { de: string; en: string; }; isSolved: boolean; unreleased: boolean, goHere: boolean }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; unreleased: boolean, goHere: boolean }[]}
      */
     const points = []
 
@@ -175,7 +175,7 @@ export function setupChallenges(App) {
       const point = {
         id: challenge.id,
         pos: challenge.pos,
-        title: challenge.title[req.lng] || challenge.title,
+        title: App.challenges.getTitle(challenge.id, req),
         isSolved,
         unreleased: !!(challenge.releaseTs && Date.now() < challenge.releaseTs),
         goHere: goHere === challenge.id,
@@ -189,6 +189,18 @@ export function setupChallenges(App) {
         (challenge.showAboveScore && score > challenge.showAboveScore)
       if (visible) {
         points.push(point)
+
+        // handle experimental "show" event
+        if (req.user && !isSolved) {
+          const status = App.experiments.getStatus(challenge.id, req)
+          if (status) {
+            App.event.create(
+              `ex_${status.experimentId}_${status.status}_show`,
+              req.user.id
+            )
+          }
+        }
+
         if (!challenge.hideLink) {
           challenge.deps.forEach((dep) => {
             const previous = App.challenges.data.filter((c) => c.id === dep)[0]
@@ -227,9 +239,9 @@ export function setupChallenges(App) {
           App.config.styles.mapTextColor
         }" font-weight="${App.config.styles.mapTextWeight}" x="${
           point.pos.x
-        }" y="${point.pos.y - 17}" text-anchor="middle">${
+        }" y="${point.pos.y - 17}" text-anchor="middle">${escapeHTML(
           point.title
-        }</text></g></a>`
+        )}</text></g></a>`
       )
     }
 
@@ -349,10 +361,7 @@ export function setupChallenges(App) {
       accessible = true
     }
 
-    const challengeTitle =
-      typeof challenge.title == 'string'
-        ? challenge.title
-        : challenge.title[req.lng]
+    const challengeTitle = App.challenges.getTitle(challenge.id, req)
 
     if (!accessible) {
       renderPage(App, req, res, {
@@ -385,9 +394,13 @@ export function setupChallenges(App) {
     /** @type {boolean | 'none'} */
     let correct = false
     let rawAnswer = false
+    let hasSubmitted = false
 
     try {
       if (typeof req.body?.answer === 'string') {
+        if (req.body.answer) {
+          hasSubmitted = true
+        }
         const result = await check(req.body.answer || '', { req, App })
         if (typeof result == 'object' && result.answer !== undefined) {
           answer = result.answer
@@ -403,6 +416,23 @@ export function setupChallenges(App) {
     } catch (e) {
       console.log(e)
       // something didn't work out, avoid server crashing
+    }
+
+    // handle experiment events here
+    let experimentEvent = 'visit'
+    if (hasSubmitted) {
+      if (correct) {
+        experimentEvent = 'solve'
+      } else {
+        experimentEvent = 'fail'
+      }
+    }
+    const status = App.experiments.getStatus(challenge.id, req)
+    if (status) {
+      App.event.create(
+        `ex_${status.experimentId}_${status.status}_${experimentEvent}`,
+        req.user.id
+      )
     }
 
     if (correct) {
@@ -616,7 +646,7 @@ export function setupChallenges(App) {
     const lastChal =
       lastSol &&
       lastSol[0] &&
-      App.challenges.data.filter((c) => c.id == lastSol[0].cid)[0].title
+      App.challenges.data.filter((c) => c.id == lastSol[0].cid)[0]
     const lastActive =
       (lastSol && lastSol[0] && lastSol[0].createdAt) || req.user.updatedAt
     const betterThanMe = await App.db.models.User.count({
@@ -634,7 +664,9 @@ export function setupChallenges(App) {
       props: {
         room,
         solved,
-        lastChal: (lastChal && lastChal[req.lng]) || lastChal,
+        lastChal: lastChal
+          ? App.challenges.getTitle(lastChal.id, req)
+          : undefined,
         lastActive,
         rank,
         sum,
@@ -915,7 +947,7 @@ export function setupChallenges(App) {
       page: 'solvers',
       content,
       heading:
-        App.challenges.dataMap[id].title[req.lng] +
+        App.challenges.getTitle(id, req) +
         ' - ' +
         (req.lng == 'de' ? 'Verlauf' : 'History'),
       backHref: App.config.urlPrefix + '/challenge/' + id,

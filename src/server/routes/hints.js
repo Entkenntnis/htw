@@ -2105,7 +2105,7 @@ export function setupHints(App) {
 
     renderPage(App, req, res, {
       page: 'hints',
-      heading: `Hinweise für "${challenge.title['de']}"`,
+      heading: `Hinweise für "${App.challenges.getTitle(id, req)}"`,
       backButton: false,
       content: `
         <style>
@@ -2178,8 +2178,7 @@ export function setupHints(App) {
 
     // language handling (default: de)
     const lng = req.lng === 'en' ? 'en' : 'de'
-    const localizedTitle =
-      (challenge.title && (challenge.title[lng] || challenge.title['de'])) || ''
+    const localizedTitle = App.challenges.getTitle(id, req)
 
     renderPage(App, req, res, {
       page: 'feedback',
@@ -2293,8 +2292,7 @@ export function setupHints(App) {
         if (Number.isNaN(id)) return null
         return {
           id,
-          title:
-            App.challenges.dataMap[id]?.title?.['de'] || 'Unbekannte Aufgabe',
+          title: App.challenges.getTitle(id, req),
           feedback: row.value,
           ts: new Date(row.createdAt).getTime(),
         }
@@ -2353,8 +2351,7 @@ export function setupHints(App) {
       if (!acc[q.id]) {
         acc[q.id] = {
           id: q.id,
-          title:
-            App.challenges.dataMap[q.id]?.title?.['de'] || 'Unbekannte Aufgabe',
+          title: App.challenges.getTitle(q.id, req),
           questions: [],
           latest: 0,
         }

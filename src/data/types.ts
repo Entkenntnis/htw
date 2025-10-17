@@ -339,9 +339,8 @@ export interface ExperimentDefinition {
   id: number
   challenge: number
   description: string
-  baseImg?: string
-  trialImg?: string
   startTs: number
   endTs: number
-  archive?: boolean
+  baseImg?: string
+  trialImg?: string
 }

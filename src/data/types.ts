@@ -47,6 +47,7 @@ export interface App {
     data: HtwChallenge[]
     dataMap: { [key: number]: HtwChallenge }
     distance: { [key: number]: number }
+    getTitle(cid: number, req: Request): string
   }
   storage: {
     setItem(key: string, value: string): Promise<void>
@@ -64,6 +65,10 @@ export interface App {
   }
   chat: {
     complete: (messages: Message[]) => Promise<string>
+  }
+  experiments: {
+    getStatus(id: number, req: Request): null | 'base' | 'trial'
+    showTrial(id: number, req: Request): boolean
   }
 }
 
@@ -109,6 +114,7 @@ export interface HtwChallenge {
   hidesubmit?: boolean
   afterSolveText?: { de: string; en: string }
   enableFeedback?: boolean
+  trialTitle?: string
 }
 
 export interface ChallengeStatsData {

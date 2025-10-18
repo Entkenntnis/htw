@@ -596,7 +596,7 @@ export function setupLiveAnalyze(App) {
           }
         }
         return `
-          <p style="margin-top: 48px;"><strong>${escapeHTML(title)}</strong></p>
+          <p style="margin-top: 48px;"><strong>${escapeHTML(title)}</strong> (${baseTotal + trialTotal})</p>
           <p>Base: ${baseTotal} ${escapeHTML(denomLabel)} ----> ${baseSuccess} ${escapeHTML(numerLabel)}, ${pctBase}%</p>
           <p>Trial: ${trialTotal} ${escapeHTML(denomLabel)} ----> ${trialSuccess} ${escapeHTML(numerLabel)}, ${pctTrial}%</p>
           <p>Uplift: <span style="font-weight: bold; color: ${color}; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;">${delta}</span></p>

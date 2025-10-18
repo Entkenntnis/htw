@@ -21,6 +21,16 @@ export const experimentDefs = [
     baseImg: '/experiments/2_base.png',
     trialImg: '/experiments/2_trial.png',
   },
+  {
+    id: 3,
+    description:
+      'Booyah! -> Agent X: Ich vermute, dass der base Titel zu kryptisch ist und viele Menschen abschreckt. Überprüfe diese Hypothese.',
+    challenge: 86,
+    startTs: new Date('Oct 18 2025 10:00:00 GMT+0200 ').getTime(),
+    endTs: new Date('Oct 25 2025 10:00:00 GMT+0200 ').getTime(),
+    baseImg: '/experiments/3_base.jpg',
+    trialImg: '/experiments/3_trial.jpg',
+  },
 ]
 
 /**

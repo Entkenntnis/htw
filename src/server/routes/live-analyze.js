@@ -503,157 +503,172 @@ export function setupLiveAnalyze(App) {
           )}, <span style="margin-left: 6px;">${expEvents.length} Events</span></p>
         `
 
-      // TODO
+      /**
+       * Render an A/B block with base/trial lines and change line.
+       *
+       * @param {string} title Section header
+       * @param {string} denomLabel Label after total (e.g., 'mal auf Karte angezeigt' or 'Besucher')
+       * @param {string} numerLabel Label after arrow for successes (e.g., 'Besucher' or 'Löser')
+       * @param {number} baseTotal Denominator for Base
+       * @param {number} baseSuccess Numerator for Base
+       * @param {number} trialTotal Denominator for Trial
+       * @param {number} trialSuccess Numerator for Trial
+       * @returns {string}
+       */
+      function renderABSection(
+        title,
+        denomLabel,
+        numerLabel,
+        baseTotal,
+        baseSuccess,
+        trialTotal,
+        trialSuccess
+      ) {
+        const pctBase =
+          baseTotal > 0 ? Math.round((100 * baseSuccess) / baseTotal) : 0
+        const pctTrial =
+          trialTotal > 0 ? Math.round((100 * trialSuccess) / trialTotal) : 0
+        const baseRate = baseTotal > 0 ? baseSuccess / baseTotal : 0
+        const trialRate = trialTotal > 0 ? trialSuccess / trialTotal : 0
+        const color =
+          baseRate === 0
+            ? '#ffffff'
+            : trialRate > baseRate
+              ? '#66bb6a'
+              : '#ef5350'
+        const delta = (() => {
+          if (baseRate === 0) return '-'
+          const change = 100 * (trialRate / baseRate - 1)
+          const sign = change > 0 ? '+' : ''
+          return `${sign}${change.toFixed(1)}%`
+        })()
+        // one-sided significance (trialRate > baseRate)
+        /** @param {number} x */
+        const erf = (x) => {
+          const sign = x >= 0 ? 1 : -1
+          const ax = Math.abs(x)
+          const a1 = 0.254829592,
+            a2 = -0.284496736,
+            a3 = 1.421413741,
+            a4 = -1.453152027,
+            a5 = 1.061405429,
+            p = 0.3275911
+          const t = 1 / (1 + p * ax)
+          const y =
+            1 -
+            ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) *
+              t *
+              Math.exp(-ax * ax)
+          return sign * y
+        }
+        /** @param {number} x */
+        const normalCdf = (x) => 0.5 * (1 + erf(x / Math.SQRT2))
+        /** Inverse standard normal CDF via binary search */
+        /** @param {number} p */
+        const normalInv = (p) => {
+          // clamp to avoid infinities
+          const eps = 1e-12
+          if (p <= 0) return -Infinity
+          if (p >= 1) return Infinity
+          let lo = -8,
+            hi = 8
+          for (let i = 0; i < 80; i++) {
+            const mid = (lo + hi) / 2
+            const c = normalCdf(mid)
+            if (c < p - eps) lo = mid
+            else if (c > p + eps) hi = mid
+            else return mid
+          }
+          return (lo + hi) / 2
+        }
+        let pOneSidedStr = '-'
+        if (baseTotal > 0 && trialTotal > 0) {
+          const n1 = baseTotal,
+            n2 = trialTotal
+          const x1 = baseSuccess,
+            x2 = trialSuccess
+          const pPool = (x1 + x2) / (n1 + n2)
+          const se0 = Math.sqrt(pPool * (1 - pPool) * (1 / n1 + 1 / n2))
+          if (se0 > 0) {
+            const z = (trialRate - baseRate) / se0
+            const p1s = 1 - normalCdf(z) // H1: trial > base
+            pOneSidedStr = p1s < 0.0001 ? '< 0.0001' : p1s.toFixed(4)
+          }
+        }
+        return `
+          <p style="margin-top: 48px;"><strong>${escapeHTML(title)}</strong></p>
+          <p>Base: ${baseTotal} ${escapeHTML(denomLabel)} ----> ${baseSuccess} ${escapeHTML(numerLabel)}, ${pctBase}%</p>
+          <p>Trial: ${trialTotal} ${escapeHTML(denomLabel)} ----> ${trialSuccess} ${escapeHTML(numerLabel)}, ${pctTrial}%</p>
+          <p>Uplift: <span style="font-weight: bold; color: ${color}; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;">${delta}</span></p>
+          <p style="color: gray; margin-top: -12px;"><small>Signifikanz (einseitig): p = ${pOneSidedStr}</small></p>
+        `
+      }
+
       if (expEvents.length === 0) {
         content += '<p><i>Noch keine Daten für dieses Experiment.</i></p>'
       } else {
-        /**
-         * @typedef {{ key: string, userId: number | null }} EventRecord
-         * @typedef {Record<'show' | 'visit' | 'attempt' | 'solve', Set<number>>} StatGroup
-         * @typedef {Record<'base' | 'trial', StatGroup>} StatsAccumulator
-         * @typedef {'base' | 'trial'} Variant
-         * @typedef {'show' | 'visit' | 'attempt' | 'solve'} Step
-         */
+        const usersWhoSaw_base = /** @type {Set<number>} */ (new Set())
+        const usersWhoVisit_base = /** @type {Set<number>} */ (new Set())
+        const usersWhoSolve_base = /** @type {Set<number>} */ (new Set())
 
-        /** @type {StatsAccumulator} */
-        const initialStats = {
-          base: {
-            show: new Set(),
-            visit: new Set(),
-            attempt: new Set(),
-            solve: new Set(),
-          },
-          trial: {
-            show: new Set(),
-            visit: new Set(),
-            attempt: new Set(),
-            solve: new Set(),
-          },
+        const usersWhoSaw_trial = /** @type {Set<number>} */ (new Set())
+        const usersWhoVisit_trial = /** @type {Set<number>} */ (new Set())
+        const usersWhoSolve_trial = /** @type {Set<number>} */ (new Set())
+
+        for (const ev of expEvents) {
+          const parts = ev.key.split('_')
+          if (parts.length < 4) continue
+          const variant = parts[2] // base | trial
+          const action = parts[3] // show | visit | solve
+          const uid = ev.userId
+          if (uid == null) continue
+          if (variant === 'base') {
+            if (action === 'show') usersWhoSaw_base.add(uid)
+            else if (action === 'visit') usersWhoVisit_base.add(uid)
+            else if (action === 'solve') usersWhoSolve_base.add(uid)
+          } else if (variant === 'trial') {
+            if (action === 'show') usersWhoSaw_trial.add(uid)
+            else if (action === 'visit') usersWhoVisit_trial.add(uid)
+            else if (action === 'solve') usersWhoSolve_trial.add(uid)
+          }
         }
 
-        // 1. Aggregate unique users for each step
-        const stats = expEvents.reduce(
-          (/** @type {StatsAccumulator} */ acc, entry) => {
-            const { key, userId } = entry
-            const [, , groupRaw, actionRaw] = key.split('_')
-            /** @type {Variant | undefined} */
-            const group =
-              groupRaw === 'base' || groupRaw === 'trial' ? groupRaw : undefined
-            /** @type {Step | undefined} */
-            const action =
-              actionRaw === 'show' ||
-              actionRaw === 'visit' ||
-              actionRaw === 'attempt' ||
-              actionRaw === 'solve'
-                ? actionRaw
-                : undefined
-            if (group && action && userId != null) {
-              acc[group][action].add(userId)
-              // Count any attempt when a solve or fail is recorded
-              if (action === 'solve' || actionRaw === 'fail')
-                acc[group].attempt.add(userId)
-            }
-            return acc
-          },
-          initialStats
+        // only count visitors who also saw the challenge
+        const visitors_base = new Set(
+          [...usersWhoVisit_base].filter((uid) => usersWhoSaw_base.has(uid))
+        )
+        const visitors_trial = new Set(
+          [...usersWhoVisit_trial].filter((uid) => usersWhoSaw_trial.has(uid))
         )
 
-        // 2. Define compact helper functions with type definitions
-        /** @param {'base' | 'trial'} group @param {keyof StatGroup} key @returns {number} */
-        const count = (group, key) => stats[group][key].size
-        /** @param {number} n @param {number} d @returns {number} */
-        const rate = (n, d) => (d > 0 ? (n / d) * 100 : 0)
-        /** @param {number} val @returns {string} */
-        const fmtRate = (val) => val.toFixed(1) + '%'
-        /** @param {number} trialRate @param {number} baseRate @returns {string} */
-        const fmtUplift = (trialRate, baseRate) => {
-          if (baseRate === 0) return '-'
-          const val = (trialRate / baseRate - 1) * 100
-          // Use brighter colors for better contrast on dark backgrounds
-          const color =
-            val > 0
-              ? '#66bb6a' /* a pleasant green */
-              : '#ef5350' /* a clear red */
-          const sign = val > 0 ? '+' : ''
-          return `<span style="font-weight:bold;color:${color};">${sign}${val.toFixed(1)}%</span>`
-        }
+        content += renderABSection(
+          'CTR-Analyse',
+          'mal auf Karte angezeigt',
+          'Besucher',
+          usersWhoSaw_base.size,
+          visitors_base.size,
+          usersWhoSaw_trial.size,
+          visitors_trial.size
+        )
 
-        // 3. Prepare data for rendering
-        /** @type {Record<'b' | 't', Record<'s' | 'v' | 'a' | 'o', number>>} */
-        const d = {
-          // d for data counts
-          b: {
-            s: count('base', 'show'),
-            v: count('base', 'visit'),
-            a: count('base', 'attempt'),
-            o: count('base', 'solve'),
-          },
-          t: {
-            s: count('trial', 'show'),
-            v: count('trial', 'visit'),
-            a: count('trial', 'attempt'),
-            o: count('trial', 'solve'),
-          },
-        }
-        /** @type {Record<'b' | 't', Record<'v' | 'a' | 'o' | 'ov', number>>} */
-        const r = {
-          // r for rates
-          b: {
-            v: rate(d.b.v, d.b.s),
-            a: rate(d.b.a, d.b.v),
-            o: rate(d.b.o, d.b.a),
-            ov: rate(d.b.o, d.b.v),
-          },
-          t: {
-            v: rate(d.t.v, d.t.s),
-            a: rate(d.t.a, d.t.v),
-            o: rate(d.t.o, d.t.a),
-            ov: rate(d.t.o, d.t.v),
-          },
-        }
+        // only include solves of users who also visited
+        const solvers_base = new Set(
+          [...usersWhoSolve_base].filter((uid) => usersWhoVisit_base.has(uid))
+        )
 
-        // 4. Render the HTML table with dark theme styles
-        content += `
-          <style>
-            .stats-table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 20px;
-              font-size: .9em;
-              color: #e0e0e0; /* Light text color for readability */
-            }
-            .stats-table th, .stats-table td {
-              border: 1px solid #555; /* Darker borders */
-              padding: 8px;
-              text-align: right;
-            }
-            .stats-table th {
-              background-color: #404040; /* Slightly lighter header background */
-              text-align: left;
-            }
-            .stats-table td:first-child {
-              font-weight: bold;
-              text-align: left;
-            }
-            .rate {
-              color: #aaa; /* Dimmed color for secondary info */
-              font-size: .9em;
-            }
-          </style>
-          <table class="stats-table">
-            <tr><th>Funnel-Schritt (Nutzer)</th><th>Base</th><th>Trial</th><th>Veränderung</th></tr>
-            <tr><td>1. show</td><td>${d.b.s}</td><td>${d.t.s}</td><td>-</td></tr>
-            <tr><td>2. visit<br><span class="rate">from show</span></td><td>${d.b.v}<br><span class="rate">${fmtRate(r.b.v)}</span></td><td>${d.t.v}<br><span class="rate">${fmtRate(r.t.v)}</span></td><td>${fmtUplift(r.t.v, r.b.v)}</td></tr>
-            <tr><td>3. fail+solve<br><span class="rate">from visit</span></td><td>${d.b.a}<br><span class="rate">${fmtRate(r.b.a)}</span></td><td>${d.t.a}<br><span class="rate">${fmtRate(r.t.a)}</span></td><td>${fmtUplift(r.t.a, r.b.a)}</td></tr>
-            <tr><td>4. solve<br><span class="rate">from fail+solve</span></td><td>${d.b.o}<br><span class="rate">${fmtRate(r.b.o)}</span></td><td>${d.t.o}<br><span class="rate">${fmtRate(r.t.o)}</span></td><td>${fmtUplift(r.t.o, r.b.o)}</td></tr>
-            <tr style="background-color: #404040;">
-              <td><b>Gesamt: solve / visit</b></td>
-              <td><b>${fmtRate(r.b.ov)}</b></td>
-              <td><b>${fmtRate(r.t.ov)}</b></td>
-              <td><b>${fmtUplift(r.t.ov, r.b.ov)}</b></td>
-            </tr>
-          </table>
-        `
+        const solvers_trial = new Set(
+          [...usersWhoSolve_trial].filter((uid) => usersWhoVisit_trial.has(uid))
+        )
+
+        content += renderABSection(
+          'Lösungs-Analyse',
+          'Besucher',
+          'Löser',
+          usersWhoVisit_base.size,
+          solvers_base.size,
+          usersWhoVisit_trial.size,
+          solvers_trial.size
+        )
       }
 
       content += '<hr style="margin-bottom: 64px; margin-top: 52px;">'

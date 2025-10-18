@@ -1865,7 +1865,7 @@ print(hex_string)</pre></code>
       <p>It's nice that you stop by here so regularly. Well, rules: They help us to organize our interactions better. Many rules probably don't make much sense, but there are some that are valuable.
       </p>
       
-      <p>On our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> we only have four rules. What is the second rule (in the german rule channel)?
+      <p>On our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> we only have three rules. What is the second rule (in the german rule channel)?
       </p>
       
       

@@ -829,6 +829,9 @@ export function setupChallenges(App) {
             key: { [Op.like]: 'github_oauth_user_id_%' },
           },
         })
+        await App.db.models.Event.destroy({
+          where: { userId: req.user.id },
+        })
         App.challengeStats.nuke()
         delete req.session.userId
         delete req.user

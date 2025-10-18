@@ -485,46 +485,23 @@ export const communityChallenges2 = [
     },
   },
 
-  /*{
-    id: 339,
-    pos: { x: 1530, y: 705 },
-    title: { de: 'Junkfood', en: 'Junkfood' },
-    date: '2024-04-23',
-    deps: [300],
-    noScore: true,
-    author: 'teebee',
-    html: {
-      de: `
-        <p>Nicht so gierig, sonst verschluckst Du es. Immer nur Häppchen für Häppchen!</p>
-          TODO
-       
-      `,
-      en: `
-      <p>Not so greedy, otherwise you'll swallow it. Just bite by bite every time!</p>
-          
-      TODO
-      `,
-    },
-    solution: secrets('chal_339'),
-  },*/
-
-  /*{
-    id: 338,
-    pos: { x: 2160, y: 945 },
-    title: { de: 'Minecraft III', en: 'Minecraft III' },
-    date: '2024-02-01',
-    deps: [337],
+  {
+    id: 353,
+    pos: { x: 2222, y: 235 },
+    title: { de: 'Discord VI', en: 'Discord VI' },
+    date: '2025-10-18',
+    deps: [335],
     noScore: true,
     author: 'QWERTZ',
     html: {
       de: `
-        <p>TODO</p>
+        <p>Was ist die Role ID der Entwicklerin?</p>
+       
       `,
       en: `
-        <p>TODO</p>
-
+        <p>What is the Role ID of the Entwicklerin?</p>
       `,
     },
-    solution: '42',
-  },*/
+    solution: secrets('chal_353'),
+  },
 ]

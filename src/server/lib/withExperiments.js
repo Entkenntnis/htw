@@ -7,9 +7,7 @@ export const experimentDefs = [
     description: 'Nicht blinzeln: Dry Run ohne Änderungen',
     challenge: 24,
     startTs: new Date('2025-10-16').getTime(),
-    endTs: new Date(
-      'Wed Oct 22 2025 23:55:00 GMT+0200 (Mitteleuropäische Sommerzeit)'
-    ).getTime(),
+    endTs: new Date('2025-10-30').getTime(),
   },
   {
     id: 2,
@@ -17,7 +15,7 @@ export const experimentDefs = [
       'Zitronentinte: Was passiert, wenn ich den einen Füll-Satz von Kiwi weglasse? Im Base ist die längere Version, im Trial die kürzere. Hat die zusätzliche "Deko" einen Einfluss auf die Metrik?',
     challenge: 5,
     startTs: new Date('Oct 17 2025 10:00:00 GMT+0200 ').getTime(),
-    endTs: new Date('Oct 24 2025 23:55:00 GMT+0200 ').getTime(),
+    endTs: new Date('Oct 31 2025 23:55:00 GMT+0100 ').getTime(),
     baseImg: '/experiments/2_base.png',
     trialImg: '/experiments/2_trial.png',
   },
@@ -27,7 +25,7 @@ export const experimentDefs = [
       'Booyah! -> Agent: Ich vermute, dass der base Titel zu kryptisch ist und viele Menschen abschreckt. Überprüfe diese Hypothese.',
     challenge: 86,
     startTs: new Date('Oct 18 2025 10:00:00 GMT+0200 ').getTime(),
-    endTs: new Date('Oct 25 2025 10:00:00 GMT+0200 ').getTime(),
+    endTs: new Date('Nov 08 2025 10:00:00 GMT+0100 ').getTime(),
     baseImg: '/experiments/3_base.jpg',
     trialImg: '/experiments/3_trial.jpg',
   },

@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import { secrets } from '../helper/secrets-loader.js'
+import { renderTemplate } from '../helper/render-template.js'
 
 /**
  * @param {string} s
@@ -2711,16 +2712,7 @@ export const part1 = [
     // date: '2020-08-17',
     deps: [7, 80],
     render: async ({ App, req }) => {
-      const game = await new Promise((res) => {
-        App.express.render(
-          '../../content/views/cheater',
-          { locale: req.lng },
-          (err, html) => {
-            if (err) return res('<p>Fehler: ' + err + '</p>')
-            res(html)
-          }
-        )
-      })
+      const game = await renderTemplate(App, req, 'cheater')
       return {
         de: story(
           'Kiwi',
@@ -3567,16 +3559,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     // date: '2023-04-02',
     deps: [7, 80],
     render: async ({ App, req }) => {
-      const content = await new Promise((res) => {
-        App.express.render(
-          '../../content/views/booyah',
-          { locale: req.lng },
-          (err, html) => {
-            if (err) return res('<p>Error: ' + err + '</p>')
-            res(html)
-          }
-        )
-      })
+      const content = await renderTemplate(App, req, 'booyah')
       return {
         de: story(
           'Josh',

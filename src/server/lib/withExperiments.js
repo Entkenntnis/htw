@@ -24,7 +24,7 @@ export const experimentDefs = [
   {
     id: 3,
     description:
-      'Booyah! -> Agent X: Ich vermute, dass der base Titel zu kryptisch ist und viele Menschen abschreckt. Überprüfe diese Hypothese.',
+      'Booyah! -> Agent: Ich vermute, dass der base Titel zu kryptisch ist und viele Menschen abschreckt. Überprüfe diese Hypothese.',
     challenge: 86,
     startTs: new Date('Oct 18 2025 10:00:00 GMT+0200 ').getTime(),
     endTs: new Date('Oct 25 2025 10:00:00 GMT+0200 ').getTime(),

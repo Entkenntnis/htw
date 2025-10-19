@@ -3084,12 +3084,17 @@ export const part1 = [
     id: 77,
     pos: { x: 680, y: 555 },
     title: { de: 'Geburtstag', en: 'Birthday' },
+    trialTitle: 'Quellcode',
     // date: '2022-02-09',
     deps: [55, 69],
-    html: {
-      de: story(
-        'Kiwi',
-        `
+    render: async ({ App, req }) => {
+      if (App.experiments.showTrial(77, req)) {
+        return story('Kiwi', await renderTemplate(App, req, 'quellcode'))
+      }
+      return {
+        de: story(
+          'Kiwi',
+          `
         <p>Selbst Menschen, die aus einer ganz anderen Zeit stammen, können auch heute inspirieren. Ein solcher Mensch wurde an einem 23. Juni geboren und führte ein brilliantes und sogleich tragisches Leben.</p>
 
         <p>Ich möchte, dass du diesen Menschen kennenlernst. Wie lautet dessen Nachname?</p>
@@ -3123,14 +3128,15 @@ export const part1 = [
 
         </details>
     `
-      ),
-      en: `
+        ),
+        en: `
         <p>Even people from a completely different era can inspire us today.</p>
 
         <p>Such an individual was born on June 23, 1912, and led a brilliant yet tragic life.</p>
 
         <p>Your answer is the last name of this person.</p>
     `,
+      }
     },
     solution: secrets('chal_77'),
   },

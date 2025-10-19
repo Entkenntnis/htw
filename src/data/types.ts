@@ -98,10 +98,9 @@ export interface HtwChallenge {
     App: App
     req: Request
   }) =>
-    | Promise<{ de: string; en: string }>
+    | Promise<{ de: string; en: string } | string>
     | { de: string; en: string }
     | string
-    | Promise<string>
   solution?: string | string[]
   check?: (
     raw: string,

@@ -203,6 +203,9 @@ export function setupLiveAnalyze(App) {
       if (key.startsWith('solvers_')) {
         key = 'solvers_*'
       }
+      if (key.startsWith('ex_')) {
+        key = 'ex_*'
+      }
       const uid = r.userId
       if (uid == 74754) {
         continue // temporary: Skip ipad user events

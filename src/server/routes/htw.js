@@ -285,8 +285,12 @@ export function setupHtw(App) {
       await (await import('../lib/dbModel.js')).dbModel(LOCALAPP)
       await LOCALAPP.db.authenticate()
 
+      // cache sessions and restore
+      const sessions = await LOCALAPP.db.models.Session.findAll({ raw: true })
+
       // Es ist viel schneller, die gesamte Datenbank neu aufzusetzen
       await LOCALAPP.db.sync({ force: true })
+      await LOCALAPP.db.models.Session.bulkCreate(sessions)
 
       console.log('Lokale Datenbank synchronisiert')
 

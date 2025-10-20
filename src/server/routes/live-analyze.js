@@ -479,7 +479,13 @@ export function setupLiveAnalyze(App) {
     }
 
     for (const exp of entries) {
-      const expEvents = eventsByExperiment.get(exp.id) || []
+      const expEvents = (eventsByExperiment.get(exp.id) || []).filter(
+        (
+          e // check time bounds
+        ) =>
+          new Date(e.createdAt).getTime() >= exp.startTs &&
+          new Date(e.createdAt).getTime() <= exp.endTs
+      )
 
       content += `
         <h2>Experiment ${exp.id} ${
@@ -497,13 +503,11 @@ export function setupLiveAnalyze(App) {
               ? `<a href="${exp.baseImg}" target="_blank">base</a><a href="${exp.trialImg}" target="_blank" style="margin-left: 32px;">trial</a>`
               : '<i>keine Vorschau</i>'
         }</p>
-        <p style="color: #8a8a8aff">${App.moment(exp.startTs)
+        <p style="color: #cacacaff">${App.moment(exp.startTs)
           .locale('de')
           .format('LLLL')} — ${App.moment(exp.endTs)
           .locale('de')
-          .format(
-            'LLLL'
-          )}, <span style="margin-left: 6px;">${expEvents.length} Events</span></p>
+          .format('LLLL')}</p>
         `
 
       /**
@@ -533,7 +537,8 @@ export function setupLiveAnalyze(App) {
           trialTotal > 0 ? Math.round((100 * trialSuccess) / trialTotal) : 0
         const baseRate = baseTotal > 0 ? baseSuccess / baseTotal : 0
         const trialRate = trialTotal > 0 ? trialSuccess / trialTotal : 0
-        const color =
+        // Directional color (green if trial > base, else red) used when significance justifies color
+        const dirColor =
           baseRate === 0
             ? '#ffffff'
             : trialRate > baseRate
@@ -584,7 +589,10 @@ export function setupLiveAnalyze(App) {
           }
           return (lo + hi) / 2
         }
+        // Compute one-sided p-value (H1: trialRate > baseRate)
         let pOneSidedStr = '-'
+        /** @type {number | null} */
+        let pOneSided = null
         if (baseTotal > 0 && trialTotal > 0) {
           const n1 = baseTotal,
             n2 = trialTotal
@@ -595,15 +603,35 @@ export function setupLiveAnalyze(App) {
           if (se0 > 0) {
             const z = (trialRate - baseRate) / se0
             const p1s = 1 - normalCdf(z) // H1: trial > base
+            pOneSided = p1s
             pOneSidedStr = p1s < 0.0001 ? '< 0.0001' : p1s.toFixed(4)
           }
+        }
+        // Style for uplift depending on p-value
+        let upliftColor = 'gray'
+        let upliftWeight = 'normal'
+        if (pOneSided != null) {
+          if (pOneSided <= 0.05) {
+            upliftColor = dirColor
+            upliftWeight = 'bold'
+          } else if (pOneSided <= 0.15) {
+            upliftColor = dirColor
+            upliftWeight = 'normal'
+          } else {
+            upliftColor = 'gray'
+            upliftWeight = 'normal'
+          }
+        } else {
+          // No p-value available: show neutral gray, non-bold
+          upliftColor = 'gray'
+          upliftWeight = 'normal'
         }
         return `
           <div style="flex: 1 1;">
             <p style="margin-top: 48px;"><strong>${escapeHTML(title)}</strong> (${baseTotal + trialTotal})</p>
             <p>Base: ${baseTotal} ${escapeHTML(denomLabel)} ----> ${baseSuccess} ${escapeHTML(numerLabel)}, ${pctBase}%</p>
             <p>Trial: ${trialTotal} ${escapeHTML(denomLabel)} ----> ${trialSuccess} ${escapeHTML(numerLabel)}, ${pctTrial}%</p>
-            <p>Uplift: <span style="font-weight: bold; color: ${color}; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;">${delta}</span></p>
+            <p>Uplift: <span style="font-weight: ${upliftWeight}; color: ${upliftColor}; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;">${delta}</span></p>
             <p style="color: gray; margin-top: -12px;"><small>Signifikanz (einseitig): p = ${pOneSidedStr}</small></p>
           </div>
         `
@@ -637,6 +665,48 @@ export function setupLiveAnalyze(App) {
             else if (action === 'solve') usersWhoSolve_trial.add(uid)
           }
         }
+
+        // SRM check (Sample Ratio Mismatch) on exposure ("show") counts, expected 50/50
+        const nShowBase = usersWhoSaw_base.size
+        const nShowTrial = usersWhoSaw_trial.size
+        let srmPStr = '-'
+        if (nShowBase + nShowTrial > 0) {
+          const total = nShowBase + nShowTrial
+          const expEach = total / 2
+          const chi2 =
+            expEach > 0
+              ? (nShowBase - expEach) ** 2 / expEach +
+                (nShowTrial - expEach) ** 2 / expEach
+              : 0
+          // For chi-square with df=1: CDF(x) = 2*Phi(sqrt(x)) - 1; p = 1 - CDF
+          // Implement quick Phi via erf
+          /** @param {number} x */
+          const erf_local = (x) => {
+            const sign = x >= 0 ? 1 : -1
+            const ax = Math.abs(x)
+            const a1 = 0.254829592,
+              a2 = -0.284496736,
+              a3 = 1.421413741,
+              a4 = -1.453152027,
+              a5 = 1.061405429,
+              p = 0.3275911
+            const t = 1 / (1 + p * ax)
+            const y =
+              1 -
+              ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) *
+                t *
+                Math.exp(-ax * ax)
+            return sign * y
+          }
+          /** @param {number} x */
+          const normalCdf_local = (x) => 0.5 * (1 + erf_local(x / Math.SQRT2))
+          /** @param {number} x */
+          const cdfChi2df1 = (x) =>
+            x <= 0 ? 0 : 2 * normalCdf_local(Math.sqrt(x)) - 1
+          const pSRM = 1 - cdfChi2df1(chi2)
+          srmPStr = pSRM < 0.0001 ? '< 0.0001' : pSRM.toFixed(4)
+        }
+        content += `<p style="color: gray; margin-top: -8px;">${expEvents.length} Events</span> / <small>SRM-Check base=${nShowBase}, trial=${nShowTrial}, p = ${srmPStr}</small></p>`
 
         // only count visitors who also saw the challenge
         const visitors_base = new Set(

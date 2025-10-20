@@ -3778,7 +3778,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
       `,
     },
-    solution: secrets('chal_112'),
+    solution: secrets('chal_112').split(','),
   },
 
   {

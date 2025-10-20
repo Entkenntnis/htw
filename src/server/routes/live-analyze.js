@@ -550,7 +550,7 @@ export function setupLiveAnalyze(App) {
           const sign = change > 0 ? '+' : ''
           return `${sign}${change.toFixed(1)}%`
         })()
-        // one-sided significance (trialRate > baseRate)
+        // two-sided significance test between base and trial rates
         /** @param {number} x */
         const erf = (x) => {
           const sign = x >= 0 ? 1 : -1
@@ -589,10 +589,10 @@ export function setupLiveAnalyze(App) {
           }
           return (lo + hi) / 2
         }
-        // Compute one-sided p-value (H1: trialRate > baseRate)
-        let pOneSidedStr = '-'
+        // Compute two-sided p-value
+        let pTwoSidedStr = '-'
         /** @type {number | null} */
-        let pOneSided = null
+        let pTwoSided = null
         if (baseTotal > 0 && trialTotal > 0) {
           const n1 = baseTotal,
             n2 = trialTotal
@@ -602,19 +602,19 @@ export function setupLiveAnalyze(App) {
           const se0 = Math.sqrt(pPool * (1 - pPool) * (1 / n1 + 1 / n2))
           if (se0 > 0) {
             const z = (trialRate - baseRate) / se0
-            const p1s = 1 - normalCdf(z) // H1: trial > base
-            pOneSided = p1s
-            pOneSidedStr = p1s < 0.0001 ? '< 0.0001' : p1s.toFixed(4)
+            const p2s = 2 * (1 - normalCdf(Math.abs(z))) // two-sided p-value
+            pTwoSided = p2s
+            pTwoSidedStr = p2s < 0.0001 ? '< 0.0001' : p2s.toFixed(4)
           }
         }
         // Style for uplift depending on p-value
         let upliftColor = 'gray'
         let upliftWeight = 'normal'
-        if (pOneSided != null) {
-          if (pOneSided <= 0.05) {
+        if (pTwoSided != null) {
+          if (pTwoSided <= 0.05) {
             upliftColor = dirColor
             upliftWeight = 'bold'
-          } else if (pOneSided <= 0.15) {
+          } else if (pTwoSided <= 0.15) {
             upliftColor = dirColor
             upliftWeight = 'normal'
           } else {
@@ -632,7 +632,7 @@ export function setupLiveAnalyze(App) {
             <p>Base: ${baseTotal} ${escapeHTML(denomLabel)} ----> ${baseSuccess} ${escapeHTML(numerLabel)}, ${pctBase}%</p>
             <p>Trial: ${trialTotal} ${escapeHTML(denomLabel)} ----> ${trialSuccess} ${escapeHTML(numerLabel)}, ${pctTrial}%</p>
             <p>Uplift: <span style="font-weight: ${upliftWeight}; color: ${upliftColor}; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;">${delta}</span></p>
-            <p style="color: gray; margin-top: -12px;"><small>Signifikanz (einseitig): p = ${pOneSidedStr}</small></p>
+            <p style="color: gray; margin-top: -12px;"><small>Signifikanz (zweiseitig): p = ${pTwoSidedStr}</small></p>
           </div>
         `
       }

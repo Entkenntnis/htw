@@ -3084,7 +3084,6 @@ export const part1 = [
     id: 77,
     pos: { x: 680, y: 555 },
     title: { de: 'Geburtstag', en: 'Birthday' },
-    trialTitle: 'Quellcode',
     // date: '2022-02-09',
     deps: [55, 69],
     render: async ({ App, req }) => {

@@ -51,7 +51,7 @@ export function withExperiments(App) {
         .join('')
 
       return {
-        status: bitString[id % bitString.length] == '0' ? 'base' : 'trial',
+        status: bitString[exp.id % bitString.length] == '0' ? 'base' : 'trial',
         experimentId: exp.id,
       }
     },

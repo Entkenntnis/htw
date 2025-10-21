@@ -3768,19 +3768,24 @@ To: ${req.user?.name}@arrrg.de</pre>
     pos: { x: 747, y: 249 },
     title: { de: 'Minecraft III', en: 'Minecraft III' },
     deps: [337],
-    html: {
-      de: story(
-        'Bex',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          'Bex',
+          `
         <p>Nehmen wir mal an, ich baue eine Schaltung, die nicht funktioniert. Das passiert in der Realität natürlich nicht. Schaue dir diese Situation an:</p>
 
         <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:65ch"></p>
-        <p style="text-align: center; margin-top: -16px;"><small style="color: gray;">0x164 sieht vielversprechend aus</small></p>
+        ${
+          App.experiments.showTrial(112, req)
+            ? ''
+            : '<p style="text-align: center; margin-top: -16px;"><small style="color: gray;">0x164 sieht vielversprechend aus</small></p>'
+        }
         
         <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, doch die Lampe leuchtet nicht. Wenn ich einen Block mit einem neuen Block ersetze, kann ich die Schaltung reparieren. Die Block-ID des neuen Blocks ist deine Antwort.</p>
       `
-      ),
-      en: `
+        ),
+        en: `
         <p>I want to turn the lamp on and off with the switch, but the circuit isn't working.</p>
 
         <p><img src="/chals/chal112.jpg" alt="View of Redstone circuit" style="max-width:100%"></p>
@@ -3788,6 +3793,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <p>My buddy immediately spots the problem: "You just need to replace one block!" The block ID of the new block is your answer.</p>
 
       `,
+      }
     },
     solution: secrets('chal_112').split(','),
   },

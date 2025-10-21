@@ -45,4 +45,12 @@ export const experimentDefs = [
     startTs: new Date('2025-10-22').getTime(),
     endTs: new Date('2025-11-05').getTime(),
   },
+  {
+    id: 6,
+    description:
+      'Minecraft III: welchen Effekt hat der direkte Hinweis? Was ist, wenn ich diesen Hinweis auslasse? Ich erwarte eine Reduktion.',
+    challenge: 112,
+    startTs: new Date('2025-10-22').getTime(),
+    endTs: new Date('2025-11-05').getTime(),
+  },
 ]

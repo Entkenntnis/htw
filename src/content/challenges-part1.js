@@ -3769,11 +3769,11 @@ To: ${req.user?.name}@arrrg.de</pre>
       `
       ),
       en: `
-        <p>I want to turn the lamp on and off with a switch, but the circuit isn't working.</p>
+        <p>I want to turn the lamp on and off with the switch, but the circuit isn't working.</p>
 
         <p><img src="/chals/chal112.jpg" alt="View of Redstone circuit" style="max-width:100%"></p>
 
-        <p>My buddy immediately spots the problem: "You just need to replace a block!" The block ID of the new block is your answer.</p>
+        <p>My buddy immediately spots the problem: "You just need to replace one block!" The block ID of the new block is your answer.</p>
 
       `,
     },

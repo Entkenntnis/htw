@@ -720,7 +720,7 @@ export function setupLiveAnalyze(App) {
           '<div style="display: flex; gap: 32px; flex-wrap: wrap; width: 100%;">'
         content += renderABSection(
           'CTR-Analyse',
-          'gesehen',
+          'mal auf Karte angezeigt',
           'Besucher',
           usersWhoSaw_base.size,
           visitors_base.size,
@@ -730,20 +730,20 @@ export function setupLiveAnalyze(App) {
 
         // only include solves of users who also visited
         const solvers_base = new Set(
-          [...usersWhoSolve_base].filter((uid) => usersWhoSaw_base.has(uid))
+          [...usersWhoSolve_base].filter((uid) => usersWhoVisit_base.has(uid))
         )
 
         const solvers_trial = new Set(
-          [...usersWhoSolve_trial].filter((uid) => usersWhoSaw_trial.has(uid))
+          [...usersWhoSolve_trial].filter((uid) => usersWhoVisit_trial.has(uid))
         )
 
         content += renderABSection(
           'Lösungs-Analyse',
-          'gesehen',
+          'Besucher',
           'Löser',
-          usersWhoSaw_base.size,
+          usersWhoVisit_base.size,
           solvers_base.size,
-          usersWhoSaw_trial.size,
+          usersWhoVisit_trial.size,
           solvers_trial.size
         )
         content += '</div>'

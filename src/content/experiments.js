@@ -42,8 +42,8 @@ export const experimentDefs = [
     description:
       'Einhorn: neue Aufgabenstellung ohne Pflicht-Verlinkung, dafür mehr auf der Seite integriert mit einer "Standard"-Aufgabe zu Geometrie.',
     challenge: 23,
-    startTs: new Date('2025-10-22').getTime(),
-    endTs: new Date('2025-11-05').getTime(),
+    startTs: new Date('2025-10-24').getTime(),
+    endTs: new Date('2025-11-07').getTime(),
   },
   {
     id: 6,

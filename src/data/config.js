@@ -102,7 +102,7 @@ export const appConfig = {
      }
      ${
        showPleaseFixMeAndMortalCoil
-         ? '<a draggable="false" href="/mortal-coil" style="position:absolute;left:2250px;top:110px;" class="text-reset text-decoration-none fade-in"><div>Mortal Coil</div><img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
+         ? '<a draggable="false" href="/mortal-coil" style="position:absolute;left:1743px;top:230px;" class="text-reset text-decoration-none fade-in"><div>Mortal Coil</div><img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
            '<a draggable="false" href="/please-fix-me" style="position:absolute;left:1950px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Please Fix Me!</div><img draggable="false" src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;"></a>'
          : ''
      }${

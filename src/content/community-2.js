@@ -552,4 +552,24 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     },
     solution: secrets('chal_354'),
   },
+
+  {
+    id: 355,
+    pos: { x: 2272, y: 155 },
+    title: { de: 'Discord VII', en: 'Discord VII' },
+    date: '2025-10-28',
+    deps: [335],
+    noScore: true,
+    releaseTs: new Date('2025-10-27 15:00:00 GMT+0100').getTime(),
+    author: 'QWERTZ',
+    html: {
+      de: `
+        <p>Tokens sind mächtige Zeichenketten. Wenn man den Token von einer Person hat, dann kann man sich unter deren Account anmelden ... Da du so ein guter Hacker bist, kannst du mir bestimmt die ersten 24 Zeichen des Tokens von @QWERTZ sagen.</p>
+      `,
+      en: `
+        <p>Tokens are powerful strings. If you have someone’s token, you can log in under their account ... Since you’re such a good hacker, you can surely tell me the first 24 characters of @QWERTZ’s token.</p>
+      `,
+    },
+    solution: secrets('chal_355'),
+  },
 ]

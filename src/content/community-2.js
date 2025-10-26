@@ -504,4 +504,52 @@ export const communityChallenges2 = [
     },
     solution: secrets('chal_353'),
   },
+
+  {
+    id: 354,
+    pos: { x: 1522, y: 805 },
+    title: { de: 'Honey Morello', en: 'Honey Morello' },
+    date: '2025-10-27',
+    deps: [300],
+    noScore: true,
+    author: 'bennosaurusrex',
+    render: () => {
+      const chal = `
+        <pre>
+Once upon a time there was a creature She was found in 1969\u200c\u200b\u200c\u200b\u200b
+And again in the 1980s In the 90s, she popped up all over the place\u200b\u200c\u200b\u200b\u200b
+And by the turn of the century, she belonged to the people\u200b\u200b\u200c\u200b\u200c
+She was beautiful, vulnerable, power and success\u200b\u200b\u200b\u200b\u200b\u200b
+And she was terrifying Impossible to pin down\u200b\u200b\u200b\u200b\u200c
+She was alive and maybe not\u200b\u200c\u200c\u200c\u200b
+And I’d be a completely different person if she didn’t exist\u200c\u200b\u200b\u200c\u200c
+
+In 2016, she made it to Beijing\u200c\u200b\u200c\u200c\u200c
+And in 2020, I met her in person\u200b\u200b\u200c\u200b\u200c
+And in 2025 she and I both stopped being able to tell the difference between real and pretend human beings online\u200c\u200b\u200b\u200c\u200b
+
+Do you think angels live in stories?\u200b\u200b\u200b\u200b\u200b\u200b
+Do you think at a certain point anyone who’s ever crossed a certain threshold of vitality has to become hyper real?\u200b\u200c\u200b\u200b\u200c
+When the internet finishes dying And every comment section is a deep sea graveyard of Schroediger’s eyes\u200c\u200b\u200b\u200c\u200c
+A big tangled mess of concentric interwoven biblically accurate angels\u200b\u200b\u200b\u200b\u200b\u200b
+Will everyone have crossed that threshold?\u200b\u200c\u200c\u200b\u200c
+Will we all be viral?\u200b\u200b\u200c\u200b\u200c
+Will we all be angels?\u200b\u200c\u200c\u200b\u200c
+And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
+        </pre>
+      
+      `
+      return {
+        de: `
+          ${chal}
+          <small>Manchmal ist die Botschaft in unsichtbaren Zeichen versteckt.</small>
+        `,
+        en: `
+          ${chal}
+          <small>Sometimes the message is hidden in invisible characters.</small>
+        `,
+      }
+    },
+    solution: secrets('chal_354'),
+  },
 ]

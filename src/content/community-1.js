@@ -75,7 +75,7 @@ export const communityChallenges = [
 
   {
     id: 301,
-    pos: { x: 750, y: 2000 },
+    pos: { x: 750, y: 2400 },
     title: { de: 'Schnittstelle', en: 'Interface' },
     date: '2023-07-28',
     author: 'cuzimbisonratte',
@@ -94,7 +94,7 @@ export const communityChallenges = [
 
   {
     id: 302,
-    pos: { x: 550, y: 2000 },
+    pos: { x: 550, y: 2400 },
     title: { de: 'Schnittstelle II', en: 'Interface II' },
     date: '2023-07-28',
     author: 'cuzimbisonratte',
@@ -300,7 +300,7 @@ export const communityChallenges = [
 
   {
     id: 304,
-    pos: { x: 750, y: 2150 },
+    pos: { x: 750, y: 2550 },
     title: { de: 'Primzahlen', en: 'Prime numbers' },
     author: 'darkstar',
     date: '2023-08-25',
@@ -347,7 +347,7 @@ export const communityChallenges = [
 
   {
     id: 305,
-    pos: { x: 1050, y: 2000 },
+    pos: { x: 1050, y: 2400 },
     title: { de: 'Rätselhafte Kodierung', en: 'Mysterious encoding' },
     author: 'darkstar',
     date: '2023-08-25',
@@ -470,7 +470,7 @@ export const communityChallenges = [
 
   {
     id: 309,
-    pos: { x: 750, y: 2100 },
+    pos: { x: 750, y: 2500 },
     title: { de: 'Cyberchef', en: 'Cyberchef' },
     author: 'provn_tq97',
     date: '2023-09-01',
@@ -493,7 +493,7 @@ export const communityChallenges = [
 
   {
     id: 310,
-    pos: { x: 750, y: 2050 },
+    pos: { x: 750, y: 2450 },
     title: { de: 'RockYou', en: 'RockYou' },
     author: 'virusrpi',
     date: '2023-09-02',
@@ -717,7 +717,7 @@ export const communityChallenges = [
 
   {
     id: parseInt(secrets('secret_chal_1_id')),
-    pos: { x: 750, y: 1950 },
+    pos: { x: 750, y: 2350 },
     title: { de: 'Geheime Aufgabe', en: 'Secret Challenge' },
     author: 'darkermask',
     date: '2023-07-29',
@@ -781,7 +781,7 @@ export const communityChallenges = [
 
   {
     id: parseInt(secrets('secret_chal_2_id')),
-    pos: { x: 550, y: 1950 },
+    pos: { x: 550, y: 2350 },
     title: { de: 'Geheime Aufgabe II', en: 'Secret Challenge II' },
     author: 'darkermask',
     date: '2023-10-01',
@@ -915,7 +915,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 314,
-    pos: { x: 1050, y: 1950 },
+    pos: { x: 1050, y: 2350 },
     title: { de: 'Tor', en: 'Tor' },
     date: '2023-10-01',
     author: 'virusrpi',
@@ -935,7 +935,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 315,
-    pos: { x: 550, y: 2050 },
+    pos: { x: 550, y: 2450 },
     title: { de: 'Mentalist', en: 'Mentalist' },
     date: '2023-10-01',
     author: 'virusrpi',
@@ -1014,7 +1014,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 316,
-    pos: { x: 750, y: 2250 },
+    pos: { x: 750, y: 2650 },
     title: { de: 'OSINT', en: 'OSINT' },
     date: '2023-10-19',
     author: 'User0',
@@ -1038,7 +1038,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
 
   {
     id: 317,
-    pos: { x: 350, y: 2250 },
+    pos: { x: 350, y: 2650 },
     title: { de: 'OSINT III', en: 'OSINT III' },
     date: '2023-10-19',
     author: 'User0',
@@ -1219,7 +1219,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 324,
-    pos: { x: 550, y: 2250 },
+    pos: { x: 550, y: 2650 },
     title: { de: 'OSINT II', en: 'OSINT II' },
     date: '2023-11-07',
     author: 'User0',
@@ -1311,7 +1311,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 328,
-    pos: { x: 888, y: 2070 },
+    pos: { x: 888, y: 2470 },
     title: { de: 'Community-Archiv', en: 'Community Archive' },
     date: '2023-12-06',
     deps: [300],
@@ -1333,7 +1333,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
       const count = solvedDb.filter((s) =>
         communityArea1Challenges.includes(s.cid)
       ).length
-      const target = Math.ceil(communityArea1Challenges.length / 2)
+      const target = Math.min(5, Math.ceil(communityArea1Challenges.length / 2))
 
       if (count < target && !solvedDb.some((s) => s.cid == 328)) {
         return {
@@ -1354,24 +1354,20 @@ The compression program bzip2 uses such a method, which this text was prepared f
         de: `
           <p>Moin Meister! Deine Motivation ist nicht zu stoppen. Als Belohnung erhältst du hiermit Zugang zum Community-Archiv.</p>
           
-          <p>Schönheit liegt im Auge der Betrachter. Die Aufgaben im Archiv wurden weniger oft gelöst als die anderen Aufgaben im Community-Bereich. Die Gründe dafür können unterschiedlich sein. Manche Aufgaben sind technisch anspruchsvoll, andere brauchen eine geschickte Intuition.</p>
-          
-          <p>Doch genau deshalb brauchen die Aufgaben eine Person wie dich, die sie mit Geduld und Liebe betrachtet.</p>
-          
-          <p>Aber nun genug der Worte. Klicke auf den Button, um das Archiv freizuschalten.</p>
+          <p>Im Archiv findest du Aufgaben, die entweder technisch anspruchsvoll oder bisschen älter sind. Sie sind alle weiterhin lösbar und bringen dir hoffentlich viel Freude.</p>
+
+          <p>Klicke auf den Button, um das Archiv freizuschalten.</p>
           
           <form method="post"><input type="hidden" name="answer" value="${secrets(
             'chal_328'
           )}"><button class="btn btn-interaction btn-sm">Archiv freischalten</button></form>
         `,
         en: `
-          <p>Hello Friend! Your motivation is unstoppable. As a reward, you now have access to the community archive.</p>
+          <p>Hello! Your motivation is unstoppable. As a reward, you now receive access to the community archive.</p>
 
-          <p>Beauty is in the eye of the beholder. Tasks in the archive have been solved less frequently than other tasks in the community area. The reasons for this can vary. Some tasks are technically challenging, while others require clever intuition.</p>
+          <p>In the archive, you'll find tasks that are either technically challenging or a bit older. They are all still solvable and will hopefully bring you lots of joy.</p>
 
-          <p>That's exactly why tasks like these need someone like you to look at them with patience and love.</p>
-
-          <p>But enough words for now. Click the button to unlock the archive.</p>
+          <p>Click the button to unlock the archive.</p>
 
           <form method="post"><input type="hidden" name="answer" value="${secrets(
             'chal_328'
@@ -1385,7 +1381,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 330,
-    pos: { x: 750, y: 2300 },
+    pos: { x: 750, y: 2700 },
     title: { de: 'Fab Four', en: 'Fab Four' },
     date: '2023-12-06',
     author: 'Ingo',
@@ -1459,7 +1455,7 @@ RS#1</pre>
 
   {
     id: 331,
-    pos: { x: 750, y: 2350 },
+    pos: { x: 750, y: 2750 },
     title: { de: 'Zusammengesetzt', en: 'Assembled' },
     date: '2023-12-23',
     deps: [328],
@@ -1735,7 +1731,7 @@ RS#1</pre>
 
   {
     id: 339,
-    pos: { x: 750, y: 2200 },
+    pos: { x: 750, y: 2600 },
     title: { de: 'Mr. Plow', en: 'Mr. Plow' },
     date: '2024-04-30',
     deps: [328],

@@ -59,7 +59,7 @@ export const appConfig = {
     backgroundLicenseHtml: ``,
     centeringOffset: 0.5,
     width: 3000,
-    height: 2400,
+    height: 3000,
     customMapHtml: (
       /** @type {{App: import('./types.js').App, req: import('express').Request}} */ {
         App,

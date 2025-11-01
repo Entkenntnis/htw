@@ -573,4 +573,24 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     },
     solution: secrets('chal_355'),
   },
+
+  /*{
+    id: 356,
+    pos: { x: 1580, y: 875 },
+    title: { de: 'Lost Challenge', en: 'Lost Challenge' },
+    date: '2025-11-03',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2025-11-03 15:00:00 GMT+0100').getTime(),
+    author: 'ChecksMC',
+    html: {
+      de: `
+        TODO
+      `,
+      en: `
+        TODO
+      `,
+    },
+    solution: secrets('chal_356'),
+  },*/
 ]

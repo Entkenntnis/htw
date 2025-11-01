@@ -134,7 +134,6 @@ export const appConfig = {
   i18nExtend: getI18nExtension(),
   styles: {
     mapTextColor: 'white',
-    mapTextWeight: 'normal',
     connectionColor: '#464545',
     pointColor: 'var(--success)',
     pointColor_solved: '#666699',

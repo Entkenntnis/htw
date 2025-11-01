@@ -161,7 +161,7 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; color: string, goHere: boolean }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; color: string, goHere: boolean, unreleased: boolean }[]}
      */
     const points = []
 
@@ -175,15 +175,11 @@ export function setupChallenges(App) {
       const unreleased = !!(
         challenge.releaseTs && Date.now() < challenge.releaseTs
       )
-      const color = unreleased
-        ? 'pink'
-        : /*isSolved
-          ? App.config.styles.pointColor_solved
-          :*/ challenge.color
-          ? challenge.color
-          : challenge.noScore
-            ? '#f5ee27ff'
-            : App.config.styles.pointColor
+      const color = challenge.color
+        ? challenge.color
+        : challenge.noScore
+          ? '#f5ee27ff'
+          : App.config.styles.pointColor
       const point = {
         id: challenge.id,
         pos: challenge.pos,
@@ -191,6 +187,7 @@ export function setupChallenges(App) {
         isSolved,
         color,
         goHere: goHere === challenge.id,
+        unreleased,
       }
       const visible =
         isSolved ||
@@ -238,8 +235,8 @@ export function setupChallenges(App) {
         }" class="no-underline"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
           point.pos.y
         }" ${
-          point.isSolved
-            ? `fill="${App.config.styles.pointColor_solved}" stroke="${point.color}" stroke-width="2"`
+          point.isSolved || point.unreleased
+            ? `fill="${point.unreleased ? 'pink' : App.config.styles.pointColor_solved}" stroke="${point.color}" stroke-width="2"`
             : `class="pulsing-circle fill="${point.color}" style="color: ${point.color}" `
         }></circle><circle ${
           point.goHere ? 'id="go-here-after-loading-map"' : ''
@@ -247,7 +244,7 @@ export function setupChallenges(App) {
           point.pos.y
         }" fill="transparent"></circle><text font-family="inherit" fill="${
           App.config.styles.mapTextColor
-        }" font-weight="${App.config.styles.mapTextWeight}" x="${
+        }" font-weight="${point.isSolved ? 'normal' : '600'}" x="${
           point.pos.x
         }" y="${point.pos.y - 17}" text-anchor="middle">${escapeHTML(
           point.title

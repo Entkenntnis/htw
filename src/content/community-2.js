@@ -47,14 +47,13 @@ export const communityChallenges2 = [
   {
     id: 346,
     pos: { x: 2080, y: 755 },
-    title: { de: 'Tag 1 🍬', en: 'Day 1 🍬' },
+    title: { de: 'Halloween 2025 - Tag 1 🍬', en: 'Halloween 2025 - Day 1 🍬' },
     date: '2025-10-25',
     deps: [300],
     releaseTs: new Date(
       'Sat Oct 25 2025 18:00:00 GMT+0200 (Mitteleuropäische Sommerzeit)'
     ).getTime(),
     noScore: true,
-    enableFeedback: true,
     author: 'Anna',
     color: '#eb7719ff',
     html: {
@@ -95,7 +94,6 @@ export const communityChallenges2 = [
       'Sun Oct 26 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
-    enableFeedback: true,
     author: 'Anna',
     color: '#eb7719ff',
     render: () => {
@@ -153,7 +151,6 @@ export const communityChallenges2 = [
       'Mon Oct 27 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
-    enableFeedback: true,
     author: 'Anna',
     color: '#eb7719ff',
     render: () => {
@@ -217,7 +214,6 @@ export const communityChallenges2 = [
       'Tue Oct 28 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
-    enableFeedback: true,
     author: 'Anna',
     color: '#eb7719ff',
     html: {
@@ -246,7 +242,6 @@ export const communityChallenges2 = [
       'Wed Oct 29 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
-    enableFeedback: true,
     author: 'Anna',
     color: '#eb7719ff',
     html: {
@@ -275,7 +270,6 @@ export const communityChallenges2 = [
       'Thu Oct 30 2025 18:00:00 GMT+0100 (Mitteleuropäische Normalzeit)'
     ).getTime(),
     noScore: true,
-    enableFeedback: true,
     author: 'Anna',
     color: '#eb7719ff',
     html: {

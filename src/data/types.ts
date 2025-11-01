@@ -117,6 +117,7 @@ export interface HtwChallenge {
   afterSolveText?: { de: string; en: string }
   enableFeedback?: boolean
   trialTitle?: string
+  color?: string
 }
 
 export interface ChallengeStatsData {

@@ -56,6 +56,7 @@ export const communityChallenges2 = [
     noScore: true,
     enableFeedback: true,
     author: 'Anna',
+    color: '#eb7719ff',
     html: {
       de: `
         ${'Genieße dein letztes Halloween! Die Antwort lautet RIP.'
@@ -96,6 +97,7 @@ export const communityChallenges2 = [
     noScore: true,
     enableFeedback: true,
     author: 'Anna',
+    color: '#eb7719ff',
     render: () => {
       return {
         de: `
@@ -153,6 +155,7 @@ export const communityChallenges2 = [
     noScore: true,
     enableFeedback: true,
     author: 'Anna',
+    color: '#eb7719ff',
     render: () => {
       const deko = `<pre style="line-height: 1.2">
                                   ;::;;::;,
@@ -216,6 +219,7 @@ export const communityChallenges2 = [
     noScore: true,
     enableFeedback: true,
     author: 'Anna',
+    color: '#eb7719ff',
     html: {
       de: `
         <p>Ein Schrei schallt durch die Nacht. Was der Schrei wohl bedeutet?</p>
@@ -244,6 +248,7 @@ export const communityChallenges2 = [
     noScore: true,
     enableFeedback: true,
     author: 'Anna',
+    color: '#eb7719ff',
     html: {
       de: `
         <p>Der arme Geist hat 6 Einschusslöcher. Vielleicht wollte er dir was sagen? Schaue genau auf den Rot-Ton:</p>
@@ -272,6 +277,7 @@ export const communityChallenges2 = [
     noScore: true,
     enableFeedback: true,
     author: 'Anna',
+    color: '#eb7719ff',
     html: {
       de: `
         <p style="overflow-wrap: break-word; color: red; font-size: 200px;">SW4gZGVyIGxldHp0ZW4gTmFjaHQgaGFzdCBkdSB2b24gU+RyZ2VuIGdldHLkdW10LCBhdWYgZWluZW0gZGF2b24gc3RhbmQgc29nYXIgZGVpbiBOYW1lLiBFaW4gV29ydCBnZWh0IGRpciBuaWNodCBhdXMgZGVtIFNpbm4uIEJlaW4uIEJlaW4uIEJlaW4uIEJFRUVFRUlJSUlJTiEhISEhISEgRHUgaGFzdCBrZWluZSBBaG51bmcsIHdhcyBlcyBiZWRldXRlbiBzb2xsLiBFcyBtYWNodCBkaXIgQW5nc3QuIERpZSBBbnR3b3J0IGxhdXRldCBCZWluLiBNb3JnZW4gaXN0IEhhbGxvd2Vlbi4gV2FzIHNvbGwgc2Nob24gcGFzc2llcmVuLCB3ZW5uIGR1IGVpbmZhY2ggWnVoYXVzZSBibGVpYnN0PyBLaW5kZXIgd2VyZGVuIGFuIGRlciBU/HIga2xpbmdlbiwgZHUgc2NoYXVzdCBkaXIgZWluZW4gRmlsbSBhbiAoa2VpbiBIb3Jyb3JmaWxtKSB1bmQgZGFubiBpc3QgZGVyIGdhbnplIFNwdWsgYW0gbuRjaHN0ZW4gVGFnIHZvcmJlaS4=</p>
@@ -295,6 +301,7 @@ export const communityChallenges2 = [
     ).getTime(),
     noScore: true,
     author: 'Anna',
+    color: '#eb7719ff',
     render: () => {
       const script = `
         <style>

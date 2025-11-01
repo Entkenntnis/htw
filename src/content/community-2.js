@@ -578,7 +578,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     id: 356,
     pos: { x: 1660, y: 765 },
     title: { de: 'Lost Challenge', en: 'Lost Challenge' },
-    date: '2025-11-03',
+    date: '2025-11-04',
     deps: [300],
     noScore: true,
     releaseTs: new Date('2025-11-04 11:11:11 GMT+0100').getTime(),
@@ -592,5 +592,29 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
       `,
     },
     solution: secrets('chal_356'),
+  },
+
+  {
+    id: 357,
+    pos: { x: 1620, y: 525 },
+    title: { de: 'Base4096', en: 'Base4096' },
+    date: '2025-11-06',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2025-11-06 11:11:11 GMT+0100').getTime(),
+    author: 'CARLO',
+    html: {
+      de: `
+        <p><code>aHR0cHM6Ly9iYXNlNDA5Ni5pbmZpbml0eWZyZWVhcHAuY29tLw==</code></p>
+      
+        <p>🗾🜈⚖🦢🅩🆠🅉🍠🃦🦮🅨❔⛏⃣🉨⩈🌢↗🟕🊍🗣😫🉿🪘🜜🩮🊱⨂⪏🇇🇴🎄🟵</p>
+      `,
+      en: `
+        <p><code>aHR0cHM6Ly9iYXNlNDA5Ni5pbmZpbml0eWZyZWVhcHAuY29tLw==</code></p>
+      
+        <p>🗾🜈⚖🦢🅩🆠🅉🍠🃦🦮🅨❔⛏⃣🉨⩈🌢↗🟕🊍🗣😫🉿🪘🜜🩮🊱⨂⪏🇇🇴🎄🟵</p>
+      `,
+    },
+    solution: secrets('chal_357'),
   },
 ]

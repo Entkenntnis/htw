@@ -574,23 +574,23 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     solution: secrets('chal_355'),
   },
 
-  /*{
+  {
     id: 356,
-    pos: { x: 1580, y: 875 },
+    pos: { x: 1660, y: 765 },
     title: { de: 'Lost Challenge', en: 'Lost Challenge' },
     date: '2025-11-03',
     deps: [300],
     noScore: true,
-    releaseTs: new Date('2025-11-03 15:00:00 GMT+0100').getTime(),
-    author: 'ChecksMC',
+    releaseTs: new Date('2025-11-04 11:11:11 GMT+0100').getTime(),
+    author: 'ChecksMc',
     html: {
       de: `
-        TODO
+        <p>Neuerdings findet sich unter <a href="https://www.reddit.com/r/HackTW/" target="_blank">www.reddit.com/r/HackTW</a> ein Sub für Hack The Web. Hm, die erste Nachricht ist etwas kryptisch, wofür ist sie eigentlich da?</p>
       `,
       en: `
-        TODO
+        <p>There’s now a subreddit for Hack The Web at <a href="https://www.reddit.com/r/HackTW/" target="_blank">www.reddit.com/r/HackTW</a>. Hmm, the first post is a bit cryptic — what is it actually for?</p>
       `,
     },
     solution: secrets('chal_356'),
-  },*/
+  },
 ]

@@ -3853,27 +3853,33 @@ To: ${req.user?.name}@arrrg.de</pre>
     pos: { x: 588, y: 313 },
     title: { de: 'Baum', en: 'Tree' },
     deps: [68, 336],
-    html: {
-      de: story(
-        'Kiwi',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          'Kiwi',
+          `
         <p>Ich vermisse die Natur sehr. Ich finde es schade, dass es hier auf dem Raumschiff keinen Park oder Garten gibt. Hoffentlich drehe ich nicht durch 🙈 - haha, ganz sooo schlimm ist es (noch) nicht ...</p>
 
         <p>Wo wir schon bei Natur sind, hier ist ein Bild von einem Baum, aufgenommen auf der Erde im Gebiet Europa. Die Pflanzen dort sind ganz anders als bei uns. Der Name dieser Baumart ist deine Antwort.</p>
 
-        <p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>
+        ${
+          App.experiments.showTrial(144, req)
+            ? '<p><img src="/chals/chal114_rosskastanie.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></p>'
+            : '<p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>'
+        }
       `
-      ),
-      en: story(
-        'Kiwi',
-        `
+        ),
+        en: story(
+          'Kiwi',
+          `
         <p>I really miss nature. It's a pity there's no park or garden here on the spaceship. I hope I don't go crazy 🙈 - haha, it's not quite that bad (yet)...</p>
 
         <p>Speaking of nature, here's a picture of a tree, taken on Earth in the Europe area. The plants there are completely different from ours. The name of this tree species is your answer.</p>
 
         <p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Identify the tree species" style="max-height:500px"></a></p>
       `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_114').split(','),
   },

@@ -30,7 +30,7 @@ export const experimentDefs = [
   {
     id: 4,
     description:
-      'Geburtstag -> Quellcode: Fokus auf Blick-In-Den-Quellcode als Skill, um effektiv zu hacken',
+      'Geburtstag: Fokus auf Blick-In-Den-Quellcode als Skill, um effektiv zu hacken',
     challenge: 77,
     startTs: new Date('2025-10-21').getTime(),
     endTs: new Date('2025-11-11').getTime(),
@@ -52,5 +52,13 @@ export const experimentDefs = [
     challenge: 112,
     startTs: new Date('2025-10-22').getTime(),
     endTs: new Date('2025-11-12').getTime(),
+  },
+  {
+    id: 7,
+    description:
+      'Baum: minimale Änderung durch Entfernung des Links, erwarte keinen Effekt.',
+    challenge: 114,
+    startTs: new Date('2025-11-02').getTime(),
+    endTs: new Date('2025-11-16').getTime(),
   },
 ]

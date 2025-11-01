@@ -58,7 +58,7 @@ export const appConfig = {
     background: '/background.jpg',
     backgroundLicenseHtml: ``,
     centeringOffset: 0.5,
-    width: 3000,
+    width: 3300,
     height: 3000,
     customMapHtml: (
       /** @type {{App: import('./types.js').App, req: import('express').Request}} */ {

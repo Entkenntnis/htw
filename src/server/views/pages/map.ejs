@@ -38,15 +38,15 @@
   }
 
   /* Define the pulsing glow animation */
-  @keyframes pulse {
+  @keyframes pulse-current-color {
     0% {
-      filter: drop-shadow(0 0 5px var(--success));
+      filter: drop-shadow(0 0 5px currentColor);
     }
     50% {
-      filter: drop-shadow(0 0 20px var(--success));
+      filter: drop-shadow(0 0 20px currentColor);
     }
     100% {
-      filter: drop-shadow(0 0 5px var(--success));
+      filter: drop-shadow(0 0 5px currentColor);
     }
   }
 
@@ -62,9 +62,10 @@
   }
 
   /* Apply the pulse animation to green dots only */
-  circle[fill="var(--success)"] {
+  .pulsing-circle {
+    fill: currentColor;
     opacity: 0;
-    animation: pulse 2s infinite, fadeIn 0.5s ease-out forwards;
+    animation: pulse-current-color 2s infinite, fadeIn 0.5s ease-out forwards;
   }
 
   svg text {

@@ -1,4 +1,4 @@
-import { Op, Transaction } from 'sequelize'
+import { Op } from 'sequelize'
 import bcrypt from 'bcryptjs'
 import { renderPage } from '../../helper/render-page.js'
 import { hintsData, withComlink } from './hints.js'
@@ -161,7 +161,7 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; unreleased: boolean, goHere: boolean }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; color: string, goHere: boolean }[]}
      */
     const points = []
 
@@ -172,12 +172,24 @@ export function setupChallenges(App) {
 
     App.challenges.data.map((challenge) => {
       const isSolved = solved.includes(challenge.id)
+      const unreleased = !!(
+        challenge.releaseTs && Date.now() < challenge.releaseTs
+      )
+      const color = unreleased
+        ? 'pink'
+        : /*isSolved
+          ? App.config.styles.pointColor_solved
+          :*/ challenge.color
+          ? challenge.color
+          : challenge.noScore
+            ? '#f5ee27ff'
+            : App.config.styles.pointColor
       const point = {
         id: challenge.id,
         pos: challenge.pos,
         title: App.challenges.getTitle(challenge.id, req),
         isSolved,
-        unreleased: !!(challenge.releaseTs && Date.now() < challenge.releaseTs),
+        color,
         goHere: goHere === challenge.id,
       }
       const visible =
@@ -223,15 +235,13 @@ export function setupChallenges(App) {
       svgCircles.push(
         `<a href="${
           App.config.urlPrefix + '/challenge/' + point.id
-        }" class="no-underline"><g><circle r="9" cx="${point.pos.x}" cy="${
+        }" class="no-underline"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
           point.pos.y
-        }" fill="${
-          point.unreleased
-            ? 'pink'
-            : point.isSolved
-              ? App.config.styles.pointColor_solved
-              : App.config.styles.pointColor
-        }"></circle><circle ${
+        }" ${
+          point.isSolved
+            ? `fill="${App.config.styles.pointColor_solved}" stroke="${point.color}" stroke-width="2"`
+            : `class="pulsing-circle fill="${point.color}" style="color: ${point.color}" `
+        }></circle><circle ${
           point.goHere ? 'id="go-here-after-loading-map"' : ''
         } r="16" cx="${point.pos.x}" cy="${
           point.pos.y

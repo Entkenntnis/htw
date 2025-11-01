@@ -246,7 +246,7 @@ export function setupChallenges(App) {
           App.config.styles.mapTextColor
         }" font-weight="${point.isSolved ? 'normal' : '600'}" x="${
           point.pos.x
-        }" y="${point.pos.y - 17}" text-anchor="middle">${escapeHTML(
+        }" y="${point.pos.y - 17}" text-anchor="middle" ${!point.isSolved ? `style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3))"` : ''}>${escapeHTML(
           point.title
         )}</text></g></a>`
       )

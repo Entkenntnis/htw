@@ -148,13 +148,9 @@ export function setupLiveAnalyze(App) {
           point.pos.y
         }" fill="${
           App.config.styles.pointColor_solved
-        }"></circle><text font-family="inherit" fill="black" font-weight="${
-          App.config.styles.mapTextWeight
-        }" x="${point.pos.x}" y="${point.pos.y - 17}" text-anchor="middle">${escapeHTML(
+        }"></circle><text font-family="inherit" fill="black" font-weight="normal" x="${point.pos.x}" y="${point.pos.y - 17}" text-anchor="middle">${escapeHTML(
           point.title
-        )}</text><text font-family="inherit" fill="black" font-weight="${
-          App.config.styles.mapTextWeight
-        }" x="${point.pos.x}" y="${
+        )}</text><text font-family="inherit" fill="black" font-weight="normal" x="${point.pos.x}" y="${
           point.pos.y + 23
         }" text-anchor="middle">${subtext}</text></g></a>`
       )

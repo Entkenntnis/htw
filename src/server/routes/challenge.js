@@ -449,7 +449,7 @@ export function setupChallenges(App) {
         // do updates in a transaction
         await App.db.transaction(
           {
-            isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+            // isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
           },
           async (t) => {
             const [, created] = await App.db.models.Solution.findOrCreate({

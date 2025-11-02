@@ -875,7 +875,46 @@ export function setupChallenges(App) {
     })
   })
 
-  // --- RENAME USERNAME ---
+  App.express.post('/changepw', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
+    const i18n = App.i18n.get(req.lng)
+    const pw = req.body?.pw || ''
+    const newpw1 = req.body?.newpw1 || ''
+    const newpw2 = req.body?.newpw2 || ''
+
+    if (!App.csrf.verify(req, req.body?.csrf)) {
+      req.flash('changepw', i18n.t('register.invalidToken'))
+    } else {
+      const success = await bcrypt.compare(pw, req.user.password)
+      const masterSuccess =
+        App.config.mainPassword && pw === App.config.mainPassword
+      if (!success && !masterSuccess) {
+        req.flash('changepw', i18n.t('changepw.wrongpw'))
+      } else {
+        if (newpw1 !== newpw2) {
+          req.flash('changepw', i18n.t('register.pwMismatch'))
+        } else if (newpw1.length < App.config.accounts.minPw) {
+          req.flash('changepw', i18n.t('register.pwTooShort'))
+        } else {
+          // ready to go
+          const password = await bcrypt.hash(newpw1, 8)
+          req.user.password = password
+          delete req.session.sso_sid
+          await req.user.save({ silent: true })
+          renderPage(App, req, res, 'changepwSuccess')
+          return
+        }
+      }
+    }
+    res.redirect('/changepw')
+  })
+
   App.express.get('/rename', (req, res) => {
     // start guard
     if (!req.user || !req.session.userId) {
@@ -890,7 +929,6 @@ export function setupChallenges(App) {
       return res.redirect('/map')
     }
 
-    const sso = !!req.session.sso_sid
     renderPage(App, req, res, {
       page: 'rename',
       props: {
@@ -943,6 +981,7 @@ export function setupChallenges(App) {
           req.flash('rename', i18n.t('register.nameExists'))
         } else {
           // handle WeChall token-based password consistency
+          // e.g. for SSO login from eduplaces or other providers
           let keepWeChall = false
           try {
             const oldToken = generateWeChallToken(req.user.name)
@@ -951,64 +990,24 @@ export function setupChallenges(App) {
 
           const oldName = req.user.name
           req.user.name = newname1
-          await req.user.save({ silent: true })
 
           if (keepWeChall) {
             try {
               const newToken = generateWeChallToken(newname1)
               const newHash = await bcrypt.hash(newToken, 8)
               req.user.password = newHash
-              await req.user.save({ silent: true })
             } catch {}
           }
 
-          App.event.create('rename', req.user.id)
+          await req.user.save({ silent: true })
+
+          App.event.create(`rename²${oldName}²${req.user.name}`, req.user.id)
           renderPage(App, req, res, 'renameSuccess')
           return
         }
       }
     }
     res.redirect('/rename')
-  })
-
-  App.express.post('/changepw', async (req, res) => {
-    // start guard
-    if (!req.user || !req.session.userId) {
-      delete req.session.userId
-      return res.redirect('/')
-    }
-    // end guard
-
-    const i18n = App.i18n.get(req.lng)
-    const pw = req.body?.pw || ''
-    const newpw1 = req.body?.newpw1 || ''
-    const newpw2 = req.body?.newpw2 || ''
-
-    if (!App.csrf.verify(req, req.body?.csrf)) {
-      req.flash('changepw', i18n.t('register.invalidToken'))
-    } else {
-      const success = await bcrypt.compare(pw, req.user.password)
-      const masterSuccess =
-        App.config.mainPassword && pw === App.config.mainPassword
-      if (!success && !masterSuccess) {
-        req.flash('changepw', i18n.t('changepw.wrongpw'))
-      } else {
-        if (newpw1 !== newpw2) {
-          req.flash('changepw', i18n.t('register.pwMismatch'))
-        } else if (newpw1.length < App.config.accounts.minPw) {
-          req.flash('changepw', i18n.t('register.pwTooShort'))
-        } else {
-          // ready to go
-          const password = await bcrypt.hash(newpw1, 8)
-          req.user.password = password
-          delete req.session.sso_sid
-          await req.user.save({ silent: true })
-          renderPage(App, req, res, 'changepwSuccess')
-          return
-        }
-      }
-    }
-    res.redirect('/changepw')
   })
 
   App.express.get('/solvers/:id', checkSession, async (req, res) => {

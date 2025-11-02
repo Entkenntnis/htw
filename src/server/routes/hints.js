@@ -1082,14 +1082,14 @@ export const hintsData = {
       },
     ],
   },
-  84: {
+  /*84: {
     entries: [
       {
         question: 'Ich checke die Aufgabe nicht',
         answer: 'Finde die Antwort auf der Seite',
       },
     ],
-  },
+  },*/
   85: {
     entries: [
       {

@@ -3445,7 +3445,20 @@ To: ${req.user?.name}@arrrg.de</pre>
     title: { de: 'Inception', en: 'Inception' },
     // date: '2023-02-26',
     deps: [8, 52, 77],
-    render: ({ req }) => {
+    render: ({ App, req }) => {
+      if (App.experiments.showTrial(84, req)) {
+        return story(
+          'Kiwi',
+          `
+          <p>Unglaublich, ich habe mich mit dem Bord-Computer gestritten und jetzt ist er sauer und antwortet nicht mehr. Dafür soll ich eine 3-stellige Zahl erraten, damit er wieder mit mir spricht.</p>  
+
+          <p>Immerhin sagt er mir, ob mein Tipp zu hoch oder zu niedrig ist. Er ist aber zunenehmend frustriert, dass ich mich so dumm anstelle. Er meint, wenn ich es nicht in 20 Versuchen schaffe, dann würde er die Festplatte verschlüsseln und den Schlüssel ins Nirwana verschwinden lassen ...</p>
+
+          <p>Bitte hilf mir.</p>
+        `
+        )
+      }
+
       /**
        * @param {number} w
        * @param {number} h
@@ -3565,7 +3578,44 @@ To: ${req.user?.name}@arrrg.de</pre>
         return ''
       }
     },
-    solution: secrets('chal_84'),
+    check: (raw, { App, req }) => {
+      if (App.experiments.showTrial(84, req)) {
+        const n = parseInt(raw)
+        if (isNaN(n) || n < 100 || n > 999) {
+          return {
+            answer: `Erwarte eine 3-stellige Zahl, stattdessen erhalten: '${raw}'`,
+            correct: false,
+            rawAnswer: true,
+          }
+        }
+        const sol = parseInt(secrets('chal_84_2'))
+        if (n == sol) {
+          return {
+            answer: n.toString(),
+            correct: true,
+          }
+        }
+        if (n < sol) {
+          return {
+            answer: `'${raw}' ist zu niedrig`,
+            correct: false,
+            rawAnswer: true,
+          }
+        } else {
+          return {
+            answer: `'${raw}' ist zu hoch`,
+            correct: false,
+            rawAnswer: true,
+          }
+        }
+      }
+      const answer = raw.toLowerCase().trim()
+      const correct = answer == secrets('chal_84').toLowerCase().trim()
+      return {
+        answer,
+        correct,
+      }
+    },
   },
 
   {

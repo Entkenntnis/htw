@@ -90,14 +90,14 @@ export const appConfig = {
         ? `
           <a draggable="false" href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img draggable="false" src="/worms.png" style="width:46px"></a>
         
-          <a draggable="false" href="/music" target="_blank" style="position:absolute;left:240px;top:1160px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>`
+          <a draggable="false" href="/music" target="_blank" style="position:absolute;left:158px;top:1160px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>`
         : ''
     }
      ${
        showEnough
          ? '<a draggable="false" href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in"><div>&nbsp;&nbsp;&nbsp;Enough</div><img draggable="false" src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
            '<a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1520px;top:125px;" class="text-reset text-decoration-none fade-in"><img draggable="false" src="/wwwm.png" style="width:78px;"></a>' +
-           '<a draggable="false" href="/resistance" style="position:absolute;left:170px;top:1425px;text-align: center;" class="text-reset text-decoration-none fade-in"><div>Notizen des<br>Widerstands</div><img draggable="false" src="/clippy.png" style="width:55px;margin-top:6px;"></a>'
+           '<a draggable="false" href="/resistance" style="position:absolute;left:138px;top:1325px;text-align: center;" class="text-reset text-decoration-none fade-in"><div>Notizen des<br>Widerstands</div><img draggable="false" src="/clippy.png" style="width:55px;margin-top:6px;"></a>'
          : ''
      }
      ${

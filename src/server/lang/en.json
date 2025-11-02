@@ -141,7 +141,8 @@
     "exportData": "Export data",
     "discordInvite": "Visit us on Discord:",
     "discordLink": "Link Discord",
-    "discordLinkingNote_": "Add your Discord account as an alternative login method. This way you can still login if you forget your password: {{-link}}"
+    "discordLinkingNote_": "Add your Discord account as an alternative login method. This way you can still login if you forget your password: {{-link}}",
+    "rename": "Change username ..."
   },
   "challenge": {
     "back": "back",
@@ -195,6 +196,17 @@
     "title": "Password set",
     "content_": "New password successfully set.",
     "back": "OK"
+  },
+  "rename": {
+    "heading": "Change username",
+    "newName": "New username",
+    "repeatName": "Repeat username",
+    "sameName": "Username is unchanged.",
+    "mismatch": "Usernames don't match."
+  },
+  "renameSuccess": {
+    "title": "Username changed",
+    "content_": "Your username was changed successfully."
   },
   "worms-drafts": {
     "back": "Cancel"

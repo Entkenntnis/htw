@@ -1,0 +1,123 @@
+<% if (props.messages.length > 0) { %>
+  <div class="alert alert-danger"><%-props.messages.join('<br>')%></div>
+<% } %>
+
+<form method="post" autocomplete="off" id="rename-form">
+  <fieldset>
+    <div class="form-group row">
+  <label for="pw" class="col-md-2 col-form-label"><%= t('changepw.existingPassword') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="pw"
+          type="password"
+          name="pw"
+          value="<%=props.password%>"
+          required
+          maxlength="<%=App.config.accounts.maxPw%>"
+        >
+      </div>
+    </div>
+    <br>
+    <div class="form-group row">
+      <label for="newname1" class="col-md-2 col-form-label"><%= t('rename.newName') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="newname1"
+          type="text"
+          name="newname1"
+          value=""
+          required
+          maxlength="<%=App.config.accounts.maxUsername%>"
+          pattern="<%=App.config.accounts.regex.source%>"
+        >
+  <small><%= t('register.usernameNote', {minUsername: App.config.accounts.minUsername}) %></small>
+        <span id="msg-span" style="margin-left:12px;font-size:13px;vertical-align:0px;">&nbsp;</span>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="newname2" class="col-md-2 col-form-label"><%= t('rename.repeatName') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="newname2"
+          type="text"
+          name="newname2"
+          value=""
+          required
+          maxlength="<%=App.config.accounts.maxUsername%>"
+          pattern="<%=App.config.accounts.regex.source%>"
+        >
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-5 offset-md-2">
+  <button type="submit" class="btn btn-interaction" id="submit-button"><%= t('share.go') %></button>
+      </div>
+    </div>
+    <input type="hidden" name="csrf" value="<%=props.token%>"/>
+  </fieldset>
+
+  <!-- carry current username safely for client-side checks -->
+  <span id="current-username" data-username="<%= user.name %>" style="display:none"></span>
+
+</form>
+
+<script>
+  var state = { msg: '', class: 'text-danger' }
+  const msgSpan = document.getElementById('msg-span')
+  const name1 = document.getElementById('newname1')
+  const name2 = document.getElementById('newname2')
+  const submitButton = document.getElementById('submit-button')
+  const CURRENT_USERNAME = document.getElementById('current-username').dataset.username
+
+  function render() {
+    msgSpan.innerHTML = state.msg ? state.msg : '&nbsp;'
+    msgSpan.className = state.class
+    const ok = state.class === 'text-info' && name1.value.trim() === name2.value.trim()
+    submitButton.disabled = !ok
+  }
+
+  name1.addEventListener('input', checkUsername)
+  name2.addEventListener('input', render)
+
+  function checkUsername() {
+    const name = name1.value.trim()
+    if (name.length == 0) {
+      state.msg = ''
+      state.class = 'text-danger'
+    } else if (name.length < parseInt("<%= App.config.accounts.minUsername %>")) {
+      state.msg = '<%= t("register.nameTooShort")%>'
+      state.class = 'text-danger'
+    } else if (!/<%=App.config.accounts.regex.source%>/.test(name)) {
+      state.msg = '<%= t("register.nameInvalidChars")%>'
+      state.class = 'text-danger'
+    } else if (name === CURRENT_USERNAME) {
+      state.msg = '<%= t("rename.sameName")%>'
+      state.class = 'text-danger'
+    } else {
+      state.msg = '<%= t("register.checking")%> ...'
+      state.class = 'text-secondary'
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', '/check/' + encodeURIComponent(name));
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          if (xhr.responseText === name1.value.trim()) {
+            state.msg = '✓ <%= t("register.available")%>'
+            state.class = 'text-info'
+            render()
+          } else if (xhr.responseText === '²bad²') {
+            state.msg = '<%= t("register.nameExists")%>'
+            state.class = 'text-danger'
+            render()
+          }
+        }
+      };
+      xhr.send();
+    }
+    render()
+  }
+
+  render()
+</script>

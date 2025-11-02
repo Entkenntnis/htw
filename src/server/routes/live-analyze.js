@@ -438,12 +438,50 @@ export function setupLiveAnalyze(App) {
     let content = ''
     const now = Date.now()
 
-    const entries = experimentDefs.slice().sort((a, b) => b.id - a.id)
+    const entries = experimentDefs.slice().sort((a, b) => {
+      const nowTs = now
+      // New top group: completed without results
+      const aCompleted = nowTs > a.endTs
+      const bCompleted = nowTs > b.endTs
+      const aNoResults = aCompleted && !a.results
+      const bNoResults = bCompleted && !b.results
+      if (aNoResults !== bNoResults) return aNoResults ? -1 : 1
+
+      // Status rank among the remaining: planned (0), active (1), completed with results (2)
+      const ra = nowTs < a.startTs ? 0 : nowTs <= a.endTs ? 1 : 2
+      const rb = nowTs < b.startTs ? 0 : nowTs <= b.endTs ? 1 : 2
+      if (ra !== rb) return ra - rb
+
+      // Within-group ordering
+      if (aNoResults && bNoResults) {
+        // both are completed without results: sort by time since completion DESC (longer ago higher)
+        const da = nowTs - a.endTs
+        const db = nowTs - b.endTs
+        if (db !== da) return db - da
+      } else if (ra === 0) {
+        // planned: sort by time until start DESC (longer waits higher)
+        const da = a.startTs - nowTs
+        const db = b.startTs - nowTs
+        if (db !== da) return db - da
+      } else if (ra === 1) {
+        // active: sort by time remaining ASC (shorter remaining higher)
+        const ta = a.endTs - nowTs
+        const tb = b.endTs - nowTs
+        if (ta !== tb) return ta - tb
+      } else {
+        // completed with results: sort by endTs DESC (older further down)
+        if (b.endTs !== a.endTs) return b.endTs - a.endTs
+      }
+
+      // tie-breaker: id desc (previous behavior)
+      return b.id - a.id
+    })
 
     // fetch data and preprocess
     let fromTs = experimentDefs[0].startTs
     let toTs = experimentDefs[0].endTs
     for (const exp of experimentDefs) {
+      if (exp.results) continue
       if (exp.startTs < fromTs) fromTs = exp.startTs
       if (exp.endTs > toTs) toTs = exp.endTs
     }
@@ -461,6 +499,11 @@ export function setupLiveAnalyze(App) {
       raw: true,
     })
 
+    content +=
+      '<p style="margin-top: -24px; margin-bottom: 48px; color: gray;">Gefundene Events: ' +
+      events.length +
+      '</p>'
+
     /** @type {Map<number, typeof events>} */
     const eventsByExperiment = new Map()
     for (const ev of events) {
@@ -475,29 +518,89 @@ export function setupLiveAnalyze(App) {
     }
 
     for (const exp of entries) {
-      const expEvents = (eventsByExperiment.get(exp.id) || []).filter(
-        (
-          e // check time bounds
-        ) =>
-          new Date(e.createdAt).getTime() >= exp.startTs &&
-          new Date(e.createdAt).getTime() <= exp.endTs
-      )
+      /** @returns {import('../../data/types.js').ExperimentResult} */
+      function buildRs() {
+        if (exp.results) {
+          return exp.results
+        }
+        const __expEvents = (eventsByExperiment.get(exp.id) || []).filter(
+          (
+            e // check time bounds
+          ) =>
+            new Date(e.createdAt).getTime() >= exp.startTs &&
+            new Date(e.createdAt).getTime() <= exp.endTs
+        )
+
+        const usersWhoSaw_base = /** @type {Set<number>} */ (new Set())
+        const usersWhoVisit_base = /** @type {Set<number>} */ (new Set())
+        const usersWhoSolve_base = /** @type {Set<number>} */ (new Set())
+
+        const usersWhoSaw_trial = /** @type {Set<number>} */ (new Set())
+        const usersWhoVisit_trial = /** @type {Set<number>} */ (new Set())
+        const usersWhoSolve_trial = /** @type {Set<number>} */ (new Set())
+
+        for (const ev of __expEvents) {
+          const parts = ev.key.split('_')
+          if (parts.length < 4) continue
+          const variant = parts[2] // base | trial
+          const action = parts[3] // show | visit | solve
+          const uid = ev.userId
+          if (uid == null) continue
+          if (variant === 'base') {
+            if (action === 'show') usersWhoSaw_base.add(uid)
+            else if (action === 'visit') usersWhoVisit_base.add(uid)
+            else if (action === 'solve') usersWhoSolve_base.add(uid)
+          } else if (variant === 'trial') {
+            if (action === 'show') usersWhoSaw_trial.add(uid)
+            else if (action === 'visit') usersWhoVisit_trial.add(uid)
+            else if (action === 'solve') usersWhoSolve_trial.add(uid)
+          }
+        }
+        // only count visitors who also saw the challenge
+        const visitors_base = new Set(
+          [...usersWhoVisit_base].filter((uid) => usersWhoSaw_base.has(uid))
+        )
+        const visitors_trial = new Set(
+          [...usersWhoVisit_trial].filter((uid) => usersWhoSaw_trial.has(uid))
+        )
+
+        // only include solves of users who also visited
+        const solvers_base = new Set(
+          [...usersWhoSolve_base].filter((uid) => usersWhoVisit_base.has(uid))
+        )
+
+        const solvers_trial = new Set(
+          [...usersWhoSolve_trial].filter((uid) => usersWhoVisit_trial.has(uid))
+        )
+
+        return {
+          numEvents: __expEvents.length,
+          nShowBase: usersWhoSaw_base.size,
+          nShowTrial: usersWhoSaw_trial.size,
+          nVisitorsBase: visitors_base.size,
+          nVisitorsTrial: visitors_trial.size,
+          nSolversBase: solvers_base.size,
+          nSolversTrial: solvers_trial.size,
+        }
+      }
+
+      const rs = buildRs()
 
       content += `
-        <h2>Experiment ${exp.id} ${
+        <h2>#${exp.id} ${
           now < exp.startTs
-            ? '(geplant)'
+            ? '<span style="color: pink">(geplant)</span>'
             : now > exp.endTs
-              ? '(abgeschlossen)'
-              : '(aktiv)'
+              ? `<span style="color: ${exp.results ? 'gray' : 'red'}">(abgeschlossen)</span>`
+              : '<span style="color: yellow">(aktiv)</span>'
         }</h2>
-        <p>${escapeHTML(exp.description)}</p>
+        <p><strong>${escapeHTML(exp.description)}</strong></p>
         <p>${
           now < exp.endTs
             ? `<a href="/challenge/${exp.challenge}" target="_blank">base</a><a href="/challenge/${exp.challenge}?trial=1" target="_blank" style="margin-left: 32px;">trial</a>`
             : exp.baseImg && exp.trialImg
               ? `<a href="${exp.baseImg}" target="_blank">base</a><a href="${exp.trialImg}" target="_blank" style="margin-left: 32px;">trial</a>`
-              : '<i>keine Vorschau</i>'
+              : `<i style="background-color: darkred">keine Vorschau</i> (<a href="/challenge/${exp.challenge}" target="_blank">base</a>, <a href="/challenge/${exp.challenge}?trial=1" target="_blank">trial</a>)`
         }</p>
         <p style="color: #cacacaff">${App.moment(exp.startTs)
           .locale('de')
@@ -505,6 +608,10 @@ export function setupLiveAnalyze(App) {
           .locale('de')
           .format('LLLL')}</p>
         `
+
+      if (now > exp.endTs && !exp.results) {
+        content += `<p style="background-color: darkred;">Bitte Ergebnis übertragen: <code>${JSON.stringify(rs)}</code></p>`
+      }
 
       /**
        * Render an A/B block with base/trial lines and change line.
@@ -624,7 +731,7 @@ export function setupLiveAnalyze(App) {
         }
         return `
           <div style="flex: 1 1;">
-            <p style="margin-top: 48px;"><strong>${escapeHTML(title)}</strong> (${baseTotal + trialTotal})</p>
+            <p style="margin-top: 12px;"><strong>${escapeHTML(title)}</strong> (${baseTotal + trialTotal})</p>
             <p>Base: ${baseTotal} ${escapeHTML(denomLabel)} ----> ${baseSuccess} ${escapeHTML(numerLabel)}, ${pctBase}%</p>
             <p>Trial: ${trialTotal} ${escapeHTML(denomLabel)} ----> ${trialSuccess} ${escapeHTML(numerLabel)}, ${pctTrial}%</p>
             <p>Uplift: <span style="font-weight: ${upliftWeight}; color: ${upliftColor}; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;">${delta}</span></p>
@@ -633,46 +740,18 @@ export function setupLiveAnalyze(App) {
         `
       }
 
-      if (expEvents.length === 0) {
+      if (rs.numEvents === 0) {
         content += '<p><i>Noch keine Daten für dieses Experiment.</i></p>'
       } else {
-        const usersWhoSaw_base = /** @type {Set<number>} */ (new Set())
-        const usersWhoVisit_base = /** @type {Set<number>} */ (new Set())
-        const usersWhoSolve_base = /** @type {Set<number>} */ (new Set())
-
-        const usersWhoSaw_trial = /** @type {Set<number>} */ (new Set())
-        const usersWhoVisit_trial = /** @type {Set<number>} */ (new Set())
-        const usersWhoSolve_trial = /** @type {Set<number>} */ (new Set())
-
-        for (const ev of expEvents) {
-          const parts = ev.key.split('_')
-          if (parts.length < 4) continue
-          const variant = parts[2] // base | trial
-          const action = parts[3] // show | visit | solve
-          const uid = ev.userId
-          if (uid == null) continue
-          if (variant === 'base') {
-            if (action === 'show') usersWhoSaw_base.add(uid)
-            else if (action === 'visit') usersWhoVisit_base.add(uid)
-            else if (action === 'solve') usersWhoSolve_base.add(uid)
-          } else if (variant === 'trial') {
-            if (action === 'show') usersWhoSaw_trial.add(uid)
-            else if (action === 'visit') usersWhoVisit_trial.add(uid)
-            else if (action === 'solve') usersWhoSolve_trial.add(uid)
-          }
-        }
-
         // SRM check (Sample Ratio Mismatch) on exposure ("show") counts, expected 50/50
-        const nShowBase = usersWhoSaw_base.size
-        const nShowTrial = usersWhoSaw_trial.size
         let srmPStr = '-'
-        if (nShowBase + nShowTrial > 0) {
-          const total = nShowBase + nShowTrial
+        if (rs.nShowBase + rs.nShowTrial > 0) {
+          const total = rs.nShowBase + rs.nShowTrial
           const expEach = total / 2
           const chi2 =
             expEach > 0
-              ? (nShowBase - expEach) ** 2 / expEach +
-                (nShowTrial - expEach) ** 2 / expEach
+              ? (rs.nShowBase - expEach) ** 2 / expEach +
+                (rs.nShowTrial - expEach) ** 2 / expEach
               : 0
           // For chi-square with df=1: CDF(x) = 2*Phi(sqrt(x)) - 1; p = 1 - CDF
           // Implement quick Phi via erf
@@ -702,15 +781,7 @@ export function setupLiveAnalyze(App) {
           const pSRM = 1 - cdfChi2df1(chi2)
           srmPStr = pSRM < 0.0001 ? '< 0.0001' : pSRM.toFixed(4)
         }
-        content += `<p style="color: gray; margin-top: -8px;">${expEvents.length} Events</span> / <small>SRM-Check base=${nShowBase}, trial=${nShowTrial}, p = ${srmPStr}</small></p>`
-
-        // only count visitors who also saw the challenge
-        const visitors_base = new Set(
-          [...usersWhoVisit_base].filter((uid) => usersWhoSaw_base.has(uid))
-        )
-        const visitors_trial = new Set(
-          [...usersWhoVisit_trial].filter((uid) => usersWhoSaw_trial.has(uid))
-        )
+        content += `<p style="color: gray; margin-top: -8px;">${rs.numEvents} Events</span> / <small>SRM-Check base=${rs.nShowBase}, trial=${rs.nShowTrial}, p = ${srmPStr}</small></p>`
 
         content +=
           '<div style="display: flex; gap: 32px; flex-wrap: wrap; width: 100%;">'
@@ -718,31 +789,28 @@ export function setupLiveAnalyze(App) {
           'CTR-Analyse',
           'mal auf Karte angezeigt',
           'Besucher',
-          usersWhoSaw_base.size,
-          visitors_base.size,
-          usersWhoSaw_trial.size,
-          visitors_trial.size
-        )
-
-        // only include solves of users who also visited
-        const solvers_base = new Set(
-          [...usersWhoSolve_base].filter((uid) => usersWhoVisit_base.has(uid))
-        )
-
-        const solvers_trial = new Set(
-          [...usersWhoSolve_trial].filter((uid) => usersWhoVisit_trial.has(uid))
+          rs.nShowBase,
+          rs.nVisitorsBase,
+          rs.nShowTrial,
+          rs.nVisitorsTrial
         )
 
         content += renderABSection(
           'Lösungs-Analyse',
           'Besucher',
           'Löser',
-          usersWhoVisit_base.size,
-          solvers_base.size,
-          usersWhoVisit_trial.size,
-          solvers_trial.size
+          rs.nVisitorsBase,
+          rs.nSolversBase,
+          rs.nVisitorsTrial,
+          rs.nSolversTrial
         )
         content += '</div>'
+      }
+
+      if (exp.learning) {
+        content += `
+          <p><strong>Learning:</strong> ${escapeHTML(exp.learning)}</p>
+        `
       }
 
       content += '<hr style="margin-bottom: 64px; margin-top: 52px;">'

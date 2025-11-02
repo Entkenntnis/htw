@@ -44,6 +44,19 @@ export const experimentDefs = [
     challenge: 23,
     startTs: new Date('2025-10-24').getTime(),
     endTs: new Date('2025-11-02 15:00:00 GMT+0100').getTime(),
+    baseImg: '/experiments/5_base.jpg',
+    trialImg: '/experiments/5_trial.jpg',
+    results: {
+      numEvents: 2977,
+      nShowBase: 93,
+      nShowTrial: 76,
+      nVisitorsBase: 56,
+      nVisitorsTrial: 41,
+      nSolversBase: 34,
+      nSolversTrial: 10,
+    },
+    learning:
+      'Die neue Aufgabe hat klar schlechter performt, sie ist weniger zugänglich als ich hoffte. Es wird einen neuen Testlauf mit einer anderen Variante der Aufgabe geben.',
   },
   {
     id: 6,

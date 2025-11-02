@@ -343,4 +343,16 @@ export interface ExperimentDefinition {
   endTs: number
   baseImg?: string
   trialImg?: string
+  results?: ExperimentResult
+  learning?: string
+}
+
+export interface ExperimentResult {
+  numEvents: number
+  nShowBase: number
+  nShowTrial: number
+  nVisitorsBase: number
+  nVisitorsTrial: number
+  nSolversBase: number
+  nSolversTrial: number
 }

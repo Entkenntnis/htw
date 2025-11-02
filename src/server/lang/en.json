@@ -200,9 +200,7 @@
   "rename": {
     "heading": "Change username",
     "newName": "New username",
-    "repeatName": "Repeat username",
-    "sameName": "Username is unchanged.",
-    "mismatch": "Usernames don't match."
+    "sameName": "Username is unchanged."
   },
   "renameSuccess": {
     "title": "Username changed",

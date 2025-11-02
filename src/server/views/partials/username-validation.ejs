@@ -36,7 +36,6 @@
     var MIN = parseInt(ds.min || '0');
     var RX = new RegExp(ds.regex);
     var CURRENT = (ds.currentUsername || '').trim();
-    var CHECK = (ds.checkUrl || '/check').replace(/\/$/, '');
 
     var isAvailable = false;
     var shownEmailWarn = false;

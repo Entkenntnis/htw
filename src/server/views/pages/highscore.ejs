@@ -9,7 +9,7 @@
   <option value="/highscore?sort=new" <%= props.sort == 'new' ? 'selected' : ''%>><%= t('lastActive') %></option>
 </select></p>
 
-<%- include('../highscoreTable', {users:props.users, t, user, hideRank:props.sort == 'new'}) %>
+<%- include('../partials/highscoreTable', {users:props.users, t, user, hideRank:props.sort == 'new'}) %>
 
 <% if (props.pagination) { %>
   <p style="text-align:center">

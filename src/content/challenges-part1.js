@@ -1100,9 +1100,9 @@ export const part1 = [
           `
             <p>Hallöchen, ich bin Tina und Kiwi hat mich eingeladen, hier auch eine Aufgabe zu stellen. Ich bin von der Webseite namens <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a>.</p>
 
-            <p>Da ich schon mal hier bin, dachte ich mir, machen wir doch was mit HTW. Mein Rätsel an dich lautet: Wie viele <strong>Vierecke</strong> siehst du in diesem Schriftzug?</p>
+            <p>Da ich schon mal hier bin, dachte ich mir, machen wir doch was mit HTW. Mein Rätsel an dich lautet: Wie viele <strong>Vierecke</strong> siehst du in diesem H?</p>
 
-            <p><img src="/chals/vierecke.png" style="width: 480px;" /></p>
+            <p><img src="/chals/vierecke.png" width="200px" /></p>
           `
         )
       }

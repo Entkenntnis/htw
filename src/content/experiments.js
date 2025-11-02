@@ -82,4 +82,12 @@ export const experimentDefs = [
     startTs: new Date('2025-11-03').getTime(),
     endTs: new Date('2025-11-24').getTime(),
   },
+  {
+    id: 9,
+    description:
+      'Einhorn: neue Iteration mit einer leicht vereinfachten Variante der Geometrie-Aufgabe',
+    challenge: 23,
+    startTs: new Date('2025-11-03').getTime(),
+    endTs: new Date('2025-11-24').getTime(),
+  },
 ]

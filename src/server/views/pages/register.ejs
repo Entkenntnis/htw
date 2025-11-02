@@ -23,7 +23,7 @@
         <label for="inputName" class="col-md-4 col-form-label" style="margin-top: 27px;"><%= t('username') %></label>
         <div class="col-md-8">
           <small><%= t('usernameNote', {minUsername: App.config.accounts.minUsername}) %></small>
-          <span id="msg-span" style="margin-left:12px;font-size:13px;vertical-align:0px;">test</span>
+          <span id="msg-span" style="margin-left:12px;font-size:13px;vertical-align:0px;">&nbsp;</span>
           <input
             class="form-control"
             id="inputName"
@@ -109,74 +109,14 @@
   <p style="text-align: center; font-size: 12px; margin-top: 24px; color: gray; max-width: 66ch; margin-left: auto; margin-right: auto;"><%= t('discordPasswordHint') %></p>
 <% } %>
 
+<%- include('../partials/username-validation', {
+      inputId: 'inputName',
+      msgId: 'msg-span',
+      submitId: 'submit-button',
+      currentUsername: '',
+    }) %>
 
 <script>
-  // --- START: Original Form Validation Logic ---
-  var state = {
-    msg: '',
-    class: 'text-danger'
-  }
-  
-  const msgSpan = document.getElementById('msg-span')
-  const nameInput = document.getElementById('inputName')
-  const submitButton = document.getElementById('submit-button')
-  
-  function render() {
-    msgSpan.innerHTML = state.msg ? state.msg : '&nbsp;'
-    msgSpan.className = state.class
-  }
-
-  nameInput.addEventListener('input', checkUsername)
-  
-  function checkUsername() {
-    const name = nameInput.value.trim()
-    if (/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(name)) {
-      setTimeout(() => {
-        alert('<%= t("warnEmail") %>')
-      }, 100)
-    }
-    if (name.length == 0) {
-      state.msg = ''
-      state.class = 'text-danger'
-    } else if (name.length < parseInt("<%= App.config.accounts.minUsername %>")) {
-      state.msg = '<%= t("nameTooShort")%>'
-      state.class = 'text-danger'
-    } else if (!/<%=App.config.accounts.regex.source%>/.test(name)) {
-      state.msg = '<%= t("nameInvalidChars")%>'
-      state.class = 'text-danger'
-    } else {
-      state.msg = '<%= t("checking")%> ...'
-      state.class = 'text-secondary'
-      
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', '/check/' + encodeURIComponent(name));
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          if (xhr.responseText === nameInput.value.trim()) {
-            state.msg = '✓ <%= t("available")%>'
-            state.class = 'text-info'
-            render()
-          } else if (xhr.responseText === '²bad²') {
-            state.msg = '<%= t("nameExists")%>'
-            state.class = 'text-danger'
-            render()
-          } else {
-            console.log('Something went wrong!');
-          }
-        } else {
-          console.log('Request failed. Returned status of ' + xhr.status);
-        }
-      };
-      xhr.send();
-    }
-    render()
-  }
-  
-  checkUsername()
-  render()
-  // --- END: Original Form Validation Logic ---
-
-
   // --- START: New Starfield Canvas Animation ---
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d');

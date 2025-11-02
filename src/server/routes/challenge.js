@@ -915,6 +915,101 @@ export function setupChallenges(App) {
     res.redirect('/changepw')
   })
 
+  App.express.get('/rename', (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
+    App.event.create('visit_rename', req.user.id)
+
+    if (App.config.noSelfAdmin.includes(req.user.name)) {
+      return res.redirect('/map')
+    }
+
+    renderPage(App, req, res, {
+      page: 'rename',
+      props: {
+        token: App.csrf.create(req),
+        messages: req.flash('rename'),
+        values: { newname1: '' },
+      },
+      backHref: '/profile',
+    })
+  })
+
+  App.express.post('/rename', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+
+    const i18n = App.i18n.get(req.lng)
+    const newname1 = (req.body?.newname1 || '').trim()
+
+    if (App.config.noSelfAdmin.includes(req.user.name)) {
+      return res.redirect('/map')
+    }
+
+    if (!App.csrf.verify(req, req.body?.csrf)) {
+      req.flash('rename', i18n.t('register.invalidToken'))
+    } else {
+      // validate name
+      if (newname1.length < App.config.accounts.minUsername) {
+        req.flash('rename', i18n.t('register.nameTooShort'))
+      } else if (newname1.length > App.config.accounts.maxUsername) {
+        req.flash(
+          'rename',
+          i18n.t('register.nameTooLong', {
+            max: App.config.accounts.maxUsername,
+          })
+        )
+      } else if (!App.config.accounts.regex.test(newname1)) {
+        req.flash('rename', i18n.t('register.nameInvalidChars'))
+      } else if (newname1 === req.user.name) {
+        req.flash('rename', i18n.t('rename.sameName'))
+      } else {
+        // unique check
+        const existing = await App.db.models.User.findOne({
+          where: { name: newname1 },
+        })
+        if (existing) {
+          req.flash('rename', i18n.t('register.nameExists'))
+        } else {
+          // handle WeChall token-based password consistency
+          // e.g. for SSO login from eduplaces or other providers
+          let keepWeChall = false
+          try {
+            const oldToken = generateWeChallToken(req.user.name)
+            keepWeChall = await bcrypt.compare(oldToken, req.user.password)
+          } catch {}
+
+          const oldName = req.user.name
+          req.user.name = newname1
+
+          if (keepWeChall) {
+            try {
+              const newToken = generateWeChallToken(newname1)
+              const newHash = await bcrypt.hash(newToken, 8)
+              req.user.password = newHash
+            } catch {}
+          }
+
+          await req.user.save({ silent: true })
+
+          App.event.create(`rename²${oldName}²${req.user.name}`, req.user.id)
+          renderPage(App, req, res, 'renameSuccess')
+          return
+        }
+      }
+    }
+    res.redirect('/rename')
+  })
+
   App.express.get('/solvers/:id', checkSession, async (req, res) => {
     // start guard
     if (!req.user || !req.session.userId) {

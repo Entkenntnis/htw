@@ -1,5 +1,5 @@
 
-<%- include('../languagePicker', {t, App, locale}) %>
+<%- include('../partials/languagePicker', {t, App, locale}) %>
 
 <h2><%= t('loginHeading') %></h2>
 
@@ -62,7 +62,7 @@
 
 <h2><%= t('top10') %></h2>
 
-<%- include('../highscoreTable', {users:props.users, t, user, hideRank: false}) %>
+<%- include('../partials/highscoreTable', {users:props.users, t, user, hideRank: false}) %>
 
 <p style="margin-top: 24px;">[<a href="<%=prefix%>/highscore">Highscore</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a href="<%=prefix%>/highscore?sort=new" style="white-space: nowrap;"><%=t('showRecent')%></a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<a href="<%=prefix%>/community/activity"><%=t('community')%></a>]</p>
 

@@ -1,0 +1,39 @@
+<% if (props.messages.length > 0) { %>
+  <div class="alert alert-danger"><%-props.messages.join('<br>')%></div>
+<% } %>
+
+<form method="post" autocomplete="off" id="rename-form">
+  <fieldset>
+    <div class="form-group row">
+      <label for="newname1" class="col-md-2 col-form-label"><%= t('rename.newName') %></label>
+      <div class="col-md-5">
+        <input
+          class="form-control"
+          id="newname1"
+          type="text"
+          name="newname1"
+          value=""
+          required
+          maxlength="<%=App.config.accounts.maxUsername%>"
+          pattern="<%=App.config.accounts.regex.source%>"
+        >
+        <span id="msg-span" style="font-size:13px;vertical-align:0px;">&nbsp;</span>
+      </div>
+    </div>
+    <div class="form-group row" style="margin-top: 24px;">
+      <div class="col-md-5 offset-md-2">
+        <button type="submit" class="btn btn-interaction" id="submit-button"><%= t('share.go') %></button>
+      </div>
+    </div>
+    <input type="hidden" name="csrf" value="<%=props.token%>"/>
+  </fieldset>
+
+</form>
+
+
+<%- include('../partials/username-validation', {
+      inputId: 'newname1',
+      msgId: 'msg-span',
+      submitId: 'submit-button',
+      currentUsername: user.name,
+    }) %>

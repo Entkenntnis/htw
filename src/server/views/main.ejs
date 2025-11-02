@@ -19,7 +19,7 @@
   </head>
   <body>
     <div class="container"><% if (user) { %>
-        <%- include('./statusBar', {user, t, prefix: App.config.urlPrefix, App}) %>
+        <%- include('./partials/statusBar', {user, t, prefix: App.config.urlPrefix, App}) %>
       <% } %>
       <header class="page-header">
         <h1><a href="<%=App.config.urlPrefix%>/"><%= brand %></a></h1>

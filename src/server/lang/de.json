@@ -141,7 +141,8 @@
     "exportData": "Daten exportieren",
     "discordInvite": "Besuche uns auch auf Discord:",
     "discordLink": "Discord verknüpfen",
-    "discordLinkingNote_": "Verknüpfe deinen Discord-Account. Dadurch kannst du dich auch dann anmelden, wenn du dein Passwort vergessen hast: {{-link}}"
+    "discordLinkingNote_": "Verknüpfe deinen Discord-Account. Dadurch kannst du dich auch dann anmelden, wenn du dein Passwort vergessen hast: {{-link}}",
+    "rename": "Benutzername ändern ..."
   },
   "challenge": {
     "back": "zurück",
@@ -195,6 +196,15 @@
     "title": "Passwort geändert",
     "content_": "Passwort erfolgreich geändert.",
     "back": "OK"
+  },
+  "rename": {
+    "heading": "Benutzernamen ändern",
+    "newName": "Neuer Benutzername",
+    "sameName": "Benutzername ist unverändert."
+  },
+  "renameSuccess": {
+    "title": "Benutzername geändert",
+    "content_": "Dein Benutzername wurde erfolgreich geändert."
   },
   "worms-drafts": {
     "back": "Abbrechen"

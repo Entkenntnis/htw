@@ -1,0 +1,94 @@
+<%
+  // Expected locals (EJS includes pass empty strings for unused params):
+  // - inputId: string (required)
+  // - msgId: string (required)
+  // - submitId: string ('' if unused)
+  // - currentUsername: string ('' if unused)
+%>
+
+<span id="uv-<%= inputId %>"
+  data-input-id="<%= inputId %>"
+  data-msg-id="<%= msgId %>"
+  data-submit-id="<%= submitId %>"
+  data-current-username="<%= currentUsername || '' %>"
+  data-min="<%= App.config.accounts.minUsername %>"
+  data-regex="<%= App.config.accounts.regex.source %>"
+  data-msg-checking="<%= t('register.checking') %>"
+  data-msg-available="<%= t('register.available') %>"
+  data-msg-exists="<%= t('register.nameExists') %>"
+  data-msg-too-short="<%= t('register.nameTooShort') %>"
+  data-msg-invalid="<%= t('register.nameInvalidChars') %>"
+  data-msg-same-name="<%= t('rename.sameName') %>"
+  data-msg-warn-email="<%= t('register.warnEmail') %>"
+  style="display:none"></span>
+
+<script>
+  (function(){
+    var root = document.getElementById('uv-<%= inputId %>');
+    if (!root) return;
+    var ds = root.dataset;
+    var inputEl = document.getElementById(ds.inputId);
+    var msgEl = document.getElementById(ds.msgId);
+    var _submitId = (ds.submitId || '').trim();
+    var submitEl = _submitId ? document.getElementById(_submitId) : null;
+    if (!inputEl || !msgEl) return;
+
+    var MIN = parseInt(ds.min || '0');
+    var RX = new RegExp(ds.regex);
+    var CURRENT = (ds.currentUsername || '').trim();
+
+    var isAvailable = false;
+    var shownEmailWarn = false;
+
+    function render(){
+      if (submitEl) {
+        submitEl.disabled = !isAvailable;
+      }
+    }
+
+    function setMsg(text, css){
+      msgEl.innerHTML = text ? text : '&nbsp;';
+      msgEl.className = css;
+    }
+
+    function check(){
+      var name = inputEl.value.trim();
+      // email warning (once)
+      var emailRx = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      if (!shownEmailWarn && emailRx.test(name) && ds.msgWarnEmail) {
+        shownEmailWarn = true;
+        setTimeout(function(){ alert(ds.msgWarnEmail); }, 100);
+      }
+      if (name.length === 0) {
+        isAvailable = false; setMsg('', 'text-danger'); return render();
+      }
+      if (name.length < MIN) {
+        isAvailable = false; setMsg(ds.msgTooShort, 'text-danger'); return render();
+      }
+      if (!RX.test(name)) {
+        isAvailable = false; setMsg(ds.msgInvalid, 'text-danger'); return render();
+      }
+      if (CURRENT && name === CURRENT) {
+        isAvailable = false; setMsg(ds.msgSameName, 'text-danger'); return render();
+      }
+      setMsg(ds.msgChecking + ' ...', 'text-secondary');
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/check/' + encodeURIComponent(name));
+      xhr.onload = function(){
+        if (xhr.status === 200) {
+          if (xhr.responseText === inputEl.value.trim()) {
+            isAvailable = true; setMsg('✓ ' + ds.msgAvailable, 'text-info');
+          } else if (xhr.responseText === '²bad²') {
+            isAvailable = false; setMsg(ds.msgExists, 'text-danger');
+          }
+          render();
+        }
+      };
+      xhr.send();
+    }
+
+    inputEl.addEventListener('input', check);
+    check();
+    render();
+  })();
+</script>

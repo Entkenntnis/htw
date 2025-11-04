@@ -139,7 +139,7 @@
       text-align: center;
     "
   >
-    Versuch 1/3:
+    Try 1/3:
   </div>
   <div
     style="
@@ -436,7 +436,7 @@
     input.focus()
     const button = $('#submit-button')
     button.disabled = true
-    $('#tries').textContent = `Versuch ${4 - tries}/3:`
+    $('#tries').textContent = `Try ${4 - tries}/3:`
     const bar = $('#time-bar')
     if (bar) {
       // instant reset to full width (remove transition for the reset frame)
@@ -584,7 +584,7 @@
         gameOver()
         return
       } else {
-        $('#tries').textContent = `Versuch ${4 - tries}/3:`
+        $('#tries').textContent = `Try ${4 - tries}/3:`
         const audio = new Audio('/wwwm/incorrect.mp3')
         audio.play()
         showFeedback('Unfortunately wrong! 😢', 'error')

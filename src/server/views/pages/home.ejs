@@ -17,43 +17,6 @@
   </div>
 </form>
 
-<% if (App.config.autoPassword) { %>
-  <div id="locals-list" class="d-none">
-    <p>Weiterspielen: <span id="locals"></span></p>
-  </div>
-
-  <script>
-    window.onload = function() {
-      try {
-        const localUsers = JSON.parse(localStorage.getItem('htw_local_users') || '[]')
-        if (localUsers.length > 0) {
-          let html = ''
-          for (let i = 0; i < localUsers.length; i++) {
-            html += '<button class="btn btn-warning mx-2 btn-sm" style="vertical-align:baseline" onclick="applyUser(' + i + ')"><strong>' + localUsers[i].name + '</strong></button>'
-          }
-          document.getElementById('locals').innerHTML = html
-          document.getElementById('locals-list').className = ''
-        }
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    
-    function applyUser(index) {
-      const user = JSON.parse(localStorage.getItem('htw_local_users') || '[]')[index]
-      document.getElementById('inputName').value = user.name
-      document.getElementById('inputPw').value = user.password
-      if (user.password) {
-        setTimeout(function() {
-          document.getElementById('login-form').submit()
-        }, 100)
-      } else {
-        document.getElementById('inputPw').focus()
-      }
-    }
-  </script>
-<% } %>
-
 <p class="my-4">
   <%- t('invite_', {link: `<a href="${prefix}/register">${ t('registerLink') }</a>`}) %>
 </p>

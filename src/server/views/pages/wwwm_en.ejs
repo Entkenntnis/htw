@@ -5,7 +5,7 @@
 <div style="max-width: 65ch; margin: 0 auto" id="intro-screen">
   <!-- pre-game stuff -->
   <div style="display: flex; justify-content: center; margin-bottom: 20px">
-    <img src="/wwwm/logo.png" style="width: 100%; max-width: 200px" />
+    <img src="/wwwm/logo_en.png" style="width: 100%; max-width: 200px" />
   </div>
 
   <div>
@@ -275,11 +275,11 @@
   <p class="winner-prize">
     Your reward:
     <span id="final-prize" class="winner-prize-amount">1.000.000 €</span
-    ><span class="winner-prize-fake"> (fictional – but glory forever!)</span>
+    ><span class="winner-prize-fake"> (Fictitious – but fame forever!)</span>
   </p>
   <div class="winner-actions">
     <button class="btn btn-success btn-lg" onclick="reset()">
-      Zurück zum Start
+      Back to start
     </button>
   </div>
 </div>
@@ -355,7 +355,7 @@
       console.log('Word list loaded:', words.length, 'words')
       const startBtn = $('#start-button')
       if (startBtn) {
-        startBtn.textContent = 'Spiel starten'
+        startBtn.textContent = 'Start game'
         startBtn.disabled = false
       }
     } catch (error) {

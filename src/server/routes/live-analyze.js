@@ -443,8 +443,8 @@ export function setupLiveAnalyze(App) {
       // New top group: completed without results
       const aCompleted = nowTs > a.endTs
       const bCompleted = nowTs > b.endTs
-      const aNoResults = aCompleted && !a.results
-      const bNoResults = bCompleted && !b.results
+      const aNoResults = aCompleted && (!a.results || !a.learning)
+      const bNoResults = bCompleted && (!b.results || !b.learning)
       if (aNoResults !== bNoResults) return aNoResults ? -1 : 1
 
       // Status rank among the remaining: planned (0), active (1), completed with results (2)
@@ -591,7 +591,7 @@ export function setupLiveAnalyze(App) {
           now < exp.startTs
             ? '<span style="color: pink">(geplant)</span>'
             : now > exp.endTs
-              ? `<span style="color: ${exp.results ? 'gray' : 'red'}">(abgeschlossen)</span>`
+              ? `<span style="color: ${exp.results && exp.learning ? 'gray' : 'red'}">(abgeschlossen)</span>`
               : '<span style="color: yellow">(aktiv)</span>'
         }</h2>
         <p><strong>${escapeHTML(exp.description)}</strong></p>
@@ -610,7 +610,7 @@ export function setupLiveAnalyze(App) {
         `
 
       if (now > exp.endTs && !exp.results) {
-        content += `<p style="background-color: darkred;">Bitte Ergebnis übertragen: <code>${JSON.stringify(rs)}</code></p>`
+        content += `<p style="background-color: darkred;">Bitte Ergebnis übertragen:<br><textarea style="width: 100%; height: 50px; margin-top: 12px;">${JSON.stringify(rs)}</textarea></p>`
       }
 
       /**
@@ -810,6 +810,10 @@ export function setupLiveAnalyze(App) {
       if (exp.learning) {
         content += `
           <p><strong>Learning:</strong> ${escapeHTML(exp.learning)}</p>
+        `
+      } else if (now > exp.endTs && exp.results) {
+        content += `
+          <p style="background-color: darkred">Bitte Learning eintragen!</p>
         `
       }
 

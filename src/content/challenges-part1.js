@@ -2354,8 +2354,41 @@ export const part1 = [
     title: { de: 'Ankunft in Sirtach', en: 'Arrival in Sirtach' },
     // date: '2020-08-17',
     deps: [27, 41, 64],
-    html: {
-      de: `
+    render: ({ App, req }) => {
+      if (App.experiments.showTrial(57, req)) {
+        return `
+          <div style="max-width: 90ch">
+            <p><img src="/story/sirtach.jpg" alt="Sirtach"></p>
+
+            <p style="margin-bottom: 40px; margin-top: 40px;"><i>Die Reise an Bord der Intergalaktika ist zu Ende. Während Kiwi am Check-out wartet, wird sie zur Kapitänskajüte gerufen. Dort findet sie Bex in einer Zelle. Eine Stewardess erklärt die Situation: Bex hat sich unerlaubten Zugriff auf das interne System des Schiffes verschafft.</i></p>
+            
+            <p>
+              <strong>Stewardess:</strong> Das ist ein schwerwiegendes Vergehen. Sie müssen in Sirtach vor Gericht erscheinen und eine Kaution in beträchtlicher Höhe hinterlegen, sonst bleibt Bex an Bord.
+            </p>
+
+            <p style="margin-top: 40px; margin-bottom: 40px;"><i>Trotz des Schocks über die Höhe der Summe willigt Kiwi ein zu zahlen. Doch als sie ihr Mobilgerät zückt, um die Transaktion durchzuführen, verlangt das Terminal einen Sicherheitspin. In ihrer Tasche findet sie einen Zettel, den Josh ihr für einen Notfall zugesteckt hatte.</i></p>
+
+            <div style="border: 1px solid #00bc8c; padding: 12px;">
+              <p>Notiz von Josh:</p>
+
+              <p>
+                <a href="/challenge/62" target="_blank">62</a> &nbsp; 
+                <a href="/challenge/4" target="_blank">4</a> &nbsp; 
+                <a href="/challenge/16" target="_blank">16</a> &nbsp; 
+                <a href="/challenge/70" target="_blank">70</a> &nbsp; 
+                <a href="/challenge/23" target="_blank">23</a> &nbsp; 
+              </p>
+              
+              <p>Die Anfangsbuchstaben der Lösungen der fünf verlinkten Aufgaben ergeben den Pin.
+              </p>
+            </div>
+
+            <p style="margin-top: 40px;"><code>&gt; Bitte geben Sie den Sicherheitspin ein, um die Zahlung zu autorisieren:</code></p>
+          </div>
+        `
+      }
+      return {
+        de: `
         <div style="max-width: 90ch">
         
           <p><img src="/story/sirtach.jpg" alt="Sirtach"></p>
@@ -2417,7 +2450,7 @@ export const part1 = [
 
         </div>
     `,
-      en: `
+        en: `
         <div style="max-width: 90ch">
         
           <p><img src="/story/sirtach.jpg" alt="Sirtach"></p>
@@ -2479,6 +2512,7 @@ export const part1 = [
 
         </div>
     `,
+      }
     },
     afterSolveText: {
       de: `

@@ -9,8 +9,8 @@ export function setupWWWM(App) {
       App.event.create('wwwm', req.user.id)
     }
     renderPage(App, req, res, {
-      page: 'wwwm',
-      heading: `Wer wird Wort-Millionär?`,
+      page: req.lng== 'de' ? 'wwwm' : 'wwwm_en',
+      heading: req.lng== 'de' ? `Wer wird Wort-Millionär?` : `Who will be the next word millionaire?`,
       backButton: false,
     })
   })

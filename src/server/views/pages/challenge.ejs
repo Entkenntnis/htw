@@ -2,7 +2,7 @@
   <p><i><%= t('locked')%></i></p>
 <% } else { %><p>
     <% if (props.correct !== true) { %>
-      <a href="<%=prefix%>/map" <%- App.config.historyBack ? 'onclick="goBack()"' : ''%>><%= t('back') %></a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
+      <a href="/map" <%- App.config.historyBack ? 'onclick="goBack()"' : ''%>><%= t('back') %></a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
     <% } %>
     <span style="color: gray">
       <%= props.ratio %>
@@ -40,10 +40,10 @@
       <div id="feedback-section" data-chal-id="<%= props.challenge.id %>">
         <p style="margin-top: 24px;"><%= t('feedback.heading') %></p>
         <ul class="feedback-list">
-          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" id="continue-button" class="feedback-link" data-key="fun"><%= t('feedback.fun') %></a></li>
-          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" class="feedback-link" data-key="learn"><%= t('feedback.learn') %></a></li>
-          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" class="feedback-link" data-key="nice"><%= t('feedback.nice') %></a></li>
-          <li style="margin-bottom: 12px;"><a href="<%=prefix%>/map" class="feedback-link" data-key="ok"><%= t('feedback.ok') %></a></li>
+          <li style="margin-bottom: 12px;"><a href="/map" id="continue-button" class="feedback-link" data-key="fun"><%= t('feedback.fun') %></a></li>
+          <li style="margin-bottom: 12px;"><a href="/map" class="feedback-link" data-key="learn"><%= t('feedback.learn') %></a></li>
+          <li style="margin-bottom: 12px;"><a href="/map" class="feedback-link" data-key="nice"><%= t('feedback.nice') %></a></li>
+          <li style="margin-bottom: 12px;"><a href="/map" class="feedback-link" data-key="ok"><%= t('feedback.ok') %></a></li>
         </ul>
       </div>
       <script>
@@ -81,7 +81,7 @@
         })();
       </script>
     <% } else { %>
-      <p><a href="<%=prefix%>/map" id="continue-button"><%= t('continue') %></a></p>
+      <p><a href="/map" id="continue-button"><%= t('continue') %></a></p>
     <% } %>
   <% } else { %>
     <%- props.html %>

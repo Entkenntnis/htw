@@ -21,11 +21,11 @@
   <p><%= t('room') %> <%= props.room%></p>
   <% if (user.session_phase === 'READY') { %>
     <p><%= t('sessionReady') %></p>
-    <p><a href="<%=prefix%>/startsession"><%= t('startSession') %></a></p>
+    <p><a href="/startsession"><%= t('startSession') %></a></p>
   <% } %>
   <% if (user.session_phase === 'ACTIVE') { %>
     <p><%= t('sessionActive') %></p>
-    <p><a href="<%=prefix%>/endsession"><%= t('endSession') %></a></p>
+    <p><a href="/endsession"><%= t('endSession') %></a></p>
   <% } %>
   <% if (user.session_phase === 'DONE') { %>
     <p><%= t('sessionDone') %></p>
@@ -45,10 +45,10 @@
     <a href="/export-data" style="color: gray"><%= t('exportData') %></a>
   </p>
 
-  <p style="text-align:right" id="change-pw"><a href="<%=prefix%>/changepw"><%= t('changepw') %></a></p>
-  <p style="text-align:right" id="rename-user"><a href="<%=prefix%>/rename"><%= t('rename') %></a></p>
+  <p style="text-align:right" id="change-pw"><a href="/changepw"><%= t('changepw') %></a></p>
+  <p style="text-align:right" id="rename-user"><a href="/rename"><%= t('rename') %></a></p>
 
-  <p style="text-align:right"><a href="<%=prefix%>/delete"><%= t('delete') %></a></p>
+  <p style="text-align:right"><a href="/delete"><%= t('delete') %></a></p>
 
 <% } %>
 

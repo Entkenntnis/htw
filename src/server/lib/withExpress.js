@@ -26,7 +26,8 @@ export function withExpress(App) {
   App.express.use((req, res, next) => {
     const redirect = res.redirect.bind(res)
     res.redirect = function (url) {
-      redirect(App.config.urlPrefix + url)
+      // please don't use the version with status code ಥ_ಥ
+      redirect(url.toString())
     }
     next()
   })

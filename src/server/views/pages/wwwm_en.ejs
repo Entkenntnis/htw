@@ -563,7 +563,7 @@
     if (isCorrect) {
       const audio = new Audio('/wwwm/correct.mp3')
       audio.play()
-      showFeedback('Richtig! 🎉', 'success')
+      showFeedback('Correct! 🎉', 'success')
       fetch(`/api/event?key=wwwm_correct_${level + 1}`)
       if (level == 14) {
         // final level

@@ -31,7 +31,7 @@ export const appConfig = {
   port: process.env.HTWPORT ? parseInt(process.env.HTWPORT) : 3000,
   sessionSecret: 'keyboard cat',
   languages: /** @type {['de' , 'en']} */ (['de', 'en']),
-  detectLanguage: false,
+  detectLanguage: true,
   theme: 'darkly',
   reloadChallenges: !process.env.UBERSPACE,
   configRoutes: false,

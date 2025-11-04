@@ -6,11 +6,14 @@ import { renderPage } from '../../helper/render-page.js'
 export function setupWWWM(App) {
   App.express.get('/wer-wird-wort-millionaer', async (req, res) => {
     if (req.user) {
-      App.event.create('wwwm', req.user.id)
+      App.event.create(req.lng == 'de' ? 'wwwm' : 'wwwm_en', req.user.id)
     }
     renderPage(App, req, res, {
-      page: req.lng== 'de' ? 'wwwm' : 'wwwm_en',
-      heading: req.lng== 'de' ? `Wer wird Wort-Millionär?` : `Who will be the next word millionaire?`,
+      page: req.lng == 'de' ? 'wwwm' : 'wwwm_en',
+      heading:
+        req.lng == 'de'
+          ? `Wer wird Wort-Millionär?`
+          : `Who will be the next word millionaire?`,
       backButton: false,
     })
   })

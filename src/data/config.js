@@ -6,8 +6,8 @@ export const appConfig = {
     if (process.env.UBERSPACE || process.env.LIVE) {
       console.log('using live database\n')
       return {
-        database: 'arrrg_hacktheweb',
-        username: 'arrrg',
+        database: secrets('config_db_database'),
+        username: secrets('config_db_username'),
         password: secrets('config_db_password'),
         dialect: /** @type {'mariadb'} */ ('mariadb'),
         dialectOptions: {

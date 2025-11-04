@@ -1,4 +1,6 @@
 export const secretValues = {
+  config_db_database: 'arrrg_hacktheweb',
+  config_db_username: 'arrrg',
   config_db_password: '42',
   config_main_password: '42',
   config_address: '42',

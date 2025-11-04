@@ -123,7 +123,6 @@ export const appConfig = {
     allowUnderexpire: 10, // minutes
     maxAge: 1000 * 60 * 60 * 24, // 24 hours
   },
-  urlPrefix: '',
   i18nConfig: {
     debug: false,
     fallbackLng: 'en',

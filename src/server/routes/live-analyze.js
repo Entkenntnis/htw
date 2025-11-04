@@ -143,7 +143,7 @@ export function setupLiveAnalyze(App) {
       const subtext = `${point.solvedBy} / ${pct}% [${point.totalSolvedBy}]`
       svgCircles.push(
         `<a href="${
-          App.config.urlPrefix + '/challenge/' + point.id
+          '/challenge/' + point.id
         }" class="no-underline"><g><circle r="9" cx="${point.pos.x}" cy="${
           point.pos.y
         }" fill="${

@@ -231,7 +231,7 @@ export function setupChallenges(App) {
     for (const point of points) {
       svgCircles.push(
         `<a href="${
-          App.config.urlPrefix + '/challenge/' + point.id
+          '/challenge/' + point.id
         }" class="no-underline"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
           point.pos.y
         }" ${
@@ -1057,7 +1057,7 @@ export function setupChallenges(App) {
         App.challenges.getTitle(id, req) +
         ' - ' +
         (req.lng == 'de' ? 'Verlauf' : 'History'),
-      backHref: App.config.urlPrefix + '/challenge/' + id,
+      backHref: '/challenge/' + id,
     })
   })
 }

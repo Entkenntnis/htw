@@ -39,16 +39,7 @@
         </div>
       </div>
       <% if (!props.sso) { %>
-        <% if (App.config.autoPassword && App.config.allowNewAutoPassword) { %>
-          <div class="form-group row" style="margin-top:32px;">
-            <label class="col-md-4 col-form-label"></label>
-            <div class="col-md-8">
-              <p>Dein Passwort wird automatisch erzeugt und in diesem Browser gespeichert. Gehe in dein Profil, um ein eigenes Passwort zu setzen.
-              </p>
-            </div>
-          </div>
-        <% } %>
-        <div style="margin-top: 48px;" class="form-group row <%= App.config.autoPassword && App.config.allowNewAutoPassword ? 'd-none' : '' %>">
+        <div style="margin-top: 48px;" class="form-group row">
           <label for="inputPw1" class="col-md-4 col-form-label" style="margin-top: 27px;"><%= t('password') %></label>
           <div class="col-md-8">
             <small><%= t('passwordNote', {minPassword: App.config.accounts.minPw}) %></small>
@@ -65,7 +56,7 @@
             >
           </div>
       </div>
-      <div class="form-group row <%= App.config.autoPassword && App.config.allowNewAutoPassword ? 'd-none' : '' %>">
+      <div class="form-group row">
         <label for="inputPw2" class="col-md-4 col-form-label"><%= t('repeatPassword') %></label>
         <div class="col-md-8">
           <input

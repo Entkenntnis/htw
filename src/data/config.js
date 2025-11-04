@@ -156,8 +156,6 @@ export const appConfig = {
   historyBack: true,
   slowRequestWarning: true,
   slowRequestThreshold: 5000,
-  autoPassword: false,
-  allowNewAutoPassword: false,
   tokenSecret: secrets('config_token_secret'),
   rateLimit: {
     enabled: true,

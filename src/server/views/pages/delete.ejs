@@ -5,22 +5,8 @@
 <p><%- t('confirm_') %>
 </p>
 
-<form method="POST" autocomplete="off" onsubmit="onSubmit()">
+<form method="POST" autocomplete="off">
   <input name="confirmation" style="height:32px" id="inputConfirmation"><span style="display:inline-block;width:10px"></span>
   <input type="submit" class="btn btn-danger" value="<%= t('heading') %>" style="height:32px;line-height:1;vertical-align:bottom;margin-top:10px;">
   <input type="hidden" name="csrf" value="<%=props.token%>"/>
 </form>
-
-<script>
-  function onSubmit() {
-    <% if (App.config.autoPassword) { %>
-      const username = '<%-user.name.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')%>'
-      const inputName = document.getElementById('inputConfirmation').value
-      if (username == inputName) {
-        let data = JSON.parse(localStorage.getItem('htw_local_users') || '[]')
-        data = data.filter(entry => entry.name != username)
-        localStorage.setItem('htw_local_users', JSON.stringify(data))
-      }
-    <% } %>
-  }
-</script>

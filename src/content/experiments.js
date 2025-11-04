@@ -78,9 +78,9 @@ export const experimentDefs = [
     id: 8,
     description:
       'Inception: Ersetze mit Anwendung binäre Suche. Erwarte eine geringere Lösungsrate, aber wenn der Unterschied nicht zu krass, würde ich die vorherige Aufgabe ersetzen.',
-    challenge: 114,
-    startTs: new Date('2025-11-03').getTime(),
-    endTs: new Date('2025-11-24').getTime(),
+    challenge: 84,
+    startTs: new Date('2025-11-05').getTime(),
+    endTs: new Date('2025-11-26').getTime(),
   },
   {
     id: 9,

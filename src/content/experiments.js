@@ -6,6 +6,19 @@ export const experimentDefs = [
     challenge: 24,
     startTs: new Date('2025-10-21').getTime(),
     endTs: new Date('2025-11-04').getTime(),
+    baseImg: '/experiments/1_base_trial.jpg',
+    trialImg: '/experiments/1_base_trial.jpg',
+    results: {
+      numEvents: 10706,
+      nShowBase: 382,
+      nShowTrial: 417,
+      nVisitorsBase: 294,
+      nVisitorsTrial: 331,
+      nSolversBase: 259,
+      nSolversTrial: 283,
+    },
+    learning:
+      'Der Dry Run lieferte wie erwartet kein Ergebnis. Es war bisschen viel Noise dabei, deshalb hat es etwas länger gedauert, bis sich die Daten stabilisiert haben. SRM-Check war zeitweise sehr gut, zeitweise arg unausgeglichen. Es ist gut zu sehen, dass die Unterschiede doch klein sind und nicht signifikant. Mein Messinstrument erweist sich als zuverlässig.',
   },
   {
     id: 2,
@@ -16,6 +29,17 @@ export const experimentDefs = [
     endTs: new Date('2025-11-04').getTime(),
     baseImg: '/experiments/2_base.png',
     trialImg: '/experiments/2_trial.png',
+    results: {
+      numEvents: 6299,
+      nShowBase: 370,
+      nShowTrial: 419,
+      nVisitorsBase: 298,
+      nVisitorsTrial: 355,
+      nSolversBase: 264,
+      nSolversTrial: 302,
+    },
+    learning:
+      'Die größte Überraschung ist die zeitweise sogar signifikante (so darf ich das eigentlich nicht ausdrücken) Unterscheidung der Klick-Rate auf die Aufgabe. Das ist erstmal sehr verwunderlich, weil die SpielerInnen ja vor dem Öffnen der Aufgabe gar nicht wissen können, was sie in der Aufgabe erwartet.  Meine Hypothese: Im Kontext von Klassenzimmern gibt es Kontaminierungseffekte, Menschen empfehlen Aufgaben weiter - und es scheint so zu sein, dass die kürzere Version einen Ticken eher dazu führt, dass Menschen die Aufgabe weiterempfehlen. Aber die höhere Rate zeigt sich nicht in einer messbaren Veränderung der Lösungsrate. Das Publikum hat hier also keine definitive Antwort. Die Entscheidung liegt bei der Jury.',
   },
   {
     id: 3,
@@ -89,5 +113,13 @@ export const experimentDefs = [
     challenge: 23,
     startTs: new Date('2025-11-03').getTime(),
     endTs: new Date('2025-11-24').getTime(),
+  },
+  {
+    id: 10,
+    description:
+      'Einhorn: neue Iteration mit einer leicht vereinfachten Variante der Geometrie-Aufgabe',
+    challenge: 57,
+    startTs: new Date('2025-11-05').getTime(),
+    endTs: new Date('2025-12-03').getTime(),
   },
 ]

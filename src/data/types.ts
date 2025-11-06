@@ -75,6 +75,14 @@ export interface App {
   }
   metrics: {
     total_requests: number
+    bucket_50ms: number
+    bucket_100ms: number
+    bucket_200ms: number
+    bucket_400ms: number
+    bucket_800ms: number
+    bucket_1600ms: number
+    bucket_3500ms: number
+    bucket_Inf: number
   }
 }
 

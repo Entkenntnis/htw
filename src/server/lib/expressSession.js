@@ -43,6 +43,14 @@ export function expressSession(App) {
             if (time > App.config.slowRequestThreshold) {
               console.log(`Slow request took ${time}ms for ${path}`)
             }
+            if (time <= 50) App.metrics.bucket_50ms += 1
+            if (time <= 100) App.metrics.bucket_100ms += 1
+            if (time <= 200) App.metrics.bucket_200ms += 1
+            if (time <= 400) App.metrics.bucket_400ms += 1
+            if (time <= 800) App.metrics.bucket_800ms += 1
+            if (time <= 1600) App.metrics.bucket_1600ms += 1
+            if (time <= 3500) App.metrics.bucket_3500ms += 1
+            App.metrics.bucket_Inf += 1
             delete session['__start_ts']
             delete session['__path']
           }

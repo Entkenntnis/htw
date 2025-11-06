@@ -117,7 +117,7 @@ export const experimentDefs = [
   {
     id: 10,
     description:
-      'Einhorn: neue Iteration mit einer leicht vereinfachten Variante der Geometrie-Aufgabe',
+      'Ankunft in Sirtach: sprachlich gekürzte Version der Geschichte',
     challenge: 57,
     startTs: new Date('2025-11-05').getTime(),
     endTs: new Date('2025-12-03').getTime(),

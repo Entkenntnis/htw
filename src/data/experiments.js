@@ -122,4 +122,12 @@ export const experimentDefs = [
     startTs: new Date('2025-11-05').getTime(),
     endTs: new Date('2025-12-03').getTime(),
   },
+  {
+    id: 11,
+    description:
+      'Community-Area: Wieder ein A/A Test, um punktuell ein paar Daten zu erheben und natürlich für die Stabilität',
+    challenge: 300,
+    startTs: new Date('2025-11-07').getTime(),
+    endTs: new Date('2025-11-21').getTime(),
+  },
 ]

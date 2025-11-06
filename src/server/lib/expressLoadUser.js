@@ -9,6 +9,11 @@ export function expressLoadUser(App) {
       })
       if (user) {
         req.user = user
+        if (user.name == 'editor') {
+          // exclude editor from perf metrics
+          req.session.__start_ts = undefined
+          req.session.__path = undefined
+        }
       }
     }
     next()

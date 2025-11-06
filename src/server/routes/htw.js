@@ -21,6 +21,7 @@ export function setupHtw(App) {
   })
 
   App.express.get('/metrics', (req, res) => {
+    res.set('Content-Type', 'text/plain')
     res.send(`http_requests_total ${App.metrics.total_requests}\n`)
   })
 

@@ -517,7 +517,14 @@ export function setupLiveAnalyze(App) {
       list.push(ev)
     }
 
+    let stillActive = true
+
     for (const exp of entries) {
+      if (exp.results && exp.learning && stillActive) {
+        stillActive = false
+        content += `<div style="text-align: center; font-size: 100px; margin-top: 300px; margin-bottom: 300px;">(❁´◡\`❁)</div>`
+      }
+
       /** @returns {import('../../data/types.js').ExperimentResult} */
       function buildRs() {
         if (exp.results) {

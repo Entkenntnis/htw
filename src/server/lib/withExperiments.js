@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { experimentDefs } from '../../content/experiments.js'
+import { experimentDefs } from '../../data/experiments.js'
 
 /**
  * @param {import("../../data/types.js").App} App

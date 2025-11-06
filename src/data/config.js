@@ -1,4 +1,4 @@
-import { getI18nExtension } from '../content/i18n-extension.js'
+import { getI18nExtension } from './i18n-extension.js'
 import { secrets } from '../helper/secrets-loader.js'
 
 export const appConfig = {

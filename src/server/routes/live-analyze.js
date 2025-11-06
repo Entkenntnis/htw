@@ -2,7 +2,7 @@ import { Op } from 'sequelize'
 import { renderPage } from '../../helper/render-page.js'
 import { resolveFromDate } from '../../helper/date-range.js'
 import escapeHTML from 'escape-html'
-import { experimentDefs } from '../../content/experiments.js'
+import { experimentDefs } from '../../data/experiments.js'
 
 /**
  * @param {import("../../data/types.js").App} App

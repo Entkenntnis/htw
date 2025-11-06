@@ -1,4 +1,4 @@
-/** @type {import("../data/types.js").ExperimentDefinition[]} */
+/** @type {import("./types.js").ExperimentDefinition[]} */
 export const experimentDefs = [
   {
     id: 1,

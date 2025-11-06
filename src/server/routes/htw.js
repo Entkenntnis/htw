@@ -20,6 +20,10 @@ export function setupHtw(App) {
     })
   })
 
+  App.express.get('/metrics', (req, res) => {
+    res.send(`http_requests_total ${App.metrics.total_requests}\n`)
+  })
+
   App.express.get('/music', (req, res) => {
     if (req.user) {
       App.event.create('music', req.user.id)

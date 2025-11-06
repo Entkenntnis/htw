@@ -13,6 +13,7 @@ import { withStorage } from './server/lib/withStorage.js'
 import { withChallengeStats } from './server/lib/withChallengeStats.js'
 import { withEvent } from './server/lib/withEvent.js'
 import { withVersion } from './server/lib/withVersion.js'
+import { withMetrics } from './server/lib/withMetrics.js'
 
 import { dbModel } from './server/lib/dbModel.js'
 import { expressHeaders } from './server/lib/expressHeaders.js'
@@ -71,6 +72,7 @@ withVersion(preApp)
 withEvent(preApp)
 withChat(preApp)
 withExperiments(preApp)
+withMetrics(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp

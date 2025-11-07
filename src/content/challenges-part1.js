@@ -1140,6 +1140,24 @@ export const part1 = [
     deps: [1],
     render: ({ App, req }) => {
       // console.log(App.experiments.showTrial(24, req))
+      if (App.experiments.showTrial(24, req)) {
+        return story(
+          'Kiwi',
+          `
+            <p id="poper" style="min-width: 60ch">Achtung, nicht blinzeln!
+            </p>
+            
+            <script>
+              setTimeout(function(){
+                document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets('chal_24').split(',')[0]}"
+                setTimeout(function(){
+                  document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
+                }, 300)
+              }, 1500)
+            </script>
+          `
+        )
+      }
       return {
         de: `
         <p id="poper">Achtung, nicht blinzeln!

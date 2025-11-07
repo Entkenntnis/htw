@@ -130,4 +130,11 @@ export const experimentDefs = [
     startTs: new Date('2025-11-07').getTime(),
     endTs: new Date('2025-11-21').getTime(),
   },
+  {
+    id: 12,
+    description: 'Nicht blinzeln: Macht das Bild von Kiwi einen Unterschied?',
+    challenge: 24,
+    startTs: new Date('2025-11-08').getTime(),
+    endTs: new Date('2025-11-22').getTime(),
+  },
 ]

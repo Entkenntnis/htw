@@ -161,7 +161,7 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; color: string, goHere: boolean, unreleased: boolean }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; color: string, goHere: boolean, unreleased: boolean, withExperiment?: boolean }[]}
      */
     const points = []
 
@@ -188,6 +188,10 @@ export function setupChallenges(App) {
         color,
         goHere: goHere === challenge.id,
         unreleased,
+        withExperiment: false,
+      }
+      if (name == 'editor') {
+        point.withExperiment = App.experiments.withExperiment(challenge.id)
       }
       const visible =
         isSolved ||
@@ -243,7 +247,7 @@ export function setupChallenges(App) {
         } r="16" cx="${point.pos.x}" cy="${
           point.pos.y
         }" fill="transparent"></circle><text font-family="inherit" fill="${
-          App.config.styles.mapTextColor
+          point.withExperiment ? 'yellow' : App.config.styles.mapTextColor
         }" font-weight="${point.isSolved ? 'normal' : '600'}" x="${
           point.pos.x
         }" y="${point.pos.y - 17}" text-anchor="middle" ${!point.isSolved ? `style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3))"` : ''}>${escapeHTML(

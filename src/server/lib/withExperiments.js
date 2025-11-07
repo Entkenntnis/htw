@@ -6,6 +6,10 @@ import { experimentDefs } from '../../data/experiments.js'
  */
 export function withExperiments(App) {
   App.experiments = {
+    withExperiment(id) {
+      return experimentDefs.some((exp) => exp.challenge == id && !exp.results)
+    },
+
     getStatus(id, req) {
       if (req.lng !== 'de' || !req.user) {
         return null

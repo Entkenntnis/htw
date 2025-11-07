@@ -72,6 +72,7 @@ export interface App {
       req: Request
     ): null | { status: 'base' | 'trial'; experimentId: number }
     showTrial(id: number, req: Request): boolean
+    withExperiment(id: number): boolean
   }
   metrics: {
     total_requests: number

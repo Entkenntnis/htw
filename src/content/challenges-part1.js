@@ -812,27 +812,32 @@ export const part1 = [
     title: { de: 'Notiz', en: 'Note' },
     // date: '2017-05-18',
     deps: [15, 24],
-    html: {
-      de: story(
-        'Kiwi',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          'Kiwi',
+          `
         <p>Flüchtigkeitsfehler sind die schlimmsten. Man hat die schwere Arbeit gemacht, aber dann fehlt nur ein Buchstabe und es funktioniert nicht. Das ist echt ärgerlich.</p>
 
         <p>Ich wollte dir eigentlich die wichtige Notiz verlinken, aber jetzt musst du einen Weg um meinen Fehler herum finden:</p>
 
+        ${App.experiments.showTrial(16, req) ? '<p style="display: none;" id="continue-button"></p>' : ''}
+
         <p><a href="/wihtige_notiz.txt" target="_blank">https://hack.arrrg.de/wihtige_notiz.txt</a></p>
+        
     `
-      ),
-      en: story(
-        'Kiwi',
-        `
+        ),
+        en: story(
+          'Kiwi',
+          `
         <p>Careless mistakes are the worst. You've done the hard work, but then just one letter is missing and it doesn't work. That's really annoying.</p>
 
         <p>I actually wanted to link the important note for you, but now you have to find a way around my mistake:</p>
 
         <p><a href="/imprtant_note.txt" target="_blank">https://hack.arrrg.de/imprtant_note.txt</a></p>
     `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_16').split(','),
   },

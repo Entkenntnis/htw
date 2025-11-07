@@ -137,4 +137,11 @@ export const experimentDefs = [
     startTs: new Date('2025-11-08').getTime(),
     endTs: new Date('2025-11-22').getTime(),
   },
+  {
+    id: 13,
+    description: 'Notiz: Wie groß ist der Effekt von COMLINK?',
+    challenge: 16,
+    startTs: new Date('2025-11-08').getTime(),
+    endTs: new Date('2025-11-22').getTime(),
+  },
 ]

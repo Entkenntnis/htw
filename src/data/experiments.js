@@ -119,8 +119,8 @@ export const experimentDefs = [
     description:
       'Ankunft in Sirtach: sprachlich gekürzte Version der Geschichte',
     challenge: 57,
-    startTs: new Date('2025-11-05').getTime(),
-    endTs: new Date('2025-12-03').getTime(),
+    startTs: new Date('2025-11-08').getTime(),
+    endTs: new Date('2025-12-06').getTime(),
   },
   {
     id: 11,

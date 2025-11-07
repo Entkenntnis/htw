@@ -2379,7 +2379,7 @@ export const part1 = [
                 <a href="/challenge/23" target="_blank">23</a> &nbsp; 
               </p>
               
-              <p>Die Anfangsbuchstaben der Lösungen der fünf verlinkten Aufgaben ergeben den Pin.
+              <p>Die Anfangsbuchstaben der Titel der fünf verlinkten Aufgaben ergeben den Pin.
               </p>
             </div>
 

@@ -12,10 +12,10 @@ const session_cache = {}
 export function expressSession(App) {
   App.express.use(async (req, res, next) => {
     const incomingSid = req.signedCookies[session_cookie_key]
+    const hasValidIncomingSid =
+      typeof incomingSid == 'string' && incomingSid.length <= 32
 
-    console.log('incoming sid', incomingSid)
-
-    const sid = incomingSid || sync(32)
+    const sid = hasValidIncomingSid ? incomingSid : sync(24) // -> converts to 32 chars!!
 
     res.cookie(session_cookie_key, sid, {
       sameSite: 'lax',
@@ -27,7 +27,7 @@ export function expressSession(App) {
     const fromCache = session_cache[sid]
     if (fromCache) {
       req.session = JSON.parse(fromCache.data)
-    } else if (incomingSid) {
+    } else if (hasValidIncomingSid) {
       // skip database check if the sid is new
       const session = await App.db.models.Session.findOne({
         where: { sid },
@@ -44,8 +44,6 @@ export function expressSession(App) {
     } else {
       req.session = {}
     }
-
-    console.log('session data', req.session)
 
     async function save() {
       if (!session_cache[sid]) {
@@ -70,7 +68,6 @@ export function expressSession(App) {
       const needTouch = newExp - prevExp > 1000 * 60 * 10
 
       if (dataChange || needTouch) {
-        console.log('updating session')
         session_cache[sid].data = newData
         session_cache[sid].expires = newExp
         await App.db.models.Session.upsert({

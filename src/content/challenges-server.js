@@ -438,8 +438,8 @@ export function setupChallengesServer(App) {
       const inputMsgs = req.body.messages
 
       // it's expected that request is slower
-      delete req.session['__path']
-      delete req.session['__start_ts']
+      // delete req.session['__path']
+      // delete req.session['__start_ts']
 
       // check that input messages are user or assistant role only
       for (const msg of inputMsgs) {

@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import connectFlash from 'connect-flash'
 import cookieParser from 'cookie-parser'
+import { flash } from '../../external-wrapper/flash.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -18,19 +18,10 @@ export function withExpress(App) {
   App.express.use(bodyParser.urlencoded({ extended: true }))
   App.express.use(bodyParser.json())
 
-  App.express.use(connectFlash())
+  // @ts-expect-error not types yet
+  App.express.use(flash())
 
-  App.express.use(cookieParser())
-
-  // COMPAT: allow prefixing redirects
-  App.express.use((req, res, next) => {
-    const redirect = res.redirect.bind(res)
-    res.redirect = function (url) {
-      // please don't use the version with status code ಥ_ಥ
-      redirect(url.toString())
-    }
-    next()
-  })
+  App.express.use(cookieParser(App.config.sessionSecret))
 
   App.entry.add(async () => {
     // REMARK: express.listen only provides a callback interface

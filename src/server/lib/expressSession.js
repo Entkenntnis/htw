@@ -1,123 +1,81 @@
-import session from 'express-session'
 import { Op } from 'sequelize'
+import { sync } from 'uid-safe'
+
+const session_cookie_key = 'sid'
+
+/** @type {{[key: string]: {data: string, expires: number}}} */
+const session_cache = {}
 
 /**
  * @param {import("../../data/types.js").App} App
  */
 export function expressSession(App) {
-  class SessionStore extends session.Store {
-    constructor() {
-      super()
+  App.express.use(async (req, res, next) => {
+    const incomingSid = req.signedCookies[session_cookie_key]
+
+    const sid = incomingSid || sync(32)
+
+    res.cookie(session_cookie_key, sid, {
+      sameSite: 'lax',
+      httpOnly: true,
+      maxAge: App.config.session.maxAge,
+      signed: true,
+    })
+
+    const fromCache = session_cache[sid]
+    if (fromCache) {
+      req.session = JSON.parse(fromCache.data)
+    } else {
+      const session = await App.db.models.Session.findOne({
+        where: { sid },
+        raw: true,
+      })
+      req.session = session ? JSON.parse(session.data) : {}
     }
 
-    /** @type {session.Store['get']} */
-    get(sid, cb) {
-      ;(async () => {
-        let result = null
-        try {
-          const session = await App.db.models.Session.findOne({
-            where: { sid },
-            raw: true,
-          })
-          if (session) {
-            result = JSON.parse(session.data)
-            if (App.config.slowRequestWarning && result) {
-              result.__start_ts = Date.now()
-            }
-          }
-        } catch (e) {
-          cb(e)
-          return
+    async function save() {
+      if (!session_cache[sid]) {
+        session_cache[sid] = {
+          data: '',
+          expires: -1,
         }
-        cb(null, result)
-      })()
+      }
+
+      const prevData = session_cache[sid].data
+      const newData = JSON.stringify(req.session)
+
+      const prevExp = session_cache[sid].expires
+      const newExp = Date.now() + App.config.session.maxAge
+
+      const dataChange = prevData != newData
+      const needTouch = newExp - prevExp > 1000 * 60 * 10
+
+      if (dataChange || needTouch) {
+        console.log('updating session')
+        session_cache[sid].data = newData
+        session_cache[sid].expires = newExp
+        await App.db.models.Session.upsert({
+          sid,
+          data: newData,
+          expires: new Date(newExp),
+        })
+      }
     }
 
-    /** @type {session.Store['set']} */
-    set(sid, session, cb) {
-      ;(async () => {
-        try {
-          if (App.config.slowRequestWarning && session.__start_ts) {
-            const time = Date.now() - session.__start_ts
-            const path = session.__path || ''
-            if (time > App.config.slowRequestThreshold) {
-              console.log(`Slow request took ${time}ms for ${path}`)
-            }
-            if (time <= 50) App.metrics.bucket_50ms += 1
-            if (time <= 100) App.metrics.bucket_100ms += 1
-            if (time <= 200) App.metrics.bucket_200ms += 1
-            if (time <= 400) App.metrics.bucket_400ms += 1
-            if (time <= 800) App.metrics.bucket_800ms += 1
-            if (time <= 1600) App.metrics.bucket_1600ms += 1
-            if (time <= 3500) App.metrics.bucket_3500ms += 1
-            App.metrics.bucket_Inf += 1
-            delete session['__start_ts']
-            delete session['__path']
-          }
-
-          const data = JSON.stringify(session)
-          const expires = session.cookie.expires ?? new Date()
-          // REMARK: findCreateFind is assumed to be a little bit more robust
-          const [sess] = await App.db.models.Session.findCreateFind({
-            where: { sid },
-            defaults: { data, expires, sid },
-          })
-          sess.data = data
-          if (expires) {
-            sess.expires = expires
-          }
-          await sess.save()
-        } catch (e) {
-          if (cb) cb(e)
-          return
-        }
-        if (cb) cb(null)
-      })()
+    req.sessionManager = { save }
+    const end = res.end
+    // @ts-expect-error patching
+    res.end = function (...args) {
+      // not awaiting, because I'm fine with background db update
+      // the cache is updated in sync, so new requests will work fine
+      save()
+      // @ts-expect-error patching
+      end.apply(this, args)
     }
 
-    /** @type {session.Store['destroy']} */
-    destroy(sid, cb) {
-      ;(async () => {
-        try {
-          await App.db.models.Session.destroy({
-            where: { sid },
-          })
-        } catch (e) {
-          if (cb) cb(e)
-          return
-        }
-        if (cb) cb(null)
-      })()
-    }
-
-    /** @type {NonNullable<session.Store['touch']>} */
-    touch(sid, session, cb) {
-      ;(async () => {
-        try {
-          const sess = await App.db.models.Session.findOne({
-            where: { sid },
-          })
-          // PERF: only touch session if expires is off by more than 10 minutes
-          if (sess) {
-            const sessionExpire = App.moment(sess.expires)
-            const newExpire = App.moment(session.cookie.expires)
-            const staleMinutes = newExpire.diff(sessionExpire, 'minutes')
-            if (
-              staleMinutes >= App.config.session.allowUnderexpire &&
-              session.cookie.expires
-            ) {
-              sess.expires = session.cookie.expires
-              await sess.save()
-            }
-          }
-        } catch (e) {
-          if (cb) cb()
-          return
-        }
-        if (cb) cb()
-      })()
-    }
-  }
+    // done
+    next()
+  })
 
   App.periodic.add(App.config.session.cleanupInterval, async () => {
     try {
@@ -127,31 +85,12 @@ export function expressSession(App) {
     } catch (e) {
       // not dramatic if this throws
     }
-  })
-
-  App.express.use(
-    session({
-      resave: false,
-      saveUninitialized: false,
-      secret: App.config.sessionSecret,
-      cookie: { maxAge: App.config.session.maxAge, sameSite: 'lax' },
-      store: new SessionStore(),
-    })
-  )
-
-  // COMPAT: session is not automatically saved on redirect, doing it here manually
-  App.express.use(function (req, res, next) {
-    const redirect = res.redirect
-    // @ts-expect-error Monkey-patching
-    res.redirect = function () {
-      if (req.session.save) {
-        req.session.save(() => {
-          // @ts-expect-error Monkey-patching
-          redirect.apply(this, arguments)
-        })
-        // @ts-expect-error Monkey-patching
-      } else redirect.apply(this, arguments)
+    // cleanup cache as well
+    const now = Date.now()
+    for (const sid of Object.keys(session_cache)) {
+      if (session_cache[sid].expires < now) {
+        delete session_cache[sid]
+      }
     }
-    next()
   })
 }

@@ -242,6 +242,14 @@ declare global {
     interface Request {
       user?: UserModel
       lng: 'de' | 'en'
+      session: SessionData
+      sessionManager: {
+        save: () => Promise<void>
+      }
+      flash(): { [key: string]: string[] }
+      flash(message: string): string[]
+      flash(type: string, message: string[] | string): number
+      flash(type: string, format: string, ...args: any[]): number
     }
     interface Application {
       // This is mostly happening with AI generated code (weird)
@@ -257,41 +265,37 @@ declare global {
   }
 }
 
-declare module 'express-session' {
-  interface SessionData {
-    userId?: number
-    __start_ts?: number
-    __path?: string
-    csrfSecret?: string
-    joinRoom?: string
-    registerValues?: object
-    joinValues?: object
-    roomValues?: object
-    rooms?: string[]
-    loginFail: boolean
-    rates: { [key: string]: { count: number; lockedUntil: number } }
-    chal117?: DungeonData
-    chal303_ts?: number
-    chal303_result?: string
-    chal338_ts?: number
-    chal338_result?: string
-    maze?: { x: number; y: number }
-    lastTestRun?: [number, number]
-    lastWormsTab?:
-      | 'two-player'
-      | 'single-player'
-      | 'arena'
-      | 'your-bots'
-      | 'guide'
-    lastWormsBotId?: number
-    ssoVerifier?: string
-    ssoIss?: string
-    sso_sid?: string
-    sso_sub?: string
-    sso_linkExisting?: boolean
-    continuationUrl?: string
-    goHereOnMap?: number
-  }
+interface SessionData {
+  userId?: number
+  csrfSecret?: string
+  joinRoom?: string
+  registerValues?: object
+  joinValues?: object
+  roomValues?: object
+  rooms?: string[]
+  loginFail?: boolean
+  rates?: { [key: string]: { count: number; lockedUntil: number } }
+  chal117?: DungeonData
+  chal303_ts?: number
+  chal303_result?: string
+  chal338_ts?: number
+  chal338_result?: string
+  maze?: { x: number; y: number }
+  lastTestRun?: [number, number]
+  lastWormsTab?:
+    | 'two-player'
+    | 'single-player'
+    | 'arena'
+    | 'your-bots'
+    | 'guide'
+  lastWormsBotId?: number
+  ssoVerifier?: string
+  ssoIss?: string
+  sso_sid?: string
+  sso_sub?: string
+  sso_linkExisting?: boolean
+  continuationUrl?: string
+  goHereOnMap?: number
 }
 
 export interface DungeonData {

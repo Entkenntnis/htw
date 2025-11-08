@@ -153,8 +153,6 @@ export const appConfig = {
   scoreMode: 'distance',
   assetsMaxAge: '2d',
   historyBack: true,
-  slowRequestWarning: true,
-  slowRequestThreshold: 5000,
   tokenSecret: secrets('config_token_secret'),
   rateLimit: {
     enabled: true,

@@ -4,6 +4,7 @@ import { renderPage } from '../../helper/render-page.js'
 import { hintsData, withComlink } from './hints.js'
 import { generateWeChallToken } from '../../helper/helper.js'
 import escapeHTML from 'escape-html'
+import { purge_user_from_cache } from '../lib/expressLoadUser.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -844,6 +845,7 @@ export function setupChallenges(App) {
           where: { userId: req.user.id },
         })
         App.challengeStats.nuke()
+        purge_user_from_cache(req.user.id)
         delete req.session.userId
         delete req.user
         renderPage(App, req, res, 'deleteSuccess')

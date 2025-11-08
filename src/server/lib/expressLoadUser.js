@@ -2,6 +2,13 @@
 const user_cache = {}
 
 /**
+ * @param {number} userId
+ */
+export function purge_user_from_cache(userId) {
+  delete user_cache[userId]
+}
+
+/**
  * @param {import("../../data/types.js").App} App
  */
 export function expressLoadUser(App) {

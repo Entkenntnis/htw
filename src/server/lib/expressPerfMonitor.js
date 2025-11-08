@@ -8,13 +8,14 @@ export function expressPerfMonitor(App) {
 
     req.measure = () => {
       if (!req.user) return
+      if (req.user.name == 'editor') return // don't track myself
       const endTs = Date.now()
       const time = endTs - startTs
-      console.log(
-        `Request #${App.metrics.total_requests} ${req.method} ${
-          req.path
-        } - ${endTs - startTs} ms`
-      )
+      // console.log(
+      //   `Request #${App.metrics.total_requests} ${req.method} ${
+      //     req.path
+      //   } - ${endTs - startTs} ms`
+      // )
 
       if (time <= 50) App.metrics.bucket_50ms += 1
       if (time <= 100) App.metrics.bucket_100ms += 1

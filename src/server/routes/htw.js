@@ -22,17 +22,19 @@ export function setupHtw(App) {
 
   App.express.get('/metrics', (req, res) => {
     res.set('Content-Type', 'text/plain')
-    res.send(
-      `http_requests_total ${App.metrics.total_requests}\n` +
-        `http_request_duration_seconds_bucket{le="0.05"} ${App.metrics.bucket_50ms}\n` +
-        `http_request_duration_seconds_bucket{le="0.1"} ${App.metrics.bucket_100ms}\n` +
-        `http_request_duration_seconds_bucket{le="0.2"} ${App.metrics.bucket_200ms}\n` +
-        `http_request_duration_seconds_bucket{le="0.4"} ${App.metrics.bucket_400ms}\n` +
-        `http_request_duration_seconds_bucket{le="0.8"} ${App.metrics.bucket_800ms}\n` +
-        `http_request_duration_seconds_bucket{le="1.6"} ${App.metrics.bucket_1600ms}\n` +
-        `http_request_duration_seconds_bucket{le="3.5"} ${App.metrics.bucket_3500ms}\n` +
-        `http_request_duration_seconds_bucket{le="+Inf"} ${App.metrics.bucket_Inf}\n`
-    )
+    const mem = process.memoryUsage()
+
+    res.send(`http_requests_total ${App.metrics.total_requests}
+http_request_duration_seconds_bucket{le="0.05"} ${App.metrics.bucket_50ms}
+http_request_duration_seconds_bucket{le="0.1"} ${App.metrics.bucket_100ms}
+http_request_duration_seconds_bucket{le="0.2"} ${App.metrics.bucket_200ms}
+http_request_duration_seconds_bucket{le="0.4"} ${App.metrics.bucket_400ms}
+http_request_duration_seconds_bucket{le="0.8"} ${App.metrics.bucket_800ms}
+http_request_duration_seconds_bucket{le="1.6"} ${App.metrics.bucket_1600ms}
+http_request_duration_seconds_bucket{le="3.5"} ${App.metrics.bucket_3500ms}
+http_request_duration_seconds_bucket{le="+Inf"} ${App.metrics.bucket_Inf}
+node_memory_rss ${mem.rss}
+`)
   })
 
   App.express.get('/music', (req, res) => {

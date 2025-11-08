@@ -32,6 +32,13 @@ export function expressSession(App) {
         raw: true,
       })
       req.session = session ? JSON.parse(session.data) : {}
+
+      if (session) {
+        session_cache[sid] = {
+          data: session.data,
+          expires: new Date(session.expires).getTime(),
+        }
+      }
     } else {
       req.session = {}
     }

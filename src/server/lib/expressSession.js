@@ -13,6 +13,8 @@ export function expressSession(App) {
   App.express.use(async (req, res, next) => {
     const incomingSid = req.signedCookies[session_cookie_key]
 
+    console.log('incoming sid', incomingSid)
+
     const sid = incomingSid || sync(32)
 
     res.cookie(session_cookie_key, sid, {
@@ -42,6 +44,8 @@ export function expressSession(App) {
     } else {
       req.session = {}
     }
+
+    console.log('session data', req.session)
 
     async function save() {
       if (!session_cache[sid]) {

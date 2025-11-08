@@ -25,24 +25,32 @@ export function expressSession(App) {
     const fromCache = session_cache[sid]
     if (fromCache) {
       req.session = JSON.parse(fromCache.data)
-    } else {
+    } else if (incomingSid) {
+      // skip database check if the sid is new
       const session = await App.db.models.Session.findOne({
         where: { sid },
         raw: true,
       })
       req.session = session ? JSON.parse(session.data) : {}
+    } else {
+      req.session = {}
     }
 
     async function save() {
       if (!session_cache[sid]) {
         session_cache[sid] = {
-          data: '',
-          expires: -1,
+          data: '{}',
+          expires: Date.now() + App.config.session.maxAge,
         }
       }
 
       const prevData = session_cache[sid].data
       const newData = JSON.stringify(req.session)
+
+      if (prevData.length <= 2 && newData.length <= 2) {
+        // no relevant session data, skip
+        return
+      }
 
       const prevExp = session_cache[sid].expires
       const newExp = Date.now() + App.config.session.maxAge

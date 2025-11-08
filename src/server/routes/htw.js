@@ -23,6 +23,7 @@ export function setupHtw(App) {
   App.express.get('/metrics', (req, res) => {
     res.set('Content-Type', 'text/plain')
     const mem = process.memoryUsage()
+    const cpu = process.cpuUsage()
 
     res.send(`http_requests_total ${App.metrics.total_requests}
 http_request_duration_seconds_bucket{le="0.05"} ${App.metrics.bucket_50ms}
@@ -34,6 +35,8 @@ http_request_duration_seconds_bucket{le="1.6"} ${App.metrics.bucket_1600ms}
 http_request_duration_seconds_bucket{le="3.5"} ${App.metrics.bucket_3500ms}
 http_request_duration_seconds_bucket{le="+Inf"} ${App.metrics.bucket_Inf}
 node_memory_rss ${mem.rss}
+node_cpu_system ${cpu.system}
+node_cpu_user ${cpu.user}
 `)
   })
 

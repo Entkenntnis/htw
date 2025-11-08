@@ -131,5 +131,6 @@ process.on('unhandledRejection', (up) => {
 })
 
 App.entry.start().then(() => {
+  App.logger.info('NODE_ENV: ' + App.express.get('env'))
   App.logger.info(App.moment().locale('en').format('LLLL'))
 })

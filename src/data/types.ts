@@ -246,6 +246,10 @@ declare global {
       sessionManager: {
         save: () => Promise<void>
       }
+      flash(): { [key: string]: string[] }
+      flash(message: string): string[]
+      flash(type: string, message: string[] | string): number
+      flash(type: string, format: string, ...args: any[]): number
     }
     interface Application {
       // This is mostly happening with AI generated code (weird)
@@ -367,15 +371,4 @@ export interface ExperimentResult {
   nVisitorsTrial: number
   nSolversBase: number
   nSolversTrial: number
-}
-
-/// <reference types="express" />
-
-declare namespace Express {
-  export interface Request {
-    flash(): { [key: string]: string[] }
-    flash(message: string): string[]
-    flash(type: string, message: string[] | string): number
-    flash(type: string, format: string, ...args: any[]): number
-  }
 }

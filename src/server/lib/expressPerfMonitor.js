@@ -6,7 +6,8 @@ export function expressPerfMonitor(App) {
     App.metrics.total_requests += 1
     const startTs = Date.now()
 
-    res.once('finish', () => {
+    req.measure = () => {
+      if (!req.user) return
       const endTs = Date.now()
       const time = endTs - startTs
       console.log(
@@ -23,7 +24,8 @@ export function expressPerfMonitor(App) {
       if (time <= 1600) App.metrics.bucket_1600ms += 1
       if (time <= 3500) App.metrics.bucket_3500ms += 1
       App.metrics.bucket_Inf += 1
-    })
+    }
+
     next()
   })
 }

@@ -246,6 +246,7 @@ declare global {
       sessionManager: {
         save: () => Promise<void>
       }
+      measure(): void
       flash(): { [key: string]: string[] }
       flash(message: string): string[]
       flash(type: string, message: string[] | string): number

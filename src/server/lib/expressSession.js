@@ -77,6 +77,8 @@ export function expressSession(App) {
       // not awaiting, because I'm fine with background db update
       // the cache is updated in sync, so new requests will work fine
       save()
+      // good place to hook
+      req.measure()
       // @ts-expect-error patching
       end.apply(this, args)
     }

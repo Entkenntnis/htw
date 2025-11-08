@@ -79,9 +79,9 @@ const App = preApp
 
 // load base functionality
 dbModel(App)
+expressPerfMonitor(App)
 expressHeaders(App)
 expressSession(App)
-expressPerfMonitor(App)
 expressLanguage(App)
 expressLoadUser(App)
 expressRateLimit(App)

@@ -18,14 +18,15 @@ export function setupUser(App) {
     delete req.session.registerValues
     const token = App.csrf.create(req)
     // save session to avoid racing of requests
-    await /** @type {Promise<void>} */ (
-      new Promise((res, rej) => {
-        req.session.save((err) => {
-          if (err) rej(err)
-          else res()
-        })
-      })
-    )
+    await req.sessionManager.save()
+    // /** @type {Promise<void>} */ (
+    //   new Promise((res, rej) => {
+    //     req.session.save((err) => {
+    //       if (err) rej(err)
+    //       else res()
+    //     })
+    //   })
+    // )
     const i18n = App.i18n.get(req.lng)
     const sso = !!(req.session.sso_sid && req.session.sso_sub)
     const isGithub = req.session.sso_sid?.startsWith('github:')

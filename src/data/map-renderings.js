@@ -1,0 +1,52 @@
+/**
+ * Custom map renderings for additional visual elements on the map
+ * @param {{App: import('./types.js').App, req: import('express').Request}} params - Parameters object
+ * @returns {string} HTML string for custom map elements
+ */
+export function renderCustomMapHtml({ App, req }) {
+  const showWorms =
+    req.user &&
+    (req.user.score >= 30 || App.config.editors.includes(req.user.name))
+
+  const showEnough =
+    req.user &&
+    (req.user.score >= 60 || App.config.editors.includes(req.user.name))
+
+  const showPleaseFixMeAndMortalCoil =
+    req.user &&
+    (req.user.score >= 90 || App.config.editors.includes(req.user.name))
+
+  const showStatsLinks = req.user && req.user.name == 'editor'
+
+  return `
+    <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
+    <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
+    <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
+    <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
+    ${
+      showWorms
+        ? `
+          <a draggable="false" href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Worms</div><img draggable="false" src="/worms.png" style="width:46px"></a>
+        
+          <a draggable="false" href="/music" target="_blank" style="position:absolute;left:158px;top:1160px;" class="text-reset text-decoration-none fade-in"><div>Musik</div><img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;"></a>`
+        : ''
+    }
+     ${
+       showEnough
+         ? '<a draggable="false" href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in"><div>&nbsp;&nbsp;&nbsp;Enough</div><img draggable="false" src="/enough.png" style="width:65px;margin-top:6px;"></a>' +
+           '<a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1520px;top:125px;" class="text-reset text-decoration-none fade-in"><img draggable="false" src="/wwwm.png" style="width:78px;"></a>' +
+           '<a draggable="false" href="/resistance" style="position:absolute;left:138px;top:1325px;text-align: center;" class="text-reset text-decoration-none fade-in"><div>Notizen des<br>Widerstands</div><img draggable="false" src="/clippy.png" style="width:55px;margin-top:6px;"></a>'
+         : ''
+     }
+     ${
+       showPleaseFixMeAndMortalCoil
+         ? '<a draggable="false" href="/mortal-coil" style="position:absolute;left:1743px;top:116px;" class="text-reset text-decoration-none fade-in"><div>Mortal Coil</div><img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;"></a>' +
+           '<a draggable="false" href="/please-fix-me" style="position:absolute;left:1950px;top:120px;" class="text-reset text-decoration-none fade-in"><div>Please Fix Me!</div><img draggable="false" src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;"></a>'
+         : ''
+     }${
+       showStatsLinks
+         ? '<div style="position: absolute; left: 1000px; top: -25px;"><a href="/mapflow" draggable="false">MapFlow</a><a draggable="false" href="/events" style="margin-left: 24px;">Events</a><a draggable="false" href="/survey" style="margin-left: 24px;">Survey</a><a draggable="false" href="/feedback" style="margin-left: 24px;">Feedback</a><a draggable="false" href="/questions" style="margin-left: 24px;">Questions</a><a href="/experiments" draggable="false" style="margin-left: 24px;">Experiments</a><a href="https://prometheus.arrrg.de/query?g0.expr=label_replace%28rate%28http_request_duration_seconds_bucket%7Ble%3D%220.05%22%7D%5B5m%5D%29%2C+%22bucket%22%2C+%220-0.05%22%2C+%22%22%2C+%22%22%29+or+label_replace%28%28rate%28http_request_duration_seconds_bucket%7Ble%3D%220.1%22%7D%5B5m%5D%29+-+ignoring%28le%29+rate%28http_request_duration_seconds_bucket%7Ble%3D%220.05%22%7D%5B5m%5D%29%29%2C+%22bucket%22%2C+%220.05-0.1%22%2C+%22%22%2C+%22%22%29+or+label_replace%28%28rate%28http_request_duration_seconds_bucket%7Ble%3D%220.2%22%7D%5B5m%5D%29+-+ignoring%28le%29+rate%28http_request_duration_seconds_bucket%7Ble%3D%220.1%22%7D%5B5m%5D%29%29%2C+%22bucket%22%2C+%220.1-0.2%22%2C+%22%22%2C+%22%22%29+or+label_replace%28%28rate%28http_request_duration_seconds_bucket%7Ble%3D%220.4%22%7D%5B5m%5D%29+-+ignoring%28le%29+rate%28http_request_duration_seconds_bucket%7Ble%3D%220.2%22%7D%5B5m%5D%29%29%2C+%22bucket%22%2C+%220.2-0.4%22%2C+%22%22%2C+%22%22%29+or+label_replace%28%28rate%28http_request_duration_seconds_bucket%7Ble%3D%220.8%22%7D%5B5m%5D%29+-+ignoring%28le%29+rate%28http_request_duration_seconds_bucket%7Ble%3D%220.4%22%7D%5B5m%5D%29%29%2C+%22bucket%22%2C+%220.4-0.8%22%2C+%22%22%2C+%22%22%29+or+label_replace%28%28rate%28http_request_duration_seconds_bucket%7Ble%3D%221.6%22%7D%5B5m%5D%29+-+ignoring%28le%29+rate%28http_request_duration_seconds_bucket%7Ble%3D%220.8%22%7D%5B5m%5D%29%29%2C+%22bucket%22%2C+%220.8-1.6%22%2C+%22%22%2C+%22%22%29+or+label_replace%28%28rate%28http_request_duration_seconds_bucket%7Ble%3D%223.5%22%7D%5B5m%5D%29+-+ignoring%28le%29+rate%28http_request_duration_seconds_bucket%7Ble%3D%221.6%22%7D%5B5m%5D%29%29%2C+%22bucket%22%2C+%221.6-3.5%22%2C+%22%22%2C+%22%22%29+or+label_replace%28%28rate%28http_request_duration_seconds_bucket%7Ble%3D%22%2BInf%22%7D%5B5m%5D%29+-+ignoring%28le%29+rate%28http_request_duration_seconds_bucket%7Ble%3D%223.5%22%7D%5B5m%5D%29%29%2C+%22bucket%22%2C+%223.5-Inf%22%2C+%22%22%2C+%22%22%29&g0.show_tree=0&g0.tab=graph&g0.range_input=6h&g0.res_type=auto&g0.res_density=medium&g0.display_mode=stacked&g0.show_exemplars=0" target="_blank" draggable="false" style="margin-left: 24px;">Perf-Monitor</a></div>'
+         : ''
+     }
+  `
+}

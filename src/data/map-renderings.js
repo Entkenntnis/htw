@@ -1,22 +1,39 @@
 /**
  * Custom map renderings for additional visual elements on the map
+ * 
+ * This module contains the logic for rendering custom HTML elements on the map.
+ * It enables conditional rendering based on user score and privileges, providing
+ * better separation of concerns from the main config file.
+ * 
+ * @module map-renderings
+ */
+
+/**
+ * Determines visibility of map elements based on user score and privileges
+ * @param {object} user - User object from request
+ * @param {number} scoreThreshold - Score required to view
+ * @param {string[]} editors - List of editor usernames
+ * @returns {boolean} Whether the element should be shown
+ */
+function shouldShowElement(user, scoreThreshold, editors) {
+  return user && (user.score >= scoreThreshold || editors.includes(user.name))
+}
+
+/**
+ * Custom map renderings for additional visual elements on the map
  * @param {{App: import('./types.js').App, req: import('express').Request}} params - Parameters object
  * @returns {string} HTML string for custom map elements
  */
 export function renderCustomMapHtml({ App, req }) {
-  const showWorms =
-    req.user &&
-    (req.user.score >= 30 || App.config.editors.includes(req.user.name))
+  // Extract configuration for easier access
+  const editors = App.config.editors
+  const user = req.user
 
-  const showEnough =
-    req.user &&
-    (req.user.score >= 60 || App.config.editors.includes(req.user.name))
-
-  const showPleaseFixMeAndMortalCoil =
-    req.user &&
-    (req.user.score >= 90 || App.config.editors.includes(req.user.name))
-
-  const showStatsLinks = req.user && req.user.name == 'editor'
+  // Define visibility rules with meta information
+  const showWorms = shouldShowElement(user, 30, editors)
+  const showEnough = shouldShowElement(user, 60, editors)
+  const showPleaseFixMeAndMortalCoil = shouldShowElement(user, 90, editors)
+  const showStatsLinks = user && user.name == 'editor'
 
   return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">

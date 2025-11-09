@@ -1,28 +1,38 @@
 /**
  *
  * @param {{App: import("./types.js").App, req: import("express").Request, solved: number[]}} param0
- * @returns {string}
+ * @returns {Promise<string>}
  */
-export function customMapHtmlCreator({ App, req, solved }) {
+export async function customMapHtmlCreator({ App, req, solved }) {
+  if (!req.user) return ''
+
   const showWorms =
-    req.user &&
-    (req.user.score >= 30 ||
-      App.config.editors.includes(req.user.name) ||
-      App.config.demos.includes(req.user.name))
+    req.user.score >= 30 ||
+    App.config.editors.includes(req.user.name) ||
+    App.config.demos.includes(req.user.name)
 
   const showEnough =
-    req.user &&
-    (req.user.score >= 60 ||
-      App.config.editors.includes(req.user.name) ||
-      App.config.demos.includes(req.user.name))
+    req.user.score >= 60 ||
+    App.config.editors.includes(req.user.name) ||
+    App.config.demos.includes(req.user.name)
 
   const showPleaseFixMeAndMortalCoil =
-    req.user &&
-    (req.user.score >= 90 ||
-      App.config.editors.includes(req.user.name) ||
-      App.config.demos.includes(req.user.name))
+    req.user.score >= 90 ||
+    App.config.editors.includes(req.user.name) ||
+    App.config.demos.includes(req.user.name)
 
   const showStatsLinks = req.user && App.config.editors.includes(req.user.name)
+
+  let mortalcoillevel = 0
+
+  if (showPleaseFixMeAndMortalCoil) {
+    const raw = parseInt(
+      (await App.storage.getItem(`mortalcoil_${req.user.id}`)) ?? 'NaN'
+    )
+    if (!isNaN(raw)) {
+      mortalcoillevel = raw
+    }
+  }
 
   return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
@@ -67,6 +77,13 @@ export function customMapHtmlCreator({ App, req, solved }) {
           <a draggable="false" href="/mortal-coil" style="position:absolute;left:1743px;top:116px;" class="text-reset text-decoration-none fade-in">
             <div>Mortal Coil</div>
             <img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;">
+            ${
+              mortalcoillevel
+                ? `
+                    <div style="position: absolute; right: 6px; bottom: -9px; background: rgba(60,60,60,0.95); color: #fff; font-size:12px; padding:4px 7px; border-radius:12px; min-width:24px; text-align:center; box-shadow: 0 1px 0 rgba(0,0,0,0.3);">${mortalcoillevel}</div>
+                  `
+                : ''
+            }
           </a>
           
           <a draggable="false" href="/please-fix-me" style="position:absolute;left:1950px;top:120px;" class="text-reset text-decoration-none fade-in">

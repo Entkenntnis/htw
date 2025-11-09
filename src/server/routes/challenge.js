@@ -5,6 +5,7 @@ import { hintsData, withComlink } from './hints.js'
 import { generateWeChallToken } from '../../helper/helper.js'
 import escapeHTML from 'escape-html'
 import { purge_user_from_cache } from '../lib/expressLoadUser.js'
+import { customMapHtmlCreator } from '../../data/custom-map-html.js'
 
 /**
  * @param {import('../../data/types.js').App} App
@@ -260,7 +261,7 @@ export function setupChallenges(App) {
     // const map = canvas.svg()
     const map = svgStart + svgLines.join('') + svgCircles.join('') + svgEnd
 
-    const custom = App.config.map.customMapHtml
+    const custom = customMapHtmlCreator
 
     const customMapHtml =
       (typeof custom === 'function' ? custom({ App, req }) : custom) +

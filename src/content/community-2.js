@@ -378,8 +378,9 @@ export const communityChallenges2 = [
       }
     },
     solution: secrets('chal_352'),
-    afterSolveText: {
-      de: `
+    renderAfterSolveText: () => {
+      return {
+        de: `
         <p>Am nächsten Morgen spazieren Kinder an deiner offenen Wohnungstür vorbei. Von dir ist keine Spur zu sehen. Eine Woche später wirst du als vermisst gemeldet und der Fall nach einem Jahr ohne Hinweise geschlossen 🪦</p>
         <div id="halloween-blood-352" style="margin-bottom: 100px;">
           <p class="blood-text">Happy Halloween!
@@ -431,7 +432,7 @@ export const communityChallenges2 = [
           </style>
         </div>
       `,
-      en: `
+        en: `
         <p>The next morning, children stroll past your apartment's open door. There's no trace of you. A week later, you are reported missing, and after a year with no leads, the case is closed 🪦</p>
         <div id="halloween-blood-352-en" style="margin-bottom: 100px;">
           <p class="blood-text">Happy Halloween!
@@ -483,6 +484,7 @@ export const communityChallenges2 = [
           </style>
         </div>
       `,
+      }
     },
   },
 

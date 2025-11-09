@@ -562,9 +562,11 @@ export function setupChallenges(App) {
       ? hintsData[challenge.id].entries.length
       : 0
 
-    const afterSolveText = challenge.afterSolveText
-      ? challenge.afterSolveText[req.lng]
-      : ''
+    let afterSolveText = ''
+    if (challenge.renderAfterSolveText) {
+      const __raw = await challenge.renderAfterSolveText({ App, req })
+      afterSolveText = typeof __raw == 'string' ? __raw : __raw[req.lng]
+    }
 
     let ratio = ''
 

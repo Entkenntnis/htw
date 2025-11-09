@@ -34,6 +34,13 @@ export async function customMapHtmlCreator({ App, req, solved }) {
     }
   }
 
+  let wwwm_win = false
+  if (showEnough) {
+    if (await App.storage.getItem(`wwwm-win-${req.user.id}`)) {
+      wwwm_win = true
+    }
+  }
+
   return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
@@ -61,8 +68,9 @@ export async function customMapHtmlCreator({ App, req, solved }) {
             <img draggable="false" src="/enough.png" style="width:65px;margin-top:6px;">
           </a>
           
-          <a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1520px;top:125px;" class="text-reset text-decoration-none fade-in">
+          <a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1520px;top:122px;" class="text-reset text-decoration-none fade-in">
             <img draggable="false" src="/wwwm.png" style="width:78px;">
+            ${wwwm_win ? `<div style="position: absolute; right: 0px; bottom: -9px; color: #fff; font-size:24px; padding:4px 7px; border-radius:12px; min-width:24px; text-align:center; box-shadow: 0 1px 0 rgba(0,0,0,0.3);">🏆</div>` : ''}
           </a>
           
           <a draggable="false" href="/resistance" style="position:absolute;left:138px;top:1325px;text-align: center;" class="text-reset text-decoration-none fade-in">

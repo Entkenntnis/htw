@@ -119,6 +119,7 @@ export function setupSurvey(App) {
     <html lang="de">
       <head>
         <meta charset="utf-8">
+        <link href="/fonts/font.css" rel="stylesheet">
         <link href="/theme/darkly.min.css" rel="stylesheet">
         <title>Umfrage Auswertung</title>
       </head>

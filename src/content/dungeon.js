@@ -92,6 +92,7 @@ function render(req, res, html) {
     <html lang="${req.lng}">
       <head>
         <meta charset="utf-8">
+        <link href="/fonts/font.css" rel="stylesheet">
         <link href="/theme/darkly.min.css" rel="stylesheet">
       </head>
       <body style="background-color:black;overflow:hidden">

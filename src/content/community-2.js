@@ -619,4 +619,50 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     },
     solution: secrets('chal_357'),
   },
+
+  {
+    id: 358,
+    pos: { x: 1700, y: 330 },
+    title: { de: 'Zeitzonen', en: 'Time zones' },
+    date: '2025-11-12',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2025-11-12 16:16:16 GMT+0100').getTime(),
+    author: 'peter34788',
+    html: {
+      de: `
+        <p>Es gibt auf der Welt 24 Standardzeitzonen – jeweils eine pro Stunde (z. B. UTC+01:00 für Mitteleuropa; UTC steht für Coordinated Universal Time). Doch wenn man es genauer nimmt, sind es deutlich mehr als 24, denn in manchen Länder gibt es Halbe oder sogar Viertelstundenabweichungen (z. B. UTC+05:30 in Indien oder UTC+05:45 in Nepal), unterschiedliche Sommerzeitregelungen oder politischen Sonderregelungen.</p>
+
+        <p>Und da du jetzt ein bisschen mehr über Zeitzonen weißt, wird die Antwort erst angezeigt, wenn du dich in meiner Zeitzone befindest, also wir sehen uns bei 21°19'54.5"N 157°55'10.3"W.</p>
+
+        <script src="/chals/358.js"></script>
+
+        <p style="margin-top: 32px;"><button onclick="checker()" class="btn btn-secondary">Check</button></p>
+      `,
+      en: `
+        <p>There are 24 standard time zones in the world — one per hour (for example UTC+01:00 for Central Europe; UTC stands for Coordinated Universal Time). But if you look more closely, there are far more than 24, because some countries use half-hour or even quarter-hour offsets (for example UTC+05:30 in India or UTC+05:45 in Nepal), different daylight saving time rules, or political exceptions.</p>
+
+        <p>And now that you know a bit more about time zones, the answer will only be shown when you're in my time zone — so I'll see you at 21°19'54.5"N 157°55'10.3"W.</p>
+
+        <script src="/chals/358.js"></script>
+
+        <p style="margin-top: 32px;"><button onclick="checker()" class="btn btn-secondary">Check</button></p>
+      `,
+    },
+    solution: secrets('chal_358'),
+    renderAfterSolveText: () => {
+      return {
+        de: `
+          <p>Aber weißt du auch was das ist? - Die Datumsgrenze ist eine gedachte Linie auf der Erde, die den Wechsel des Kalendertages markiert. Sie verläuft größtenteils entlang des 180. Längengrads im Pazifischen Ozean. Ihre Aufgabe ist es, weltweit einheitlich festzulegen, wann ein neuer Tag beginnt.</p>
+          
+          <p>Wer die Datumsgrenze von Osten nach Westen überquert, muss das Datum um einen Tag vorstellen. Umgekehrt – von Westen nach Osten – wird das Datum um einen Tag zurückgestellt. So kann es passieren, dass man an einem Ort Montag hat, während es auf der anderen Seite der Linie noch Sonntag ist.</p>
+        `,
+        en: `
+          <p>But do you also know what that is? The International Date Line is an imaginary line on the Earth that marks the change of calendar day. It largely follows the 180th meridian across the Pacific Ocean. Its purpose is to provide a uniform point at which the date advances by one day.</p>
+          
+          <p>When you cross the date line from east to west, you must advance the calendar by one day. Conversely — when crossing from west to east — the calendar is set back by one day. This can lead to situations where it is Monday on one side of the line while still Sunday on the other.</p>
+        `,
+      }
+    },
+  },
 ]

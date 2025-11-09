@@ -8,7 +8,7 @@ export function withStorage(App) {
 
   /**
    * @param {string} key
-   * @param {string} value
+   * @param {string | null} value
    */
   function setCacheItem(key, value) {
     // If cache is at max size, delete oldest entry (first in map)
@@ -23,6 +23,7 @@ export function withStorage(App) {
 
   /**
    * @param {string} key
+   * @returns {string | undefined | null}
    */
   function getCacheItem(key) {
     if (!cache.has(key)) {
@@ -73,6 +74,7 @@ export function withStorage(App) {
         setCacheItem(key, entry.value)
         return entry.value
       } else {
+        setCacheItem(key, null)
         return null
       }
     },

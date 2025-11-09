@@ -261,7 +261,7 @@ export function setupChallenges(App) {
     // const map = canvas.svg()
     const map = svgStart + svgLines.join('') + svgCircles.join('') + svgEnd
 
-    const customMapHtml = customMapHtmlCreator({ App, req, solved })
+    const customMapHtml = await customMapHtmlCreator({ App, req, solved })
 
     renderPage(App, req, res, {
       page: 'map',

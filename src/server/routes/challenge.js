@@ -172,7 +172,7 @@ export function setupChallenges(App) {
     const goHere = req.session.goHereOnMap
     delete req.session.goHereOnMap
 
-    App.challenges.data.map((challenge) => {
+    for (const challenge of App.challenges.data) {
       const isSolved = solved.includes(challenge.id)
       const unreleased = !!(
         challenge.releaseTs && Date.now() < challenge.releaseTs
@@ -227,11 +227,11 @@ export function setupChallenges(App) {
             }
           })
         }
-        if (challenge.mapHTML) {
-          challengeMapHTML += challenge.mapHTML
+        if (challenge.renderMapHTML) {
+          challengeMapHTML += await challenge.renderMapHTML({ App, req })
         }
       }
-    })
+    }
 
     // COMPAT: draw points after connections to show the above
     for (const point of points) {
@@ -261,11 +261,7 @@ export function setupChallenges(App) {
     // const map = canvas.svg()
     const map = svgStart + svgLines.join('') + svgCircles.join('') + svgEnd
 
-    const custom = customMapHtmlCreator
-
-    const customMapHtml =
-      (typeof custom === 'function' ? custom({ App, req }) : custom) +
-      challengeMapHTML
+    const customMapHtml = customMapHtmlCreator({ App, req, solved })
 
     renderPage(App, req, res, {
       page: 'map',

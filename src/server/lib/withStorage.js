@@ -4,7 +4,7 @@
 export function withStorage(App) {
   // Simple in-memory cache with LRU eviction
   const cache = new Map()
-  const maxCacheSize = 1000 // Limit cache size to prevent memory issues
+  const maxCacheSize = 10000 // Limit cache size to prevent memory issues
 
   /**
    * @param {string} key
@@ -77,9 +77,9 @@ export function withStorage(App) {
       }
     },
     async removeItem(key) {
-      await App.db.models.KVPair.destroy({ where: { key } })
       // Remove from cache
       deleteCacheItem(key)
+      await App.db.models.KVPair.destroy({ where: { key } })
     },
   }
 }

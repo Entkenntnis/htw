@@ -88,8 +88,8 @@ export const appConfig = {
     solutionClass_wrong: 'danger',
     tableHighlightClass: 'secondary',
   },
-  editors: ['editor', 'demo'],
-  noSelfAdmin: ['demo'],
+  editors: ['editor'],
+  demos: ['demo'],
   mainPassword: process.env.UBERSPACE
     ? secrets('config_main_password')
     : '1234',

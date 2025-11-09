@@ -572,7 +572,11 @@ export function setupPleaseFixMe(App) {
     const records = req.query.records?.toString()
     const id = req.user ? req.user.id : NaN
     if (records && !isNaN(id)) {
-      if (req.user && !App.config.editors.includes(req.user.name)) {
+      if (
+        req.user &&
+        !App.config.editors.includes(req.user.name) &&
+        !App.config.demos.includes(req.user.name)
+      ) {
         // editors can never set records
         await App.storage.setItem(
           'please_fix_me_records_' + id,

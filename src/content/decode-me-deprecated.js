@@ -233,7 +233,10 @@ export function _deprecated__setupDecodeMe(App) {
       req.level = level
       req.userid = id
 
-      const isEditor = req.user && App.config.editors.includes(req.user.name)
+      const isEditor =
+        req.user &&
+        (App.config.editors.includes(req.user.name) ||
+          App.config.demos.includes(req.user.name))
 
       const storageKey = `decodeme_${id}`
       const fromDB = parseInt(await App.storage.getItem(storageKey)) // should be fine

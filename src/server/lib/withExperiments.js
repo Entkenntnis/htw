@@ -63,7 +63,7 @@ export function withExperiments(App) {
       if (!req.user) {
         return false
       }
-      if (req.user.name == 'editor') {
+      if (App.config.editors.includes(req.user.name)) {
         // check for trial parameter
         const trial = req.query.trial || '0'
         return trial == '1'

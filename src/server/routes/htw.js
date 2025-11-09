@@ -65,7 +65,7 @@ node_cpu_user ${cpu.user}
   })
 
   App.express.get('/export-data', async (req, res) => {
-    if (!req.user || App.config.noSelfAdmin.includes(req.user.name)) {
+    if (!req.user || App.config.demos.includes(req.user.name)) {
       res.status(403).send('Forbidden')
       return
     }

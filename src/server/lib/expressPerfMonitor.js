@@ -8,7 +8,7 @@ export function expressPerfMonitor(App) {
 
     req.measure = () => {
       if (!req.user) return
-      if (req.user.name == 'editor') return // don't track myself
+      if (App.config.editors.includes(req.user.name)) return // don't track myself
       const endTs = Date.now()
       const time = endTs - startTs
       // console.log(

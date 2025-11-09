@@ -100,7 +100,10 @@ export interface HtwChallenge {
   date?: string
   noScore?: boolean
   hideLink?: boolean
-  mapHTML?: string
+  renderMapHTML?: (context: {
+    App: App
+    req: Request
+  }) => Promise<string> | string
   author?: string
   showAfterSolve?: boolean
   showAboveScore?: number

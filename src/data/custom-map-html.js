@@ -1,9 +1,9 @@
 /**
  *
- * @param {{App: import("./types.js").App, req: import("express").Request}} param0
+ * @param {{App: import("./types.js").App, req: import("express").Request, solved: number[]}} param0
  * @returns {string}
  */
-export function customMapHtmlCreator({ App, req }) {
+export function customMapHtmlCreator({ App, req, solved }) {
   const showWorms =
     req.user &&
     (req.user.score >= 30 ||

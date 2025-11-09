@@ -650,5 +650,19 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
       `,
     },
     solution: secrets('chal_358'),
+    renderAfterSolveText: () => {
+      return {
+        de: `
+          <p>Aber weißt du auch was das ist? - Die Datumsgrenze ist eine gedachte Linie auf der Erde, die den Wechsel des Kalendertages markiert. Sie verläuft größtenteils entlang des 180. Längengrads im Pazifischen Ozean. Ihre Aufgabe ist es, weltweit einheitlich festzulegen, wann ein neuer Tag beginnt.</p>
+          
+          <p>Wer die Datumsgrenze von Osten nach Westen überquert, muss das Datum um einen Tag vorstellen. Umgekehrt – von Westen nach Osten – wird das Datum um einen Tag zurückgestellt. So kann es passieren, dass man an einem Ort Montag hat, während es auf der anderen Seite der Linie noch Sonntag ist.</p>
+        `,
+        en: `
+          <p>But do you also know what that is? The International Date Line is an imaginary line on the Earth that marks the change of calendar day. It largely follows the 180th meridian across the Pacific Ocean. Its purpose is to provide a uniform point at which the date advances by one day.</p>
+          
+          <p>When you cross the date line from east to west, you must advance the calendar by one day. Conversely — when crossing from west to east — the calendar is set back by one day. This can lead to situations where it is Monday on one side of the line while still Sunday on the other.</p>
+        `,
+      }
+    },
   },
 ]

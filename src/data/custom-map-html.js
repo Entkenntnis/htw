@@ -6,17 +6,23 @@
 export function customMapHtmlCreator({ App, req }) {
   const showWorms =
     req.user &&
-    (req.user.score >= 30 || App.config.editors.includes(req.user.name))
+    (req.user.score >= 30 ||
+      App.config.editors.includes(req.user.name) ||
+      App.config.demos.includes(req.user.name))
 
   const showEnough =
     req.user &&
-    (req.user.score >= 60 || App.config.editors.includes(req.user.name))
+    (req.user.score >= 60 ||
+      App.config.editors.includes(req.user.name) ||
+      App.config.demos.includes(req.user.name))
 
   const showPleaseFixMeAndMortalCoil =
     req.user &&
-    (req.user.score >= 90 || App.config.editors.includes(req.user.name))
+    (req.user.score >= 90 ||
+      App.config.editors.includes(req.user.name) ||
+      App.config.demos.includes(req.user.name))
 
-  const showStatsLinks = req.user && req.user.name == 'editor'
+  const showStatsLinks = req.user && App.config.editors.includes(req.user.name)
 
   return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">

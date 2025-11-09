@@ -9,7 +9,7 @@ import { experimentDefs } from '../../data/experiments.js'
  */
 export function setupLiveAnalyze(App) {
   App.express.get('/mapflow', async (req, res) => {
-    if (!req.user || req.user.name != 'editor')
+    if (!req.user || !App.config.editors.includes(req.user.name))
       return res.send('Zugriff nur für Editor')
 
     const { fromDateStr, fromDateUTC } = resolveFromDate(req.query?.from, 7)
@@ -179,7 +179,7 @@ export function setupLiveAnalyze(App) {
   // Nothing works, this is the only code affected
   // very strange
   App.express.get_async_fix('/events', async (req, res) => {
-    if (!req.user || req.user.name != 'editor') {
+    if (!req.user || !App.config.editors.includes(req.user.name)) {
       res.send('Zugriff nur für Editor')
       return
     }
@@ -432,7 +432,7 @@ export function setupLiveAnalyze(App) {
   })
 
   App.express.get('/experiments', async (req, res) => {
-    if (!req.user || req.user.name != 'editor')
+    if (!req.user || !App.config.editors.includes(req.user.name))
       return res.send('Zugriff nur für Editor')
 
     let content = ''

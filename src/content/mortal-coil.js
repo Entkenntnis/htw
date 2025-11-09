@@ -38,7 +38,10 @@ export function setupMortalCoil(App) {
         return res.send('invalid token')
       }
 
-      const isEditor = req.user && App.config.editors.includes(req.user.name)
+      const isEditor =
+        req.user &&
+        (App.config.editors.includes(req.user.name) ||
+          App.config.demos.includes(req.user.name))
 
       const storageKey = `mortalcoil_${userid}`
       const fromDB = parseInt((await App.storage.getItem(storageKey)) ?? 'xxx')

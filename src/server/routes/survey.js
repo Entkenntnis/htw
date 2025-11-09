@@ -7,7 +7,7 @@ import { resolveFromDate } from '../../helper/date-range.js'
  */
 export function setupSurvey(App) {
   App.express.get_async_fix('/survey', async (req, res) => {
-    if (!req.user || req.user.name != 'editor') {
+    if (!req.user || !App.config.editors.includes(req.user.name)) {
       res.send('Zugriff nur für Editor')
       return
     }

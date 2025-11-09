@@ -33,7 +33,7 @@
   <% } %>
 <% } %>
 
-<% if (!App.config.noSelfAdmin.includes(user.name)) { %>
+<% if (!App.config.demos.includes(user.name)) { %>
   <p style="color: gray;">
     <a href="https://www.wechall.net/" style="color: gray" target="_blank"><strong>WeChall</strong></a>-Token: <%= props.token %> 
     <button onclick="copyToken()" id="copy-button" style="background:none;border:none;padding:0;cursor:pointer;width:12px;height:12px;margin-left:8px;outline:none" title="<%= t('copy') %>">
@@ -57,7 +57,7 @@
   <p><%= t('discordInvite') %></p>
   <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
   
-<% if (!App.config.noSelfAdmin.includes(user.name)) { %>
+<% if (!App.config.demos.includes(user.name)) { %>
   <p style="margin-top: 24px; max-width: 65ch;"><%- t('discordLinkingNote_', { link: `<a href="/link-discord">${t('discordLink')}</a>` }) %></p>
 <% } %>
 </div>

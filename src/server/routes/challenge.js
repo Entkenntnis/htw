@@ -135,9 +135,9 @@ export function setupChallenges(App) {
 
     const name = req.user.name
     const score = req.user.score
-    if (App.config.editors.includes(name)) {
+    if (App.config.editors.includes(name) || App.config.demos.includes(name)) {
       App.challenges.data.map((c) => {
-        if (App.config.noSelfAdmin.includes(name)) {
+        if (App.config.demos.includes(name)) {
           if (c.showAfterSolve) {
             // hidden challenges not visible for demo accounts
             return
@@ -192,7 +192,7 @@ export function setupChallenges(App) {
         unreleased,
         withExperiment: false,
       }
-      if (name == 'editor') {
+      if (App.config.editors.includes(name)) {
         point.withExperiment = App.experiments.withExperiment(challenge.id)
       }
       const visible =
@@ -343,11 +343,7 @@ export function setupChallenges(App) {
 
     const challenge = App.challenges.data.filter((c) => c.id === id)[0]
 
-    if (
-      challenge.releaseTs &&
-      Date.now() < challenge.releaseTs &&
-      (!isEditor || App.config.noSelfAdmin.includes(req.user.name))
-    ) {
+    if (challenge.releaseTs && Date.now() < challenge.releaseTs && !isEditor) {
       res.redirect('/map')
       return
     }
@@ -362,7 +358,7 @@ export function setupChallenges(App) {
       accessible = true
     }
 
-    if (isEditor) {
+    if (isEditor || App.config.demos.includes(req.user.name)) {
       accessible = true
     }
 
@@ -455,7 +451,11 @@ export function setupChallenges(App) {
       req.session.goHereOnMap = id
     }
 
-    if (correct && !App.config.editors.includes(req.user.name)) {
+    if (
+      correct &&
+      !App.config.editors.includes(req.user.name) &&
+      !App.config.demos.includes(req.user.name)
+    ) {
       const UserId = req.user.id
       const needRefresh = { current: false }
       const transact = async function () {
@@ -802,7 +802,7 @@ export function setupChallenges(App) {
     // end guard
     App.event.create('visit_delete', req.user.id)
 
-    if (App.config.noSelfAdmin.includes(req.user.name)) {
+    if (App.config.demos.includes(req.user.name)) {
       return res.redirect('/map')
     }
     renderPage(App, req, res, {
@@ -867,7 +867,7 @@ export function setupChallenges(App) {
     // end guard
     App.event.create('visit_changepw', req.user.id)
 
-    if (App.config.noSelfAdmin.includes(req.user.name)) {
+    if (App.config.demos.includes(req.user.name)) {
       return res.redirect('/map')
     }
     const sso = !!req.session.sso_sid
@@ -932,7 +932,7 @@ export function setupChallenges(App) {
 
     App.event.create('visit_rename', req.user.id)
 
-    if (App.config.noSelfAdmin.includes(req.user.name)) {
+    if (App.config.demos.includes(req.user.name)) {
       return res.redirect('/map')
     }
 
@@ -958,7 +958,7 @@ export function setupChallenges(App) {
     const i18n = App.i18n.get(req.lng)
     const newname1 = (req.body?.newname1 || '').trim()
 
-    if (App.config.noSelfAdmin.includes(req.user.name)) {
+    if (App.config.demos.includes(req.user.name)) {
       return res.redirect('/map')
     }
 

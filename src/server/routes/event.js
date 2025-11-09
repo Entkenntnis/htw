@@ -7,7 +7,7 @@ export function setupEvent(App) {
       res.status(403).send('Forbidden')
       return
     }
-    if (req.user.name == 'editor') {
+    if (App.config.editors.includes(req.user.name)) {
       // skip
       res.status(200).send('skipped')
       return

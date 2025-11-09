@@ -2274,7 +2274,8 @@ export function setupHints(App) {
 
   // Internal feedback list (editor only)
   App.express.get_async_fix('/feedback', async (req, res) => {
-    if (!req.user || req.user.name != 'editor') return res.redirect('/')
+    if (!req.user || !App.config.editors.includes(req.user.name))
+      return res.redirect('/')
 
     // fetch all feedback entries (no cutoff/time restriction as requested)
     const allFeedback = await App.db.models.KVPair.findAll({
@@ -2322,7 +2323,8 @@ export function setupHints(App) {
   })
 
   App.express.get('/questions', async (req, res) => {
-    if (!req.user || req.user.name != 'editor') return res.redirect('/')
+    if (!req.user || !App.config.editors.includes(req.user.name))
+      return res.redirect('/')
 
     const allQuestions = await App.db.models.KVPair.findAll({
       where: {

@@ -147,9 +147,11 @@ export const part1 = [
       }
     },
     solution: secrets('chal_1'),
-    afterSolveText: {
-      de: '<p>Die Antwort auf die große Frage nach dem Leben, dem Universum und allem lautet ... 42!</p><p style="margin-left: 48px;">- <i>ein Bewohner des Planeten &quot;Erde&quot;</i></p>',
-      en: '<p>The answer to the ultimate question of life, the universe, and everything is ... 42!</p>',
+    renderAfterSolveText: () => {
+      return {
+        de: '<p>Die Antwort auf die große Frage nach dem Leben, dem Universum und allem lautet ... 42!</p><p style="margin-left: 48px;">- <i>ein Bewohner des Planeten &quot;Erde&quot;</i></p>',
+        en: '<p>The answer to the ultimate question of life, the universe, and everything is ... 42!</p>',
+      }
     },
   },
 
@@ -1192,9 +1194,11 @@ export const part1 = [
       }
     },
     solution: secrets('chal_24').split(','),
-    afterSolveText: {
-      de: '<p>Ein geübter Leser braucht ungefähr 0,25 Sekunden, um ein Wort zu erkennen.</p>',
-      en: '<p>An experienced reader takes approximately 0.25 seconds to recognize a word.</p>',
+    renderAfterSolveText: () => {
+      return {
+        de: '<p>Ein geübter Leser braucht ungefähr 0,25 Sekunden, um ein Wort zu erkennen.</p>',
+        en: '<p>An experienced reader takes approximately 0.25 seconds to recognize a word.</p>',
+      }
     },
   },
 
@@ -2266,9 +2270,11 @@ export const part1 = [
       ),
     },
     solution: secrets('chal_55').split(','),
-    afterSolveText: {
-      de: '<p>Die Farbe wurde zum Gedenken an die verstorbene Tochter des CSS-Entwicklers Eric A. Meyer benannt und findet sich im neuen <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS-Logo</a>.</p>',
-      en: '<p>The color was named in memory of the late daughter of CSS developer Eric A. Meyer and is featured in the new <a href="https://en.wikipedia.org/wiki/File:CSS3_logo.svg" target="_blank">CSS logo</a>.</p>',
+    renderAfterSolveText: () => {
+      return {
+        de: '<p>Die Farbe wurde zum Gedenken an die verstorbene Tochter des CSS-Entwicklers Eric A. Meyer benannt und findet sich im neuen <a href="https://de.m.wikipedia.org/wiki/Datei:Official_CSS_Logo.svg" target="_blank">CSS-Logo</a>.</p>',
+        en: '<p>The color was named in memory of the late daughter of CSS developer Eric A. Meyer and is featured in the new <a href="https://en.wikipedia.org/wiki/File:CSS3_logo.svg" target="_blank">CSS logo</a>.</p>',
+      }
     },
   },
 
@@ -2537,8 +2543,9 @@ export const part1 = [
     `,
       }
     },
-    afterSolveText: {
-      de: `
+    renderAfterSolveText: () => {
+      return {
+        de: `
         <p><code>&gt; Zahlung genemigt &lt;</code></p>
         
         <p>Kiwi ist sehr erleichtert, als diese Wörter auf dem Terminal erscheinen. Nach ein paar weiteren Formalitäten verlassen Kiwi und Bex die Kajüte und treffen sich mit Josh beim Check-Out. Was für ein turbulentes Willkommen in Sirtach! Gerade nochmal alles gut gelaufen.</p>
@@ -2550,7 +2557,7 @@ export const part1 = [
         <p>&nbsp;</p>
         <p>&nbsp;</p>
       `,
-      en: `
+        en: `
         <p><code>&gt; Payment approved &lt;</code></p>
         
         <p>Kiwi is very relieved as these words appear on the terminal. After a few more formalities, Kiwi and Bex leave the cabin and meet Josh at the check-out. What a turbulent welcome to Sirtach! Everything turned out well in the end.</p>
@@ -2561,6 +2568,7 @@ export const part1 = [
         
         <p>&nbsp;</p>
       `,
+      }
     },
     solution: secrets('chal_57').split(','),
   },
@@ -4267,9 +4275,11 @@ To: ${req.user?.name}@arrrg.de</pre>
       ),
     },
     solution: secrets('chal_336').split(','),
-    afterSolveText: {
-      de: '<p>Durch Bugs kann Bedrock auch im Survival Mode abgebaut werden.</p>',
-      en: '<p>Due to bugs, bedrock can also be mined in Survival mode.</p>',
+    renderAfterSolveText: () => {
+      return {
+        de: '<p>Durch Bugs kann Bedrock auch im Survival Mode abgebaut werden.</p>',
+        en: '<p>Due to bugs, bedrock can also be mined in Survival mode.</p>',
+      }
     },
   },
 

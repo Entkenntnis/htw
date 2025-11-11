@@ -60,6 +60,17 @@ export const experimentDefs = [
     endTs: new Date('2025-11-11').getTime(),
     baseImg: '/experiments/4_base.jpg',
     trialImg: '/experiments/4_trial.jpg',
+    results: {
+      numEvents: 7288,
+      nShowBase: 252,
+      nShowTrial: 226,
+      nVisitorsBase: 172,
+      nVisitorsTrial: 159,
+      nSolversBase: 103,
+      nSolversTrial: 90,
+    },
+    learning:
+      'Es ist eigentlich erstaunlich, wie gar keinen Unterschied diese Änderung gemacht hat - weder positiv noch negativ. Die Daten sind komplett neutral. Das heißt, dass ich die Änderung damit übernehmen kann.',
   },
   {
     id: 5,

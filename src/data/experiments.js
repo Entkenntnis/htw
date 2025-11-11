@@ -1,11 +1,20 @@
+import moment from 'moment'
+
+/**
+ * @param {string} dateStr
+ */
+function dt(dateStr) {
+  return moment(dateStr).valueOf()
+}
+
 /** @type {import("./types.js").ExperimentDefinition[]} */
 export const experimentDefs = [
   {
     id: 1,
     description: 'Nicht blinzeln: Dry Run ohne Änderungen',
     challenge: 24,
-    startTs: new Date('2025-10-21').getTime(),
-    endTs: new Date('2025-11-04').getTime(),
+    startTs: new Date('2025-10-21 02:00 GMT+0200').getTime(),
+    endTs: new Date('2025-11-04 01:00 GMT+0100').getTime(),
     baseImg: '/experiments/1_base_trial.jpg',
     trialImg: '/experiments/1_base_trial.jpg',
     results: {
@@ -25,8 +34,8 @@ export const experimentDefs = [
     description:
       'Zitronentinte: Was passiert, wenn ich den einen Füll-Satz von Kiwi weglasse? Im Base ist die längere Version, im Trial die kürzere. Hat die zusätzliche "Deko" einen Einfluss auf die Metrik?',
     challenge: 5,
-    startTs: new Date('2025-10-21').getTime(),
-    endTs: new Date('2025-11-04').getTime(),
+    startTs: new Date('2025-10-21 02:00 GMT+0200').getTime(),
+    endTs: new Date('2025-11-04 01:00 GMT+0100').getTime(),
     baseImg: '/experiments/2_base.png',
     trialImg: '/experiments/2_trial.png',
     results: {
@@ -46,8 +55,8 @@ export const experimentDefs = [
     description:
       'Booyah! -> Agent: Ich vermute, dass der base Titel zu kryptisch ist und viele Menschen abschreckt. Überprüfe diese Hypothese.',
     challenge: 86,
-    startTs: new Date('2025-10-21').getTime(),
-    endTs: new Date('2025-11-11').getTime(),
+    startTs: new Date('2025-10-21 02:00 GMT+0200').getTime(),
+    endTs: new Date('2025-11-11 01:00 GMT+0100').getTime(),
     baseImg: '/experiments/3_base.jpg',
     trialImg: '/experiments/3_trial.jpg',
     results: {
@@ -67,8 +76,8 @@ export const experimentDefs = [
     description:
       'Geburtstag: Fokus auf Blick-In-Den-Quellcode als Skill, um effektiv zu hacken',
     challenge: 77,
-    startTs: new Date('2025-10-21').getTime(),
-    endTs: new Date('2025-11-11').getTime(),
+    startTs: new Date('2025-10-21 02:00 GMT+0200').getTime(),
+    endTs: new Date('2025-11-11 01:00 GMT+0100').getTime(),
     baseImg: '/experiments/4_base.jpg',
     trialImg: '/experiments/4_trial.jpg',
     results: {
@@ -88,7 +97,7 @@ export const experimentDefs = [
     description:
       'Einhorn: neue Aufgabenstellung ohne Pflicht-Verlinkung, dafür mehr auf der Seite integriert mit einer "Standard"-Aufgabe zu Geometrie.',
     challenge: 23,
-    startTs: new Date('2025-10-24').getTime(),
+    startTs: new Date('2025-10-24 02:00 GMT+0200').getTime(),
     endTs: new Date('2025-11-02 15:00:00 GMT+0100').getTime(),
     baseImg: '/experiments/5_base.jpg',
     trialImg: '/experiments/5_trial.jpg',
@@ -109,75 +118,75 @@ export const experimentDefs = [
     description:
       'Minecraft III: welchen Effekt hat der direkte Hinweis? Was ist, wenn ich diesen Hinweis auslasse? Ich erwarte eine Reduktion.',
     challenge: 112,
-    startTs: new Date('2025-10-22').getTime(),
-    endTs: new Date('2025-11-12').getTime(),
+    startTs: new Date('2025-10-22 02:00 GMT+0200').getTime(),
+    endTs: new Date('2025-11-12 01:00 GMT+0100').getTime(),
   },
   {
     id: 7,
     description:
       'Baum: minimale Änderung durch Entfernung des Links, erwarte keinen Effekt.',
     challenge: 114,
-    startTs: new Date('2025-11-02').getTime(),
-    endTs: new Date('2025-11-16').getTime(),
+    startTs: new Date('2025-11-02 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-11-16 01:00 GMT+0100').getTime(),
   },
   {
     id: 8,
     description:
       'Inception: Ersetze mit Anwendung binäre Suche. Erwarte eine geringere Lösungsrate, aber wenn der Unterschied nicht zu krass, würde ich die vorherige Aufgabe ersetzen.',
     challenge: 84,
-    startTs: new Date('2025-11-05').getTime(),
-    endTs: new Date('2025-11-26').getTime(),
+    startTs: new Date('2025-11-05 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-11-26 01:00 GMT+0100').getTime(),
   },
   {
     id: 9,
     description:
       'Einhorn: neue Iteration mit einer leicht vereinfachten Variante der Geometrie-Aufgabe',
     challenge: 23,
-    startTs: new Date('2025-11-03').getTime(),
-    endTs: new Date('2025-11-24').getTime(),
+    startTs: new Date('2025-11-03 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-11-24 01:00 GMT+0100').getTime(),
   },
   {
     id: 10,
     description:
       'Ankunft in Sirtach: sprachlich gekürzte Version der Geschichte',
     challenge: 57,
-    startTs: new Date('2025-11-08').getTime(),
-    endTs: new Date('2025-12-06').getTime(),
+    startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-12-06 01:00 GMT+0100').getTime(),
   },
   {
     id: 11,
     description:
       'Community-Area: Wieder ein A/A Test, um punktuell ein paar Daten zu erheben und natürlich für die Stabilität',
     challenge: 300,
-    startTs: new Date('2025-11-07').getTime(),
-    endTs: new Date('2025-11-21').getTime(),
+    startTs: new Date('2025-11-07 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-11-21 01:00 GMT+0100').getTime(),
   },
   {
     id: 12,
     description: 'Nicht blinzeln: Macht das Bild von Kiwi einen Unterschied?',
     challenge: 24,
-    startTs: new Date('2025-11-08').getTime(),
-    endTs: new Date('2025-11-22').getTime(),
+    startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-11-22 01:00 GMT+0100').getTime(),
   },
   {
     id: 13,
     description: 'Notiz: Wie groß ist der Effekt von COMLINK?',
     challenge: 16,
-    startTs: new Date('2025-11-08').getTime(),
-    endTs: new Date('2025-11-22').getTime(),
+    startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-11-22 01:00 GMT+0100').getTime(),
   },
   {
     id: 14,
     description: 'Geburstag: Wie groß ist der Effekt von COMLINK?',
     challenge: 77,
-    startTs: new Date('2025-11-12').getTime(),
-    endTs: new Date('2025-12-02').getTime(),
+    startTs: new Date('2025-11-12 00:01 GMT+0100').getTime(),
+    endTs: new Date('2025-12-03 00:01 GMT+0100').getTime(),
   },
   {
     id: 15,
     description: 'Booyah -> 007: Vielleicht ist dieser Hook noch besser?',
     challenge: 86,
-    startTs: new Date('2025-11-12 01:01 GMT+0100').getTime(),
-    endTs: new Date('2025-12-09 01:01 GMT+0100').getTime(),
+    startTs: new Date('2025-11-12 00:02+0100').getTime(),
+    endTs: new Date('2025-12-10 00:02+0100').getTime(),
   },
 ]

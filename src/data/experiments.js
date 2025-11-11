@@ -155,4 +155,11 @@ export const experimentDefs = [
     startTs: new Date('2025-11-08').getTime(),
     endTs: new Date('2025-11-22').getTime(),
   },
+  {
+    id: 14,
+    description: 'Geburstag: Wie groß ist der Effekt von COMLINK?',
+    challenge: 77,
+    startTs: new Date('2025-11-12').getTime(),
+    endTs: new Date('2025-12-02').getTime(),
+  },
 ]

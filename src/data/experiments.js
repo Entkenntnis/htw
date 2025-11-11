@@ -177,7 +177,7 @@ export const experimentDefs = [
     id: 15,
     description: 'Booyah -> 007: Vielleicht ist dieser Hook noch besser?',
     challenge: 86,
-    startTs: new Date('2025-11-12 00:01').getTime(),
-    endTs: new Date('2025-12-09 00:01').getTime(),
+    startTs: new Date('2025-11-12 01:01 GMT+0100').getTime(),
+    endTs: new Date('2025-12-09 01:01 GMT+0100').getTime(),
   },
 ]

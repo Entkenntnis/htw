@@ -3648,7 +3648,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     id: 86,
     pos: { x: 90, y: 706 },
     title: { de: 'Booyah!', en: 'Booyah!' },
-    trialTitle: 'Agent',
+    trialTitle: '007',
     // date: '2023-04-02',
     deps: [7, 80],
     render: async ({ App, req }) => {
@@ -3659,7 +3659,9 @@ To: ${req.user?.name}@arrrg.de</pre>
           `
           <p>Früher bin ich in meinen Träumen oft als Agent um die Welt gereist und haben gegen böse Schurken gekämpft. Doch dann wird man erwachsen und hört einfach auf damit. Das ist doch voll schade.</p>
 
-          <p>"Agent, es obliegt nun in Ihrer Hand, die Menschheit zu retten. In dieser geheimen Nachricht finden Sie den Deaktivierungs-Code für die Bombe. Wir verlassen uns auf Ihren Erfolg!"</p>
+          <p>"Agent ${
+            App.experiments.showTrial(86, req) ? '007' : ''
+          }, es obliegt nun in Ihrer Hand, die Menschheit zu retten. In dieser geheimen Nachricht finden Sie den Deaktivierungs-Code für die Bombe. Wir verlassen uns auf Ihren Erfolg!"</p>
 
           <script>
             window.USERNAME = "${req.user?.name}"

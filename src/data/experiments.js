@@ -50,6 +50,17 @@ export const experimentDefs = [
     endTs: new Date('2025-11-11').getTime(),
     baseImg: '/experiments/3_base.jpg',
     trialImg: '/experiments/3_trial.jpg',
+    results: {
+      numEvents: 10017,
+      nShowBase: 301,
+      nShowTrial: 300,
+      nVisitorsBase: 179,
+      nVisitorsTrial: 175,
+      nSolversBase: 82,
+      nSolversTrial: 95,
+    },
+    learning:
+      'Erstaunlich ist der Uplift innerhalb der Aufgabe - auch wenn der Effekt nicht signifikant ist, selbst bei der Größe. Also gar nicht intuitiv für mich: dass der Titel am Lösen der Aufgabe mehr ändert als an der Klickrate. Ich werde weiter probieren.',
   },
   {
     id: 4,
@@ -161,5 +172,12 @@ export const experimentDefs = [
     challenge: 77,
     startTs: new Date('2025-11-12').getTime(),
     endTs: new Date('2025-12-02').getTime(),
+  },
+  {
+    id: 15,
+    description: 'Booyah -> 007: Vielleicht ist dieser Hook noch besser?',
+    challenge: 86,
+    startTs: new Date('2025-11-12 00:01').getTime(),
+    endTs: new Date('2025-12-09 00:01').getTime(),
   },
 ]

@@ -3165,7 +3165,12 @@ export const part1 = [
     deps: [55, 69],
     render: async ({ App, req }) => {
       if (req.lng == 'de') {
-        return story('Kiwi', await renderTemplate(App, req, 'quellcode'))
+        return story(
+          'Kiwi',
+          (App.experiments.showTrial(77, req)
+            ? '<script>window.trial=1</script>'
+            : '') + (await renderTemplate(App, req, 'quellcode'))
+        )
       } else {
         return story('Kiwi', await renderTemplate(App, req, 'source'))
       }

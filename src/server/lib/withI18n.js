@@ -45,7 +45,7 @@ export function withI18n(App) {
     }
 
     if (!hasError) {
-      App.logger.info('Translations ready')
+      // App.logger.info('Translations ready')
     } else {
       process.exit(1)
     }

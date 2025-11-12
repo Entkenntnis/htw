@@ -673,7 +673,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     date: '2025-11-15',
     deps: [300],
     noScore: true,
-    releaseTs: new Date('2025-11-015 08:00:00 GMT+0100').getTime(),
+    releaseTs: new Date('2025-11-15 08:00:00 GMT+0100').getTime(),
     author: 'bennosaurusrex',
     html: {
       de: `
@@ -684,7 +684,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
       en: `
         <p>When I visited my lab today and wanted to lie down in my massage chair, I noticed a note — probably from my intern — what is he trying to tell me with this impossible mixture?</p>
       
-        <p><img src="/chals/Monophosphomonoaurimonoselenid.jpg"></p>
+        <p><img src="/chals/359_en.jpg"></p>
       `,
     },
     solution: secrets('chal_359').split(','),

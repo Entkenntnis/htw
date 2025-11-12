@@ -665,4 +665,28 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
       }
     },
   },
+
+  {
+    id: 359,
+    pos: { x: 1530, y: 455 },
+    title: { de: 'IUPAC', en: 'IUPAC' },
+    date: '2025-11-15',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2025-11-015 08:00:00 GMT+0100').getTime(),
+    author: 'bennosaurusrex',
+    html: {
+      de: `
+        <p>Als ich heute mein Labor besucht habe und mich in meinen Massagesessel legen wollte fiel mir ein Zettel - wahrscheinlich von meinem Praktikanten auf - was will er mir mit dieser unmöglichen Mischung sagen?</p>
+      
+        <p><img src="/chals/Monophosphomonoaurimonoselenid.jpg"></p>
+      `,
+      en: `
+        <p>When I visited my lab today and wanted to lie down in my massage chair, I noticed a note — probably from my intern — what is he trying to tell me with this impossible mixture?</p>
+      
+        <p><img src="/chals/Monophosphomonoaurimonoselenid.jpg"></p>
+      `,
+    },
+    solution: secrets('chal_359').split(','),
+  },
 ]

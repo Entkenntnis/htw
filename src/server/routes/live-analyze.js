@@ -478,8 +478,8 @@ export function setupLiveAnalyze(App) {
     })
 
     // fetch data and preprocess
-    let fromTs = experimentDefs[0].startTs
-    let toTs = experimentDefs[0].endTs
+    let fromTs = Infinity
+    let toTs = 0
     for (const exp of experimentDefs) {
       if (exp.results) continue
       if (exp.startTs < fromTs) fromTs = exp.startTs

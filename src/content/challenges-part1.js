@@ -3854,11 +3854,6 @@ To: ${req.user?.name}@arrrg.de</pre>
         <p>Nehmen wir mal an, ich baue eine Schaltung, die nicht funktioniert. Das passiert in der Realität natürlich nicht. Schaue dir diese Situation an:</p>
 
         <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:65ch"></p>
-        ${
-          App.experiments.showTrial(112, req)
-            ? ''
-            : '<p style="text-align: center; margin-top: -16px;"><small style="color: gray;">0x164 sieht vielversprechend aus</small></p>'
-        }
         
         <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, doch die Lampe leuchtet nicht. Wenn ich einen Block mit einem neuen Block ersetze, kann ich die Schaltung reparieren. Die Block-ID des neuen Blocks ist deine Antwort.</p>
       `

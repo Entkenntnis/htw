@@ -120,6 +120,19 @@ export const experimentDefs = [
     challenge: 112,
     startTs: new Date('2025-10-22 02:00 GMT+0200').getTime(),
     endTs: new Date('2025-11-12 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/6_base.jpg',
+    trialImg: '/experiments/6_trial.jpg',
+    results: {
+      numEvents: 9051,
+      nShowBase: 270,
+      nShowTrial: 266,
+      nVisitorsBase: 189,
+      nVisitorsTrial: 207,
+      nSolversBase: 103,
+      nSolversTrial: 125,
+    },
+    learning:
+      'Schock: Die Version ohne Hinweis funktioniert signifikant besser. Eine separate Analyse der Gesamt-Lösungsrate zeigt eine Steigerung von 23% und mit Signifikanz (p=0.0376, two-sided). Ein so klares Ergebnis habe ich nicht erwartet. Das heißt also: der Hinweis ist abschreckend und es gibt nur wenige Leute, die damit interagieren. Ich kann ihn also ohne Probleme löschen.',
   },
   {
     id: 7,

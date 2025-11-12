@@ -59,6 +59,10 @@ function calculator(lng = 'de') {
  * @param {string | undefined} [task]
  */
 function story(name, intro, task) {
+  let filename = name
+  if (name.endsWith('2')) {
+    name = name.slice(0, -1)
+  }
   return `
     <div style="height:16px"></div>
 
@@ -70,7 +74,7 @@ function story(name, intro, task) {
       <div class="avatar">
         ${
           name
-            ? `<img src="/story/${name.toLowerCase()}.png" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
+            ? `<img src="/story/${filename.toLowerCase()}.png" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
         <div style="text-align:center;">${name}</div>`
             : ''
         }
@@ -3737,10 +3741,11 @@ To: ${req.user?.name}@arrrg.de</pre>
     title: { de: 'Taschenrechner', en: 'Calculator' },
     // date: '2023-05-13',
     deps: [5],
-    html: {
-      de: story(
-        'Bex',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          App.experiments.showTrial(110, req) ? 'Bex2' : 'Bex',
+          `
         <p>Jemand hat mir vor paar Wochen dieses mysteriöse Gerät zugeschickt, zusammen mit dem Hinweis <code>Startcode 256</code>:</p>
 
         <script>
@@ -3758,10 +3763,10 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Ich kann den Startcode also nicht direkt eingeben. Aber es wird sicher noch einen anderen Weg geben.</p>
     `
-      ),
-      en: story(
-        'Bex',
-        `
+        ),
+        en: story(
+          'Bex',
+          `
         <p>A few weeks ago, someone sent me this mysterious device, along with the hint <code>Startcode 256</code>:</p>
 
         <script>
@@ -3779,7 +3784,8 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>So I can't enter the start code directly. But there must be another way.</p>
     `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_110'),
   },

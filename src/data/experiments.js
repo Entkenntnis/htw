@@ -208,6 +208,6 @@ export const experimentDefs = [
       'Taschenrechner: Pilot für neues Profilbild von Bex, ich finde das Bild drückt den Charakter von Bex besser aus. Es hat zwar nichts mit der Aufgabe an sich inhaltlich zu tun, aber ich bin trotzdem gespannt, ob das Bild Effekte verursacht.',
     challenge: 110,
     startTs: new Date('2025-11-13 00:01+0100').getTime(),
-    endTs: new Date('2025-11-20 00:01+0100').getTime(),
+    endTs: new Date('2025-11-14 14:00+0100').getTime(),
   },
 ]

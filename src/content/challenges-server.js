@@ -86,7 +86,7 @@ const mazeMessagesEn = {
   C: 'You find an old newspaper from 1995. Creepy.',
   D: 'This is a dead end.',
   E: 'You have a good feeling.',
-  F: `Your tresure: The answer is${secrets('chal_72')}.`,
+  F: `Your tresure: The answer is ${secrets('chal_72')}.`,
 }
 
 const orakelMsgDe = [

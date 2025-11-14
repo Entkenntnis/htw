@@ -46,7 +46,7 @@ export const communityChallenges2 = [
 
   {
     id: 346,
-    pos: { x: 2080, y: 755 },
+    pos: { x: 1400, y: 2400 },
     title: { de: 'Halloween 2025 - Tag 1 🍬', en: 'Halloween 2025 - Day 1 🍬' },
     date: '2025-10-25',
     deps: [300],
@@ -56,6 +56,7 @@ export const communityChallenges2 = [
     noScore: true,
     author: 'Anna',
     color: '#eb7719ff',
+    hideLink: true,
     html: {
       de: `
         ${'Genieße dein letztes Halloween! Die Antwort lautet RIP.'
@@ -86,7 +87,7 @@ export const communityChallenges2 = [
 
   {
     id: 347,
-    pos: { x: 2300, y: 865 },
+    pos: { x: 1460, y: 2500 },
     title: { de: 'Tag 2 🕸️', en: 'Day 2 🕸️' },
     date: '2025-10-26',
     deps: [346],
@@ -143,7 +144,7 @@ export const communityChallenges2 = [
 
   {
     id: 348,
-    pos: { x: 2230, y: 985 },
+    pos: { x: 1340, y: 2500 },
     title: { de: 'Tag 3 🫣', en: 'Day 3 🫣' },
     date: '2025-10-27',
     deps: [346],
@@ -206,7 +207,7 @@ export const communityChallenges2 = [
 
   {
     id: 349,
-    pos: { x: 2490, y: 815 },
+    pos: { x: 1550, y: 2600 },
     title: { de: 'Tag 4 😱', en: 'Day 4 😱' },
     date: '2025-10-28',
     deps: [347],
@@ -234,7 +235,7 @@ export const communityChallenges2 = [
 
   {
     id: 350,
-    pos: { x: 2280, y: 1135 },
+    pos: { x: 1250, y: 2600 },
     title: { de: 'Tag 5 ☠️', en: 'Day 5 ☠️' },
     date: '2025-10-29',
     deps: [348],
@@ -262,7 +263,7 @@ export const communityChallenges2 = [
 
   {
     id: 351,
-    pos: { x: 2430, y: 1035 },
+    pos: { x: 1400, y: 2600 },
     title: { de: 'Tag 6 ⚰️', en: 'Day 6 ⚰️' },
     date: '2025-10-30',
     deps: [347, 348],
@@ -286,7 +287,7 @@ export const communityChallenges2 = [
 
   {
     id: 352,
-    pos: { x: 2510, y: 1215 },
+    pos: { x: 1400, y: 2700 },
     title: { de: 'Happy Halloween?', en: 'Happy Halloween?' },
     date: '2025-10-31',
     deps: [351],

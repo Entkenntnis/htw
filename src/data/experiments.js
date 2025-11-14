@@ -209,5 +209,18 @@ export const experimentDefs = [
     challenge: 110,
     startTs: new Date('2025-11-13 00:01+0100').getTime(),
     endTs: new Date('2025-11-14 14:00+0100').getTime(),
+    baseImg: '/experiments/16_base.jpg',
+    trialImg: '/experiments/16_trial.jpg',
+    results: {
+      numEvents: 1222,
+      nShowBase: 69,
+      nShowTrial: 81,
+      nVisitorsBase: 45,
+      nVisitorsTrial: 55,
+      nSolversBase: 39,
+      nSolversTrial: 50,
+    },
+    learning:
+      'Nichts Signifikantes, hab das Experiment früher abgebrochen, weil ich jetzt eine neue Version des Bilds erstellt habe, die auf jeden Fall stärker ist bzw. wo ich mich mehr dazu verbunden fühle, deshalb überschreibe ich damit das Ergebnis des Experiments. Auch wenn ein minimaler Uplift zu sehen ist, wie gesagt, es ist nicht signifikant, sehr wahrscheinlich totaler Zufall.',
   },
 ]

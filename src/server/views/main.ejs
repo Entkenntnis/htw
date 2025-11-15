@@ -10,6 +10,11 @@
     <link rel="shortcut icon" href="/halloween25_icon.png" type="image/png"/> -->
 
     <!-- Bootstrap -->
+    <style>
+      :root {
+        --main-color: <%= mainColor || '#00bc8c' %>;
+      }
+    </style>
     <link href="/fonts/font.css" rel="stylesheet">
     <link href="/theme/<%= App.config.theme %>.min.css" rel="stylesheet">
     <link href="/theme/htw.css" rel="stylesheet">

@@ -6,7 +6,7 @@
  * @param {import("express").Response} res
  * @param {import("../data/types.js").RenderPageOptions} opts
  */
-export function renderPage(App, req, res, opts) {
+export async function renderPage(App, req, res, opts) {
   // REMARK: allow passing in string only
   const page = typeof opts == 'string' ? opts : opts.page
 
@@ -75,6 +75,11 @@ export function renderPage(App, req, res, opts) {
   const pagePath = page.includes('/') ? page : './pages/' + page
 
   const outsideOfContainer = typeof opts == 'object' && opts.outsideOfContainer
+
+  const mainColor = req.user
+    ? await App.storage.getItem(`maincolor-${req.user.id}`)
+    : null
+
   res.render('main', {
     locale,
     brand,
@@ -89,5 +94,6 @@ export function renderPage(App, req, res, opts) {
     heading,
     content,
     backHref,
+    mainColor,
   })
 }

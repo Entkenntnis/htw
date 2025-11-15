@@ -142,7 +142,11 @@
     "discordInvite": "Visit us on Discord:",
     "discordLink": "Link Discord",
     "discordLinkingNote_": "Add your Discord account as an alternative login method. This way you can still login if you forget your password: {{-link}}",
-    "rename": "Change username ..."
+    "rename": "Change username ...",
+    "mainColor": "Link color",
+    "save": "Save",
+    "saved": "Saved",
+    "reset": "Reset"
   },
   "challenge": {
     "back": "back",

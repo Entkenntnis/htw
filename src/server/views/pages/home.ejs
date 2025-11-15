@@ -1,12 +1,25 @@
 
 <style>
-    .progress-pride-stripe {
-        height: 5px; /* Adjust the thickness of the stripe */
+    /* Hover container: always 18px high, handles pointer/hover */
+    .progress-pride-container {
+        height: 22px;
         width: 100%;
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
+    }
+
+    /* Visible stripe: expands to 18px on container hover */
+    .progress-pride-stripe {
+        height: 5px; /* default visible thickness */
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        transition: height 200ms ease, box-shadow 200ms ease;
+        will-change: height;
         background: linear-gradient(to right,
             /* Progress Chevron Colors */
             #000000 9.09%,
@@ -23,9 +36,56 @@
             #750787 90.9% 100%
         );
     }
+
+    .progress-pride-container:hover .progress-pride-stripe {
+        height: 22px;
+        box-shadow: 0 3px 6px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Easter-egg info panel connected below the stripe */
+    .pride-info-panel {
+        position: fixed;
+        z-index: 9999;
+        display: none;
+        background: rgba(20, 20, 24, 0.96);
+        color: #fff;
+        border: 2px solid var(--accent, #777);
+        padding: 12px 14px;
+        border-radius: 10px;
+        box-shadow: 0 10px 28px rgba(255, 255, 255, 0.35);
+        max-width: 440px;
+        font-size: 16px;
+        line-height: 1.45;
+        pointer-events: none; /* keep hover on the stripe */
+        backdrop-filter: saturate(140%) blur(2px);
+        transition: opacity 120ms ease, transform 120ms ease;
+        opacity: 0;
+        transform: translateY(-4px);
+        --connector-h: 16px; /* height of triangle connector */
+    }
+    .pride-info-panel[data-visible="true"] {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .pride-info-panel::before {
+        content: "";
+        position: absolute;
+        top: calc(-1 * var(--connector-h));
+        left: var(--pointer-x, 50%);
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: calc(var(--connector-h) * 0.9) solid transparent;
+        border-right: calc(var(--connector-h) * 0.9) solid transparent;
+        border-bottom: var(--connector-h) solid var(--accent, #777);
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
+    }
 </style>
 
-<div class="progress-pride-stripe"></div>
+<div class="progress-pride-container">
+    <div class="progress-pride-stripe"></div>
+</div>
+<div id="pridePanel" class="pride-info-panel" role="note" aria-live="polite" aria-hidden="true"></div>
 
 <%- include('../partials/languagePicker', {t, App, locale}) %>
 
@@ -136,3 +196,117 @@
   <a href="<%=App.config.githubHref%>" <% if (App.config.githubTargetBlank) { %> target="_blank" <% } %>><%= t('github') %></a> | 
   Version: <%=App.version%> (<a href="https://github.com/Entkenntnis/htw/releases" target="_blank"><%= t('news') %></a>)
 </p>
+
+<script>
+    (function () {
+        const container = document.querySelector('.progress-pride-container');
+        const stripe = document.querySelector('.progress-pride-stripe');
+        const panel = document.getElementById('pridePanel');
+        if (!container || !stripe || !panel) return;
+
+        // Segment end percentages correspond to the CSS gradient stops above
+        const segmentEnds = [9.09, 18.18, 27.27, 36.36, 45.45, 54.54, 63.63, 72.72, 81.81, 90.9, 100];
+        const segmentColors = [
+            '#000000',
+            '#613915',
+            '#FFFFFF',
+            '#FFAFC8',
+            '#74D7EE',
+            '#E40303',
+            '#FF8C00',
+            '#FFED00',
+            '#008026',
+            '#004DFF',
+            '#750787'
+        ];
+
+        // Localized messages (3–4 sentences each)
+        const messages = {
+            de: [
+                'Privatsphäre ist die Grundlage von Empowerment. Threat Modeling hilft dir, gezielt zu schützen, was dir wichtig ist. Überlege: Wer könnte dich angreifen, warum, und mit welchen Mitteln? Schon kleine Gewohnheiten – wie Geräte-Updates und Bildschirmsperren – erhöhen deine Sicherheit deutlich.',
+                'Ethik im Hacking bedeutet Verantwortung. Responsible Disclosure schützt Nutzer:innen und gibt Anbietern Zeit, Lücken zu schließen. Inklusives Tech-Design denkt marginalisierte Perspektiven mit und reduziert Risiken für alle. Sicherheit ist ein Gemeinschaftsprojekt, kein Solo-Act.',
+                'Kryptografie ist mehr als „Geheimschrift“. Public-/Private-Keys ermöglichen sichere Kommunikation ohne geteiltes Passwort. Hashes sind Einweg-Funktionen – ideal für Integritätschecks, nicht für Verschlüsselung. Nutze moderne Algorithmen und halte Schlüssel sicher, nicht im Code-Repo.',
+                'Der Mensch ist oft der erste Angriffsvektor. Social Engineering nutzt Vertrauen, Zeitdruck und Neugier aus. Gute Hygiene: skeptisch bleiben, Quellen prüfen, nichts überstürzt bestätigen. Multi-Faktor-Authentifizierung bricht viele Angriffsserien, selbst bei Passwort-Leaks.',
+                'Netzwerke sind wie Gespräche in Paketen. IP adressiert, TCP liefert zuverlässig, UDP liefert schnell. TLS verschlüsselt den Transportweg und schützt vor Mithörern. Logs der Übergänge (Firewall, Proxy, App) sind Gold für Forensik und Monitoring.',
+                'Offensive Tests schärfen defensive Maßnahmen. CTFs bieten einen sicheren Raum, um Schwachstellen zu verstehen. Saubere Scopes, klare Regeln und Legalität sind Pflicht. Ziel: Systeme robuster machen – nicht Chaos stiften.',
+                'Automatisierung skaliert Security. Kleine Skripte finden wiederkehrende Fehler schneller und konsistenter. Dokumentierte Pipelines machen Ergebnisse reproduzierbar. Je näher am Dev-Workflow, desto größer der Effekt.',
+                'Verwundbarkeiten haben Lebenszyklen. CVEs benennen Probleme, aber Patches brauchen Priorisierung nach Risiko und Ausnutzbarkeit. Inventar (SBOM) und Aktualität sind entscheidend. „Schnell genug“ ist ein Sicherheitsmerkmal.',
+                'Open Source ist Empowerment durch Transparenz. Code-Reviews, Repro-Builds und Signaturen stärken Vertrauen. Supply-Chain-Risiken sinken mit verifizierten Abhängigkeiten. Beitragen heißt lernen – und das Ökosystem härten.',
+                'Blue Teaming lebt von Sichtbarkeit. Gute Logs, Metriken und Alarme ermöglichen schnelle Reaktion. Detection Engineering modelliert echte Angriffe in Regeln und Tests. Ohne Telemetrie bleibt Sicherheit Blindflug.',
+                'Purple Teams verbinden Angriff und Verteidigung. Gemeinsame Übungen schließen Lernschleifen und priorisieren Fixes. Playbooks, Retests und Messwerte machen Fortschritt sichtbar. Kultur schlägt Tools – aber gute Tools helfen ungemein.'
+            ],
+            en: [
+                'Privacy enables empowerment. Threat modeling helps protect what matters. Ask: who might target you, why, and with which capabilities? Small habits—updates and screen locks—raise your baseline a lot.',
+                'Hacking ethics means responsibility. Responsible disclosure protects users and vendors alike. Inclusive design considers marginalized perspectives and reduces risk for all. Security is a team sport.',
+                'Cryptography is more than secrecy. Public/private keys enable secure comms without shared passwords. Hashes are one-way—great for integrity, not encryption. Use modern algorithms and keep keys out of repos.',
+                'Humans are a prime attack surface. Social engineering exploits trust, urgency, and curiosity. Hygiene: be skeptical, verify sources, avoid rushed approvals. MFA breaks many attack chains even after leaks.',
+                'Networks are conversations in packets. IP addresses, TCP delivers reliably, UDP delivers fast. TLS encrypts the path against eavesdroppers. Transition logs are gold for forensics and monitoring.',
+                'Offense sharpens defense. CTFs are safe arenas to learn weaknesses. Clean scopes, clear rules, and legality are mandatory. The goal is resilience, not chaos.',
+                'Automation scales security. Small scripts find recurring issues faster and consistently. Documented pipelines make results reproducible. The closer to dev workflows, the bigger the impact.',
+                'Vulnerabilities have lifecycles. CVEs name problems; patches need risk-based priority. Inventory (SBOM) and freshness are crucial. “Fast enough” is a security feature.',
+                'Open source empowers through transparency. Code reviews, reproducible builds and signatures build trust. Verified dependencies cut supply-chain risk. Contributing hardens the ecosystem.',
+                'Blue teaming thrives on visibility. Good logs, metrics, and alerts enable quick response. Detection engineering turns attacks into rules and tests. Without telemetry, security is flying blind.',
+                'Purple teaming unites offense and defense. Joint exercises close feedback loops and prioritize fixes. Playbooks, retests, and metrics show progress. Culture beats tools—yet good tools help.'
+            ]
+        };
+
+        const lang = '<%= locale %>' === 'de' ? 'de' : 'en';
+
+        function segmentIndex(percent) {
+            for (let i = 0; i < segmentEnds.length; i++) {
+                if (percent <= segmentEnds[i]) return i;
+            }
+            return segmentEnds.length - 1;
+        }
+
+        function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+        function updatePanel(e) {
+            const rect = container.getBoundingClientRect();
+            const relX = clamp(e.clientX - rect.left, 0, rect.width);
+            const percent = (relX / rect.width) * 100;
+            const idx = segmentIndex(percent);
+            const text = messages[lang][idx] || '';
+
+            const color = segmentColors[idx] || '#777';
+            panel.textContent = text;
+            panel.style.setProperty('--accent', color);
+            panel.style.borderColor = color;
+            panel.style.display = 'block';
+            panel.dataset.visible = 'true';
+            panel.setAttribute('aria-hidden', 'false');
+
+            // Compute the center X of the active color segment
+            const prevEnd = idx === 0 ? 0 : segmentEnds[idx - 1];
+            const end = segmentEnds[idx];
+            const midPercent = (prevEnd + end) / 2;
+            const segmentCenterX = rect.left + (midPercent / 100) * rect.width;
+
+            // Place the panel directly below the stripe, centered on the active segment
+            const width = panel.offsetWidth || 440;
+            const desiredLeft = segmentCenterX - width / 2;
+            const maxLeft = window.innerWidth - 12 - width;
+            const left = clamp(desiredLeft, 12, maxLeft);
+            panel.style.left = left + 'px';
+
+            // Keep a triangle connector touching the container's bottom edge
+            const CONNECTOR = 16; // must match --connector-h
+            panel.style.setProperty('--connector-h', CONNECTOR + 'px');
+            panel.style.top = (rect.bottom + CONNECTOR) + 'px';
+
+            // Position the connector at the center of the active segment relative to the panel
+            const pointerX = segmentCenterX - left;
+            panel.style.setProperty('--pointer-x', pointerX + 'px');
+        }
+
+        function hidePanel() {
+            panel.dataset.visible = 'false';
+            panel.style.display = 'none';
+            panel.setAttribute('aria-hidden', 'true');
+        }
+
+        container.addEventListener('mousemove', updatePanel);
+        container.addEventListener('mouseenter', updatePanel);
+        container.addEventListener('mouseleave', hidePanel);
+    })();
+</script>

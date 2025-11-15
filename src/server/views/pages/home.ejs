@@ -1,4 +1,32 @@
 
+<style>
+    .progress-pride-stripe {
+        height: 5px; /* Adjust the thickness of the stripe */
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to right,
+            /* Progress Chevron Colors */
+            #000000 9.09%,
+            #613915 9.09% 18.18%,
+            #FFFFFF 18.18% 27.27%,
+            #FFAFC8 27.27% 36.36%,
+            #74D7EE 36.36% 45.45%,
+            /* Traditional Rainbow Colors */
+            #E40303 45.45% 54.54%,
+            #FF8C00 54.54% 63.63%,
+            #FFED00 63.63% 72.72%,
+            #008026 72.72% 81.81%,
+            #004DFF 81.81% 90.9%,
+            #750787 90.9% 100%
+        );
+    }
+</style>
+
+<div class="progress-pride-stripe"></div>
+
 <%- include('../partials/languagePicker', {t, App, locale}) %>
 
 <h2><%= t('loginHeading') %></h2>

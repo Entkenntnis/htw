@@ -155,8 +155,8 @@ export const experimentDefs = [
     description:
       'Einhorn: neue Iteration mit einer leicht vereinfachten Variante der Geometrie-Aufgabe',
     challenge: 23,
-    startTs: new Date('2025-11-03 01:00 GMT+0100').getTime(),
-    endTs: new Date('2025-11-24 01:00 GMT+0100').getTime(),
+    startTs: new Date('2025-11-16 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-12-07 01:00 GMT+0100').getTime(),
   },
   {
     id: 10,

@@ -18,7 +18,8 @@
         top: 0;
         left: 0;
         right: 0;
-        transition: height 200ms ease, box-shadow 200ms ease;
+        transition: all 500ms ease;
+        transition-delay: 500ms;
         will-change: height;
         background: linear-gradient(to right,
             /* Progress Chevron Colors */
@@ -40,6 +41,8 @@
     .progress-pride-container:hover .progress-pride-stripe {
         height: 22px;
         box-shadow: 0 3px 6px rgba(255, 255, 255, 0.25);
+        transition-delay: 0ms;
+        transition: all 200ms ease;
     }
 
     /* Easter-egg info panel connected below the stripe */
@@ -58,14 +61,12 @@
         line-height: 1.45;
         pointer-events: none; /* keep hover on the stripe */
         backdrop-filter: saturate(140%) blur(2px);
-        transition: opacity 120ms ease, transform 120ms ease;
+        transition: opacity 480ms ease;
         opacity: 0;
-        transform: translateY(-4px);
         --connector-h: 16px; /* height of triangle connector */
     }
     .pride-info-panel[data-visible="true"] {
         opacity: 1;
-        transform: translateY(0);
     }
     .pride-info-panel::before {
         content: "";
@@ -223,17 +224,17 @@
         // Localized messages (3–4 sentences each)
         const messages = {
             de: [
-                'Privatsphäre ist die Grundlage von Empowerment. Threat Modeling hilft dir, gezielt zu schützen, was dir wichtig ist. Überlege: Wer könnte dich angreifen, warum, und mit welchen Mitteln? Schon kleine Gewohnheiten – wie Geräte-Updates und Bildschirmsperren – erhöhen deine Sicherheit deutlich.',
-                'Ethik im Hacking bedeutet Verantwortung. Responsible Disclosure schützt Nutzer:innen und gibt Anbietern Zeit, Lücken zu schließen. Inklusives Tech-Design denkt marginalisierte Perspektiven mit und reduziert Risiken für alle. Sicherheit ist ein Gemeinschaftsprojekt, kein Solo-Act.',
-                'Kryptografie ist mehr als „Geheimschrift“. Public-/Private-Keys ermöglichen sichere Kommunikation ohne geteiltes Passwort. Hashes sind Einweg-Funktionen – ideal für Integritätschecks, nicht für Verschlüsselung. Nutze moderne Algorithmen und halte Schlüssel sicher, nicht im Code-Repo.',
-                'Der Mensch ist oft der erste Angriffsvektor. Social Engineering nutzt Vertrauen, Zeitdruck und Neugier aus. Gute Hygiene: skeptisch bleiben, Quellen prüfen, nichts überstürzt bestätigen. Multi-Faktor-Authentifizierung bricht viele Angriffsserien, selbst bei Passwort-Leaks.',
-                'Netzwerke sind wie Gespräche in Paketen. IP adressiert, TCP liefert zuverlässig, UDP liefert schnell. TLS verschlüsselt den Transportweg und schützt vor Mithörern. Logs der Übergänge (Firewall, Proxy, App) sind Gold für Forensik und Monitoring.',
-                'Offensive Tests schärfen defensive Maßnahmen. CTFs bieten einen sicheren Raum, um Schwachstellen zu verstehen. Saubere Scopes, klare Regeln und Legalität sind Pflicht. Ziel: Systeme robuster machen – nicht Chaos stiften.',
-                'Automatisierung skaliert Security. Kleine Skripte finden wiederkehrende Fehler schneller und konsistenter. Dokumentierte Pipelines machen Ergebnisse reproduzierbar. Je näher am Dev-Workflow, desto größer der Effekt.',
-                'Verwundbarkeiten haben Lebenszyklen. CVEs benennen Probleme, aber Patches brauchen Priorisierung nach Risiko und Ausnutzbarkeit. Inventar (SBOM) und Aktualität sind entscheidend. „Schnell genug“ ist ein Sicherheitsmerkmal.',
-                'Open Source ist Empowerment durch Transparenz. Code-Reviews, Repro-Builds und Signaturen stärken Vertrauen. Supply-Chain-Risiken sinken mit verifizierten Abhängigkeiten. Beitragen heißt lernen – und das Ökosystem härten.',
-                'Blue Teaming lebt von Sichtbarkeit. Gute Logs, Metriken und Alarme ermöglichen schnelle Reaktion. Detection Engineering modelliert echte Angriffe in Regeln und Tests. Ohne Telemetrie bleibt Sicherheit Blindflug.',
-                'Purple Teams verbinden Angriff und Verteidigung. Gemeinsame Übungen schließen Lernschleifen und priorisieren Fixes. Playbooks, Retests und Messwerte machen Fortschritt sichtbar. Kultur schlägt Tools – aber gute Tools helfen ungemein.'
+                'TOOD',
+                'TODO',
+                '<b>Kryptographie</b> spielt eine wichtige Rolle: Sie hilft Nachrichten zu verschlüsseln (AES), sorgt für sichere Internet-Verbindungen auch bei offenen WLAN (TLS) und beschützt deine Passwörter, auch wenn die Datenbank gehackt wird (Einwegfunktionen).',
+                'Der Mensch ist oft das erste Ziel. <b>Social Engineering</b> nutzt Vertrauen und Nachlässigkeit aus: Spam‑E‑Mails, gefälschte Websites und gefährliche Downloads warten auf Unaufmerksamkeit. Gegenmaßnahmen: achtsam bleiben, nicht übereilt handeln - und im Zweifel lieber einmal nachfragen.',
+                'TODO',
+                'Das <b>Red Team</b> simuliert Angriffe; Ziel sind Server, Datenbanken und Zugangsdaten. Im Rahmen eines Capture‑the‑Flag (CTF) kannst du legal in die Rolle eines Angreifers schlüpfen. Eine große Portion Durchhaltevermögen ist nötig, meist sind viele Versuche erforderlich, bis sich eine Schwachstelle zeigt.',
+                'TODO',
+                'Der Browser ist eine offen zugängliche Plattform. Du kannst den Seitenquelltext anzeigen und mit den Entwicklerwerkzeugen (F12) tief in die Struktur eintauchen. Ähnliche Techniken nutzen <b>Adblocker</b> und Erweiterungen, um dein Surferlebnis zu verbessern.',
+                'TODO',
+                'Das <b>Blue Team</b> härtet Systeme gegen Angriffe von außen - absolute Sicherheit gibt es nicht. Deshalb ist es oft wichtiger, Auffälligkeiten schnell zu erkennen und rasch zu reagieren, bevor größerer Schaden eintritt. Regelmäßiges Lesen relevanter Sicherheitsmeldungen hilft, auf dem Laufenden zu bleiben.',
+                'TODO'
             ],
             en: [
                 'Privacy enables empowerment. Threat modeling helps protect what matters. Ask: who might target you, why, and with which capabilities? Small habits—updates and screen locks—raise your baseline a lot.',
@@ -269,7 +270,7 @@
             const text = messages[lang][idx] || '';
 
             const color = segmentColors[idx] || '#777';
-            panel.textContent = text;
+            panel.innerHTML = text;
             panel.style.setProperty('--accent', color);
             panel.style.borderColor = color;
             panel.style.display = 'block';
@@ -301,7 +302,7 @@
 
         function hidePanel() {
             panel.dataset.visible = 'false';
-            panel.style.display = 'none';
+            // panel.style.display = 'none';
             panel.setAttribute('aria-hidden', 'true');
         }
 

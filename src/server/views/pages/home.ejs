@@ -4,17 +4,18 @@
     .progress-pride-container {
         height: 22px;
         width: 100%;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
+        z-index: 10;
     }
 
     /* Visible stripe: expands to 18px on container hover */
     .progress-pride-stripe {
         height: 5px; /* default visible thickness */
         width: 100%;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
@@ -224,14 +225,14 @@
         // Localized messages (3–4 sentences each)
         const messages = {
             de: [
-                'TOOD',
+                'Achte auf deine <b>Privatsphäre</b>. Ein einziges Foto kann deinen Standort verraten: EXIF‑Geodaten, markante Gebäude, Straßenschilder oder sogar Innenraumdetails lassen Rückschlüsse zu. Behandle personenbezogene Details (Name, Adresse, Geburtsdatum, Telefonnummer, Schule) als etwas Wertvolles; in vielen Situationen reichen Fantasie-Daten aus.',
                 'TODO',
                 '<b>Kryptographie</b> spielt eine wichtige Rolle: Sie hilft Nachrichten zu verschlüsseln (AES), sorgt für sichere Internet-Verbindungen auch bei offenen WLAN (TLS) und beschützt deine Passwörter, auch wenn die Datenbank gehackt wird (Einwegfunktionen).',
                 'Der Mensch ist oft das erste Ziel. <b>Social Engineering</b> nutzt Vertrauen und Nachlässigkeit aus: Spam‑E‑Mails, gefälschte Websites und gefährliche Downloads warten auf Unaufmerksamkeit. Gegenmaßnahmen: achtsam bleiben, nicht übereilt handeln - und im Zweifel lieber einmal nachfragen.',
                 'TODO',
                 'Das <b>Red Team</b> simuliert Angriffe; Ziel sind Server, Datenbanken und Zugangsdaten. Im Rahmen eines Capture‑the‑Flag (CTF) kannst du legal in die Rolle eines Angreifers schlüpfen. Eine große Portion Durchhaltevermögen ist nötig, meist sind viele Versuche erforderlich, bis sich eine Schwachstelle zeigt.',
-                'TODO',
                 'Der Browser ist eine offen zugängliche Plattform. Du kannst den Seitenquelltext anzeigen und mit den Entwicklerwerkzeugen (F12) tief in die Struktur eintauchen. Ähnliche Techniken nutzen <b>Adblocker</b> und Erweiterungen, um dein Surferlebnis zu verbessern.',
+                'Deine <b>Aufmerksamkeit</b> ist hart umkämpft. Soziale Plattformen und Werbenetzwerke wollen sie einfangen und monetarisieren. Hilfreich ist regelmäßige Reflexion: Wofür nutzt du deine Zeit? Welchen tatsächlichen Nutzen hast du? Wer verdient daran? Treffe deine eigenen Entscheidungen, anstatt dem Algorithmus alles zu überlassen.',
                 'TODO',
                 'Das <b>Blue Team</b> härtet Systeme gegen Angriffe von außen - absolute Sicherheit gibt es nicht. Deshalb ist es oft wichtiger, Auffälligkeiten schnell zu erkennen und rasch zu reagieren, bevor größerer Schaden eintritt. Regelmäßiges Lesen relevanter Sicherheitsmeldungen hilft, auf dem Laufenden zu bleiben.',
                 'TODO'

@@ -1065,4 +1065,20 @@ export function setupChallenges(App) {
       backHref: '/challenge/' + id,
     })
   })
+
+  App.express.post('/setmaincolor', async (req, res) => {
+    // start guard
+    if (!req.user || !req.session.userId) {
+      delete req.session.userId
+      return res.redirect('/')
+    }
+    // end guard
+    const color = req.body?.color || ''
+    if (typeof color == 'string' && /^#[0-9a-fA-F]{6}$/.test(color.trim())) {
+      App.event.create(`set-maincolor-${color.trim()}`, req.user.id)
+      await App.storage.setItem(`maincolor-${req.user.id}`, color.trim())
+      res.send('ok')
+    }
+    res.send('error')
+  })
 }

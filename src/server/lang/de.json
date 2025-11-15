@@ -142,7 +142,11 @@
     "discordInvite": "Besuche uns auch auf Discord:",
     "discordLink": "Discord verknüpfen",
     "discordLinkingNote_": "Verknüpfe deinen Discord-Account. Dadurch kannst du dich auch dann anmelden, wenn du dein Passwort vergessen hast: {{-link}}",
-    "rename": "Benutzername ändern ..."
+    "rename": "Benutzername ändern ...",
+    "mainColor": "Linkfarbe",
+    "save": "Speichern",
+    "saved": "Gespeichert",
+    "reset": "Zurücksetzen"
   },
   "challenge": {
     "back": "zurück",

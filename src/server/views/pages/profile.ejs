@@ -74,6 +74,99 @@
   }
 </script>
 
+<div style="margin-top: 64px">
+  <form id="maincolor-form" action="/setmaincolor" method="post" onsubmit="return submitMainColor(event)" class="form-inline">
+    <label for="maincolor-input" style="margin-right: 8px;"><%= t('mainColor') %>:</label>
+    <input type="color" id="maincolor-input" name="color" style="vertical-align: middle;">
+    <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 8px;"><%= t('save') %></button>
+    <button type="button" id="maincolor-reset" class="btn btn-sm btn-secondary" style="margin-left: 8px;"><%= t('reset') %></button>
+    <span id="maincolor-status" style="margin-left: 14px; color: gray; display: none"></span>
+  </form>
+  <script>
+    (function () {
+      try {
+        var input = document.getElementById('maincolor-input');
+        var status = document.getElementById('maincolor-status');
+        if (!input) return;
+        if (status) {
+          status.style.display = 'none';
+          status.textContent = '';
+        }
+
+        function hideStatus() {
+          if (!status) return;
+          status.textContent = '';
+          status.style.color = 'gray';
+          status.style.display = 'none';
+        }
+        input.addEventListener('focus', hideStatus);
+        input.addEventListener('click', hideStatus);
+        input.addEventListener('input', hideStatus);
+        input.addEventListener('change', hideStatus);
+        var cssVal = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
+        if (cssVal) {
+          cssVal = cssVal.trim();
+          if (/^#[0-9a-fA-F]{6}$/.test(cssVal)) {
+            input.value = cssVal;
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+      // wire reset button
+      try {
+        var resetBtn = document.getElementById('maincolor-reset');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', function () {
+            var input = document.getElementById('maincolor-input');
+            var status = document.getElementById('maincolor-status');
+            if (input) input.value = '#00bc8c';
+            if (status) { status.textContent = ''; status.style.color = 'gray'; status.style.display = 'none'; }
+            var form = document.getElementById('maincolor-form');
+            if (form && typeof form.requestSubmit === 'function') {
+              form.requestSubmit();
+            } else if (form) {
+              form.dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+          });
+        }
+      } catch (e) { /* ignore */ }
+    })();
+
+    async function submitMainColor(e) {
+      e.preventDefault();
+      var input = document.getElementById('maincolor-input');
+      var status = document.getElementById('maincolor-status');
+      if (!input) return false;
+      var color = input.value || '';
+      try {
+        var res = await fetch('/setmaincolor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'color=' + encodeURIComponent(color)
+        });
+        var text = await res.text();
+        if (text === 'ok') {
+          status.textContent = "<%= t('saved') %>✔️";
+          status.style.color = 'gray';
+          status.style.display = 'inline-block';
+          // reflect immediately
+          document.documentElement.style.setProperty('--main-color', color);
+        } else {
+          status.textContent = 'Error';
+          status.style.color = 'red';
+          status.style.display = 'inline-block';
+        }
+      } catch (err) {
+        status.textContent = 'Error';
+        status.style.color = 'red';
+        status.style.display = 'inline-block';
+      }
+      return false;
+    }
+  </script>
+</div>
+
 <div style="height:120px"></div>
 
 <ul class="d-flex flex-row list-unstyled">

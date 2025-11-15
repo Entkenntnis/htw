@@ -225,30 +225,30 @@
         // Localized messages (3–4 sentences each)
         const messages = {
             de: [
-                'Achte auf deine <b>Privatsphäre</b>. Ein einziges Foto kann deinen Standort verraten: EXIF‑Geodaten, markante Gebäude, Straßenschilder oder sogar Innenraumdetails lassen Rückschlüsse zu. Behandle personenbezogene Details (Name, Adresse, Geburtsdatum, Telefonnummer, Schule) als etwas Wertvolles; in vielen Situationen reichen Fantasie-Daten aus.',
-                'TODO',
-                '<b>Kryptographie</b> spielt eine wichtige Rolle: Sie hilft Nachrichten zu verschlüsseln (AES), sorgt für sichere Internet-Verbindungen auch bei offenen WLAN (TLS) und beschützt deine Passwörter, auch wenn die Datenbank gehackt wird (Einwegfunktionen).',
-                'Der Mensch ist oft das erste Ziel. <b>Social Engineering</b> nutzt Vertrauen und Nachlässigkeit aus: Spam‑E‑Mails, gefälschte Websites und gefährliche Downloads warten auf Unaufmerksamkeit. Gegenmaßnahmen: achtsam bleiben, nicht übereilt handeln - und im Zweifel lieber einmal nachfragen.',
-                'TODO',
-                'Das <b>Red Team</b> simuliert Angriffe; Ziel sind Server, Datenbanken und Zugangsdaten. Im Rahmen eines Capture‑the‑Flag (CTF) kannst du legal in die Rolle eines Angreifers schlüpfen. Eine große Portion Durchhaltevermögen ist nötig, meist sind viele Versuche erforderlich, bis sich eine Schwachstelle zeigt.',
-                'Der Browser ist eine offen zugängliche Plattform. Du kannst den Seitenquelltext anzeigen und mit den Entwicklerwerkzeugen (F12) tief in die Struktur eintauchen. Ähnliche Techniken nutzen <b>Adblocker</b> und Erweiterungen, um dein Surferlebnis zu verbessern.',
-                'Deine <b>Aufmerksamkeit</b> ist hart umkämpft. Soziale Plattformen und Werbenetzwerke wollen sie einfangen und monetarisieren. Hilfreich ist regelmäßige Reflexion: Wofür nutzt du deine Zeit? Welchen tatsächlichen Nutzen hast du? Wer verdient daran? Treffe deine eigenen Entscheidungen, anstatt dem Algorithmus alles zu überlassen.',
-                'TODO',
-                'Das <b>Blue Team</b> härtet Systeme gegen Angriffe von außen - absolute Sicherheit gibt es nicht. Deshalb ist es oft wichtiger, Auffälligkeiten schnell zu erkennen und rasch zu reagieren, bevor größerer Schaden eintritt. Regelmäßiges Lesen relevanter Sicherheitsmeldungen hilft, auf dem Laufenden zu bleiben.',
-                'TODO'
+                'Achte auf deine <b>Privatsphäre</b>. Ein einziges Foto kann deinen Standort verraten (EXIF-Metadaten, markante Orte).',
+                'Behandle personenbezogene Daten als wertvoll; oft reichen Fantasieangaben.',
+                '<b>Kryptographie</b> verschlüsselt (AES), sorgt für eine sichere Internet-Verbindung (TLS) und schützt Passwörter (Hashes).',
+                '<b>Social Engineering</b> nutzt Vertrauen aus: Phishing-E-Mails, Fake‑Websites, Malware in unscheinbaren Apps.',
+                'Dein digitaler Selbstschutz: skeptisch bleiben, Quellen prüfen, im Zweifel nachfragen.',
+                'Das <b>Red Team</b> simuliert Angriffe; ein Capture-The-Flag (CTF) erlaubt legales Üben mit klaren Regeln.',
+                'Der Browser ist offen: <b>Quelltext</b> ansehen und mit F12 die Struktur erkunden.',
+                '<b>Adblocker</b> und Browser-Erweiterungen können dein Surferlebnis massiv verbessern.',
+                'Hacken ist für Alle, nicht nur für privilegierte, weiße Männer. Wenn dir jemand sagt, dass du nicht dazugehörst: Zeig den Mittelfinger.',
+                'Das <b>Blue Team</b> verteidigt und setzt auf Sichtbarkeit: Auffälligkeiten schnell erkennen und reagieren.',
+                'Deine <b>Aufmerksamkeit</b> ist begehrt; Plattformen binden und monetarisieren sie. Entscheide lieber selbst statt dem Algorithmus zu folgen.',
             ],
             en: [
-                'Privacy enables empowerment. Threat modeling helps protect what matters. Ask: who might target you, why, and with which capabilities? Small habits—updates and screen locks—raise your baseline a lot.',
-                'Hacking ethics means responsibility. Responsible disclosure protects users and vendors alike. Inclusive design considers marginalized perspectives and reduces risk for all. Security is a team sport.',
-                'Cryptography is more than secrecy. Public/private keys enable secure comms without shared passwords. Hashes are one-way—great for integrity, not encryption. Use modern algorithms and keep keys out of repos.',
-                'Humans are a prime attack surface. Social engineering exploits trust, urgency, and curiosity. Hygiene: be skeptical, verify sources, avoid rushed approvals. MFA breaks many attack chains even after leaks.',
-                'Networks are conversations in packets. IP addresses, TCP delivers reliably, UDP delivers fast. TLS encrypts the path against eavesdroppers. Transition logs are gold for forensics and monitoring.',
-                'Offense sharpens defense. CTFs are safe arenas to learn weaknesses. Clean scopes, clear rules, and legality are mandatory. The goal is resilience, not chaos.',
-                'Automation scales security. Small scripts find recurring issues faster and consistently. Documented pipelines make results reproducible. The closer to dev workflows, the bigger the impact.',
-                'Vulnerabilities have lifecycles. CVEs name problems; patches need risk-based priority. Inventory (SBOM) and freshness are crucial. “Fast enough” is a security feature.',
-                'Open source empowers through transparency. Code reviews, reproducible builds and signatures build trust. Verified dependencies cut supply-chain risk. Contributing hardens the ecosystem.',
-                'Blue teaming thrives on visibility. Good logs, metrics, and alerts enable quick response. Detection engineering turns attacks into rules and tests. Without telemetry, security is flying blind.',
-                'Purple teaming unites offense and defense. Joint exercises close feedback loops and prioritize fixes. Playbooks, retests, and metrics show progress. Culture beats tools—yet good tools help.'
+                'Mind your <b>privacy</b>. A single photo can reveal your location (EXIF metadata, recognizable places).',
+                'Treat personal data as valuable; made‑up details often suffice.',
+                '<b>Cryptography</b> encrypts (AES), secures internet connections (TLS), and protects passwords (hashes).',
+                '<b>Social engineering</b> exploits trust: phishing emails, fake websites, malware in innocuous apps.',
+                'Your digital self‑defense: stay skeptical, verify sources, ask when in doubt.',
+                'The <b>red team</b> simulates attacks; a Capture‑The‑Flag (CTF) enables legal practice with clear rules.',
+                'The browser is open: view the <b>source</b> and explore the structure with F12.',
+                '<b>Ad blockers</b> and browser extensions can massively improve your browsing experience.',
+                'Hacking is for everyone, not just privileged white men. If someone says you don’t belong, ignore the gatekeeping and keep going.',
+                'The <b>blue team</b> defends and relies on visibility: detect anomalies quickly and respond.',
+                'Your <b>attention</b> is coveted; platforms capture and monetize it. Choose for yourself rather than following the algorithm.'
             ]
         };
 

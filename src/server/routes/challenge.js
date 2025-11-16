@@ -1079,6 +1079,7 @@ export function setupChallenges(App) {
       App.event.create(`set-maincolor-${color.trim()}`, req.user.id)
       await App.storage.setItem(`maincolor-${req.user.id}`, color.trim())
       res.send('ok')
+      return
     }
     res.send('error')
   })

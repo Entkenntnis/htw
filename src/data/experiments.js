@@ -236,4 +236,12 @@ export const experimentDefs = [
     learning:
       'Nichts Signifikantes, hab das Experiment früher abgebrochen, weil ich jetzt eine neue Version des Bilds erstellt habe, die auf jeden Fall stärker ist bzw. wo ich mich mehr dazu verbunden fühle, deshalb überschreibe ich damit das Ergebnis des Experiments. Auch wenn ein minimaler Uplift zu sehen ist, wie gesagt, es ist nicht signifikant, sehr wahrscheinlich totaler Zufall.',
   },
+  {
+    id: 17,
+    description:
+      'UNIX: Die ursprüngliche Version mit Zeitstempel tritt gegen eine neue Version mit root als Antwort an.',
+    challenge: 30,
+    startTs: new Date('2025-11-17 00:01+0100').getTime(),
+    endTs: new Date('2025-12-15 00:01+0100').getTime(),
+  },
 ]

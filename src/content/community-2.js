@@ -700,6 +700,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-18 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
+    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -721,6 +722,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-19 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
+    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -742,6 +744,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-20 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
+    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -763,6 +766,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-21 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
+    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -784,6 +788,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-22 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
+    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -805,6 +810,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-23 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
+    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -826,6 +832,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-24 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
+    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `

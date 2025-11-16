@@ -69,13 +69,18 @@
               } catch (err) {
                 // ignore telemetry errors
               }
-              var href = this.getAttribute('href');
-              setTimeout(function() {
-                alert("<%- t('feedback.thanks') %>")
-                if (href) {
-                  window.location.href = href;
-                }
-              }, 200);
+              var href = this.getAttribute('href') || '/map';
+              // Replace question with thanks + manual continue button
+              try {
+                container.innerHTML = ''
+                  + '<p style="margin-top: 24px;">' + "<%= t('feedback.thanks') %>" + '</p>'
+                  + '<p><a href="' + href + '" id="continue-button" class="">' + "<%= t('continue') %>" + '</a></p>';
+                var btn = document.getElementById('continue-button');
+                if (btn && btn.focus) { btn.focus(); }
+              } catch (e) {
+                // If DOM update fails, fall back to direct navigation link display
+                window.location.href = href;
+              }
             });
           }
         })();

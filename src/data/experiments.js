@@ -141,6 +141,19 @@ export const experimentDefs = [
     challenge: 114,
     startTs: new Date('2025-11-02 01:00 GMT+0100').getTime(),
     endTs: new Date('2025-11-16 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/7.jpg',
+    trialImg: '/experiments/7.jpg',
+    results: {
+      numEvents: 5691,
+      nShowBase: 250,
+      nShowTrial: 257,
+      nVisitorsBase: 153,
+      nVisitorsTrial: 164,
+      nSolversBase: 128,
+      nSolversTrial: 138,
+    },
+    learning:
+      'Der Link hat absolut keinen messbaren Effekt gehabt, er kann also entfernt werden.',
   },
   {
     id: 8,
@@ -186,7 +199,7 @@ export const experimentDefs = [
     description: 'Notiz: Wie groß ist der Effekt von COMLINK?',
     challenge: 16,
     startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
-    endTs: new Date('2025-11-22 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-11-29 01:00 GMT+0100').getTime(),
   },
   {
     id: 14,

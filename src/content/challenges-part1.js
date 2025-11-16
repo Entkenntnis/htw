@@ -3941,11 +3941,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Wo wir schon bei Natur sind, hier ist ein Bild von einem Baum, aufgenommen auf der Erde im Gebiet Europa. Die Pflanzen dort sind ganz anders als bei uns. Der Name dieser Baumart ist deine Antwort.</p>
 
-        ${
-          App.experiments.showTrial(144, req)
-            ? '<p><img src="/chals/chal114_rosskastanie.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></p>'
-            : '<p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></a></p>'
-        }
+        <p><img src="/chals/chal114_rosskastanie.jpg" alt="Baumgattung bestimmen" style="max-height:500px"></p>
       `
         ),
         en: story(

@@ -1439,7 +1439,7 @@ export const part1 = [
         ),
       }
     },
-    solution: secrets('chal_30'),
+    solution: secrets('chal_30').split(','),
   },
 
   {

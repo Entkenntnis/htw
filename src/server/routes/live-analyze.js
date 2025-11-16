@@ -271,10 +271,13 @@ export function setupLiveAnalyze(App) {
         const avg = users > 0 ? r.total / users : 0
         const safeColor = sanitizeColor(r.color)
         const swatch = `<span style="display:inline-block; width:14px; height:14px; border:1px solid #333; background:${safeColor}; vertical-align:middle; margin-right:8px; border-radius:2px;"></span>`
-        return `${swatch}<span class="mono">${escapeHTML(r.color)}</span>: ${r.total} Wahlen von ${users} Spielern (Ø ${avg.toLocaleString('de-DE', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })})`
+        return `${swatch}<span class="mono">${escapeHTML(r.color)}</span>: ${r.total} Wahlen von ${users} Spielern (Ø ${avg.toLocaleString(
+          'de-DE',
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }
+        )})`
       })
       .join('<br>')
 

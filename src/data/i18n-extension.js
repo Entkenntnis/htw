@@ -148,7 +148,7 @@ export function getI18nExtension() {
             <p>Der Einstieg ist ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Registriere dich mit Benutzername und Passwort:
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button">Jetzt registrieren</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button no-underline">Jetzt registrieren</a></p>
 
             <p>Über unseren <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a></strong> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>htw123</code>.</p>
           </div>
@@ -311,7 +311,7 @@ export function getI18nExtension() {
       <details style="margin-top: 16px">
         <summary>Anmeldung über SSO</summary>
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
-        <a href="/github-login" class="github-button">
+        <a href="/github-login" class="github-button no-underline">
           <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 
@@ -324,7 +324,7 @@ export function getI18nExtension() {
           <span>Mit GitHub anmelden</span>
         </a>
 
-        <a href="/discord-login" class="discord-button">
+        <a href="/discord-login" class="discord-button no-underline">
           <svg width="23px" height="23px" viewBox="0 -28.5 256 256" style="margin-right: 12px;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
               <g>
                   <path d="M216.856339,16.5966031 C200.285002,8.84328665 182.566144,3.2084988 164.041564,0 C161.766523,4.11318106 159.108624,9.64549908 157.276099,14.0464379 C137.583995,11.0849896 118.072967,11.0849896 98.7430163,14.0464379 C96.9108417,9.64549908 94.1925838,4.11318106 91.8971895,0 C73.3526068,3.2084988 55.6133949,8.86399117 39.0420583,16.6376612 C5.61752293,67.146514 -3.4433191,116.400813 1.08711069,164.955721 C23.2560196,181.510915 44.7403634,191.567697 65.8621325,198.148576 C71.0772151,190.971126 75.7283628,183.341335 79.7352139,175.300261 C72.104019,172.400575 64.7949724,168.822202 57.8887866,164.667963 C59.7209612,163.310589 61.5131304,161.891452 63.2445898,160.431257 C105.36741,180.133187 151.134928,180.133187 192.754523,160.431257 C194.506336,161.891452 196.298154,163.310589 198.110326,164.667963 C191.183787,168.842556 183.854737,172.420929 176.223542,175.320965 C180.230393,183.341335 184.861538,190.991831 190.096624,198.16893 C211.238746,191.588051 232.743023,181.531619 254.911949,164.955721 C260.227747,108.668201 245.831087,59.8662432 216.856339,16.5966031 Z M85.4738752,135.09489 C72.8290281,135.09489 62.4592217,123.290155 62.4592217,108.914901 C62.4592217,94.5396472 72.607595,82.7145587 85.4738752,82.7145587 C98.3405064,82.7145587 108.709962,94.5189427 108.488529,108.914901 C108.508531,123.290155 98.3405064,135.09489 85.4738752,135.09489 Z M170.525237,135.09489 C157.88039,135.09489 147.510584,123.290155 147.510584,108.914901 C147.510584,94.5396472 157.658606,82.7145587 170.525237,82.7145587 C183.391518,82.7145587 193.761324,94.5189427 193.539891,108.914901 C193.539891,123.290155 183.391518,135.09489 170.525237,135.09489 Z" fill="#5865F2" fill-rule="nonzero">
@@ -334,7 +334,7 @@ export function getI18nExtension() {
           <span>Mit Discord anmelden</span>
         </a>
 
-        <a href="https://app.eduplaces.de/app/hacktheweb/launch" class="eduplaces-button">
+        <a href="https://app.eduplaces.de/app/hacktheweb/launch" class="eduplaces-button no-underline">
           <svg viewBox="0 0 115.28 81" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 5px;" aria-label="Eduplaces Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill="white" stroke="white" d="m115.28 33.48c-.51-7.52-10.05-10.35-22.19-11.13-6.38-14.04-20.97-23.36-37.27-22.26-16.24 1.1-29.4 12.21-33.88 26.9-12.62 2.36-22.45 6.47-21.92 14.29.52 7.75 10.69 11.1 23.4 12.32 3.79 8.9 10.98 15.97 19.88 19.76-.08.38-.12.78-.12 1.18 0 3.27 2.65 5.93 5.93 5.93 2.68 0 4.94-1.78 5.67-4.21 2.03.19 4.1.22 6.2.07 16.74-1.13 30.21-12.74 34.23-27.83 11.71-2.94 20.58-7.55 20.08-15s0 0 0 0zm-54.83 35.08c-11.69.79-22.29-5.12-28.04-14.45.98.03 1.97.04 2.97.05 8.15.08 16.44-.35 23.35-.82 7.32-.5 16.17-1.23 24.68-2.55.99-.15 1.97-.31 2.94-.48-4.41 10.09-14.15 17.45-25.91 18.24zm43.45-35.24c.16 2.41-2.8 4.29-7.46 5.79-2.22.71-4.84 1.33-7.68 1.88-9.28 1.78-21.05 2.75-29.94 3.35-8.89.6-20.68 1.23-30.12.71-2.89-.16-5.57-.42-7.86-.83-4.81-.85-8.01-2.32-8.17-4.73-.17-2.47 2.97-4.28 7.86-5.63-.14 1.25-.22 2.51-.23 3.79 1.93.69 4.57 1.14 7.61 1.43-.53-16.35 11.99-30.3 28.44-31.41s30.73 11.03 32.4 27.3c2.98-.69 5.53-1.49 7.35-2.44-.19-1.27-.44-2.51-.74-3.73 5.03.68 8.38 2.05 8.55 4.52z"></path>
             <path fill="white" stroke="white" d="m66.33 33.18c-.03-.13-.05-.27-.09-.4-.01-.04-.03-.08-.04-.11-.04-.13-.08-.26-.13-.39-.01-.03-.03-.05-.04-.08-.06-.14-.12-.27-.19-.4 0-.02-.02-.03-.03-.05-.08-.14-.16-.27-.24-.41 0 0-.01-.01-.02-.02-.09-.14-.19-.27-.3-.4-.22-.27-.47-.51-.74-.73-.25-.2-.52-.38-.8-.54-.14-.07-.28-.15-.43-.21-.01 0-.03-.01-.04-.02-.14-.06-.27-.11-.41-.16-.03-.01-.06-.02-.1-.03-.13-.04-.25-.08-.38-.11-.05-.01-.11-.02-.16-.03-.11-.02-.22-.04-.33-.06-.09-.01-.18-.02-.27-.02-.08 0-.16-.02-.25-.02-.18 0-.35 0-.53 0-.18.01-.36.03-.53.06-.08.01-.17.03-.25.05-.09.02-.17.03-.26.05-.11.03-.22.06-.32.1-.05.02-.11.03-.16.05-.13.04-.25.1-.37.15-.03.01-.06.02-.09.04-.13.06-.27.13-.39.21-.01 0-.03.01-.04.02-.14.08-.27.17-.4.26-.26.19-.51.4-.73.63-.24.25-.46.52-.65.82-.09.14-.17.28-.25.43 0 0 0 .02-.01.03-.07.14-.13.28-.19.43 0 .02-.02.04-.02.06-.05.14-.1.28-.14.42 0 .03-.02.06-.03.09-.03.13-.06.27-.09.4 0 .04-.02.08-.02.12-.02.13-.03.27-.04.4 0 .04-.01.09-.01.13v.54c.17 2.86 2.69 5.03 5.62 4.86s5.17-2.63 5-5.49c-.01-.18-.03-.36-.06-.54 0-.04-.02-.08-.03-.13z"></path>
@@ -401,7 +401,7 @@ export function getI18nExtension() {
             <p>This platform is suitable for students from 7th grade onwards. We recommend setting aside 30 - 90 minutes. Register with a username and password to get started.
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button">Register now</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button no-underline">Register now</a></p>
 
             <p>Connect with our community through our <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a></strong>. To try it out immediately, use the login credentials <code>demo</code> / <code>htw123</code>.</p>
           </div>
@@ -534,7 +534,7 @@ export function getI18nExtension() {
       <details style="margin-top: 16px">
         <summary>Login with SSO</summary>
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
-        <a href="/github-login" class="github-button">
+        <a href="/github-login" class="github-button no-underline">
           <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 
@@ -546,7 +546,7 @@ export function getI18nExtension() {
           </svg>
           <span>Login with GitHub</span>
         </a>
-        <a href="/discord-login" class="discord-button">
+        <a href="/discord-login" class="discord-button no-underline">
           <svg width="23px" height="23px" viewBox="0 -28.5 256 256" style="margin-right: 12px;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
               <g>
                   <path d="M216.856339,16.5966031 C200.285002,8.84328665 182.566144,3.2084988 164.041564,0 C161.766523,4.11318106 159.108624,9.64549908 157.276099,14.0464379 C137.583995,11.0849896 118.072967,11.0849896 98.7430163,14.0464379 C96.9108417,9.64549908 94.1925838,4.11318106 91.8971895,0 C73.3526068,3.2084988 55.6133949,8.86399117 39.0420583,16.6376612 C5.61752293,67.146514 -3.4433191,116.400813 1.08711069,164.955721 C23.2560196,181.510915 44.7403634,191.567697 65.8621325,198.148576 C71.0772151,190.971126 75.7283628,183.341335 79.7352139,175.300261 C72.104019,172.400575 64.7949724,168.822202 57.8887866,164.667963 C59.7209612,163.310589 61.5131304,161.891452 63.2445898,160.431257 C105.36741,180.133187 151.134928,180.133187 192.754523,160.431257 C194.506336,161.891452 196.298154,163.310589 198.110326,164.667963 C191.183787,168.842556 183.854737,172.420929 176.223542,175.320965 C180.230393,183.341335 184.861538,190.991831 190.096624,198.16893 C211.238746,191.588051 232.743023,181.531619 254.911949,164.955721 C260.227747,108.668201 245.831087,59.8662432 216.856339,16.5966031 Z M85.4738752,135.09489 C72.8290281,135.09489 62.4592217,123.290155 62.4592217,108.914901 C62.4592217,94.5396472 72.607595,82.7145587 85.4738752,82.7145587 C98.3405064,82.7145587 108.709962,94.5189427 108.488529,108.914901 C108.508531,123.290155 98.3405064,135.09489 85.4738752,135.09489 Z M170.525237,135.09489 C157.88039,135.09489 147.510584,123.290155 147.510584,108.914901 C147.510584,94.5396472 157.658606,82.7145587 170.525237,82.7145587 C183.391518,82.7145587 193.761324,94.5189427 193.539891,108.914901 C193.539891,123.290155 183.391518,135.09489 170.525237,135.09489 Z" fill="#5865F2" fill-rule="nonzero">

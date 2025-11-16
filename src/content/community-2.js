@@ -690,4 +690,151 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     },
     solution: secrets('chal_359').split(','),
   },
+
+  {
+    id: 360,
+    pos: { x: 2200, y: 800 },
+    title: { de: 'Tag 1', en: 'TODO' },
+    date: '2025-12-18',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2025-12-18 15:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#c30f16',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: 'TODO_TODO_TODO',
+  },
+
+  {
+    id: 361,
+    pos: { x: 2733, y: 1046 },
+    title: { de: 'Tag 2', en: 'TODO' },
+    date: '2025-12-19',
+    deps: [360],
+    noScore: true,
+    releaseTs: new Date('2025-12-19 15:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#c30f16',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: 'TODO_TODO_TODO',
+  },
+
+  {
+    id: 362,
+    pos: { x: 2547, y: 1274 },
+    title: { de: 'Tag 3', en: 'TODO' },
+    date: '2025-12-20',
+    deps: [360],
+    noScore: true,
+    releaseTs: new Date('2025-12-20 15:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#c30f16',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: 'TODO_TODO_TODO',
+  },
+
+  {
+    id: 363,
+    pos: { x: 2195, y: 1160 },
+    title: { de: 'Tag 4', en: 'TODO' },
+    date: '2025-12-21',
+    deps: [361],
+    noScore: true,
+    releaseTs: new Date('2025-12-21 15:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#c30f16',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: 'TODO_TODO_TODO',
+  },
+
+  {
+    id: 364,
+    pos: { x: 2516, y: 797 },
+    title: { de: 'Tag 5', en: 'TODO' },
+    date: '2025-12-22',
+    deps: [362],
+    noScore: true,
+    releaseTs: new Date('2025-12-22 15:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#c30f16',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: 'TODO_TODO_TODO',
+  },
+
+  {
+    id: 365,
+    pos: { x: 2343, y: 996 },
+    title: { de: 'Tag 6', en: 'TODO' },
+    date: '2025-12-23',
+    deps: [364, 360],
+    noScore: true,
+    releaseTs: new Date('2025-12-23 15:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#c30f16',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: 'TODO_TODO_TODO',
+  },
+
+  {
+    id: 366,
+    pos: { x: 2424, y: 903 },
+    title: { de: 'Frohe Feiertage!', en: 'TODO' },
+    date: '2025-12-24',
+    deps: [360, 363],
+    noScore: true,
+    releaseTs: new Date('2025-12-24 15:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#c30f16',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: 'TODO_TODO_TODO',
+  },
 ]

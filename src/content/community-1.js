@@ -71,7 +71,6 @@ export const communityChallenges = [
     solution: 'htw4ever',
     hidesubmit: true,
     renderMapHTML: () => {
-      console.log('test')
       return `
         <div style="position: absolute; top: 810px; left: 1900px; text-align: center;"><img draggable="false" src="/winter25.jpg" style="width: 120px; border-radius: 16px; margin-bottom: 8px;" /><br>Winter Daily Challenge<br>18 - 24 Dez • 15 Uhr<br><small style="color: gray">im Community-Bereich</small></div>
       `

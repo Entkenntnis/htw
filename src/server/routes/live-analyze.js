@@ -242,6 +242,42 @@ export function setupLiveAnalyze(App) {
       }
     })
 
+    // handle events like set-maincolor-#46a5ea separately with color preview
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & { key: string; color: string })[]}
+     */
+    const mainColorData = []
+    byKey.forEach((agg, key) => {
+      if (!key.startsWith('set-maincolor-')) return
+      const color = key.substring('set-maincolor-'.length)
+      mainColorData.push({ key, color, ...agg })
+      byKey.delete(key)
+    })
+
+    /** @param {string} c @returns {string} */
+    function sanitizeColor(c) {
+      // only allow hex colors like #rgb, #rgba, #rrggbb, #rrggbbaa
+      return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(
+        c
+      )
+        ? c
+        : 'transparent'
+    }
+
+    const mainColorLines = mainColorData
+      .sort((a, b) => b.total - a.total)
+      .map((r) => {
+        const users = r.users.size
+        const avg = users > 0 ? r.total / users : 0
+        const safeColor = sanitizeColor(r.color)
+        const swatch = `<span style="display:inline-block; width:14px; height:14px; border:1px solid #333; background:${safeColor}; vertical-align:middle; margin-right:8px; border-radius:2px;"></span>`
+        return `${swatch}<span class="mono">${escapeHTML(r.color)}</span>: ${r.total} Wahlen von ${users} Spielern (Ø ${avg.toLocaleString('de-DE', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })})`
+      })
+      .join('<br>')
+
     // Build a small HTML page
     // Prepare compact lines for wwwmData instead of a table
     const wwwmLines = wwwmData
@@ -423,6 +459,8 @@ export function setupLiveAnalyze(App) {
   <p>${wwwmLines}</p>
     <h2>Enough Pages</h2>
     <p>${enoughPageLines}</p>
+  <h2>Main Color</h2>
+  <p>${mainColorLines}</p>
   <h2>Comlink</h2>
   <p>${comlinkLines}</p>
   </body>

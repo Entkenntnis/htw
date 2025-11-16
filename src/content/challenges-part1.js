@@ -3251,11 +3251,28 @@ export const part1 = [
     title: { de: 'Verdächtig', en: 'Suspicious' },
     // date: '2022-02-24',
     deps: [18, 84],
-    render: ({ req }) => {
+    render: ({ App, req }) => {
       return {
         de: story(
           'Josh',
-          `
+          App.experiments.showTrial(79, req)
+            ? `
+              <p>Ein paar dieser E-Mail-Adressen sind gefälscht, aber es braucht ein gutes Auge, um sie zu erkennen:</p>
+
+              <pre><code>noreply@dhl.de
+info@telekom.de
+security@mail.instagrarn.com
+no-reply@amazon.de
+bahncard-service@bahn.de
+info@teIekom.de
+noreply@zalando.de
+noreply@web.de
+security@mail.instagram.com
+no-reply@amaz0n.de
+</code></pre>
+              <p>Deine Antwort sind die Anfangsbuchstaben der gefälschten Adressen, in der Reihenfolge wie oben.</p>
+            `
+            : `
           <p>Dein Bankkonto steht im Fokus. Du erhältst eine E-Mail von deiner Bank, in der von ungewöhnlichen Aktivitäten berichtet wird. Doch irgendetwas ist shady – der Absender scheint nicht ganz vertrauenswürdig zu sein.</p>
           
           <p>In der "Von:"-Zeile findest du die E-Mail-Adresse des Absenders. Deine Bank verwendet normalerweise die Domain <code>htw-bank.de</code>, aber in dieser Nachricht taucht eine andere Domain auf.</p>
@@ -3283,7 +3300,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     `,
       }
     },
-    solution: secrets('chal_79'),
+    solution: secrets('chal_79').split(','),
   },
 
   {

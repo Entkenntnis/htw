@@ -244,4 +244,12 @@ export const experimentDefs = [
     startTs: new Date('2025-11-17 00:01+0100').getTime(),
     endTs: new Date('2025-12-15 00:01+0100').getTime(),
   },
+  {
+    id: 18,
+    description:
+      'Verdächtig: Eine andere Version, mit Fokus auf dem Erkennen gefälschter E-Mail-Adressen.',
+    challenge: 79,
+    startTs: new Date('2025-11-17 01:01+0100').getTime(),
+    endTs: new Date('2025-12-15 01:01+0100').getTime(),
+  },
 ]

@@ -264,20 +264,51 @@ export function setupLiveAnalyze(App) {
         : 'transparent'
     }
 
-    const mainColorLines = mainColorData
-      .sort((a, b) => b.total - a.total)
-      .map((r) => {
-        const users = r.users.size
-        const avg = users > 0 ? r.total / users : 0
-        const safeColor = sanitizeColor(r.color)
-        const swatch = `<span style="display:inline-block; width:14px; height:14px; border:1px solid #333; background:${safeColor}; vertical-align:middle; margin-right:8px; border-radius:2px;"></span>`
-        return `${swatch}<span class="mono">${escapeHTML(r.color)}</span>: ${r.total} Wahlen von ${users} Spielern (Ø ${avg.toLocaleString(
-          'de-DE',
-          {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }
-        )})`
+    // Invert mainColorData to per-user color sets and fetch names
+    /** @type {Map<number, Set<string>>} */
+    const userColorMap = new Map()
+    for (const r of mainColorData) {
+      for (const uid of r.users) {
+        if (uid == null) continue
+        let set = userColorMap.get(uid)
+        if (!set) {
+          set = new Set()
+          userColorMap.set(uid, set)
+        }
+        set.add(r.color)
+      }
+    }
+
+    /** @type {Map<number,string>} */
+    const userNames = new Map()
+    if (userColorMap.size > 0) {
+      const userRows = await App.db.models.User.findAll({
+        where: { id: { [Op.in]: [...userColorMap.keys()] } },
+        attributes: ['id', 'name'],
+        raw: true,
+      })
+      for (const u of userRows) userNames.set(u.id, u.name)
+    }
+
+    const userColorLines = [...userColorMap.entries()]
+      .map(([uid, colors]) => ({
+        uid,
+        name: userNames.get(uid) || '(unbekannt)',
+        colors: [...colors],
+      }))
+      .sort(
+        (a, b) =>
+          b.colors.length - a.colors.length || a.name.localeCompare(b.name)
+      )
+      .map((u) => {
+        const colorSwatches = u.colors
+          .sort((a, b) => a.localeCompare(b))
+          .map((c) => {
+            const safeColor = sanitizeColor(c)
+            return `<span title="${escapeHTML(c)}" style="display:inline-block; width:14px; height:14px; border:1px solid #333; background:${safeColor}; vertical-align:middle; margin-right:4px; border-radius:2px;"></span>`
+          })
+          .join('')
+        return `<span class="mono">${escapeHTML(u.name)}</span>: ${u.colors.length} Farben ${colorSwatches}`
       })
       .join('<br>')
 
@@ -462,8 +493,8 @@ export function setupLiveAnalyze(App) {
   <p>${wwwmLines}</p>
     <h2>Enough Pages</h2>
     <p>${enoughPageLines}</p>
-  <h2>Main Color</h2>
-  <p>${mainColorLines}</p>
+  <h2>Main Color (Nutzer → Farben)</h2>
+  <p>${userColorLines}</p>
   <h2>Comlink</h2>
   <p>${comlinkLines}</p>
   </body>

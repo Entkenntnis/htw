@@ -4,6 +4,9 @@ body {
 a {
   color: var(--main-color);
 }
+a svg {
+  fill: var(--main-color);
+}
 a:hover {
   color: var(--main-color);
   filter: brightness(60%);

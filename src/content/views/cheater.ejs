@@ -162,7 +162,7 @@
   </button>
 
   <!-- MODIFIED: New button to show the source code -->
-  <button id="show-source-button" onclick="showSource()">
+  <button id="show-source-button" onclick="showSource_()">
     <%= locale == 'de' ? 'Quellcode anzeigen' : 'Show sourcecode' %>
   </button>
 
@@ -344,8 +344,9 @@ loader.reset().add(HOLZ).add(BALL).load(initGame)</textarea
     setTimeout(checkDone, 10)
   }
 
-  function showSource() {
+  function showSource_() {
     // We use 'flex' because that's what we used in the CSS to center it.
+    console.log('test')
     $('source-overlay').style.display = 'flex'
   }
 

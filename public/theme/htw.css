@@ -11,6 +11,10 @@ a:hover {
   color: var(--main-color);
   filter: brightness(60%);
 }
+::selection {
+  background: var(--main-color);
+  color: #222;
+}
 .text-reset,
 .no-underline {
   filter: none !important;

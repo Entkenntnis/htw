@@ -113,7 +113,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
      ${
        App.config.editors.includes(req.user.name)
          ? `
-            <a draggable="false" href="/wws-demo" style="position:absolute;left:1270px;top:240px;" class="text-reset text-decoration-none fade-in">
+            <a draggable="false" href="/wws-demo" style="position:absolute;left:1270px;top:240px;" class="">
             <div>WWS Demo</div>
             <!--<img draggable="false" src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;">-->
           </a>

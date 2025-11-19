@@ -208,7 +208,7 @@ export function setupMortalCoil(App) {
     })
   })
 
-  App.express.get('/mortal-coil/stats', async (req, res) => {
+  App.express.get_async_fix('/mortal-coil/stats', async (req, res) => {
     const cutoff = '2024-02-09'
 
     const allUsers = await App.db.models.KVPair.findAll({

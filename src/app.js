@@ -50,6 +50,7 @@ import { setupWWWM } from './server/routes/wwwm.js'
 import { withChat } from './server/lib/withChat.js'
 import { setupDiscordSSO } from './server/routes/discord-sso.js'
 import { withExperiments } from './server/lib/withExperiments.js'
+import { setupWwsDemo } from './content/wws-demo/wws-demo.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -105,6 +106,8 @@ setupWWWM(App)
 setupWormsBasic(App)
 setupWormsManagement(App)
 setupWormsArena(App)
+
+setupWwsDemo(App)
 
 setupEduplacesSSO(App)
 setupGithubSSO(App)

@@ -248,8 +248,12 @@ export function setupChallenges(App) {
           point.goHere ? 'id="go-here-after-loading-map"' : ''
         } r="16" cx="${point.pos.x}" cy="${
           point.pos.y
-        }" fill="transparent"></circle><text font-family="inherit" fill="${
-          point.withExperiment ? 'yellow' : App.config.styles.mapTextColor
+        }" fill="transparent"></circle><text font-family="inherit" ${
+          point.withExperiment
+            ? 'style="filter: drop-shadow(0px 0px 5px #fff987ff); text-decoration: underline;"'
+            : ''
+        } fill="${
+          App.config.styles.mapTextColor
         }" font-weight="${point.isSolved ? 'normal' : '600'}" x="${
           point.pos.x
         }" y="${point.pos.y - 17}" text-anchor="middle" ${!point.isSolved ? `style="filter: drop-shadow(0 0 5px rgba(255,255,255,0.3))"` : ''}>${escapeHTML(

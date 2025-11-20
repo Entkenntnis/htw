@@ -159,7 +159,7 @@ export function setupSurvey(App) {
                 entry.obj.good || '--'
               )} &nbsp;&nbsp;•&nbsp;&nbsp; ${escapeHtml(
                 entry.obj.improve || '--'
-              )}</p>`
+              )}${entry.obj['survey-trial'] == 1 ? ' <span style="margin-left: 24px; border: 1px solid lime">&nbsp;&nbsp;</span>' : ''}</p>`
             })
             .join('')}
           </div>

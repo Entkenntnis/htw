@@ -108,15 +108,13 @@
     const checkUsername = () => {
       const currentText = container.innerText || container.textContent
       // Updated regex to be language-agnostic
-      const match = currentText.match(
-        /\((username|Nutzername)\): \[\_*(.*?)\_*\]/
-      )
-      let enteredUsername = ''
+      const match = currentText.match(/\((username|Nutzername)\): \[(.*?)\]/)
+      let placeholder = ''
       if (match && match[2]) {
-        enteredUsername = match[2].trim()
+        placeholder = match[2].trim()
       }
 
-      if (correctUsername && enteredUsername === correctUsername) {
+      if (correctUsername && placeholder.includes(correctUsername)) {
         actionSection.style.display = 'inline'
       } else {
         actionSection.style.display = 'none'

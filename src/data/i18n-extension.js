@@ -275,7 +275,7 @@ export function getI18nExtension() {
           text-decoration: none !important;
           background-color: transparent;
           border-radius: 8px;
-          border: 3px solid #009771ff;
+          border: 3px solid var(--main-color);
           text-align: center;
           overflow: hidden; /* ensure pseudo-element doesn't spill out */
           z-index: 0; /* create stacking context for ::before */
@@ -292,7 +292,7 @@ export function getI18nExtension() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(150deg, #05dfa8ff, #007e5cff);
+          background: linear-gradient(150deg, rgba(var(--main-color-rgb), 0.95), rgba(var(--main-color-rgb), 0.65));
           opacity: 0;
           transition: opacity 0.5s ease;
           z-index: -1;
@@ -302,9 +302,8 @@ export function getI18nExtension() {
           opacity: 1;
         }
 
-        .register-button:focus-visible {
-          outline: 3px solid #c8f7e9; /* light teal outline */
-          outline-offset: 2px;
+        .register-button:hover {
+          border-color: rgba(var(--main-color-rgb), 0.9);
         }
       </style>
 
@@ -313,7 +312,7 @@ export function getI18nExtension() {
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button no-underline">
           <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
+            <path fill="white" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 
             1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 
             0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 
@@ -536,7 +535,7 @@ export function getI18nExtension() {
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button no-underline">
           <svg viewBox="0 0 16 16" width="24" height="24" style="vertical-align: middle; margin-right: 12px;" fill="white" aria-label="Github Logo" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
+            <path fill="white" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 
             1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 
             0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 

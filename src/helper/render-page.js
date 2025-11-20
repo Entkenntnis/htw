@@ -77,8 +77,10 @@ export async function renderPage(App, req, res, opts) {
   const outsideOfContainer = typeof opts == 'object' && opts.outsideOfContainer
 
   const mainColor = req.user
-    ? await App.storage.getItem(`maincolor-${req.user.id}`)
-    : null
+    ? ((await App.storage.getItem(`maincolor-${req.user.id}`)) ?? undefined)
+    : req.session.lastMainColor
+
+  req.session.lastMainColor = mainColor
 
   res.render('main', {
     locale,

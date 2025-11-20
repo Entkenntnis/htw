@@ -310,5 +310,27 @@
         container.addEventListener('mousemove', updatePanel);
         container.addEventListener('mouseenter', updatePanel);
         container.addEventListener('mouseleave', hidePanel);
+
+        // --- Click to set global theme color variables ---
+        function hexToRgb(hex) {
+            const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            if (!m) return { r: 119, g: 119, b: 119 }; // fallback
+            return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
+        }
+
+        function applyMainColor(color) {
+            const { r, g, b } = hexToRgb(color);
+            document.documentElement.style.setProperty('--main-color', color);
+            document.documentElement.style.setProperty('--main-color-rgb', r + ',' + g + ',' + b);
+        }
+
+        container.addEventListener('click', function (e) {
+            const rect = container.getBoundingClientRect();
+            const relX = clamp(e.clientX - rect.left, 0, rect.width);
+            const percent = (relX / rect.width) * 100;
+            const idx = segmentIndex(percent);
+            const color = segmentColors[idx] || '#777';
+            applyMainColor(color);
+        });
     })();
 </script>

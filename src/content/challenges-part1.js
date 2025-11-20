@@ -4038,7 +4038,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     pos: { x: 668, y: 480 },
     title: { de: '[Umfrage]', en: '[Survey]' },
     deps: [55, 69, 114],
-    render: ({ req }) => {
+    render: ({ App, req }) => {
       /**
        * @param {string} name
        */
@@ -4098,7 +4098,7 @@ To: ${req.user?.name}@arrrg.de</pre>
             width: 22px;
             height: 22px;
             cursor: pointer;
-            accent-color: #00bc8c;
+            accent-color: var(--main-color);
           }
           .likert li {
             text-align: center;
@@ -4110,7 +4110,7 @@ To: ${req.user?.name}@arrrg.de</pre>
           }
           .form-check input {
             cursor: pointer;
-            accent-color: #00bc8c;
+            accent-color: var(--main-color);
           }
           .form-check label {
             cursor: pointer;
@@ -4142,10 +4142,10 @@ To: ${req.user?.name}@arrrg.de</pre>
             <p style="margin-top:48px;">4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig.</p>
             ${buildHLikert('q4')}
 
-            <p style="margin-top:64px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 500 Zeichen)</p>
+            <p style="margin-top:64px;">${App.experiments.showTrial(118, req) ? 'Wie sieht Hacking nach deiner Vorstellung aus?' : 'Was hat dir an Hack The Web besonders gut gefallen und warum?'} (max. 500 Zeichen)</p>
             <textarea class="form-control" rows="3" maxlength="500" name="good" required></textarea>
 
-            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (max. 500 Zeichen)</p>
+            <p style="margin-top:32px;">${App.experiments.showTrial(118, req) ? 'Welche eine Sache würdest du gerne Hacken, um dein Leben besser zu machen?' : 'Was würdest du an Hack The Web verbessern oder anders machen?'} (max. 500 Zeichen)</p>
             <textarea class="form-control" rows="3" maxlength="500" name="improve" required></textarea>
 
             <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
@@ -4153,6 +4153,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
             <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Abschicken</button></p>
             
+            ${App.experiments.showTrial(118, req) ? '<input type="hidden" name="survey-trial" value="1">' : ''}
             <input type="hidden" name="answer" value="_">
           </form>
         </details>

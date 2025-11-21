@@ -186,6 +186,19 @@ export const experimentDefs = [
     challenge: 300,
     startTs: new Date('2025-11-07 01:00 GMT+0100').getTime(),
     endTs: new Date('2025-11-21 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/11.jpg',
+    trialImg: '/experiments/11.jpg',
+    results: {
+      numEvents: 12065,
+      nShowBase: 374,
+      nShowTrial: 352,
+      nVisitorsBase: 41,
+      nVisitorsTrial: 44,
+      nSolversBase: 26,
+      nSolversTrial: 27,
+    },
+    learning:
+      'Der Uplift von 14 Prozent wirkt viel, aber aufgrund der insgesamt kleinen Rate von ~12% ist das nicht signifikant und das wird durch den hohen p-Wert deutlich. Da muss ich echt aufpassen, nichts reinzuinterpretieren bei anderen Experimenten. Bin ich mit 12% zufrieden? Ich weiß es nicht. Es ist nicht viel, aber auch nicht so kritisch finde ich.',
   },
   {
     id: 12,

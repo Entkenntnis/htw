@@ -14,8 +14,6 @@ cd htw
 npm install
 ```
 
-Note: Depending on the system, installing `sqlite3` can be a bit tricky. If you see any `node-gyp` errors, see https://github.com/Entkenntnis/htw/issues/671
-
 Now all prerequisites are fulfilled. Start the dev server with `npm run dev` and have a local version of Hack The Web on `localhost:3000`. The code will automatically update on changes. Use `demo` / `htw123` to login or create a new user with the name `editor` to gain access to all admin features.
 
 ### Step 2: Enter answers

@@ -2935,7 +2935,7 @@ export const part1 = [
     title: { de: 'Gemälde', en: 'Painting' },
     // date: '2021-03-19',
     deps: [5, 15],
-    render: () => {
+    render: ({ App, req }) => {
       const asciiArt = `
         <pre style="line-height:1.2;font-family: Menlo, Monaco, 'Courier New', monospace; font-size:clamp(8px,1.2vw,14px);">                                  _______
                             _,,ad8888888888bba,_
@@ -3000,6 +3000,8 @@ export const part1 = [
           <p>Ich hatte nie die Geduld für Kunst. Aber diese Verbindung zwischen Kunst und Technik fasziniert mich. Verrückt, wie man mit einfachen Zeichen ein Bild erschaffen kann.</p>
   
           <p>Du hast das Motiv sicherlich schon erkannt. Der Name des Gemäldes ist deine Antwort.</p>
+
+          ${App.experiments.showTrial(68, req) ? '' : '<p style="display: none;" id="continue-button"></p>'}
           `,
           asciiArt
         ),

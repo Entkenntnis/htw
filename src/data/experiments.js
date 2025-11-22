@@ -286,4 +286,12 @@ export const experimentDefs = [
     startTs: new Date('2025-11-21 00:01+0100').getTime(),
     endTs: new Date('2025-12-26 00:01+0100').getTime(),
   },
+  {
+    id: 20,
+    description:
+      'Gemälde: Messung des Effekts von COMLINK, base ist OHNE und trial ist MIT, Effekt sollte minimal sein, da Aufgabe nicht so schwer',
+    challenge: 68,
+    startTs: new Date('2025-11-23 00:01+0100').getTime(),
+    endTs: new Date('2025-12-14 00:01+0100').getTime(),
+  },
 ]

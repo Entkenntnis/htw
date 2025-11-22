@@ -206,6 +206,19 @@ export const experimentDefs = [
     challenge: 24,
     startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
     endTs: new Date('2025-11-22 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/12_base.jpg',
+    trialImg: '/experiments/12_trial.jpg',
+    results: {
+      numEvents: 10752,
+      nShowBase: 459,
+      nShowTrial: 436,
+      nVisitorsBase: 339,
+      nVisitorsTrial: 332,
+      nSolversBase: 299,
+      nSolversTrial: 300,
+    },
+    learning:
+      'Kein Unterschied - wirklich GAR keiner. Hm, soll ich das Bild einbauen? Für die Konsistenz, ja, macht schon Sinn.',
   },
   {
     id: 13,

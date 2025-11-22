@@ -1146,32 +1146,14 @@ export const part1 = [
     id: 24,
     pos: { x: 140, y: 280 },
     title: { de: 'Nicht blinzeln', en: "Don't blink" },
-    // trialTitle: 'Trial für Nicht blinzeln',
     // date: '2017-08-25',
     deps: [1],
     render: ({ App, req }) => {
-      // console.log(App.experiments.showTrial(24, req))
-      if (App.experiments.showTrial(24, req)) {
-        return story(
+      return {
+        de: story(
           'Kiwi',
           `
-            <p id="poper" style="min-width: 60ch">Achtung, nicht blinzeln!
-            </p>
-            
-            <script>
-              setTimeout(function(){
-                document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets('chal_24').split(',')[0]}"
-                setTimeout(function(){
-                  document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
-                }, 300)
-              }, 1500)
-            </script>
-          `
-        )
-      }
-      return {
-        de: `
-        <p id="poper">Achtung, nicht blinzeln!
+        <p id="poper" style="min-width: calc(min(55ch,90vw))">Achtung, nicht blinzeln!
         </p>
         
         <script>
@@ -1182,9 +1164,12 @@ export const part1 = [
             }, 300)
           }, 1500)
         </script>
-      `,
-        en: `
-        <p id="poper">Don't blink!</p>
+      `
+        ),
+        en: story(
+          'Kiwi',
+          `
+        <p id="poper" style="min-width: calc(min(55ch,90vw))">Don't blink!</p>
         
         <script>
           setTimeout(function(){
@@ -1194,7 +1179,8 @@ export const part1 = [
             }, 300)
           }, 1500)
         </script>
-      `,
+      `
+        ),
       }
     },
     solution: secrets('chal_24').split(','),

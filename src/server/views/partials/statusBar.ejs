@@ -27,4 +27,4 @@
       setInterval(update,333)
     </script>
   <% } %>
-<% } %>] [<% if (!user.session_phase || user.session_phase == "DONE") { %><a href="/highscore?sort=new"><%= t('statusBar.highscore') %></a> | <% } %><a href="/profile"><%= t('statusBar.profile') %></a> | <a href="/logout"><%= t('statusBar.logout') %></a>]</p>
+<% } %>] [<% if (!user.session_phase || user.session_phase == "DONE") { %><a href="/highscore?sort=new" draggable="false"><%= t('statusBar.highscore') %></a> | <% } %><a href="/profile" draggable="false"><%= t('statusBar.profile') %></a> | <a href="/logout" draggable="false"><%= t('statusBar.logout') %></a>]</p>

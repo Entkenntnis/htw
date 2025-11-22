@@ -146,3 +146,7 @@ window.addEventListener('DOMContentLoaded', () => {
     mapEl.scrollIntoView({ block: 'center', inline: 'center' })
   }
 })
+
+function getLng() {
+  return document.documentElement.lang === 'en' ? 'en' : 'de'
+}

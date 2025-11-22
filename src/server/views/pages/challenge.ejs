@@ -88,7 +88,7 @@
     <% } else { %>
       <p><a href="/map" id="continue-button"><%= t('continue') %></a></p>
     <% } %>
-  <% } else { %><script>window.challenge_locale = "<%= locale %>";</script>
+  <% } else { %>
     <%- props.html %>
     <% if (!props.challenge.hidesubmit) { %>
       <form autocomplete="off" method="post" id="challenge_form" style="display: flex; align-items: center;">

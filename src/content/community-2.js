@@ -636,6 +636,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
         <p>Und da du jetzt ein bisschen mehr über Zeitzonen weißt, wird die Antwort erst angezeigt, wenn du dich in meiner Zeitzone befindest, also wir sehen uns bei 21°19'54.5"N 157°55'10.3"W.</p>
 
+        <script>window.challenge_locale = "de";</script>
         <script src="/chals/358.js"></script>
 
         <p style="margin-top: 32px;"><button onclick="checker()" class="btn btn-secondary">Check</button></p>
@@ -645,6 +646,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
         <p>And now that you know a bit more about time zones, the answer will only be shown when you're in my time zone — so I'll see you at 21°19'54.5"N 157°55'10.3"W.</p>
 
+        <script>window.challenge_locale = "en";</script>
         <script src="/chals/358.js"></script>
 
         <p style="margin-top: 32px;"><button onclick="checker()" class="btn btn-secondary">Check</button></p>

@@ -1773,7 +1773,7 @@ export const hintsData = {
         question:
           'Habe den Code mit https://jsfuck.com/ probiert zu lösen aber irgwendwie komme ich die ganze zeit nur auf undefinied raus. Wie komme ich auf eine Konsole?',
         answer:
-          'das ist ein Schritt zu weit, du braucht eher eine Webseite wie https://developer.mozilla.org/en-US/play',
+          'das ist ein Schritt zu weit, du brauchst eher eine Webseite wie https://developer.mozilla.org/en-US/play',
       },
       {
         question: 'Ich verstehe den Code immer noch nicht',

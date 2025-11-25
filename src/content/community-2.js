@@ -696,7 +696,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 360,
     pos: { x: 2200, y: 800 },
-    title: { de: 'Tag 1', en: 'TODO' },
+    title: { de: 'Tag 1', en: 'Day 1' },
     date: '2025-12-18',
     deps: [300],
     noScore: true,
@@ -704,15 +704,44 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     author: 'Anna',
     enableFeedback: true,
     color: '#c30f16',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render() {
+      const script = `
+        <script>
+            // Loop creates 10 flakes every 10ms (1000 flakes/second)
+            setInterval(() => {
+                for (let i = 0; i < 10; i++) {
+                    const s = document.createElement('div');
+                    s.innerText = '❄';
+                    // Randomly place anywhere on X and Y axes immediately
+                    s.style.cssText = \`position:fixed;top:\${Math.random()*106-3}vh;left:\${Math.random()*106-3}vw;
+                                      font-size:\${Math.random()*4.5}rem;pointer-events:none;color:white;
+                                      animation:d \${Math.random()*0.5+0.2}s linear\`;
+                    document.body.append(s);
+                }
+            }, 50);
+        </script>
+        <style>
+            body { position: relative; }
+            @keyframes d {from{transform:translateY(-100vh)}}
+        </style>
+      `
+      return {
+        de: `
+          ${script}
+          <p style="font-size: 84px;">Herzlich Willkommen zur ersten Winter Daily Challenge. Entgegen aller Erwartungen haben wir hier auf Hack The Web sehr viel Schnee ... fast schon zu viel Schnee. Damn, bei der Menge versinkt die Seite ja unter einer Schneedecke.</p>
+
+          <p style="font-size: 84px;">Ich fasse mich kurz. Du willst wahrscheinlich die Antwort wissen. Die Antwort für diese erste Challenge lautet Schneeflocke. Haha, sehr kreativ, findest du nicht? Anyways, viel Spaß und vielleicht sehen wir uns ja bei einer Schneeballschlacht. Aber ich hasse Schneeballschlachten, wurde schon zu oft eingeseift ...
+          </p>
+        `,
+        en: `
+          ${script}
+          <p style="font-size: 84px;">Welcome to the first Winter Daily Challenge. Contrary to all expectations we have a lot of snow here on Hack The Web ... almost too much snow. Damn, with this amount the site is sinking under a blanket of snow.</p>
+
+          <p style="font-size: 84px;">I'll keep it brief. You probably just want the answer. The answer for this first challenge is snowflake. Haha, very creative, don't you think? Anyway, have fun and maybe we'll meet in a snowball fight. But I hate snowball fights, I've been smothered in snow too many times...</p>
+        `,
+      }
     },
-    solution: 'TODO_TODO_TODO',
+    solution: secrets('chal_360').split(','),
   },
 
   {

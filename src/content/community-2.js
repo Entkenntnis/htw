@@ -828,7 +828,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 366,
     pos: { x: 2424, y: 903 },
-    title: { de: 'Frohe Feiertage!', en: 'TODO' },
+    title: { de: 'Frohe Feiertage!', en: 'Happy Holidays!' },
     date: '2025-12-24',
     deps: [360, 363],
     noScore: true,
@@ -838,12 +838,20 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     color: '#c30f16',
     html: {
       de: `
-        <p>TODO</p>
+        <p>Wie, du hast vergessen mir den Adventskalender zu schenken!?!?!</p>
+
+        <p>Und was soll es heißen, ich hätte die Türchen öffnen sollen bis heute??</p>
+
+        <p>Urgh, ok, dann fange ich mal an: <a href="/adventskalender/1" target="_blank">Tür 1</a></p>
       `,
       en: `
-        <p>TODO</p>
+        <p>Wait, you forgot to give me the Advent calendar!?!?!</p>
+
+        <p>And what is that supposed to mean, I should have opened the doors up until today??</p>
+
+        <p>Ugh, okay, then I'll start: <a href="/adventskalender/1" target="_blank">Door 1</a></p>
       `,
     },
-    solution: 'TODO_TODO_TODO',
+    solution: secrets('chal_366'),
   },
 ]

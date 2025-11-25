@@ -5,6 +5,7 @@ import { PNG } from 'pngjs'
 import escape from 'escape-html'
 import { jsQR } from '../external-wrapper/jsQR.js'
 import { setupDungeon } from './dungeon.js'
+import { renderPage } from '../helper/render-page.js'
 
 const storage = multer.memoryStorage()
 const upload = multer({
@@ -475,5 +476,32 @@ export function setupChallengesServer(App) {
     } catch (e) {
       res.status(200).send('Error: ' + /** @type { Error}*/ (e).message)
     }
+  })
+
+  App.express.get('/adventskalender/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    if (isNaN(id) || id < 1 || id > 24) {
+      return res.send(
+        req.lng === 'de' ? 'Ungültige Türnummer.' : 'Invalid door number.'
+      )
+    }
+    const secretLetter = secrets('chal_366_calendar_' + req.lng)[id - 1]
+    renderPage(App, req, res, {
+      page: 'advent-calendar-door',
+      content: `
+        <style>
+          .door-container{display:flex;justify-content:center;align-items:center;position:absolute;inset:0;background:#F0F8FF}
+          .door{width:300px;height:300px;border:10px solid #8B0000;background:#FF0000;color:#fff;font:bold 200px/300px 'Comic Sans MS',cursive,sans-serif;box-shadow:0 0 20px rgba(0,0,0,.5);border-radius:20px;position:relative;cursor:pointer;transition:.4s;transform-style:preserve-3d}
+          .door::after{content:'';position:absolute;top:20px;right:20px;width:30px;height:30px;background:#FFD700;border-radius:50%;box-shadow:0 0 10px rgba(0,0,0,.3)}
+          .door span{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;backface-visibility:hidden}
+          .door .secret{display:none}
+          .door.open{background:#fff;color:#8B0000;transform:rotateY(150deg)}
+          .door.open .secret{display:flex;transform:rotateY(180deg)}
+          .door.open .num{display:none}
+        </style>
+        <div class="door-container"><div class="door" id="door"><span class="num">${id}</span><span class="secret">${secretLetter}</span></div></div>
+        <script>(function(){var d=document.getElementById('door');if(!d)return;d.onclick=function(){if(d.classList.contains('open'))return;d.classList.add('open');};})();</script>
+      `,
+    })
   })
 }

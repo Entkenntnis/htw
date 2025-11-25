@@ -692,6 +692,12 @@ export function setupLiveAnalyze(App) {
         content += `<p style="background-color: darkred;">Bitte Ergebnis übertragen:<br><textarea style="width: 100%; height: 50px; margin-top: 12px;">${JSON.stringify(rs)}</textarea></p>`
       }
 
+      // Gate directional color by experiment runtime (require ≥ 6 full days)
+      const elapsedDays = Math.floor(
+        (Math.min(now, exp.endTs) - exp.startTs) / (24 * 60 * 60 * 1000)
+      )
+      const allowDirColor = elapsedDays >= 6
+
       /**
        * Render an A/B block with base/trial lines and change line.
        *
@@ -789,10 +795,10 @@ export function setupLiveAnalyze(App) {
             pTwoSidedStr = p2s < 0.0001 ? '< 0.0001' : p2s.toFixed(4)
           }
         }
-        // Style for uplift depending on p-value
+        // Style for uplift depending on p-value; only use directional color after ≥ 6 days
         let upliftColor = 'gray'
         let upliftWeight = 'normal'
-        if (pTwoSided != null) {
+        if (pTwoSided != null && allowDirColor) {
           if (pTwoSided <= 0.05) {
             upliftColor = dirColor
             upliftWeight = 'bold'

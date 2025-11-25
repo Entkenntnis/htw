@@ -766,26 +766,28 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
             padding-top: 200px;
             font-size: 48px;
             letter-spacing: 8px;
-            color: white;
-          }
-          #snow::selection {
-            background: #FAFFFF;
-            color: #FDFFFF;
+            color: #FAFFFF;
+            user-select: none;
           }
         </style>
+        <script>
+          setInterval(() => {
+            debugger;
+          }, 100)
+        </script>
       `
       return {
         de: `
           ${styles}
           <p>Der Sturm hat sich beruhigt und alles befindet sich unter einer sanften Decke aus Weiß.</p>
 
-          <p id="snow">Die Antwort lautet Aperlaaq.</p>
+          <p id="snow">Die Antwort lautet QXBlcmxhYXE=.</p>
         `,
         en: `
           ${styles}
           <p>The storm has calmed and everything lies under a gentle blanket of white.</p>
 
-          <p id="snow">The answer is Aperlaaq.</p>
+          <p id="snow">The answer is QXBlcmxhYXE=.</p>
         `,
       }
     },

@@ -747,7 +747,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 361,
     pos: { x: 2733, y: 1046 },
-    title: { de: 'Tag 2', en: 'TODO' },
+    title: { de: 'Tag 2', en: 'Day 2' },
     date: '2025-12-19',
     deps: [360],
     noScore: true,
@@ -797,7 +797,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 362,
     pos: { x: 2547, y: 1274 },
-    title: { de: 'Tag 3', en: 'TODO' },
+    title: { de: 'Tag 3', en: 'Day 3' },
     date: '2025-12-20',
     deps: [360],
     noScore: true,
@@ -805,15 +805,39 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     author: 'Anna',
     enableFeedback: true,
     color: '#c30f16',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render({ req }) {
+      return {
+        de: `
+          <link rel="stylesheet" href="/chals/chat/styles.css">
+
+          <script>
+            window.endpoint = "/chal/chal362/complete"
+            window.locale = "${req.lng}"
+          </script>
+
+          <p>Spiel mit mir eine Runde winterliches "Wer bin ich"! Errate, wer du bist. Stelle mir dazu fragen, die ich mit Ja oder Nein beantworte.</p>
+
+          <div id="chat" style="margin-top: 48px;"></div>
+          <p style="color: gray; margin-bottom: 32px;"><small>LLM-Modell: mistralai/mistral-small-3.2-24b-instruct</small></p>
+          <script src="/chals/chat/script.js" ></script>
+        `,
+        en: `
+          <link rel="stylesheet" href="/chals/chat/styles.css">
+
+          <script>
+            window.endpoint = "/chal/chal362/complete"
+            window.locale = "${req.lng}"
+          </script>
+
+          <p>Play a wintry round of "Who am I?" with me! Try to guess who you are. Ask me questions that I can answer with yes or no.</p>
+
+          <div id="chat" style="margin-top: 48px;"></div>
+          <p style="color: gray; margin-bottom: 32px;"><small>LLM model: mistralai/mistral-small-3.2-24b-instruct</small></p>
+          <script src="/chals/chat/script.js" ></script>
+        `,
+      }
     },
-    solution: 'TODO_TODO_TODO',
+    solution: secrets('chal_362').split(','),
   },
 
   {

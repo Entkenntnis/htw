@@ -294,4 +294,12 @@ export const experimentDefs = [
     startTs: new Date('2025-11-23 00:01+0100').getTime(),
     endTs: new Date('2025-12-14 00:01+0100').getTime(),
   },
+  {
+    id: 21,
+    description:
+      'Minecraft: A/A-Test, um nochmal die Stabilität und das Noise-Level zu überprüfen.',
+    challenge: 336,
+    startTs: new Date('2025-11-26 00:01+0100').getTime(),
+    endTs: new Date('2025-12-10 00:01+0100').getTime(),
+  },
 ]

@@ -817,6 +817,8 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
           <p>Spiel mit mir eine Runde winterliches "Wer bin ich"! Errate, wer du bist. Stelle mir dazu fragen, die ich mit Ja oder Nein beantworte.</p>
 
+          <p style="color: gray;">Hinweis: Ich bin etwas schusselig, nimm also meine Antworten nicht zu ernst und frag lieber mehrmals nach.</p>
+
           <div id="chat" style="margin-top: 48px;"></div>
           <p style="color: gray; margin-bottom: 32px;"><small>LLM-Modell: mistralai/mistral-small-3.2-24b-instruct</small></p>
           <script src="/chals/chat/script.js" ></script>
@@ -830,6 +832,8 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
           </script>
 
           <p>Play a wintry round of "Who am I?" with me! Try to guess who you are. Ask me questions that I can answer with yes or no.</p>
+
+          <p style="color: gray;">Hint: I'm a bit scatty, so don't take my answers too seriously and ask multiple times.</p>
 
           <div id="chat" style="margin-top: 48px;"></div>
           <p style="color: gray; margin-bottom: 32px;"><small>LLM model: mistralai/mistral-small-3.2-24b-instruct</small></p>

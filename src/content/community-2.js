@@ -696,7 +696,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 360,
     pos: { x: 2200, y: 800 },
-    title: { de: 'Tag 1', en: 'Day 1' },
+    title: { de: 'Tag 1 ❄️', en: 'Day 1 ❄️' },
     date: '2025-12-18',
     deps: [300],
     noScore: true,
@@ -747,7 +747,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 361,
     pos: { x: 2733, y: 1046 },
-    title: { de: 'Tag 2', en: 'Day 2' },
+    title: { de: 'Tag 2 🌫️', en: 'Day 2 🌫️' },
     date: '2025-12-19',
     deps: [360],
     noScore: true,
@@ -797,7 +797,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 362,
     pos: { x: 2547, y: 1274 },
-    title: { de: 'Tag 3', en: 'Day 3' },
+    title: { de: 'Tag 3 🧝‍♀️', en: 'Day 3 🧝‍♀️' },
     date: '2025-12-20',
     deps: [360],
     noScore: true,
@@ -847,7 +847,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 363,
     pos: { x: 2195, y: 1160 },
-    title: { de: 'Tag 4', en: 'Day 4' },
+    title: { de: 'Tag 4 🎁', en: 'Day 4 🎁' },
     date: '2025-12-21',
     deps: [361],
     noScore: true,
@@ -1032,7 +1032,7 @@ I'll give it to someone special
   {
     id: 366,
     pos: { x: 2424, y: 903 },
-    title: { de: 'Frohe Feiertage!', en: 'Happy Holidays!' },
+    title: { de: 'Frohe Feiertage! 🎁', en: 'Happy Holidays! 🎁' },
     date: '2025-12-24',
     deps: [360, 363],
     noScore: true,

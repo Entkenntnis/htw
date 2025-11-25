@@ -755,15 +755,41 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     author: 'Anna',
     enableFeedback: true,
     color: '#c30f16',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render() {
+      const styles = `
+        <style>
+          #snow {
+            width: 100%;
+            height: 500px;
+            background: white;
+            text-align: center;
+            padding-top: 200px;
+            font-size: 48px;
+            letter-spacing: 8px;
+            color: white;
+          }
+          #snow::selection {
+            background: #FAFFFF;
+            color: #FDFFFF;
+          }
+        </style>
+      `
+      return {
+        de: `
+          ${styles}
+          <p>Der Sturm hat sich beruhigt und alles befindet sich unter einer sanften Decke aus Weiß.</p>
+
+          <p id="snow">Die Antwort lautet Aperlaaq.</p>
+        `,
+        en: `
+          ${styles}
+          <p>The storm has calmed and everything lies under a gentle blanket of white.</p>
+
+          <p id="snow">The answer is Aperlaaq.</p>
+        `,
+      }
     },
-    solution: 'TODO_TODO_TODO',
+    solution: secrets('chal_361'),
   },
 
   {

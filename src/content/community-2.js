@@ -1010,7 +1010,7 @@ I'll give it to someone special
   {
     id: 365,
     pos: { x: 2343, y: 996 },
-    title: { de: 'Tag 6', en: 'TODO' },
+    title: { de: 'Tag 6 ✉️', en: 'Day 6 ✉️' },
     date: '2025-12-23',
     deps: [364, 360],
     noScore: true,
@@ -1020,13 +1020,21 @@ I'll give it to someone special
     color: '#c30f16',
     html: {
       de: `
-        <p>TODO</p>
+        <p>Um diese Aufgabe zu lösen, muss du letztes Jahr ganz artig gewesen sein. Wenn das auf dich zutrifft, dann schreibe an <code>santa@arrrg.de</code> eine Nachricht mit diesem Betreff:</p>
+        
+        <pre>Ich war artig</pre>
+
+        <p>Du bekommst dann eine Antwort mit der Lösung.</p>
       `,
       en: `
-        <p>TODO</p>
+        <p>To solve this challenge, you must have been well-behaved last year. If that applies to you, send a message to <code>santa@arrrg.de</code> with this subject:</p>
+        
+        <pre>I've been good</pre>
+
+        <p>You will then receive a reply with the solution.</p>
       `,
     },
-    solution: 'TODO_TODO_TODO',
+    solution: secrets('chal_365').split(','),
   },
 
   {

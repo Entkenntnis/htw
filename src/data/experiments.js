@@ -162,6 +162,19 @@ export const experimentDefs = [
     challenge: 84,
     startTs: new Date('2025-11-05 01:00 GMT+0100').getTime(),
     endTs: new Date('2025-11-26 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/8_base.jpg',
+    trialImg: '/experiments/8_trial.jpg',
+    results: {
+      numEvents: 6771,
+      nShowBase: 199,
+      nShowTrial: 209,
+      nVisitorsBase: 105,
+      nVisitorsTrial: 96,
+      nSolversBase: 91,
+      nSolversTrial: 60,
+    },
+    learning:
+      'Dieses Ergebnis überzeugt noch nicht. Ich sollte mich nochmal an das Drawing-Board setzen und die Idee verfeinern. Da lässt sich sicherlich noch etwas mehr rausholen aus dem Konzept. Weil an sich ist die Idee schon witzig.',
   },
   {
     id: 9,

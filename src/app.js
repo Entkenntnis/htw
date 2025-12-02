@@ -51,6 +51,7 @@ import { withChat } from './server/lib/withChat.js'
 import { setupDiscordSSO } from './server/routes/discord-sso.js'
 import { withExperiments } from './server/lib/withExperiments.js'
 import { setupWwsDemo } from './content/wws-demo/wws-demo.js'
+import { setupStoryline } from './content/storyline.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -102,6 +103,7 @@ setupMortalCoil(App)
 setupPleaseFixMe(App)
 setupEnough(App)
 setupWWWM(App)
+setupStoryline(App)
 
 setupWormsBasic(App)
 setupWormsManagement(App)

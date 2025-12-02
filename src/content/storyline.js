@@ -20,18 +20,39 @@ export function setupStoryline(App) {
       page: 'story',
       content: `
         <style>
-          .story-container {
+          .scene-container {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             background: #000;
+            text-align: center;
+            padding-top: 20vh;
           }
         </style>
-        <div class="story-container">TODO Story ${id}</div>
+        <div class="scene-container">
+          TODO Story ${id}<br><br>
+          <form action="/story/${id}/complete" method="post"><input type="submit" class="btn btn-primary btn-sm" value="Szene schließen"></form>
+        </div>
       `,
     })
+  })
+
+  App.express.post('/story/:id/complete', (req, res) => {
+    const id = req.params.id
+
+    // ups, this got a bit uglier than expected
+    const story =
+      STORIES[/** @type {keyof STORIES} */ (/** @type {unknown} */ (id))]
+
+    if (!req.user || !story) {
+      res.redirect('/')
+      return
+    }
+
+    // TODO: mark story as complete for user
+    res.redirect('/')
   })
 }
 

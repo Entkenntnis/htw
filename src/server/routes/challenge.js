@@ -125,6 +125,13 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+
+    if (req.session.nextStoryId) {
+      const nextStoryId = req.session.nextStoryId
+      delete req.session.nextStoryId
+      return res.redirect('/story/' + nextStoryId)
+    }
+
     App.event.create(req.lng == 'de' ? 'map_de' : 'map_en', req.user.id)
 
     const solvedDb = await App.db.models.Solution.findAll({
@@ -288,6 +295,13 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+
+    if (req.session.nextStoryId) {
+      const nextStoryId = req.session.nextStoryId
+      delete req.session.nextStoryId
+      res.redirect('/story/' + nextStoryId)
+      return
+    }
 
     const id = parseInt(req.params.id)
     const i18n = App.i18n.get(req.lng)
@@ -545,6 +559,13 @@ export function setupChallenges(App) {
 
       if (needRefresh.current) {
         await App.challengeStats.refreshData(id)
+      }
+    }
+
+    // handle storyline
+    if (correct) {
+      if (id == 1) {
+        req.session.nextStoryId = '1'
       }
     }
 

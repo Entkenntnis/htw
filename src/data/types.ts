@@ -309,6 +309,7 @@ interface SessionData {
   goHereOnMap?: number
   wws?: WwsSessionData
   lastMainColor?: string
+  nextStoryId?: string
 }
 
 export interface DungeonData {

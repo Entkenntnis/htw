@@ -182,7 +182,7 @@ export const experimentDefs = [
       'Einhorn: neue Iteration mit einer leicht vereinfachten Variante der Geometrie-Aufgabe',
     challenge: 23,
     startTs: new Date('2025-11-16 01:00 GMT+0100').getTime(),
-    endTs: new Date('2025-12-07 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-12-28 01:00 GMT+0100').getTime(),
   },
   {
     id: 10,
@@ -190,7 +190,7 @@ export const experimentDefs = [
       'Ankunft in Sirtach: sprachlich gekürzte Version der Geschichte',
     challenge: 57,
     startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
-    endTs: new Date('2025-12-06 01:00 GMT+0100').getTime(),
+    endTs: new Date('2025-12-20 01:00 GMT+0100').getTime(),
   },
   {
     id: 11,
@@ -289,7 +289,7 @@ export const experimentDefs = [
       'Verdächtig: Eine andere Version, mit Fokus auf dem Erkennen gefälschter E-Mail-Adressen.',
     challenge: 79,
     startTs: new Date('2025-11-17 01:01+0100').getTime(),
-    endTs: new Date('2025-12-15 01:01+0100').getTime(),
+    endTs: new Date('2025-12-22 01:01+0100').getTime(),
   },
   {
     id: 19,

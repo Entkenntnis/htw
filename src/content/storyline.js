@@ -63,17 +63,46 @@ export function setupStoryline(App) {
       page: 'logbook',
       heading: 'Reisebericht',
       content: `
-        <ul>
+        <div style="
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 12px;
+        ">
           ${Object.entries(STORIES)
             .map(
-              ([id, story]) => `
-            <li>
-              <a href="/story/${id}">${story.title}</a>
-            </li>
+              ([id, story], idx) => `
+            <a href="/story/${id}" style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              padding: 10px 12px;
+              border-radius: 8px;
+              text-decoration: none;
+              color: var(--main-color);
+              background: rgba(var(--main-color-rgb), 0.06);
+              border: 1px solid rgba(var(--main-color-rgb), 0.18);
+            ">
+              <span style="
+                display: inline-flex;
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+                background: rgba(var(--main-color-rgb), 0.15);
+                color: var(--main-color);
+                font-weight: 700;
+                align-items: center;
+                justify-content: center;
+              ">${idx + 1}</span>
+              <span style="
+                font-weight: 600;
+                letter-spacing: .2px;
+              ">${story.title}</span>
+            </a>
           `
             )
             .join('')}
-        </ul>
+        </div>
       `,
     })
   })

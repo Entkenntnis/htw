@@ -16,3 +16,4 @@ src/**/*.ejs
 !src/server/views/pages/music.ejs
 !src/content/views/cheater.ejs
 !src/content/views/booyah.ejs
+!src/content/story-scenes/*.ejs

@@ -1,4 +1,5 @@
 import { renderPage } from '../helper/render-page.js'
+import { renderTemplate } from '../helper/render-template.js'
 
 /**
  * @param {import("../data/types.js").App} App
@@ -27,13 +28,10 @@ export function setupStoryline(App) {
             right: 0;
             bottom: 0;
             background: #000;
-            text-align: center;
-            padding-top: 20vh;
           }
         </style>
         <div class="scene-container">
-          TODO Story ${id}<br><br>
-          <form action="/story/${id}/complete" method="post"><input type="submit" class="btn btn-primary btn-sm" value="Szene schließen"></form>
+          ${await renderTemplate(App, req, '../story-scenes/' + id)}
         </div>
       `,
     })

@@ -19,6 +19,7 @@ export function setupStoryline(App) {
 
     renderPage(App, req, res, {
       page: 'story',
+      title: story.title,
       content: `
         <style>
           .scene-container {
@@ -58,10 +59,33 @@ export function setupStoryline(App) {
       res.redirect('/')
       return
     }
-    renderPage(App, req, res, { page: 'logbook', content: 'TODO' })
+    renderPage(App, req, res, {
+      page: 'logbook',
+      heading: 'Reisebericht',
+      content: `
+        <ul>
+          ${Object.entries(STORIES)
+            .map(
+              ([id, story]) => `
+            <li>
+              <a href="/story/${id}">${story.title}</a>
+            </li>
+          `
+            )
+            .join('')}
+        </ul>
+      `,
+    })
   })
 }
 
 const STORIES = {
-  1: { content: 'TODO TEST' },
+  1: { title: 'Bex Vorstellung' },
+  2: { title: 'Josh Vorstellung' },
+  3: { title: 'Bex Plan' },
+  4: { title: 'Philosophie des Hackings' },
+  5: { title: 'Bei der Polizei' },
+  6: { title: 'Aussprache Kiwi Bex' },
+  7: { title: 'Ende der Reise in Sicht' },
+  8: { title: 'Epilog' },
 }

@@ -310,6 +310,7 @@ interface SessionData {
   wws?: WwsSessionData
   lastMainColor?: string
   nextStoryId?: string
+  returnToLogbook?: boolean
 }
 
 export interface DungeonData {

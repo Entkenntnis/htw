@@ -17,6 +17,10 @@ export function setupStoryline(App) {
       return
     }
 
+    if (req.query.logbook === '1') {
+      req.session.returnToLogbook = true
+    }
+
     renderPage(App, req, res, {
       page: 'story',
       title: story.title,
@@ -50,6 +54,12 @@ export function setupStoryline(App) {
       return
     }
 
+    if (req.session.returnToLogbook) {
+      delete req.session.returnToLogbook
+      res.redirect('/logbook')
+      return
+    }
+
     // TODO: mark story as complete for user
     res.redirect('/')
   })
@@ -63,16 +73,26 @@ export function setupStoryline(App) {
       page: 'logbook',
       heading: 'Reisebericht',
       content: `
+        <style>
+          .story-entry:hover {
+            filter: brightness(1.22);
+            transform: scale(1.01);
+          }
+          .story-entry {
+            transition: all 0.2s ease-in-out;
+          }
+        </style>
         <div style="
           display: flex;
           flex-direction: column;
           gap: 10px;
           padding: 12px;
+          margin-bottom: 100px;
         ">
           ${Object.entries(STORIES)
             .map(
               ([id, story], idx) => `
-            <a href="/story/${id}" style="
+            <a href="/story/${id}?logbook=1" class="story-entry" style="
               display: flex;
               align-items: center;
               gap: 10px;

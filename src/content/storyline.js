@@ -52,6 +52,14 @@ export function setupStoryline(App) {
     // TODO: mark story as complete for user
     res.redirect('/')
   })
+
+  App.express.get('/logbook', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+    renderPage(App, req, res, { page: 'logbook', content: 'TODO' })
+  })
 }
 
 const STORIES = {

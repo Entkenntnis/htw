@@ -131,7 +131,7 @@ export function setupStoryline(App) {
 const STORIES = {
   1: { title: 'Bex Vorstellung' },
   2: { title: 'Josh Vorstellung' },
-  3: { title: 'Bex Plan' },
+  3: { title: 'Selbstgespräch Bex' },
   4: { title: 'Philosophie des Hackings' },
   5: { title: 'Bei der Polizei' },
   6: { title: 'Aussprache Kiwi Bex' },

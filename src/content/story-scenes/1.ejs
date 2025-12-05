@@ -1,200 +1,36 @@
 <div style="padding-top: 20vh; text-align: center">
   <div
-    id="scene"
     style="
       max-width: 65ch;
       margin-left: auto;
       margin-right: auto;
       text-align: left;
-      position: relative;
-      cursor: default;
-      user-select: none;
-      /* space-themed dialog box */
-      background: linear-gradient(
-        180deg,
-        rgba(var(--main-color-rgb), 0.08) 0%,
-        rgba(0, 0, 0, 0.25) 100%
-      );
-      border: 1px solid rgba(var(--main-color-rgb), 0.35);
-      box-shadow:
-        0 6px 28px rgba(var(--main-color-rgb), 0.2),
-        inset 0 0 24px rgba(255, 255, 255, 0.03);
-      border-radius: 12px;
-      padding: 24px 20px;
-      backdrop-filter: blur(3px);
     "
-    title="Tippen/Klicken um fortzufahren"
   >
-    <p style="text-align: right">
-      <img src="/story/bex.png" style="margin-bottom: 24px" alt="Bex" />
+    <p>Hallo, mein Name ist Bex.</p>
+
+    <p>
+      Du bist also die Person, die zusammen mit uns nach Sirtach reist? Kiwi hat
+      dir schon vom Hacking erzählt? Oh man. Ich bereue es fast, ihr davon
+      erzählt zu haben.
     </p>
 
-    <div id="text" style="min-height: 8rem; white-space: pre-wrap"></div>
-    <div
-      id="prompt"
-      style="
-        opacity: 0;
-        font-size: 0.95rem;
-        margin-top: 12px;
-        color: var(--main-color);
-        letter-spacing: 0.02em;
-        display: inline-block;
-        transform: translateY(2px);
-        visibility: hidden;
-      "
-    >
-      Tippe/Klicke um fortzufahren ▸
-    </div>
+    <p>
+      Weißt du, ich bin von der Erde. Komplizierte Geschichte, vor einem halben
+      Jahr bin ich hier in Naxion gelandet. Schrecklicher Ort. Sirtach kann nur
+      besser werden. Ich hoffe auf eine bessere Zukunft.
+    </p>
+
+    <p>
+      Naja, hast du Spaß mit Hacking? Kiwi ist ja nicht zu bremsen ... und es
+      ist eine schöne Art, ein bisschen mit der Erde in Kontakt zu kommen.
+    </p>
   </div>
-  <form action="/story/1/complete" method="post" style="margin-top: 16px">
+  <form action="/story/1/complete" method="post">
     <input
-      id="completeBtn"
       type="submit"
       class="btn btn-primary btn-sm"
-      value="Weiter"
-      disabled
-      style="
-        visibility: hidden;
-        background: var(--main-color);
-        border-color: rgba(var(--main-color-rgb), 0.8);
-        color: #000;
-        box-shadow: 0 6px 18px rgba(var(--main-color-rgb), 0.35);
-        border-radius: 999px;
-        padding: 6px 16px;
-        transition:
-          transform 120ms ease,
-          box-shadow 120ms ease,
-          opacity 160ms ease;
-      "
+      value="Szene schließen"
     />
   </form>
 </div>
-
-<script>
-  ;(function () {
-    const paragraphs = [
-      'Hallo, mein Name ist Bex.',
-      'Du bist also die Person, die zusammen mit uns nach Sirtach reist? Kiwi hat dir schon vom Hacking erzählt? Oh man. Ich bereue es fast, ihr davon erzählt zu haben.',
-      'Weißt du, ich bin von der Erde. Komplizierte Geschichte, vor einem halben Jahr bin ich hier in Naxion gelandet. Schrecklicher Ort. Sirtach kann nur besser werden. Ich hoffe auf eine bessere Zukunft.',
-      'Naja, hast du Spaß mit Hacking? Kiwi ist ja nicht zu bremsen ... und es ist eine schöne Art, ein bisschen mit der Erde in Kontakt zu kommen.',
-    ]
-
-    const scene = document.getElementById('scene')
-    const textEl = document.getElementById('text')
-    const promptEl = document.getElementById('prompt')
-    const completeBtn = document.getElementById('completeBtn')
-
-    let idx = 0
-    let typing = false
-    let cancelTyping = false
-    const speed = 28 // ms per character
-    const promptDelay = 350 // ms delay before showing continue prompt
-
-    function typeText(fullText) {
-      typing = true
-      cancelTyping = false
-      textEl.textContent = ''
-      // Ensure prompt is fully hidden and animation stopped while typing
-      promptEl.style.opacity = 0
-      promptEl.style.visibility = 'hidden'
-      promptEl.style.animation = 'none'
-      // While typing, the scene is not actionable
-      scene.style.cursor = 'default'
-
-      let i = 0
-      function step() {
-        // While typing, do not allow skipping; clicks are ignored
-        if (i < fullText.length) {
-          textEl.textContent += fullText[i]
-          i++
-          setTimeout(step, speed)
-        } else {
-          typing = false
-          // Only show prompt if there is a next action (i.e., more paragraphs)
-          const hasNext = idx < paragraphs.length
-          if (hasNext) {
-            setTimeout(() => {
-              promptEl.style.visibility = 'visible'
-              promptEl.style.opacity = 0.85
-              promptEl.style.animation = 'promptPulse 1.6s ease-in-out infinite'
-              scene.style.cursor = 'pointer'
-            }, promptDelay)
-          } else {
-            promptEl.style.opacity = 0
-            promptEl.style.visibility = 'hidden'
-            promptEl.style.animation = 'none'
-            scene.style.cursor = 'default'
-          }
-        }
-      }
-      step()
-    }
-
-    function showNext() {
-      if (typing) {
-        // ignore input while typing to prevent skipping
-        return
-      }
-      if (idx < paragraphs.length) {
-        typeText(paragraphs[idx])
-        idx++
-        if (idx === paragraphs.length) {
-          // Last one currently being shown; enable submit after a short delay
-          const enable = () => {
-            completeBtn.disabled = false
-            completeBtn.style.visibility = 'visible'
-          }
-          const interval = setInterval(() => {
-            if (!typing) {
-              setTimeout(enable, 400)
-              clearInterval(interval)
-            }
-          }, 60)
-          // Hide prompt when there is no further click action
-          promptEl.style.opacity = 0
-          promptEl.style.visibility = 'hidden'
-          promptEl.style.animation = 'none'
-          scene.style.cursor = 'default'
-        }
-      } else {
-        // Already finished: clicking submits (optional UX)
-        completeBtn.focus()
-      }
-    }
-
-    // Initial render
-    showNext()
-
-    // Click/tap/keyboard to advance
-    scene.addEventListener('click', showNext)
-    scene.addEventListener('touchstart', showNext, { passive: true })
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') showNext()
-    })
-
-    // subtle hover/press effects for the button when visible
-    completeBtn.addEventListener('mouseover', () => {
-      completeBtn.style.boxShadow = `0 8px 22px rgba(${getComputedStyle(document.documentElement).getPropertyValue('--main-color-rgb')}, 0.5)`
-      completeBtn.style.transform = 'translateY(-1px)'
-    })
-    completeBtn.addEventListener('mouseout', () => {
-      completeBtn.style.boxShadow = `0 6px 18px rgba(${getComputedStyle(document.documentElement).getPropertyValue('--main-color-rgb')}, 0.35)`
-      completeBtn.style.transform = 'translateY(0)'
-    })
-    completeBtn.addEventListener('mousedown', () => {
-      completeBtn.style.transform = 'translateY(0) scale(0.98)'
-    })
-    completeBtn.addEventListener('mouseup', () => {
-      completeBtn.style.transform = 'translateY(-1px)'
-    })
-
-    // simple keyframes for prompt pulse
-    const style = document.createElement('style')
-    style.textContent = `@keyframes promptPulse {
-      0% { opacity: 0.45; transform: translateY(2px); }
-      50% { opacity: 0.95; transform: translateY(0); }
-      100% { opacity: 0.45; transform: translateY(2px); }
-    }`
-    document.head.appendChild(style)
-  })()
-</script>

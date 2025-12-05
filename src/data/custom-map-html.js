@@ -49,7 +49,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
     ${
       showWorms
         ? `
-          <a draggable="false" href="/worms" style="position:absolute;left:1280px;top:120px;" class="text-reset text-decoration-none fade-in">
+          <a draggable="false" href="/worms" style="position:absolute;left:1350px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>Worms</div>
             <img draggable="false" src="/worms.png" style="width:46px">
           </a>
@@ -57,7 +57,14 @@ export async function customMapHtmlCreator({ App, req, solved }) {
           <a draggable="false" href="/music" target="_blank" style="position:absolute;left:158px;top:1160px;" class="text-reset text-decoration-none fade-in">
             <div>Musik</div>
             <img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;">
-          </a>`
+          </a>
+          
+          <a draggable="false" href="/logbook" style="position:absolute;left:1188px;top:120px;" class="text-reset text-decoration-none fade-in">
+            <div>Reisebericht</div>
+            <img draggable="false" src="/story/book.png" style="width:40px;margin-left:21px; margin-top: 3px; border-radius: 6px;">
+          </a>
+          
+          `
         : ''
     }
      ${
@@ -82,7 +89,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
      ${
        showPleaseFixMeAndMortalCoil
          ? `
-          <a draggable="false" href="/mortal-coil" style="position:absolute;left:1743px;top:116px;" class="text-reset text-decoration-none fade-in">
+          <a draggable="false" href="/mortal-coil" style="position:absolute;left:1703px;top:116px;" class="text-reset text-decoration-none fade-in">
             <div>Mortal Coil</div>
             <img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;">
             ${
@@ -94,7 +101,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
             }
           </a>
           
-          <a draggable="false" href="/please-fix-me" style="position:absolute;left:1950px;top:120px;" class="text-reset text-decoration-none fade-in">
+          <a draggable="false" href="/please-fix-me" style="position:absolute;left:1870px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>Please Fix Me!</div>
             <img draggable="false" src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;">
           </a>`

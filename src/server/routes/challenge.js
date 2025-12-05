@@ -125,6 +125,13 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+
+    if (req.session.nextStoryId) {
+      const nextStoryId = req.session.nextStoryId
+      delete req.session.nextStoryId
+      return res.redirect('/story/' + nextStoryId)
+    }
+
     App.event.create(req.lng == 'de' ? 'map_de' : 'map_en', req.user.id)
 
     const solvedDb = await App.db.models.Solution.findAll({
@@ -288,6 +295,13 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+
+    if (req.session.nextStoryId) {
+      const nextStoryId = req.session.nextStoryId
+      delete req.session.nextStoryId
+      res.redirect('/story/' + nextStoryId)
+      return
+    }
 
     const id = parseInt(req.params.id)
     const i18n = App.i18n.get(req.lng)
@@ -548,7 +562,14 @@ export function setupChallenges(App) {
       }
     }
 
-    const { solvedBy, solvedByLast30Days, lastSolved, lastSolvedUserName } =
+    // handle storyline
+    if (correct) {
+      if (id == 1) {
+        req.session.nextStoryId = '1'
+      }
+    }
+
+    const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)
 
     let html = challenge.render
@@ -575,24 +596,24 @@ export function setupChallenges(App) {
 
     let ratio = ''
 
-    const solvedPerDay = solvedByLast30Days / 30
+    const solvedPerDay = solvedByLast4Weeks / 28
     const solvedPerWeek = solvedPerDay * 7
 
-    if (solvedByLast30Days > 30 * 2) {
+    if (solvedByLast4Weeks > 28 * 2) {
       ratio =
         req.lng == 'de'
           ? `${Math.round(solvedPerDay)} mal pro Tag gelöst`
           : `solved ${Math.round(solvedPerDay)} times a day`
-    } else if (solvedByLast30Days > 2 * 4) {
+    } else if (solvedByLast4Weeks > 2 * 4) {
       ratio =
         req.lng == 'de'
           ? `${Math.round(solvedPerWeek)} mal pro Woche gelöst`
           : `solved ${Math.round(solvedPerWeek)} times a week`
-    } else if (solvedByLast30Days > 0) {
+    } else if (solvedByLast4Weeks > 0) {
       ratio =
         req.lng == 'de'
-          ? `${solvedByLast30Days} mal im Monat gelöst`
-          : `solved ${solvedByLast30Days} times a month`
+          ? `${solvedByLast4Weeks} mal im Monat gelöst`
+          : `solved ${solvedByLast4Weeks} times a month`
     } else {
       ratio =
         req.lng == 'de'

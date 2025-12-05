@@ -144,7 +144,7 @@ export interface HtwChallenge {
 
 export interface ChallengeStatsData {
   solvedBy: number
-  solvedByLast30Days: number
+  solvedByLast4Weeks: number
   lastSolved: string | Date | null
   lastSolvedUserName: string | null
 }
@@ -309,6 +309,8 @@ interface SessionData {
   goHereOnMap?: number
   wws?: WwsSessionData
   lastMainColor?: string
+  nextStoryId?: string
+  returnToLogbook?: boolean
 }
 
 export interface DungeonData {

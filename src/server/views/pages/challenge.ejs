@@ -23,6 +23,7 @@
   <div style="height:16px"></div>
 
   <% if (props.answer) { %>
+    <script>window.history.replaceState(null, null, window.location.href)</script>
     <p class="text-<%= props.correct === true ? App.config.styles.solutionClass_correct : App.config.styles.solutionClass_wrong %>">
       <% if (props.correct === 'none') { %>
         <strong><%= props.answer %></strong>

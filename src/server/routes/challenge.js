@@ -569,7 +569,7 @@ export function setupChallenges(App) {
       }
     }
 
-    const { solvedBy, solvedByLast30Days, lastSolved, lastSolvedUserName } =
+    const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)
 
     let html = challenge.render
@@ -596,24 +596,24 @@ export function setupChallenges(App) {
 
     let ratio = ''
 
-    const solvedPerDay = solvedByLast30Days / 30
+    const solvedPerDay = solvedByLast4Weeks / 28
     const solvedPerWeek = solvedPerDay * 7
 
-    if (solvedByLast30Days > 30 * 2) {
+    if (solvedByLast4Weeks > 28 * 2) {
       ratio =
         req.lng == 'de'
           ? `${Math.round(solvedPerDay)} mal pro Tag gelöst`
           : `solved ${Math.round(solvedPerDay)} times a day`
-    } else if (solvedByLast30Days > 2 * 4) {
+    } else if (solvedByLast4Weeks > 2 * 4) {
       ratio =
         req.lng == 'de'
           ? `${Math.round(solvedPerWeek)} mal pro Woche gelöst`
           : `solved ${Math.round(solvedPerWeek)} times a week`
-    } else if (solvedByLast30Days > 0) {
+    } else if (solvedByLast4Weeks > 0) {
       ratio =
         req.lng == 'de'
-          ? `${solvedByLast30Days} mal im Monat gelöst`
-          : `solved ${solvedByLast30Days} times a month`
+          ? `${solvedByLast4Weeks} mal im Monat gelöst`
+          : `solved ${solvedByLast4Weeks} times a month`
     } else {
       ratio =
         req.lng == 'de'

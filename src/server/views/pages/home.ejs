@@ -285,7 +285,7 @@
             const segmentCenterX = rect.left + (midPercent / 100) * rect.width;
 
             // Place the panel directly below the stripe, centered on the active segment
-            const width = panel.offsetWidth || 440;
+            const width = 440;
             const desiredLeft = segmentCenterX - width / 2;
             const maxLeft = window.innerWidth - 12 - width;
             const left = clamp(desiredLeft, 12, maxLeft);

@@ -113,13 +113,13 @@ export const part1 = [
           `
           <p>Hejo <strong>${req.user?.name}</strong>,</p>
 
-          <p>das ist also unsere 4er-Kajüte. Ganz schön winzig, hehe. Genauso eng wie Naxion. Dieser blöde Planet ist zwar meine Heimat, aber damn, bin ich froh, da wegzukommen.</p>
+          <p>sehr cool, dass du dich fürs Hacken interessierst und mit uns reist! Das ist also unsere Kajüte. Ganz schön winzig, uff. Genauso eng wie Naxion. Dieser blöde Planet ist zwar meine Heimat, aber damn, bin ich froh, da wegzukommen.</p>
+          
+          <img src="/story/bunks.jpg" style="width:300px; margin-bottom: 24px; margin-top: 12px; border-radius: 16px; filter: drop-shadow(0 4px 8px rgba(255, 255, 255, 0.2));" alt="4er-Kajüte">
 
-          <p>Cool, dass du dich für das Hacken interessierst! Das bringe ich dir gerne bei. Ich hab mir schon ganz viele Aufgaben überlegt, die ich dir zeigen möchte! Du wirst sehen, die zwei Monate auf diesem Raumschiff werden wie <span title="Wortwitz! Cringe!">im Flug vergehen</span>.</p>
+          <p>In den zwei Monaten auf diesem Raumschiff kann ich dir einige Tricks beibringen. Wobei du Hacken am Besten lernst, wenn du es selber machst. Dafür habe ich dir ganz viele Aufgaben vorbereitet! Suche bei jeder Aufgabe nach einer Antwort, die du unten ins Eingabefeld tippst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich ist.</p>
 
-          <p>Der Ablauf ist simpel: Du erhältst kleine Aufgaben, die du durch Finden der Antwort oder Interaktion mit der Webseite löst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich erscheint. Ich komme da manchmal auf die verrücktesten Ideen.</p>
-
-          <p>Deine erste Aufgabe zum Kennenlernen: Die Antwort ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>. Diese Zahl ist bei den Bewohnern der Erde auch als &quot;die Antwort auf Alles&quot; bekannt 🤭</p>
+          <p>Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>. Diese Zahl ist bei den Erdlingen auch als &quot;die Antwort auf Alles&quot; bekannt 🤭</p>
 
           <p>Hm, wo bleiben Bex und Josh mit dem Gepäck? Ich schaue lieber mal nach. Falls du Hilfe brauchst, ping mich jederzeit über das COM-LINK unten rechts.</p>
           
@@ -151,12 +151,12 @@ export const part1 = [
       }
     },
     solution: secrets('chal_1'),
-    renderAfterSolveText: () => {
-      return {
-        de: '<p>Die Antwort auf die große Frage nach dem Leben, dem Universum und allem lautet ... 42!</p><p style="margin-left: 48px;">- <i>ein Bewohner des Planeten &quot;Erde&quot;</i></p>',
-        en: '<p>The answer to the ultimate question of life, the universe, and everything is ... 42!</p>',
-      }
-    },
+    // renderAfterSolveText: () => {
+    //   return {
+    //     de: '<p>Die Antwort auf die große Frage nach dem Leben, dem Universum und allem lautet ... 42!</p><p style="margin-left: 48px;">- <i>ein Bewohner des Planeten &quot;Erde&quot;</i></p>',
+    //     en: '<p>The answer to the ultimate question of life, the universe, and everything is ... 42!</p>',
+    //   }
+    // },
   },
 
   {

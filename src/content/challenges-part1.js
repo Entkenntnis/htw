@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { secrets } from '../helper/secrets-loader.js'
 import { renderTemplate } from '../helper/render-template.js'
+import escapeHTML from 'escape-html'
 
 /**
  * @param {string} s
@@ -111,7 +112,7 @@ export const part1 = [
         de: story(
           'Kiwi',
           `
-          <p>Hejo <strong>${req.user?.name}</strong>,</p>
+          <p>Hejo <strong>${escapeHTML(req.user?.name)}</strong>,</p>
 
           <p>schön dich an Bord zu haben! Ich dachte fast, du verlässt unsere Heimat Naxion nie. Sirtach und ihre Wunder werden dir die Augen öffnen. Ich hoffe nur, dass wir bis dahin auf der zweimonatigen Reise durch den Weltraum nicht sterben - vor LAAAANGEWEILE.</p>
 
@@ -132,7 +133,7 @@ export const part1 = [
         en: story(
           'Kiwi',
           `
-            <p>Hey <strong>${req.user?.name}</strong>,</p>
+            <p>Hey <strong>${escapeHTML(req.user?.name)}</strong>,</p>
   
             <p>Great to have you on board! I almost thought you’d never leave our homeland, Naxion. Sirtach and its wonders will open your eyes. I only hope that during our two-month journey through space, we won’t die… of boredom.</p>
   

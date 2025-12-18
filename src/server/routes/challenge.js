@@ -480,16 +480,15 @@ export function setupChallenges(App) {
             // isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
           },
           async (t) => {
-            const [, created] = await App.db.models.Solution.findOrCreate({
-              where: { cid: id, UserId },
-              transaction: t,
-            })
+            const [solution, created] =
+              await App.db.models.Solution.findOrCreate({
+                where: { cid: id, UserId },
+                transaction: t,
+              })
 
             if (created) {
               needRefresh.current = true
-            }
 
-            if (created && !challenge.noScore) {
               const user = await App.db.models.User.findOne({
                 where: { id: UserId },
                 transaction: t,
@@ -522,10 +521,21 @@ export function setupChallenges(App) {
                   user.score += 10
                   user.score += App.challenges.distance[id]
                 }
-                await user.save({ transaction: t })
+                user.last_challenge_solved_ts = new Date(solution.createdAt)
+
+                if (App.challenges.dataMap[id].noScore) {
+                  user.community += 1
+                  await user.save({ transaction: t, silent: true })
+                } else {
+                  await user.save({ transaction: t })
+                }
 
                 if (req.user) {
                   req.user.score = user.score
+                  req.user.last_challenge_solved_ts =
+                    user.last_challenge_solved_ts
+                  req.user.community = user.community
+                  req.user.updatedAt = user.updatedAt
                 }
               }
 

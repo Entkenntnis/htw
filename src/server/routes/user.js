@@ -359,7 +359,14 @@ export function setupUser(App) {
     }
 
     const { count, rows: dbUsers } = await App.db.models.User.findAndCountAll({
-      attributes: ['name', 'score', 'updatedAt', 'createdAt'],
+      attributes: [
+        'name',
+        'score',
+        'updatedAt',
+        'createdAt',
+        'community',
+        'last_challenge_solved_ts',
+      ],
       where:
         sort == 'month'
           ? {
@@ -371,10 +378,11 @@ export function setupUser(App) {
           : { score: { [Op.gt]: 0 } },
       order:
         sort == 'new'
-          ? [['updatedAt', 'DESC']]
+          ? [['last_challenge_solved_ts', 'DESC']]
           : [
               ['score', 'DESC'],
-              ['updatedAt', 'DESC'],
+              ['community', 'DESC'],
+              ['last_challenge_solved_ts', 'DESC'],
             ],
       limit: pageSize,
       offset,
@@ -395,7 +403,14 @@ export function setupUser(App) {
       })
       rankOffset = betterThanMe + 1
     }
-    const users = processHighscore(dbUsers, sort, req.lng, offset, rankOffset)
+    const users = processHighscore(
+      dbUsers,
+      sort,
+      req.lng,
+      offset,
+      rankOffset,
+      sort == 'new' /* show last activity is in community */
+    )
 
     let pagination = undefined
     if (!sort) {
@@ -476,21 +491,37 @@ export function setupUser(App) {
    * @param {'de' | 'en'} lng
    * @param {number} offset
    * @param {number | undefined} rankOffset
+   * @param {boolean} showLastActivityInCommunity
    */
   function processHighscore(
     dbUsers,
     sort,
     lng,
     offset = 0,
-    rankOffset = undefined
+    rankOffset = undefined,
+    showLastActivityInCommunity = false
   ) {
     const users = dbUsers.map((user) => {
+      const lastActivityInCommunity =
+        user.last_challenge_solved_ts != null &&
+        new Date(user.last_challenge_solved_ts).getTime() >
+          new Date(user.updatedAt).getTime() + 10 * 1000
       return {
         name: user.name,
         score: Math.floor(user.score),
-        lastActive: App.moment(user.updatedAt).locale(lng).fromNow(),
+        lastActive: App.moment(
+          lastActivityInCommunity
+            ? user.last_challenge_solved_ts
+            : user.updatedAt
+        )
+          .locale(lng)
+          .fromNow(),
         age: App.moment(user.createdAt).locale(lng).fromNow(),
         rank: 0,
+        community: user.community || 0,
+        lastActivityInCommunity: showLastActivityInCommunity
+          ? lastActivityInCommunity
+          : false,
       }
     })
     if (sort != 'new') {

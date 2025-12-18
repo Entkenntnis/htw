@@ -167,6 +167,8 @@ export class UserModel extends Model<
   declare createdAt: CreationOptional<string | Date>
   declare updatedAt: CreationOptional<string | Date>
   declare RoomId: number | null
+  declare last_challenge_solved_ts: string | Date | null
+  declare community: CreationOptional<number>
 }
 
 export class SolutionModel extends Model<

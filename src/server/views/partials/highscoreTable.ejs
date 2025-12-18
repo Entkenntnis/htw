@@ -18,9 +18,9 @@
           <% if (!hideRank) { %>
             <td><%=row.rank%></td>
           <% } %>
-          <td style="padding-bottom: 6px;"><%=row.name%><br><small style="color: gray;"><%=locale == 'de' ? `seit ${row.age.replace('vor', '')} dabei` : t('highscore.joined') + ' ' + row.age%></small></td>
+          <td style="padding-bottom: 6px;"><%=row.name%><% if (row.community) { %><span class="community-badge"><%= row.community %></span><% } %><br><small style="color: gray;"><%=locale == 'de' ? `seit ${row.age.replace('vor', '')} dabei` : t('highscore.joined') + ' ' + row.age%></small></td>
           <td><%=row.score%></td>
-          <td><%=row.lastActive%></td>
+          <td style="padding-bottom: 6px;"><%=row.lastActive%><% if (row.lastActivityInCommunity) { %><br><span style="font-size: 0.6rem; color: rgb(165, 165, 0); vertical-align: top;">im Community-Bereich</span><% } %></td>
         </tr>
       <% } %>
     </tbody>

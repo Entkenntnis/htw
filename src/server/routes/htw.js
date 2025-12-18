@@ -390,15 +390,20 @@ htw_users_total ${c1.solvedBy}
 
       const solutions = await App.db.models.Solution.findAll({ raw: true })
 
-      // make sure data is consistent by retrieving scores again and compare
+      // make sure data is consistent by retrieving users again and compare timestamps
       const users2 = await App.db.models.User.findAll({ raw: true })
       /** @type {{[key: number]: number}} */
-      const userScores1 = {}
+      const userTs1 = {}
       for (const user of users) {
-        userScores1[user.id] = user.score
+        userTs1[user.id] = new Date(
+          user.last_challenge_solved_ts ?? -1
+        ).getTime()
       }
       for (const user of users2) {
-        if (user.score !== userScores1[user.id]) {
+        if (
+          new Date(user.last_challenge_solved_ts ?? -1).getTime() !==
+          userTs1[user.id]
+        ) {
           console.log(
             `user ${user.name} solved a challenge while retrieving data, making data inconsistent. Please rerun.`
           )
@@ -406,30 +411,63 @@ htw_users_total ${c1.solvedBy}
         }
       }
 
-      /** @type {{[key: number]: number[]}} */
+      /** @type {{[key: number]: {solved: number[], ts: number}}} */
       const byUser = {}
 
       solutions.forEach((sol) => {
-        if (!byUser[sol.UserId]) byUser[sol.UserId] = []
+        if (!byUser[sol.UserId]) byUser[sol.UserId] = { solved: [], ts: -1 }
 
-        byUser[sol.UserId].push(sol.cid)
+        byUser[sol.UserId].solved.push(sol.cid)
+        const solTs = new Date(sol.createdAt).getTime()
+        if (solTs > byUser[sol.UserId].ts) {
+          byUser[sol.UserId].ts = solTs
+        }
       })
 
       let hasChange = false
 
       for (const user of users) {
-        const solutions = byUser[user.id] ?? []
+        const solutions = byUser[user.id] ?? { solved: [], ts: -1 }
         let score = 0
-        for (const solution of solutions) {
+        let community = 0
+        for (const solution of solutions.solved) {
           if (App.challenges.data.some((c) => c.id == solution)) {
             score += 10 + (App.challenges.distance[solution] || 0)
+            if (App.challenges.distance[solution] < 0) {
+              community += 1
+            }
           }
         }
         if (user.score != score) {
           hasChange = true
           console.log(`${user.score} -> ${score}`)
+          user.score = score
         }
-        user.score = score
+
+        if (user.community != community) {
+          hasChange = true
+          console.log(`community: ${user.community} -> ${community}`)
+          user.community = community
+        }
+
+        if (
+          (solutions.ts == -1 && user.last_challenge_solved_ts == null) ||
+          (solutions.ts != -1 &&
+            user.last_challenge_solved_ts &&
+            solutions.ts == new Date(user.last_challenge_solved_ts).getTime())
+        ) {
+          // no change
+        } else {
+          hasChange = true
+          console.log(
+            `last_challenge_solved_ts: ${user.last_challenge_solved_ts} -> ${new Date(
+              solutions.ts
+            )}`
+          )
+          user.last_challenge_solved_ts =
+            solutions.ts == -1 ? null : new Date(solutions.ts)
+        }
+
         await user.save({ silent: true })
       }
       console.log('completed')

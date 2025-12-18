@@ -33,6 +33,14 @@ export function dbModel(App) {
       type: DataTypes.FLOAT,
       allowNull: true,
     },
+    last_challenge_solved_ts: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    community: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   })
 
   const Room = App.db.define('Room', {

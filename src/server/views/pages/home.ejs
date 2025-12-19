@@ -139,18 +139,21 @@
         background: rgba(255,255,255,0.05);
         border-radius: 999px;
         overflow: hidden;
+            transition: border-color 180ms ease, background-color 180ms ease;
     }
     .segmented-control .segment {
         padding: 6px 12px;
         color: #fff;
         text-decoration: none;
         border-right: 1px solid rgba(255,255,255,0.12);
+            transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 100ms ease;
     }
     .segmented-control a {
       filter: none !important;
     }
     .segmented-control .segment:last-child { border-right: none; }
     .segmented-control .segment:hover { background: rgba(var(--main-color-rgb), 0.64); }
+    .segmented-control .segment:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(var(--main-color-rgb), 0.35); }
     .segmented-control .segment.active {
         background: var(--main-color);
         color: #04110d;

@@ -81,22 +81,6 @@ export function getI18nExtension() {
 
   values.push({
     lng: 'de',
-    key: 'home.supporter_',
-    value: `
-      <p>Besuche auch <strong><a href="https://blog.arrrg.de/">meinen Blog</a></strong>.</p>
-      <hr class="my-5"/>
-    `,
-  })
-  values.push({
-    lng: 'en',
-    key: 'home.supporter_',
-    value: `
-      
-    `,
-  })
-
-  values.push({
-    lng: 'de',
     key: 'home.invite_',
     value: `
       <style>

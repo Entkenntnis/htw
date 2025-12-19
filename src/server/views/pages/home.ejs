@@ -82,11 +82,84 @@
         border-bottom: var(--connector-h) solid var(--accent, #777);
         filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
     }
+
+    /* --- Landing-only styles (scoped to home) --- */
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.06);
+        --glass-border: rgba(255, 255, 255, 0.22);
+        --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+    .btn-cta {
+        --ring: rgba(var(--main-color-rgb), 0.35);
+        background: var(--main-color);
+        border-color: var(--main-color);
+        color: #04110d !important;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 10px 18px;
+        box-shadow: 0 0 0 0 rgba(0,0,0,0);
+        transition: box-shadow 200ms ease, transform 120ms ease;
+    }
+    .btn-cta:hover { box-shadow: 0 0 0 6px var(--ring); }
+    .btn-cta:active { transform: translateY(1px); }
+    .glass-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: saturate(140%) blur(6px);
+        border-radius: 16px;
+        padding: 18px 18px 14px;
+        box-shadow: var(--shadow-soft);
+    }
+    .glass-card .card-title { font-weight: 700; }
+    .section-title { display: flex; align-items: center; gap: 12px; font-weight: 800; }
+    .section-title::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, rgba(255,255,255,0.35), rgba(255,255,255,0)); }
+    .highscore-card .table { margin-bottom: 0; }
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    @media (max-width: 992px) { .card-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 576px) { .card-grid { grid-template-columns: 1fr; } }
+    .card-grid .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; box-shadow: var(--shadow-soft); }
+    .card-grid .card .card-body { padding: 16px; }
+    .card-grid .card .card-text { color: rgba(255,255,255,0.85); }
+    .rooms-cta {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 16px;
+        align-items: center;
+        background: linear-gradient(90deg, rgba(var(--main-color-rgb), 0.16), rgba(125,105,255,0.16));
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 18px;
+        border-radius: 14px;
+    }
+    @media (max-width: 768px) { .rooms-cta { grid-template-columns: 1fr; } }
+
+    /* Segmented pill control for link group */
+    .segmented-control {
+        display: inline-flex;
+        border: 1px solid rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.05);
+        border-radius: 999px;
+        overflow: hidden;
+    }
+    .segmented-control .segment {
+        padding: 6px 12px;
+        color: #fff;
+        text-decoration: none;
+        border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    .segmented-control a {
+      filter: none !important;
+    }
+    .segmented-control .segment:last-child { border-right: none; }
+    .segmented-control .segment:hover { background: rgba(var(--main-color-rgb), 0.64); }
+    .segmented-control .segment.active {
+        background: var(--main-color);
+        color: #04110d;
+    }
 </style>
 
 <div class="progress-pride-container">
     <div class="progress-pride-stripe"></div>
-</div>
+    </div>
 <div id="pridePanel" class="pride-info-panel" role="note" aria-live="polite" aria-hidden="true"></div>
 
 <%- include('../partials/languagePicker', {t, App, locale}) %>
@@ -94,103 +167,102 @@
 <h2><%= t('loginHeading') %></h2>
 
 <% if (props.invalidLogin) { %>
-  <div class="alert alert-danger"><%= t('invalid') %></div>
+    <div class="alert alert-danger"><%= t('invalid') %></div>
 <% } %>
 
 <form action="/login" method="post" autocomplete="off" id="login-form">
-  <div class="form-group" style="display: flex; align-items: end;">
-    <label><%= t('name') %> <input class="form-control" type="text" name="username" value="" autofocus id="inputName" style="width: 212px;"/></label>
-    <span style="display:inline-block;width:6px;"></span>
-    <label style="margin-left:8px;"><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw" style="width: 212px;"/></label>
-    <span style="display:inline-block;width:15px;"></span>
-    <button type="submit" class="btn btn-interaction" style="margin-bottom:8px;"><%= t('go') %></button>
-  </div>
+    <div class="form-group" style="display: flex; align-items: end;">
+        <label><%= t('name') %> <input class="form-control" type="text" name="username" value="" autofocus id="inputName" style="width: 212px;"/></label>
+        <span style="display:inline-block;width:6px;"></span>
+        <label style="margin-left:8px;"><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw" style="width: 212px;"/></label>
+        <span style="display:inline-block;width:15px;"></span>
+        <button type="submit" class="btn btn-interaction" style="margin-bottom:8px;"><%= t('go') %></button>
+    </div>
 </form>
 
 <p class="my-4">
-  <%- t('invite_', {link: `<a href="/register">${ t('registerLink') }</a>`}) %>
+    <%- t('invite_', {link: `<a href="/register">${ t('registerLink') }</a>`}) %>
 </p>
 
-<hr class="my-5"/>
-
-<h2><%= t('top10') %></h2>
-
-<%- include('../partials/highscoreTable', {users:props.users, t, user, hideRank: false}) %>
-
-<p style="margin-top: 24px;">[<a href="/highscore">Highscore</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a href="/highscore?sort=new" style="white-space: nowrap;"><%=t('showRecent')%></a>]</p>
+<div class="glass-card highscore-card" style="margin-top: 108px;">
+    <h2 class="section-title mb-3">
+        <span><%= t('top10') %></span>
+    </h2>
+        <div class="table-responsive">
+            <%- include('../partials/highscoreTable', {users:props.users, t, user, hideRank: false}) %>
+        </div>
+        <div class="mt-3" style="text-align: center;">
+            <div class="segmented-control">
+                <a class="segment" href="/highscore">Highscore</a>
+                <a class="segment text-nowrap" href="/highscore?sort=new"><%= t('showRecent') %></a>
+            </div>
+        </div>
+</div>
 
 <% if (locale == 'de') { %>
-  <hr class="my-5"/>
 
-  <h2>Erfahrungsberichte</h2>
+  <h2 class="section-title" style="margin-top: 108px;">Erfahrungsberichte</h2>
 
-  <div class="container mt-4">
-      <div class="row">
-          <div class="col-md-4 mb-4">
-              <div class="card">
-                  <div class="card-body">
-                      <p class="card-text">„Es ist simple aufgebaut, aber es macht sehr viel Spaß die Aufgaben zu lösen. Generell einfach ein guter vibe“</p>
-                      <p style="text-align: right">S.</p>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-4 mb-4">
-              <div class="card">
-                  <div class="card-body">
-                      <p class="card-text">„Es hat mir sehr gut gefallen dass es auch Gaming Rätsel gibt“</p>
-                      <p style="text-align: right">E.</p>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-4 mb-4">
-              <div class="card">
-                  <div class="card-body">
-                      <p class="card-text">„Ich war schon ein großer Fan von hacker.org und fühle mich direkt daran erinnert.“</p>
-                      <p style="text-align: right">Y.</p>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-4 mb-4">
-              <div class="card">
-                  <div class="card-body">
-                      <p class="card-text">„Hack the Web hat mir besonders gefallen da es meinen Horizont im Thema Hacking und IT erweitert hat “</p>
-                      <p style="text-align: right">S.</p>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-4 mb-4">
-              <div class="card">
-                  <div class="card-body">
-                      <p class="card-text">„Die große Variationen an Aufgaben ist super! Macht Spaß zurück zu kommen“</p>
-                      <p style="text-align: right">S.</p>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-4 mb-4">
-              <div class="card">
-                  <div class="card-body">
-                      <p class="card-text">„Mir hat es besonders viel Spass bereitet, über die verschiedenen Arten des Hackings und der jetzt offenen Möglichkeiten zu lernen. Basically limitless....“</p>
-                      <p style="text-align: right">S.</p>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+    <div class="card-grid mt-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">„Es ist simple aufgebaut, aber es macht sehr viel Spaß die Aufgaben zu lösen. Generell einfach ein guter vibe“</p>
+                <p class="text-end">S.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">„Es hat mir sehr gut gefallen dass es auch Gaming Rätsel gibt“</p>
+                <p class="text-end">E.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">„Ich war schon ein großer Fan von hacker.org und fühle mich direkt daran erinnert.“</p>
+                <p class="text-end">Y.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">„Hack the Web hat mir besonders gefallen da es meinen Horizont im Thema Hacking und IT erweitert hat “</p>
+                <p class="text-end">S.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">„Die große Variationen an Aufgaben ist super! Macht Spaß zurück zu kommen“</p>
+                <p class="text-end">S.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">„Mir hat es besonders viel Spass bereitet, über die verschiedenen Arten des Hackings und der jetzt offenen Möglichkeiten zu lernen. Basically limitless....“</p>
+                <p class="text-end">S.</p>
+            </div>
+        </div>
+    </div>
 
 
 <% } %>
 
+<h2 class="section-title" style="margin-top: 108px;"><%= t('rooms') %></h2>
+
+<div class="rooms-cta mt-3">
+    <div>
+        <%- t('inviteOrga_', {link: `<strong><a href="/create">${t('createRoom')}</a></strong>`}) %>
+    </div>
+    <div>
+        <a class="btn btn-cta" href="/join"><%= t('joinRoom') %></a>
+    </div>
+</div>
+
 <hr class="my-5"/>
 
-<h2><%= t('rooms') %></h2>
 
-<p><%- t('inviteOrga_', {link: `<strong><a href="/create">${t('createRoom')}</a></strong>`}) %></p>
-
-<p>[<a href="/join"><%= t('joinRoom') %></a>]</p>
-
-<hr class="my-5"/>
-
-<%- t('supporter_') %>
+<% if (locale == 'de') { %>
+    <p>Besuche auch <strong><a href="https://blog.arrrg.de/">meinen Blog</a></strong>.</p>
+    <hr class="my-5"/>
+<% } %>
 
 <p>
   <a href="/contact"><%= t('contactLink') %></a> |

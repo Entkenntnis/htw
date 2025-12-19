@@ -108,15 +108,17 @@ hr {
 
 .community-badge {
   display: inline-block;
-  background-color: rgb(224, 224, 0);
   color: #222;
   font-size: 0.7em;
   font-weight: bold;
-  padding: 1px 6px;
-  border-radius: 12px;
+  padding: 2px 7px;
+  border-radius: 999px;
   margin-left: 9px;
   min-width: 20px;
   text-align: center;
-  vertical-align: 3px;
+  vertical-align: 2px;
   user-select: none;
+  background: rgba(224, 224, 0, 0.8); /* yellowish glass */
+  border: 1px solid rgba(224, 224, 0, 0.28);
+  backdrop-filter: saturate(140%) blur(4px);
 }

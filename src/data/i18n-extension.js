@@ -117,7 +117,7 @@ export function getI18nExtension() {
         }
       </style>
 
-      <div class="container" style="margin-top:48px;">
+      <div class="container" style="margin-top:24px;">
         <div class="row">
           <div class="col-lg" style="">
             <div style="padding-top: 12px;">
@@ -291,7 +291,7 @@ export function getI18nExtension() {
         }
       </style>
 
-      <details style="margin-top: 16px">
+      <details style="margin-top: 16px; margin-left: 30px; margin-right: 30px;">
         <summary>Anmeldung über SSO</summary>
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button no-underline">
@@ -369,7 +369,7 @@ export function getI18nExtension() {
         }
       </style>
 
-      <div class="container" style="margin-top:48px;">
+      <div class="container" style="margin-top:24px;">
         <div class="row">
           <div class="col-lg" style="">
             <div style="padding-top: 12px;">
@@ -515,7 +515,7 @@ export function getI18nExtension() {
       </style>
       
 
-      <details style="margin-top: 16px">
+      <details style="margin-top: 16px; margin-left: 30px; margin-right: 30px;">
         <summary>Login with SSO</summary>
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button no-underline">

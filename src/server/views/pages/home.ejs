@@ -182,32 +182,31 @@
 <% } %>
 
 <form action="/login" method="post" autocomplete="off" id="login-form">
-    <div class="form-group" style="display: flex; align-items: end;">
-        <label><%= t('name') %> <input class="form-control" type="text" name="username" value="" autofocus id="inputName" style="width: 212px;"/></label>
-        <span style="display:inline-block;width:6px;"></span>
-        <label style="margin-left:8px;"><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw" style="width: 212px;"/></label>
-        <span style="display:inline-block;width:15px;"></span>
+    <div class="form-group" style="display: flex; align-items: end; flex-wrap: wrap;">
+        <label><%= t('name') %> <input class="form-control" type="text" name="username" value="" autofocus id="inputName" style="width: 212px;margin-right:14px;"/></label>
+        <label style="margin-right: 15px;"><%= t('password') %> <input class="form-control" type="password" name="password" value="" id="inputPw" style="width: 212px;"/></label>
         <button type="submit" class="btn btn-interaction" style="margin-bottom:8px;"><%= t('go') %></button>
     </div>
 </form>
 
-<p class="my-4">
-    <%- t('invite_', {link: `<a href="/register">${ t('registerLink') }</a>`}) %>
-</p>
+<div class="glass-card" style="margin-top: 48px;">
+    <p class="mb-0">
+        <%- t('invite_', {link: `<a href="/register">${ t('registerLink') }</a>`}) %>
+    </p>
+</div>
 
-<div class="glass-card highscore-card" style="margin-top: 108px;">
-    <h2 class="section-title mb-3">
-        <span><%= t('top10') %></span>
-    </h2>
-        <div class="table-responsive">
-            <%- include('../partials/highscoreTable', {users:props.users, t, user, hideRank: false}) %>
-        </div>
-        <div class="mt-3" style="text-align: center;">
-            <div class="segmented-control">
-                <a class="segment" href="/highscore">Highscore</a>
-                <a class="segment text-nowrap" href="/highscore?sort=new"><%= t('showRecent') %></a>
-            </div>
-        </div>
+<h2 class="section-title" style="margin-top: 108px;"><span><%= t('top10') %></span></h2>
+<div class="glass-card highscore-card mt-3">
+    <div class="table-responsive">
+        <%- include('../partials/highscoreTable', {users:props.users, t, user, hideRank: false}) %>
+    </div>
+</div>
+
+<div class="mt-3" style="text-align: center;">
+    <div class="segmented-control">
+        <a class="segment" href="/highscore">Highscore</a>
+        <a class="segment text-nowrap" href="/highscore?sort=new"><%= t('showRecent') %></a>
+    </div>
 </div>
 
 <% if (locale == 'de') { %>

@@ -76,7 +76,8 @@
     "pointsMonth": "Score (this month)",
     "entries_one": "{{count}} entry",
     "entries_other": "{{count}} entries",
-    "of": "of"
+    "of": "of",
+    "communityActive": "in the community area"
   },
   "create": {
     "title": "Create Room",

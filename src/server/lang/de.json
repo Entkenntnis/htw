@@ -76,7 +76,8 @@
     "pointsMonth": "Punktzahl (dieser Monat)",
     "entries_one": "{{count}} Eintrag",
     "entries_other": "{{count}} Einträge",
-    "of": "von"
+    "of": "von",
+    "communityActive": "im Community-Bereich"
   },
   "create": {
     "title": "Raum erstellen",

@@ -16,12 +16,12 @@ export function getI18nExtension() {
   values.push({
     lng: 'de',
     key: 'home.language',
-    value: 'Sprache/Language',
+    value: 'Sprache',
   })
   values.push({
     lng: 'en',
     key: 'home.language',
-    value: 'Sprache/Language',
+    value: 'Language',
   })
 
   values.push({

@@ -1,7 +1,7 @@
 <% if (App.config.languages.length > 1) { %>
   <div class="lang-wrap">
     <nav class="lang-picker" aria-label="Language picker">
-      <span class="lang-label"><%= t('home.language') %>:</span>
+      <span class="lang-label"><%= t('home.language') %></span>
       <div class="lang-group" role="group" aria-label="Language options">
         <% for (let i = 0; i < App.config.languages.length; i++) { %>
           <% const lng = App.config.languages[i]; %>

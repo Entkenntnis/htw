@@ -439,7 +439,7 @@ export function getI18nExtension() {
           text-decoration: none !important;
           background-color: transparent;
           border-radius: 8px;
-          border: 3px solid #009771ff;
+          border: 3px solid var(--main-color);
           text-align: center;
           overflow: hidden; /* ensure pseudo-element doesn't spill out */
           z-index: 0; /* create stacking context for ::before */
@@ -447,6 +447,7 @@ export function getI18nExtension() {
 
         .register-button:hover {
           background-color: transparent; /* keep background transparent on hover */
+          border-color: rgba(var(--main-color-rgb), 0.9);
         }
 
         .register-button::before {
@@ -456,7 +457,7 @@ export function getI18nExtension() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(150deg, #05dfa8ff, #007e5cff);
+          background: linear-gradient(150deg, rgba(var(--main-color-rgb), 0.95), rgba(var(--main-color-rgb), 0.65));
           opacity: 0;
           transition: opacity 0.5s ease;
           z-index: -1;
@@ -467,7 +468,7 @@ export function getI18nExtension() {
         }
 
         .register-button:focus-visible {
-          outline: 3px solid #c8f7e9; /* light teal outline */
+          outline: 3px solid rgba(var(--main-color-rgb), 0.35);
           outline-offset: 2px;
         }
 

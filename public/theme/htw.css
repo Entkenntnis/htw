@@ -9,7 +9,8 @@ a svg {
 }
 a:hover {
   color: var(--main-color);
-  filter: brightness(60%);
+  filter: brightness(120%);
+  transition: filter 0.1s;
 }
 ::selection {
   background: var(--main-color);
@@ -133,6 +134,69 @@ hr {
   }
 }
 
+/* Language picker - styled similar to status bar */
+.lang-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+.lang-picker {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 6px 10px;
+  border: 1px solid #313030;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: saturate(120%) blur(2px);
+  text-align: right;
+}
+.lang-label {
+  opacity: 0.8;
+}
+.lang-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lang-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--main-color);
+  background: transparent;
+  color: var(--main-color);
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.9;
+  transition: all 0.2s;
+}
+.lang-pill:hover,
+.lang-pill:focus {
+  opacity: 1;
+  filter: brightness(120%);
+  box-shadow: 0 0 0 0.12rem currentColor;
+}
+.lang-pill.is-active {
+  background: var(--main-color);
+  border-color: var(--main-color);
+  color: #222;
+}
+
+@media (max-width: 480px) {
+  .lang-picker {
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 8px;
+  }
+  .lang-group {
+    gap: 6px;
+  }
+}
+
 .story-container {
   display: flex;
   justify-content: start;
@@ -199,7 +263,7 @@ hr {
   text-align: center;
   vertical-align: 2px;
   user-select: none;
-  background: rgba(224, 224, 0, 0.8); /* yellowish glass */
+  background: rgba(224, 224, 0, 1); /* yellowish glass */
   border: 1px solid rgba(224, 224, 0, 0.28);
   backdrop-filter: saturate(140%) blur(4px);
 }

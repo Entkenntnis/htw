@@ -499,6 +499,10 @@ export function setupChallenges(App) {
                 if (user.score == 0 && user.session_phase === 'READY') {
                   user.session_phase = 'ACTIVE'
                   user.session_startTime = new Date()
+                  if (req.user) {
+                    req.user.session_phase = user.session_phase
+                    req.user.session_startTime = user.session_startTime
+                  }
                 }
 
                 // OK, add score

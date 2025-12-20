@@ -115,15 +115,15 @@ export const part1 = [
           <p>Hejo <strong>${escapeHTML(req.user?.name)}</strong>,</p>
 
           <p>sehr cool, dass du dich fürs Hacken interessierst und mit uns reist! Das ist also unsere Kajüte. Ganz schön winzig, uff. Genauso eng wie Naxion. Dieser blöde Planet ist zwar meine Heimat, aber damn, bin ich froh, da wegzukommen.</p>
-          
+
           <img src="/story/bunks.jpg" style="width:300px; margin-bottom: 24px; margin-top: 12px; border-radius: 16px; filter: drop-shadow(0 4px 8px rgba(255, 255, 255, 0.2));" alt="4er-Kajüte">
 
-          <p>In den zwei Monaten auf diesem Raumschiff kann ich dir einige Tricks beibringen. Wobei du Hacken am Besten lernst, wenn du es selber machst. Dafür habe ich dir ganz viele Aufgaben vorbereitet! Suche bei jeder Aufgabe nach einer Antwort, die du unten ins Eingabefeld tippst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich ist.</p>
+          <p>In den zwei Monaten auf diesem Raumschiff kann ich dir einige Tricks beibringen. Wobei du Hacken am besten lernst, wenn du es selber machst. Dafür habe ich dir ganz viele Aufgaben vorbereitet! Suche bei jeder Aufgabe nach einer Antwort, die du unten ins Eingabefeld tippst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich ist.</p>
 
-          <p>Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>. Diese Zahl ist bei den Erdlingen auch als &quot;die Antwort auf Alles&quot; bekannt 🤭</p>
+          <p>Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>. Diese Zahl ist bei den Erdlingen auch als "die Antwort auf alles" bekannt 🤭</p>
 
           <p>Hm, wo bleiben Bex und Josh mit dem Gepäck? Ich schaue lieber mal nach. Falls du Hilfe brauchst, ping mich jederzeit über das COM-LINK unten rechts.</p>
-          
+
           <script src="/powerglitch.min.js"></script>
           <script>
             PowerGlitch.glitch('#calculation', {playMode: 'hover'})

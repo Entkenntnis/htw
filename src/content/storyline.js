@@ -33,10 +33,36 @@ export function setupStoryline(App) {
             right: 0;
             bottom: 0;
             background: #000;
+            overflow: auto;
+            padding-bottom: 14vh;
+            padding-top: 14vh;
+            padding-left: 12px;
+            padding-right: 12px;
+          }
+          .scene-panel {
+            display: flex;
+            justify-content: center;
+          }
+          .scene-panel .panel-inner {
+            width: 100%;
+            max-width: 72ch;
+            margin: 0 auto;
+            padding: 18px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(var(--main-color-rgb), 0.22);
+            box-shadow:
+              0 0 0 1px rgba(var(--main-color-rgb), 0.12) inset,
+              0 0 20px rgba(var(--main-color-rgb), 0.12);
+            backdrop-filter: saturate(140%) blur(4px);
           }
         </style>
         <div class="scene-container">
-          ${await renderTemplate(App, req, '../story-scenes/' + id)}
+          <div class="scene-panel">
+            <div class="panel-inner">
+              ${await renderTemplate(App, req, '../story-scenes/' + id)}
+            </div>
+          </div>
         </div>
       `,
     })
@@ -131,10 +157,10 @@ export function setupStoryline(App) {
 const STORIES = {
   1: { title: 'Bex Vorstellung' },
   2: { title: 'Josh Vorstellung' },
-  3: { title: 'Selbstgespräch Bex' },
-  4: { title: 'Philosophie des Hackings' },
-  5: { title: 'Bei der Polizei' },
-  6: { title: 'Aussprache Kiwi Bex' },
-  7: { title: 'Ende der Reise in Sicht' },
+  3: { title: 'Der Plan' },
+  4: { title: 'Sehnsucht' },
+  5: { title: 'Unschuldig' },
+  6: { title: 'Ohnmacht' },
+  7: { title: 'Weiterkämpfen' },
   8: { title: 'Epilog' },
 }

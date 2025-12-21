@@ -34,6 +34,19 @@ export function setupStoryline(App) {
             margin-right: auto;
             text-align: left;
           }
+          .scene-skip {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: opacity 120ms ease-in;
+            opacity: 0.8;
+          }
+          .scene-skip:hover { opacity: 1; color: rgba(255, 255, 255, 0.9); }
           .scene-container {
             position: fixed;
             top: 0;
@@ -103,6 +116,7 @@ export function setupStoryline(App) {
           .scene-panel .panel-inner .click-hint.show { opacity: 0.75; }
         </style>
         <div class="scene-container">
+          <a href="/story/${id}/skip" class="scene-skip" aria-label="Überspringen">überspringen</a>
           <div class="scene-panel">
             <div class="panel-inner">
               ${await renderTemplate(App, req, '../story-scenes/' + id)}
@@ -251,7 +265,7 @@ export function setupStoryline(App) {
     res.redirect('/')
   })
 
-  App.express.post('/story/:id/skip', (req, res) => {
+  App.express.get('/story/:id/skip', (req, res) => {
     const id = req.params.id
 
     // ups, this got a bit uglier than expected
@@ -271,7 +285,6 @@ export function setupStoryline(App) {
       return
     }
 
-    // TODO: mark story as complete for user
     res.redirect('/')
   })
 

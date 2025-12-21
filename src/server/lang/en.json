@@ -150,8 +150,8 @@
   },
   "challenge": {
     "back": "back",
-    "solvedBy_one": "in total by {{count}} person",
-    "solvedBy_other": "in total by {{count}} people",
+    "solvedBy_one": "solved in total by {{count}} person",
+    "solvedBy_other": "solved in total by {{count}} people",
     "continue": "continue",
     "correct": "is correct",
     "wrong": "is wrong",
@@ -161,7 +161,7 @@
     "locked": "You have not unlocked this challenge yet.",
     "by": "by",
     "ratelimit": "Hey {{name}}, you have requested more than {{requests}} pages within {{timespan}} minutes. Please wait {{waiting}} seconds before requesting pages again.",
-    "history": "History",
+    "history": "history",
     "feedback": {
       "heading": "How do you feel about the challenge?",
       "fun": "was fun",

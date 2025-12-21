@@ -1173,12 +1173,12 @@ export const part1 = [
       }
     },
     solution: secrets('chal_24').split(','),
-    renderAfterSolveText: () => {
-      return {
-        de: '<p>Ein geübter Leser braucht ungefähr 0,25 Sekunden, um ein Wort zu erkennen.</p>',
-        en: '<p>An experienced reader takes approximately 0.25 seconds to recognize a word.</p>',
-      }
-    },
+    // renderAfterSolveText: () => {
+    //   return {
+    //     de: '<p>Ein geübter Leser braucht ungefähr 0,25 Sekunden, um ein Wort zu erkennen.</p>',
+    //     en: '<p>An experienced reader takes approximately 0.25 seconds to recognize a word.</p>',
+    //   }
+    // },
   },
 
   {

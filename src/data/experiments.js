@@ -297,7 +297,7 @@ export const experimentDefs = [
       'Umfrage: Ich möchte wissen, was die Kids über Hacking und das Internet denken. Um keinen Schaden anzurichten, mache ich das hier als 50/50 Split.',
     challenge: 118,
     startTs: new Date('2025-11-21 00:01+0100').getTime(),
-    endTs: new Date('2025-12-26 00:01+0100').getTime(),
+    endTs: new Date('2025-12-19 00:01+0100').getTime(),
   },
   {
     id: 20,

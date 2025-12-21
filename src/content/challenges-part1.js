@@ -116,7 +116,7 @@ export const part1 = [
 
           <p>sehr cool, dass du dich fürs Hacken interessierst und mit uns reist! Das ist also unsere Kajüte. Ganz schön winzig, uff. Genauso eng wie Naxion. Dieser blöde Planet ist zwar meine Heimat, aber damn, bin ich froh, da wegzukommen.</p>
 
-          <img src="/story/bunks.jpg" style="width:300px; margin-bottom: 24px; margin-top: 12px; border-radius: 16px; filter: drop-shadow(0 4px 8px rgba(255, 255, 255, 0.2));" alt="4er-Kajüte">
+          <img src="/story/bunks.jpg" style="width:350px; margin-bottom: 24px; margin-top: 12px; border-radius: 16px; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));" alt="4er-Kajüte">
 
           <p>In den zwei Monaten auf diesem Raumschiff kann ich dir einige Tricks beibringen. Wobei du Hacken am besten lernst, wenn du es selber machst. Dafür habe ich dir ganz viele Aufgaben vorbereitet! Suche bei jeder Aufgabe nach einer Antwort, die du unten ins Eingabefeld tippst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich ist.</p>
 

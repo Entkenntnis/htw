@@ -577,11 +577,12 @@ export function setupChallenges(App) {
     }
 
     // handle storyline
-    if (correct) {
-      if (id == 1) {
-        req.session.nextStoryId = '1'
-      }
-    }
+    // if (correct) {
+    //   if (id == 1) {
+    //     req.session.nextStoryId = '1'
+    //   }
+    // }
+    // END =======
 
     const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)
@@ -1080,7 +1081,19 @@ export function setupChallenges(App) {
 
     const overLimit = solvedDb.length > 1000
 
-    let content = ''
+    const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
+      await App.challengeStats.getData(id)
+
+    const t = App.i18n.get(req.lng).t.bind(App.i18n.get(req.lng))
+
+    const solvedByText =
+      solvedBy == 1
+        ? t('challenge.solvedBy_one', { count: solvedBy })
+        : t('challenge.solvedBy_other', { count: solvedBy })
+
+    let content = `
+      <p style="margin-bottom: 32px; color: gray;">${solvedByText}</p>
+    `
 
     solvedDb.slice(0, 1000).forEach((s) => {
       content += `<p>${escapeHTML(/** @type {any} */ (s).User.name)} <span style="color:gray">• ${App.moment(

@@ -6,6 +6,8 @@
 export async function customMapHtmlCreator({ App, req, solved }) {
   if (!req.user) return ''
 
+  // TODO: rework this properly, segment it use new progression system
+
   const showWorms =
     req.user.score >= 30 ||
     App.config.editors.includes(req.user.name) ||

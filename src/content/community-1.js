@@ -8,7 +8,7 @@ export const communityChallenges = [
     pos: { x: 1750, y: 600 },
     title: { de: 'Community-Bereich', en: 'Community Area' },
     date: '2023-07-28',
-    deps: [8, 17, 21, 52, 63, 77, 86, 337],
+    deps: [8, 17, 21, 52, 63, 77, 86, 112, 113],
     noScore: true,
     hideLink: true,
     render: async ({ App, req }) => {

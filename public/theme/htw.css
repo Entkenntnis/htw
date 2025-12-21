@@ -55,7 +55,7 @@ hr {
   justify-content: flex-end;
   gap: 12px;
   flex-wrap: wrap;
-  padding: 8px 12px;
+  padding: 3px 6px;
   border: 1px solid #313030;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.03);

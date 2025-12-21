@@ -45,6 +45,24 @@
     #scene-7 {
       cursor: pointer;
     }
+    #scene-7 .click-hint {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      font-size: 12px;
+      line-height: 1.2;
+      color: currentColor;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 200ms ease-in;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    #scene-7 .click-hint.show {
+      opacity: 0.75;
+    }
   </style>
   <div
     style="
@@ -109,6 +127,7 @@
   >
     <input type="submit" class="btn btn-interaction btn-sm" value="Weiter" />
   </form>
+  <div class="click-hint" aria-hidden="true">Klicken, um fortzufahren</div>
   <script>
     ;(function () {
       var c = document.getElementById('scene-7')
@@ -117,6 +136,7 @@
         window.matchMedia &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
       var btn = c.querySelector('#scene-7-continue')
+      var hint = c.querySelector('.click-hint')
       var ps = c.querySelectorAll('p.fade-in')
       var P_DUR = 4000,
         L_GAP = 600
@@ -128,14 +148,11 @@
         return d
       }
       for (var i = 0; i < ps.length; i++) {
+        var ls0 = ps[i].querySelectorAll('.line-fade-in')
         for (var j = 0; j < ls0.length; j++) {
           var d0 = calcDur(ls0[j].textContent || '')
           var clamped = Math.min(d0, 1000)
           ls0[j].style.setProperty('--line-dur', clamped + 'ms')
-        }
-        for (var j = 0; j < ls0.length; j++) {
-          var d0 = calcDur(ls0[j].textContent || '')
-          ls0[j].style.setProperty('--line-dur', d0 + 'ms')
         }
       }
       var state = {
@@ -144,13 +161,19 @@
         timeout: null,
         currentEl: null,
         currentType: null,
+        done: false,
       }
       function showContinue() {
         if (btn) {
           btn.classList.add('show')
           btn.removeAttribute('aria-hidden')
         }
-        if (c) c.style.cursor = 'auto'
+        state.done = true
+        if (hint) hint.classList.remove('show')
+        if (c) {
+          c.style.cursor = 'auto'
+          c.style.userSelect = 'text'
+        }
       }
       function nextParagraph(immediate) {
         state.pi++
@@ -231,8 +254,11 @@
           showContinue()
           return
         }
+        if (c) c.style.userSelect = 'none'
         startParagraph(0, false)
+        if (hint) hint.classList.add('show')
         c.addEventListener('click', function (ev) {
+          if (state.done) return
           if (ev.target && ev.target.closest && ev.target.closest('.continue'))
             return
           skipCurrent()

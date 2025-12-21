@@ -45,6 +45,24 @@
       opacity: 1 !important;
       transform: none !important;
     }
+    #scene-4 .click-hint {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      font-size: 12px;
+      line-height: 1.2;
+      color: currentColor;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 200ms ease-in;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    #scene-4 .click-hint.show {
+      opacity: 0.75;
+    }
   </style>
   <div
     style="
@@ -127,6 +145,7 @@
   >
     <input type="submit" class="btn btn-interaction btn-sm" value="Weiter" />
   </form>
+  <div class="click-hint" aria-hidden="true">Klicken, um fortzufahren</div>
   <script>
     ;(function () {
       var c = document.getElementById('scene-4')
@@ -135,6 +154,7 @@
         window.matchMedia &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
       var btn = c.querySelector('#scene-4-continue')
+      var hint = c.querySelector('.click-hint')
       var ps = c.querySelectorAll('p.fade-in')
       var P_DUR = 4000,
         L_GAP = 600
@@ -161,14 +181,20 @@
         timeout: null,
         currentEl: null,
         currentType: null,
+        done: false,
       }
       function showContinue() {
         if (btn) {
           btn.classList.add('show')
           btn.removeAttribute('aria-hidden')
         }
-        // After all animations complete, remove pointer cursor
-        if (c) c.style.cursor = 'auto'
+        state.done = true
+        if (hint) hint.classList.remove('show')
+        // After all animations complete, remove pointer cursor and re-enable selection
+        if (c) {
+          c.style.cursor = 'auto'
+          c.style.userSelect = 'text'
+        }
       }
       function nextParagraph(immediate) {
         state.pi++
@@ -249,9 +275,12 @@
           showContinue()
           return
         }
+        if (c) c.style.userSelect = 'none'
         startParagraph(0, false)
+        if (hint) hint.classList.add('show')
         // Click to skip current animation and advance to next line/paragraph
         c.addEventListener('click', function (ev) {
+          if (state.done) return
           if (ev.target && ev.target.closest && ev.target.closest('.continue'))
             return
           skipCurrent()

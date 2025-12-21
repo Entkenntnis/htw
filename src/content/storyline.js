@@ -80,6 +80,32 @@ export function setupStoryline(App) {
       return
     }
 
+    // EVENT
+    // TODO: mark story as complete for user
+
+    if (req.session.returnToLogbook) {
+      delete req.session.returnToLogbook
+      res.redirect('/logbook')
+      return
+    }
+
+    res.redirect('/')
+  })
+
+  App.express.post('/story/:id/skip', (req, res) => {
+    const id = req.params.id
+
+    // ups, this got a bit uglier than expected
+    const story =
+      STORIES[/** @type {keyof STORIES} */ (/** @type {unknown} */ (id))]
+
+    if (!req.user || !story) {
+      res.redirect('/')
+      return
+    }
+
+    // EVENT
+
     if (req.session.returnToLogbook) {
       delete req.session.returnToLogbook
       res.redirect('/logbook')

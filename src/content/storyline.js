@@ -21,9 +21,12 @@ export function setupStoryline(App) {
       req.session.returnToLogbook = true
     }
 
+    const lng = req.lng === 'en' ? 'en' : 'de'
+    const pageTitle =
+      lng === 'en' && story.enTitle ? story.enTitle : story.title
     renderPage(App, req, res, {
       page: 'story',
-      title: story.title,
+      title: pageTitle,
       content: `
         <style>
           /* Scene-wide layout classes moved from scene files */
@@ -116,7 +119,7 @@ export function setupStoryline(App) {
           .scene-panel .panel-inner .click-hint.show { opacity: 0.75; }
         </style>
         <div class="scene-container">
-          <a href="/story/${id}/skip" class="scene-skip" aria-label="Überspringen">überspringen</a>
+          <a href="/story/${id}/skip" class="scene-skip" aria-label="${lng === 'en' ? 'Skip' : 'Überspringen'}">${lng === 'en' ? 'skip' : 'überspringen'}</a>
           <div class="scene-panel">
             <div class="panel-inner">
               ${await renderTemplate(App, req, '../story-scenes/' + id)}
@@ -135,7 +138,8 @@ export function setupStoryline(App) {
             var hint = document.createElement('div')
             hint.className = 'click-hint'
             hint.setAttribute('aria-hidden', 'true')
-            hint.textContent = 'Klicken, um fortzufahren'
+            var hintText = '${lng === 'en' ? 'Click to continue' : 'Klicken um fortzufahren'}'
+            hint.textContent = hintText
             c.appendChild(hint)
 
             var P_DUR = 4000, L_GAP = 600
@@ -293,9 +297,11 @@ export function setupStoryline(App) {
       res.redirect('/')
       return
     }
+    const lng = req.lng === 'en' ? 'en' : 'de'
+    const heading = lng === 'en' ? 'Travel Log' : 'Reisebericht'
     renderPage(App, req, res, {
       page: 'logbook',
-      heading: 'Reisebericht',
+      heading,
       content: `
         <style>
           .story-entry:hover {
@@ -314,8 +320,11 @@ export function setupStoryline(App) {
           margin-bottom: 100px;
         ">
           ${Object.entries(STORIES)
-            .map(
-              ([id, story], idx) => `
+            .map(([id, story], idx) => {
+              const lng = req.lng === 'en' ? 'en' : 'de'
+              const t =
+                lng === 'en' && story.enTitle ? story.enTitle : story.title
+              return `
             <a href="/story/${id}?logbook=1" class="story-entry" style="
               display: flex;
               align-items: center;
@@ -341,10 +350,10 @@ export function setupStoryline(App) {
               <span style="
                 font-weight: 600;
                 letter-spacing: .2px;
-              ">${story.title}</span>
+              ">${t}</span>
             </a>
           `
-            )
+            })
             .join('')}
         </div>
       `,
@@ -353,12 +362,12 @@ export function setupStoryline(App) {
 }
 
 const STORIES = {
-  1: { title: 'Bex Vorstellung' },
-  2: { title: 'Josh Vorstellung' },
-  3: { title: 'Der Plan' },
-  4: { title: 'Sehnsucht' },
-  5: { title: 'Unschuldig' },
-  6: { title: 'Ohnmacht' },
-  7: { title: 'Weiterkämpfen' },
-  8: { title: 'Epilog' },
+  1: { title: 'Bex Vorstellung', enTitle: 'Introducing Bex' },
+  2: { title: 'Josh Vorstellung', enTitle: 'Introducing Josh' },
+  3: { title: 'Der Plan', enTitle: 'The Plan' },
+  4: { title: 'Sehnsucht', enTitle: 'Longing' },
+  5: { title: 'Unschuldig', enTitle: 'Innocent' },
+  6: { title: 'Ohnmacht', enTitle: 'Fainting' },
+  7: { title: 'Weiterkämpfen', enTitle: 'Keep Fighting' },
+  8: { title: 'Epilog', enTitle: 'Epilogue' },
 }

@@ -4014,7 +4014,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     id: 118,
     pos: { x: 1221, y: 761 },
     title: { de: '[Umfrage]', en: '[Survey]' },
-    deps: [45, 47, 87],
+    deps: [2, 45, 47],
     render: ({ App, req }) => {
       /**
        * @param {string} name

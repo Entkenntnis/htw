@@ -2804,7 +2804,7 @@ export const part1 = [
 
   {
     id: 64,
-    pos: { x: 1155, y: 840 },
+    pos: { x: 1225, y: 850 },
     title: { de: 'Smiley', en: 'Smiley' },
     // date: '2020-08-17',
     deps: [47, 79, 87],
@@ -4012,9 +4012,9 @@ To: ${req.user?.name}@arrrg.de</pre>
 
   {
     id: 118,
-    pos: { x: 1401, y: 801 },
+    pos: { x: 1221, y: 761 },
     title: { de: '[Umfrage]', en: '[Survey]' },
-    deps: [27, 41, 64],
+    deps: [45, 47, 87],
     render: ({ App, req }) => {
       /**
        * @param {string} name

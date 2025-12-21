@@ -6,28 +6,22 @@
 export async function customMapHtmlCreator({ App, req, solved }) {
   if (!req.user) return ''
 
-  // TODO: rework this properly, segment it use new progression system
-
-  const showWorms =
-    req.user.score >= 30 ||
+  const showAll =
     App.config.editors.includes(req.user.name) ||
     App.config.demos.includes(req.user.name)
 
-  const showEnough =
-    req.user.score >= 60 ||
-    App.config.editors.includes(req.user.name) ||
-    App.config.demos.includes(req.user.name)
+  const wwwmVisible = req.user.score >= 150 || showAll
+  const mortalCoilVisible = req.user.score >= 200 || showAll
+  const wormsVisible = req.user.score >= 250 || showAll
+  const pleaseFixMeVisible = req.user.score >= 300 || showAll
 
-  const showPleaseFixMeAndMortalCoil =
-    req.user.score >= 90 ||
-    App.config.editors.includes(req.user.name) ||
-    App.config.demos.includes(req.user.name)
-
-  const showStatsLinks = req.user && App.config.editors.includes(req.user.name)
+  const showMortalcoilLocked = wwwmVisible && !mortalCoilVisible
+  const showWormsLocked = mortalCoilVisible && !wormsVisible
+  const showPleaseFixMeLocked = wormsVisible && !pleaseFixMeVisible
 
   let mortalcoillevel = 0
 
-  if (showPleaseFixMeAndMortalCoil) {
+  if (mortalCoilVisible) {
     const raw = parseInt(
       (await App.storage.getItem(`mortalcoil_${req.user.id}`)) ?? 'NaN'
     )
@@ -37,61 +31,23 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   }
 
   let wwwm_win = false
-  if (showEnough) {
+  if (wwwmVisible) {
     if (await App.storage.getItem(`wwwm-win-${req.user.id}`)) {
       wwwm_win = true
     }
   }
 
-  return `
-    <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
-    <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
-    <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
-    <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
-    ${
-      showWorms
-        ? `
-          <a draggable="false" href="/worms" style="position:absolute;left:1350px;top:120px;" class="text-reset text-decoration-none fade-in">
-            <div>Worms</div>
-            <img draggable="false" src="/worms.png" style="width:46px">
-          </a>
-        
-          <a draggable="false" href="/music" target="_blank" style="position:absolute;left:158px;top:1160px;" class="text-reset text-decoration-none fade-in">
-            <div>Musik</div>
-            <img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;">
-          </a>
-          
-          <a draggable="false" href="/logbook" style="position:absolute;left:1188px;top:120px;" class="text-reset text-decoration-none fade-in">
-            <div>${req.lng == 'de' ? 'Reisebericht' : 'Travel Log'}</div>
-            <img draggable="false" src="/story/book.png" style="width:40px;margin-left:21px; margin-top: 3px; border-radius: 6px;">
-          </a>
-          
-          `
-        : ''
-    }
-     ${
-       showEnough
-         ? `
-          <a draggable="false" href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in">
-            <div>&nbsp;&nbsp;&nbsp;Enough</div>
-            <img draggable="false" src="/enough.png" style="width:65px;margin-top:6px;">
-          </a>
-          
-          <a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1520px;top:122px;" class="text-reset text-decoration-none fade-in">
+  let output = ''
+
+  if (wwwmVisible) {
+    output += `<a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1350px;top:122px;" class="text-reset text-decoration-none fade-in">
             <img draggable="false" src="/wwwm.png" style="width:78px;">
             ${wwwm_win ? `<div style="position: absolute; right: 0px; bottom: -9px; color: #fff; font-size:24px; padding:4px 7px; border-radius:12px; min-width:24px; text-align:center; box-shadow: 0 1px 0 rgba(0,0,0,0.3);">🏆</div>` : ''}
-          </a>
-          
-          <a draggable="false" href="/resistance" style="position:absolute;left:138px;top:1325px;text-align: center;" class="text-reset text-decoration-none fade-in">
-            <div>Notizen des<br>Widerstands</div>
-            <img draggable="false" src="/clippy.png" style="width:55px;margin-top:6px;">
           </a>`
-         : ''
-     }
-     ${
-       showPleaseFixMeAndMortalCoil
-         ? `
-          <a draggable="false" href="/mortal-coil" style="position:absolute;left:1703px;top:116px;" class="text-reset text-decoration-none fade-in">
+  }
+
+  if (mortalCoilVisible) {
+    output += `<a draggable="false" href="/mortal-coil" style="position:absolute;left:1550px;top:116px;" class="text-reset text-decoration-none fade-in">
             <div>Mortal Coil</div>
             <img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;">
             ${
@@ -101,24 +57,82 @@ export async function customMapHtmlCreator({ App, req, solved }) {
                   `
                 : ''
             }
-          </a>
-          
-          <a draggable="false" href="/please-fix-me" style="position:absolute;left:1870px;top:120px;" class="text-reset text-decoration-none fade-in">
+          </a>`
+  }
+
+  if (showMortalcoilLocked) {
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1550px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+        <span style="font-weight:600;color:#ddd;">🔒 ab 200 Punkten</span>
+      </div>`
+  }
+
+  if (showWormsLocked) {
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1733px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+        <span style="font-weight:600;color:#ddd;">🔒 ab 250 Punkten</span>
+      </div>`
+  }
+
+  if (showPleaseFixMeLocked) {
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1870px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+        <span style="font-weight:600;color:#ddd;">🔒 ab 300 Punkten</span>
+      </div>`
+  }
+
+  if (wormsVisible) {
+    output += `<a draggable="false" href="/worms" style="position:absolute;left:1733px;top:120px;" class="text-reset text-decoration-none fade-in">
+            <div>Worms</div>
+            <img draggable="false" src="/worms.png" style="width:46px">
+          </a>`
+  }
+
+  if (pleaseFixMeVisible) {
+    output += `<a draggable="false" href="/please-fix-me" style="position:absolute;left:1870px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>Please Fix Me!</div>
             <img draggable="false" src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;">
           </a>`
-         : ''
-     }${
-       showStatsLinks
-         ? `
-          <div style="position: absolute; left: 1000px; top: -25px;">
+  }
+
+  if (req.user && App.config.editors.includes(req.user.name)) {
+    output += `<div style="position: absolute; left: 1000px; top: -25px;">
             <a href="/mapflow" draggable="false">MapFlow</a><a draggable="false" href="/events" style="margin-left: 24px;">Events</a>
             <a draggable="false" href="/survey" style="margin-left: 24px;">Survey</a><a draggable="false" href="/feedback" style="margin-left: 24px;">Feedback</a>
             <a draggable="false" href="/questions" style="margin-left: 24px;">Questions</a><a href="/experiments" draggable="false" style="margin-left: 24px;">Experiments</a>
             <a href="${prometheusUrl}" target="_blank" draggable="false" style="margin-left: 24px;">Perf-Monitor</a>
           </div>`
-         : ''
-     }
+  }
+
+  // TODO
+  const logbookVisible = showAll // any story available
+  const enoughVisible = showAll // story 4 available
+  const musicVisible = showAll // story 5 available
+
+  if (logbookVisible) {
+    output += `<a draggable="false" href="/logbook" style="position:absolute;left:1188px;top:120px;" class="text-reset text-decoration-none fade-in">
+            <div>${req.lng == 'de' ? 'Reisebericht' : 'Travel Log'}</div>
+            <img draggable="false" src="/story/book.png" style="width:40px;margin-left:21px; margin-top: 3px; border-radius: 6px;">
+          </a>`
+  }
+
+  if (enoughVisible) {
+    output += `<a draggable="false" href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in">
+            <div>&nbsp;&nbsp;&nbsp;Enough</div>
+            <img draggable="false" src="/enough.png" style="width:65px;margin-top:6px;">
+          </a>`
+  }
+
+  if (musicVisible) {
+    output += `<a draggable="false" href="/music" target="_blank" style="position:absolute;left:158px;top:1160px;" class="text-reset text-decoration-none fade-in">
+            <div>Musik</div>
+            <img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;">
+          </a>`
+  }
+
+  return `
+    <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
+    <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
+    <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
+    <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
+    ${output}
   `
 }
 

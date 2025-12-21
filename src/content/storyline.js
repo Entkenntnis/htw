@@ -122,7 +122,7 @@ export function setupStoryline(App) {
           <a href="/story/${id}/skip" class="scene-skip" aria-label="${lng === 'en' ? 'Skip' : 'Überspringen'}">${lng === 'en' ? 'skip' : 'überspringen'}</a>
           <div class="scene-panel">
             <div class="panel-inner">
-              ${await renderTemplate(App, req, '../story-scenes/' + id + '_' + lng)}
+              ${await renderTemplate(App, req, '../story-scenes/' + id + '_' + lng, { username: req.user.name })}
             </div>
           </div>
         </div>

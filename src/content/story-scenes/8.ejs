@@ -1,4 +1,51 @@
-<div style="text-align: center">
+<div id="scene-8" style="text-align: center">
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      #scene-8 .fade-in,
+      #scene-8 .line-fade-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+    #scene-8 .fade-in {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    #scene-8 .fade-in.start {
+      animation: sceneFadeIn 1000ms ease-out forwards;
+    }
+    #scene-8 .line-fade-in {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    #scene-8 .line-fade-in.start {
+      animation: sceneFadeIn var(--line-dur, 1000ms) ease-out forwards;
+    }
+    @keyframes sceneFadeIn {
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    #scene-8 .continue {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #scene-8 .continue.show {
+      transition: opacity 300ms ease-in;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #scene-8 .skip {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    #scene-8 {
+      cursor: pointer;
+    }
+  </style>
   <div
     style="
       max-width: 65ch;
@@ -7,45 +54,213 @@
       text-align: left;
     "
   >
-    <p>
+    <p class="fade-in">
       <em
         >Im Raumschiff-Terminal versammelt sich die Gruppe noch ein letztes Mal
         auf dieser Reise</em
       >
     </p>
-
-    <p>
-      <strong>Kiwi</strong>: Das ist wohl der Moment, Abschied zu nehmen.
-      <strong>[NAME]</strong>, es war schön mit dir zu reisen und deine Mentorin
-      zu sein! Du hast gut gelernt.<br />
-      <strong>Josh</strong>: Es war mir eine Ehre.<br />
-      <strong>Bex</strong>: Same! Aber vielleicht muss es gar nicht das Ende
-      sein. Kiwi, erinnerst du dich noch an meinen Vorschlag?<br />
-      <strong>Kiwi</strong>: Ähm, welchen genau?<br />
-      <strong>Bex</strong>: Als du mir damals das Hacken gezeigt hast! Ich
-      meinte, wir könnten daraus doch …<br />
-      <strong>Kiwi</strong>: … eine Webseite bauen, haha. Ja, daran erinnere ich
-      mich jetzt.<br />
-      <strong>Bex</strong>: Du bist immer so schüchtern, wenn es um sowas geht.
-      Die Aufgaben sind toll, daran werden viele Menschen Spaß haben. Bauen wir
-      doch eine Webseite und stellen sie online.<br />
-      <strong>Josh</strong>: Mir gefällt diese Idee. Es wird bestimmt Menschen
-      geben, die sich auch fürs Hacken interessieren und sich fragen, wie es
-      aussieht. Und es tut uns sicher auch gut, etwas aufzubauen, das UNS
-      gehört. Wo wir die Regeln bestimmen können.<br />
-      <strong>Kiwi</strong>: … denkt ihr das klappt?<br />
-      <strong>Bex</strong>: Weiß ich nicht! 🙃 Aber wenn wir es nicht probieren,
-      finden wir es nie heraus. Lasst uns es einfach machen. Ich kann gerne den
-      Server aufsetzen.<br />
-      <strong>Josh</strong>: Ich bin auch gerne dabei. Also, was sagst du,
-      Kiwi?<br />
-      <strong>Kiwi</strong>: Gemeinsam?<br />
-      <strong>Josh</strong>: Gemeinsam!<br />
-      <strong>Bex</strong>: Let’s hack. Und eine erste Testperson haben wir auch
-      schon 😋
+    <p class="fade-in">
+      <span class="line-fade-in"
+        ><strong>Kiwi</strong>: Das ist wohl der Moment, Abschied zu nehmen.
+        <strong>[NAME]</strong>, es war schön mit dir zu reisen und deine
+        Mentorin zu sein! Du hast gut gelernt.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Es war mir eine Ehre.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Bex</strong>: Same! Aber vielleicht muss es gar nicht das Ende
+        sein. Kiwi, erinnerst du dich noch an meinen Vorschlag?</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi</strong>: Ähm, welchen genau?</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Bex</strong>: Als du mir damals das Hacken gezeigt hast! Ich
+        meinte, wir könnten daraus doch …</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi</strong>: … eine Webseite bauen, haha. Ja, daran erinnere
+        ich mich jetzt.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Bex</strong>: Du bist immer so schüchtern, wenn es um sowas
+        geht. Die Aufgaben sind toll, daran werden viele Menschen Spaß haben.
+        Bauen wir doch eine Webseite und stellen sie online.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Mir gefällt diese Idee. Es wird bestimmt
+        Menschen geben, die sich auch fürs Hacken interessieren und sich fragen,
+        wie es aussieht. Und es tut uns sicher auch gut, etwas aufzubauen, das
+        UNS gehört. Wo wir die Regeln bestimmen können.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi</strong>: … denkt ihr das klappt?</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Bex</strong>: Weiß ich nicht! 🙃 Aber wenn wir es nicht
+        probieren, finden wir es nie heraus. Lasst uns es einfach machen. Ich
+        kann gerne den Server aufsetzen.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Ich bin auch gerne dabei. Also, was sagst du,
+        Kiwi?</span
+      ><br />
+      <span class="line-fade-in"><strong>Kiwi</strong>: Gemeinsam?</span><br />
+      <span class="line-fade-in"><strong>Josh</strong>: Gemeinsam!</span><br />
+      <span class="line-fade-in"
+        ><strong>Bex</strong>: Let’s hack. Und eine erste Testperson haben wir
+        auch schon 😋</span
+      >
     </p>
   </div>
-  <form action="/story/8/complete" method="post">
+  <form
+    id="scene-8-continue"
+    class="continue"
+    action="/story/8/complete"
+    method="post"
+    aria-hidden="true"
+  >
     <input type="submit" class="btn btn-interaction btn-sm" value="Weiter" />
   </form>
+  <script>
+    ;(function () {
+      var c = document.getElementById('scene-8')
+      if (!c) return
+      var reduce =
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      var btn = c.querySelector('#scene-8-continue')
+      var ps = c.querySelectorAll('p.fade-in')
+      var P_DUR = 4000,
+        L_GAP = 600
+      function calcDur(s) {
+        var w = (s || '').trim().split(/\s+/).filter(Boolean).length
+        var d = 2400 + w * 120
+        if (d < 2400) d = 2400
+        if (d > 7000) d = 7000
+        return d
+      }
+      for (var i = 0; i < ps.length; i++) {
+        var ls0 = ps[i].querySelectorAll('.line-fade-in')
+        for (var j = 0; j < ls0.length; j++) {
+          var d0 = calcDur(ls0[j].textContent || '')
+          var clamped = Math.min(d0, 1000)
+          ls0[j].style.setProperty('--line-dur', clamped + 'ms')
+        }
+      }
+      var state = {
+        pi: 0,
+        li: -1,
+        timeout: null,
+        currentEl: null,
+        currentType: null,
+      }
+      function showContinue() {
+        if (btn) {
+          btn.classList.add('show')
+          btn.removeAttribute('aria-hidden')
+        }
+        if (c) c.style.cursor = 'auto'
+      }
+      function nextParagraph(immediate) {
+        state.pi++
+        if (state.pi < ps.length) startParagraph(state.pi, immediate)
+        else showContinue()
+      }
+      function startParagraph(i, immediate) {
+        var p = ps[i]
+        p.classList.add('start')
+        state.currentEl = p
+        state.currentType = 'paragraph'
+        state.li = -1
+        var ls = p.querySelectorAll('.line-fade-in')
+        if (ls.length) {
+          if (immediate) {
+            startLine(0)
+          } else {
+            state.timeout = setTimeout(function () {
+              startLine(0)
+            }, P_DUR)
+          }
+        } else {
+          if (immediate) {
+            nextParagraph(true)
+          } else {
+            state.timeout = setTimeout(function () {
+              nextParagraph(false)
+            }, P_DUR)
+          }
+        }
+      }
+      function startLine(j) {
+        var p = ps[state.pi]
+        var ls = p.querySelectorAll('.line-fade-in')
+        state.li = j
+        var line = ls[j]
+        line.classList.add('start')
+        state.currentEl = line
+        state.currentType = 'line'
+        var d = calcDur(line.textContent || '')
+        state.timeout = setTimeout(function () {
+          if (j + 1 < ls.length) startLine(j + 1)
+          else nextParagraph()
+        }, d + L_GAP)
+      }
+      function skipCurrent() {
+        if (state.timeout) {
+          clearTimeout(state.timeout)
+          state.timeout = null
+        }
+        if (state.currentEl) state.currentEl.classList.add('skip')
+        if (state.currentType === 'paragraph') {
+          var ls = ps[state.pi].querySelectorAll('.line-fade-in')
+          if (ls.length) startLine(0)
+          else nextParagraph(true)
+        } else if (state.currentType === 'line') {
+          var p = ps[state.pi]
+          var ls2 = p.querySelectorAll('.line-fade-in')
+          if (state.li + 1 < ls2.length) startLine(state.li + 1)
+          else nextParagraph()
+        } else {
+          startParagraph(state.pi, true)
+        }
+      }
+      function startSequence() {
+        if (reduce) {
+          for (var i = 0; i < ps.length; i++) {
+            ps[i].classList.add('skip')
+            ps[i].classList.add('start')
+            var ls = ps[i].querySelectorAll('.line-fade-in')
+            for (var j = 0; j < ls.length; j++) {
+              ls[j].classList.add('skip')
+              ls[j].classList.add('start')
+            }
+          }
+          showContinue()
+          return
+        }
+        startParagraph(0, false)
+        c.addEventListener('click', function (ev) {
+          if (ev.target && ev.target.closest && ev.target.closest('.continue'))
+            return
+          skipCurrent()
+        })
+      }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(
+          function (e, o) {
+            if (e[0].isIntersecting) {
+              startSequence()
+              o.disconnect()
+            }
+          },
+          { threshold: 0.1 }
+        ).observe(c)
+      } else {
+        startSequence()
+      }
+    })()
+  </script>
 </div>

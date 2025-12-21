@@ -1,4 +1,51 @@
-<div style="text-align: center">
+<div id="scene-4" style="text-align: center">
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      #scene-4 .fade-in,
+      #scene-4 .line-fade-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+    #scene-4 .fade-in {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    #scene-4 .fade-in.start {
+      animation: scene4FadeIn 1000ms ease-out forwards;
+    }
+    #scene-4 .line-fade-in {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    #scene-4 .line-fade-in.start {
+      animation: scene4FadeIn var(--line-dur, 1000ms) ease-out forwards;
+    }
+    #scene-4 {
+      cursor: pointer;
+    }
+    @keyframes scene4FadeIn {
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    #scene-4 .continue {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #scene-4 .continue.show {
+      transition: opacity 300ms ease-in;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #scene-4 .skip {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  </style>
   <div
     style="
       max-width: 65ch;
@@ -7,25 +54,35 @@
       text-align: left;
     "
   >
-    <p>
+    <p class="fade-in">
       <em
         >Eine Woche später, nach dem Abendessen, Kiwi und Josh in der Lounge</em
       >
     </p>
 
-    <p>
-      <strong>Josh:</strong> Ich hab ein richtig tolles Buch gelesen, das musst
-      du sehen!<br />
-      <strong>Kiwi:</strong> Ein richtiges Buch? Mit Papier und so?<br />
-      <strong>Josh:</strong> Haha, nein, nein. Es ist ein Holo-Buch aus der
-      Bord-Bibliothek, es heißt “Enough”. Könnte dir gefallen.<br />
-      <strong>Kiwi:</strong> Wie kommst du drauf?<br />
-      <strong>Josh:</strong> Es geht um ein Wesen einer großen, unbekannten
-      Welt, das viel herumreist und am Ende ein Zuhause findet – eine solche
-      Geschichte müsste dir doch..
+    <p class="fade-in">
+      <span class="line-fade-in"
+        ><strong>Josh:</strong> Ich hab ein richtig tolles Buch gelesen, das
+        musst du sehen!</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi:</strong> Ein richtiges Buch? Mit Papier und so?</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh:</strong> Haha, nein, nein. Es ist ein Holo-Buch aus der
+        Bord-Bibliothek, es heißt “Enough”. Könnte dir gefallen.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi:</strong> Wie kommst du drauf?</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh:</strong> Es geht um ein Wesen einer großen, unbekannten
+        Welt, das viel herumreist und am Ende ein Zuhause findet – eine solche
+        Geschichte müsste dir doch..</span
+      >
     </p>
 
-    <p>
+    <p class="fade-in">
       <em
         >Plötzlich erlischt das Licht. Dunkelheit. Wenige Sekunden später wird
         es wieder hell, nicht im üblichen Weiß, sondern in den Farben der
@@ -33,27 +90,187 @@
       >
     </p>
 
-    <p>
-      <strong>Josh:</strong> … wow!<br />
-      <strong>Kiwi:</strong> Wie wunderschön! Ich vermisse es so sehr, meine
-      Flagge zeigen zu können.<br />
-      <strong>Josh:</strong> … geht mir genauso …<br />
-      <strong>Kiwi:</strong> Bex würde ausflippen bei dem Anblick!<br />
+    <p class="fade-in">
+      <span class="line-fade-in"><strong>Josh:</strong> … wow!</span><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi:</strong> Wie wunderschön! Ich vermisse es so sehr, meine
+        Flagge zeigen zu können.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh:</strong> … geht mir genauso …</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi:</strong> Bex würde ausflippen bei dem Anblick!</span
+      >
     </p>
 
-    <p>
+    <p class="fade-in">
       <em
         >Beide genießen den bunten Schein, bis die Beleuchtung nach ein paar
         Minuten wieder zurückwechselt, als wäre nichts geschehen.</em
       >
     </p>
 
-    <p>
-      <strong>Kiwi:</strong> Danke, Josh, für den Buch-Tipp. Jetzt habe ich
-      plötzlich voll Lust, zu lesen.
+    <p class="fade-in">
+      <span class="line-fade-in"
+        ><strong>Kiwi:</strong> Danke, Josh, für den Buch-Tipp. Jetzt habe ich
+        plötzlich voll Lust, zu lesen.</span
+      >
     </p>
   </div>
-  <form action="/story/4/complete" method="post">
+  <form
+    id="scene-4-continue"
+    class="continue"
+    action="/story/4/complete"
+    method="post"
+    aria-hidden="true"
+  >
     <input type="submit" class="btn btn-interaction btn-sm" value="Weiter" />
   </form>
+  <script>
+    ;(function () {
+      var c = document.getElementById('scene-4')
+      if (!c) return
+      var reduce =
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      var btn = c.querySelector('#scene-4-continue')
+      var ps = c.querySelectorAll('p.fade-in')
+      var P_DUR = 4000,
+        L_GAP = 600
+      function calcDur(s) {
+        var w = (s || '').trim().split(/\s+/).filter(Boolean).length
+        var d = 2400 + w * 120
+        if (d < 2400) d = 2400
+        if (d > 7000) d = 7000
+        return d
+      }
+      // Precompute per-line durations (for CSS var only)
+      for (var i = 0; i < ps.length; i++) {
+        var ls0 = ps[i].querySelectorAll('.line-fade-in')
+        for (var j = 0; j < ls0.length; j++) {
+          var d0 = calcDur(ls0[j].textContent || '')
+          var clamped = Math.min(d0, 1000)
+          ls0[j].style.setProperty('--line-dur', clamped + 'ms')
+        }
+      }
+
+      var state = {
+        pi: 0,
+        li: -1,
+        timeout: null,
+        currentEl: null,
+        currentType: null,
+      }
+      function showContinue() {
+        if (btn) {
+          btn.classList.add('show')
+          btn.removeAttribute('aria-hidden')
+        }
+        // After all animations complete, remove pointer cursor
+        if (c) c.style.cursor = 'auto'
+      }
+      function nextParagraph(immediate) {
+        state.pi++
+        if (state.pi < ps.length) startParagraph(state.pi, immediate)
+        else showContinue()
+      }
+      function startParagraph(i, immediate) {
+        var p = ps[i]
+        p.classList.add('start')
+        state.currentEl = p
+        state.currentType = 'paragraph'
+        state.li = -1
+        var ls = p.querySelectorAll('.line-fade-in')
+        if (ls.length) {
+          if (immediate) {
+            startLine(0)
+          } else {
+            state.timeout = setTimeout(function () {
+              startLine(0)
+            }, P_DUR)
+          }
+        } else {
+          if (immediate) {
+            nextParagraph(true)
+          } else {
+            state.timeout = setTimeout(function () {
+              nextParagraph(false)
+            }, P_DUR)
+          }
+        }
+      }
+      function startLine(j) {
+        var p = ps[state.pi]
+        var ls = p.querySelectorAll('.line-fade-in')
+        state.li = j
+        var line = ls[j]
+        line.classList.add('start')
+        state.currentEl = line
+        state.currentType = 'line'
+        var d = calcDur(line.textContent || '')
+        state.timeout = setTimeout(function () {
+          if (j + 1 < ls.length) startLine(j + 1)
+          else nextParagraph()
+        }, d + L_GAP)
+      }
+      function skipCurrent() {
+        if (state.timeout) {
+          clearTimeout(state.timeout)
+          state.timeout = null
+        }
+        if (state.currentEl) state.currentEl.classList.add('skip')
+        if (state.currentType === 'paragraph') {
+          var ls = ps[state.pi].querySelectorAll('.line-fade-in')
+          if (ls.length) startLine(0)
+          else nextParagraph(true)
+        } else if (state.currentType === 'line') {
+          var p = ps[state.pi]
+          var ls2 = p.querySelectorAll('.line-fade-in')
+          if (state.li + 1 < ls2.length) startLine(state.li + 1)
+          else nextParagraph()
+        } else {
+          startParagraph(state.pi, true)
+        }
+      }
+
+      function startSequence() {
+        if (reduce) {
+          // Reveal everything instantly
+          for (var i = 0; i < ps.length; i++) {
+            ps[i].classList.add('skip')
+            ps[i].classList.add('start')
+            var ls = ps[i].querySelectorAll('.line-fade-in')
+            for (var j = 0; j < ls.length; j++) {
+              ls[j].classList.add('skip')
+              ls[j].classList.add('start')
+            }
+          }
+          showContinue()
+          return
+        }
+        startParagraph(0, false)
+        // Click to skip current animation and advance to next line/paragraph
+        c.addEventListener('click', function (ev) {
+          if (ev.target && ev.target.closest && ev.target.closest('.continue'))
+            return
+          skipCurrent()
+        })
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(
+          function (e, o) {
+            if (e[0].isIntersecting) {
+              startSequence()
+              o.disconnect()
+            }
+          },
+          { threshold: 0.1 }
+        ).observe(c)
+      } else {
+        startSequence()
+      }
+    })()
+  </script>
 </div>

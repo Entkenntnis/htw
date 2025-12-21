@@ -1,4 +1,51 @@
-<div style="text-align: center">
+<div id="scene-6" style="text-align: center">
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      #scene-6 .fade-in,
+      #scene-6 .line-fade-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+    #scene-6 .fade-in {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    #scene-6 .fade-in.start {
+      animation: sceneFadeIn 1000ms ease-out forwards;
+    }
+    #scene-6 .line-fade-in {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    #scene-6 .line-fade-in.start {
+      animation: sceneFadeIn var(--line-dur, 1000ms) ease-out forwards;
+    }
+    @keyframes sceneFadeIn {
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    #scene-6 .continue {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #scene-6 .continue.show {
+      transition: opacity 300ms ease-in;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #scene-6 .skip {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    #scene-6 {
+      cursor: pointer;
+    }
+  </style>
   <div
     style="
       max-width: 65ch;
@@ -7,7 +54,7 @@
       text-align: left;
     "
   >
-    <p>
+    <p class="fade-in">
       <em
         >Kiwi und Bex besuchen Josh auf der Krankenstation. Am Tag davor hatte
         er einen Ohnmachts-Anfall und sich dabei eine Beule am Kopf zugezogen.
@@ -15,40 +62,211 @@
         beobachten.</em
       >
     </p>
-
-    <p>
-      <strong>Josh</strong>: Sowas passiert schon mal, wenn man älter wird.<br />
-      <strong>Bex</strong>: Stimmt nicht ganz! Als ich aus dem Kryoschlaf geholt
-      wurde, bin ich danach auch paar Mal ohnmächtig geworden. Damit haben wir
-      ja was gemeinsam, haha.<br />
-      <strong>Kiwi</strong>: Ich bin froh, dass nichts Schlimmeres passiert ist.
-      Dein Kopf ist zum Glück nur gegen den Schreibtisch geprallt und nicht
-      gegen den Boden.<br />
-      <strong>Josh</strong>: Ich dachte wirklich kurz, dass war’s mit mir. Aber
-      so dramatisch wars dann zum Glück nicht …
+    <p class="fade-in">
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Sowas passiert schon mal, wenn man älter
+        wird.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Bex</strong>: Stimmt nicht ganz! Als ich aus dem Kryoschlaf
+        geholt wurde, bin ich danach auch paar Mal ohnmächtig geworden. Damit
+        haben wir ja was gemeinsam, haha.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi</strong>: Ich bin froh, dass nichts Schlimmeres passiert
+        ist. Dein Kopf ist zum Glück nur gegen den Schreibtisch geprallt und
+        nicht gegen den Boden.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Ich dachte wirklich kurz, dass war’s mit mir.
+        Aber so dramatisch wars dann zum Glück nicht …</span
+      >
     </p>
 
-    <p><em>Er hält kurz inne und schaut dann besorgt auf Kiwi und Bex.</em></p>
+    <p class="fade-in">
+      <em>Er hält kurz inne und schaut dann besorgt auf Kiwi und Bex.</em>
+    </p>
 
-    <p>
-      <strong>Kiwi</strong>: Was ist, Josh? Ist noch das passiert?<br />
-      <strong>Josh</strong>: Ihr wisst es noch nicht, oder? Als ich ohnmächtig
-      wurde, habe ich gerade eine Nachricht aus Sirtach gelesen.<br />
-      <strong>Bex</strong>: Jetzt sag schon!<br />
-      <strong>Josh</strong>: Das Regenbogenverbot. Es soll bald auch in Sirtach
-      gelten.<br />
-      <strong>Kiwi</strong>: Was!? … das ist … das … ich … (Tränen kommen ihr in
-      die Augen)<br />
-      <strong>Bex</strong>: Das Verbot, vor dem wir geflohen sind, holt uns
-      wieder ein!? Was für eine verdammte Scheiße!<br />
-      <strong>Josh</strong>: Ich … wisst ihr was, ich bin dankbar, dass wir
-      zusammen reisen. Ohne euch hätte ich schon längst aufgegeben. Aber jetzt
-      denke ich mir: das werden wir schaffen. Wir werden einen Weg finden.
-      Vielleicht nicht heute oder morgen, aber es wird einen Weg geben, solange
-      wir weiterhacken und weiterkämpfen.
+    <p class="fade-in">
+      <span class="line-fade-in"
+        ><strong>Kiwi</strong>: Was ist, Josh? Ist noch das passiert?</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Ihr wisst es noch nicht, oder? Als ich
+        ohnmächtig wurde, habe ich gerade eine Nachricht aus Sirtach
+        gelesen.</span
+      ><br />
+      <span class="line-fade-in"><strong>Bex</strong>: Jetzt sag schon!</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Das Regenbogenverbot. Es soll bald auch in
+        Sirtach gelten.</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Kiwi</strong>: Was!? … das ist … das … ich … (Tränen kommen ihr
+        in die Augen)</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Bex</strong>: Das Verbot, vor dem wir geflohen sind, holt uns
+        wieder ein!? Was für eine verdammte Scheiße!</span
+      ><br />
+      <span class="line-fade-in"
+        ><strong>Josh</strong>: Ich … wisst ihr was, ich bin dankbar, dass wir
+        zusammen reisen. Ohne euch hätte ich schon längst aufgegeben. Aber jetzt
+        denke ich mir: das werden wir schaffen. Wir werden einen Weg finden.
+        Vielleicht nicht heute oder morgen, aber es wird einen Weg geben,
+        solange wir weiterhacken und weiterkämpfen.</span
+      >
     </p>
   </div>
-  <form action="/story/6/complete" method="post">
+  <form
+    id="scene-6-continue"
+    class="continue"
+    action="/story/6/complete"
+    method="post"
+    aria-hidden="true"
+  >
     <input type="submit" class="btn btn-interaction btn-sm" value="Weiter" />
   </form>
+  <script>
+    ;(function () {
+      var c = document.getElementById('scene-6')
+      if (!c) return
+      var reduce =
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      var btn = c.querySelector('#scene-6-continue')
+      var ps = c.querySelectorAll('p.fade-in')
+      var P_DUR = 4000,
+        L_GAP = 600
+      function calcDur(s) {
+        var w = (s || '').trim().split(/\s+/).filter(Boolean).length
+        var d = 2400 + w * 120
+        if (d < 2400) d = 2400
+        if (d > 7000) d = 7000
+        return d
+      }
+      for (var i = 0; i < ps.length; i++) {
+        var ls0 = ps[i].querySelectorAll('.line-fade-in')
+        for (var j = 0; j < ls0.length; j++) {
+          var d0 = calcDur(ls0[j].textContent || '')
+          var clamped = Math.min(d0, 1000)
+          ls0[j].style.setProperty('--line-dur', clamped + 'ms')
+        }
+      }
+      var state = {
+        pi: 0,
+        li: -1,
+        timeout: null,
+        currentEl: null,
+        currentType: null,
+      }
+      function showContinue() {
+        if (btn) {
+          btn.classList.add('show')
+          btn.removeAttribute('aria-hidden')
+        }
+        if (c) c.style.cursor = 'auto'
+      }
+      function nextParagraph(immediate) {
+        state.pi++
+        if (state.pi < ps.length) startParagraph(state.pi, immediate)
+        else showContinue()
+      }
+      function startParagraph(i, immediate) {
+        var p = ps[i]
+        p.classList.add('start')
+        state.currentEl = p
+        state.currentType = 'paragraph'
+        state.li = -1
+        var ls = p.querySelectorAll('.line-fade-in')
+        if (ls.length) {
+          if (immediate) {
+            startLine(0)
+          } else {
+            state.timeout = setTimeout(function () {
+              startLine(0)
+            }, P_DUR)
+          }
+        } else {
+          if (immediate) {
+            state.timeout = setTimeout(function () {
+              nextParagraph(false)
+            }, P_DUR)
+          } else {
+            state.timeout = setTimeout(function () {
+              nextParagraph(false)
+            }, P_DUR)
+          }
+        }
+      }
+      function startLine(j) {
+        var p = ps[state.pi]
+        var ls = p.querySelectorAll('.line-fade-in')
+        state.li = j
+        var line = ls[j]
+        line.classList.add('start')
+        state.currentEl = line
+        state.currentType = 'line'
+        var d = calcDur(line.textContent || '')
+        state.timeout = setTimeout(function () {
+          if (j + 1 < ls.length) startLine(j + 1)
+          else nextParagraph()
+        }, d + L_GAP)
+      }
+      function skipCurrent() {
+        if (state.timeout) {
+          clearTimeout(state.timeout)
+          state.timeout = null
+        }
+        if (state.currentEl) state.currentEl.classList.add('skip')
+        if (state.currentType === 'paragraph') {
+          var ls = ps[state.pi].querySelectorAll('.line-fade-in')
+          if (ls.length) startLine(0)
+          else nextParagraph(true)
+        } else if (state.currentType === 'line') {
+          var p = ps[state.pi]
+          var ls2 = p.querySelectorAll('.line-fade-in')
+          if (state.li + 1 < ls2.length) startLine(state.li + 1)
+          else nextParagraph()
+        } else {
+          startParagraph(state.pi, true)
+        }
+      }
+      function startSequence() {
+        if (reduce) {
+          for (var i = 0; i < ps.length; i++) {
+            ps[i].classList.add('skip')
+            ps[i].classList.add('start')
+            var ls = ps[i].querySelectorAll('.line-fade-in')
+            for (var j = 0; j < ls.length; j++) {
+              ls[j].classList.add('skip')
+              ls[j].classList.add('start')
+            }
+          }
+          showContinue()
+          return
+        }
+        startParagraph(0, false)
+        c.addEventListener('click', function (ev) {
+          if (ev.target && ev.target.closest && ev.target.closest('.continue'))
+            return
+          skipCurrent()
+        })
+      }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(
+          function (e, o) {
+            if (e[0].isIntersecting) {
+              startSequence()
+              o.disconnect()
+            }
+          },
+          { threshold: 0.1 }
+        ).observe(c)
+      } else {
+        startSequence()
+      }
+    })()
+  </script>
 </div>

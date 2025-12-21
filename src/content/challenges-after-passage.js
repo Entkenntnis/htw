@@ -1799,7 +1799,7 @@ print(hex_string)</pre></code>
     deps: [92],
     html: {
       de: `
-      <p>Stark von dir, dass du dich immer wieder an neue Herausforderung herantraust und bereit bist, neue Dinge zu lernen. Das erfordert viel Motivation und Mut.
+      <p>Stark von dir, dass du dich immer wieder an neue Herausforderungen herantraust und bereit bist, neue Dinge zu lernen. Das erfordert viel Motivation und Mut.
       </p>
       
       <p>In dieser Aufgabe geht es um SQL. Um dich zu unterstützen habe ich ein Mini-Tutorial gebaut. Wir schauen uns die Tabelle <code>Geheimnis</code> mit den Spalten <code>schlüssel</code> und <code>wert</code> an. Du kannst deine Anfragen direkt ausprobieren. Gib verschiedene Eingaben für den Schlüssel ein und schaue dir das Ergebnis an. Probiere es mit apfel, mandarine und wassermelone.

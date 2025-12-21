@@ -60,7 +60,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
           </a>
           
           <a draggable="false" href="/logbook" style="position:absolute;left:1188px;top:120px;" class="text-reset text-decoration-none fade-in">
-            <div>Reisebericht</div>
+            <div>${req.lng == 'de' ? 'Reisebericht' : 'Travel Log'}</div>
             <img draggable="false" src="/story/book.png" style="width:40px;margin-left:21px; margin-top: 3px; border-radius: 6px;">
           </a>
           

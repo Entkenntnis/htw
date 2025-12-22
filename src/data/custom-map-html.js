@@ -152,6 +152,55 @@ export async function customMapHtmlCreator({ App, req, solved }) {
     <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
     ${output}
+
+
+    <div class="lang-picker fade-in" style="position: absolute; left: 1360px; top: 370px; display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 6px; padding-top: 6px;">
+      <div style="opacity:0.8;">Filter</div>
+      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="show-easy" checked />
+        <span>Einfach</span>
+      </label>
+      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+        <input type="checkbox" id="show-medium" />
+        <span>Mittel</span>
+      </label>
+      <label style="display:flex; align-items:center; gap:6px; cursor:pointer; margin-bottom: 0;">
+        <input type="checkbox" id="show-hard" />
+        <span>Schwer</span>
+      </label>
+    </div>
+
+    <style>
+      body.hide-easy .map-difficulty-easy { display: none; }
+      body.hide-medium .map-difficulty-medium { display: none; }
+      body.hide-hard .map-difficulty-hard { display: none; }
+    </style>
+    <script>
+      (function() {
+        function applyVisibility() {
+          var easy = document.getElementById('show-easy');
+          var medium = document.getElementById('show-medium');
+          var hard = document.getElementById('show-hard');
+
+          if (!easy || !medium || !hard) return;
+
+          document.body.classList.toggle('hide-easy', !easy.checked);
+          document.body.classList.toggle('hide-medium', !medium.checked);
+          document.body.classList.toggle('hide-hard', !hard.checked);
+        }
+
+        var easyCb = document.getElementById('show-easy');
+        var mediumCb = document.getElementById('show-medium');
+        var hardCb = document.getElementById('show-hard');
+
+        if (easyCb) easyCb.addEventListener('change', applyVisibility);
+        if (mediumCb) mediumCb.addEventListener('change', applyVisibility);
+        if (hardCb) hardCb.addEventListener('change', applyVisibility);
+
+        // Initialize based on current checkbox states
+        applyVisibility();
+      })();
+    </script>
   `
 }
 

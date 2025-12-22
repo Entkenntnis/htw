@@ -119,6 +119,7 @@ export interface HtwChallenge {
   showAfterSolve?: boolean
   showAboveScore?: number
   releaseTs?: number
+  difificulty?: 'easy' | 'medium' | 'hard'
   html?: { de: string; en: string }
   render?: (context: {
     App: App

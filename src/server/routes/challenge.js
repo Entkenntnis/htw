@@ -170,7 +170,7 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; color: string, goHere: boolean, unreleased: boolean, withExperiment?: boolean }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string; difficulty: string | undefined; isSolved: boolean; color: string, goHere: boolean, unreleased: boolean, withExperiment?: boolean }[]}
      */
     const points = []
 
@@ -193,6 +193,7 @@ export function setupChallenges(App) {
         id: challenge.id,
         pos: challenge.pos,
         title: App.challenges.getTitle(challenge.id, req),
+        difficulty: challenge.difificulty,
         isSolved,
         color,
         goHere: goHere === challenge.id,
@@ -229,7 +230,7 @@ export function setupChallenges(App) {
             const dashed = challenge.noScore && !previous.noScore
             if (solved.includes(previous.id)) {
               svgLines.push(
-                `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round" ${dashed ? 'class="dashed"' : ''}></line>`
+                `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round" ${dashed ? 'class="dashed"' : ''} ${challenge.difificulty ? ` class="map-difficulty-${challenge.difificulty}"` : ''}></line>`
               )
             }
           })
@@ -245,7 +246,7 @@ export function setupChallenges(App) {
       svgCircles.push(
         `<a href="${
           '/challenge/' + point.id
-        }" class="no-underline"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
+        }" class="no-underline${point.difficulty ? ` map-difficulty-${point.difficulty}` : ''}"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
           point.pos.y
         }" ${
           point.isSolved || point.unreleased

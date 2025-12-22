@@ -1495,6 +1495,7 @@ RS#1</pre>
     deps: [300],
     noScore: true,
     author: 'User0',
+    difificulty: 'easy',
     html: {
       de: `
         <p>Du bist <a href="/chals/eng_soc" target="_blank">auf einer Pirateninsel gestrandet</a> und hörst von einem Piraten, der viel Gold haben soll. Lass Dir von ihm den Namen der Insel verraten, wo das Gold versteckt ist.</p>

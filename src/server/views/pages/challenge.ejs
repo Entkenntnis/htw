@@ -4,7 +4,7 @@
     <% if (props.correct !== true) { %>
       <a href="/map" <%- App.config.historyBack ? 'onclick="goBack(event)"' : ''%>><%= t('back') %></a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
     <% } %>
-    <span style="color: gray">
+    <span style="color: gray" title="<%= props.solvedBy == 1 ? t('solvedBy_one', {count: props.solvedBy}) : t('solvedBy_other', {count: props.solvedBy}) %><% if (props.lastSolved !== null) { %><%= ', ' + t('lastSolved', {ago: App.moment(props.lastSolved).locale(locale).fromNow(), name: props.lastSolvedUserName})%><% } %>">
       <%= props.ratio %>
     </span>
     <% if (props.challenge.date) { %><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
@@ -100,10 +100,6 @@
   <% } %>
 
   <div style="height:200px"></div>
-
-  <!--<p>
-    <small style="display: inline-block; color: rgb(110, 110, 110); margin-top: 6px; margin-bottom: 8px;"><%= props.solvedBy == 1 ? t('solvedBy_one', {count: props.solvedBy}) : t('solvedBy_other', {count: props.solvedBy}) %><% if (props.lastSolved !== null) { %><%= ', ' + t('lastSolved', {ago: App.moment(props.lastSolved).locale(locale).fromNow(), name: props.lastSolvedUserName})%> [<a href="/solvers/<%=props.challenge.id%>" style="color: rgb(110, 110, 110);"><%=t('history')%></a>]<%}%></small>
-  </p>-->
 
 <% } %>
 

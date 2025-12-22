@@ -573,16 +573,15 @@ export function setupChallenges(App) {
 
       if (needRefresh.current) {
         await App.challengeStats.refreshData(id)
+
+        const trigger = await App.mapMeta.onChange(req.user.id)
+
+        if (trigger) {
+          req.session.nextStoryId = trigger.toString()
+          App.event.create(`story-triggered-${trigger}`, req.user.id)
+        }
       }
     }
-
-    // handle storyline
-    // if (correct) {
-    //   if (id == 1) {
-    //     req.session.nextStoryId = '1'
-    //   }
-    // }
-    // END =======
 
     const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)

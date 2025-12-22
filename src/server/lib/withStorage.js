@@ -51,12 +51,12 @@ export function withStorage(App) {
         )
         return
       }
+      // Update cache immediately
+      setCacheItem(key, value)
       await App.db.models.KVPair.upsert({
         key,
         value,
       })
-      // Update cache after successful database write
-      setCacheItem(key, value)
     },
     async getItem(key) {
       // Check cache first

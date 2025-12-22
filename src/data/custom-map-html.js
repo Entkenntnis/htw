@@ -10,11 +10,18 @@ export async function customMapHtmlCreator({ App, req, solved }) {
     App.config.editors.includes(req.user.name) ||
     App.config.demos.includes(req.user.name)
 
+  const mapMeta = await App.mapMeta.get(req.user.id)
+
+  const logbookVisible = showAll || mapMeta.storiesAvailable.length > 0 // any story available
+  const enoughVisible = showAll || mapMeta.storiesAvailable.includes(4) // story 4 available
+  const musicVisible = showAll || mapMeta.storiesAvailable.includes(5) // story 5 available
+
   const wwwmVisible = req.user.score >= 150 || showAll
   const mortalCoilVisible = req.user.score >= 200 || showAll
   const wormsVisible = req.user.score >= 250 || showAll
   const pleaseFixMeVisible = req.user.score >= 300 || showAll
 
+  const showWwwmLocked = !wwwmVisible && logbookVisible
   const showMortalcoilLocked = wwwmVisible && !mortalCoilVisible
   const showWormsLocked = mortalCoilVisible && !wormsVisible
   const showPleaseFixMeLocked = wormsVisible && !pleaseFixMeVisible
@@ -60,6 +67,12 @@ export async function customMapHtmlCreator({ App, req, solved }) {
           </a>`
   }
 
+  if (showWwwmLocked) {
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1350px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+        <span style="font-weight:600;color:#ddd;">🔒 ab 150 Punkten</span>
+      </div>`
+  }
+
   if (showMortalcoilLocked) {
     output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1550px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">🔒 ab 200 Punkten</span>
@@ -101,15 +114,21 @@ export async function customMapHtmlCreator({ App, req, solved }) {
           </div>`
   }
 
-  // TODO
-  const logbookVisible = showAll // any story available
-  const enoughVisible = showAll // story 4 available
-  const musicVisible = showAll // story 5 available
+  const newStoriesCount = !showAll
+    ? mapMeta.storiesAvailable.filter(
+        (storyid) => !mapMeta.storiesCompleted.includes(storyid)
+      ).length
+    : 0
 
   if (logbookVisible) {
     output += `<a draggable="false" href="/logbook" style="position:absolute;left:1188px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>${req.lng == 'de' ? 'Reisebericht' : 'Travel Log'}</div>
             <img draggable="false" src="/story/book.png" style="width:40px;margin-left:21px; margin-top: 3px; border-radius: 6px;">
+            ${
+              newStoriesCount > 0
+                ? `<div style="position: absolute; right: 9px; bottom: -9px; background-color: var(--main-color); color:#ffffff; font-size:12px; padding:2px 6px; border-radius:12px; min-width:22px; text-align:center; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);">${newStoriesCount}</div>`
+                : ''
+            }
           </a>`
   }
 

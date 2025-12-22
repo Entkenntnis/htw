@@ -17,6 +17,14 @@ export function setupStoryline(App) {
       return
     }
 
+    const mapMeta = await App.mapMeta.get(req.user.id)
+    if (!mapMeta.storiesAvailable.includes(parseInt(id))) {
+      res.redirect('/')
+      return
+    }
+
+    App.event.create('story-view-' + id, req.user.id)
+
     if (req.query.logbook === '1') {
       req.session.returnToLogbook = true
     }
@@ -245,7 +253,7 @@ export function setupStoryline(App) {
     })
   })
 
-  App.express.post('/story/:id/complete', (req, res) => {
+  App.express.post('/story/:id/complete', async (req, res) => {
     const id = req.params.id
 
     // ups, this got a bit uglier than expected
@@ -257,8 +265,8 @@ export function setupStoryline(App) {
       return
     }
 
-    // EVENT
-    // TODO: mark story as complete for user
+    await App.mapMeta.markAsCompleted(req.user.id, parseInt(id))
+    App.event.create('story-complete-' + id, req.user.id)
 
     if (req.session.returnToLogbook) {
       delete req.session.returnToLogbook
@@ -281,7 +289,7 @@ export function setupStoryline(App) {
       return
     }
 
-    // EVENT
+    App.event.create('story-skip-' + id, req.user.id)
 
     if (req.session.returnToLogbook) {
       delete req.session.returnToLogbook
@@ -299,18 +307,28 @@ export function setupStoryline(App) {
     }
     const lng = req.lng === 'en' ? 'en' : 'de'
     const heading = lng === 'en' ? 'Travel Log' : 'Reisebericht'
+    const mapMeta = await App.mapMeta.get(req.user.id)
+
+    if (App.config.editors.includes(req.user.name)) {
+      // Editors can see all stories
+      mapMeta.storiesAvailable = Object.keys(STORIES).map((k) => parseInt(k))
+      mapMeta.storiesCompleted = Object.keys(STORIES).map((k) => parseInt(k))
+    }
+
     renderPage(App, req, res, {
       page: 'logbook',
       heading,
       content: `
         <style>
-          .story-entry:hover {
-            filter: brightness(1.22);
-            transform: scale(1.01);
-          }
-          .story-entry {
-            transition: all 0.2s ease-in-out;
-          }
+          .story-entry { transition: all 0.2s ease-in-out; }
+          .story-entry.available:hover { filter: brightness(1.22); transform: scale(1.01); }
+          .story-entry.available { color: var(--main-color); background: rgba(var(--main-color-rgb), 0.06); border: 1px solid rgba(var(--main-color-rgb), 0.18); }
+          .story-entry.completed { color: rgba(255, 255, 255, 0.65); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); }
+          .story-entry.unavailable { color: rgba(255, 255, 255, 0.45); background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.12); cursor: default; }
+          .story-entry.completed .badge, .story-entry.unavailable .badge { background: rgba(255, 255, 255, 0.10) !important; color: rgba(255, 255, 255, 0.70) !important; }
+          .story-entry.unavailable .story-title { color: rgba(255, 255, 255, 0.30); }
+          .story-entry.completed .checkmark { margin-left: 8px; color: rgba(255, 255, 255, 0.75); }
+          .story-entry.unavailable { justify-content: center; }
         </style>
         <div style="
           display: flex;
@@ -324,19 +342,22 @@ export function setupStoryline(App) {
               const lng = req.lng === 'en' ? 'en' : 'de'
               const t =
                 lng === 'en' && story.enTitle ? story.enTitle : story.title
-              return `
-            <a href="/story/${id}?logbook=1" class="story-entry" style="
-              display: flex;
-              align-items: center;
-              gap: 10px;
-              padding: 10px 12px;
-              border-radius: 8px;
-              text-decoration: none;
-              color: var(--main-color);
-              background: rgba(var(--main-color-rgb), 0.06);
-              border: 1px solid rgba(var(--main-color-rgb), 0.18);
-            ">
-              <span style="
+              const sid = parseInt(id)
+              const available = mapMeta.storiesAvailable.includes(sid)
+              const completed = mapMeta.storiesCompleted.includes(sid)
+              const cls = available
+                ? completed
+                  ? 'completed'
+                  : 'available'
+                : 'unavailable'
+              const titleText = available ? t : '???'
+              const containerOpen = available
+                ? `<a href="/story/${id}?logbook=1" class="story-entry ${cls}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;">`
+                : `<div class="story-entry ${cls}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;">`
+              const containerClose = available ? `</a>` : `</div>`
+              const badgeHtml = available
+                ? `
+              <span class="badge" style="
                 display: inline-flex;
                 width: 28px;
                 height: 28px;
@@ -346,12 +367,17 @@ export function setupStoryline(App) {
                 font-weight: 700;
                 align-items: center;
                 justify-content: center;
-              ">${idx + 1}</span>
-              <span style="
+              ">${idx + 1}</span>`
+                : ''
+              return `
+            ${containerOpen}
+              ${badgeHtml}
+              <span class="story-title" style="
                 font-weight: 600;
                 letter-spacing: .2px;
-              ">${t}</span>
-            </a>
+              ">${titleText}</span>
+              ${completed ? '<span class="checkmark" aria-hidden="true">✓</span>' : ''}
+            ${containerClose}
           `
             })
             .join('')}

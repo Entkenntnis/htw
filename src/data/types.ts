@@ -86,6 +86,16 @@ export interface App {
     bucket_3500ms: number
     bucket_Inf: number
   }
+  mapMeta: {
+    get(userid: number): Promise<MapMeta>
+    markAsCompleted(userid: number, storyid: number): Promise<void>
+    onChange(userid: number): Promise<number | null>
+  }
+}
+
+export interface MapMeta {
+  storiesCompleted: number[]
+  storiesAvailable: number[]
 }
 
 export interface Message {

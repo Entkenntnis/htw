@@ -14,6 +14,7 @@ import { withChallengeStats } from './server/lib/withChallengeStats.js'
 import { withEvent } from './server/lib/withEvent.js'
 import { withVersion } from './server/lib/withVersion.js'
 import { withMetrics } from './server/lib/withMetrics.js'
+import { withMapMeta } from './server/lib/withMapMeta.js'
 
 import { dbModel } from './server/lib/dbModel.js'
 import { expressHeaders } from './server/lib/expressHeaders.js'
@@ -75,6 +76,7 @@ withEvent(preApp)
 withChat(preApp)
 withExperiments(preApp)
 withMetrics(preApp)
+withMapMeta(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp

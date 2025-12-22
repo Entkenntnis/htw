@@ -22,7 +22,7 @@ export const communityChallenges = [
         
         <p>Jeder darf mitmachen. Am besten erreichst du uns über den <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> und schreibst deine Idee in #vorschläge.</p>
         
-        <p>Dein Fortschritt im Community-Bereich ist unabhängig von den Punkten, für die Aktivität gibt es eine <a href="/community/activity">separate Übersicht</a>.</p>
+        <p>Gelöste Aufgaben geben keine Punkte, dafür werden sie als gelbe Badge neben deinem Namen in der Highscore angezeigt. Für die Aktivität gibt es eine <a href="/community/activity">separate Übersicht</a>.</p>
         
         <!-- psst - hey - probiere mal /challenge/1337 -->
         
@@ -47,7 +47,7 @@ export const communityChallenges = [
 
         <p>Anyone can participate. The best way to reach us is on our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a> where you can post your ideas in #vorschläge.</p>
 
-        <p>Your progress in the Community Area is independent of the main scoreboard; there's a <a href="/community/activity">separate activity overview</a>.</p>
+        <p>Solved challenges don't award points; instead, they appear as a yellow badge next to your name in the highscore. For activity, there's a <a href="/community/activity">separate overview</a>.</p>
 
         <!-- psst - hey - try /challenge/1337 -->
 

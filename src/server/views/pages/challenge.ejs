@@ -16,7 +16,7 @@
     <% } %><% if (!props.challenge.date && props.challenge.author) { %><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
         <span style="color:gray"><%= t('created')%> <%= t('by') %> <%= props.challenge.author %></span>
     <% } %><% if (props.correct !== true) { %>
-      <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/solvers/<%=props.challenge.id%>" style="color: gray;"><%=t('history')%></a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><% if (props.withComlink) { %><a href="/feedback/<%= props.challenge.id %>" style="color:gray"><%=locale == 'de'? 'Frage stellen' : 'ask a question'%></a><% } else { %><a href="/hints/<%= props.challenge.id %>" style="color:gray">Hinweise (<%= props.hintsCount%>)</a><% } %>
+      <span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/solvers/<%=props.challenge.id%>" style="color: gray;"><%=t('history')%></a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><% if (props.withComlink) { %><a href="/feedback/<%= props.challenge.id %>" style="color:gray"><%=locale == 'de'? 'Frage stellen' : 'ask a question'%></a><% } else { %><a href="/hints/<%= props.challenge.id %>" style="color:gray">Hinweise&nbsp;(<%= props.hintsCount%>)</a><% } %>
     <% } %>
   </p>
 

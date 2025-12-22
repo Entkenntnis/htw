@@ -66,6 +66,24 @@ htw_users_total ${c1.solvedBy}
     })
   })
 
+  App.express.post('/community-filter', async (req, res) => {
+    if (!req.user) {
+      res.send('bad')
+      return
+    }
+
+    const filter = req.body.filter || ''
+
+    // Filter must only contain letter E, M, H
+    if (!/^[EMH]*$/.test(filter)) {
+      res.send('bad')
+      return
+    }
+
+    await App.mapMeta.setCommunityFilter(req.user.id, filter)
+    res.send('ok')
+  })
+
   App.express.get('/export-data', async (req, res) => {
     if (!req.user || App.config.demos.includes(req.user.name)) {
       res.status(403).send('Forbidden')

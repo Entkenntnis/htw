@@ -69,25 +69,25 @@ export async function customMapHtmlCreator({ App, req, solved }) {
 
   if (showWwwmLocked) {
     output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1350px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
-        <span style="font-weight:600;color:#ddd;">🔒 ab 150 Punkten</span>
+        <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 150 Punkten' : '🔒 from 150 points'}</span>
       </div>`
   }
 
   if (showMortalcoilLocked) {
     output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1550px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
-        <span style="font-weight:600;color:#ddd;">🔒 ab 200 Punkten</span>
+        <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 200 Punkten' : '🔒 from 200 points'}</span>
       </div>`
   }
 
   if (showWormsLocked) {
     output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1733px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
-        <span style="font-weight:600;color:#ddd;">🔒 ab 250 Punkten</span>
+        <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 250 Punkten' : '🔒 from 250 points'}</span>
       </div>`
   }
 
   if (showPleaseFixMeLocked) {
     output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1870px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
-        <span style="font-weight:600;color:#ddd;">🔒 ab 300 Punkten</span>
+        <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 300 Punkten' : '🔒 from 300 points'}</span>
       </div>`
   }
 
@@ -146,61 +146,77 @@ export async function customMapHtmlCreator({ App, req, solved }) {
           </a>`
   }
 
+  if (solved.includes(300)) {
+    output += `
+      <div class="lang-picker fade-in" style="position: absolute; left: 1790px; top: 210px; display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 6px; padding-top: 6px;">
+        <div style="opacity:0.8;">${req.lng == 'de' ? 'Filter' : 'Filter'}</div>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="show-easy" ${mapMeta.communityFilter.includes('E') ? 'checked' : ''}/>
+          <span>${req.lng == 'de' ? 'Einfach' : 'Easy'}</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="show-medium" ${mapMeta.communityFilter.includes('M') ? 'checked' : ''}/>
+          <span>${req.lng == 'de' ? 'Mittel' : 'Medium'}</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; margin-bottom: 0;">
+          <input type="checkbox" id="show-hard" ${mapMeta.communityFilter.includes('H') ? 'checked' : ''}/>
+          <span>${req.lng == 'de' ? 'Schwer' : 'Hard'}</span>
+        </label>
+      </div>
+
+      <style>
+        body.hide-easy .map-difficulty-easy { display: none; }
+        body.hide-medium .map-difficulty-medium { display: none; }
+        body.hide-hard .map-difficulty-hard { display: none; }
+      </style>
+      <script>
+        (function() {
+          function applyVisibility() {
+            var easy = document.getElementById('show-easy');
+            var medium = document.getElementById('show-medium');
+            var hard = document.getElementById('show-hard');
+
+            if (!easy || !medium || !hard) return;
+
+            document.body.classList.toggle('hide-easy', !easy.checked);
+            document.body.classList.toggle('hide-medium', !medium.checked);
+            document.body.classList.toggle('hide-hard', !hard.checked);
+
+            // Persist selection to server as a compact filter string like "E", "EM", "EMH"
+            try {
+              var filter = (easy.checked ? 'E' : '') + (medium.checked ? 'M' : '') + (hard.checked ? 'H' : '');
+              fetch('/community-filter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ filter: filter })
+              });
+            } catch (e) {
+              // Ignore network errors silently
+            }
+          }
+
+          var easyCb = document.getElementById('show-easy');
+          var mediumCb = document.getElementById('show-medium');
+          var hardCb = document.getElementById('show-hard');
+
+          if (easyCb) easyCb.addEventListener('change', applyVisibility);
+          if (mediumCb) mediumCb.addEventListener('change', applyVisibility);
+          if (hardCb) hardCb.addEventListener('change', applyVisibility);
+
+          // Initialize based on current checkbox states
+          applyVisibility();
+        })();
+      </script>
+    `
+  }
+
   return `
     <img style="position:absolute;left:110px;top:100px;z-index:-1;" src="/start_galaxy.png">
     <img style="position:absolute;left:1298px;top:903px;z-index:-1;" src="/passage_galaxy.png">
     <img style="position:absolute;left:650px;top:1640px;z-index:-1;" src="/passage_2_galaxy.png">
     <span style="position:absolute; left:680px; top:1680px;z-index:-2; font-size:8px;">&#87;&#65;&#76;&#68;&#79;</span>
     ${output}
-
-
-    <div class="lang-picker fade-in" style="position: absolute; left: 1360px; top: 370px; display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 6px; padding-top: 6px;">
-      <div style="opacity:0.8;">Filter</div>
-      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-        <input type="checkbox" id="show-easy" checked />
-        <span>Einfach</span>
-      </label>
-      <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-        <input type="checkbox" id="show-medium" />
-        <span>Mittel</span>
-      </label>
-      <label style="display:flex; align-items:center; gap:6px; cursor:pointer; margin-bottom: 0;">
-        <input type="checkbox" id="show-hard" />
-        <span>Schwer</span>
-      </label>
-    </div>
-
-    <style>
-      body.hide-easy .map-difficulty-easy { display: none; }
-      body.hide-medium .map-difficulty-medium { display: none; }
-      body.hide-hard .map-difficulty-hard { display: none; }
-    </style>
-    <script>
-      (function() {
-        function applyVisibility() {
-          var easy = document.getElementById('show-easy');
-          var medium = document.getElementById('show-medium');
-          var hard = document.getElementById('show-hard');
-
-          if (!easy || !medium || !hard) return;
-
-          document.body.classList.toggle('hide-easy', !easy.checked);
-          document.body.classList.toggle('hide-medium', !medium.checked);
-          document.body.classList.toggle('hide-hard', !hard.checked);
-        }
-
-        var easyCb = document.getElementById('show-easy');
-        var mediumCb = document.getElementById('show-medium');
-        var hardCb = document.getElementById('show-hard');
-
-        if (easyCb) easyCb.addEventListener('change', applyVisibility);
-        if (mediumCb) mediumCb.addEventListener('change', applyVisibility);
-        if (hardCb) hardCb.addEventListener('change', applyVisibility);
-
-        // Initialize based on current checkbox states
-        applyVisibility();
-      })();
-    </script>
   `
 }
 

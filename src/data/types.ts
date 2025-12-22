@@ -90,12 +90,14 @@ export interface App {
     get(userid: number): Promise<MapMeta>
     markAsCompleted(userid: number, storyid: number): Promise<void>
     onChange(userid: number): Promise<number | null>
+    setCommunityFilter(userid: number, state: string): Promise<void>
   }
 }
 
 export interface MapMeta {
   storiesCompleted: number[]
   storiesAvailable: number[]
+  communityFilter: string
 }
 
 export interface Message {
@@ -119,7 +121,7 @@ export interface HtwChallenge {
   showAfterSolve?: boolean
   showAboveScore?: number
   releaseTs?: number
-  difificulty?: 'easy' | 'medium' | 'hard'
+  difficulty?: 'easy' | 'medium' | 'hard'
   html?: { de: string; en: string }
   render?: (context: {
     App: App

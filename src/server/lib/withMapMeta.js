@@ -44,6 +44,7 @@ export function withMapMeta(App) {
       const data = {
         storiesAvailable: [],
         storiesCompleted: [],
+        communityFilter: 'E',
       }
 
       const json = JSON.parse(
@@ -70,6 +71,10 @@ export function withMapMeta(App) {
 
         // beware when adding more patchers
         App.storage.setItem(key(userid), JSON.stringify(data))
+      }
+
+      if (json && typeof json.communityFilter === 'string') {
+        data.communityFilter = json.communityFilter
       }
 
       return data
@@ -111,6 +116,12 @@ export function withMapMeta(App) {
       }
 
       return null
+    },
+
+    async setCommunityFilter(userid, state) {
+      const data = await App.mapMeta.get(userid)
+      data.communityFilter = state
+      App.storage.setItem(key(userid), JSON.stringify(data))
     },
   }
 }

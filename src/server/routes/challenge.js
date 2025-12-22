@@ -193,7 +193,7 @@ export function setupChallenges(App) {
         id: challenge.id,
         pos: challenge.pos,
         title: App.challenges.getTitle(challenge.id, req),
-        difficulty: challenge.difificulty,
+        difficulty: challenge.difficulty,
         isSolved,
         color,
         goHere: goHere === challenge.id,
@@ -230,7 +230,7 @@ export function setupChallenges(App) {
             const dashed = challenge.noScore && !previous.noScore
             if (solved.includes(previous.id)) {
               svgLines.push(
-                `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round" ${dashed ? 'class="dashed"' : ''} ${challenge.difificulty ? ` class="map-difficulty-${challenge.difificulty}"` : ''}></line>`
+                `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round" ${dashed ? 'class="dashed"' : ''} ${challenge.difficulty ? ` class="map-difficulty-${challenge.difficulty}"` : ''}></line>`
               )
             }
           })

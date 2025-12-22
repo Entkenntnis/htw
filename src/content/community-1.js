@@ -136,6 +136,7 @@ export const communityChallenges = [
     pos: { x: 2000, y: 630 },
     title: { de: 'Rechensport', en: 'Mental arithmetic' },
     author: 'Simonesien',
+    difficulty: 'hard',
     date: '2023-07-28',
     deps: [300],
     noScore: true,
@@ -382,6 +383,7 @@ export const communityChallenges = [
     pos: { x: 1670, y: 420 },
     title: { de: 'Ticket', en: 'Ticket' },
     author: 'cuzimbisonratte',
+    difficulty: 'medium',
     date: '2023-08-31',
     deps: [300],
     noScore: true,
@@ -417,6 +419,7 @@ export const communityChallenges = [
     pos: { x: 1580, y: 420 },
     title: { de: 'Freier Fall', en: 'Free fall' },
     author: 'rkasti u. Satsuma',
+    difficulty: 'medium',
     date: '2023-08-31',
     deps: [300],
     noScore: true,
@@ -446,6 +449,7 @@ export const communityChallenges = [
     pos: { x: 1550, y: 320 },
     title: { de: 'Freier Fall II', en: 'Free fall II' },
     author: 'rkasti u. Satsuma',
+    difficulty: 'hard',
     date: '2023-08-31',
     deps: [307],
     noScore: true,
@@ -555,6 +559,7 @@ export const communityChallenges = [
     pos: { x: 1520, y: 520 },
     title: { de: 'Brainfuck?', en: 'Brainfuck?' },
     author: 'Lars',
+    difficulty: 'hard',
     date: '2023-09-02',
     deps: [300],
     noScore: true,
@@ -812,6 +817,7 @@ export const communityChallenges = [
     pos: { x: 1460, y: 250 },
     title: { de: 'Freier Fall III', en: 'Free fall III' },
     author: 'rkasti u. Satsuma',
+    difficulty: 'hard',
     date: '2023-10-01',
     deps: [308],
     noScore: true,
@@ -865,6 +871,7 @@ export const communityChallenges = [
     pos: { x: 1480, y: 130 },
     title: { de: 'Freier Fall IV', en: 'Free fall IV' },
     author: 'rkasti u. Satsuma',
+    difficulty: 'hard',
     date: '2023-10-01',
     deps: [312],
     noScore: true,
@@ -1070,6 +1077,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
     title: { de: 'Transponiert', en: 'Transposed' },
     date: '2023-10-28',
     author: 'dpw',
+    difficulty: 'medium',
     deps: [322],
     noScore: true,
     html: {
@@ -1097,6 +1105,7 @@ Wie hoch war ich nun mit meiner Rakete über der Erdoberfläche?</p>
     title: { de: 'Transponiert II', en: 'Transposed II' },
     date: '2023-10-28',
     author: 'dpw',
+    difficulty: 'hard',
     deps: [318],
     noScore: true,
     html: {
@@ -1122,10 +1131,11 @@ The compression program bzip2 uses such a method, which this text was prepared f
 
   {
     id: 320,
-    pos: { x: 1990, y: 455 },
+    pos: { x: 1530, y: 455 },
     title: { de: 'Schnitzeljagd', en: 'Treasure Hunt' },
     date: '2023-10-28',
     author: 'drache1209',
+    difficulty: 'easy',
     deps: [300],
     noScore: true,
     html: {
@@ -1159,6 +1169,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
     title: { de: 'Mehrdeutig', en: 'Ambiguous' },
     date: '2023-10-28',
     author: 'm.florian u. Minecraftspielen',
+    difficulty: 'medium',
     deps: [300],
     noScore: true,
     html: {
@@ -1177,6 +1188,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
     pos: { x: 2050, y: 525 },
     title: { de: 'Hommage', en: 'Hommage' },
     date: '2023-10-29',
+    difficulty: 'easy',
     deps: [300],
     noScore: true,
     html: {
@@ -1204,6 +1216,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
     title: { de: 'Mehrdeutig II', en: 'Ambiguous II' },
     date: '2023-11-07',
     author: 'Minecraftspielen u. drache1209',
+    difficulty: 'medium',
     deps: [321],
     noScore: true,
     html: {
@@ -1250,6 +1263,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
     title: { de: 'Vor aller Augen', en: 'In Plain Sight' },
     date: '2023-11-13',
     author: 'dpw',
+    difficulty: 'medium',
     deps: [322],
     noScore: true,
     html: {
@@ -1273,6 +1287,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
     title: { de: 'Vor aller Augen II', en: 'In Plain Sight II' },
     date: '2023-11-13',
     author: 'dpw',
+    difficulty: 'hard',
     deps: [325],
     noScore: true,
     html: {
@@ -1296,6 +1311,7 @@ The compression program bzip2 uses such a method, which this text was prepared f
     title: { de: 'Vor aller Augen III', en: 'In Plain Sight III' },
     date: '2023-11-13',
     author: 'dpw',
+    difficulty: 'hard',
     deps: [326],
     noScore: true,
     html: {
@@ -1495,7 +1511,7 @@ RS#1</pre>
     deps: [300],
     noScore: true,
     author: 'User0',
-    difificulty: 'easy',
+    difficulty: 'easy',
     html: {
       de: `
         <p>Du bist <a href="/chals/eng_soc" target="_blank">auf einer Pirateninsel gestrandet</a> und hörst von einem Piraten, der viel Gold haben soll. Lass Dir von ihm den Namen der Insel verraten, wo das Gold versteckt ist.</p>
@@ -1515,6 +1531,7 @@ RS#1</pre>
     deps: [300],
     noScore: true,
     author: 'QWERTZ',
+    difficulty: 'easy',
     html: {
       de: `
         <p>Discord ist faszinierend. Die Antwort auf diese Aufgabe ist die Nutzer-ID von virusrpi.</p>
@@ -1531,6 +1548,7 @@ RS#1</pre>
     pos: { x: 2010, y: 255 },
     title: { de: 'Discord II', en: 'Discord II' },
     date: '2024-01-19',
+    difficulty: 'easy',
     deps: [333],
     noScore: true,
     author: 'QWERTZ',
@@ -1554,6 +1572,7 @@ RS#1</pre>
     deps: [334],
     noScore: true,
     author: 'QWERTZ',
+    difficulty: 'medium',
     html: {
       de: `
         <p>Server-IDs verstehst du ... Die Antwort auf diese Aufgabe ist die ID des personalisierten Emojis peepo_hacker auf unserem Server.</p>
@@ -1571,6 +1590,7 @@ RS#1</pre>
     pos: { x: 2160, y: 620 },
     title: { de: 'Rechensport II', en: 'Mental arithmetic II' },
     author: 'Simonesien',
+    difficulty: 'hard',
     date: '2024-03-03',
     deps: [303],
     noScore: true,
@@ -1818,6 +1838,7 @@ END</pre>`,
     deps: [300],
     noScore: true,
     author: 'CleverLemming',
+    difficulty: 'medium',
     html: {
       de: `
         <p>Ein Mensch zählt mit 10 Fingern, ein Oktopus mit 8 Tentakeln. Die Antwort lautet oktopus2471.</p>
@@ -1837,6 +1858,7 @@ END</pre>`,
     deps: [300],
     noScore: true,
     author: 'CARLO',
+    difficulty: 'hard',
     html: {
       de: `
         <p>In den nautischen Tiefen dieser Klänge ist eine geheime Nachricht verborgen. Finde die Nachricht um die Aufgabe zu lösen.</p>
@@ -1860,6 +1882,7 @@ END</pre>`,
     deps: [300],
     noScore: true,
     author: 'bennosaurusrex',
+    difficulty: 'hard',
     html: {
       de: `
         <p>Deine Antwort findest sich in diesem Muster:</p>
@@ -1883,6 +1906,7 @@ END</pre>`,
     deps: [300],
     noScore: true,
     author: 'peter34788',
+    difficulty: 'hard',
     html: {
       de: `
         <p>Mir war heute mal langweilig und da habe ich in diese <a href="/chals/Challenge343.txt">Textdatei</a> ein paar Zeichen geschrieben, aber ich glaube mir ist ein Fehler unterlaufen. Finde den Fehler und gib mir die Stelle des Fehlers als Antwort.</p>

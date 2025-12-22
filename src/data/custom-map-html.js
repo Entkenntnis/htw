@@ -68,25 +68,25 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   }
 
   if (showWwwmLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1350px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1350px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">🔒 ab 150 Punkten</span>
       </div>`
   }
 
   if (showMortalcoilLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1550px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1550px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">🔒 ab 200 Punkten</span>
       </div>`
   }
 
   if (showWormsLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1733px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1733px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">🔒 ab 250 Punkten</span>
       </div>`
   }
 
   if (showPleaseFixMeLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1870px;top:126px;gap:8px;padding:8px 10px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1870px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">🔒 ab 300 Punkten</span>
       </div>`
   }

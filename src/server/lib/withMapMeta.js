@@ -119,6 +119,7 @@ export function withMapMeta(App) {
     },
 
     async setCommunityFilter(userid, state) {
+      App.event.create('set-community-filter-' + state, userid)
       const data = await App.mapMeta.get(userid)
       data.communityFilter = state
       App.storage.setItem(key(userid), JSON.stringify(data))

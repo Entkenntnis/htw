@@ -525,4 +525,155 @@ export function setupChallengesServer(App) {
       `,
     })
   })
+
+  App.express.get(['/einreiseformular', '/entry-form'], async (req, res) => {
+    if (!req.user) {
+      res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
+      return
+    }
+
+    const isGerman = req.lng === 'de'
+    const s = {
+      title: isGerman ? 'Sirtach Einreiseformular' : 'Sirtach Entry Form',
+      first: isGerman ? 'Vorname' : 'First name',
+      last: isGerman ? 'Nachname' : 'Last name',
+      age: isGerman ? 'Alter' : 'Age',
+      planet: isGerman ? 'Geburtsplanet' : 'Birth planet',
+      gender: isGerman ? 'Geschlecht' : 'Gender',
+      male: isGerman ? 'männlich' : 'male',
+      female: isGerman ? 'weiblich' : 'female',
+      submit: isGerman ? 'Absenden' : 'Submit',
+      defaultPlanet: isGerman ? 'Erde' : 'Earth',
+    }
+
+    renderPage(App, req, res, {
+      page: 'einreiseformular',
+      backButton: false,
+      title: s.title,
+      content: `
+        <style>
+          .ef-container{min-height:calc(100vh - 160px);display:flex;justify-content:center;align-items:flex-start;padding:24px;position:relative;overflow:hidden;}
+          .ef-container:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;background:
+            repeating-linear-gradient(0deg,rgba(40,50,70,.18) 0px,rgba(40,50,70,.18) 1px,transparent 1px,transparent 24px),
+            repeating-linear-gradient(90deg,rgba(40,50,70,.18) 0px,rgba(40,50,70,.18) 1px,transparent 1px,transparent 24px)}
+
+          .ef-card{width:min(640px,94vw);background:#fdfdfb;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:1px solid #cdd3db;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:22px 26px;position:relative;overflow:hidden}
+          .ef-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:
+            linear-gradient(0deg,transparent 0 26px,rgba(0,0,0,.025) 26px,transparent 27px),
+            linear-gradient(90deg,transparent 0 26px,rgba(0,0,0,.02) 26px,transparent 27px);opacity:.5}
+
+          .ef-title{font:600 24px/1.2 system-ui,Segoe UI,Roboto,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#2f3a4a;display:flex;align-items:center;gap:10px;margin:0 0 14px}
+          .ef-title .ef-accent{width:9px;height:9px;border-radius:2px;background:#b84a4a;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+
+          .ef-grid{display:grid;grid-template-columns:1fr;gap:12px}
+          .ef-row label{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#354254}
+
+          .ef-input{flex:1;appearance:none;border:1px solid #b9c3d0;background:#fbfcfd;border-radius:6px;padding:10px 12px;font:500 14px/1.4 system-ui,Segoe UI,Roboto,Arial,sans-serif;color:#2b3445;outline:none;transition:.15s border-color,.15s box-shadow,.15s background}
+          .ef-input::placeholder{color:#8793a6}
+          .ef-input:focus{border-color:#4b6a8f;box-shadow:0 0 0 2px rgba(75,106,143,.15);background:#f7f9fc}
+
+          .ef-radio-group{display:flex;gap:16px;padding:6px 2px}
+          .ef-radio-group label{display:inline-flex;align-items:center;gap:8px;color:#354254}
+
+          .ef-submit{margin-top:10px;appearance:none;border:none;background:linear-gradient(180deg,#46576b,#3d4c60);color:#fff;border-radius:8px;padding:12px 16px;font:600 14px/1 system-ui,Segoe UI,Roboto,Arial,sans-serif;letter-spacing:.06em;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:transform .06s ease,filter .15s ease,background .2s ease}
+          .ef-submit:hover{filter:saturate(1.02);background:linear-gradient(180deg,#4b5c71,#404f64)}
+          .ef-submit:active{transform:translateY(1px)}
+
+          @media (min-width:640px){.ef-grid{grid-template-columns:1fr 1fr}.ef-row--full{grid-column:1 / -1}.ef-radio-group{grid-column:1 / -1}}
+        </style>
+
+        <div class="ef-container">
+          <div class="ef-card">
+            <h1 class="ef-title"><span class="ef-accent"></span> ${s.title}</h1>
+            <form method="POST" action="/einreiseformular/check">
+              <div class="ef-grid">
+                <div class="ef-row">
+                  <label>${s.first}: <input class="ef-input" type="text" name="firstname" required value="Bex"></label>
+                </div>
+                <div class="ef-row">
+                  <label>${s.last}: <input class="ef-input" type="text" name="lastname" required value="Hendry"></label>
+                </div>
+                <div class="ef-row">
+                  <label>${s.age}: <input class="ef-input" type="number" name="age" required value="14"></label>
+                </div>
+                <div class="ef-row">
+                  <label>${s.planet}: <input class="ef-input" type="text" name="planet" required value="${s.defaultPlanet}"></label>
+                </div>
+                <div class="ef-row ef-row--full">
+                  <label>${s.gender}:</label>
+                  <div class="ef-radio-group">
+                    <label><input type="radio" name="gender" value="male" required> ${s.male}</label>
+                    <label><input type="radio" name="gender" value="female"> ${s.female}</label>
+                  </div>
+                </div>
+                <div class="ef-row ef-row--full">
+                  <input class="ef-submit" type="submit" value="${s.submit}">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      `,
+    })
+  })
+
+  App.express.post(
+    ['/einreiseformular/check', '/entry-form/check'],
+    async (req, res) => {
+      if (!req.user) {
+        res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
+        return
+      }
+
+      // make sure that all form fields are present
+      // don't check values, if not present, use res.send() to show a blunt error message
+      // and say which field is missing
+      const requiredFields = [
+        'firstname',
+        'lastname',
+        'age',
+        'planet',
+        'gender',
+      ]
+
+      for (const field of requiredFields) {
+        if (!req.body[field]) {
+          res.send(
+            req.lng === 'de'
+              ? `Fehlendes Feld: ${field}`
+              : `Missing field: ${field}`
+          )
+          return
+        }
+      }
+
+      // now check the gender field, is must be male, female or other, if not, show error
+      // and say which values are allowed
+      const gender = req.body['gender']
+      if (gender !== 'male' && gender !== 'female' && gender !== 'other') {
+        res.send(
+          req.lng === 'de'
+            ? `Ungültiger Wert für Geschlecht. Erlaubt: male, female, other`
+            : `Invalid value for gender. Allowed: male, female, other`
+        )
+        return
+      }
+
+      const genderValid = gender === 'other'
+
+      renderPage(App, req, res, {
+        page: 'sirtach-check',
+        backButton: false,
+        content: `
+          <p>${req.lng === 'de' ? 'Seite 1 vollständig. Bitte fahren Sie mit Seite 2 fort.' : 'Page 1 complete. Please proceed to page 2.'}</p>
+
+          ${
+            genderValid
+              ? `<p style="color:green;">${req.lng === 'de' ? 'Sehr gut! Die Antwort lautet' : 'Great! The answer is'} ${secrets('chal_57')}.</p>`
+              : `<p style="color:red;">${req.lng === 'de' ? 'Aufgabe gescheitert' : 'Task failed'}</p>`
+          }
+        `,
+      })
+    }
+  )
 }

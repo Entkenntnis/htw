@@ -14,6 +14,7 @@ import { withChallengeStats } from './server/lib/withChallengeStats.js'
 import { withEvent } from './server/lib/withEvent.js'
 import { withVersion } from './server/lib/withVersion.js'
 import { withMetrics } from './server/lib/withMetrics.js'
+import { withMapMeta } from './server/lib/withMapMeta.js'
 
 import { dbModel } from './server/lib/dbModel.js'
 import { expressHeaders } from './server/lib/expressHeaders.js'
@@ -51,6 +52,7 @@ import { withChat } from './server/lib/withChat.js'
 import { setupDiscordSSO } from './server/routes/discord-sso.js'
 import { withExperiments } from './server/lib/withExperiments.js'
 import { setupWwsDemo } from './content/wws-demo/wws-demo.js'
+import { setupStoryline } from './content/storyline.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -74,6 +76,7 @@ withEvent(preApp)
 withChat(preApp)
 withExperiments(preApp)
 withMetrics(preApp)
+withMapMeta(preApp)
 
 /** @type {import('./data/types.js').App} */
 const App = preApp
@@ -102,6 +105,7 @@ setupMortalCoil(App)
 setupPleaseFixMe(App)
 setupEnough(App)
 setupWWWM(App)
+setupStoryline(App)
 
 setupWormsBasic(App)
 setupWormsManagement(App)

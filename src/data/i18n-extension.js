@@ -16,12 +16,12 @@ export function getI18nExtension() {
   values.push({
     lng: 'de',
     key: 'home.language',
-    value: 'Sprache/Language',
+    value: 'Sprache',
   })
   values.push({
     lng: 'en',
     key: 'home.language',
-    value: 'Sprache/Language',
+    value: 'Language',
   })
 
   values.push({
@@ -81,22 +81,6 @@ export function getI18nExtension() {
 
   values.push({
     lng: 'de',
-    key: 'home.supporter_',
-    value: `
-      <p>Besuche auch <strong><a href="https://blog.arrrg.de/">meinen Blog</a></strong>.</p>
-      <hr class="my-5"/>
-    `,
-  })
-  values.push({
-    lng: 'en',
-    key: 'home.supporter_',
-    value: `
-      
-    `,
-  })
-
-  values.push({
-    lng: 'de',
     key: 'home.invite_',
     value: `
       <style>
@@ -133,7 +117,7 @@ export function getI18nExtension() {
         }
       </style>
 
-      <div class="container" style="margin-top:48px;">
+      <div class="container" style="margin-top:24px;">
         <div class="row">
           <div class="col-lg" style="">
             <div style="padding-top: 12px;">
@@ -307,7 +291,7 @@ export function getI18nExtension() {
         }
       </style>
 
-      <details style="margin-top: 16px">
+      <details style="margin-top: 16px; margin-left: 30px; margin-right: 30px;">
         <summary>Anmeldung über SSO</summary>
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button no-underline">
@@ -385,7 +369,7 @@ export function getI18nExtension() {
         }
       </style>
 
-      <div class="container" style="margin-top:48px;">
+      <div class="container" style="margin-top:24px;">
         <div class="row">
           <div class="col-lg" style="">
             <div style="padding-top: 12px;">
@@ -455,7 +439,7 @@ export function getI18nExtension() {
           text-decoration: none !important;
           background-color: transparent;
           border-radius: 8px;
-          border: 3px solid #009771ff;
+          border: 3px solid var(--main-color);
           text-align: center;
           overflow: hidden; /* ensure pseudo-element doesn't spill out */
           z-index: 0; /* create stacking context for ::before */
@@ -463,6 +447,7 @@ export function getI18nExtension() {
 
         .register-button:hover {
           background-color: transparent; /* keep background transparent on hover */
+          border-color: rgba(var(--main-color-rgb), 0.9);
         }
 
         .register-button::before {
@@ -472,7 +457,7 @@ export function getI18nExtension() {
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(150deg, #05dfa8ff, #007e5cff);
+          background: linear-gradient(150deg, rgba(var(--main-color-rgb), 0.95), rgba(var(--main-color-rgb), 0.65));
           opacity: 0;
           transition: opacity 0.5s ease;
           z-index: -1;
@@ -483,7 +468,7 @@ export function getI18nExtension() {
         }
 
         .register-button:focus-visible {
-          outline: 3px solid #c8f7e9; /* light teal outline */
+          outline: 3px solid rgba(var(--main-color-rgb), 0.35);
           outline-offset: 2px;
         }
 
@@ -530,7 +515,7 @@ export function getI18nExtension() {
       </style>
       
 
-      <details style="margin-top: 16px">
+      <details style="margin-top: 16px; margin-left: 30px; margin-right: 30px;">
         <summary>Login with SSO</summary>
         <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 48px; margin-top: 24px;">
         <a href="/github-login" class="github-button no-underline">

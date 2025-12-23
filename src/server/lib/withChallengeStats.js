@@ -13,11 +13,11 @@ export function withChallengeStats(App) {
         where: { cid },
       })
 
-      const solvedByLast30Days = await App.db.models.Solution.count({
+      const solvedByLast4Weeks = await App.db.models.Solution.count({
         where: {
           cid,
           createdAt: {
-            [Op.gte]: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+            [Op.gte]: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000),
           },
         },
       })
@@ -48,7 +48,7 @@ export function withChallengeStats(App) {
 
       cache[cid] = {
         solvedBy,
-        solvedByLast30Days,
+        solvedByLast4Weeks,
         lastSolved,
         lastSolvedUserName,
       }

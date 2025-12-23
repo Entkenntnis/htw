@@ -125,6 +125,13 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+
+    if (req.session.nextStoryId) {
+      const nextStoryId = req.session.nextStoryId
+      delete req.session.nextStoryId
+      return res.redirect('/story/' + nextStoryId)
+    }
+
     App.event.create(req.lng == 'de' ? 'map_de' : 'map_en', req.user.id)
 
     const solvedDb = await App.db.models.Solution.findAll({
@@ -163,7 +170,7 @@ export function setupChallenges(App) {
     const svgCircles = []
 
     /**
-     * @type {{ id: number; pos: { x: number; y: number; }; title: string; isSolved: boolean; color: string, goHere: boolean, unreleased: boolean, withExperiment?: boolean }[]}
+     * @type {{ id: number; pos: { x: number; y: number; }; title: string; difficulty: string | undefined; isSolved: boolean; color: string, goHere: boolean, unreleased: boolean, withExperiment?: boolean }[]}
      */
     const points = []
 
@@ -186,6 +193,7 @@ export function setupChallenges(App) {
         id: challenge.id,
         pos: challenge.pos,
         title: App.challenges.getTitle(challenge.id, req),
+        difficulty: challenge.difficulty,
         isSolved,
         color,
         goHere: goHere === challenge.id,
@@ -222,7 +230,7 @@ export function setupChallenges(App) {
             const dashed = challenge.noScore && !previous.noScore
             if (solved.includes(previous.id)) {
               svgLines.push(
-                `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round" ${dashed ? 'class="dashed"' : ''}></line>`
+                `<line x1="${previous.pos.x}" y1="${previous.pos.y}" x2="${challenge.pos.x}" y2="${challenge.pos.y}" stroke="${App.config.styles.connectionColor}" stroke-width="10" stroke-linecap="round" ${dashed ? 'class="dashed"' : ''} ${challenge.difficulty ? ` class="map-difficulty-${challenge.difficulty}"` : ''}></line>`
               )
             }
           })
@@ -238,7 +246,7 @@ export function setupChallenges(App) {
       svgCircles.push(
         `<a href="${
           '/challenge/' + point.id
-        }" class="no-underline"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
+        }" class="no-underline${point.difficulty ? ` map-difficulty-${point.difficulty}` : ''}"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
           point.pos.y
         }" ${
           point.isSolved || point.unreleased
@@ -288,6 +296,13 @@ export function setupChallenges(App) {
       return res.redirect('/')
     }
     // end guard
+
+    if (req.session.nextStoryId) {
+      const nextStoryId = req.session.nextStoryId
+      delete req.session.nextStoryId
+      res.redirect('/story/' + nextStoryId)
+      return
+    }
 
     const id = parseInt(req.params.id)
     const i18n = App.i18n.get(req.lng)
@@ -485,6 +500,10 @@ export function setupChallenges(App) {
                 if (user.score == 0 && user.session_phase === 'READY') {
                   user.session_phase = 'ACTIVE'
                   user.session_startTime = new Date()
+                  if (req.user) {
+                    req.user.session_phase = user.session_phase
+                    req.user.session_startTime = user.session_startTime
+                  }
                 }
 
                 // OK, add score
@@ -555,10 +574,17 @@ export function setupChallenges(App) {
 
       if (needRefresh.current) {
         await App.challengeStats.refreshData(id)
+
+        const trigger = await App.mapMeta.onChange(req.user.id)
+
+        if (trigger) {
+          req.session.nextStoryId = trigger.toString()
+          App.event.create(`story-triggered-${trigger}`, req.user.id)
+        }
       }
     }
 
-    const { solvedBy, solvedByLast30Days, lastSolved, lastSolvedUserName } =
+    const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)
 
     let html = challenge.render
@@ -585,24 +611,24 @@ export function setupChallenges(App) {
 
     let ratio = ''
 
-    const solvedPerDay = solvedByLast30Days / 30
+    const solvedPerDay = solvedByLast4Weeks / 28
     const solvedPerWeek = solvedPerDay * 7
 
-    if (solvedByLast30Days > 30 * 2) {
+    if (solvedByLast4Weeks > 28 * 2) {
       ratio =
         req.lng == 'de'
           ? `${Math.round(solvedPerDay)} mal pro Tag gelöst`
           : `solved ${Math.round(solvedPerDay)} times a day`
-    } else if (solvedByLast30Days > 2 * 4) {
+    } else if (solvedByLast4Weeks > 2 * 4) {
       ratio =
         req.lng == 'de'
           ? `${Math.round(solvedPerWeek)} mal pro Woche gelöst`
           : `solved ${Math.round(solvedPerWeek)} times a week`
-    } else if (solvedByLast30Days > 0) {
+    } else if (solvedByLast4Weeks > 0) {
       ratio =
         req.lng == 'de'
-          ? `${solvedByLast30Days} mal im Monat gelöst`
-          : `solved ${solvedByLast30Days} times a month`
+          ? `${solvedByLast4Weeks} mal im Monat gelöst`
+          : `solved ${solvedByLast4Weeks} times a month`
     } else {
       ratio =
         req.lng == 'de'
@@ -1055,7 +1081,19 @@ export function setupChallenges(App) {
 
     const overLimit = solvedDb.length > 1000
 
-    let content = ''
+    const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
+      await App.challengeStats.getData(id)
+
+    const t = App.i18n.get(req.lng).t.bind(App.i18n.get(req.lng))
+
+    const solvedByText =
+      solvedBy == 1
+        ? t('challenge.solvedBy_one', { count: solvedBy })
+        : t('challenge.solvedBy_other', { count: solvedBy })
+
+    let content = `
+      <p style="margin-bottom: 32px; color: gray;">${solvedByText}</p>
+    `
 
     solvedDb.slice(0, 1000).forEach((s) => {
       content += `<p>${escapeHTML(/** @type {any} */ (s).User.name)} <span style="color:gray">• ${App.moment(

@@ -10,6 +10,7 @@ export const communityChallenges2 = [
     deps: [335],
     noScore: true,
     author: 'Simonselles',
+    difficulty: 'medium',
     html: {
       de: `
         <p>Emoji IDs verstehst du ... Die Antwort auf diese Aufgabe ist die ID der ersten menschlichen Textnachricht auf unserem Server.</p>
@@ -32,6 +33,7 @@ export const communityChallenges2 = [
     ).getTime(),
     noScore: true,
     author: 'CARLO',
+    difficulty: 'hard',
     html: {
       de: `
         <p>Eine Person auf dem Server liebt das Wort "damn" und verwendet es mehr als alle anderen - wie oft hat diese Person das Wort bis zur Veröffentlichung (2025-10-13) dieser Aufgabe auf dem Server verwendet?</p>
@@ -497,6 +499,7 @@ export const communityChallenges2 = [
     deps: [335],
     noScore: true,
     author: 'QWERTZ',
+    difficulty: 'hard',
     html: {
       de: `
         <p>Was ist die Role ID der Entwicklerin?</p>
@@ -517,6 +520,7 @@ export const communityChallenges2 = [
     deps: [300],
     noScore: true,
     author: 'bennosaurusrex',
+    difficulty: 'hard',
     render: () => {
       const chal = `
         <pre>
@@ -566,6 +570,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-10-27 15:00:00 GMT+0100').getTime(),
     author: 'QWERTZ',
+    difficulty: 'hard',
     html: {
       de: `
         <p>Tokens sind mächtige Zeichenketten. Wenn man den Token von einer Person hat, dann kann man sich unter deren Account anmelden ... Da du so ein guter Hacker bist, kannst du mir bestimmt die ersten 24 Zeichen des Tokens von @QWERTZ sagen.</p>
@@ -586,6 +591,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-11-04 11:11:11 GMT+0100').getTime(),
     author: 'ChecksMc',
+    difficulty: 'easy',
     html: {
       de: `
         <p>Neuerdings findet sich unter <a href="https://www.reddit.com/r/HackTW/" target="_blank">www.reddit.com/r/HackTW</a> ein Sub für Hack The Web. Hm, die erste Nachricht ist etwas kryptisch, wofür ist sie eigentlich da?</p>
@@ -606,6 +612,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-11-06 11:11:11 GMT+0100').getTime(),
     author: 'CARLO',
+    difficulty: 'medium',
     html: {
       de: `
         <p><code>aHR0cHM6Ly9iYXNlNDA5Ni5pbmZpbml0eWZyZWVhcHAuY29tLw==</code></p>
@@ -630,6 +637,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-11-12 16:16:16 GMT+0100').getTime(),
     author: 'peter34788',
+    difficulty: 'hard',
     html: {
       de: `
         <p>Es gibt auf der Welt 24 Standardzeitzonen – jeweils eine pro Stunde (z. B. UTC+01:00 für Mitteleuropa; UTC steht für Coordinated Universal Time). Doch wenn man es genauer nimmt, sind es deutlich mehr als 24, denn in manchen Länder gibt es Halbe oder sogar Viertelstundenabweichungen (z. B. UTC+05:30 in Indien oder UTC+05:45 in Nepal), unterschiedliche Sommerzeitregelungen oder politischen Sonderregelungen.</p>
@@ -671,13 +679,14 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
   {
     id: 359,
-    pos: { x: 1530, y: 455 },
+    pos: { x: 1990, y: 455 },
     title: { de: 'IUPAC', en: 'IUPAC' },
     date: '2025-11-15',
     deps: [300],
     noScore: true,
     releaseTs: new Date('2025-11-15 08:00:00 GMT+0100').getTime(),
     author: 'bennosaurusrex',
+    difficulty: 'medium',
     html: {
       de: `
         <p>Als ich heute mein Labor besucht habe und mich in meinen Massagesessel legen wollte fiel mir ein Zettel - wahrscheinlich von meinem Praktikanten auf - was will er mir mit dieser unmöglichen Mischung sagen?</p>

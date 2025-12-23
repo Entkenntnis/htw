@@ -86,6 +86,18 @@ export interface App {
     bucket_3500ms: number
     bucket_Inf: number
   }
+  mapMeta: {
+    get(userid: number): Promise<MapMeta>
+    markAsCompleted(userid: number, storyid: number): Promise<void>
+    onChange(userid: number): Promise<number | null>
+    setCommunityFilter(userid: number, state: string): Promise<void>
+  }
+}
+
+export interface MapMeta {
+  storiesCompleted: number[]
+  storiesAvailable: number[]
+  communityFilter: string
 }
 
 export interface Message {
@@ -109,6 +121,7 @@ export interface HtwChallenge {
   showAfterSolve?: boolean
   showAboveScore?: number
   releaseTs?: number
+  difficulty?: 'easy' | 'medium' | 'hard'
   html?: { de: string; en: string }
   render?: (context: {
     App: App
@@ -144,7 +157,7 @@ export interface HtwChallenge {
 
 export interface ChallengeStatsData {
   solvedBy: number
-  solvedByLast30Days: number
+  solvedByLast4Weeks: number
   lastSolved: string | Date | null
   lastSolvedUserName: string | null
 }
@@ -311,6 +324,8 @@ interface SessionData {
   goHereOnMap?: number
   wws?: WwsSessionData
   lastMainColor?: string
+  nextStoryId?: string
+  returnToLogbook?: boolean
 }
 
 export interface DungeonData {

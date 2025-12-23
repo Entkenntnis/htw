@@ -18,7 +18,10 @@ export function setupStoryline(App) {
     }
 
     const mapMeta = await App.mapMeta.get(req.user.id)
-    if (!mapMeta.storiesAvailable.includes(parseInt(id))) {
+    if (
+      !mapMeta.storiesAvailable.includes(parseInt(id)) &&
+      !App.config.editors.includes(req.user.name)
+    ) {
       res.redirect('/')
       return
     }
@@ -265,7 +268,12 @@ export function setupStoryline(App) {
       return
     }
 
-    await App.mapMeta.markAsCompleted(req.user.id, parseInt(id))
+    if (
+      !App.config.editors.includes(req.user.name) &&
+      !App.config.demos.includes(req.user.name)
+    ) {
+      await App.mapMeta.markAsCompleted(req.user.id, parseInt(id))
+    }
     App.event.create('story-complete-' + id, req.user.id)
 
     if (req.session.returnToLogbook) {

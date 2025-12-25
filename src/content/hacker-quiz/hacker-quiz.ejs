@@ -1,33 +1,47 @@
 <style>
   .spinner-container {
-    width: 100%;
-    background-color: white;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgb(50, 50, 50);
     height: 200px;
     overflow: hidden;
+    border-radius: 16px;
+    position: relative;
+  }
+
+  .spinner-container::before,
+  .spinner-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .spinner-container::before {
+    top: 0;
+    background: linear-gradient(to bottom, #222, transparent);
+  }
+
+  .spinner-container::after {
+    bottom: 0;
+    background: linear-gradient(to top, #222, transparent);
   }
 
   /* Der Wrapper, der sich bewegt */
   .scroll-wrapper {
-    /* Die Animation: Name, Dauer, Kurve, Endlos */
-    animation: scrollUp 6s linear infinite;
   }
 
   .topic {
-    color: black;
+    color: white;
     text-align: center;
     padding: 9px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #696969;
     font-size: 30px;
-  }
-
-  @keyframes scrollUp {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      /* Wir verschieben um -50%, da der Inhalt verdoppelt ist */
-      transform: translateY(-50%);
-    }
+    white-space: nowrap;
+    user-select: none;
   }
 </style>
 
@@ -35,8 +49,8 @@
   <div class="scroll-wrapper"></div>
 </div>
 
-<div style="text-align: center; margin-top: 20px">
-  <button class="btn btn-interaction btn-lg">Start</button>
+<div style="text-align: center; margin-top: 32px">
+  <button class="btn btn-interaction btn-lg" id="spinner-start">Start</button>
 </div>
 
 <script>
@@ -131,4 +145,49 @@
       wrapper.appendChild(topicDiv)
     })
   }
+
+  const WRAPPER_HEIGHT = wrapper.offsetHeight / 2
+  const ELEMENT_HEIGHT = WRAPPER_HEIGHT / topics.length
+
+  let pos = 0
+  let speed = 15 // pixels per second
+  let lastTime = null
+  let mode = 'KEEP' // 'SLOWDOWN', 'ACCEL'
+
+  function loop() {
+    const now = performance.now()
+    const delta = now - lastTime
+    pos += speed * (delta / 1000)
+    if (pos >= WRAPPER_HEIGHT) {
+      pos -= WRAPPER_HEIGHT
+    }
+    wrapper.style.transform = `translateY(-${pos}px)`
+
+    // handle speed changes
+    if (mode === 'ACCEL') {
+      speed += 800 * (delta / 1000)
+    } else if (mode === 'SLOWDOWN') {
+      speed *= 0.95
+      if (speed <= 3) {
+        speed = 0
+        mode = 'KEEP'
+      }
+    }
+
+    lastTime = now
+    requestAnimationFrame(loop)
+  }
+
+  document.getElementById('spinner-start').addEventListener('click', () => {
+    speed = 500
+    setTimeout(() => {
+      speed = 1000
+    }, 300)
+    setTimeout(() => {
+      mode = 'SLOWDOWN'
+    }, 2000)
+  })
+
+  lastTime = performance.now()
+  loop()
 </script>

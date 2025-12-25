@@ -1,529 +1,80 @@
-<div id="hq" class="hq">
-  <main class="hq__card" aria-live="polite">
-    <header class="hq__header">
-      <div class="hq__kicker">HACKER QUIZ</div>
-      <h1 class="hq__title">Three questions. No mercy.</h1>
-      <p class="hq__sub">Minimal, rough, security-flavored. Pick fast.</p>
-    </header>
+<style></style>
 
-    <!-- MAIN VIEW -->
-    <section id="hqMain" class="hq__view" aria-label="Main menu">
-      <div class="hq__grid">
-        <section class="hq__panel" aria-label="Spinning topics">
-          <div class="hq__panelTitle">TOPICS (LIVE)</div>
+<div>Hier kommt der Thema-Spinner hin.</div>
 
-          <div class="hq__slot" role="img" aria-label="Spinning topics slot machine">
-            <div class="hq__slotWindow">
-              <div id="hqSlotTrack" class="hq__slotTrack"></div>
-            </div>
-            <div class="hq__slotFooter">
-              <span class="hq__slotHint">spins forever</span>
-              <span class="hq__slotHint">3 questions / round</span>
-            </div>
-          </div>
-        </section>
+<div>Hier kommt der Start-Button hin</div>
 
-        <section class="hq__panel" aria-label="Start">
-          <div class="hq__panelTitle">ROUND</div>
-          <button id="hqStart" class="hq__btn hq__btn--primary" type="button">
-            START QUIZ
-          </button>
-
-          <div class="hq__hi" aria-label="Highscore placeholder">
-            <div class="hq__hiLabel">HIGHSCORE</div>
-            <div class="hq__hiValue">— placeholder —</div>
-          </div>
-
-          <div class="hq__fine">Tip: answers are one word. Mostly.</div>
-        </section>
-      </div>
-    </section>
-
-    <!-- QUIZ VIEW -->
-    <section id="hqQuiz" class="hq__view hq__hidden" aria-label="Quiz">
-      <div class="hq__meta">
-        <div class="hq__pill" id="hqTopicPill">TOPIC</div>
-        <div class="hq__counter" id="hqCounter">Q 1/3</div>
-      </div>
-
-      <div class="hq__qwrap">
-        <div id="hqQuestion" class="hq__question">Question</div>
-        <div id="hqAnswers" class="hq__answers" role="group" aria-label="Answers"></div>
-        <div id="hqFeedback" class="hq__feedback" aria-live="assertive"></div>
-      </div>
-
-      <div class="hq__nav">
-        <button id="hqAbort" class="hq__btn" type="button">BACK</button>
-        <div class="hq__spacer"></div>
-        <div id="hqScoreTiny" class="hq__scoreTiny">SCORE 0/0</div>
-      </div>
-    </section>
-
-    <!-- SUMMARY VIEW -->
-    <section id="hqSummary" class="hq__view hq__hidden" aria-label="Summary">
-      <div class="hq__panelTitle">SUMMARY</div>
-      <div id="hqSummaryTitle" class="hq__summaryTitle">Done.</div>
-      <div id="hqSummaryBody" class="hq__summaryBody"></div>
-      <div class="hq__nav">
-        <button id="hqToMain" class="hq__btn hq__btn--primary" type="button">BACK TO MAIN</button>
-      </div>
-    </section>
-  </main>
-</div>
-
-<style>
-  .hq {
-    box-sizing: border-box;
-    padding: 24px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    color: #0b0b0b;
-  }
-  .hq *, .hq *::before, .hq *::after { box-sizing: inherit; }
-
-  .hq__card {
-    max-width: 880px;
-    margin: 0 auto;
-    border: 2px solid #0b0b0b;
-    background: #fff;
-    padding: 18px;
-  }
-
-  .hq__header { border-bottom: 1px dashed #0b0b0b; padding-bottom: 12px; margin-bottom: 16px; }
-  .hq__kicker { font-size: 12px; letter-spacing: 0.18em; }
-  .hq__title { margin: 6px 0 4px; font-size: 22px; font-weight: 800; }
-  .hq__sub { margin: 0; font-size: 13px; opacity: 0.85; }
-
-  .hq__grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 14px;
-  }
-  @media (max-width: 760px) {
-    .hq { padding: 14px; }
-    .hq__grid { grid-template-columns: 1fr; }
-  }
-
-  .hq__panel {
-    border: 1px solid #0b0b0b;
-    padding: 12px;
-    background: #fff;
-  }
-  .hq__panelTitle {
-    font-size: 12px;
-    letter-spacing: 0.16em;
-    margin-bottom: 10px;
-    opacity: 0.9;
-  }
-
-  .hq__btn {
-    appearance: none;
-    border: 2px solid #0b0b0b;
-    background: #fff;
-    color: #0b0b0b;
-    font: inherit;
-    padding: 10px 12px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-  .hq__btn:focus { outline: 2px solid #0b0b0b; outline-offset: 2px; }
-  .hq__btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
-  .hq__btn--primary { background: #0b0b0b; color: #fff; }
-
-  .hq__hi {
-    margin-top: 12px;
-    padding: 10px;
-    border: 1px dashed #0b0b0b;
-  }
-  .hq__hiLabel { font-size: 11px; letter-spacing: 0.16em; opacity: 0.85; }
-  .hq__hiValue { margin-top: 6px; font-size: 14px; }
-  .hq__fine { margin-top: 12px; font-size: 12px; opacity: 0.8; }
-
-  .hq__slot {
-    border: 2px solid #0b0b0b;
-    background: #fff;
-  }
-  .hq__slotWindow {
-    height: 114px;
-    overflow: hidden;
-    border-bottom: 1px dashed #0b0b0b;
-  }
-  .hq__slotTrack {
-    will-change: transform;
-    transform: translateY(0);
-  }
-  .hq__slotRow {
-    height: 38px;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-    border-top: 1px solid rgba(11, 11, 11, 0.08);
-  }
-  .hq__slotRow:nth-child(1) { border-top: 0; }
-  .hq__slotText { font-size: 13px; letter-spacing: 0.08em; }
-  .hq__slotFooter {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 10px;
-    font-size: 11px;
-    opacity: 0.85;
-  }
-  .hq__slotHint { letter-spacing: 0.12em; }
-
-  .hq__hidden { display: none; }
-
-  .hq__meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .hq__pill {
-    border: 1px solid #0b0b0b;
-    padding: 6px 8px;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .hq__counter { margin-left: auto; font-size: 12px; opacity: 0.85; letter-spacing: 0.10em; }
-
-  .hq__qwrap {
-    border: 1px solid #0b0b0b;
-    padding: 12px;
-  }
-  .hq__question {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  .hq__answers {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  @media (max-width: 520px) {
-    .hq__answers { grid-template-columns: 1fr; }
-  }
-  .hq__answer {
-    width: 100%;
-    text-align: left;
-  }
-
-  .hq__feedback {
-    margin-top: 12px;
-    min-height: 18px;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-  }
-  .hq__feedback--ok { color: #0a6b2b; }
-  .hq__feedback--bad { color: #8a1414; }
-
-  .hq__nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 12px;
-  }
-  .hq__spacer { flex: 1; }
-  .hq__scoreTiny { font-size: 12px; opacity: 0.85; letter-spacing: 0.10em; }
-
-  .hq__summaryTitle { margin-top: 6px; font-size: 18px; font-weight: 800; }
-  .hq__summaryBody { margin-top: 10px; border: 1px dashed #0b0b0b; padding: 10px; font-size: 13px; }
-  .hq__summaryLine { padding: 8px 0; border-top: 1px solid rgba(11, 11, 11, 0.12); }
-  .hq__summaryLine:first-child { border-top: 0; }
-  .hq__mono { letter-spacing: 0.06em; }
-</style>
+<div>Hier kommt die Highscore hin</div>
 
 <script>
-  (() => {
-    const TOPICS = [
-      "phishing",
-      "xss",
-      "sql-injection",
-      "hashing",
-      "pentest",
-      "firewalls",
-      "malware",
-      "tls",
-      "oauth",
-      "forensics",
-      "opsec",
-      "dos",
-      "sandboxing",
-      "social-engineering",
-      "reverse",
-      "steganography"
-    ];
-
-    // Each round selects 3 questions.
-    // Keep answers short (prefer one word).
-    const QUESTION_BANK = [
-      {
-        topic: "phishing",
-        q: "Email asks to verify password via a link. Attack?",
-        a: ["phishing", "spoofing", "sniffing", "patching"],
-        correct: 0
-      },
-      {
-        topic: "xss",
-        q: "Injecting script into a webpage is called?",
-        a: ["xss", "csrf", "sqli", "mitm"],
-        correct: 0
-      },
-      {
-        topic: "sql-injection",
-        q: "Classic input attack on databases?",
-        a: ["sqli", "rce", "xss", "dos"],
-        correct: 0
-      },
-      {
-        topic: "hashing",
-        q: "Hashes are primarily used for?",
-        a: ["integrity", "encryption", "compression", "routing"],
-        correct: 0
-      },
-      {
-        topic: "tls",
-        q: "HTTPS security is mainly provided by?",
-        a: ["tls", "dns", "icmp", "ftp"],
-        correct: 0
-      },
-      {
-        topic: "opsec",
-        q: "Least-privilege means?",
-        a: ["minimal", "maximum", "random", "shared"],
-        correct: 0
-      },
-      {
-        topic: "malware",
-        q: "Malware that encrypts files for money?",
-        a: ["ransomware", "adware", "spyware", "rootkit"],
-        correct: 0
-      },
-      {
-        topic: "firewalls",
-        q: "Blocks traffic based on rules?",
-        a: ["firewall", "keylogger", "compiler", "browser"],
-        correct: 0
-      },
-      {
-        topic: "social-engineering",
-        q: "Manipulating people to get access is?",
-        a: ["social", "salting", "scanning", "sharding"],
-        correct: 0
-      },
-      {
-        topic: "forensics",
-        q: "Investigating incidents after compromise?",
-        a: ["forensics", "hardening", "spoofing", "tunneling"],
-        correct: 0
-      },
-      {
-        topic: "reverse",
-        q: "Turning a binary into understanding is?",
-        a: ["reverse", "forward", "phishing", "fuzzing"],
-        correct: 0
-      },
-      {
-        topic: "dos",
-        q: "Overwhelming a service to knock it offline?",
-        a: ["dos", "ids", "vpn", "sip"],
-        correct: 0
-      }
-    ];
-
-    const $ = (sel) => document.querySelector(sel);
-
-    const elMain = $("#hqMain");
-    const elQuiz = $("#hqQuiz");
-    const elSummary = $("#hqSummary");
-
-    const elStart = $("#hqStart");
-    const elAbort = $("#hqAbort");
-    const elToMain = $("#hqToMain");
-
-    const elSlotTrack = $("#hqSlotTrack");
-    const elTopicPill = $("#hqTopicPill");
-    const elCounter = $("#hqCounter");
-    const elScoreTiny = $("#hqScoreTiny");
-    const elQuestion = $("#hqQuestion");
-    const elAnswers = $("#hqAnswers");
-    const elFeedback = $("#hqFeedback");
-    const elSummaryTitle = $("#hqSummaryTitle");
-    const elSummaryBody = $("#hqSummaryBody");
-
-    const state = {
-      round: [],
-      idx: 0,
-      score: 0,
-      picks: []
-    };
-
-    // --- Slot machine topics ---
-    const SLOT_ROWS_VISIBLE = 3;
-    const SLOT_ROW_H = 38;
-    const SLOT_BUFFER = 24;
-    let slotPos = 0;
-
-    function buildSlot() {
-      // Build a repeating track long enough for smooth scrolling.
-      const rows = [];
-      for (let i = 0; i < SLOT_BUFFER; i++) {
-        const t = TOPICS[i % TOPICS.length];
-        rows.push(`<div class="hq__slotRow"><span class="hq__slotText">${escapeHtml(t)}</span></div>`);
-      }
-      elSlotTrack.innerHTML = rows.join("");
-      elSlotTrack.style.transform = "translateY(0px)";
-      slotPos = 0;
-    }
-
-    function tickSlot() {
-      // Move by 1px per tick; when a row passes, recycle.
-      slotPos -= 2;
-      const minY = -SLOT_ROW_H;
-
-      if (slotPos <= minY) {
-        slotPos += SLOT_ROW_H;
-
-        // Move first row to the end, swap topic randomly.
-        const first = elSlotTrack.firstElementChild;
-        if (first) {
-          const t = TOPICS[(Math.random() * TOPICS.length) | 0];
-          first.querySelector(".hq__slotText").textContent = t;
-          elSlotTrack.appendChild(first);
-        }
-      }
-
-      elSlotTrack.style.transform = `translateY(${slotPos}px)`;
-    }
-
-    // --- Quiz flow ---
-    function show(view) {
-      elMain.classList.toggle("hq__hidden", view !== "main");
-      elQuiz.classList.toggle("hq__hidden", view !== "quiz");
-      elSummary.classList.toggle("hq__hidden", view !== "summary");
-    }
-
-    function pickRoundQuestions() {
-      const pool = QUESTION_BANK.slice();
-      // Fisher-Yates shuffle.
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = (Math.random() * (i + 1)) | 0;
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
-      return pool.slice(0, 3);
-    }
-
-    function startRound() {
-      state.round = pickRoundQuestions();
-      state.idx = 0;
-      state.score = 0;
-      state.picks = [];
-      show("quiz");
-      renderQuestion();
-    }
-
-    function renderQuestion() {
-      const item = state.round[state.idx];
-      if (!item) {
-        finishRound();
-        return;
-      }
-
-      elFeedback.textContent = "";
-      elFeedback.className = "hq__feedback";
-
-      elTopicPill.textContent = item.topic;
-      elCounter.textContent = `Q ${state.idx + 1}/3`;
-      elScoreTiny.textContent = `SCORE ${state.score}/${state.idx}`;
-      elQuestion.textContent = item.q;
-      elAnswers.innerHTML = "";
-
-      item.a.forEach((label, i) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "hq__btn hq__answer";
-        btn.textContent = label;
-        btn.addEventListener("click", () => onAnswer(i));
-        elAnswers.appendChild(btn);
-      });
-    }
-
-    let lock = false;
-    function onAnswer(choiceIdx) {
-      if (lock) return;
-      lock = true;
-
-      const item = state.round[state.idx];
-      const correct = choiceIdx === item.correct;
-      state.picks.push({
-        q: item.q,
-        topic: item.topic,
-        correct: item.a[item.correct],
-        picked: item.a[choiceIdx],
-        ok: correct
-      });
-      if (correct) state.score += 1;
-
-      // Disable all buttons.
-      Array.from(elAnswers.querySelectorAll("button")).forEach((b) => (b.disabled = true));
-
-      if (correct) {
-        elFeedback.textContent = "OK";
-        elFeedback.classList.add("hq__feedback--ok");
-      } else {
-        elFeedback.textContent = `NOPE — ${item.a[item.correct].toUpperCase()}`;
-        elFeedback.classList.add("hq__feedback--bad");
-      }
-
-      // Jump to next question shortly after feedback.
-      window.setTimeout(() => {
-        state.idx += 1;
-        lock = false;
-        renderQuestion();
-      }, 850);
-    }
-
-    function finishRound() {
-      show("summary");
-      elSummaryTitle.textContent = `Score: ${state.score}/3`;
-
-      const lines = state.picks.map((p, i) => {
-        const verdict = p.ok ? "OK" : "WRONG";
-        return `
-          <div class="hq__summaryLine">
-            <div class="hq__mono">Q${i + 1} / ${escapeHtml(p.topic)} / ${verdict}</div>
-            <div>${escapeHtml(p.q)}</div>
-            <div class="hq__mono">picked: ${escapeHtml(p.picked)} | correct: ${escapeHtml(p.correct)}</div>
-          </div>
-        `;
-      });
-      elSummaryBody.innerHTML = lines.join("");
-    }
-
-    function backToMain() {
-      lock = false;
-      show("main");
-    }
-
-    function escapeHtml(s) {
-      return String(s)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-    }
-
-    // Wire up
-    elStart.addEventListener("click", startRound);
-    elAbort.addEventListener("click", backToMain);
-    elToMain.addEventListener("click", backToMain);
-
-    // Init
-    buildSlot();
-    window.setInterval(tickSlot, 70);
-    show("main");
-  })();
+  // hacking related questions, options are only words / very short, correct answer is always first
+  const topics = [
+    {
+      topic: 'Netzwerk',
+      questions: [
+        {
+          question: 'Welches Protokoll wird verwendet, um Webseiten zu laden?',
+          options: ['HTTP', 'FTP', 'SMTP', 'DNS'],
+        },
+        {
+          question:
+            'Welches Gerät verbindet verschiedene Netzwerke miteinander?',
+          options: ['Router', 'Switch', 'Modem', 'Firewall'],
+        },
+        {
+          question: 'Welche IP-Version ist die aktuellste?',
+          options: ['IPv6', 'IPv4', 'IPX', 'IPV2'],
+        },
+      ],
+    },
+    {
+      topic: 'Passwörter',
+      questions: [
+        {
+          question: 'Was bedeutet MFA? ',
+          options: [
+            'Multi-Faktor-Authentifizierung',
+            'Mein-Foto-Album',
+            'Mail-Forwarding-Account',
+            'Mehrfach-File-Archiv',
+          ],
+        },
+        {
+          question: 'Welche Methode ist am sichersten? ',
+          options: ['Passphrase', 'Name+Geburtstag', '123456', 'Passwort'],
+        },
+        {
+          question: 'Was ist ein Passwort-Manager? ',
+          options: [
+            'Tool zum Speichern/Generieren',
+            'Browser-Cache',
+            'VPN',
+            'Firewall',
+          ],
+        },
+      ],
+    },
+    {
+      topic: 'Web-Sicherheit',
+      questions: [
+        {
+          question: 'Welche Schwachstelle betrifft ungefilterte Eingaben? ',
+          options: ['XSS', 'DDoS', 'DNS', 'NTP'],
+        },
+        {
+          question: 'Wofür steht CSRF? ',
+          options: [
+            'Cross-Site Request Forgery',
+            'Client-Side Render Flow',
+            'Cookie Session Reset Flag',
+            'Cache State Refresh Function',
+          ],
+        },
+        {
+          question: 'Welches Flag schützt Cookies vor JS-Zugriff? ',
+          options: ['HttpOnly', 'Readable', 'Public', 'Inline'],
+        },
+      ],
+    },
+  ]
 </script>

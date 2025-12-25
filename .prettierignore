@@ -17,3 +17,4 @@ src/**/*.ejs
 !src/content/views/cheater.ejs
 !src/content/views/booyah.ejs
 !src/content/story-scenes/*.ejs
+!src/content/hacker-quiz/*.ejs

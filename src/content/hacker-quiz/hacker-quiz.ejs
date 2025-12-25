@@ -1,80 +1,134 @@
-<style></style>
+<style>
+  .spinner-container {
+    width: 100%;
+    background-color: white;
+    height: 200px;
+    overflow: hidden;
+  }
 
-<div>Hier kommt der Thema-Spinner hin.</div>
+  /* Der Wrapper, der sich bewegt */
+  .scroll-wrapper {
+    /* Die Animation: Name, Dauer, Kurve, Endlos */
+    animation: scrollUp 6s linear infinite;
+  }
 
-<div>Hier kommt der Start-Button hin</div>
+  .topic {
+    color: black;
+    text-align: center;
+    padding: 9px;
+    border-bottom: 1px solid #ccc;
+    font-size: 30px;
+  }
 
-<div>Hier kommt die Highscore hin</div>
+  @keyframes scrollUp {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      /* Wir verschieben um -50%, da der Inhalt verdoppelt ist */
+      transform: translateY(-50%);
+    }
+  }
+</style>
+
+<div class="spinner-container">
+  <div class="scroll-wrapper"></div>
+</div>
+
+<div style="text-align: center; margin-top: 20px">
+  <button class="btn btn-interaction btn-lg">Start</button>
+</div>
 
 <script>
   // hacking related questions, options are only words / very short, correct answer is always first
   const topics = [
     {
-      topic: 'Netzwerk',
-      questions: [
-        {
-          question: 'Welches Protokoll wird verwendet, um Webseiten zu laden?',
-          options: ['HTTP', 'FTP', 'SMTP', 'DNS'],
-        },
-        {
-          question:
-            'Welches Gerät verbindet verschiedene Netzwerke miteinander?',
-          options: ['Router', 'Switch', 'Modem', 'Firewall'],
-        },
-        {
-          question: 'Welche IP-Version ist die aktuellste?',
-          options: ['IPv6', 'IPv4', 'IPX', 'IPV2'],
-        },
-      ],
+      id: 1,
+      de: {
+        topic: 'Netzwerk',
+        questions: [
+          {
+            question:
+              'Welches Protokoll wird verwendet, um Webseiten zu laden?',
+            options: ['HTTP', 'FTP', 'SMTP', 'DNS'],
+          },
+          {
+            question:
+              'Welches Gerät verbindet verschiedene Netzwerke miteinander?',
+            options: ['Router', 'Switch', 'Modem', 'Firewall'],
+          },
+          {
+            question: 'Welche IP-Version ist die aktuellste?',
+            options: ['IPv6', 'IPv4', 'IPX', 'IPV2'],
+          },
+        ],
+      },
     },
     {
-      topic: 'Passwörter',
-      questions: [
-        {
-          question: 'Was bedeutet MFA? ',
-          options: [
-            'Multi-Faktor-Authentifizierung',
-            'Mein-Foto-Album',
-            'Mail-Forwarding-Account',
-            'Mehrfach-File-Archiv',
-          ],
-        },
-        {
-          question: 'Welche Methode ist am sichersten? ',
-          options: ['Passphrase', 'Name+Geburtstag', '123456', 'Passwort'],
-        },
-        {
-          question: 'Was ist ein Passwort-Manager? ',
-          options: [
-            'Tool zum Speichern/Generieren',
-            'Browser-Cache',
-            'VPN',
-            'Firewall',
-          ],
-        },
-      ],
+      id: 2,
+      de: {
+        topic: 'Passwörter',
+        questions: [
+          {
+            question: 'Was bedeutet MFA? ',
+            options: [
+              'Multi-Faktor-Authentifizierung',
+              'Mein-Foto-Album',
+              'Mail-Forwarding-Account',
+              'Mehrfach-File-Archiv',
+            ],
+          },
+          {
+            question: 'Welche Methode ist am sichersten? ',
+            options: ['Passphrase', 'Name+Geburtstag', '123456', 'Passwort'],
+          },
+          {
+            question: 'Was ist ein Passwort-Manager? ',
+            options: [
+              'Tool zum Speichern/Generieren',
+              'Browser-Cache',
+              'VPN',
+              'Firewall',
+            ],
+          },
+        ],
+      },
     },
     {
-      topic: 'Web-Sicherheit',
-      questions: [
-        {
-          question: 'Welche Schwachstelle betrifft ungefilterte Eingaben? ',
-          options: ['XSS', 'DDoS', 'DNS', 'NTP'],
-        },
-        {
-          question: 'Wofür steht CSRF? ',
-          options: [
-            'Cross-Site Request Forgery',
-            'Client-Side Render Flow',
-            'Cookie Session Reset Flag',
-            'Cache State Refresh Function',
-          ],
-        },
-        {
-          question: 'Welches Flag schützt Cookies vor JS-Zugriff? ',
-          options: ['HttpOnly', 'Readable', 'Public', 'Inline'],
-        },
-      ],
+      id: 3,
+      de: {
+        topic: 'Web-Sicherheit',
+        questions: [
+          {
+            question: 'Welche Schwachstelle betrifft ungefilterte Eingaben? ',
+            options: ['XSS', 'DDoS', 'DNS', 'NTP'],
+          },
+          {
+            question: 'Wofür steht CSRF? ',
+            options: [
+              'Cross-Site Request Forgery',
+              'Client-Side Render Flow',
+              'Cookie Session Reset Flag',
+              'Cache State Refresh Function',
+            ],
+          },
+          {
+            question: 'Welches Flag schützt Cookies vor JS-Zugriff? ',
+            options: ['HttpOnly', 'Readable', 'Public', 'Inline'],
+          },
+        ],
+      },
     },
   ]
+
+  // create a div for every topic (de), only topic, very simple
+  const wrapper = document.querySelector('.scroll-wrapper')
+  for (const x of [0, 1]) {
+    topics.forEach((topic) => {
+      const topicDiv = document.createElement('div')
+      topicDiv.classList.add('topic')
+      topicDiv.innerHTML = `<div>${topic.de.topic}</div>`
+      wrapper.appendChild(topicDiv)
+    })
+  }
 </script>

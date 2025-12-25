@@ -10,7 +10,6 @@ import {
   Sequelize,
 } from 'sequelize'
 import { i18n } from 'i18next'
-import { WwsSessionData } from '../content/wws-demo/wws-types.js'
 
 export interface App {
   config: typeof appConfig
@@ -322,7 +321,6 @@ interface SessionData {
   sso_linkExisting?: boolean
   continuationUrl?: string
   goHereOnMap?: number
-  wws?: WwsSessionData
   lastMainColor?: string
   nextStoryId?: string
   returnToLogbook?: boolean

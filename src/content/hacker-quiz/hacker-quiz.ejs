@@ -127,7 +127,10 @@
 <div class="quiz-summary" style="display: none">
   <div id="summary-details"></div>
   <div style="text-align: center; margin-top: 52px">
-    <button class="btn btn-interaction" onclick="window.location.reload()">
+    <button
+      class="btn btn-interaction"
+      onclick="if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0); window.location.reload()"
+    >
       weiter
     </button>
   </div>

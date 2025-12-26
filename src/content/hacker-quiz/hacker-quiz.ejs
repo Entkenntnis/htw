@@ -75,6 +75,16 @@
     background-color: rgb(80, 80, 80);
   }
 
+  .correct-answer {
+    border-color: lime !important;
+    background-color: rgb(0, 94, 14) !important;
+  }
+
+  .wrong-answer {
+    border-color: red !important;
+    background-color: rgb(94, 0, 0) !important;
+  }
+
   .row-1,
   .row-2 {
     display: flex;
@@ -95,12 +105,12 @@
   <div id="quiz-question"></div>
   <div class="options-container">
     <div class="row-1">
-      <div id="quiz-question-1"></div>
-      <div id="quiz-question-2"></div>
+      <div id="quiz-question-1" tabindex="10"></div>
+      <div id="quiz-question-2" tabindex="11"></div>
     </div>
     <div class="row-2">
-      <div id="quiz-question-3"></div>
-      <div id="quiz-question-4"></div>
+      <div id="quiz-question-3" tabindex="12"></div>
+      <div id="quiz-question-4" tabindex="13"></div>
     </div>
   </div>
 </div>
@@ -218,6 +228,7 @@
 
   let round = null
   let quizIndex = 0
+  let correctAnswerId = -1
 
   function loop() {
     const now = performance.now()
@@ -239,6 +250,7 @@
           div.style.outline = '3px solid rgba(var(--main-color-rgb), 1)'
           div.style.borderLeft = '3px solid rgba(var(--main-color-rgb), 1)'
           div.style.borderRight = '3px solid rgba(var(--main-color-rgb), 1)'
+          div.style.borderRadius = '5px'
         })
         setTimeout(() => {
           // hide spinner and show quiz ui
@@ -317,14 +329,72 @@
     const option3Div = document.getElementById('quiz-question-3')
     const option4Div = document.getElementById('quiz-question-4')
 
+    // reset classes
+    option1Div.className = ''
+    option2Div.className = ''
+    option3Div.className = ''
+    option4Div.className = ''
+
     const currentQuestion = round.questions[quizIndex]
 
     quizQuestionDiv.innerHTML = currentQuestion.question
-    option1Div.innerHTML = currentQuestion.options[0]
-    option2Div.innerHTML = currentQuestion.options[1]
-    option3Div.innerHTML = currentQuestion.options[2]
-    option4Div.innerHTML = currentQuestion.options[3]
+
+    // shuffle options
+    const options = currentQuestion.options
+      .slice()
+      .sort(() => Math.random() - 0.5)
+    correctAnswerId = options.indexOf(round.questions[quizIndex].options[0])
+
+    option1Div.innerHTML = options[0]
+    option2Div.innerHTML = options[1]
+    option3Div.innerHTML = options[2]
+    option4Div.innerHTML = options[3]
   }
+
+  function handleAnsewr(id) {
+    if (correctAnswerId < 0) return
+    if (id == correctAnswerId) {
+      // green border
+      document
+        .getElementById(`quiz-question-${id + 1}`)
+        .classList.add('correct-answer')
+    } else {
+      // red border
+      document
+        .getElementById(`quiz-question-${id + 1}`)
+        .classList.add('wrong-answer')
+      // highlight correct answer
+      document
+        .getElementById(`quiz-question-${correctAnswerId + 1}`)
+        .classList.add('correct-answer')
+    }
+    correctAnswerId = -1
+    // TODO
+    setTimeout(() => {
+      quizIndex++
+      if (quizIndex >= round.questions.length) {
+        // end of quiz
+        alert('Quiz beendet!')
+        location.reload()
+      } else {
+        prepareQuiz()
+      }
+    }, 1500)
+  }
+
+  // add event listeners to options
+  document.getElementById('quiz-question-1').addEventListener('click', () => {
+    handleAnsewr(0)
+  })
+  document.getElementById('quiz-question-2').addEventListener('click', () => {
+    handleAnsewr(1)
+  })
+  document.getElementById('quiz-question-3').addEventListener('click', () => {
+    handleAnsewr(2)
+  })
+  document.getElementById('quiz-question-4').addEventListener('click', () => {
+    handleAnsewr(3)
+  })
 
   async function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))

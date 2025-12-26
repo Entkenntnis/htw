@@ -78,7 +78,7 @@
   .quiz-active #quiz-question-2:hover,
   .quiz-active #quiz-question-3:hover,
   .quiz-active #quiz-question-4:hover {
-    /* background-color: rgb(80, 80, 80); */
+    background-color: rgb(80, 80, 80);
   }
 
   .correct-answer {
@@ -122,19 +122,7 @@
   </button>
 </div>
 
-<div class="quiz-ui" style="display: none">
-  <div id="quiz-question"></div>
-  <div class="options-container">
-    <div class="row-1">
-      <div id="quiz-question-1" tabindex="10"></div>
-      <div id="quiz-question-2" tabindex="11"></div>
-    </div>
-    <div class="row-2">
-      <div id="quiz-question-3" tabindex="12"></div>
-      <div id="quiz-question-4" tabindex="13"></div>
-    </div>
-  </div>
-</div>
+<div class="quiz-ui" style="display: none"></div>
 
 <div class="quiz-summary" style="display: none">
   <div id="summary-details"></div>
@@ -279,6 +267,7 @@
   let quizIndex = 0
   let correctAnswerId = -1
   let events = []
+  let options = []
 
   function loop() {
     const now = performance.now()
@@ -377,7 +366,24 @@
     })
 
   function prepareQuiz() {
+    // remount inner html of quiz ui to remove old event listeners
+    const quizUI = document.querySelector('.quiz-ui')
+    quizUI.innerHTML = `
+      <div id="quiz-question"></div>
+      <div class="options-container">
+        <div class="row-1">
+          <div id="quiz-question-1" tabindex="10"></div>
+          <div id="quiz-question-2" tabindex="11"></div>
+        </div>
+        <div class="row-2">
+          <div id="quiz-question-3" tabindex="12"></div>
+          <div id="quiz-question-4" tabindex="13"></div>
+        </div>
+      </div>
+    `
+
     const quizQuestionDiv = document.getElementById('quiz-question')
+
     const option1Div = document.getElementById('quiz-question-1')
     const option2Div = document.getElementById('quiz-question-2')
     const option3Div = document.getElementById('quiz-question-3')
@@ -397,15 +403,27 @@
     quizQuestionDiv.innerHTML = currentQuestion.question
 
     // shuffle options
-    const options = currentQuestion.options
-      .slice()
-      .sort(() => Math.random() - 0.5)
+    options = currentQuestion.options.slice().sort(() => Math.random() - 0.5)
     correctAnswerId = options.indexOf(round.questions[quizIndex].options[0])
 
     option1Div.innerHTML = options[0]
     option2Div.innerHTML = options[1]
     option3Div.innerHTML = options[2]
     option4Div.innerHTML = options[3]
+
+    // add event listeners to options
+    document.getElementById('quiz-question-1').addEventListener('click', () => {
+      handleAnsewr(0)
+    })
+    document.getElementById('quiz-question-2').addEventListener('click', () => {
+      handleAnsewr(1)
+    })
+    document.getElementById('quiz-question-3').addEventListener('click', () => {
+      handleAnsewr(2)
+    })
+    document.getElementById('quiz-question-4').addEventListener('click', () => {
+      handleAnsewr(3)
+    })
   }
 
   function handleAnsewr(id) {
@@ -425,7 +443,7 @@
       document
         .getElementById(`quiz-question-${correctAnswerId + 1}`)
         .classList.add('correct-answer')
-      events.push({ type: 'wrong', selected: id })
+      events.push({ type: 'wrong', selected: options[id] })
     }
     correctAnswerId = -1
     //
@@ -446,20 +464,6 @@
     }, 1500)
   }
 
-  // add event listeners to options
-  document.getElementById('quiz-question-1').addEventListener('click', () => {
-    handleAnsewr(0)
-  })
-  document.getElementById('quiz-question-2').addEventListener('click', () => {
-    handleAnsewr(1)
-  })
-  document.getElementById('quiz-question-3').addEventListener('click', () => {
-    handleAnsewr(2)
-  })
-  document.getElementById('quiz-question-4').addEventListener('click', () => {
-    handleAnsewr(3)
-  })
-
   async function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
@@ -472,8 +476,6 @@
     // for every question, show question, selected answer, correct answer, details
     round.questions.forEach((question, index) => {
       const event = events[index]
-      const userAnswer =
-        question.options[event.type == 'correct' ? 0 : event.selected]
       const correctAnswer = question.options[0]
 
       const questionDiv = document.createElement('div')
@@ -484,7 +486,7 @@
           event.type == 'correct'
             ? ''
             : `
-          <strike>${userAnswer}</strike>  
+          <strike>${event.selected}</strike>
         `
         }<strong>${correctAnswer}</strong></p>
         <p>${question.details}</p>

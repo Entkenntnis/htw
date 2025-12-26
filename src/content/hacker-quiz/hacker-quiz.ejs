@@ -97,6 +97,19 @@
     justify-content: space-around;
     margin-top: 24px;
   }
+
+  .summary-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .summary-question {
+    margin-top: 24px;
+    padding: 12px;
+    border: 1px solid white;
+    border-radius: 8px;
+    background-color: rgb(30, 30, 30);
+  }
 </style>
 
 <div class="spinner-container">
@@ -124,7 +137,7 @@
 </div>
 
 <div class="quiz-summary" style="display: none">
-  <div>HERE IS A SUMMARY</div>
+  <div id="summary-details"></div>
   <div style="text-align: center; margin-top: 52px">
     <button class="btn btn-interaction" onclick="window.location.reload()">
       weiter
@@ -265,6 +278,7 @@
   let round = null
   let quizIndex = 0
   let correctAnswerId = -1
+  let events = []
 
   function loop() {
     const now = performance.now()
@@ -401,6 +415,7 @@
       document
         .getElementById(`quiz-question-${id + 1}`)
         .classList.add('correct-answer')
+      events.push({ type: 'correct', selected: id })
     } else {
       // red border
       document
@@ -410,6 +425,7 @@
       document
         .getElementById(`quiz-question-${correctAnswerId + 1}`)
         .classList.add('correct-answer')
+      events.push({ type: 'wrong', selected: id })
     }
     correctAnswerId = -1
     //
@@ -423,6 +439,7 @@
         document.querySelector('.quiz-ui').style.display = 'none'
         const summaryDiv = document.querySelector('.quiz-summary')
         summaryDiv.style.display = 'block'
+        buildSummary()
       } else {
         prepareQuiz()
       }
@@ -445,6 +462,35 @@
 
   async function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
+  }
+
+  function buildSummary() {
+    // sumamry should start of with the topic title
+    const summaryDiv = document.querySelector('#summary-details')
+    summaryDiv.innerHTML = `<div class="summary-title">Thema: ${round.topic}</div>`
+
+    // for every question, show question, selected answer, correct answer, details
+    round.questions.forEach((question, index) => {
+      const event = events[index]
+      const userAnswer =
+        question.options[event.type == 'correct' ? 0 : event.selected]
+      const correctAnswer = question.options[0]
+
+      const questionDiv = document.createElement('div')
+      questionDiv.classList.add('summary-question')
+      questionDiv.innerHTML = `
+        <p>Frage ${index + 1}: ${question.question} ${event.type == 'correct' ? '✅' : '❌'}</p>
+        <p style="margin-bottom: 24px;">Antwort: ${
+          event.type == 'correct'
+            ? ''
+            : `
+          <strike>${userAnswer}</strike>  
+        `
+        }<strong>${correctAnswer}</strong></p>
+        <p>${question.details}</p>
+      `
+      summaryDiv.appendChild(questionDiv)
+    })
   }
 
   lastTime = performance.now()

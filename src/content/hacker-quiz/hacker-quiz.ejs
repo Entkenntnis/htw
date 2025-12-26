@@ -49,7 +49,7 @@
     padding: 16px;
     font-size: 24px;
     font-weight: bold;
-    border: 1px solid var(--main-color);
+    border: 3px solid var(--main-color);
     border-radius: 12px;
   }
 
@@ -61,10 +61,18 @@
     padding: 16px;
     cursor: pointer;
     text-align: center;
-    border: 1px solid white;
+    border: 2px solid white;
     border-radius: 8px;
     font-size: 20px;
     user-select: none;
+    transition: background-color 0.2s;
+  }
+
+  #quiz-question-1:hover,
+  #quiz-question-2:hover,
+  #quiz-question-3:hover,
+  #quiz-question-4:hover {
+    background-color: rgb(80, 80, 80);
   }
 
   .row-1,
@@ -96,6 +104,8 @@
     </div>
   </div>
 </div>
+
+<div style="height: 240px"></div>
 
 <script>
   // hacking related questions, options are only words / very short, correct answer is always first
@@ -226,7 +236,9 @@
           `.topic-${topics[selectedIndex].id}`
         )
         selectedTopicDiv.forEach((div) => {
-          div.style.backgroundColor = 'rgba(var(--main-color-rgb), 0.3)'
+          div.style.outline = '3px solid rgba(var(--main-color-rgb), 1)'
+          div.style.borderLeft = '3px solid rgba(var(--main-color-rgb), 1)'
+          div.style.borderRight = '3px solid rgba(var(--main-color-rgb), 1)'
         })
         setTimeout(() => {
           // hide spinner and show quiz ui

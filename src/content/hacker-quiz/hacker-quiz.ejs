@@ -141,6 +141,7 @@
     topics.forEach((topic) => {
       const topicDiv = document.createElement('div')
       topicDiv.classList.add('topic')
+      topicDiv.classList.add(`topic-${topic.id}`)
       topicDiv.innerHTML = `<div>${topic.de.topic}</div>`
       wrapper.appendChild(topicDiv)
     })
@@ -173,6 +174,13 @@
       if (speed <= 3) {
         speed = 0
         mode = 'STOP'
+        // highlight selected topic
+        const selectedTopicDiv = document.querySelectorAll(
+          `.topic-${topics[selectedIndex].id}`
+        )
+        selectedTopicDiv.forEach((div) => {
+          div.style.backgroundColor = 'rgba(var(--main-color-rgb), 0.3)'
+        })
       }
     } else {
       pos += speed * (delta / 1000)
@@ -194,6 +202,11 @@
     .getElementById('spinner-start')
     .addEventListener('click', async () => {
       if (mode != 'IDLE' && mode != 'STOP') return
+
+      const topicsDivs = document.querySelectorAll('.topic')
+      topicsDivs.forEach((div) => {
+        div.style.backgroundColor = ''
+      })
 
       selectedIndex = Math.floor(Math.random() * topics.length)
       console.log(topics[selectedIndex].de.topic)

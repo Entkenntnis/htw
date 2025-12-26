@@ -59,20 +59,26 @@
   #quiz-question-4 {
     flex-basis: 45%;
     padding: 16px;
-    cursor: pointer;
     text-align: center;
     border: 2px solid white;
     border-radius: 8px;
     font-size: 20px;
     user-select: none;
-    transition: background-color 0.2s;
+    /* transition: background-color 0.06s; */
   }
 
-  #quiz-question-1:hover,
-  #quiz-question-2:hover,
-  #quiz-question-3:hover,
-  #quiz-question-4:hover {
-    background-color: rgb(80, 80, 80);
+  .quiz-active #quiz-question-1,
+  .quiz-active #quiz-question-2,
+  .quiz-active #quiz-question-3,
+  .quiz-active #quiz-question-4 {
+    cursor: pointer;
+  }
+
+  .quiz-active #quiz-question-1:hover,
+  .quiz-active #quiz-question-2:hover,
+  .quiz-active #quiz-question-3:hover,
+  .quiz-active #quiz-question-4:hover {
+    /* background-color: rgb(80, 80, 80); */
   }
 
   .correct-answer {
@@ -98,7 +104,9 @@
 </div>
 
 <div style="text-align: center; margin-top: 32px" class="spinner-start-button">
-  <button class="btn btn-interaction btn-lg" id="spinner-start">Start</button>
+  <button class="btn btn-interaction btn-lg" id="spinner-start">
+    Quiz starten
+  </button>
 </div>
 
 <div class="quiz-ui" style="display: none">
@@ -112,6 +120,15 @@
       <div id="quiz-question-3" tabindex="12"></div>
       <div id="quiz-question-4" tabindex="13"></div>
     </div>
+  </div>
+</div>
+
+<div class="quiz-summary" style="display: none">
+  <div>HERE IS A SUMMARY</div>
+  <div style="text-align: center; margin-top: 52px">
+    <button class="btn btn-interaction" onclick="window.location.reload()">
+      weiter
+    </button>
   </div>
 </div>
 
@@ -286,6 +303,10 @@
     .addEventListener('click', async () => {
       if (mode != 'READY') return
 
+      // hide spinner-start button
+      document.querySelector('.spinner-start-button').style.visibility =
+        'hidden'
+
       const topicsDivs = document.querySelectorAll('.topic')
       topicsDivs.forEach((div) => {
         div.style.backgroundColor = ''
@@ -335,6 +356,9 @@
     option3Div.className = ''
     option4Div.className = ''
 
+    // set quiz-active class on quiz ui
+    document.querySelector('.quiz-ui').classList.add('quiz-active')
+
     const currentQuestion = round.questions[quizIndex]
 
     quizQuestionDiv.innerHTML = currentQuestion.question
@@ -369,13 +393,17 @@
         .classList.add('correct-answer')
     }
     correctAnswerId = -1
-    // TODO
+    //
+    // remove quiz-active class on quiz ui
+    document.querySelector('.quiz-ui').classList.remove('quiz-active')
+
     setTimeout(() => {
       quizIndex++
       if (quizIndex >= round.questions.length) {
-        // end of quiz
-        alert('Quiz beendet!')
-        location.reload()
+        // show summary
+        document.querySelector('.quiz-ui').style.display = 'none'
+        const summaryDiv = document.querySelector('.quiz-summary')
+        summaryDiv.style.display = 'block'
       } else {
         prepareQuiz()
       }

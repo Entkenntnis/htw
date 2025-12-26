@@ -148,45 +148,87 @@
 
   const WRAPPER_HEIGHT = wrapper.offsetHeight / 2
   const ELEMENT_HEIGHT = WRAPPER_HEIGHT / topics.length
+  const MIDDLE_POS = 155
+  const MAX_SPEED = 3000
 
   let pos = 0
   let speed = 15 // pixels per second
   let lastTime = null
-  let mode = 'KEEP' // 'SLOWDOWN', 'ACCEL'
+  let mode = 'IDLE' // 'SLOWDOWN', 'ACCEL'
+  let slowDownK = 0
+  let slowDownStartPos = 0
+  let slowDownStartT = 0
+
+  let selectedIndex = 0
 
   function loop() {
     const now = performance.now()
     const delta = now - lastTime
-    pos += speed * (delta / 1000)
-    if (pos >= WRAPPER_HEIGHT) {
-      pos -= WRAPPER_HEIGHT
+    if (mode == 'SLOWDOWN') {
+      const expo = Math.exp(-slowDownK * ((now - slowDownStartT) / 1000))
+      speed = MAX_SPEED * expo
+      pos =
+        (slowDownStartPos + (MAX_SPEED / slowDownK) * (1 - expo)) %
+        WRAPPER_HEIGHT
+      if (speed <= 3) {
+        speed = 0
+        mode = 'STOP'
+      }
+    } else {
+      pos += speed * (delta / 1000)
+      if (pos >= WRAPPER_HEIGHT) {
+        pos -= WRAPPER_HEIGHT
+      }
     }
     wrapper.style.transform = `translateY(-${pos}px)`
 
-    // handle speed changes
-    if (mode === 'ACCEL') {
-      speed += 800 * (delta / 1000)
-    } else if (mode === 'SLOWDOWN') {
-      speed *= 0.95
-      if (speed <= 3) {
-        speed = 0
-        mode = 'KEEP'
-      }
-    }
+    // add blur on higher speeds
+    const blurAmount = Math.min(speed / 1600, 4)
+    wrapper.style.filter = `blur(${blurAmount}px)`
 
     lastTime = now
     requestAnimationFrame(loop)
   }
 
-  document.getElementById('spinner-start').addEventListener('click', () => {
-    speed = 500
-    setTimeout(() => {
-      speed = 1000
-    }, 300)
-    setTimeout(() => {
+  document
+    .getElementById('spinner-start')
+    .addEventListener('click', async () => {
+      if (mode != 'IDLE' && mode != 'STOP') return
+
+      selectedIndex = Math.floor(Math.random() * topics.length)
+      console.log(topics[selectedIndex].de.topic)
+
+      mode = 'ACCEL'
+      if (mode != '') speed = 300
+      await sleep(150)
+      speed = 700
+      await sleep(100)
+      speed = MAX_SPEED
+      await sleep(1600)
+
+      // todo: calculate slowdown parameters
+      slowDownStartPos = pos
+      // slowDownK = 2.45
+      slowDownStartT = performance.now()
+
+      const targetPos =
+        (MIDDLE_POS - ELEMENT_HEIGHT / 2 + selectedIndex * ELEMENT_HEIGHT) %
+        WRAPPER_HEIGHT
+
+      let decelDistance = targetPos + WRAPPER_HEIGHT - slowDownStartPos
+
+      while (decelDistance < MAX_SPEED / 2.45) {
+        decelDistance += WRAPPER_HEIGHT
+      }
+
+      slowDownK = (MAX_SPEED - 3) / decelDistance
+
       mode = 'SLOWDOWN'
-    }, 2000)
-  })
+    })
+
+  async function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+  }
 
   lastTime = performance.now()
   loop()

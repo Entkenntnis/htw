@@ -10,8 +10,9 @@ export function setupHackerQuiz(App) {
     renderPage(App, req, res, {
       page: 'hacker-quiz',
       heading: 'Hacker Quiz',
+      title: 'Hacker Quiz',
       content: `
-        ${await renderTemplate(App, req, '../../content/hacker-quiz/hacker-quiz.ejs', {})}
+        ${await renderTemplate(App, req, '../../content/hacker-quiz/hacker-quiz.ejs')}
       `,
     })
   })

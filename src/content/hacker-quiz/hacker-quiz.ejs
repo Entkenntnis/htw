@@ -59,19 +59,25 @@
   #quiz-question-4 {
     flex-basis: 45%;
     padding: 16px;
-    cursor: pointer;
     text-align: center;
     border: 2px solid white;
     border-radius: 8px;
     font-size: 20px;
     user-select: none;
-    transition: background-color 0.2s;
+    /* transition: background-color 0.06s; */
   }
 
-  #quiz-question-1:hover,
-  #quiz-question-2:hover,
-  #quiz-question-3:hover,
-  #quiz-question-4:hover {
+  .quiz-active #quiz-question-1,
+  .quiz-active #quiz-question-2,
+  .quiz-active #quiz-question-3,
+  .quiz-active #quiz-question-4 {
+    cursor: pointer;
+  }
+
+  .quiz-active #quiz-question-1:hover,
+  .quiz-active #quiz-question-2:hover,
+  .quiz-active #quiz-question-3:hover,
+  .quiz-active #quiz-question-4:hover {
     background-color: rgb(80, 80, 80);
   }
 
@@ -91,6 +97,19 @@
     justify-content: space-around;
     margin-top: 24px;
   }
+
+  .summary-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .summary-question {
+    margin-top: 24px;
+    padding: 12px;
+    border: 1px solid white;
+    border-radius: 8px;
+    background-color: rgb(30, 30, 30);
+  }
 </style>
 
 <div class="spinner-container">
@@ -98,20 +117,19 @@
 </div>
 
 <div style="text-align: center; margin-top: 32px" class="spinner-start-button">
-  <button class="btn btn-interaction btn-lg" id="spinner-start">Start</button>
+  <button class="btn btn-interaction btn-lg" id="spinner-start">
+    Quiz starten
+  </button>
 </div>
 
-<div class="quiz-ui" style="display: none">
-  <div id="quiz-question"></div>
-  <div class="options-container">
-    <div class="row-1">
-      <div id="quiz-question-1" tabindex="10"></div>
-      <div id="quiz-question-2" tabindex="11"></div>
-    </div>
-    <div class="row-2">
-      <div id="quiz-question-3" tabindex="12"></div>
-      <div id="quiz-question-4" tabindex="13"></div>
-    </div>
+<div class="quiz-ui" style="display: none"></div>
+
+<div class="quiz-summary" style="display: none">
+  <div id="summary-details"></div>
+  <div style="text-align: center; margin-top: 52px">
+    <button class="btn btn-interaction" onclick="window.location.reload()">
+      weiter
+    </button>
   </div>
 </div>
 
@@ -129,15 +147,22 @@
             question:
               'Welches Protokoll wird verwendet, um Webseiten zu laden?',
             options: ['HTTP', 'FTP', 'SMTP', 'DNS'],
+            // shown after round, contains useful info, may contain html and links (target=_blank)
+            details:
+              'HTTP steht für HyperText Transfer Protocol und ist das grundlegende Protokoll für die Übertragung von Webseiten im Internet. Es definiert, wie Nachrichten formatiert und übertragen werden und wie Webserver und Browser auf verschiedene Befehle reagieren sollen.',
           },
           {
             question:
               'Welches Gerät verbindet verschiedene Netzwerke miteinander?',
             options: ['Router', 'Switch', 'Modem', 'Firewall'],
+            details:
+              'Ein Router ist ein Netzwerkgerät, das Datenpakete zwischen verschiedenen Netzwerken weiterleitet. Es analysiert die Zieladressen der Pakete und entscheidet, welchen Weg sie nehmen sollen, um ihr Ziel zu erreichen. Router sind entscheidend für die Verbindung von Heimnetzwerken mit dem Internet und für die Kommunikation zwischen verschiedenen Netzwerken.',
           },
           {
             question: 'Welche IP-Version ist die aktuellste?',
             options: ['IPv6', 'IPv4', 'IPX', 'IPV2'],
+            details:
+              'IPv6 (Internet Protocol Version 6) ist die neueste Version des Internetprotokolls, das entwickelt wurde, um den begrenzten Adressraum von IPv4 zu erweitern. IPv6 verwendet 128-Bit-Adressen, was eine nahezu unbegrenzte Anzahl von eindeutigen IP-Adressen ermöglicht und somit das Wachstum des Internets unterstützt.',
           },
         ],
       },
@@ -155,10 +180,14 @@
               'Mail-Forwarding-Account',
               'Mehrfach-File-Archiv',
             ],
+            details:
+              'Multi-Faktor-Authentifizierung (MFA) ist eine Sicherheitsmaßnahme, bei der Benutzer mehrere unabhängige Authentifizierungsfaktoren bereitstellen müssen, um Zugriff auf ein System oder eine Anwendung zu erhalten. Dies erhöht die Sicherheit erheblich, da selbst wenn ein Faktor kompromittiert wird, die anderen Faktoren weiterhin Schutz bieten.',
           },
           {
             question: 'Welche Methode ist am sichersten? ',
             options: ['Passphrase', 'Name+Geburtstag', '123456', 'Passwort'],
+            details:
+              'Eine Passphrase ist eine längere Folge von Wörtern oder Zeichen, die als Passwort verwendet wird. Im Vergleich zu herkömmlichen Passwörtern bietet eine Passphrase aufgrund ihrer Länge und Komplexität eine höhere Sicherheit. Sie ist schwieriger zu erraten oder durch Brute-Force-Angriffe zu knacken, insbesondere wenn sie aus einer Kombination von zufälligen Wörtern besteht.',
           },
           {
             question: 'Was ist ein Passwort-Manager? ',
@@ -168,6 +197,8 @@
               'VPN',
               'Firewall',
             ],
+            details:
+              'Ein Passwort-Manager ist eine Softwareanwendung, die Benutzern hilft, ihre Passwörter sicher zu speichern und zu verwalten. Passwort-Manager generieren oft auch starke, zufällige Passwörter für verschiedene Konten und füllen diese automatisch in Anmeldeformulare ein. Sie verschlüsseln die gespeicherten Passwörter, um sie vor unbefugtem Zugriff zu schützen.',
           },
         ],
       },
@@ -180,6 +211,8 @@
           {
             question: 'Welche Schwachstelle betrifft ungefilterte Eingaben? ',
             options: ['XSS', 'DDoS', 'DNS', 'NTP'],
+            details:
+              'XSS (Cross-Site Scripting) ist eine Sicherheitslücke in Webanwendungen, die auftritt, wenn Angreifer bösartigen Code (meistens JavaScript) in Webseiten einschleusen können, die von anderen Benutzern angesehen werden. Dies geschieht oft durch ungefilterte oder unzureichend validierte Benutzereingaben. XSS kann dazu verwendet werden, Cookies zu stehlen, Sitzungen zu übernehmen oder schädliche Aktionen im Namen des Opfers auszuführen.',
           },
           {
             question: 'Wofür steht CSRF? ',
@@ -189,10 +222,14 @@
               'Cookie Session Reset Flag',
               'Cache State Refresh Function',
             ],
+            details:
+              'CSRF (Cross-Site Request Forgery) ist eine Art von Angriff, bei dem ein Angreifer einen authentifizierten Benutzer dazu bringt, unerwünschte Aktionen auf einer Webanwendung auszuführen, in der er angemeldet ist. Dies geschieht oft durch das Einbetten von bösartigen Links oder Formularen auf einer anderen Webseite, die der Benutzer besucht. CSRF-Angriffe können dazu führen, dass vertrauliche Daten geändert oder Aktionen im Namen des Benutzers durchgeführt werden, ohne dessen Wissen oder Zustimmung.',
           },
           {
             question: 'Welches Flag schützt Cookies vor JS-Zugriff? ',
             options: ['HttpOnly', 'Readable', 'Public', 'Inline'],
+            details:
+              'Das HttpOnly-Flag ist eine Sicherheitsmaßnahme, die auf HTTP-Cookies angewendet wird, um den Zugriff auf diese Cookies durch clientseitiges JavaScript zu verhindern. Wenn ein Cookie mit dem HttpOnly-Flag gesetzt ist, kann es nicht über JavaScript (z. B. durch document.cookie) gelesen oder manipuliert werden. Dies hilft, Angriffe wie Cross-Site Scripting (XSS) zu verhindern, bei denen Angreifer versuchen könnten, Cookies zu stehlen oder zu verändern.',
           },
         ],
       },
@@ -229,6 +266,8 @@
   let round = null
   let quizIndex = 0
   let correctAnswerId = -1
+  let events = []
+  let options = []
 
   function loop() {
     const now = performance.now()
@@ -286,6 +325,10 @@
     .addEventListener('click', async () => {
       if (mode != 'READY') return
 
+      // hide spinner-start button
+      document.querySelector('.spinner-start-button').style.visibility =
+        'hidden'
+
       const topicsDivs = document.querySelectorAll('.topic')
       topicsDivs.forEach((div) => {
         div.style.backgroundColor = ''
@@ -323,7 +366,24 @@
     })
 
   function prepareQuiz() {
+    // remount inner html of quiz ui to remove old event listeners
+    const quizUI = document.querySelector('.quiz-ui')
+    quizUI.innerHTML = `
+      <div id="quiz-question"></div>
+      <div class="options-container">
+        <div class="row-1">
+          <div id="quiz-question-1" tabindex="10"></div>
+          <div id="quiz-question-2" tabindex="11"></div>
+        </div>
+        <div class="row-2">
+          <div id="quiz-question-3" tabindex="12"></div>
+          <div id="quiz-question-4" tabindex="13"></div>
+        </div>
+      </div>
+    `
+
     const quizQuestionDiv = document.getElementById('quiz-question')
+
     const option1Div = document.getElementById('quiz-question-1')
     const option2Div = document.getElementById('quiz-question-2')
     const option3Div = document.getElementById('quiz-question-3')
@@ -335,20 +395,35 @@
     option3Div.className = ''
     option4Div.className = ''
 
+    // set quiz-active class on quiz ui
+    document.querySelector('.quiz-ui').classList.add('quiz-active')
+
     const currentQuestion = round.questions[quizIndex]
 
     quizQuestionDiv.innerHTML = currentQuestion.question
 
     // shuffle options
-    const options = currentQuestion.options
-      .slice()
-      .sort(() => Math.random() - 0.5)
+    options = currentQuestion.options.slice().sort(() => Math.random() - 0.5)
     correctAnswerId = options.indexOf(round.questions[quizIndex].options[0])
 
     option1Div.innerHTML = options[0]
     option2Div.innerHTML = options[1]
     option3Div.innerHTML = options[2]
     option4Div.innerHTML = options[3]
+
+    // add event listeners to options
+    document.getElementById('quiz-question-1').addEventListener('click', () => {
+      handleAnsewr(0)
+    })
+    document.getElementById('quiz-question-2').addEventListener('click', () => {
+      handleAnsewr(1)
+    })
+    document.getElementById('quiz-question-3').addEventListener('click', () => {
+      handleAnsewr(2)
+    })
+    document.getElementById('quiz-question-4').addEventListener('click', () => {
+      handleAnsewr(3)
+    })
   }
 
   function handleAnsewr(id) {
@@ -358,6 +433,7 @@
       document
         .getElementById(`quiz-question-${id + 1}`)
         .classList.add('correct-answer')
+      events.push({ type: 'correct', selected: id })
     } else {
       // red border
       document
@@ -367,37 +443,56 @@
       document
         .getElementById(`quiz-question-${correctAnswerId + 1}`)
         .classList.add('correct-answer')
+      events.push({ type: 'wrong', selected: options[id] })
     }
     correctAnswerId = -1
-    // TODO
+    //
+    // remove quiz-active class on quiz ui
+    document.querySelector('.quiz-ui').classList.remove('quiz-active')
+
     setTimeout(() => {
       quizIndex++
       if (quizIndex >= round.questions.length) {
-        // end of quiz
-        alert('Quiz beendet!')
-        location.reload()
+        // show summary
+        document.querySelector('.quiz-ui').style.display = 'none'
+        const summaryDiv = document.querySelector('.quiz-summary')
+        summaryDiv.style.display = 'block'
+        buildSummary()
       } else {
         prepareQuiz()
       }
     }, 1500)
   }
 
-  // add event listeners to options
-  document.getElementById('quiz-question-1').addEventListener('click', () => {
-    handleAnsewr(0)
-  })
-  document.getElementById('quiz-question-2').addEventListener('click', () => {
-    handleAnsewr(1)
-  })
-  document.getElementById('quiz-question-3').addEventListener('click', () => {
-    handleAnsewr(2)
-  })
-  document.getElementById('quiz-question-4').addEventListener('click', () => {
-    handleAnsewr(3)
-  })
-
   async function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
+  }
+
+  function buildSummary() {
+    // sumamry should start of with the topic title
+    const summaryDiv = document.querySelector('#summary-details')
+    summaryDiv.innerHTML = `<div class="summary-title">Thema: ${round.topic}</div>`
+
+    // for every question, show question, selected answer, correct answer, details
+    round.questions.forEach((question, index) => {
+      const event = events[index]
+      const correctAnswer = question.options[0]
+
+      const questionDiv = document.createElement('div')
+      questionDiv.classList.add('summary-question')
+      questionDiv.innerHTML = `
+        <p>Frage ${index + 1}: ${question.question} ${event.type == 'correct' ? '✅' : '❌'}</p>
+        <p style="margin-bottom: 24px;">Antwort: ${
+          event.type == 'correct'
+            ? ''
+            : `
+          <strike>${event.selected}</strike>
+        `
+        }<strong>${correctAnswer}</strong></p>
+        <p>${question.details}</p>
+      `
+      summaryDiv.appendChild(questionDiv)
+    })
   }
 
   lastTime = performance.now()

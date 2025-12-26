@@ -43,14 +43,58 @@
     white-space: nowrap;
     user-select: none;
   }
+
+  #quiz-question {
+    text-align: center;
+    padding: 16px;
+    font-size: 24px;
+    font-weight: bold;
+    border: 1px solid var(--main-color);
+    border-radius: 12px;
+  }
+
+  #quiz-question-1,
+  #quiz-question-2,
+  #quiz-question-3,
+  #quiz-question-4 {
+    flex-basis: 45%;
+    padding: 16px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 8px;
+    font-size: 20px;
+    user-select: none;
+  }
+
+  .row-1,
+  .row-2 {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 24px;
+  }
 </style>
 
 <div class="spinner-container">
   <div class="scroll-wrapper"></div>
 </div>
 
-<div style="text-align: center; margin-top: 32px">
+<div style="text-align: center; margin-top: 32px" class="spinner-start-button">
   <button class="btn btn-interaction btn-lg" id="spinner-start">Start</button>
+</div>
+
+<div class="quiz-ui" style="display: none">
+  <div id="quiz-question"></div>
+  <div class="options-container">
+    <div class="row-1">
+      <div id="quiz-question-1"></div>
+      <div id="quiz-question-2"></div>
+    </div>
+    <div class="row-2">
+      <div id="quiz-question-3"></div>
+      <div id="quiz-question-4"></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -155,12 +199,15 @@
   let pos = 0
   let speed = 15 // pixels per second
   let lastTime = null
-  let mode = 'IDLE' // 'SLOWDOWN', 'ACCEL'
+  let mode = 'READY' // 'SLOWDOWN', 'ACCEL'
   let slowDownK = 0
   let slowDownStartPos = 0
   let slowDownStartT = 0
 
   let selectedIndex = 0
+
+  let round = null
+  let quizIndex = 0
 
   function loop() {
     const now = performance.now()
@@ -181,6 +228,18 @@
         selectedTopicDiv.forEach((div) => {
           div.style.backgroundColor = 'rgba(var(--main-color-rgb), 0.3)'
         })
+        setTimeout(() => {
+          // hide spinner and show quiz ui
+          document.querySelector('.spinner-container').style.display = 'none'
+          document.querySelector('.spinner-start-button').style.display = 'none'
+          const quizUI = document.querySelector('.quiz-ui')
+          quizUI.style.display = 'block'
+
+          round = topics[selectedIndex].de
+          quizIndex = 0
+          document.getElementById('back-button').style.visibility = 'hidden'
+          prepareQuiz()
+        }, 1000)
       }
     } else {
       pos += speed * (delta / 1000)
@@ -201,7 +260,7 @@
   document
     .getElementById('spinner-start')
     .addEventListener('click', async () => {
-      if (mode != 'IDLE' && mode != 'STOP') return
+      if (mode != 'READY') return
 
       const topicsDivs = document.querySelectorAll('.topic')
       topicsDivs.forEach((div) => {
@@ -238,6 +297,22 @@
 
       mode = 'SLOWDOWN'
     })
+
+  function prepareQuiz() {
+    const quizQuestionDiv = document.getElementById('quiz-question')
+    const option1Div = document.getElementById('quiz-question-1')
+    const option2Div = document.getElementById('quiz-question-2')
+    const option3Div = document.getElementById('quiz-question-3')
+    const option4Div = document.getElementById('quiz-question-4')
+
+    const currentQuestion = round.questions[quizIndex]
+
+    quizQuestionDiv.innerHTML = currentQuestion.question
+    option1Div.innerHTML = currentQuestion.options[0]
+    option2Div.innerHTML = currentQuestion.options[1]
+    option3Div.innerHTML = currentQuestion.options[2]
+    option4Div.innerHTML = currentQuestion.options[3]
+  }
 
   async function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))

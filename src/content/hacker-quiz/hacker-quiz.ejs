@@ -209,15 +209,22 @@
   }
 
   .summary-explain {
-    margin-top: 10px;
+    margin-top: 6px;
     opacity: 0.9;
-    padding-top: 10px;
+    padding-top: 12px;
     border-top: 1px solid #696969;
   }
 
-  .summary-explain p {
-    margin: 8px 0 0;
+  .summary-user-answer {
+    margin-top: 24px;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #696969;
   }
+
+  /*.summary-explain p {
+    margin: 10px 0 0;
+  }*/
 </style>
 
 <div class="spinner-container">
@@ -530,13 +537,11 @@
           ${
             isCorrect
               ? `
-            <div class="summary-label">Antwort</div>
+            <div class="summary-label">Lösung</div>
             <div class="summary-value"><strong>${correctAnswer}</strong></div>
           `
               : `
-            <div class="summary-label">Deine Antwort</div>
-            <div class="summary-value"><strike>${event.selected}</strike></div>
-            <div class="summary-label">Richtig</div>
+            <div class="summary-label">Lösung</div>
             <div class="summary-value"><strong>${correctAnswer}</strong></div>
           `
           }
@@ -546,7 +551,13 @@
           <p>${question.details[0]}</p>
           ${
             !isCorrect
-              ? `<p>${question.details[question.options.indexOf(event.selected)]}</p>`
+              ? `
+                <div class="summary-answers summary-user-answer">
+                  <div class="summary-label">Deine Antwort</div>
+                  <div class="summary-value"><strike>${event.selected}</strike></div>
+                </div>
+                <p>${question.details[question.options.indexOf(event.selected)]}</p>
+              `
               : ''
           }
         </div>

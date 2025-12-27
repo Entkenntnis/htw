@@ -1,3 +1,27 @@
+/**
+ * Das Ziel des Hacker-Quiz ist es, jungen Menschen und Neu-Einsteigern über die Gamification
+ * des Quiz-Formats Begeisterung für das Thema Hacking zu wecken.
+ *
+ * Und Hacking verstehe ich Bereiche der IT-Sicherheit, aber auch Aspekte von Alltags-Hacking am
+ * Computer (Adblocking, Browser-Tools), als auch Kryptographie, allgemeines Wissen über Netzwerke,
+ * Programmiersprachen, Zahlensysteme, aber auch Gaming, AI, social media. Die Themen dürfen sehr breit sein.
+ *
+ * Das Format besteht aus einer Runde mit drei Fragen mit einem gemeinsamen Thema (topic). Das Topic wird
+ * in der UI angezeigt und aussagekräftig sein. Jede Frage besteht aus einem Prompt, ein Satz, und
+ * vier Auswahloptionen, von denen genau eine richtig ist. In der Datenstruktur steht die richtige
+ * Antwort an der ersten Stelle. Die Antworten sollen kurz sein, im Bereich 10 - 20 Zeichen.
+ *
+ * Zusätzlich soll jede Frage ein "details" Feld besitzen. Dieser Text wird nach der Runde in der
+ * Zusammenfassung angezeigt 150 bis 200 Zeichen enthalten. Es soll auf die richtige Antwort eingehen,
+ * darf aber auch die Distraktoren erwähnen und interessante Unterschiede feststellen.
+ *
+ * Gehe davon aus, dass Domain-Experten die Fragen beantworten werden. Inhaltliche Korrektheit und
+ * Eindeutigkeit der Frage ist sehr wichtig. Gleichzeitig sollen die Fragen sprachlich für Teens (13+)
+ * zugänglich sein. Es wird nicht davon ausgegangen, dass direkt Vorwissen zu den Fragen besteht,
+ * aber es soll eine Chance gegeben sein, die Fragen zu erraten.
+ *
+ */
+
 var QUIZ_DATA = [
   {
     id: 1,

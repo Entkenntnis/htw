@@ -64,7 +64,7 @@
     border-radius: 8px;
     font-size: 20px;
     user-select: none;
-    /* transition: background-color 0.06s; */
+    transition: background-color 0.2s;
   }
 
   .quiz-active #quiz-question-1,
@@ -128,12 +128,7 @@
 <div class="quiz-summary" style="display: none">
   <div id="summary-details"></div>
   <div style="text-align: center; margin-top: 52px">
-    <button
-      class="btn btn-interaction"
-      onclick="if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0); window.location.reload()"
-    >
-      weiter
-    </button>
+    <button class="btn btn-interaction" onclick="restartQuiz()">weiter</button>
   </div>
 </div>
 
@@ -243,8 +238,12 @@
         div.style.backgroundColor = ''
       })
 
-      selectedIndex = Math.floor(Math.random() * topics.length)
-      console.log(topics[selectedIndex].de.topic)
+      // if search params like id=1 is set, use the topci with that id
+      const urlParams = new URLSearchParams(window.location.search)
+      const idParam = urlParams.get('id')
+      selectedIndex = idParam
+        ? topics.findIndex((topic) => topic.id == idParam)
+        : Math.floor(Math.random() * topics.length)
 
       mode = 'ACCEL'
       if (mode != '') speed = 300
@@ -398,7 +397,8 @@
           <strike>${event.selected}</strike>
         `
         }<strong>${correctAnswer}</strong></p>
-        <p>${question.details}</p>
+        <p>${question.details[0]}</p>
+        ${event.type != 'correct' ? `<p>${question.details[question.options.indexOf(event.selected)]}</p>` : ''}
       `
       summaryDiv.appendChild(questionDiv)
     })
@@ -406,4 +406,10 @@
 
   lastTime = performance.now()
   loop()
+
+  function restartQuiz() {
+    window.location.reload()
+  }
+
+  window.scrollTo(0, 0)
 </script>

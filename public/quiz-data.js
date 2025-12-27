@@ -5,23 +5,37 @@ var QUIZ_DATA = [
       topic: 'Netzwerk',
       questions: [
         {
-          question: 'Welches Protokoll wird verwendet, um Webseiten zu laden?',
-          options: ['HTTP', 'FTP', 'SMTP', 'DNS'],
-          details:
-            'HTTP steht für HyperText Transfer Protocol und ist das grundlegende Protokoll für die Übertragung von Webseiten im Internet. Es definiert, wie Nachrichten formatiert und übertragen werden und wie Webserver und Browser auf verschiedene Befehle reagieren sollen.',
+          question:
+            'Wie nennt man die Zeitspanne, die ein Datenpaket benötigt, um zum Server und wieder zurück zu gelangen?',
+          options: ['Ping', 'Lag', 'FPS', 'WLAN'],
+          details: [
+            'Der Ping wird in Millisekunden gemessen und zeigt an, wie reaktionsschnell die Verbindung zum Server ist. Ein niedriger Wert ist besonders bei Online-Spielen wichtig, damit deine Aktionen ohne spürbare Verzögerung ausgeführt werden.', // Ping (Richtig)
+            'Lag ist kein Messwert, sondern bezeichnet lediglich das spürbare Ruckeln oder Hängen, das oft erst als Folge eines zu hohen Pings auftritt.', // Lag
+            'FPS (Frames Per Second) misst die Grafikleistung deines Computers (Bilder pro Sekunde), hat aber nichts mit der Geschwindigkeit der Internetverbindung zu tun.', // FPS
+            'WLAN bezeichnet nur die drahtlose Funktechnologie zur Übertragung, ist aber nicht der Name für die gemessene Antwortzeit.', // WLAN
+          ],
         },
         {
           question:
-            'Welches Gerät verbindet verschiedene Netzwerke miteinander?',
-          options: ['Router', 'Switch', 'Modem', 'Firewall'],
-          details:
-            'Ein Router ist ein Netzwerkgerät, das Datenpakete zwischen verschiedenen Netzwerken weiterleitet. Es analysiert die Zieladressen der Pakete und entscheidet, welchen Weg sie nehmen sollen, um ihr Ziel zu erreichen. Router sind entscheidend für die Verbindung von Heimnetzwerken mit dem Internet und für die Kommunikation zwischen verschiedenen Netzwerken.',
+            'Welches Protokoll ist dafür zuständig, Webseiten vom Server in deinen Browser zu laden?',
+          options: ['HTTP(S)', 'HTML', 'USB', 'PDF'],
+          details: [
+            'HTTP (bzw. das sichere HTTPS) regelt als Transportprotokoll den Austausch von Daten zwischen Webserver und Browser. Es stellt sicher, dass Anfragen korrekt verstanden und die passenden Webseiteninhalte sicher an deinen Computer zurückgeschickt werden.', // HTTP(S) (Richtig)
+            'HTML ist die Sprache, die den Aufbau und Inhalt der Webseite beschreibt, aber sie transportiert die Daten nicht selbst über das Netzwerk.', // HTML
+            'USB ist eine Hardware-Schnittstelle für Geräte wie Tastaturen oder Speichersticks und kein Netzwerkprotokoll für Webseiten.', // USB
+            'PDF ist ein Dateiformat für Dokumente und hat nichts mit der technischen Übertragung von Webseiten zu tun.', // PDF
+          ],
         },
         {
-          question: 'Welche IP-Version ist die aktuellste?',
-          options: ['IPv6', 'IPv4', 'IPX', 'IPV2'],
-          details:
-            'IPv6 (Internet Protocol Version 6) ist die neueste Version des Internetprotokolls, das entwickelt wurde, um den begrenzten Adressraum von IPv4 zu erweitern. IPv6 verwendet 128-Bit-Adressen, was eine nahezu unbegrenzte Anzahl von eindeutigen IP-Adressen ermöglicht und somit das Wachstum des Internets unterstützt.',
+          question:
+            'Welcher Dienst ist technisch dafür verantwortlich, Domainnamen (wie arrrg.de) in IP-Adressen aufzulösen?',
+          options: ['DNS', 'VPN', 'URL', 'SSD'],
+          details: [
+            'Das Domain Name System (DNS) ist ein weltweit verteiltes Verzeichnis, das menschenlesbare Namen in maschinenlesbare IP-Adressen übersetzt. Ohne DNS müsstest du dir für jede Website eine lange Zahlenreihe merken, statt einfach den Namen einzutippen.', // DNS (Richtig)
+            'Ein VPN (Virtual Private Network) verschlüsselt deine Verbindung und verschleiert deinen Standort, ist aber nicht für die Namensauflösung zuständig.', // VPN
+            'Die URL ist lediglich die Adressezeile, die du eingibst, aber nicht der Hintergrunddienst, der diese technisch in eine IP-Adresse umwandelt.', // URL
+            'Eine SSD ist ein schneller Datenspeicher (Festplatte) in deinem Computer und hat keine Funktion im Netzwerkverkehr.', // SSD
+          ],
         },
       ],
     },

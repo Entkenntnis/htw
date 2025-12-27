@@ -435,20 +435,20 @@
 
     // add event listeners to options
     document.getElementById('quiz-question-1').addEventListener('click', () => {
-      handleAnsewr(0)
+      handleAnswer(0)
     })
     document.getElementById('quiz-question-2').addEventListener('click', () => {
-      handleAnsewr(1)
+      handleAnswer(1)
     })
     document.getElementById('quiz-question-3').addEventListener('click', () => {
-      handleAnsewr(2)
+      handleAnswer(2)
     })
     document.getElementById('quiz-question-4').addEventListener('click', () => {
-      handleAnsewr(3)
+      handleAnswer(3)
     })
   }
 
-  function handleAnsewr(id) {
+  function handleAnswer(id) {
     if (correctAnswerId < 0) return
     if (id == correctAnswerId) {
       // green border
@@ -491,6 +491,7 @@
   }
 
   function buildSummary() {
+    window.scrollTo({ top: 0, behavior: 'instant' })
     // sumamry should start of with the topic title
     const summaryDiv = document.querySelector('#summary-details')
     const correctCount = events.filter((e) => e.type === 'correct').length
@@ -573,5 +574,9 @@
     window.location.reload()
   }
 
-  window.scrollTo(0, 0)
+  setTimeout(() => {
+    document.getElementById('spinner-start').focus()
+    // scroll to spinner
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, 100)
 </script>

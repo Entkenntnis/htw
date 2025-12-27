@@ -16,4 +16,10 @@ export function setupHackerQuiz(App) {
       `,
     })
   })
+
+  // Stub endpoint for summary feedback (thumb up/down)
+  App.express.post('/api/quiz-feedback', async (req, res) => {
+    // Keep as stub for now: accept payload and respond OK.
+    res.json({ ok: true })
+  })
 }

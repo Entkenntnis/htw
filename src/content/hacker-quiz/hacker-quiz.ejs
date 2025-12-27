@@ -160,6 +160,7 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
+    margin-bottom: 24px;
   }
 
   .summary-icon {
@@ -213,6 +214,42 @@
     border-bottom: 1px solid #696969;
   }
 
+  .summary-footer {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .summary-feedback {
+    display: flex;
+    gap: 8px;
+  }
+
+  .summary-feedback-btn {
+    background: transparent;
+    border: 1px solid #696969;
+    border-radius: 8px;
+    padding: 6px;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .summary-feedback-btn:hover {
+    background-color: rgb(50, 50, 50);
+  }
+
+  .summary-feedback-btn.is-active {
+    border-color: rgba(var(--main-color-rgb), 1);
+    color: rgba(var(--main-color-rgb), 1);
+  }
+
+  .summary-feedback-btn svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
   /*.summary-explain p {
     margin: 10px 0 0;
   }*/
@@ -246,6 +283,7 @@
   const topics = QUIZ_DATA
 
   // create a div for every topic (de), only topic, very simple
+  const spinnerContainer = document.querySelector('.spinner-container')
   const wrapper = document.querySelector('.scroll-wrapper')
   for (const x of [0, 1]) {
     topics.forEach((topic) => {
@@ -258,8 +296,6 @@
   }
 
   const WRAPPER_HEIGHT = wrapper.offsetHeight / 2
-  const ELEMENT_HEIGHT = WRAPPER_HEIGHT / topics.length
-  const MIDDLE_POS = 155
   const MAX_SPEED = 3000
 
   let pos = 0
@@ -363,8 +399,19 @@
       // slowDownK = 2.45
       slowDownStartT = performance.now()
 
+      const topicEls = Array.from(wrapper.querySelectorAll('.topic')).slice(
+        0,
+        topics.length
+      )
+      const targetEl = topicEls[selectedIndex]
+      const desiredCenter = spinnerContainer.clientHeight / 2
+      const targetCenterInWrapper =
+        targetEl.offsetTop + targetEl.offsetHeight / 2
+
+      // Keep within [0, WRAPPER_HEIGHT) (JS % can be negative)
       const targetPos =
-        (MIDDLE_POS - ELEMENT_HEIGHT / 2 + selectedIndex * ELEMENT_HEIGHT) %
+        (((targetCenterInWrapper - desiredCenter) % WRAPPER_HEIGHT) +
+          WRAPPER_HEIGHT) %
         WRAPPER_HEIGHT
 
       let decelDistance = targetPos + WRAPPER_HEIGHT - slowDownStartPos
@@ -510,6 +557,38 @@
       `
     }
 
+    const thumbIcon = (dir) => {
+      if (dir === 'up') {
+        return `
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M6.5 7.2V3.7c0-.7.3-1.3.8-1.8l.2-.2c.2-.2.6-.2.8 0 .5.5.8 1.2.8 1.9v1.1h3.1c.8 0 1.4.7 1.3 1.5l-.6 4.6c-.1.7-.7 1.2-1.4 1.2H6.9c-.7 0-1.2-.5-1.2-1.2V7.2h.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+            <path d="M3.2 7.1h1.2v6.1H3.2c-.6 0-1-.4-1-1V8.1c0-.6.4-1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          </svg>
+        `
+      }
+
+      return `
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+          <path d="M6.5 8.8v3.5c0 .7.3 1.3.8 1.8l.2.2c.2.2.6.2.8 0 .5-.5.8-1.2.8-1.9v-1.1h3.1c.8 0 1.4-.7 1.3-1.5l-.6-4.6c-.1-.7-.7-1.2-1.4-1.2H6.9c-.7 0-1.2.5-1.2 1.2v3.6h.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          <path d="M3.2 8.9h1.2V2.8H3.2c-.6 0-1 .4-1 1v4.1c0 .6.4 1 1 1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+        </svg>
+      `
+    }
+
+    const summaryVotes = {}
+
+    const sendSummaryFeedback = async (payload) => {
+      try {
+        await fetch('/api/quiz-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+      } catch (e) {
+        // best-effort only
+      }
+    }
+
     // for every question, show question, selected answer, correct answer, details
     round.questions.forEach((question, index) => {
       const event = events[index]
@@ -553,7 +632,44 @@
               : ''
           }
         </div>
+
+        <div class="summary-footer">
+          <div class="summary-feedback" data-question-index="${index}">
+            <button class="summary-feedback-btn" type="button" data-vote="down" aria-label="Daumen runter" aria-pressed="false">${thumbIcon(
+              'down'
+            )}</button>
+            <button class="summary-feedback-btn" type="button" data-vote="up" aria-label="Daumen hoch" aria-pressed="false">${thumbIcon(
+              'up'
+            )}</button>
+          </div>
+        </div>
       `
+
+      const feedbackEl = questionDiv.querySelector('.summary-feedback')
+      const upBtn = questionDiv.querySelector('[data-vote="up"]')
+      const downBtn = questionDiv.querySelector('[data-vote="down"]')
+
+      const applyVote = (vote) => {
+        summaryVotes[index] = vote
+        upBtn.classList.toggle('is-active', vote === 'up')
+        downBtn.classList.toggle('is-active', vote === 'down')
+        upBtn.setAttribute('aria-pressed', vote === 'up' ? 'true' : 'false')
+        downBtn.setAttribute('aria-pressed', vote === 'down' ? 'true' : 'false')
+
+        sendSummaryFeedback({
+          page: 'hacker-quiz',
+          topic: round.topic,
+          questionIndex: index,
+          isCorrect,
+          vote,
+        })
+      }
+
+      upBtn.addEventListener('click', () => applyVote('up'))
+      downBtn.addEventListener('click', () => applyVote('down'))
+
+      // avoid unused variable warning in some linters
+      void feedbackEl
       summaryDiv.appendChild(questionDiv)
     })
   }

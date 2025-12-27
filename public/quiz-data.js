@@ -20,7 +20,7 @@ var QUIZ_DATA = [
             'Welches Protokoll ist dafür zuständig, Webseiten vom Server in deinen Browser zu laden?',
           options: ['HTTP(S)', 'HTML', 'USB', 'PDF'],
           details: [
-            'HTTP (bzw. das sichere HTTPS) regelt als Transportprotokoll den Austausch von Daten zwischen Webserver und Browser. Es stellt sicher, dass Anfragen korrekt verstanden und die passenden Webseiteninhalte sicher an deinen Computer zurückgeschickt werden.', // HTTP(S) (Richtig)
+            'HTTP (bzw. das sichere HTTPS) regelt als Anwendungsprotokoll den Austausch von Daten zwischen Webserver und Browser. Es stellt sicher, dass Anfragen korrekt verstanden und die passenden Webseiteninhalte sicher an deinen Computer zurückgeschickt werden.', // HTTP(S) (Richtig)
             'HTML ist die Sprache, die den Aufbau und Inhalt der Webseite beschreibt, aber sie transportiert die Daten nicht selbst über das Netzwerk.', // HTML
             'USB ist eine Hardware-Schnittstelle für Geräte wie Tastaturen oder Speichersticks und kein Netzwerkprotokoll für Webseiten.', // USB
             'PDF ist ein Dateiformat für Dokumente und hat nichts mit der technischen Übertragung von Webseiten zu tun.', // PDF
@@ -46,32 +46,41 @@ var QUIZ_DATA = [
       topic: 'Passwörter',
       questions: [
         {
-          question: 'Was bedeutet MFA? ',
-          options: [
-            'Multi-Faktor-Authentifizierung',
-            'Mein-Foto-Album',
-            'Mail-Forwarding-Account',
-            'Mehrfach-File-Archiv',
+          question: 'Welches dieser Passwörter bietet die höchste Sicherheit?',
+          options: ['X7#mK9$pL2!q', 'Lukas2006', '123456789', 'Passwort123'],
+          details: [
+            'Diese Kombination ist am sichersten, da sie eine völlig zufällige Abfolge von 12 Zeichen ist, die Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen mischt. Solche Passwörter sind gegen Wörterbuch-Angriffe immun und bräuchten Jahre, um berechnet zu werden. Ein Passwort-Manager hilft dir bei der Verwaltung.', // Richtig
+            'Namen in Kombination mit einem Geburtsjahr sind leicht durch "Social Engineering" (Recherche in sozialen Medien) zu erraten.', // Lukas2006
+            'Einfache Zahlenfolgen gehören zu den am häufigsten genutzten Passwörtern und werden von Angreifern oft als allererstes ausprobiert.', // 123456789
+            'Wörter, die im Wörterbuch stehen (auch mit angehängten Zahlen), sind sehr unsicher, da Hacking-Tools diese in Sekundenbruchteilen durchtesten.', // Passwort123
           ],
-          details:
-            'Multi-Faktor-Authentifizierung (MFA) ist eine Sicherheitsmaßnahme, bei der Benutzer mehrere unabhängige Authentifizierungsfaktoren bereitstellen müssen, um Zugriff auf ein System oder eine Anwendung zu erhalten. Dies erhöht die Sicherheit erheblich, da selbst wenn ein Faktor kompromittiert wird, die anderen Faktoren weiterhin Schutz bieten.',
         },
         {
-          question: 'Welche Methode ist am sichersten? ',
-          options: ['Passphrase', 'Name+Geburtstag', '123456', 'Passwort'],
-          details:
-            'Eine Passphrase ist eine längere Folge von Wörtern oder Zeichen, die als Passwort verwendet wird. Im Vergleich zu herkömmlichen Passwörtern bietet eine Passphrase aufgrund ihrer Länge und Komplexität eine höhere Sicherheit. Sie ist schwieriger zu erraten oder durch Brute-Force-Angriffe zu knacken, insbesondere wenn sie aus einer Kombination von zufälligen Wörtern besteht.',
+          question:
+            'Welches bekannte Tool wird oft verwendet, um Passwörtern zu knacken?',
+          options: ['John the Ripper', 'Wireshark', 'TeamViewer', 'WinRAR'],
+          details: [
+            'John the Ripper ist ein berühmtes Programm, das darauf spezialisiert ist, schwache Passwörter zu identifizieren, indem es blitzschnell Millionen von Varianten gegen verschlüsselte Passwörter (Hashes) prüft. Es wird sowohl von Sicherheitsforschern als auch von Angreifern genutzt.', // Richtig
+            'Wireshark ist ein Analyse-Tool für Netzwerke, mit dem man Datenverkehr sichtbar macht, aber es ist kein Programm zum direkten Knacken von Passwort-Hashes.', // Wireshark
+            'TeamViewer ist eine Software für Fernwartung und Support, mit der man Computer aus der Ferne steuern kann, aber kein Hacking-Tool.', // TeamViewer
+            'WinRAR ist ein Programm zum Komprimieren und Entpacken von Dateien (wie .zip oder .rar) und kann nicht zum Knacken von Passwörtern genutzt werden.', // WinRAR
+          ],
         },
         {
-          question: 'Was ist ein Passwort-Manager? ',
+          question:
+            'Wie sollten Passwörter idealerweise in einer Datenbank gespeichert werden?',
           options: [
-            'Tool zum Speichern/Generieren',
-            'Browser-Cache',
-            'VPN',
-            'Firewall',
+            'Als Hash + Salt',
+            'Im Klartext',
+            'Als Base64',
+            'Nur als Hash',
           ],
-          details:
-            'Ein Passwort-Manager ist eine Softwareanwendung, die Benutzern hilft, ihre Passwörter sicher zu speichern und zu verwalten. Passwort-Manager generieren oft auch starke, zufällige Passwörter für verschiedene Konten und füllen diese automatisch in Anmeldeformulare ein. Sie verschlüsseln die gespeicherten Passwörter, um sie vor unbefugtem Zugriff zu schützen.',
+          details: [
+            'Die sicherste Methode ist das "Hashen" (eine Einbahnstraßen-Verschlüsselung) kombiniert mit einem "Salt" (einer zufälligen Zusatzzeichenfolge). Das Salt sorgt dafür, dass selbst zwei identische Passwörter in der Datenbank völlig unterschiedlich aussehen, was Angriffe mit vorberechneten Tabellen (Rainbow Tables) verhindert.', // Richtig
+            'Klartext bedeutet, dass das Passwort lesbar gespeichert wird – wenn die Datenbank gehackt wird, hat der Angreifer sofort Zugriff auf alle Konten.', // Klartext
+            'Base64 ist keine Verschlüsselung, sondern eine Kodierung, die jeder innerhalb von Sekunden wieder in das lesbare Passwort zurückübersetzen kann.', // Base64
+            'Nur zu hashen (ohne Salt) ist unsicherer, da Angreifer sogenannte Rainbow Tables nutzen können, um häufige Passwörter schnell zu entschlüsseln.', // Nur Hash
+          ],
         },
       ],
     },
@@ -82,27 +91,37 @@ var QUIZ_DATA = [
       topic: 'Web-Sicherheit',
       questions: [
         {
-          question: 'Welche Schwachstelle betrifft ungefilterte Eingaben? ',
-          options: ['XSS', 'DDoS', 'DNS', 'NTP'],
-          details:
-            'XSS (Cross-Site Scripting) ist eine Sicherheitslücke in Webanwendungen, die auftritt, wenn Angreifer bösartigen Code (meistens JavaScript) in Webseiten einschleusen können, die von anderen Benutzern angesehen werden. Dies geschieht oft durch ungefilterte oder unzureichend validierte Benutzereingaben. XSS kann dazu verwendet werden, Cookies zu stehlen, Sitzungen zu übernehmen oder schädliche Aktionen im Namen des Opfers auszuführen.',
-        },
-        {
-          question: 'Wofür steht CSRF? ',
-          options: [
-            'Cross-Site Request Forgery',
-            'Client-Side Render Flow',
-            'Cookie Session Reset Flag',
-            'Cache State Refresh Function',
+          question:
+            "Ein Benutzer gibt im Anmeldefeld <code>admin' OR 1=1; --</code> ein. Welcher Angriff wird hier versucht?",
+          options: ['SQL Injection', 'Phishing', 'Brute Force', 'Spam'],
+          details: [
+            'Bei einer SQL Injection versucht der Angreifer, eigene Datenbankbefehle in das Eingabefeld zu schmuggeln, um die Abfrage zu manipulieren. Durch den Zusatz "OR 1=1" wird die Bedingung immer "wahr", was dazu führen kann, dass man ohne Passwort eingeloggt wird oder Daten auslesen kann.', // Richtig
+            'Phishing versucht Nutzer über gefälschte E-Mails oder Webseiten zur Dateneingabe zu bewegen und manipuliert nicht den Programmcode der Datenbank.', // Phishing
+            'Bei Brute Force werden automatisiert tausende Passwortkombinationen durchprobiert, anstatt logische Fehler in der Datenbankabfrage auszunutzen.', // Brute Force
+            'Spam bezeichnet unerwünschte Werbenachrichten im Postfach und ist kein technischer Angriff auf die Datenbankstruktur.', // Spam
           ],
-          details:
-            'CSRF (Cross-Site Request Forgery) ist eine Art von Angriff, bei dem ein Angreifer einen authentifizierten Benutzer dazu bringt, unerwünschte Aktionen auf einer Webanwendung auszuführen, in der er angemeldet ist. Dies geschieht oft durch das Einbetten von bösartigen Links oder Formularen auf einer anderen Webseite, die der Benutzer besucht. CSRF-Angriffe können dazu führen, dass vertrauliche Daten geändert oder Aktionen im Namen des Benutzers durchgeführt werden, ohne dessen Wissen oder Zustimmung.',
         },
         {
-          question: 'Welches Flag schützt Cookies vor JS-Zugriff? ',
-          options: ['HttpOnly', 'Readable', 'Public', 'Inline'],
-          details:
-            'Das HttpOnly-Flag ist eine Sicherheitsmaßnahme, die auf HTTP-Cookies angewendet wird, um den Zugriff auf diese Cookies durch clientseitiges JavaScript zu verhindern. Wenn ein Cookie mit dem HttpOnly-Flag gesetzt ist, kann es nicht über JavaScript (z. B. durch document.cookie) gelesen oder manipuliert werden. Dies hilft, Angriffe wie Cross-Site Scripting (XSS) zu verhindern, bei denen Angreifer versuchen könnten, Cookies zu stehlen oder zu verändern.',
+          question:
+            'Wie nennt man den Angriff, bei dem ein riesiges Netzwerk aus ferngesteuerten Geräten (Botnet) eine Webseite gleichzeitig aufruft, um sie lahmzulegen?',
+          options: ['DDoS', 'Adware', 'VPN-Tunnel', '404 Error'],
+          details: [
+            'DDoS steht für "Distributed Denial of Service" und zielt darauf ab, den Server durch reine Überlastung in die Knie zu zwingen. Da die Anfragen von vielen verschiedenen Geräten weltweit kommen, kann der Server echte Besucher nicht mehr von den Angreifern unterscheiden und bricht zusammen.', // Richtig
+            'Adware ist Software, die Werbung anzeigt, greift aber keine Webserver an, um diese abzuschalten.', // Adware
+            'Ein VPN-Tunnel dient der sicheren Verbindung und ist kein Angriffsszenario zur Überlastung von Systemen.', // VPN-Tunnel
+            'Ein 404 Error ist der Statuscode für eine nicht gefundene Seite und kein Name für einen Angriff.', // 404 Error
+          ],
+        },
+        {
+          question:
+            'Welche Sicherheitslücke ermöglicht es Angreifern, über einen manipulierten Link schädliche Skripte im Browser des Opfers auszuführen (z. B. um Cookies zu klauen)?',
+          options: ['XSS', 'FTP', 'Ransomware', 'Bluescreen'],
+          details: [
+            'Cross-Site Scripting (XSS) nutzt aus, dass der Browser dem Link vertraut und darin versteckten Code (meist JavaScript) auf der besuchten Seite ausführt. So können Angreifer im Hintergrund deine Anmeldeinformationen abgreifen, sobald du den Link anklickst.', // Richtig
+            'FTP ist ein Standardprotokoll zum Übertragen von Dateien auf einen Server und keine Sicherheitslücke.', // FTP
+            'Ransomware verschlüsselt Dateien auf der Festplatte und fordert Lösegeld, zielt aber nicht auf das Auslesen von Browser-Sitzungen ab.', // Ransomware
+            'Ein Bluescreen signalisiert einen Systemabsturz von Windows und ist kein Angriff zum Datendiebstahl über einen Link.', // Bluescreen
+          ],
         },
       ],
     },

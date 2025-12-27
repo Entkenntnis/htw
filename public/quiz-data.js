@@ -126,4 +126,50 @@ var QUIZ_DATA = [
       ],
     },
   },
+  {
+    id: 4,
+    de: {
+      topic: 'Hardware',
+      questions: [
+        {
+          question:
+            'Wie lautet die gängige Abkürzung für den Arbeitsspeicher eines Computers?',
+          options: ['RAM', 'CPU', 'GPU', 'ROM'],
+          details: [
+            'RAM (Random Access Memory) fungiert als Kurzzeitgedächtnis des Computers, in dem Daten laufender Programme für den schnellen Zugriff bereitliegen. Sobald der Computer ausgeschaltet wird, gehen die Daten in diesem Speicher verloren.', // Richtig
+            'Die CPU (Central Processing Unit) ist der Prozessor und das Gehirn des Computers, das Berechnungen durchführt.', // CPU
+            'Die GPU (Graphics Processing Unit) ist die Grafikkarte und berechnet Bildschirminhalte oder 3D-Modelle.', // GPU
+            'ROM (Read-Only Memory) ist ein dauerhafter Speicherbaustein, der Firmware-Daten enthält und nicht beschreibbar ist.', // ROM
+          ],
+        },
+        {
+          question:
+            'Wie nennt man die Hauptplatine, die alle Komponenten eines Computers miteinander verbindet?',
+          options: ['Motherboard', 'Keyboard', 'Dashboard', 'Breadboard'],
+          details: [
+            'Das Motherboard (oder Mainboard) ist die zentrale Platine, auf der wichtige Bauteile wie Prozessor, Arbeitsspeicher und Grafikkarte sitzen. Es stellt die elektronischen Verbindungen bereit, damit alle Komponenten miteinander kommunizieren und Strom erhalten können.', // Richtig
+            'Keyboard ist der englische Begriff für die Tastatur zur Eingabe von Texten.', // Keyboard
+            'Ein Dashboard bezeichnet eine grafische Benutzeroberfläche zur Übersicht von Daten oder Einstellungen.', // Dashboard
+            'Ein Breadboard ist eine Steckplatine für Bastler, um elektronische Schaltungen testweise aufzubauen.', // Breadboard
+          ],
+        },
+        {
+          question:
+            'Wofür steht die Abkürzung SSD bei modernen Speichermedien?',
+          options: [
+            'Solid State Drive',
+            'Super Speed Disk',
+            'System Security Data',
+            'Silent Storage Device',
+          ],
+          details: [
+            'Solid State Drive bedeutet, dass das Laufwerk auf Flash-Speicherbausteinen basiert und keine beweglichen mechanischen Teile besitzt. Dadurch sind SSDs wesentlich schneller, robuster und stromsparender als herkömmliche Magnetfestplatten (HDDs).', // Richtig
+            'Super Speed Disk ist ein Fantasiebegriff und keine technische Bezeichnung für Speicherhardware.', // Super Speed Disk
+            'System Security Data klingt nach einem Begriff aus der IT-Sicherheit und beschreibt kein physisches Laufwerk.', // System Security Data
+            'Silent Storage Device beschreibt zwar eine Eigenschaft der SSD (lautlos), ist aber nicht die korrekte Auflösung der Abkürzung.', // Silent Storage Device
+          ],
+        },
+      ],
+    },
+  },
 ]

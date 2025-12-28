@@ -255,6 +255,23 @@
   }*/
 </style>
 
+<div
+  style="
+    text-align: right;
+    margin-top: -32px;
+    transform: translateY(-40px);
+    pointer-events: none;
+  "
+  class="quiz-suggestion"
+>
+  <a
+    href="https://forms.gle/KYrmo2GMNaTmoj6M7"
+    target="_blank"
+    style="pointer-events: auto"
+    >Frage vorschlagen</a
+  >
+</div>
+
 <div class="spinner-container">
   <div class="scroll-wrapper"></div>
 </div>
@@ -347,6 +364,7 @@
           round = topics[selectedIndex].de
           quizIndex = 0
           document.getElementById('back-button').style.visibility = 'hidden'
+          document.querySelector('.quiz-suggestion').style.visibility = 'hidden'
           prepareQuiz()
         }, 1000)
       }

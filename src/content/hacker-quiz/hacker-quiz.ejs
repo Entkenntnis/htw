@@ -265,10 +265,10 @@
   class="quiz-suggestion"
 >
   <a
-    href="https://forms.gle/KYrmo2GMNaTmoj6M7"
+    href="<%- locale == 'de' ? 'https://forms.gle/KYrmo2GMNaTmoj6M7' : 'https://forms.gle/E6e8YdrpMJDXSYLm7' %>"
     target="_blank"
     style="pointer-events: auto"
-    >Frage vorschlagen</a
+    ><%= locale == 'de' ? 'Frage vorschlagen' : 'Suggest a Question' %></a
   >
 </div>
 
@@ -278,7 +278,7 @@
 
 <div style="text-align: center; margin-top: 32px" class="spinner-start-button">
   <button class="btn btn-interaction btn-lg" id="spinner-start">
-    Quiz starten
+    <%= locale == 'de' ? 'Quiz starten' : 'Start Quiz' %>
   </button>
 </div>
 
@@ -287,18 +287,21 @@
 <div class="quiz-summary" style="display: none">
   <div id="summary-details"></div>
   <div style="text-align: center; margin-top: 52px">
-    <button class="btn btn-interaction" onclick="restartQuiz()">weiter</button>
+    <button class="btn btn-interaction" onclick="restartQuiz()">
+      <%= locale == 'de' ? 'weiter' : 'continue' %>
+    </button>
   </div>
 </div>
 
 <div style="height: 140px"></div>
 
-<script src="/quiz/quiz-data.js"></script>
+<script src="/quiz/quiz-data-<%= locale %>.js"></script>
 
 <script>
   // hacking related questions, options are only words / very short, correct answer is always first
   const topics = QUIZ_DATA
   const isLoggedIn = '<%= isLoggedIn %>' === 'true'
+  const locale = '<%= locale %>'
 
   // create a div for every topic (de), only topic, very simple
   const spinnerContainer = document.querySelector('.spinner-container')
@@ -308,7 +311,7 @@
       const topicDiv = document.createElement('div')
       topicDiv.classList.add('topic')
       topicDiv.classList.add(`topic-${topic.id}`)
-      topicDiv.innerHTML = `<div>${topic.de.topic}</div>`
+      topicDiv.innerHTML = `<div>${topic[locale].topic}</div>`
       wrapper.appendChild(topicDiv)
     })
   }
@@ -361,7 +364,7 @@
           const quizUI = document.querySelector('.quiz-ui')
           quizUI.style.display = 'block'
 
-          round = topics[selectedIndex].de
+          round = topics[selectedIndex][locale]
           quizIndex = 0
           document.getElementById('back-button').style.visibility = 'hidden'
           document.querySelector('.quiz-suggestion').style.visibility = 'hidden'
@@ -553,10 +556,20 @@
     const summaryDiv = document.querySelector('#summary-details')
     const correctCount = events.filter((e) => e.type === 'correct').length
 
+    const summaryI18n = {
+      topicLabel: locale === 'de' ? 'Thema' : 'Topic',
+      scoreSuffix: locale === 'de' ? 'korrekt' : 'correct',
+      questionLabel: locale === 'de' ? 'Frage' : 'Question',
+      correctAnswerLabel: locale === 'de' ? 'Lösung' : 'Correct answer',
+      yourAnswerLabel: locale === 'de' ? 'Deine Antwort' : 'Your answer',
+      thumbDownLabel: locale === 'de' ? 'Daumen runter' : 'Thumbs down',
+      thumbUpLabel: locale === 'de' ? 'Daumen hoch' : 'Thumbs up',
+    }
+
     summaryDiv.innerHTML = `
       <div class="summary-header">
-        <div class="summary-title">Thema: ${round.topic}</div>
-        <div class="summary-score">${correctCount}/${round.questions.length} korrekt</div>
+        <div class="summary-title">${summaryI18n.topicLabel}: ${round.topic}</div>
+        <div class="summary-score">${correctCount}/${round.questions.length} ${summaryI18n.scoreSuffix}</div>
       </div>
     `
 
@@ -606,21 +619,12 @@
       questionDiv.innerHTML = `
         <div class="summary-qhead">
           ${statusIcon(isCorrect)}
-          <p class="summary-qtitle">Frage ${index + 1}: ${question.question}</p>
+          <p class="summary-qtitle">${summaryI18n.questionLabel} ${index + 1}: ${question.question}</p>
         </div>
 
         <div class="summary-answers">
-          ${
-            isCorrect
-              ? `
-            <div class="summary-label">Lösung</div>
-            <div class="summary-value"><strong>${correctAnswer}</strong></div>
-          `
-              : `
-            <div class="summary-label">Lösung</div>
-            <div class="summary-value"><strong>${correctAnswer}</strong></div>
-          `
-          }
+          <div class="summary-label">${summaryI18n.correctAnswerLabel}</div>
+          <div class="summary-value"><strong>${correctAnswer}</strong></div>
         </div>
 
         <div class="summary-explain">
@@ -629,7 +633,7 @@
             !isCorrect
               ? `
                 <div class="summary-answers summary-user-answer">
-                  <div class="summary-label">Deine Antwort</div>
+                  <div class="summary-label">${summaryI18n.yourAnswerLabel}</div>
                   <div class="summary-value"><strike>${event.selected}</strike></div>
                 </div>
                 <p>${question.details[question.options.indexOf(event.selected)]}</p>
@@ -640,10 +644,10 @@
 
         <div class="summary-footer" ${isLoggedIn ? '' : 'style="display: none"'}>
           <div class="summary-feedback" data-question-index="${index}">
-            <button class="summary-feedback-btn" type="button" data-vote="down" aria-label="Daumen runter" aria-pressed="false">${thumbIcon(
+            <button class="summary-feedback-btn" type="button" data-vote="down" aria-label="${summaryI18n.thumbDownLabel}" aria-pressed="false">${thumbIcon(
               'down'
             )}</button>
-            <button class="summary-feedback-btn" type="button" data-vote="up" aria-label="Daumen hoch" aria-pressed="false">${thumbIcon(
+            <button class="summary-feedback-btn" type="button" data-vote="up" aria-label="${summaryI18n.thumbUpLabel}" aria-pressed="false">${thumbIcon(
               'up'
             )}</button>
           </div>

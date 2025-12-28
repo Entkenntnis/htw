@@ -12,14 +12,8 @@ export function setupHackerQuiz(App) {
       heading: 'Hacker Quiz',
       title: 'Hacker Quiz',
       content: `
-        ${await renderTemplate(App, req, '../../content/hacker-quiz/hacker-quiz.ejs')}
+        ${await renderTemplate(App, req, '../../content/hacker-quiz/hacker-quiz.ejs', { isLoggedIn: !!req.user })}
       `,
     })
-  })
-
-  // Stub endpoint for summary feedback (thumb up/down)
-  App.express.post('/api/quiz-feedback', async (req, res) => {
-    // Keep as stub for now: accept payload and respond OK.
-    res.json({ ok: true })
   })
 }

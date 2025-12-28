@@ -281,6 +281,7 @@
 <script>
   // hacking related questions, options are only words / very short, correct answer is always first
   const topics = QUIZ_DATA
+  const isLoggedIn = '<%= isLoggedIn %>' === 'true'
 
   // create a div for every topic (de), only topic, very simple
   const spinnerContainer = document.querySelector('.spinner-container')
@@ -575,20 +576,6 @@
       `
     }
 
-    const summaryVotes = {}
-
-    const sendSummaryFeedback = async (payload) => {
-      try {
-        await fetch('/api/quiz-feedback', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-      } catch (e) {
-        // best-effort only
-      }
-    }
-
     // for every question, show question, selected answer, correct answer, details
     round.questions.forEach((question, index) => {
       const event = events[index]
@@ -633,7 +620,7 @@
           }
         </div>
 
-        <div class="summary-footer">
+        <div class="summary-footer" ${isLoggedIn ? '' : 'style="display: none"'}>
           <div class="summary-feedback" data-question-index="${index}">
             <button class="summary-feedback-btn" type="button" data-vote="down" aria-label="Daumen runter" aria-pressed="false">${thumbIcon(
               'down'
@@ -645,31 +632,21 @@
         </div>
       `
 
-      const feedbackEl = questionDiv.querySelector('.summary-feedback')
       const upBtn = questionDiv.querySelector('[data-vote="up"]')
       const downBtn = questionDiv.querySelector('[data-vote="down"]')
 
       const applyVote = (vote) => {
-        summaryVotes[index] = vote
         upBtn.classList.toggle('is-active', vote === 'up')
         downBtn.classList.toggle('is-active', vote === 'down')
         upBtn.setAttribute('aria-pressed', vote === 'up' ? 'true' : 'false')
         downBtn.setAttribute('aria-pressed', vote === 'down' ? 'true' : 'false')
 
-        sendSummaryFeedback({
-          page: 'hacker-quiz',
-          topic: round.topic,
-          questionIndex: index,
-          isCorrect,
-          vote,
-        })
+        fetch(`/api/event?key=quiz-feedback-${selectedIndex}-${index}-${vote}`)
       }
 
       upBtn.addEventListener('click', () => applyVote('up'))
       downBtn.addEventListener('click', () => applyVote('down'))
 
-      // avoid unused variable warning in some linters
-      void feedbackEl
       summaryDiv.appendChild(questionDiv)
     })
   }

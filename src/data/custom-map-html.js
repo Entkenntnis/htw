@@ -16,12 +16,14 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   const enoughVisible = showAll || mapMeta.storiesAvailable.includes(4) // story 4 available
   const musicVisible = showAll || mapMeta.storiesAvailable.includes(5) // story 5 available
 
+  const hackerQuizVisible =
+    showAll || req.user.score >= 100 || mapMeta.storiesAvailable.includes(3)
   const wwwmVisible = req.user.score >= 150 || showAll
   const mortalCoilVisible = req.user.score >= 200 || showAll
   const wormsVisible = req.user.score >= 250 || showAll
   const pleaseFixMeVisible = req.user.score >= 300 || showAll
 
-  const showWwwmLocked = !wwwmVisible && logbookVisible
+  const showWwwmLocked = !wwwmVisible && hackerQuizVisible
   const showMortalcoilLocked = wwwmVisible && !mortalCoilVisible
   const showWormsLocked = mortalCoilVisible && !wormsVisible
   const showPleaseFixMeLocked = wormsVisible && !pleaseFixMeVisible
@@ -46,15 +48,22 @@ export async function customMapHtmlCreator({ App, req, solved }) {
 
   let output = ''
 
+  if (hackerQuizVisible) {
+    output += `<a draggable="false" href="/quiz" style="position:absolute;left:1330px;top:120px;" class="text-reset text-decoration-none fade-in">
+            <div>Hacker Quiz</div>
+            <img draggable="false" src="/quiz/logo.png" style="width:52px;margin-left:12px">
+          </a>`
+  }
+
   if (wwwmVisible) {
-    output += `<a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1350px;top:122px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/wer-wird-wort-millionaer" style="position:absolute;left:1530px;top:122px;" class="text-reset text-decoration-none fade-in">
             <img draggable="false" src="/wwwm.png" style="width:78px;">
             ${wwwm_win ? `<div style="position: absolute; right: 0px; bottom: -9px; color: #fff; font-size:24px; padding:4px 7px; border-radius:12px; min-width:24px; text-align:center; box-shadow: 0 1px 0 rgba(0,0,0,0.3);">🏆</div>` : ''}
           </a>`
   }
 
   if (mortalCoilVisible) {
-    output += `<a draggable="false" href="/mortal-coil" style="position:absolute;left:1550px;top:116px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/mortal-coil" style="position:absolute;left:1670px;top:116px;" class="text-reset text-decoration-none fade-in">
             <div>Mortal Coil</div>
             <img draggable="false" src="/mortal_coil.png" style="width:42px;margin-top:6px;margin-left:14px;">
             ${
@@ -68,38 +77,38 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   }
 
   if (showWwwmLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1350px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1470px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 150 Punkten' : '🔒 from 150 points'}</span>
       </div>`
   }
 
   if (showMortalcoilLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1550px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1670px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 200 Punkten' : '🔒 from 200 points'}</span>
       </div>`
   }
 
   if (showWormsLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1733px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1823px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 250 Punkten' : '🔒 from 250 points'}</span>
       </div>`
   }
 
   if (showPleaseFixMeLocked) {
-    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1870px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
+    output += `<div class="lang-picker fade-in text-reset text-decoration-none" style="position:absolute;left:1930px;top:126px;gap:8px;padding:3px 6px;z-index:1;">
         <span style="font-weight:600;color:#ddd;">${req.lng == 'de' ? '🔒 ab 300 Punkten' : '🔒 from 300 points'}</span>
       </div>`
   }
 
   if (wormsVisible) {
-    output += `<a draggable="false" href="/worms" style="position:absolute;left:1733px;top:120px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/worms" style="position:absolute;left:1823px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>Worms</div>
             <img draggable="false" src="/worms.png" style="width:46px">
           </a>`
   }
 
   if (pleaseFixMeVisible) {
-    output += `<a draggable="false" href="/please-fix-me" style="position:absolute;left:1870px;top:120px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/please-fix-me" style="position:absolute;left:1930px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>Please Fix Me!</div>
             <img draggable="false" src="/pfm.png" style="width:65px;margin-left:16px; margin-top: 2px; border-radius: 4px; border: 1px solid #2c2c2cff;">
           </a>`

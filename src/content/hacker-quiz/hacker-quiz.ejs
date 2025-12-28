@@ -51,6 +51,11 @@
     font-weight: bold;
     border: 3px solid var(--main-color);
     border-radius: 12px;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 24px;
   }
 
   #quiz-question-1,
@@ -64,7 +69,7 @@
     border-radius: 8px;
     font-size: 20px;
     user-select: none;
-    /* transition: background-color 0.06s; */
+    transition: background-color 0.2s;
   }
 
   .quiz-active #quiz-question-1,
@@ -98,19 +103,156 @@
     margin-top: 24px;
   }
 
+  .quiz-summary {
+    max-width: 760px;
+    margin: 32px auto 0;
+  }
+
+  #summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  .summary-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px;
+    border: 1px solid rgba(var(--main-color-rgb), 0.8);
+    border-radius: 12px;
+    background-color: rgb(30, 30, 30);
+  }
+
   .summary-title {
-    font-size: 24px;
-    margin-bottom: 16px;
-    margin-top: -16px;
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .summary-score {
+    font-size: 16px;
+    opacity: 0.85;
+    white-space: nowrap;
   }
 
   .summary-question {
-    margin-top: 24px;
-    padding: 12px;
-    border: 1px solid white;
+    padding-top: 20px;
+    padding-bottom: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    border: 1px solid #696969;
     border-radius: 8px;
     background-color: rgb(30, 30, 30);
   }
+
+  .summary-question.is-correct {
+    border-left: 4px solid lime;
+  }
+
+  .summary-question.is-wrong {
+    border-left: 4px solid red;
+  }
+
+  .summary-qhead {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .summary-icon {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex: 0 0 auto;
+  }
+
+  .summary-icon.is-correct {
+    color: lime;
+  }
+
+  .summary-icon.is-wrong {
+    color: red;
+  }
+
+  .summary-qtitle {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.3;
+  }
+
+  .summary-answers {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 6px 12px;
+  }
+
+  .summary-label {
+    opacity: 0.75;
+  }
+
+  .summary-value {
+    word-break: break-word;
+  }
+
+  .summary-explain {
+    margin-top: 6px;
+    opacity: 0.9;
+    padding-top: 12px;
+    border-top: 1px solid #696969;
+  }
+
+  .summary-user-answer {
+    margin-top: 24px;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #696969;
+  }
+
+  .summary-footer {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .summary-feedback {
+    display: flex;
+    gap: 8px;
+  }
+
+  .summary-feedback-btn {
+    background: transparent;
+    border: 1px solid #696969;
+    border-radius: 8px;
+    padding: 6px;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .summary-feedback-btn:hover {
+    background-color: rgb(50, 50, 50);
+  }
+
+  .summary-feedback-btn.is-active {
+    border-color: rgba(var(--main-color-rgb), 1);
+    color: rgba(var(--main-color-rgb), 1);
+  }
+
+  .summary-feedback-btn svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  /*.summary-explain p {
+    margin: 10px 0 0;
+  }*/
 </style>
 
 <div class="spinner-container">
@@ -128,24 +270,20 @@
 <div class="quiz-summary" style="display: none">
   <div id="summary-details"></div>
   <div style="text-align: center; margin-top: 52px">
-    <button
-      class="btn btn-interaction"
-      onclick="if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0); window.location.reload()"
-    >
-      weiter
-    </button>
+    <button class="btn btn-interaction" onclick="restartQuiz()">weiter</button>
   </div>
 </div>
 
 <div style="height: 140px"></div>
 
-<script src="/quiz-data.js"></script>
+<script src="/quiz/quiz-data.js"></script>
 
 <script>
   // hacking related questions, options are only words / very short, correct answer is always first
   const topics = QUIZ_DATA
 
   // create a div for every topic (de), only topic, very simple
+  const spinnerContainer = document.querySelector('.spinner-container')
   const wrapper = document.querySelector('.scroll-wrapper')
   for (const x of [0, 1]) {
     topics.forEach((topic) => {
@@ -158,8 +296,6 @@
   }
 
   const WRAPPER_HEIGHT = wrapper.offsetHeight / 2
-  const ELEMENT_HEIGHT = WRAPPER_HEIGHT / topics.length
-  const MIDDLE_POS = 155
   const MAX_SPEED = 3000
 
   let pos = 0
@@ -243,8 +379,12 @@
         div.style.backgroundColor = ''
       })
 
-      selectedIndex = Math.floor(Math.random() * topics.length)
-      console.log(topics[selectedIndex].de.topic)
+      // if search params like id=1 is set, use the topci with that id
+      const urlParams = new URLSearchParams(window.location.search)
+      const idParam = urlParams.get('id')
+      selectedIndex = idParam
+        ? topics.findIndex((topic) => topic.id == idParam)
+        : Math.floor(Math.random() * topics.length)
 
       mode = 'ACCEL'
       if (mode != '') speed = 300
@@ -259,8 +399,19 @@
       // slowDownK = 2.45
       slowDownStartT = performance.now()
 
+      const topicEls = Array.from(wrapper.querySelectorAll('.topic')).slice(
+        0,
+        topics.length
+      )
+      const targetEl = topicEls[selectedIndex]
+      const desiredCenter = spinnerContainer.clientHeight / 2
+      const targetCenterInWrapper =
+        targetEl.offsetTop + targetEl.offsetHeight / 2
+
+      // Keep within [0, WRAPPER_HEIGHT) (JS % can be negative)
       const targetPos =
-        (MIDDLE_POS - ELEMENT_HEIGHT / 2 + selectedIndex * ELEMENT_HEIGHT) %
+        (((targetCenterInWrapper - desiredCenter) % WRAPPER_HEIGHT) +
+          WRAPPER_HEIGHT) %
         WRAPPER_HEIGHT
 
       let decelDistance = targetPos + WRAPPER_HEIGHT - slowDownStartPos
@@ -309,7 +460,7 @@
 
     const currentQuestion = round.questions[quizIndex]
 
-    quizQuestionDiv.innerHTML = currentQuestion.question
+    quizQuestionDiv.innerHTML = '<span>' + currentQuestion.question + '</span>'
 
     // shuffle options
     options = currentQuestion.options.slice().sort(() => Math.random() - 0.5)
@@ -322,20 +473,20 @@
 
     // add event listeners to options
     document.getElementById('quiz-question-1').addEventListener('click', () => {
-      handleAnsewr(0)
+      handleAnswer(0)
     })
     document.getElementById('quiz-question-2').addEventListener('click', () => {
-      handleAnsewr(1)
+      handleAnswer(1)
     })
     document.getElementById('quiz-question-3').addEventListener('click', () => {
-      handleAnsewr(2)
+      handleAnswer(2)
     })
     document.getElementById('quiz-question-4').addEventListener('click', () => {
-      handleAnsewr(3)
+      handleAnswer(3)
     })
   }
 
-  function handleAnsewr(id) {
+  function handleAnswer(id) {
     if (correctAnswerId < 0) return
     if (id == correctAnswerId) {
       // green border
@@ -378,32 +529,161 @@
   }
 
   function buildSummary() {
+    window.scrollTo({ top: 0, behavior: 'instant' })
     // sumamry should start of with the topic title
     const summaryDiv = document.querySelector('#summary-details')
-    summaryDiv.innerHTML = `<div class="summary-title">Thema: ${round.topic}</div>`
+    const correctCount = events.filter((e) => e.type === 'correct').length
+
+    summaryDiv.innerHTML = `
+      <div class="summary-header">
+        <div class="summary-title">Thema: ${round.topic}</div>
+        <div class="summary-score">${correctCount}/${round.questions.length} korrekt</div>
+      </div>
+    `
+
+    const statusIcon = (isCorrect) => {
+      if (isCorrect) {
+        return `
+          <svg class="summary-icon is-correct" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M3 8.5l3 3L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        `
+      }
+
+      return `
+        <svg class="summary-icon is-wrong" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+          <path d="M4 4l8 8M12 4L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      `
+    }
+
+    const thumbIcon = (dir) => {
+      if (dir === 'up') {
+        return `
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M6.5 7.2V3.7c0-.7.3-1.3.8-1.8l.2-.2c.2-.2.6-.2.8 0 .5.5.8 1.2.8 1.9v1.1h3.1c.8 0 1.4.7 1.3 1.5l-.6 4.6c-.1.7-.7 1.2-1.4 1.2H6.9c-.7 0-1.2-.5-1.2-1.2V7.2h.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+            <path d="M3.2 7.1h1.2v6.1H3.2c-.6 0-1-.4-1-1V8.1c0-.6.4-1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          </svg>
+        `
+      }
+
+      return `
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+          <path d="M6.5 8.8v3.5c0 .7.3 1.3.8 1.8l.2.2c.2.2.6.2.8 0 .5-.5.8-1.2.8-1.9v-1.1h3.1c.8 0 1.4-.7 1.3-1.5l-.6-4.6c-.1-.7-.7-1.2-1.4-1.2H6.9c-.7 0-1.2.5-1.2 1.2v3.6h.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          <path d="M3.2 8.9h1.2V2.8H3.2c-.6 0-1 .4-1 1v4.1c0 .6.4 1 1 1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+        </svg>
+      `
+    }
+
+    const summaryVotes = {}
+
+    const sendSummaryFeedback = async (payload) => {
+      try {
+        await fetch('/api/quiz-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+      } catch (e) {
+        // best-effort only
+      }
+    }
 
     // for every question, show question, selected answer, correct answer, details
     round.questions.forEach((question, index) => {
       const event = events[index]
       const correctAnswer = question.options[0]
+      const isCorrect = event.type == 'correct'
 
       const questionDiv = document.createElement('div')
       questionDiv.classList.add('summary-question')
+      questionDiv.classList.add(isCorrect ? 'is-correct' : 'is-wrong')
       questionDiv.innerHTML = `
-        <p>Frage ${index + 1}: ${question.question} ${event.type == 'correct' ? '✅' : '❌'}</p>
-        <p style="margin-bottom: 24px;">Antwort: ${
-          event.type == 'correct'
-            ? ''
-            : `
-          <strike>${event.selected}</strike>
-        `
-        }<strong>${correctAnswer}</strong></p>
-        <p>${question.details}</p>
+        <div class="summary-qhead">
+          ${statusIcon(isCorrect)}
+          <p class="summary-qtitle">Frage ${index + 1}: ${question.question}</p>
+        </div>
+
+        <div class="summary-answers">
+          ${
+            isCorrect
+              ? `
+            <div class="summary-label">Lösung</div>
+            <div class="summary-value"><strong>${correctAnswer}</strong></div>
+          `
+              : `
+            <div class="summary-label">Lösung</div>
+            <div class="summary-value"><strong>${correctAnswer}</strong></div>
+          `
+          }
+        </div>
+
+        <div class="summary-explain">
+          <p>${question.details[0]}</p>
+          ${
+            !isCorrect
+              ? `
+                <div class="summary-answers summary-user-answer">
+                  <div class="summary-label">Deine Antwort</div>
+                  <div class="summary-value"><strike>${event.selected}</strike></div>
+                </div>
+                <p>${question.details[question.options.indexOf(event.selected)]}</p>
+              `
+              : ''
+          }
+        </div>
+
+        <div class="summary-footer">
+          <div class="summary-feedback" data-question-index="${index}">
+            <button class="summary-feedback-btn" type="button" data-vote="down" aria-label="Daumen runter" aria-pressed="false">${thumbIcon(
+              'down'
+            )}</button>
+            <button class="summary-feedback-btn" type="button" data-vote="up" aria-label="Daumen hoch" aria-pressed="false">${thumbIcon(
+              'up'
+            )}</button>
+          </div>
+        </div>
       `
+
+      const feedbackEl = questionDiv.querySelector('.summary-feedback')
+      const upBtn = questionDiv.querySelector('[data-vote="up"]')
+      const downBtn = questionDiv.querySelector('[data-vote="down"]')
+
+      const applyVote = (vote) => {
+        summaryVotes[index] = vote
+        upBtn.classList.toggle('is-active', vote === 'up')
+        downBtn.classList.toggle('is-active', vote === 'down')
+        upBtn.setAttribute('aria-pressed', vote === 'up' ? 'true' : 'false')
+        downBtn.setAttribute('aria-pressed', vote === 'down' ? 'true' : 'false')
+
+        sendSummaryFeedback({
+          page: 'hacker-quiz',
+          topic: round.topic,
+          questionIndex: index,
+          isCorrect,
+          vote,
+        })
+      }
+
+      upBtn.addEventListener('click', () => applyVote('up'))
+      downBtn.addEventListener('click', () => applyVote('down'))
+
+      // avoid unused variable warning in some linters
+      void feedbackEl
       summaryDiv.appendChild(questionDiv)
     })
   }
 
   lastTime = performance.now()
   loop()
+
+  function restartQuiz() {
+    window.location.reload()
+  }
+
+  setTimeout(() => {
+    document.getElementById('spinner-start').focus()
+    // scroll to spinner
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, 100)
 </script>

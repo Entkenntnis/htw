@@ -524,7 +524,7 @@ export function setupLiveAnalyze(App) {
     return [1, 2, 3, 4, 5, 6, 7, 8]
       .map((id) => {
         return `<span>
-          TRIGGERED (${get('triggered', id)}) -> VIEW (${get('view', id)}) -> COMPLETE (${get('complete', id)}) / SKIP (${get('skip', id)})
+          triggered (${get('triggered', id)}) -> view (${get('view', id)}) -> complete (${get('complete', id)}) / skip (${get('skip', id)})
         </span>`
       })
       .join('<br>')

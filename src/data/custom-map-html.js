@@ -153,7 +153,9 @@ export async function customMapHtmlCreator({ App, req, solved }) {
             <img draggable="false" src="/story/book.png" style="width:40px;margin-left:21px; margin-top: 3px; border-radius: 6px;">
             ${
               newStoriesCount > 0
-                ? `<div style="position: absolute; right: 9px; bottom: -9px; background-color: var(--main-color); color:#ffffff; font-size:12px; padding:2px 6px; border-radius:12px; min-width:22px; text-align:center; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);">${newStoriesCount}</div>`
+                ? `
+                  <div style="text-align: center; font-size: 14px; color: lightgray; border-bottom: 2px dotted var(--main-color)"><i>${newStoriesCount} ${req.lng == 'de' ? 'neue Einträge' : 'new entries'}</i></div>
+                `
                 : ''
             }
           </a>`

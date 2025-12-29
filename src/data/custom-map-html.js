@@ -28,6 +28,19 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   const showWormsLocked = mortalCoilVisible && !wormsVisible
   const showPleaseFixMeLocked = wormsVisible && !pleaseFixMeVisible
 
+  let numberOfQuizzes = App.quizData.numberOfQuizzes()
+  let quizzesCompleted = 0
+  for (const id of mapMeta.quizzesCompleted) {
+    if (App.quizData.hasQuizById(id)) {
+      quizzesCompleted++
+    }
+  }
+
+  const percentQuizzesCompleted =
+    numberOfQuizzes > 0
+      ? Math.round((quizzesCompleted / numberOfQuizzes) * 100)
+      : 0
+
   let mortalcoillevel = 0
 
   if (mortalCoilVisible) {
@@ -52,6 +65,11 @@ export async function customMapHtmlCreator({ App, req, solved }) {
     output += `<a draggable="false" href="/quiz" style="position:absolute;left:1350px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>Hacker Quiz</div>
             <img draggable="false" src="/quiz/logo.png" style="width:52px;margin-left:12px">
+            ${
+              percentQuizzesCompleted > 0
+                ? `<div style="position: absolute; right: 6px; bottom: -9px; background: rgba(60,60,60,0.95); color: #fff; font-size:12px; padding:4px 7px; border-radius:12px; min-width:24px; text-align:center; box-shadow: 0 1px 0 rgba(0,0,0,0.3);">${percentQuizzesCompleted}%</div>`
+                : ''
+            }
           </a>`
   }
 

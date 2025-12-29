@@ -53,6 +53,7 @@ import { setupDiscordSSO } from './server/routes/discord-sso.js'
 import { withExperiments } from './server/lib/withExperiments.js'
 import { setupStoryline } from './content/storyline.js'
 import { setupHackerQuiz } from './content/hacker-quiz/hacker-quiz.js'
+import { withQuizData } from './server/lib/withQuizData.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -76,6 +77,7 @@ withEvent(preApp)
 withChat(preApp)
 withExperiments(preApp)
 withMetrics(preApp)
+withQuizData(preApp)
 withMapMeta(preApp)
 
 /** @type {import('./data/types.js').App} */

@@ -10,3 +10,4 @@ test-decode-me.js
 .DS_Store
 mortal-coil-solver.html
 /.vscode
+/public/quiz/quiz-data-de.cjs

@@ -85,6 +85,9 @@ export interface App {
     bucket_3500ms: number
     bucket_Inf: number
   }
+  quizData: {
+    hasQuizById(quizid: number): boolean
+  }
   mapMeta: {
     get(userid: number): Promise<MapMeta>
     markAsCompleted(userid: number, storyid: number): Promise<void>

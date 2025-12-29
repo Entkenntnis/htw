@@ -23,9 +23,9 @@ export function withQuizData(App) {
     // append `module.exports = { QUIZ_DATA }` to the .cjs file
     fs.appendFileSync(destPath, '\nmodule.exports = { QUIZ_DATA }\n', 'utf-8')
 
-    quizIDs = (
-      await import('../../../public/quiz/quiz-data-de.cjs')
-    ).QUIZ_DATA.map((q) => q.id)
+    quizIDs = //@ts-ignore
+    (await import('../../../public/quiz/quiz-data-de.cjs'))//@ts-ignore
+    .QUIZ_DATA.map((q) => q.id)
   })
 
   App.quizData = {

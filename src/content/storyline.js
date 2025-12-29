@@ -273,8 +273,8 @@ export function setupStoryline(App) {
       !App.config.demos.includes(req.user.name)
     ) {
       await App.mapMeta.markAsCompleted(req.user.id, parseInt(id))
+      App.event.create('story-complete-' + id, req.user.id)
     }
-    App.event.create('story-complete-' + id, req.user.id)
 
     if (req.session.returnToLogbook) {
       delete req.session.returnToLogbook

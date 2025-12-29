@@ -32,5 +32,8 @@ export function withQuizData(App) {
     hasQuizById(quizid) {
       return quizIDs.includes(quizid)
     },
+    numberOfQuizzes() {
+      return quizIDs.length
+    },
   }
 }

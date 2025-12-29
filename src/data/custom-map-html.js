@@ -49,7 +49,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   let output = ''
 
   if (hackerQuizVisible) {
-    output += `<a draggable="false" href="/quiz" style="position:absolute;left:1330px;top:120px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/quiz" style="position:absolute;left:1350px;top:120px;" class="text-reset text-decoration-none fade-in">
             <div>Hacker Quiz</div>
             <img draggable="false" src="/quiz/logo.png" style="width:52px;margin-left:12px">
           </a>`

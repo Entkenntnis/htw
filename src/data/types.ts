@@ -90,6 +90,7 @@ export interface App {
     markAsCompleted(userid: number, storyid: number): Promise<void>
     onChange(userid: number): Promise<number | null>
     setCommunityFilter(userid: number, state: string): Promise<void>
+    setQuizCompleted(userid: number, quizid: number): Promise<void>
   }
 }
 
@@ -97,6 +98,7 @@ export interface MapMeta {
   storiesCompleted: number[]
   storiesAvailable: number[]
   communityFilter: string
+  quizzesCompleted: number[]
 }
 
 export interface Message {

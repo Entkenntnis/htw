@@ -45,6 +45,7 @@ export function withMapMeta(App) {
         storiesAvailable: [],
         storiesCompleted: [],
         communityFilter: 'E',
+        quizzesCompleted: [],
       }
 
       const json = JSON.parse(
@@ -75,6 +76,10 @@ export function withMapMeta(App) {
 
       if (json && typeof json.communityFilter === 'string') {
         data.communityFilter = json.communityFilter
+      }
+
+      if (json && Array.isArray(json.quizzesCompleted)) {
+        data.quizzesCompleted = json.quizzesCompleted
       }
 
       return data
@@ -123,6 +128,14 @@ export function withMapMeta(App) {
       const data = await App.mapMeta.get(userid)
       data.communityFilter = state
       App.storage.setItem(key(userid), JSON.stringify(data))
+    },
+
+    async setQuizCompleted(userid, quizid) {
+      const data = await App.mapMeta.get(userid)
+      if (!data.quizzesCompleted.includes(quizid)) {
+        data.quizzesCompleted.push(quizid)
+        App.storage.setItem(key(userid), JSON.stringify(data))
+      }
     },
   }
 }

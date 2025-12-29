@@ -253,6 +253,17 @@ export function setupLiveAnalyze(App) {
       }
     })
 
+    /**
+     * @type {typeof byKey}
+     */
+    const storyData = new Map()
+    byKey.forEach((agg, key) => {
+      if (key.startsWith('story-')) {
+        storyData.set(key, agg)
+        byKey.delete(key)
+      }
+    })
+
     // handle events like set-maincolor-#46a5ea separately with color preview
     /**
      * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & { key: string; color: string })[]}
@@ -500,6 +511,24 @@ export function setupLiveAnalyze(App) {
         .join('')}
     </tbody>
   </table>
+  <h2>Story</h2>
+  ${(() => {
+    /**
+     * @param {string} type
+     * @param {number} id
+     */
+    function get(type, id) {
+      const key = `story-${type}-${id}`
+      return storyData.get(key)?.users.size ?? 0
+    }
+    return [1, 2, 3, 4, 5, 6, 7, 8]
+      .map((id) => {
+        return `<span>
+          TRIGGERED (${get('triggered', id)}) -> VIEW (${get('view', id)}) -> COMPLETE (${get('complete', id)}) / SKIP (${get('skip', id)})
+        </span>`
+      })
+      .join('<br>')
+  })()}
   <h2>Wer wird Wort-Millionär</h2>
   <p>${wwwmLines}</p>
   <h2>Enough Pages</h2>

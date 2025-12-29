@@ -300,8 +300,8 @@
 <script>
   // hacking related questions, options are only words / very short, correct answer is always first
   const topics = QUIZ_DATA
-  const isLoggedIn = '<%= isLoggedIn %>' === 'true'
   const locale = '<%= locale %>'
+  const completed = JSON.parse('<%- JSON.stringify(completed) %>')
 
   // create a div for every topic (de), only topic, very simple
   const spinnerContainer = document.querySelector('.spinner-container')
@@ -401,12 +401,22 @@
         div.style.backgroundColor = ''
       })
 
-      // if search params like id=1 is set, use the topci with that id
+      // priority: url param id -> random incomplete -> random
       const urlParams = new URLSearchParams(window.location.search)
       const idParam = urlParams.get('id')
+      const isCompleted = (topic) =>
+        (completed || []).some((id) => id == topic.id)
+      const incompleteTopics = topics.filter((topic) => !isCompleted(topic))
+
       selectedIndex = idParam
         ? topics.findIndex((topic) => topic.id == idParam)
-        : Math.floor(Math.random() * topics.length)
+        : -1
+      if (selectedIndex < 0) {
+        const pool = incompleteTopics.length ? incompleteTopics : topics
+        selectedIndex = topics.indexOf(
+          pool[Math.floor(Math.random() * pool.length)]
+        )
+      }
 
       mode = 'ACCEL'
       if (mode != '') speed = 300
@@ -651,7 +661,7 @@
           }
         </div>
 
-        <div class="summary-footer" ${isLoggedIn ? '' : 'style="display: none"'}>
+        <div class="summary-footer">
           <div class="summary-feedback" data-question-index="${index}">
             <button class="summary-feedback-btn" type="button" data-vote="down" aria-label="${summaryI18n.thumbDownLabel}" aria-pressed="false">${thumbIcon(
               'down'

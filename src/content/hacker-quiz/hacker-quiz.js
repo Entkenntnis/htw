@@ -6,13 +6,18 @@ import { renderTemplate } from '../../helper/render-template.js'
  */
 export function setupHackerQuiz(App) {
   App.express.get('/quiz', async (req, res) => {
-    // TODO: main screen
+    if (!req.user) {
+      req.session.continuationUrl = '/quiz'
+      res.redirect('/')
+      return
+    }
+    const meta = await App.mapMeta.get(req.user.id)
     renderPage(App, req, res, {
       page: 'hacker-quiz',
       heading: 'Hacker Quiz',
       title: 'Hacker Quiz',
       content: `
-        ${await renderTemplate(App, req, '../../content/hacker-quiz/hacker-quiz.ejs', { isLoggedIn: !!req.user })}
+        ${await renderTemplate(App, req, '../../content/hacker-quiz/hacker-quiz.ejs', { completed: meta.quizzesCompleted })}
       `,
     })
   })

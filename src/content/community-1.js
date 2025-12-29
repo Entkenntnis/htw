@@ -868,7 +868,7 @@ export const communityChallenges = [
 
   {
     id: 313,
-    pos: { x: 1480, y: 130 },
+    pos: { x: 1500, y: 130 },
     title: { de: 'Freier Fall IV', en: 'Free fall IV' },
     author: 'rkasti u. Satsuma',
     difficulty: 'hard',

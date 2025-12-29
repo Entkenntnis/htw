@@ -101,7 +101,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   }
 
   if (wormsVisible) {
-    output += `<a draggable="false" href="/worms" style="position:absolute;left:1823px;top:120px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/worms" style="position:absolute;left:1823px;top:118px;" class="text-reset text-decoration-none fade-in">
             <div>Worms</div>
             <img draggable="false" src="/worms.png" style="width:46px">
           </a>`

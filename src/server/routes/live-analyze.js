@@ -242,6 +242,17 @@ export function setupLiveAnalyze(App) {
       }
     })
 
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
+     */
+    const filterData = []
+    byKey.forEach((agg, key) => {
+      if (key.startsWith('set-community-filter-')) {
+        filterData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+    })
+
     // handle events like set-maincolor-#46a5ea separately with color preview
     /**
      * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & { key: string; color: string })[]}
@@ -491,10 +502,19 @@ export function setupLiveAnalyze(App) {
   </table>
   <h2>Wer wird Wort-Millionär</h2>
   <p>${wwwmLines}</p>
-    <h2>Enough Pages</h2>
-    <p>${enoughPageLines}</p>
+  <h2>Enough Pages</h2>
+  <p>${enoughPageLines}</p>
   <h2>Main Color (Nutzer → Farben)</h2>
   <p>${userColorLines}</p>
+  <h2>Community Filter</h2>
+  ${(() => {
+    filterData.sort((a, b) => b.total - a.total)
+    return filterData
+      .map((entry) => {
+        return `<span>${entry.key.substring(21)}: ${entry.total} von ${entry.users.size} SpielerInnen</span>`
+      })
+      .join('<br>')
+  })()}
   <h2>Comlink</h2>
   <p>${comlinkLines}</p>
   </body>

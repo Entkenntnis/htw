@@ -556,6 +556,15 @@
     const summaryDiv = document.querySelector('#summary-details')
     const correctCount = events.filter((e) => e.type === 'correct').length
 
+    if (correctCount == 3) {
+      // post request to /quiz/complete/:id
+      fetch(`/quiz/complete/${topics[selectedIndex].id}`, {
+        method: 'POST',
+      })
+    } else {
+      fetch('/api/event?key=quiz-incomplete-' + topics[selectedIndex].id)
+    }
+
     const summaryI18n = {
       topicLabel: locale === 'de' ? 'Thema' : 'Topic',
       scoreSuffix: locale === 'de' ? 'korrekt' : 'correct',
@@ -663,7 +672,9 @@
         upBtn.setAttribute('aria-pressed', vote === 'up' ? 'true' : 'false')
         downBtn.setAttribute('aria-pressed', vote === 'down' ? 'true' : 'false')
 
-        fetch(`/api/event?key=quiz-feedback-${selectedIndex}-${index}-${vote}`)
+        fetch(
+          `/api/event?key=quiz-feedback-${topics[selectedIndex].id}-${index}-${vote}`
+        )
       }
 
       upBtn.addEventListener('click', () => applyVote('up'))

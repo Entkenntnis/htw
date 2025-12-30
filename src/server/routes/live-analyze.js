@@ -561,7 +561,7 @@ export function setupLiveAnalyze(App) {
     filterData.sort((a, b) => b.total - a.total)
     return filterData
       .map((entry) => {
-        return `<span>${entry.key.substring(21)}: ${entry.total} von ${entry.users.size} SpielerInnen</span>`
+        return `<span>${entry.key.substring(21) || '∅'}: ${entry.total} von ${entry.users.size} SpielerInnen</span>`
       })
       .join('<br>')
   })()}

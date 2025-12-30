@@ -115,7 +115,7 @@ htw_users_total ${c1.solvedBy}
         output += `No solutions found for user ${username}.\n`
       }
       solutions.forEach((sol) => {
-        output += `Challenge ID: ${sol.cid}, Timestamp: ${sol.createdAt}\n`
+        output += `Challenge ID: ${sol.cid} (${App.challenges.dataMap[sol.cid]?.title[req.lng] ?? '???'}), Timestamp: ${sol.createdAt}\n`
       })
 
       // Mortal Coil Level mortalcoil_<id> in KVPairs

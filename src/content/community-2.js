@@ -705,13 +705,12 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
   {
     id: 360,
     pos: { x: 2200, y: 800 },
-    title: { de: 'Tag 1 ❄️', en: 'Day 1 ❄️' },
+    title: { de: 'Winter 2025 - Tag 1 ❄️', en: 'Winter 2025 - Day 1 ❄️' },
     date: '2025-12-18',
     deps: [300],
     noScore: true,
     releaseTs: new Date('2025-12-18 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
-    enableFeedback: true,
     color: '#c30f16',
     render() {
       const script = `
@@ -762,7 +761,6 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-19 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
-    enableFeedback: true,
     color: '#c30f16',
     render() {
       const styles = `
@@ -812,7 +810,6 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-20 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
-    enableFeedback: true,
     color: '#c30f16',
     render({ req }) {
       return {
@@ -862,7 +859,6 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     noScore: true,
     releaseTs: new Date('2025-12-21 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
-    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -1003,7 +999,6 @@ I'll give it to someone special
     noScore: true,
     releaseTs: new Date('2025-12-22 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
-    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -1059,7 +1054,6 @@ I'll give it to someone special
     noScore: true,
     releaseTs: new Date('2025-12-23 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
-    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `
@@ -1068,6 +1062,8 @@ I'll give it to someone special
         <pre>Ich war artig</pre>
 
         <p>Du bekommst dann eine Antwort mit der Lösung.</p>
+
+        <p style="color: gray">Hinweis: Das E-Mail-System ist etwas unzuverlässig. Wenn nach 1 - 2 Minuten keine Antwort kommt, ist was schief gelaufen. Alternativ findest du die Antwort hier: SG9ob2hvIQoKRGllIEFudHdvcnQgbGF1dGV0IE5vcmRwb2wuCgpCZXN1Y2hlIG1pY2ggZG9ydCBkb2NoIG1hbCA6KQ==</p>
       `,
       en: `
         <p>To solve this challenge, you must have been well-behaved last year. If that applies to you, send a message to <code>santa@arrrg.de</code> with this subject:</p>
@@ -1075,6 +1071,8 @@ I'll give it to someone special
         <pre>I've been good</pre>
 
         <p>You will then receive a reply with the solution.</p>
+
+        <p style="color: gray">Note: The email system is a bit unreliable. If you don’t get a reply after 1–2 minutes, something went wrong. Alternatively, you can find the answer here: SG9ob2hvIQoKRGllIEFudHdvcnQgbGF1dGV0IE5vcmRwb2wuCgpCZXN1Y2hlIG1pY2ggZG9ydCBkb2NoIG1hbCA6KQ==</p>
       `,
     },
     solution: secrets('chal_365').split(','),
@@ -1089,7 +1087,6 @@ I'll give it to someone special
     noScore: true,
     releaseTs: new Date('2025-12-24 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
-    enableFeedback: true,
     color: '#c30f16',
     html: {
       de: `

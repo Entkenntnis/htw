@@ -1,16 +1,16 @@
-function goBack(event) {
-  if (document.referrer && document.referrer.includes('/map')) {
+function goBack(event, url) {
+  if (document.referrer && document.referrer.includes(url)) {
     window.history.back()
     // on js heavy pages, this may take some time
     event.preventDefault()
     setTimeout(() => {
       // Fallback in case history.back() fails
-      if (document.location.pathname !== '/map') {
-        window.location.href = '/map'
+      if (document.location.pathname !== url) {
+        window.location.href = url
       }
     }, 400)
   } else {
-    window.location.href = '/map'
+    window.location.href = url
   }
 }
 

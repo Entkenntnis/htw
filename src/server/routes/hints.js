@@ -2092,6 +2092,9 @@ const cutoff = '2025-02-14'
  */
 export function setupHints(App) {
   App.express.get('/hints/:id', (req, res) => {
+    // ================================
+    // This route is one the way out. All remaining occurances will be converted to comlink and replaced.
+    // ================================
     const id_ = req.params.id?.toString()
     const id = id_ ? parseInt(id_) : -1
 
@@ -2130,7 +2133,7 @@ export function setupHints(App) {
           }
         </style>
       
-        <p><a href="/challenge/${id}">zurück</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">Karte</a></p>
+        <p><a href="/challenge/${id}" onclick="goBack(event, '/challenge/${id}')">zurück</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">Karte</a></p>
 
         ${
           !hints
@@ -2186,7 +2189,7 @@ export function setupHints(App) {
       backButton: false,
       content: `
       
-        <p><a href="/challenge/${id}">${lng === 'de' ? 'zurück' : 'back'}</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">${lng === 'de' ? 'Karte' : 'map'}</a></p>
+        <p><a href="/challenge/${id}" onclick="goBack(event, '/challenge/${id}')">${lng === 'de' ? 'zurück' : 'back'}</a><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span><a href="/map">${lng === 'de' ? 'Karte' : 'map'}</a></p>
 
         <p style="margin-top: 64px;">${
           lng === 'de'

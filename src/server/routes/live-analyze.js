@@ -543,11 +543,9 @@ export function setupLiveAnalyze(App) {
         )
 
         const additionalView = viewUsers.size - viewInChain.size
-        const additionalComplete = completeUsers.size - completeInChain.size
-        const additionalSkip = skipUsers.size - skipInChain.size
 
         return `<span>
-          [Story ${id}] triggered ${triggeredUsers.size} -> view ${viewInChain.size} <span style="color: gray;">(+${additionalView})</span> -> complete ${completeInChain.size} <span style="color: gray;">(+${additionalComplete})</span> -> skip ${skipInChain.size} {${skipOnly.size} no complete} <span style="color: gray;">(+${additionalSkip})</span>
+          Story ${id} | triggered ${triggeredUsers.size} -> view ${viewInChain.size} -> complete ${completeInChain.size} / skip ${skipInChain.size} {no complete ${skipOnly.size}} | additional views ${additionalView}
         </span>`
       })
       .join('<br>')

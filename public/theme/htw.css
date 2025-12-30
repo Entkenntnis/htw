@@ -267,3 +267,13 @@ hr {
   border: 1px solid rgba(224, 224, 0, 0.28);
   backdrop-filter: saturate(140%) blur(4px);
 }
+
+.help-external-link {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.2em;
+  color: var(--main-color);
+  fill: transparent;
+  margin-right: 3px;
+  opacity: 0.8;
+}

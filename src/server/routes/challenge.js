@@ -636,6 +636,8 @@ export function setupChallenges(App) {
           : `solved < 1 times a month`
     }
 
+    const inMainArea = !challenge.noScore && App.challenges.distance[id] <= 8
+
     renderPage(App, req, res, {
       page: 'challenge',
       props: {
@@ -653,6 +655,7 @@ export function setupChallenges(App) {
         afterSolveText,
         ratio,
         withComlink: withComlink.includes(id),
+        inMainArea,
       },
       backButton: false,
       title: challengeTitle,

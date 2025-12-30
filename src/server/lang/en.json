@@ -169,7 +169,8 @@
       "nice": "well made",
       "ok": "meh, was ok",
       "thanks": "Thanks for the feedback!"
-    }
+    },
+    "discordHelp": "help"
   },
   "roomscore": {
     "title": "Highscore",

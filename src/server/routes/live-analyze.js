@@ -538,12 +538,16 @@ export function setupLiveAnalyze(App) {
           [...skipUsers].filter((u) => viewInChain.has(u))
         )
 
+        const skipOnly = new Set(
+          [...skipUsers].filter((u) => !completeUsers.has(u))
+        )
+
         const additionalView = viewUsers.size - viewInChain.size
         const additionalComplete = completeUsers.size - completeInChain.size
         const additionalSkip = skipUsers.size - skipInChain.size
 
         return `<span>
-          [Story ${id}] triggered ${triggeredUsers.size} -> view ${viewInChain.size} <span style="color: gray;">(+${additionalView})</span> -> complete ${completeInChain.size} <span style="color: gray;">(+${additionalComplete})</span> -> skip ${skipInChain.size} <span style="color: gray;">(+${additionalSkip})</span>
+          [Story ${id}] triggered ${triggeredUsers.size} -> view ${viewInChain.size} <span style="color: gray;">(+${additionalView})</span> -> complete ${completeInChain.size} <span style="color: gray;">(+${additionalComplete})</span> -> skip ${skipInChain.size} {${skipOnly.size} no complete} <span style="color: gray;">(+${additionalSkip})</span>
         </span>`
       })
       .join('<br>')

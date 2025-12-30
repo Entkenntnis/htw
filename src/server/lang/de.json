@@ -123,7 +123,7 @@
     "heading": "Profil",
     "username": "Benutzername:",
     "score": "Punktzahl:",
-    "solved": "Gelöste Aufgaben:",
+    "solved": "Gelöste Aufgaben: {{main}} Hauptpfad / {{community}} Community",
     "registered": "Beigetreten:",
     "lastActive": "Zuletzt aktiv:",
     "room": "Raum:",

@@ -154,7 +154,13 @@ export async function customMapHtmlCreator({ App, req, solved }) {
             ${
               newStoriesCount > 0
                 ? `
-                  <div style="text-align: center; font-size: 14px; color: lightgray; border-bottom: 2px dotted var(--main-color)"><i>${newStoriesCount} ${req.lng == 'de' ? 'neue Einträge' : 'new entries'}</i></div>
+                  <div style="text-align: center; font-size: 14px; color: lightgray; border-bottom: 2px dotted var(--main-color)"><i>${newStoriesCount} ${
+                    req.lng == 'de'
+                      ? newStoriesCount == 1
+                        ? 'neuer Eintrag'
+                        : 'neue Einträge'
+                      : 'new entries'
+                  }</i></div>
                 `
                 : ''
             }

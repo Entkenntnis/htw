@@ -1095,7 +1095,8 @@ export function setupChallenges(App) {
         : t('challenge.solvedBy_other', { count: solvedBy })
 
     let content = `
-      <p style="margin-bottom: 32px; color: gray;">${solvedByText}</p>
+      <p style="margin-bottom:48px;"><a href="/challenge/${id}" id="back-button" onclick="goBack(event, '/challenge/${id}')">${t('challenge.back')}</a></p>
+      <p style="margin-bottom: 32px;">${solvedByText}</p>
     `
 
     solvedDb.slice(0, 1000).forEach((s) => {
@@ -1118,7 +1119,7 @@ export function setupChallenges(App) {
         App.challenges.getTitle(id, req) +
         ' - ' +
         (req.lng == 'de' ? 'Verlauf' : 'History'),
-      backHref: '/challenge/' + id,
+      backButton: false,
     })
   })
 

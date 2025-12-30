@@ -519,12 +519,31 @@ export function setupLiveAnalyze(App) {
      */
     function get(type, id) {
       const key = `story-${type}-${id}`
-      return storyData.get(key)?.users.size ?? 0
+      return storyData.get(key)?.users ?? new Set()
     }
     return [1, 2, 3, 4, 5, 6, 7, 8]
       .map((id) => {
+        const triggeredUsers = get('triggered', id)
+        const viewUsers = get('view', id)
+        const completeUsers = get('complete', id)
+        const skipUsers = get('skip', id)
+
+        const viewInChain = new Set(
+          [...viewUsers].filter((u) => triggeredUsers.has(u))
+        )
+        const completeInChain = new Set(
+          [...completeUsers].filter((u) => viewInChain.has(u))
+        )
+        const skipInChain = new Set(
+          [...skipUsers].filter((u) => viewInChain.has(u))
+        )
+
+        const additionalView = viewUsers.size - viewInChain.size
+        const additionalComplete = completeUsers.size - completeInChain.size
+        const additionalSkip = skipUsers.size - skipInChain.size
+
         return `<span>
-          triggered (${get('triggered', id)}) -> view (${get('view', id)}) -> complete (${get('complete', id)}) / skip (${get('skip', id)})
+          [Story ${id}] triggered ${triggeredUsers.size} -> view ${viewInChain.size} <span style="color: gray;">(+${additionalView})</span> -> complete ${completeInChain.size} <span style="color: gray;">(+${additionalComplete})</span> -> skip ${skipInChain.size} <span style="color: gray;">(+${additionalSkip})</span>
         </span>`
       })
       .join('<br>')

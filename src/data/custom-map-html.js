@@ -180,15 +180,15 @@ export async function customMapHtmlCreator({ App, req, solved }) {
       <div class="lang-picker fade-in" style="position: absolute; left: 1790px; top: 210px; display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 6px; padding-top: 6px;">
         <div style="opacity:0.8;">${req.lng == 'de' ? 'Filter' : 'Filter'}</div>
         <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-          <input type="checkbox" id="show-easy" ${mapMeta.communityFilter.includes('E') ? 'checked' : ''}/>
+          <input style="cursor: pointer;" type="checkbox" id="show-easy" ${mapMeta.communityFilter.includes('E') ? 'checked' : ''}/>
           <span>${req.lng == 'de' ? 'Einfach' : 'Easy'}</span>
         </label>
         <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-          <input type="checkbox" id="show-medium" ${mapMeta.communityFilter.includes('M') ? 'checked' : ''}/>
+          <input style="cursor: pointer;" type="checkbox" id="show-medium" ${mapMeta.communityFilter.includes('M') ? 'checked' : ''}/>
           <span>${req.lng == 'de' ? 'Mittel' : 'Medium'}</span>
         </label>
         <label style="display:flex; align-items:center; gap:6px; cursor:pointer; margin-bottom: 0;">
-          <input type="checkbox" id="show-hard" ${mapMeta.communityFilter.includes('H') ? 'checked' : ''}/>
+          <input style="cursor: pointer;" type="checkbox" id="show-hard" ${mapMeta.communityFilter.includes('H') ? 'checked' : ''}/>
           <span>${req.lng == 'de' ? 'Schwer' : 'Hard'}</span>
         </label>
       </div>

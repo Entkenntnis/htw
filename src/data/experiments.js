@@ -239,6 +239,19 @@ export const experimentDefs = [
     challenge: 16,
     startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
     endTs: new Date('2025-11-29 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/13_base.jpg',
+    trialImg: '/experiments/13_trial.jpg',
+    results: {
+      numEvents: 17553,
+      nShowBase: 613,
+      nShowTrial: 624,
+      nVisitorsBase: 351,
+      nVisitorsTrial: 355,
+      nSolversBase: 204,
+      nSolversTrial: 172,
+    },
+    learning:
+      'COMLINK macht einen Unterschied! Ich hab das Experiment leider verkehrt herum aufgesetzt, aber umgerechnet erhöht COMLINK die Lösungsrate um gut 20%, signifikant. Freu freu. Ein Moment zu feiern und eine Bestätigung, dass ein Hinweis-System der richtige Weg ist.',
   },
   {
     id: 14,
@@ -246,6 +259,19 @@ export const experimentDefs = [
     challenge: 77,
     startTs: new Date('2025-11-12 00:01 GMT+0100').getTime(),
     endTs: new Date('2025-12-03 00:01 GMT+0100').getTime(),
+    baseImg: '/experiments/14_base.jpg',
+    trialImg: '/experiments/14_trial.jpg',
+    results: {
+      numEvents: 7793,
+      nShowBase: 245,
+      nShowTrial: 277,
+      nVisitorsBase: 166,
+      nVisitorsTrial: 166,
+      nSolversBase: 89,
+      nSolversTrial: 85,
+    },
+    learning:
+      'Keine signifikante Veränderung, hier ist base ohne und trial mit COMLINK. Zugegen, die Hinweise sind auch recht halbgar gewesen. Ich bin mir unsicher, ob ich das unsignifikante Ergebnis beachten soll oder nicht. Es ist fast signifikant, könnte eventuell darauf hinweisen, dass COMLINK einen leicht negativen Einfluss hat? Naja, ich hatte davor auch öfters solche Einflüsse und die waren bisher sehr häufig noise. Daher: kein Ergebnis in diesem Experiment. Entweder ich biete einen besseren Hinweis an ... oder lasse die Aufgabe auch erstmal ohne COMLINK, weil kein so akuter Hinweis-Bedarf ist.',
   },
   {
     id: 15,
@@ -253,6 +279,19 @@ export const experimentDefs = [
     challenge: 86,
     startTs: new Date('2025-11-12 00:02+0100').getTime(),
     endTs: new Date('2025-12-10 00:02+0100').getTime(),
+    baseImg: '/experiments/15_base.jpg',
+    trialImg: '/experiments/15_trial.jpg',
+    results: {
+      numEvents: 15706,
+      nShowBase: 508,
+      nShowTrial: 470,
+      nVisitorsBase: 263,
+      nVisitorsTrial: 307,
+      nSolversBase: 128,
+      nSolversTrial: 142,
+    },
+    learning:
+      'Umgerechnet wurde die Lösungsrate um 20% erhöht, indem ich den Titel auf ein populäreres Thema umgedichtet habe. Es ist eine Bestätigung: Nuancen machen einen Unterschied! Aufgabe ist jetzt überarbeitet und nochmal ein Bug gefixed',
   },
   {
     id: 16,
@@ -314,5 +353,18 @@ export const experimentDefs = [
     challenge: 336,
     startTs: new Date('2025-11-26 00:01+0100').getTime(),
     endTs: new Date('2025-12-10 00:01+0100').getTime(),
+    baseImg: '/experiments/21_base.jpg',
+    trialImg: '/experiments/21_base.jpg',
+    results: {
+      numEvents: 9207,
+      nShowBase: 449,
+      nShowTrial: 392,
+      nVisitorsBase: 330,
+      nVisitorsTrial: 294,
+      nSolversBase: 236,
+      nSolversTrial: 195,
+    },
+    learning:
+      '2 Wochen könnten etwas kurz gewesen sein ... weil ich einen relativ schlechten SRM-Wert habe. Aber die Signifikanz-Barriere hält Stand und stellt sicher, dass das Ergebnis nicht als nennenswert dargestellt wird.',
   },
 ]

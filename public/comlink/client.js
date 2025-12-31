@@ -96,7 +96,7 @@
         </div>
         <div id="comlink-content" role="region" aria-live="polite" aria-label="Conversation with KIWI">
           <div id="comlink-messages"><div id="comlink-reset">Chat zurücksetzen</div></div>
-          <div id="comlink-options" aria-label="Response Options"><span style="font-size: 10px;"><i>Keine KI, alle Chats sind liebevoll per Hand geschrieben.</i></span></div>
+          <div id="comlink-options" aria-label="Response Options"><span style="font-size: 10px; color: transparent"><i>Keine KI, alle Chats sind liebevoll per Hand geschrieben.</i></span></div>
         </div>
       </div>
     `

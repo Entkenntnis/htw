@@ -345,6 +345,19 @@ export const experimentDefs = [
     challenge: 68,
     startTs: new Date('2025-11-23 00:01+0100').getTime(),
     endTs: new Date('2025-12-14 00:01+0100').getTime(),
+    baseImg: '/experiments/20_base.jpg',
+    trialImg: '/experiments/20_trial.jpg',
+    results: {
+      numEvents: 12630,
+      nShowBase: 713,
+      nShowTrial: 661,
+      nVisitorsBase: 455,
+      nVisitorsTrial: 443,
+      nSolversBase: 436,
+      nSolversTrial: 415,
+    },
+    learning:
+      'Was mache ich hier? Wie erwartet macht COMLINK auf die Lösung einer Aufgabe nicht so einen Effekt, weder positiv noch negativ. Es ist basically clutter. Ich habe leider, andere Effekte wie Spaß oder Motivation zu checken. Ich denke, ich lasse es erstmal so und mache mir eine mentale Notiz, dass es auch Aufgabe gibt, die einfach genug sind, dass Leute keine Hinweise brauchen und der Churn eher woanders liegt.',
   },
   {
     id: 21,

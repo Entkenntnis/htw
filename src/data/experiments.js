@@ -183,6 +183,19 @@ export const experimentDefs = [
     challenge: 23,
     startTs: new Date('2025-11-16 01:00 GMT+0100').getTime(),
     endTs: new Date('2025-12-28 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/9_base.jpg',
+    trialImg: '/experiments/9_trial.jpg',
+    results: {
+      numEvents: 18707,
+      nShowBase: 494,
+      nShowTrial: 513,
+      nVisitorsBase: 313,
+      nVisitorsTrial: 332,
+      nSolversBase: 193,
+      nSolversTrial: 189,
+    },
+    learning:
+      'Joah, kein Unterschied. Es liegt also komplett in meiner Freiheit zu entscheiden, welche Variante besser ist. Ich möchte aber anmerken: es ist absolut verrückt, dass zwei so komplett unterschiedliche Aufgaben so nah an einander in Bezug auf Lösungsraten landen. Mir gefällt die Idee von "äquivalenten Paaren" and Challenges, die super unterschiedlich sind, aber in Bezug auf ihre Success-Rate austauschbar. Das erzeugt interessante Szenarien mit dynamischen Inhalten.',
   },
   {
     id: 10,
@@ -191,6 +204,19 @@ export const experimentDefs = [
     challenge: 57,
     startTs: new Date('2025-11-08 01:00 GMT+0100').getTime(),
     endTs: new Date('2025-12-20 01:00 GMT+0100').getTime(),
+    baseImg: '/experiments/10_base.jpg',
+    trialImg: '/experiments/10_trial.jpg',
+    results: {
+      numEvents: 11549,
+      nShowBase: 306,
+      nShowTrial: 348,
+      nVisitorsBase: 248,
+      nVisitorsTrial: 281,
+      nSolversBase: 106,
+      nSolversTrial: 158,
+    },
+    learning:
+      'Die gekürzte Version hat 32% besser funktioniert. Hiermit kann ich endlich eine Zahl angeben, wie stark der Effekt der Textlänge ist auf die Lösungsrate. Ich habe das Ergebnis natürlich schon bisschen gepeaked und das im neuen Story-Modus berücksichtigt: die Texte sind kürzer, aber auch separiert von den Challenges, so dass man nicht so stark über sie stolpert und sie im eigenen Tempo machen kann.',
   },
   {
     id: 11,
@@ -321,6 +347,19 @@ export const experimentDefs = [
     challenge: 30,
     startTs: new Date('2025-11-17 00:01+0100').getTime(),
     endTs: new Date('2025-12-15 00:01+0100').getTime(),
+    baseImg: '/experiments/17_base.jpg',
+    trialImg: '/experiments/17_trial.jpg',
+    results: {
+      numEvents: 12209,
+      nShowBase: 316,
+      nShowTrial: 316,
+      nVisitorsBase: 150,
+      nVisitorsTrial: 136,
+      nSolversBase: 77,
+      nSolversTrial: 19,
+    },
+    learning:
+      'Komplett gescheitert. Eine solche Frage kann ich viel besser im Quiz abfragen, als hier in einer Challenge. Aber so deutlich hätte ich das Ergebnis wirklich nicht erwartet. Ist schon krass. Und das sind die überraschenden Momente: wenn eine anscheinend simple aussehende Aufgabe doch gut performt.',
   },
   {
     id: 18,
@@ -329,6 +368,19 @@ export const experimentDefs = [
     challenge: 79,
     startTs: new Date('2025-11-17 01:01+0100').getTime(),
     endTs: new Date('2025-12-22 01:01+0100').getTime(),
+    baseImg: '/experiments/18_base.jpg',
+    trialImg: '/experiments/18_trial.jpg',
+    results: {
+      numEvents: 16050,
+      nShowBase: 362,
+      nShowTrial: 365,
+      nVisitorsBase: 209,
+      nVisitorsTrial: 208,
+      nSolversBase: 63,
+      nSolversTrial: 65,
+    },
+    learning:
+      'Ich könnte schwören! Die Aufgabe hatte zwischen drin einen wahnsinnig hohen Uplift. Ich war absolut sicher, dass die neue Version besser performt. Das Ergebnis ist jetzt ist ... KOMPLETT NEUTRAL!? Bei Stichproben der Größe 100 - 200 muss ich halt auch wirklich mehr aufpassen. Das Experiment lief jetzt aber auch wirklich lange und das durch eine sehr aktive Phase. Es wäre gut, auch in Zukunft bei der Gesamtgröße im Bereich 500+ erst wirklich die Daten anzufassen, weil es darunter ... halt echt immer wieder schwierig ist.',
   },
   {
     id: 19,
@@ -337,6 +389,19 @@ export const experimentDefs = [
     challenge: 118,
     startTs: new Date('2025-11-21 00:01+0100').getTime(),
     endTs: new Date('2025-12-19 00:01+0100').getTime(),
+    baseImg: '/experiments/19_base.jpg',
+    trialImg: '/experiments/19_trial.jpg',
+    results: {
+      numEvents: 20617,
+      nShowBase: 837,
+      nShowTrial: 814,
+      nVisitorsBase: 498,
+      nVisitorsTrial: 529,
+      nSolversBase: 383,
+      nSolversTrial: 403,
+    },
+    learning:
+      'Hier, endlich! Kann ich drauf zeigen und sagen: yes, es gibt den Klassenzimmer-Effekt. Ich meine damit, dass Schülys ihre Sitznachbarn mit-steuern beim gemeinsamen Arbeiten. Die temporäre Version mit den Fragen zu Hacking hat eine größere Sog-Wirkung. 9% und das auch noch signifikant. Bisschen Vorsicht ist natürlich immer noch angebracht - Noise kann auch hier noch reingespielt haben. Ich finde es interessant, dass eine Gesamtanalyse nicht zu einer höheren Lösungsrate führt. Die Sog-Wirkung ist eher ein subtiler Indikator, dass ... hm: dass die Kids sich freuen, gefragt zu werden. Mir hat die Umfrage auch sehr Spaß gemacht. Ich denke, in Zukunft kann ich das durchaus öfters vielleicht auch einfach separat anbieten, in "Pop-Up-Survey"-Style.',
   },
   {
     id: 20,

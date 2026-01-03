@@ -88,6 +88,7 @@ export interface App {
   quizData: {
     hasQuizById(quizid: number): boolean
     numberOfQuizzes(): number
+    getQuizIds(): number[]
   }
   mapMeta: {
     get(userid: number): Promise<MapMeta>

@@ -475,12 +475,12 @@ export function setupLiveAnalyze(App) {
     }
   </script>
   <div class="meta">Zeitraum ab: <span class="mono">${fromDateStr}</span> • Einträge: ${rows.length}</div>
-  <div class="controls" style="margin-bottom: 12px; margin-top: 12px;">
+  <div class="controls" style="margin-bottom: 64px; margin-top: 12px;">
     <label>From: <input id="from" type="date" value="${fromDateStr}" /></label>
     <button onclick="applyFrom()">Filter</button>
     <button onclick="reset()" style="margin-left: 12px;"> Filter zurücksetzen</button>
   </div>
-  <table class="table table-hover" style="background-color: #333">
+  <table class="table table-hover" style="background-color: #333; margin-bottom: 48px;">
     <thead>
       <tr>
         <th>Key</th>
@@ -591,7 +591,7 @@ export function setupLiveAnalyze(App) {
   <p>${wwwmLines}</p>
   <h2>Enough Pages</h2>
   <p>${enoughPageLines}</p>
-  <h2>Main Color (Nutzer → Farben)</h2>
+  <h2>Farbe</h2>
   <p>${userColorLines}</p>
   <h2>Community Filter</h2>
   <p>${(() => {

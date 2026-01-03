@@ -235,6 +235,11 @@ export function setupLiveAnalyze(App) {
      */
     const filterData = []
 
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
+     */
+    const renameData = []
+
     byKey.forEach((agg, key) => {
       if (key.startsWith('wwwm_correct_')) {
         wwwmData.push({ key, ...agg })
@@ -246,6 +251,10 @@ export function setupLiveAnalyze(App) {
       }
       if (key.startsWith('set-community-filter-')) {
         filterData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+      if (key.startsWith('rename')) {
+        renameData.push({ key, ...agg })
         byKey.delete(key)
       }
     })
@@ -605,6 +614,16 @@ export function setupLiveAnalyze(App) {
   <p>${enoughPageLines}</p>
   <h2>Main Color (Nutzer → Farben)</h2>
   <p>${userColorLines}</p>
+  <h2>Renames</h2>
+  <details>
+    <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen (${renameData.length} Einträge)</summary>
+    ${renameData
+      .map((el) => {
+        const parts = el.key.split('²')
+        return `<span>${escapeHTML(parts[1] || '')} → ${escapeHTML(parts[2] || '')}</span>`
+      })
+      .join('<br>')}
+  </details>
   <h2>Community Filter</h2>
   ${(() => {
     filterData.sort((a, b) => b.total - a.total)

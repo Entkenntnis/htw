@@ -527,9 +527,16 @@ export function setupLiveAnalyze(App) {
           quizData.get(`quiz-complete-${id}`)?.users ?? new Set()
         const incompleteUsers =
           quizData.get(`quiz-incomplete-${id}`)?.users ?? new Set()
-        const neverCompletedUsers = new Set(
+        const completedWithoutFailUsers = new Set(
+          [...completedUsers].filter((u) => !incompleteUsers.has(u))
+        )
+        const completedWithFailUsers = new Set(
+          [...completedUsers].filter((u) => incompleteUsers.has(u))
+        )
+        const incompleteUsersNoComplete = new Set(
           [...incompleteUsers].filter((u) => !completedUsers.has(u))
         )
+        const totalUsers = new Set([...completedUsers, ...incompleteUsers])
         const feedback1UpUsers =
           quizData.get(`quiz-feedback-${id}-1-up`)?.users ?? new Set()
         const feedback1DownUsers =
@@ -542,7 +549,14 @@ export function setupLiveAnalyze(App) {
           quizData.get(`quiz-feedback-${id}-3-up`)?.users ?? new Set()
         const feedback3DownUsers =
           quizData.get(`quiz-feedback-${id}-3-down`)?.users ?? new Set()
-        return `${id} | complete ${completedUsers.size}, incomplete ${incompleteUsers.size} (never completed ${neverCompletedUsers.size}) [Feedback: 1) <span ${feedback1UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback1UpUsers.size}</span> <span ${feedback1DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback1DownUsers.size}</>; 2) <span ${feedback2UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback2UpUsers.size}</span> <span ${feedback2DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback2DownUsers.size}</>; 3) <span ${feedback3UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback3UpUsers.size}</span> <span ${feedback3DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback3DownUsers.size}</>]<br>`
+
+        const quiz1FailUsers =
+          quizData.get(`quiz-incorrectAnswer-${id}-1`)?.users ?? new Set()
+        const quiz2FailUsers =
+          quizData.get(`quiz-incorrectAnswer-${id}-2`)?.users ?? new Set()
+        const quiz3FailUsers =
+          quizData.get(`quiz-incorrectAnswer-${id}-3`)?.users ?? new Set()
+        return `${id} | total ${totalUsers.size}, first try ${completedWithoutFailUsers.size}, retry ${completedWithFailUsers.size}, incomplete ${incompleteUsersNoComplete.size} | Feedback: <span ${feedback1UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback1UpUsers.size}</span> <span ${feedback1DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback1DownUsers.size}</span>; <span ${feedback2UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback2UpUsers.size}</span> <span ${feedback2DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback2DownUsers.size}</span>; <span ${feedback3UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback3UpUsers.size}</span> <span ${feedback3DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback3DownUsers.size}</span> | Fails: ${quiz1FailUsers.size}; ${quiz2FailUsers.size}; ${quiz3FailUsers.size}<br>`
       })
       .join('')
   })()}

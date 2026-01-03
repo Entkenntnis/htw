@@ -543,6 +543,12 @@
         .getElementById(`quiz-question-${correctAnswerId + 1}`)
         .classList.add('correct-answer')
       events.push({ type: 'wrong', selected: options[id] })
+      fetch(
+        '/api/event?key=quiz-incorrectAnswer-' +
+          topics[selectedIndex].id +
+          '-' +
+          (quizIndex + 1)
+      )
     }
     correctAnswerId = -1
     //

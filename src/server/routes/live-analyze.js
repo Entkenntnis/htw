@@ -223,30 +223,27 @@ export function setupLiveAnalyze(App) {
      * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
      */
     const wwwmData = []
-    byKey.forEach((agg, key) => {
-      if (key.startsWith('wwwm_correct_')) {
-        wwwmData.push({ key, ...agg })
-        byKey.delete(key)
-      }
-    })
 
     // remove enough_page_<index> events and put into separate group
     /**
      * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
      */
     const enoughPageData = []
-    byKey.forEach((agg, key) => {
-      if (key.startsWith('enough_page_')) {
-        enoughPageData.push({ key, ...agg })
-        byKey.delete(key)
-      }
-    })
 
     /**
      * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
      */
     const filterData = []
+
     byKey.forEach((agg, key) => {
+      if (key.startsWith('wwwm_correct_')) {
+        wwwmData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+      if (key.startsWith('enough_page_')) {
+        enoughPageData.push({ key, ...agg })
+        byKey.delete(key)
+      }
       if (key.startsWith('set-community-filter-')) {
         filterData.push({ key, ...agg })
         byKey.delete(key)
@@ -257,9 +254,19 @@ export function setupLiveAnalyze(App) {
      * @type {typeof byKey}
      */
     const storyData = new Map()
+
+    /**
+     * @type {typeof byKey}
+     */
+    const quizData = new Map()
+
     byKey.forEach((agg, key) => {
       if (key.startsWith('story-')) {
         storyData.set(key, agg)
+        byKey.delete(key)
+      }
+      if (key.startsWith('quiz-')) {
+        quizData.set(key, agg)
         byKey.delete(key)
       }
     })
@@ -511,6 +518,34 @@ export function setupLiveAnalyze(App) {
         .join('')}
     </tbody>
   </table>
+  <h2>Quiz</h2>
+  ${(() => {
+    return App.quizData
+      .getQuizIds()
+      .map((id) => {
+        const completedUsers =
+          quizData.get(`quiz-complete-${id}`)?.users ?? new Set()
+        const incompleteUsers =
+          quizData.get(`quiz-incomplete-${id}`)?.users ?? new Set()
+        const neverCompletedUsers = new Set(
+          [...incompleteUsers].filter((u) => !completedUsers.has(u))
+        )
+        const feedback1UpUsers =
+          quizData.get(`quiz-feedback-${id}-1-up`)?.users ?? new Set()
+        const feedback1DownUsers =
+          quizData.get(`quiz-feedback-${id}-1-down`)?.users ?? new Set()
+        const feedback2UpUsers =
+          quizData.get(`quiz-feedback-${id}-2-up`)?.users ?? new Set()
+        const feedback2DownUsers =
+          quizData.get(`quiz-feedback-${id}-2-down`)?.users ?? new Set()
+        const feedback3UpUsers =
+          quizData.get(`quiz-feedback-${id}-3-up`)?.users ?? new Set()
+        const feedback3DownUsers =
+          quizData.get(`quiz-feedback-${id}-3-down`)?.users ?? new Set()
+        return `${id} | complete ${completedUsers.size}, incomplete ${incompleteUsers.size} (never completed ${neverCompletedUsers.size}) [Feedback: 1) <span ${feedback1UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback1UpUsers.size}</span> <span ${feedback1DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback1DownUsers.size}</>; 2) <span ${feedback2UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback2UpUsers.size}</span> <span ${feedback2DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback2DownUsers.size}</>; 3) <span ${feedback3UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback3UpUsers.size}</span> <span ${feedback3DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback3DownUsers.size}</>]<br>`
+      })
+      .join('')
+  })()}
   <h2>Story</h2>
   ${(() => {
     /**

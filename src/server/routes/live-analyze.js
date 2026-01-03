@@ -242,6 +242,11 @@ export function setupLiveAnalyze(App) {
      */
     const solversData = []
 
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
+     */
+    const feedbackData = []
+
     byKey.forEach((agg, key) => {
       if (key.startsWith('wwwm_correct_')) {
         wwwmData.push({ key, ...agg })
@@ -261,6 +266,10 @@ export function setupLiveAnalyze(App) {
       }
       if (key.startsWith('solvers_')) {
         solversData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+      if (key.startsWith('feedback_')) {
+        feedbackData.push({ key, ...agg })
         byKey.delete(key)
       }
     })
@@ -451,6 +460,20 @@ export function setupLiveAnalyze(App) {
       .sort((a, b) => b.total - a.total)
 
     const html = `
+    <script>
+    function applyFrom() {
+      var v = document.getElementById('from').value;
+      var url = new URL(window.location.href);
+      if (v) url.searchParams.set('from', v); else url.searchParams.delete('from');
+      window.location.href = url.toString();
+    }
+
+    function reset() {
+      var url = new URL(window.location.href);
+      url.searchParams.delete('from');
+      window.location.href = url.toString();
+    }
+  </script>
   <div class="meta">Zeitraum ab: <span class="mono">${fromDateStr}</span> • Einträge: ${rows.length}</div>
   <div class="controls" style="margin-bottom: 12px; margin-top: 12px;">
     <label>From: <input id="from" type="date" value="${fromDateStr}" /></label>
@@ -609,6 +632,18 @@ export function setupLiveAnalyze(App) {
   <details>
     <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen</summary>
     <p>${comlinkLines}</p>
+  </details>
+  <h2>Feedback</h2>
+  <details>
+    <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen (${feedbackData.length})</summary>
+    <p>${(() => {
+      feedbackData.sort((a, b) => a.key.localeCompare(b.key))
+      return feedbackData
+        .map((entry) => {
+          return `<span>${escapeHTML(entry.key)}, ${entry.users.size}</span>`
+        })
+        .join('<br>')
+    })()}</p>
   </details>
       `
     // res.send(html)

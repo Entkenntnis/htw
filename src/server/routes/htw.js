@@ -298,7 +298,7 @@ htw_users_total ${c1.solvedBy}
     const maxScore = await App.db.models.User.max('score')
 
     const cids = App.challenges.data
-      .filter((c) => !c.noScore && (!c.releaseTs || c.releaseTs <= Date.now()))
+      .filter((c) => !c.releaseTs || c.releaseTs <= Date.now())
       .map((c) => c.id)
     const solved = await App.db.models.Solution.count({
       where: { UserId: user.id, cid: cids },

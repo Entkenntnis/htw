@@ -196,9 +196,6 @@ export function setupLiveAnalyze(App) {
     const byKey = new Map()
     for (const r of rows) {
       let key = r.key
-      if (key.startsWith('solvers_')) {
-        key = 'solvers_*'
-      }
       if (key.startsWith('ex_')) {
         key = 'ex_*'
       }
@@ -240,6 +237,11 @@ export function setupLiveAnalyze(App) {
      */
     const renameData = []
 
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
+     */
+    const solversData = []
+
     byKey.forEach((agg, key) => {
       if (key.startsWith('wwwm_correct_')) {
         wwwmData.push({ key, ...agg })
@@ -255,6 +257,10 @@ export function setupLiveAnalyze(App) {
       }
       if (key.startsWith('rename')) {
         renameData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+      if (key.startsWith('solvers_')) {
+        solversData.push({ key, ...agg })
         byKey.delete(key)
       }
     })
@@ -445,69 +451,19 @@ export function setupLiveAnalyze(App) {
       .sort((a, b) => b.total - a.total)
 
     const html = `
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Events</title>
-  <style>
-  :root { color-scheme: dark; }
-  body { font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; padding:16px; background:#121212; color:#e5e5e5; }
-  h1 { margin:0 0 8px 0; font-size:20px; color:#ffffff; }
-  .meta { color:#b0b0b0; margin-bottom:16px; }
-  table { width:100%; border-collapse:collapse; background:#181818; border:1px solid #2a2a2a; border-radius:6px; overflow:hidden; }
-  th, td { padding:8px 10px; border-bottom:1px solid #242424; text-align:left; }
-  th { background:#1f1f1f; position:sticky; top:0; z-index:1; }
-  tbody tr:hover { background:#24242f; }
-  tbody tr:last-child td { border-bottom:none; }
-  .right { text-align:right; }
-  .mono { font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:#dcdcdc; }
-  .controls { margin-bottom:10px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-  input[type=date] { background:#1f1f1f; color:#e5e5e5; border:1px solid #333; padding:4px 6px; border-radius:4px; }
-  button { background:#2d2d2d; color:#ffffff; border:1px solid #3a3a3a; padding:6px 12px; border-radius:4px; cursor:pointer; }
-  button:hover { background:#3a3a3a; }
-  button:active { background:#454545; }
-  button:focus, input:focus { outline:2px solid #4a90e2; outline-offset:2px; }
-  a { color:#00bc8c; text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  a:focus { outline:2px solid #00bc8c; outline-offset:2px; }
-  a:visited { color:#00a077; }
-  .back { margin:0 0 12px 0; }
-  .back a { font-size:14px; }
-  pre.wwwm { background:#181818; border:1px solid #2a2a2a; padding:10px; border-radius:6px; line-height:1.2; white-space:pre-wrap; }
-  </style>
-  <script>
-    function applyFrom() {
-      var v = document.getElementById('from').value;
-      var url = new URL(window.location.href);
-      if (v) url.searchParams.set('from', v); else url.searchParams.delete('from');
-      window.location.href = url.toString();
-    }
-
-    function reset() {
-      var url = new URL(window.location.href);
-      url.searchParams.delete('from');
-      window.location.href = url.toString();
-    }
-  </script>
-  </head>
-<body>
-  <div class="back"><a href="/">← Zurück</a></div>
-  <h1>Events</h1>
   <div class="meta">Zeitraum ab: <span class="mono">${fromDateStr}</span> • Einträge: ${rows.length}</div>
-  <div class="controls">
+  <div class="controls" style="margin-bottom: 12px; margin-top: 12px;">
     <label>From: <input id="from" type="date" value="${fromDateStr}" /></label>
     <button onclick="applyFrom()">Filter</button>
     <button onclick="reset()" style="margin-left: 12px;"> Filter zurücksetzen</button>
   </div>
-  <table>
+  <table class="table table-hover" style="background-color: #333">
     <thead>
       <tr>
         <th>Key</th>
-        <th class="right">Summe</th>
-        <th class="right">Nutzer</th>
-        <th class="right">Ø je Nutzer</th>
+        <th style="text-align: right">Summe</th>
+        <th style="text-align: right">Nutzer</th>
+        <th style="text-align: right">Ø je Nutzer</th>
       </tr>
     </thead>
     <tbody>
@@ -515,10 +471,10 @@ export function setupLiveAnalyze(App) {
         .map(
           (r) => `
         <tr>
-          <td class="mono">${escapeHTML(r.key)}</td>
-          <td class="right">${r.total}</td>
-          <td class="right">${r.userCount}</td>
-          <td class="right">${r.avg.toLocaleString('de-DE', {
+          <td class="mono"><code>${escapeHTML(r.key)}<code></td>
+          <td style="text-align: right">${r.total}</td>
+          <td style="text-align: right">${r.userCount}</td>
+          <td style="text-align: right">${r.avg.toLocaleString('de-DE', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}</td>
@@ -528,7 +484,7 @@ export function setupLiveAnalyze(App) {
     </tbody>
   </table>
   <h2>Quiz</h2>
-  ${(() => {
+  <p>${(() => {
     return App.quizData
       .getQuizIds()
       .map((id) => {
@@ -568,9 +524,9 @@ export function setupLiveAnalyze(App) {
         return `${id} | total ${totalUsers.size}, first try ${completedWithoutFailUsers.size}, retry ${completedWithFailUsers.size}, incomplete ${incompleteUsersNoComplete.size} | Feedback: <span ${feedback1UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback1UpUsers.size}</span> <span ${feedback1DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback1DownUsers.size}</span>; <span ${feedback2UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback2UpUsers.size}</span> <span ${feedback2DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback2DownUsers.size}</span>; <span ${feedback3UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback3UpUsers.size}</span> <span ${feedback3DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback3DownUsers.size}</span> | Fails: ${quiz1FailUsers.size}; ${quiz2FailUsers.size}; ${quiz3FailUsers.size}<br>`
       })
       .join('')
-  })()}
+  })()}</p>
   <h2>Story</h2>
-  ${(() => {
+  <p>${(() => {
     /**
      * @param {string} type
      * @param {number} id
@@ -607,38 +563,60 @@ export function setupLiveAnalyze(App) {
         </span>`
       })
       .join('<br>')
-  })()}
+  })()}</p>
   <h2>Wer wird Wort-Millionär</h2>
   <p>${wwwmLines}</p>
   <h2>Enough Pages</h2>
   <p>${enoughPageLines}</p>
   <h2>Main Color (Nutzer → Farben)</h2>
   <p>${userColorLines}</p>
-  <h2>Renames</h2>
-  <details>
-    <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen (${renameData.length} Einträge)</summary>
-    ${renameData
-      .map((el) => {
-        const parts = el.key.split('²')
-        return `<span>${escapeHTML(parts[1] || '')} → ${escapeHTML(parts[2] || '')}</span>`
-      })
-      .join('<br>')}
-  </details>
   <h2>Community Filter</h2>
-  ${(() => {
+  <p>${(() => {
     filterData.sort((a, b) => b.total - a.total)
     return filterData
       .map((entry) => {
         return `<span>${entry.key.substring(21) || '∅'}: ${entry.total} von ${entry.users.size} SpielerInnen</span>`
       })
       .join('<br>')
-  })()}
+  })()}</p>
+  <h2>Renames</h2>
+  <details>
+    <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen (${renameData.length})</summary>
+    <p>${renameData
+      .map((el) => {
+        const parts = el.key.split('²')
+        return `<span>${escapeHTML(parts[1] || '')} → ${escapeHTML(parts[2] || '')}</span>`
+      })
+      .join('<br>')}</p>
+  </details>
+  <h2>Verlauf</h2>
+  <details>
+    <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen (${
+      solversData.length
+    })</summary>
+    <p>${(() => {
+      solversData.sort((a, b) => b.total - a.total)
+      return solversData
+        .map((entry) => {
+          const id = parseInt(entry.key.substring(8))
+          const title = App.challenges.dataMap[id]?.title || '(unbekannt)'
+          return `<span style="width:250px; display: inline-block;">${title.de} [${id}]</span> ${entry.total} mal von ${entry.users.size} SpielerInnen`
+        })
+        .join('<br>')
+    })()}</p>
+  </details>
   <h2>Comlink</h2>
-  <p>${comlinkLines}</p>
-  </body>
-  </html>
+  <details>
+    <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen</summary>
+    <p>${comlinkLines}</p>
+  </details>
       `
-    res.send(html)
+    // res.send(html)
+    renderPage(App, req, res, {
+      page: 'events',
+      content: html,
+      heading: 'Events',
+    })
   })
 
   App.express.get('/experiments', async (req, res) => {

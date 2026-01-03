@@ -1112,6 +1112,8 @@ export function setupChallenges(App) {
       content += `<p style="color:gray;">... ... ...</p>\n`
     }
 
+    content += '<div style="height: 200px;"></div>'
+
     renderPage(App, req, res, {
       page: 'solvers',
       content,

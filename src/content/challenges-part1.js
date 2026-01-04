@@ -163,7 +163,7 @@ export const part1 = [
   {
     id: 2,
     pos: { x: 1245, y: 535 },
-    title: { de: 'Finger-Code', en: 'Finger code' },
+    title: { de: 'Finger-Code', en: 'Finger Code' },
     // date: '2017-05-17',
     deps: [28, 81],
     html: {
@@ -197,7 +197,7 @@ export const part1 = [
   {
     id: 3,
     pos: { x: 430, y: 1085 },
-    title: { de: 'Auf hoher See', en: 'At sea' },
+    title: { de: 'Auf hoher See', en: 'At Sea' },
     // date: '2017-05-17',
     deps: [42, 50],
     html: {
@@ -438,7 +438,7 @@ export const part1 = [
   {
     id: 5,
     pos: { x: 300, y: 120 },
-    title: { de: 'Zitronentinte', en: 'Lemon juice' },
+    title: { de: 'Zitronentinte', en: 'Lemon Juice' },
     // date: '2017-05-17',
     deps: [1],
     render: ({ App, req }) => {
@@ -1140,7 +1140,7 @@ export const part1 = [
   {
     id: 24,
     pos: { x: 140, y: 280 },
-    title: { de: 'Nicht blinzeln', en: "Don't blink" },
+    title: { de: 'Nicht blinzeln', en: "Don't Blink" },
     // date: '2017-08-25',
     deps: [1],
     render: ({ App, req }) => {
@@ -1184,7 +1184,7 @@ export const part1 = [
   {
     id: 25,
     pos: { x: 535, y: 1045 },
-    title: { de: 'Russische Puppen', en: 'Russian dolls' },
+    title: { de: 'Russische Puppen', en: 'Russian Dolls' },
     // date: '2017-08-25',
     deps: [42, 50],
     html: {
@@ -1214,7 +1214,7 @@ export const part1 = [
   {
     id: 26,
     pos: { x: 555, y: 925 },
-    title: { de: 'Zeitmaschine', en: 'Time machine' },
+    title: { de: 'Zeitmaschine', en: 'Time Machine' },
     // date: '2017-08-26',
     deps: [30, 78],
     html: {
@@ -1349,7 +1349,7 @@ export const part1 = [
   {
     id: 29,
     pos: { x: 635, y: 865 },
-    title: { de: 'GPS-Code', en: 'GPS code' },
+    title: { de: 'GPS-Code', en: 'GPS Code' },
     // date: '2017-08-26',
     deps: [30, 78],
     html: {
@@ -2151,7 +2151,7 @@ export const part1 = [
   {
     id: 53,
     pos: { x: 760, y: 190 },
-    title: { de: 'Klick mich', en: 'Click me' },
+    title: { de: 'Klick mich', en: 'Click Me' },
     // date: '2020-08-01',
     deps: [66, 111],
     html: {
@@ -2368,7 +2368,7 @@ export const part1 = [
   {
     id: 57,
     pos: { x: 1350, y: 950 },
-    title: { de: 'Ankunft in Sirtach', en: 'Arrival in Sirtach' },
+    title: { de: 'Ankunft in Sirtach', en: 'Arrival In Sirtach' },
     // date: '2020-08-17',
     deps: [27, 41, 64],
     render: ({ App, req }) => {
@@ -2606,7 +2606,7 @@ export const part1 = [
   {
     id: 63,
     pos: { x: 230, y: 690 },
-    title: { de: 'skill issue', en: 'Skill issue' },
+    title: { de: 'skill issue', en: 'Skill Issue' },
     // date: '2020-08-17',
     deps: [7, 80],
     render: async ({ App, req }) => {
@@ -3116,7 +3116,7 @@ To: ${req.user?.name}@arrrg.de</pre>
   {
     id: 80,
     pos: { x: 270, y: 535 },
-    title: { de: 'Bist du ein Mensch?', en: 'Are you human?' },
+    title: { de: 'Bist du ein Mensch?', en: 'Are You Human?' },
     // date: '2022-02-24',
     deps: [4, 6],
     render: () => {

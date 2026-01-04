@@ -134,7 +134,7 @@ export const communityChallenges = [
   {
     id: 303,
     pos: { x: 2000, y: 630 },
-    title: { de: 'Rechensport', en: 'Mental arithmetic' },
+    title: { de: 'Rechensport', en: 'Mental Arithmetic' },
     author: 'Simonesien',
     difficulty: 'hard',
     date: '2023-07-28',
@@ -417,7 +417,7 @@ export const communityChallenges = [
   {
     id: 307,
     pos: { x: 1580, y: 420 },
-    title: { de: 'Freier Fall', en: 'Free fall' },
+    title: { de: 'Freier Fall', en: 'Free Fall' },
     author: 'rkasti u. Satsuma',
     difficulty: 'medium',
     date: '2023-08-31',
@@ -447,7 +447,7 @@ export const communityChallenges = [
   {
     id: 308,
     pos: { x: 1550, y: 320 },
-    title: { de: 'Freier Fall II', en: 'Free fall II' },
+    title: { de: 'Freier Fall II', en: 'Free Fall II' },
     author: 'rkasti u. Satsuma',
     difficulty: 'hard',
     date: '2023-08-31',
@@ -815,7 +815,7 @@ export const communityChallenges = [
   {
     id: 312,
     pos: { x: 1460, y: 250 },
-    title: { de: 'Freier Fall III', en: 'Free fall III' },
+    title: { de: 'Freier Fall III', en: 'Free Fall III' },
     author: 'rkasti u. Satsuma',
     difficulty: 'hard',
     date: '2023-10-01',
@@ -869,7 +869,7 @@ export const communityChallenges = [
   {
     id: 313,
     pos: { x: 1500, y: 130 },
-    title: { de: 'Freier Fall IV', en: 'Free fall IV' },
+    title: { de: 'Freier Fall IV', en: 'Free Fall IV' },
     author: 'rkasti u. Satsuma',
     difficulty: 'hard',
     date: '2023-10-01',
@@ -1588,7 +1588,7 @@ RS#1</pre>
   {
     id: 338,
     pos: { x: 2160, y: 620 },
-    title: { de: 'Rechensport II', en: 'Mental arithmetic II' },
+    title: { de: 'Rechensport II', en: 'Mental Arithmetic II' },
     author: 'Simonesien',
     difficulty: 'hard',
     date: '2024-03-03',

@@ -445,4 +445,12 @@ export const experimentDefs = [
     learning:
       '2 Wochen könnten etwas kurz gewesen sein ... weil ich einen relativ schlechten SRM-Wert habe. Aber die Signifikanz-Barriere hält Stand und stellt sicher, dass das Ergebnis nicht als nennenswert dargestellt wird.',
   },
+  {
+    id: 22,
+    description:
+      'Geburtstag -> Codeknacker, neuer Titel und einheitlicheres Thema, mal sehen ob das einen Effekt hat',
+    challenge: 77,
+    startTs: new Date('2026-01-05 00:01+0100').getTime(),
+    endTs: new Date('2025-02-02 00:01+0100').getTime(),
+  },
 ]

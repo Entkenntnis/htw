@@ -150,3 +150,14 @@ window.addEventListener('DOMContentLoaded', () => {
 function getLng() {
   return document.documentElement.lang === 'en' ? 'en' : 'de'
 }
+
+function loadXRay() {
+  ;(function () {
+    const script = document.createElement('script')
+    script.src = '/webxray/webxray.js'
+    script.className = 'webxray'
+    script.setAttribute('data-lang', 'en-US')
+    script.setAttribute('data-baseuri', document.location.origin + '/webxray')
+    document.body.appendChild(script)
+  })()
+}

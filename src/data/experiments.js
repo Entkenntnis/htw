@@ -453,4 +453,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-05 00:01+0100').getTime(),
     endTs: new Date('2025-02-02 00:01+0100').getTime(),
   },
+  {
+    id: 23,
+    description:
+      'Ankunft in Sirtach / Einreiseformular: biete eine Möglichkeit an, das HTML direkt zu bearbeiten',
+    challenge: 57,
+    startTs: new Date('2026-01-05 00:02+0100').getTime(),
+    endTs: new Date('2025-02-09 00:02+0100').getTime(),
+  },
 ]

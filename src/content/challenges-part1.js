@@ -1307,7 +1307,7 @@ export const part1 = [
         `
         <p>Werbung hat eine große Macht auf uns. Durch die konstante Ablenkung wird unsere Aufmerksamkeit manipuliert. Aber wird sind nicht hilflos! Im Browser haben wir die Möglichkeit, gegen Werbung vorzugehen und diese zu blockieren.</p>
 
-        <p>Das geht auch per Hand. Schaue dir diese Seite an. Eine Werbung verdeckt die Aufgabe. Du kannst den Inspektor des Browsers öffnen (meist F12) und das störende Element entfernen. Falls das nicht verfügbar ist: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='/webxray/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri',document.location.origin + '/webxray');document.body.appendChild(script);}())">die Alternative "X-Ray" laden</a>.</p>
+        <p>Das geht auch per Hand. Schaue dir diese Seite an. Eine Werbung verdeckt die Aufgabe. Du kannst den Inspektor des Browsers öffnen (meist F12) und das störende Element entfernen. Falls das nicht verfügbar ist: <a href="#" onclick="loadXRay()">die Alternative "X-Ray" laden</a>.</p>
         `,
         `
         <div style="position:absolute;width:1000px;height:1000px;background-color:green;padding-left:16px;" id="banner">

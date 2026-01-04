@@ -112,9 +112,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: black;
+      font-weight: bold;
       user-select: none;
-      font-size: 13px;
+      font-size: 16px;
     }
   </style>
   <script>
@@ -156,11 +156,12 @@
       options.forEach(option => {
         // set background colors and highlight current
         const color = option.getAttribute('data-color');
-        option.style.backgroundColor = color;
+        //option.style.backgroundColor = color;
         if (color.trim() === currentCssVal.trim()) {
-          option.style.borderColor = 'black';
-          option.style.fontWeight = 'bold';
+          option.style.backgroundColor = '#444'
         }
+        option.style.color = color;
+        option.style.borderColor = color;
 
         option.addEventListener('click', () => {
           const color = option.getAttribute('data-color');
@@ -176,11 +177,9 @@
           document.documentElement.style.setProperty('--main-color', color);
           // update UI
           options.forEach(opt => {
-            opt.style.borderColor = 'transparent';
-            opt.style.fontWeight = 'normal';
+            opt.style.backgroundColor = 'transparent'
           });
-          option.style.borderColor = 'black';
-          option.style.fontWeight = 'bold';
+          option.style.backgroundColor = '#444'
         });
       });
 
@@ -203,8 +202,7 @@
         document.documentElement.style.setProperty('--main-color', color);
         // update UI
         options.forEach(opt => {
-          opt.style.borderColor = 'transparent';
-          opt.style.fontWeight = 'normal';
+          opt.style.backgroundColor = 'transparent'
         });
       });
       // on input click, update color to current

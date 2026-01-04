@@ -552,7 +552,7 @@ export function setupChallengesServer(App) {
       title: s.title,
       content: `
         <style>
-          .ef-container{min-height:calc(100vh - 160px);display:flex;justify-content:center;align-items:flex-start;padding:24px;position:relative;overflow:hidden;}
+          .ef-container{display:flex;justify-content:center;align-items:flex-start;padding:24px;position:relative;overflow:hidden;}
           .ef-container:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;background:
             repeating-linear-gradient(0deg,rgba(40,50,70,.18) 0px,rgba(40,50,70,.18) 1px,transparent 1px,transparent 24px),
             repeating-linear-gradient(90deg,rgba(40,50,70,.18) 0px,rgba(40,50,70,.18) 1px,transparent 1px,transparent 24px)}
@@ -613,6 +613,14 @@ export function setupChallengesServer(App) {
             </form>
           </div>
         </div>
+          
+        ${
+          App.experiments.showTrial(57, req)
+            ? `
+          <p style="margin-top: 50px;">[<a href="#" onclick="loadXRay()">HTML bearbeiten</a>]</p>
+        `
+            : ''
+        }
       `,
     })
   })

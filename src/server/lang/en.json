@@ -143,10 +143,8 @@
     "discordLink": "Link Discord",
     "discordLinkingNote_": "Add your Discord account as an alternative login method. This way you can still login if you forget your password: {{-link}}",
     "rename": "Change username ...",
-    "mainColor": "Link color",
-    "save": "Save",
-    "saved": "Saved",
-    "reset": "Reset"
+    "mainColor": "Custom color",
+    "theme": "Choose your theme"
   },
   "challenge": {
     "back": "back",

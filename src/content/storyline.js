@@ -398,7 +398,7 @@ export function setupStoryline(App) {
 const STORIES = {
   1: { title: 'Bex Vorstellung', enTitle: 'Introducing Bex' },
   2: { title: 'Josh Vorstellung', enTitle: 'Introducing Josh' },
-  3: { title: 'Der Plan', enTitle: 'The Plan' },
+  3: { title: 'Tagebuch', enTitle: 'Diary' },
   4: { title: 'Sehnsucht', enTitle: 'Longing' },
   5: { title: 'Unschuldig', enTitle: 'Innocent' },
   6: { title: 'Ohnmacht', enTitle: 'Fainting' },

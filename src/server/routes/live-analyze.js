@@ -633,8 +633,8 @@ export function setupLiveAnalyze(App) {
     <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen</summary>
     <p>${comlinkLines}</p>
   </details>
-  <h2>Feedback</h2>
-  <details>
+  <h2 style="color: gray; display: none;">Challenge-Feedback</h2>
+  <details style="display: none;">
     <summary style="cursor: pointer; margin-bottom: 20px;">anzeigen (${feedbackData.length})</summary>
     <p>${(() => {
       feedbackData.sort((a, b) => a.key.localeCompare(b.key))

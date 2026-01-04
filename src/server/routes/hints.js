@@ -2199,7 +2199,7 @@ export function setupHints(App) {
 
         <form action="/feedback/send" method="post" style="max-width: 65ch; margin-top: 30px;">
           <input type="hidden" name="id" value="${id}"/>
-          <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="${lng === 'de' ? 'Beschreibe dein Anliegen ...' : 'Describe your feedback ...'}"></textarea>
+          <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px; outline: none;" placeholder="${lng === 'de' ? 'Beschreibe dein Anliegen ...' : 'Describe your feedback ...'}"></textarea>
           <input type="submit" value="${lng === 'de' ? 'Feedback senden' : 'Send feedback'}" class="btn btn-primary"/>
         </form>
 
@@ -2266,6 +2266,7 @@ export function setupHints(App) {
       key,
       JSON.stringify({
         challenge: id,
+        title: App.challenges.getTitle(id, req),
         username: req.user.name,
         userid: req.user.id,
         feedback: question.slice(0, 2000),
@@ -2315,50 +2316,47 @@ export function setupHints(App) {
       raw: true,
     })
 
-    console.log(allFeedbackv2)
-
-    // fetch all feedback entries (no cutoff/time restriction as requested)
-    const allFeedback = await App.db.models.KVPair.findAll({
-      where: {
-        key: { [Op.like]: 'feedback_%' },
-      },
-      order: [['createdAt', 'DESC']], // most recent first directly in DB
-      raw: true,
+    const parsed = allFeedbackv2.map((row) => {
+      return {
+        ...JSON.parse(row.value),
+        ts: new Date(row.createdAt).getTime(),
+        key: row.key,
+      }
     })
 
-    const list = allFeedback
-      .map((row) => {
-        const parts = row.key.split('_')
-        const id = parseInt(parts[1])
-        if (Number.isNaN(id)) return null
-        return {
-          id,
-          title: App.challenges.getTitle(id, req),
-          feedback: row.value,
-          ts: new Date(row.createdAt).getTime(),
-        }
-      })
-      .filter((x) => x !== null)
+    const open = parsed.filter((f) => f.open)
+    const closed = parsed.filter((f) => !f.open)
 
-    const html =
-      list.length === 0
-        ? '<p style="margin-top:48px;">Keine Feedback-Einträge gefunden.</p>'
-        : list
-            .map(
-              (f) => `
-          <p style="margin-top:12px;">
-            <span style="color: gray;">(${new Date(f.ts).toLocaleString('de-DE')})</span>
-            <strong>[${f.id}] ${escapeHTML(f.title)}</strong>:
-            ${escapeHTML(f.feedback)}
-          </p>`
-            )
-            .join('')
+    // future todo: I might check if challenge is already solved
+
+    let content = open
+      .map((entry) => {
+        return `
+          <p>
+            <strong>${escapeHTML(entry.username)}</strong> fragt bei <strong>${escapeHTML(entry.title)}</strong>:
+          </p>
+          <p style="margin-top:8px; margin-left: 24px; margin-bottom:16px; padding: 12px; background-color: #444; border-radius: 8px;">${escapeHTML(entry.feedback)}</p>
+          <p style="text-align: right; color: #888; font-size: 14px;">    
+            ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, Punkte ${escapeHTML(entry.userScore.toString())}, Versuche ${escapeHTML(entry.attempts.toString())}, Trial ${escapeHTML(entry.trial.toString())}
+          </p>
+          <hr />
+        `
+      })
+      .join('')
+
+    content += `
+      <details style="margin-top:128px;">
+        <summary style="font-weight: bold; cursor: pointer;">Geschlossenes Feedback (${closed.length})</summary>
+        ${JSON.stringify(closed, null, 2)}
+      </details>
+
+      <div style="height: 50px;"></div>
+    `
 
     renderPage(App, req, res, {
       page: 'internal-feedback-list',
       heading: 'Liste Feedback',
-      backButton: false,
-      content: html,
+      content,
     })
   })
 

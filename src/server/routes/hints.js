@@ -2199,11 +2199,15 @@ export function setupHints(App) {
 
         <form action="/feedback/send" method="post" style="max-width: 65ch; margin-top: 30px;">
           <input type="hidden" name="id" value="${id}"/>
-          <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px;" placeholder="${lng === 'de' ? 'Beschreibe dein Anliegen ...' : 'Describe your feedback ...'}"></textarea>
+          <textarea name="question" required style="width: 100%; padding: 10px; margin-top: 10px; color: white; background-color: #303030; border: 1px solid #cccccc; border-radius: 4px; resize: vertical; min-height:100px; margin-bottom: 12px; outline: none;" placeholder="${lng === 'de' ? 'Beschreibe dein Anliegen ...' : 'Describe your feedback ...'}"></textarea>
           <input type="submit" value="${lng === 'de' ? 'Feedback senden' : 'Send feedback'}" class="btn btn-primary"/>
         </form>
 
-        <p style="margin-top: 48px;">${lng === 'de' ? 'Nutze auch gerne unseren' : 'Feel free to also join our'} <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord${lng === 'de' ? '-Server' : ' server'}</a>:</p>
+        <p style="margin-top: 48px;">${
+          lng === 'de'
+            ? 'Für persönliche Hilfe besuche unseren '
+            : 'For personal help, visit our '
+        } <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord${lng === 'de' ? '-Server' : ' server'}</a>:</p>
         <p>
           <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 150px; background: #313131; padding-left:8px; padding-right: 8px; border-radius:4px; padding-top:2px; " alt="discord"></a>
         </p>
@@ -2245,30 +2249,54 @@ export function setupHints(App) {
   })
 
   App.express.post('/feedback/send', (req, res) => {
-    /** @type {string} */
     const question = req.body?.question?.toString()
     const id_ = req.body?.id?.toString()
 
     const id = id_ ? parseInt(id_) : -1
 
-    if (!question || !App.challenges.dataMap[id]) {
+    if (!question || !App.challenges.dataMap[id] || !req.user) {
       res.redirect('/map')
       return
     }
 
-    const key = `feedback_${id}_${new Date().getTime()}`
+    const key = `feedbackv2-${new Date().getTime()}`
 
     // hard-code max-length
-    App.storage.setItem(key, question.slice(0, 2000))
+    App.storage.setItem(
+      key,
+      JSON.stringify({
+        challenge: id,
+        title: App.challenges.getTitle(id, req),
+        username: req.user.name,
+        userid: req.user.id,
+        feedback: question.slice(0, 2000),
+        userScore: req.user.score,
+        attempts: req.session?.rates?.[`${req.user.id}-${id}`]?.count ?? -1,
+        trial: App.experiments.showTrial(id, req),
+        open: true,
+      })
+    )
 
     renderPage(App, req, res, {
       page: 'ask',
-      heading: `Dein Feedback wurde gespeichert!`,
+      heading:
+        req.lng == 'de'
+          ? `Dein Feedback wurde gespeichert!`
+          : `Your feedback has been saved!`,
       backButton: false,
-      content: `
+      content:
+        req.lng == 'de'
+          ? `
         <p style="margin-top: 48px;">Vielen Dank!</p>
 
-        <p><a href="/map">zurück</a></p>
+        <p><a href="/map">weiter</a></p>
+
+        <div style="height:150px;"></div>
+      `
+          : `
+        <p style="margin-top: 48px;">Thank you!</p>
+
+        <p><a href="/map">continue</a></p>
 
         <div style="height:150px;"></div>
       `,
@@ -2280,49 +2308,126 @@ export function setupHints(App) {
     if (!req.user || !App.config.editors.includes(req.user.name))
       return res.redirect('/')
 
-    // fetch all feedback entries (no cutoff/time restriction as requested)
-    const allFeedback = await App.db.models.KVPair.findAll({
+    const allFeedbackv2 = await App.db.models.KVPair.findAll({
       where: {
-        key: { [Op.like]: 'feedback_%' },
+        key: { [Op.like]: 'feedbackv2-%' },
       },
       order: [['createdAt', 'DESC']], // most recent first directly in DB
       raw: true,
     })
 
-    const list = allFeedback
-      .map((row) => {
-        const parts = row.key.split('_')
-        const id = parseInt(parts[1])
-        if (Number.isNaN(id)) return null
-        return {
-          id,
-          title: App.challenges.getTitle(id, req),
-          feedback: row.value,
-          ts: new Date(row.createdAt).getTime(),
-        }
-      })
-      .filter((x) => x !== null)
+    const parsed = allFeedbackv2.map((row) => {
+      return {
+        ...JSON.parse(row.value),
+        ts: new Date(row.createdAt).getTime(),
+        key: row.key,
+      }
+    })
 
-    const html =
-      list.length === 0
-        ? '<p style="margin-top:48px;">Keine Feedback-Einträge gefunden.</p>'
-        : list
-            .map(
-              (f) => `
-          <p style="margin-top:12px;">
-            <span style="color: gray;">(${new Date(f.ts).toLocaleString('de-DE')})</span>
-            <strong>[${f.id}] ${escapeHTML(f.title)}</strong>:
-            ${escapeHTML(f.feedback)}
-          </p>`
-            )
-            .join('')
+    const open = parsed.filter((f) => f.open)
+    const closed = parsed.filter((f) => !f.open)
+
+    // future todo: I might check if challenge is already solved
+    const userIds = open.map((f) => f.userid)
+
+    const solutions = await App.db.models.Solution.findAll({
+      where: {
+        UserId: { [Op.in]: userIds },
+      },
+      raw: true,
+    })
+
+    /** @type {{[key: string]: boolean}} */
+    const solutionMap = {}
+    solutions.forEach((sol) => {
+      solutionMap[`${sol.UserId}-${sol.cid}`] = true
+    })
+
+    let content = `
+      <script>
+        function closeFeedback(key) {
+          // confirm
+          if (!confirm('Feedback wirklich schließen?')) {
+            return
+          }
+          
+          document.querySelector('#feedback-' + key).innerHTML = '... wird geschlossen ...'
+
+            fetch('/internal/feedback/close', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ key: key })
+            }).then(response => {
+              if (response.ok) {
+                document.querySelector('#feedback-' + key).innerHTML = '<p style="color: gray">Geschlossen.</p>'
+              } else {
+                document.querySelector('#feedback-' + key).innerHTML = 'Fehler beim Schließen.'
+              }
+            })
+          }
+      </script>
+    `
+
+    content += open
+      .map((entry) => {
+        return `
+          <div id="feedback-${escapeHTML(entry.key)}">
+            <p>
+              <span style="display: inline-block; margin-right: 12px"><button class="btn btn-sm btn-outline-warning" onclick="closeFeedback('${escapeHTML(entry.key)}')">schließen</button></span><strong>${escapeHTML(entry.username)}</strong> fragt bei <strong>${escapeHTML(entry.title)}</strong>:
+            </p>
+            <p style="margin-top:8px; margin-left: 24px; margin-bottom:16px; padding: 12px; background-color: #444; border-radius: 8px;">${escapeHTML(entry.feedback)}</p>
+            <p style="text-align: right; color: #888; font-size: 14px;">    
+              ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, Punkte ${escapeHTML(entry.userScore.toString())}, ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? '' : 'UNGELÖST'}
+            </p>
+          </div>
+          <hr />
+        `
+      })
+      .join('')
+
+    content += `
+      <details style="margin-top:128px;">
+        <summary style="font-weight: bold; cursor: pointer;">Geschlossenes Feedback (${closed.length})</summary>
+        <pre>${JSON.stringify(closed, null, 2)}</pre>
+      </details>
+
+      <div style="height: 50px;"></div>
+    `
 
     renderPage(App, req, res, {
       page: 'internal-feedback-list',
       heading: 'Liste Feedback',
-      backButton: false,
-      content: html,
+      content,
     })
+  })
+
+  App.express.post('/internal/feedback/close', async (req, res) => {
+    if (!req.user || !App.config.editors.includes(req.user.name)) {
+      res.status(403).send('Forbidden')
+      return
+    }
+
+    const key = req.body?.key?.toString()
+
+    if (!key || !key.startsWith('feedbackv2-')) {
+      res.status(400).send('Bad Request')
+      return
+    }
+
+    const data = await App.storage.getItem(key)
+    if (!data) {
+      res.status(404).send('Not Found')
+      return
+    }
+
+    const parsed = JSON.parse(data)
+    parsed.open = false
+
+    await App.storage.setItem(key, JSON.stringify(parsed))
+
+    res.status(200).send('OK')
   })
 
   App.express.get('/questions', async (req, res) => {

@@ -671,7 +671,7 @@ export const challengesAfterPassage = [
   {
     id: 73,
     pos: { x: 1060, y: 1805 },
-    title: { de: 'Rufnummer', en: 'Phone number' },
+    title: { de: 'Rufnummer', en: 'Phone Number' },
     // date: '2022-02-09',
     deps: [96],
     html: {
@@ -2316,7 +2316,7 @@ print(hex_string)</pre></code>
   {
     id: 117,
     pos: { x: 1138, y: 1003 },
-    title: { de: 'Schatzkammer', en: 'Treasure chamber' },
+    title: { de: 'Schatzkammer', en: 'Treasure Chamber' },
     deps: [57],
     html: {
       de: `

@@ -2328,17 +2328,60 @@ export function setupHints(App) {
     const closed = parsed.filter((f) => !f.open)
 
     // future todo: I might check if challenge is already solved
+    const userIds = open.map((f) => f.userid)
 
-    let content = open
+    const solutions = await App.db.models.Solution.findAll({
+      where: {
+        UserId: { [Op.in]: userIds },
+      },
+      raw: true,
+    })
+
+    /** @type {{[key: string]: boolean}} */
+    const solutionMap = {}
+    solutions.forEach((sol) => {
+      solutionMap[`${sol.UserId}-${sol.cid}`] = true
+    })
+
+    let content = `
+      <script>
+        function closeFeedback(key) {
+          // confirm
+          if (!confirm('Feedback wirklich schließen?')) {
+            return
+          }
+          
+          document.querySelector('#feedback-' + key).innerHTML = '... wird geschlossen ...'
+
+            fetch('/internal/feedback/close', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ key: key })
+            }).then(response => {
+              if (response.ok) {
+                document.querySelector('#feedback-' + key).innerHTML = '<p style="color: gray">Geschlossen.</p>'
+              } else {
+                document.querySelector('#feedback-' + key).innerHTML = 'Fehler beim Schließen.'
+              }
+            })
+          }
+      </script>
+    `
+
+    content += open
       .map((entry) => {
         return `
-          <p>
-            <strong>${escapeHTML(entry.username)}</strong> fragt bei <strong>${escapeHTML(entry.title)}</strong>:
-          </p>
-          <p style="margin-top:8px; margin-left: 24px; margin-bottom:16px; padding: 12px; background-color: #444; border-radius: 8px;">${escapeHTML(entry.feedback)}</p>
-          <p style="text-align: right; color: #888; font-size: 14px;">    
-            ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, Punkte ${escapeHTML(entry.userScore.toString())}, Versuche ${escapeHTML(entry.attempts.toString())}, Trial ${escapeHTML(entry.trial.toString())}
-          </p>
+          <div id="feedback-${escapeHTML(entry.key)}">
+            <p>
+              <span style="display: inline-block; margin-right: 12px"><button class="btn btn-sm btn-outline-warning" onclick="closeFeedback('${escapeHTML(entry.key)}')">schließen</button></span><strong>${escapeHTML(entry.username)}</strong> fragt bei <strong>${escapeHTML(entry.title)}</strong>:
+            </p>
+            <p style="margin-top:8px; margin-left: 24px; margin-bottom:16px; padding: 12px; background-color: #444; border-radius: 8px;">${escapeHTML(entry.feedback)}</p>
+            <p style="text-align: right; color: #888; font-size: 14px;">    
+              ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, Punkte ${escapeHTML(entry.userScore.toString())}, ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? '' : 'UNGELÖST'}
+            </p>
+          </div>
           <hr />
         `
       })
@@ -2347,7 +2390,7 @@ export function setupHints(App) {
     content += `
       <details style="margin-top:128px;">
         <summary style="font-weight: bold; cursor: pointer;">Geschlossenes Feedback (${closed.length})</summary>
-        ${JSON.stringify(closed, null, 2)}
+        <pre>${JSON.stringify(closed, null, 2)}</pre>
       </details>
 
       <div style="height: 50px;"></div>
@@ -2358,6 +2401,33 @@ export function setupHints(App) {
       heading: 'Liste Feedback',
       content,
     })
+  })
+
+  App.express.post('/internal/feedback/close', async (req, res) => {
+    if (!req.user || !App.config.editors.includes(req.user.name)) {
+      res.status(403).send('Forbidden')
+      return
+    }
+
+    const key = req.body?.key?.toString()
+
+    if (!key || !key.startsWith('feedbackv2-')) {
+      res.status(400).send('Bad Request')
+      return
+    }
+
+    const data = await App.storage.getItem(key)
+    if (!data) {
+      res.status(404).send('Not Found')
+      return
+    }
+
+    const parsed = JSON.parse(data)
+    parsed.open = false
+
+    await App.storage.setItem(key, JSON.stringify(parsed))
+
+    res.status(200).send('OK')
   })
 
   App.express.get('/questions', async (req, res) => {

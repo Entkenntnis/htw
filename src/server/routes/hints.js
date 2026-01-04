@@ -2203,7 +2203,11 @@ export function setupHints(App) {
           <input type="submit" value="${lng === 'de' ? 'Feedback senden' : 'Send feedback'}" class="btn btn-primary"/>
         </form>
 
-        <p style="margin-top: 48px;">${lng === 'de' ? 'Nutze auch gerne unseren' : 'Feel free to also join our'} <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord${lng === 'de' ? '-Server' : ' server'}</a>:</p>
+        <p style="margin-top: 48px;">${
+          lng === 'de'
+            ? 'Für persönliche Hilfe besuche unseren '
+            : 'For personal help, visit our '
+        } <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord${lng === 'de' ? '-Server' : ' server'}</a>:</p>
         <p>
           <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 150px; background: #313131; padding-left:8px; padding-right: 8px; border-radius:4px; padding-top:2px; " alt="discord"></a>
         </p>
@@ -2245,30 +2249,53 @@ export function setupHints(App) {
   })
 
   App.express.post('/feedback/send', (req, res) => {
-    /** @type {string} */
     const question = req.body?.question?.toString()
     const id_ = req.body?.id?.toString()
 
     const id = id_ ? parseInt(id_) : -1
 
-    if (!question || !App.challenges.dataMap[id]) {
+    if (!question || !App.challenges.dataMap[id] || !req.user) {
       res.redirect('/map')
       return
     }
 
-    const key = `feedback_${id}_${new Date().getTime()}`
+    const key = `feedbackv2-${new Date().getTime()}`
 
     // hard-code max-length
-    App.storage.setItem(key, question.slice(0, 2000))
+    App.storage.setItem(
+      key,
+      JSON.stringify({
+        challenge: id,
+        username: req.user.name,
+        userid: req.user.id,
+        feedback: question.slice(0, 2000),
+        userScore: req.user.score,
+        attempts: req.session?.rates?.[`${req.user.id}-${id}`]?.count ?? -1,
+        trial: App.experiments.showTrial(id, req),
+        open: true,
+      })
+    )
 
     renderPage(App, req, res, {
       page: 'ask',
-      heading: `Dein Feedback wurde gespeichert!`,
+      heading:
+        req.lng == 'de'
+          ? `Dein Feedback wurde gespeichert!`
+          : `Your feedback has been saved!`,
       backButton: false,
-      content: `
+      content:
+        req.lng == 'de'
+          ? `
         <p style="margin-top: 48px;">Vielen Dank!</p>
 
-        <p><a href="/map">zurück</a></p>
+        <p><a href="/map">weiter</a></p>
+
+        <div style="height:150px;"></div>
+      `
+          : `
+        <p style="margin-top: 48px;">Thank you!</p>
+
+        <p><a href="/map">continue</a></p>
 
         <div style="height:150px;"></div>
       `,
@@ -2279,6 +2306,16 @@ export function setupHints(App) {
   App.express.get_async_fix('/feedback', async (req, res) => {
     if (!req.user || !App.config.editors.includes(req.user.name))
       return res.redirect('/')
+
+    const allFeedbackv2 = await App.db.models.KVPair.findAll({
+      where: {
+        key: { [Op.like]: 'feedbackv2-%' },
+      },
+      order: [['createdAt', 'DESC']], // most recent first directly in DB
+      raw: true,
+    })
+
+    console.log(allFeedbackv2)
 
     // fetch all feedback entries (no cutoff/time restriction as requested)
     const allFeedback = await App.db.models.KVPair.findAll({

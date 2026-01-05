@@ -2378,6 +2378,8 @@ export const part1 = [
           `
             <p>Alles klar, lasst uns dieses blöde Formular hacken. Es muss möglich sein, bei Geschlecht weder männlich noch weiblich anzugeben!</p>
 
+            <p>Ich habe schon probiert, das HTML so zu ändern, dass man nichts auswählen muss, aber der Server schmeißt eine Fehlermeldung. So einfach geht es leider nicht. Nicht aufgeben. Wir sollten als nächsten probieren, einen anderen Wert für das Feld zu setzen als vorgegeben.</p>
+
             <p><a href="/einreiseformular" target="_blank">Einreiseformular öffnen</a></p>
         `
         ),
@@ -2385,6 +2387,8 @@ export const part1 = [
           'Bex',
           `
             <p>Alright, let's hack this stupid form. It must be possible to specify neither male nor female for gender!</p>
+
+            <p>I've already tried changing the HTML so you don't have to pick anything, but the server throws an error message. Unfortunately it's not that easy. Don't give up. Next, we should try setting a different value for the field than the one provided.</p>
 
             <p><a href="/entry-form" target="_blank">Open entry form</a></p>
         `

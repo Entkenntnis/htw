@@ -507,6 +507,11 @@ export function setupLiveAnalyze(App) {
     </tbody>
   </table>
   <h2>Quiz</h2>
+  <p>Insgesamt ${
+    [...quizData.values()].reduce((acc, cur) => {
+      return new Set([...acc, cur.users])
+    }, new Set()).size
+  } SpielerInnen</p>
   <p>${(() => {
     return App.quizData
       .getQuizIds()

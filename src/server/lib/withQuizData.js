@@ -8,6 +8,9 @@ export function withQuizData(App) {
   /** @type {number[]} */
   let quizIDs = []
 
+  /** @type {{[key: number]: string}} */
+  const titles = {}
+
   App.entry.add(async () => {
     // this is REALLY an ugly hack to import a CJS module in an ESM context
     // make a copy of .js to .cjs
@@ -24,8 +27,12 @@ export function withQuizData(App) {
     fs.appendFileSync(destPath, '\nmodule.exports = { QUIZ_DATA }\n', 'utf-8')
 
     quizIDs = //@ts-ignore
-      (await import('../../../public/quiz/quiz-data-de.cjs')).QUIZ_DATA.map( //@ts-ignore
-        (q) => q.id
+      (await import('../../../public/quiz/quiz-data-de.cjs')).QUIZ_DATA.map(
+        //@ts-ignore
+        (q) => {
+          titles[q.id] = q.de.topic
+          return q.id
+        }
       )
   })
 
@@ -38,6 +45,9 @@ export function withQuizData(App) {
     },
     getQuizIds() {
       return quizIDs
+    },
+    getQuizTitleById(quizid) {
+      return titles[quizid]
     },
   }
 }

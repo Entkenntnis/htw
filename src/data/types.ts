@@ -89,6 +89,7 @@ export interface App {
     hasQuizById(quizid: number): boolean
     numberOfQuizzes(): number
     getQuizIds(): number[]
+    getQuizTitleById(quizid: number): string
   }
   mapMeta: {
     get(userid: number): Promise<MapMeta>

@@ -285,12 +285,14 @@ htw_users_total ${c1.solvedBy}
       return
     }
 
+    const isEditor = App.config.editors.includes(username)
+
     const betterThanMe = await App.db.models.User.count({
       where: {
         [Op.or]: [{ score: { [Op.gt]: user.score } }],
       },
     })
-    const rank = user.score == 0 ? -1 : betterThanMe + 1
+    const rank = isEditor ? 1 : user.score == 0 ? -1 : betterThanMe + 1
     const sum = await App.db.models.User.count({
       where: { score: { [Op.gt]: 0 } },
     })
@@ -300,12 +302,14 @@ htw_users_total ${c1.solvedBy}
     const cids = App.challenges.data
       .filter((c) => !c.releaseTs || c.releaseTs <= Date.now())
       .map((c) => c.id)
-    const solved = await App.db.models.Solution.count({
-      where: { UserId: user.id, cid: cids },
-    })
+    const solved = isEditor
+      ? cids.length
+      : await App.db.models.Solution.count({
+          where: { UserId: user.id, cid: cids },
+        })
 
     res.send(
-      `${username}:${rank}:${user.score}:${maxScore}:${solved}:${cids.length}:${sum}`
+      `${username}:${rank}:${isEditor ? maxScore : user.score}:${maxScore}:${solved}:${cids.length}:${sum}`
     )
   })
 

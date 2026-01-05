@@ -582,7 +582,7 @@ export function setupLiveAnalyze(App) {
         const additionalView = viewUsers.size - viewInChain.size
 
         return `<span>
-          Story ${id} | triggered ${triggeredUsers.size} -> view ${viewInChain.size} -> complete ${completeInChain.size} / skip ${skipInChain.size} {no complete ${skipOnly.size}} | additional views ${additionalView}
+          Story ${id} | triggered ${triggeredUsers.size} -> view ${viewInChain.size} -> complete ${completeInChain.size} <span style="color: gray;">(${Math.round((completeInChain.size / triggeredUsers.size) * 100)}%)</span> / skip ${skipInChain.size} {no complete ${skipOnly.size}} | additional views ${additionalView}
         </span>`
       })
       .join('<br>')

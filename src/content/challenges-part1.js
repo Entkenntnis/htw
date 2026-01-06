@@ -3316,6 +3316,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     id: 84,
     pos: { x: 860, y: 580 },
     title: { de: 'Inception', en: 'Inception' },
+    trialTitle: 'Nintendo Switch',
     // date: '2023-02-26',
     deps: [8, 52, 77],
     render: ({ App, req }) => {
@@ -3323,11 +3324,23 @@ To: ${req.user?.name}@arrrg.de</pre>
         return story(
           'Kiwi',
           `
-          <p>Unglaublich, ich habe mich mit dem Bord-Computer gestritten und jetzt ist er sauer und antwortet nicht mehr. Dafür soll ich eine 3-stellige Zahl erraten, damit er wieder mit mir spricht.</p>  
+          <p>Bex wollte unbedingt Mario Kart spielen. Leider ist die Erde weit entfernt und es ist nicht leicht, auf Naxion eine Switch mit dem Spiel herzubekommen. Zum Glück reicht auch ein normaler Computer aus und ich habe das Spiel dort zum Laufen bekommen:
+          </p>
 
-          <p>Immerhin sagt er mir, ob mein Tipp zu hoch oder zu niedrig ist. Er ist aber zunenehmend frustriert, dass ich mich so dumm anstelle. Er meint, wenn ich es nicht in 20 Versuchen schaffe, dann würde er die Festplatte verschlüsseln und den Schlüssel ins Nirwana verschwinden lassen ...</p>
+          <p style="margin-top: 32px; margin-bottom: 32px;">
+            <img src="/chals/yuzu.jpg" style="max-width: 400px;"/>
+          </p>
 
-          <p>Bitte hilf mir.</p>
+          <p>Eine Schwierigkeit war die Verschlüsslung der Spiele. Die Dateien sind eigentlich alle unlesbar und die Schlüssel sicher in der Hardware gespeichert - bis jemand einen Hardware-Fehler gefunden und die Schlüssel seitdem alle ausgelesen hat.
+          </p>
+
+          <p>Die Antwort auf diese Aufgabe ist der <code>master_key_00</code> und hat die Form <code>c2ca************************1c7d</code>. Es ist mir allerdings rechtlich absolut verboten, dir den Schlüssel zu verraten.
+          </p>
+
+          <p>Und schaue dir auch nicht <a href="https://github.com/Entkenntnis?tab=repositories" target="_blank">die Liste meiner Repositories</a> durch, dort wirst du nichts finden!!
+          </p>
+
+          <p>( ﾟｏ⌒)</p>
         `
         )
       }
@@ -3451,7 +3464,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         return ''
       }
     },
-    check: (raw, { App, req }) => {
+    /*check: (raw, { App, req }) => {
       if (App.experiments.showTrial(84, req)) {
         const n = parseInt(raw)
         if (isNaN(n) || n < 100 || n > 999) {
@@ -3488,7 +3501,8 @@ To: ${req.user?.name}@arrrg.de</pre>
         answer,
         correct,
       }
-    },
+    },*/
+    solution: secrets('chal_84').split(','),
   },
 
   {

@@ -461,4 +461,11 @@ export const experimentDefs = [
     startTs: new Date('2026-01-06 00:02+0100').getTime(),
     endTs: new Date('2026-02-10 00:02+0100').getTime(),
   },
+  {
+    id: 24,
+    description: 'Inception: Neue mehr on-topic and hacky Version',
+    challenge: 84,
+    startTs: new Date('2026-01-07 00:01+0100').getTime(),
+    endTs: new Date('2026-02-04 00:01+0100').getTime(),
+  },
 ]

@@ -2437,10 +2437,22 @@ export const part1 = [
     title: { de: 'Geheimtext', en: 'Secret Text' },
     // date: '2020-08-17',
     deps: [52],
-    html: {
-      de: story(
-        'Bex',
-        `
+    render: async ({ App, req }) => {
+      if (App.experiments.showTrial(57, req)) {
+        return story(
+          'Bex',
+          `
+            <p>Geheimtexte bleiben für mich nicht lange geheim. Vor allem nicht, wenn nur die Buchstaben vertauscht sind. Dann braucht es nur bisschen Geduld und der Text wird gleich wieder lesbar.</p>
+
+            <p>Fülle die übrigen Buchstaben aus. Die obere Zeile ist der Geheimtext, die untere Zeile deine Entschlüsslung. Die Antwort ist der Name der Person, die den ersten Satz sagt.</p>
+          `,
+          await renderTemplate(App, req, 'geheimtext')
+        )
+      }
+      return {
+        de: story(
+          'Bex',
+          `
         <p>Geheimtexte haben eine magische Anziehung auf mich. Hier kannst du das auf interaktive Art nacherleben.
         </p>
         
@@ -2448,7 +2460,7 @@ export const part1 = [
         </p>
         
         <p>Du kannst immer wieder Worte erraten. Hangle dich an diesen entlang, bis zu den gesamten Text entschlüsselt hast.</p>`,
-        `
+          `
         <pre id="output" style="font-size:16px;white-space:pre-wrap;margin-top:48px">
         </pre>
         
@@ -2465,8 +2477,8 @@ export const part1 = [
         <p>Die Antwort ist der Name der Person, die den ersten Satz sagt.
         </p>
     `
-      ),
-      en: `
+        ),
+        en: `
         <p>Even as a child, it was a lot of fun to decipher a secret text piece by piece. Here you can relive this in an interactive way.
         </p>
         
@@ -2487,6 +2499,7 @@ export const part1 = [
         <p>The answer is the name of the person who says the first sentence.
         </p>
     `,
+      }
     },
     solution: secrets('chal_59'),
   },

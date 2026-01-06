@@ -1,7 +1,9 @@
 <style>
-  .decryption-key-container {
+  .decipher-key-container {
     margin-top: 50px;
     margin-bottom: 50px;
+    display: flex;
+    flex-wrap: wrap;
   }
   .ciphertext-container {
     margin-top: 50px;
@@ -16,31 +18,112 @@
     flex-direction: column;
   }
   .ciphertext {
+    color: rgb(228, 228, 228);
+  }
+  .key-input-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid #ccc;
+  }
+  .ciphertext-letter {
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
     color: gray;
+  }
+  .plaintext-letter {
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #a8279e;
+    font-weight: bold;
+  }
+  .plaintext {
+    color: #c287bd
   }
 </style>
 
-<div class="decryption-key-container">
-  TODO: Decryption Key
+<div class="decipher-key-container">
 </div>
 
 <div class="ciphertext-container"></div>
 
 <script>
-  const inputText = '"Das ist Cvzhy", saktp Gxwiar. Gxwiar opclvk dpr Jxrd lx pirpj szqipepr Wäzqpwr. Yadcipw saq lmiszqpr Gxwiar xrd dpj Evtv qir xrd qpc. "Sip ist qüuszq", saktp pc, vqrp kprax lx misspr, macxj. Pc opcwakpctp das Kpmizqt. "Ist sip dpirp Ecpxrdir?", ecaktp pc xrd opcsxzqtp, ps upiwäxeik hwirkpr lx wasspr. Gxwiar szqraxutp. "Rpir." Pc wpqrtp sizq lxcüzh xrd stütlp sizq axe dip Pwwuvkpr. "Izq qaus rizqt sv jit Ecpxrdirrpr." Yadcipw opcdcpqtp dip Axkpr xrd wazqtp snöttiszq. "Mip? Mpiw dx pir Jxgpcipkv uist vdpc mas? Qast dx lx oipwp Opcpqcpcirrpr, xj dizq axe rxc Pirp pirlxwasspr?", ecaktp pc wpizqt opcäckpct. "Rpir", ucxjjtp Gxwiar, dpr Uwizh ijjpc rvzq axe das Gaqcuxzq kpcizqtpt. "Mpiw izq szqmxw uir, dx Acszqwvzq." Yadcipw uwirlpwtp. Dajit ... qattp pc rizqt kpcpzqrpt. Pc stacctp Gxwiar ar.'
-
-  const cipherTextContainer = document.querySelector('.ciphertext-container')
-
-  const chars = []
-
-  inputText.split('').forEach(char => {
-    const div = document.createElement('div')
-    div.innerHTML = `<div class="letter font-monospace"><span class="ciphertext">${char}</span><span class="plaintext">${char}</span></div>`
-    chars.push(div)
-    cipherTextContainer.appendChild(div)
-  })
-
   const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const inputText = '"Pon fnv Thqrm", nogvd Uwzfoj. Uwzfoj adtkhg pdj Ywjp kw dfjdy nqxfdidj Zäqxdzj. Moptfdz nox klfnqxdj Uwzfoj wjp pdy Ihvh xfj wjp xdt. "Nfd fnv xübnqx", nogvd dt, hxjd gdjow kw lfnndj, lotwy. Dt adtzogdtvd pon Gdlfqxv. "Fnv nfd pdfjd Itdwjpfj?", itogvd dt wjp adtnwqxvd, dn bdfzäwifg rzfjgdj kw zonndj. Uwzfoj nqxjowbvd. "Jdfj." Dt zdxjvd nfqx kwtüqr wjp nvüvkd nfqx owi pfd Dzzbhgdj. "Fqx xobn jfqxv nh yfv Itdwjpfjjdj." Moptfdz adtptdxvd pfd Owgdj wjp zoqxvd nsövvfnqx. "Lfd? Ldfz pw dfj Ywudtfdgh bfnv hpdt lon? Xonv pw kw afdzd Adtdxtdtfjjdj, wy pfqx owi jwt Dfjd dfjkwzonndj?", itogvd dt zdfqxv adtätgdtv. "Jdfj", btwyyvd Uwzfoj, pdj Bzfqr fyydt jhqx owi pon Uoxtbwqx gdtfqxvdv. "Ldfz fqx nqxlwz bfj, pw Otnqxzhqx." Moptfdz bzfjkdzvd. Poyfv ... xovvd dt jfqxv gdtdqxjdv. Dt nvottvd Uwzfoj oj.'
+
+  const key = {}
+
+  for (const char of ALPHABET) {
+    key[char] = null
+  }
+  key['P'] = 'D'
+  key['O'] = 'A'
+  key['N'] = 'S'
+  key['F'] = 'I'
+  key['V'] = 'T'
+  key['M'] = 'Y'
+
+  renderDecipherKey()
+  renderText()
+
+
+  // ------------- Functions --------------
+
+
+  function renderDecipherKey() {
+    const container = document.querySelector('.decipher-key-container')
+    for (const char of ALPHABET) {
+      const div = document.createElement('div')
+      div.classList.add('key-input-entry')
+      div.innerHTML = `<span class="ciphertext-letter">${char}</span><input class="plaintext-letter" maxlength="1" value="${key[char] || ''}">`
+      container.appendChild(div)
+      div.querySelector('input').addEventListener('input', (e) => {
+        
+        const val = e.target.value.toUpperCase()
+        if (val === '' || ALPHABET.includes(val)) {
+          key[char] = val === '' ? null : val
+        } else {
+          e.target.value = ''
+          key[char] = null
+        }
+        renderText()
+      })
+      // on click select text in input
+      div.querySelector('input').addEventListener('click', (e) => {
+        e.target.select()
+      })
+    }
+  }
+
+  function renderText() {
+    const cipherTextContainer = document.querySelector('.ciphertext-container')
+    cipherTextContainer.innerHTML = ''
+    inputText.split('').forEach(char => {
+      const div = document.createElement('div')
+      let deciphered = char
+      if (ALPHABET.includes(char.toUpperCase())) {
+        if (key[char.toUpperCase()]) {
+          deciphered = key[char.toUpperCase()]
+          if (char === char.toLowerCase()) {
+            deciphered = deciphered.toLowerCase()
+          }
+        } else {
+          deciphered = `<span style="color: #555">${char}</span>`
+        }
+      }
+      div.innerHTML = `<div class="letter font-monospace"><span class="ciphertext">${char}</span><span class="plaintext">${deciphered}</span></div>`
+      cipherTextContainer.appendChild(div)
+    })
+  }
+
+
+
 
   
+
+
+
 </script>

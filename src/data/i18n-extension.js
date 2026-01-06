@@ -132,7 +132,7 @@ export function getI18nExtension() {
             <p>Der Einstieg ist ab der 7. Klasse geeignet. Nimm dir am besten 30 - 90 Minuten Zeit. Registriere dich mit Benutzername und Passwort:
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button no-underline">Jetzt registrieren</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-lg register-button no-underline">Jetzt registrieren</a></p>
 
             <p>Über unseren <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a></strong> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>htw123</code>.</p>
           </div>
@@ -384,7 +384,7 @@ export function getI18nExtension() {
             <p>This platform is suitable for students from 7th grade onwards. We recommend setting aside 30 - 90 minutes. Register with a username and password to get started.
             </p>
 
-            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-success btn-lg register-button no-underline">Register now</a></p>
+            <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-lg register-button no-underline">Register now</a></p>
 
             <p>Connect with our community through our <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a></strong>. To try it out immediately, use the login credentials <code>demo</code> / <code>htw123</code>.</p>
           </div>

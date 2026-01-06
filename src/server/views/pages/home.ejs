@@ -16,7 +16,7 @@
 
     /* Visible stripe: expands to 18px on container hover */
     .progress-pride-stripe {
-        height: 5px; /* default visible thickness */
+        height: 6px; /* default visible thickness */
         width: 100%;
         position: absolute;
         top: 0;
@@ -42,12 +42,12 @@
         );
     }
 
-    .progress-pride-container:hover .progress-pride-stripe {
+    /*.progress-pride-container:hover .progress-pride-stripe {
         height: 22px;
         box-shadow: 0 3px 6px rgba(255, 255, 255, 0.25);
         transition-delay: 0ms;
         transition: all 200ms ease;
-    }
+    }*/
 
     /* Easter-egg info panel connected below the stripe */
     .pride-info-panel {
@@ -290,6 +290,8 @@
         const stripe = document.querySelector('.progress-pride-stripe');
         const panel = document.getElementById('pridePanel');
         if (!container || !stripe || !panel) return;
+
+        return
 
         // Segment end percentages correspond to the CSS gradient stops above
         const segmentEnds = [9.09, 18.18, 27.27, 36.36, 45.45, 54.54, 63.63, 72.72, 81.81, 90.9, 100];

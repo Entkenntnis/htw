@@ -2442,7 +2442,9 @@ export const part1 = [
         return story(
           'Bex',
           `
-            <p>TEST</p>
+            <p>Geheimtexte bleiben für mich nicht lange geheim. Vor allem nicht, wenn nur die Buchstaben vertauscht sind. Dann braucht es nur bisschen Geduld und der Text wird gleich wieder lesbar.</p>
+
+            <p>Fülle die übrigen Buchstaben aus. Die Antwort ist der Name der Person, die den ersten Satz sagt.</p>
           `,
           await renderTemplate(App, req, 'geheimtext')
         )

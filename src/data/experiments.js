@@ -463,7 +463,7 @@ export const experimentDefs = [
   },
   {
     id: 24,
-    description: 'Inception: Neue mehr on-topic and hacky Version',
+    description: 'Inception: Neue mehr on-topic und hacky Version',
     challenge: 84,
     startTs: new Date('2026-01-07 00:01+0100').getTime(),
     endTs: new Date('2026-02-04 00:01+0100').getTime(),

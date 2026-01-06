@@ -468,4 +468,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-07 00:01+0100').getTime(),
     endTs: new Date('2026-02-04 00:01+0100').getTime(),
   },
+  {
+    id: 25,
+    description:
+      'Geheimtext: neue Implementation des Interfaces das hoffentlich besser zugänglich ist',
+    challenge: 59,
+    startTs: new Date('2026-01-07 00:02+0100').getTime(),
+    endTs: new Date('2026-02-04 00:02+0100').getTime(),
+  },
 ]

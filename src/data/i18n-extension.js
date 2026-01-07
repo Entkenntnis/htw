@@ -134,10 +134,32 @@ export function getI18nExtension() {
 
             <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-lg register-button no-underline">Jetzt registrieren</a></p>
 
-            <p>Über unseren <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a></strong> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <code>demo</code> / <code>htw123</code>.</p>
+            <p>Über unseren <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a></strong> kommst du mit der Community in Kontakt. Um sofort reinzuschnuppern, nutze die Zugangsdaten <a href="#" onclick="autoLoginDemo()"><svg fill="#000000" style="display: inline-block; height: 15px;" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<g>
+			<path fill="white" d="M256,5.333C114.88,5.333,0,117.76,0,256s114.88,250.667,256,250.667S512,394.24,512,256S397.12,5.333,256,5.333z
+				 M256,485.333C126.613,485.333,21.333,382.4,21.333,256S126.613,26.667,256,26.667S490.667,129.493,490.667,256
+				S385.387,485.333,256,485.333z"/>
+			<path fill="white" d="M369.28,247.467l-181.653-133.44c-4.693-3.627-11.307-2.773-14.933,1.92c-3.627,4.693-2.773,11.307,1.92,14.933
+				c0.107,0.107,0.32,0.213,0.427,0.32L344.96,256L175.04,380.693c-4.8,3.52-5.76,10.133-2.24,14.933
+				c3.52,4.8,10.133,5.76,14.933,2.24L369.387,264.64c4.8-3.52,5.76-10.133,2.24-14.933
+				C370.88,248.853,370.133,248.107,369.28,247.467z"/>
+		</g>
+	</g>
+</g>
+</svg> <code>demo</code> / <code>htw123</code></a>.</p>
           </div>
         </div>
       </div>
+      <script>
+        function autoLoginDemo() {
+          document.querySelector('input[name="username"]').value = 'demo';
+          document.querySelector('input[name="password"]').value = 'htw123';
+          // submit #login-form
+          document.getElementById('login-form').submit();
+        } 
+      </script>
       <style>
         .eduplaces-button {
           position: relative;
@@ -386,10 +408,32 @@ export function getI18nExtension() {
 
             <p style="margin-top:32px;margin-bottom:32px;text-align:center"><a href="/register" class="btn btn-lg register-button no-underline">Register now</a></p>
 
-            <p>Connect with our community through our <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a></strong>. To try it out immediately, use the login credentials <code>demo</code> / <code>htw123</code>.</p>
+            <p>Connect with our community through our <strong><a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a></strong>. To try it out immediately, use the login credentials <a href="#" onclick="autoLoginDemo()"><svg fill="#000000" style="display: inline-block; height: 15px;" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 512 512" xml:space="preserve">
+<g>
+  <g>
+    <g>
+      <path fill="white" d="M256,5.333C114.88,5.333,0,117.76,0,256s114.88,250.667,256,250.667S512,394.24,512,256S397.12,5.333,256,5.333z
+         M256,485.333C126.613,485.333,21.333,382.4,21.333,256S126.613,26.667,256,26.667S490.667,129.493,490.667,256
+        S385.387,485.333,256,485.333z"/>
+      <path fill="white" d="M369.28,247.467l-181.653-133.44c-4.693-3.627-11.307-2.773-14.933,1.92c-3.627,4.693-2.773,11.307,1.92,14.933
+        c0.107,0.107,0.32,0.213,0.427,0.32L344.96,256L175.04,380.693c-4.8,3.52-5.76,10.133-2.24,14.933
+        c3.52,4.8,10.133,5.76,14.933,2.24L369.387,264.64c4.8-3.52,5.76-10.133,2.24-14.933
+        C370.88,248.853,370.133,248.107,369.28,247.467z"/>
+    </g>
+  </g>
+</g>
+</svg> <code>demo</code> / <code>htw123</code></a>.</p>
           </div>
         </div>
       </div>
+      <script>
+        function autoLoginDemo() {
+          document.querySelector('input[name="username"]').value = 'demo';
+          document.querySelector('input[name="password"]').value = 'htw123';
+          // submit #login-form
+          document.getElementById('login-form').submit();
+        } 
+      </script>
       <style>
         /* GitHub button styles */
         .github-button {

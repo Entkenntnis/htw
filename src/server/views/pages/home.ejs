@@ -42,6 +42,21 @@
         );
     }
 
+    /* On small screens, show only the traditional rainbow colors */
+    @media (max-width: 600px) {
+        .progress-pride-stripe {
+            background: linear-gradient(to right,
+                /* Traditional Rainbow Only */
+                #E40303 0% 16.66%,
+                #FF8C00 16.66% 33.33%,
+                #FFED00 33.33% 50%,
+                #008026 50% 66.66%,
+                #004DFF 66.66% 83.33%,
+                #750787 83.33% 100%
+            );
+        }
+    }
+
     /*.progress-pride-container:hover .progress-pride-stripe {
         height: 22px;
         box-shadow: 0 3px 6px rgba(255, 255, 255, 0.25);

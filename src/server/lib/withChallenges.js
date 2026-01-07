@@ -61,6 +61,17 @@ export function withChallenges(App) {
         break
       }
     }
+    /*console.log(
+      Object.entries(result)
+        .filter(([, dist]) => {
+          return dist <= 8 && dist >= 0
+        })
+        .sort((a, b) => a[1] - b[1])
+        .map(([cid, dist]) => {
+          return `${dist}: ${App.challenges.dataMap[parseInt(cid)].title.de}`
+        })
+        .join('\n')
+    )*/
     App.challenges.distance = result
   }
 

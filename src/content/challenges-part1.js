@@ -4085,7 +4085,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Ich kenne mich aber immer noch gut aus, du hoffentlich auch. Deine Antwort ist die Block-ID (numerisch oder mit Namespace) von diesem Block.</p>
 
-        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:calc(min(90vw,65ch));"></p>
         <p style="text-align: left; margin-top: -16px;"><small style="color: gray;" title ="ascii">Wenn du kein Minecraft spielst, findest du Hilfe im COM-LINK.</small></p>
       `
       ),

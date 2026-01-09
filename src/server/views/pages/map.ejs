@@ -64,8 +64,16 @@
   /* Apply the pulse animation to green dots only */
   .pulsing-circle {
     fill: currentColor;
-    opacity: 0;
-    animation: pulse-current-color 2s infinite, fadeIn 0.5s ease-out forwards;
+  }
+
+  @media (min-width: 480px) {
+    .pulsing-circle {
+      animation: pulse-current-color 2s infinite;
+    }
+
+    svg .highlight-text {
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.3))
+    }
   }
 
   svg text {

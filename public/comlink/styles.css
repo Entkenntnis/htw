@@ -22,9 +22,9 @@
 #comlink {
   position: fixed;
   right: 24px;
-  bottom: -512px;
+  bottom: calc(min(80vh, 560px) * -1 + 48px);
   width: 300px;
-  height: 560px;
+  height: calc(min(80vh, 560px));
   transition:
     bottom 340ms cubic-bezier(0.4, 0.14, 0.18, 1),
     box-shadow 300ms ease-in-out;

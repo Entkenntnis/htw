@@ -3570,23 +3570,40 @@ To: ${req.user?.name}@arrrg.de</pre>
     title: { de: 'Scratch', en: 'Scratch' },
     // date: '2023-04-02',
     deps: [59, 60, 84],
-    html: {
-      de: story(
-        'Bex',
-        `
+    render: ({ App, req }) => {
+      if (App.experiments.showTrial(87, req)) {
+        return story(
+          'Bex',
+          `
+            <p>Ich finde, du hast eine wunderbar entspannte Aura :) Das hat mich zu diesem sehr entspannten kleinen Spiel inspiriert.</p>
+
+            <p>Steuere mit den <code>Pfeiltasten</code>.</p>
+          `,
+          `
+            <iframe src="https://scratch.mit.edu/projects/1263698375/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
+            
+            <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/1263698375/editor/" target="_blank">https://scratch.mit.edu/projects/1263698375/editor/</a>
+            </p>
+          `
+        )
+      }
+      return {
+        de: story(
+          'Bex',
+          `
         <p>Ich finde, du hast eine wunderbar entspannte Aura :) Das hat mich zu diesem sehr entspannten kleinen Spiel inspiriert.</p>
 
-        <p>Steuere mit den Pfeiltasten ziehe die Figur.</p>
+        <p>Steuere mit den Pfeiltasten oder ziehe die Figur.</p>
         `,
-        `
+          `
         
         <iframe src="https://scratch.mit.edu/projects/829930955/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
         
         <p style="margin-top:12px">Dir ist das zu langsam? Schaue in das Projekt hinein: <a href="https://scratch.mit.edu/projects/829930955/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
         </p>
     `
-      ),
-      en: `
+        ),
+        en: `
         <p>You have a wonderfully relaxed aura! That inspired me to develop this little relaxed game.
         </p>
         
@@ -3598,6 +3615,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <p style="margin-top:12px">Is it too slow for you? Look into the project: <a href="https://scratch.mit.edu/projects/898484613/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
         </p>
     `,
+      }
     },
     solution: secrets('chal_87'),
   },

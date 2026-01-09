@@ -476,4 +476,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-07 00:02+0100').getTime(),
     endTs: new Date('2026-02-04 00:02+0100').getTime(),
   },
+  {
+    id: 26,
+    description:
+      'Scratch: wusste gar nicht, dass das Ziehen der Objekte aktiv war. Probiere eine verschärfte Variante ohne das Ziehen, mal sehen ob das einen Effekt hat, ist ja nur eine minimale Anpassung. ',
+    challenge: 87,
+    startTs: new Date('2026-01-10 00:01+0100').getTime(),
+    endTs: new Date('2026-02-14 00:01+0100').getTime(),
+  },
 ]

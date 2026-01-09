@@ -3576,7 +3576,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         `
         <p>Ich finde, du hast eine wunderbar entspannte Aura :) Das hat mich zu diesem sehr entspannten kleinen Spiel inspiriert.</p>
 
-        <p>Steuere mit den <code>Pfeiltasten</code>.</p>
+        <p>Steuere mit den Pfeiltasten ziehe die Figur.</p>
         `,
         `
         

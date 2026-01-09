@@ -39,7 +39,7 @@ function showSource() {
     'backdrop-filter:blur(3px)',
     'display:flex',
     'flex-direction:column',
-    'padding:40px 50px 50px',
+    'padding:16px',
     'box-sizing:border-box',
     'font-family:Consolas,monospace',
     'color:#222',

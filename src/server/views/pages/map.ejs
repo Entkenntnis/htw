@@ -18,20 +18,23 @@
     bottom: 10px;
   }
 
-  /* Animate the drawing of lines */
-  @keyframes drawLine {
-    from {
+  @media (min-width: 480px) {
+    /* Animate the drawing of lines */
+    @keyframes drawLine {
+      from {
+        stroke-dashoffset: 1000;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    svg line {
+      stroke-dasharray: 1000;
       stroke-dashoffset: 1000;
-    }
-    to {
-      stroke-dashoffset: 0;
+      animation: drawLine 2s ease forwards;
     }
   }
-  svg line {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: drawLine 2s ease forwards;
-  }
+
   svg line.dashed {
     stroke-dasharray: 50;
     animation: none;

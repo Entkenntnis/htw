@@ -323,7 +323,7 @@ export const part1 = [
       function renderTable(col1, col2) {
         return `
          <div class="container" style="margin-top:24px;margin-bottom:24px">
-          <div class="row">
+          <div class="row" style="flex-wrap: nowrap;">
             <div class="col">
               <table class="table table-bordered table-hover table-sm table-dark justify-content-between" style="text-align:center;">
                 <thead>

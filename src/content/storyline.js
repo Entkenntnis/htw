@@ -77,6 +77,7 @@ export function setupStoryline(App) {
           .scene-panel {
             display: flex;
             justify-content: center;
+            position: relative;
           }
           .scene-panel .panel-inner {
             width: 100%;
@@ -112,7 +113,7 @@ export function setupStoryline(App) {
           .scene-panel .panel-inner.scene-interactive { cursor: pointer; user-select: none; }
 
           .scene-panel .panel-inner .click-hint {
-            position: fixed;
+            position: absolute;
             bottom: 16px;
             right: 16px;
             font-size: 12px;

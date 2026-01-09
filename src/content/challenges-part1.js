@@ -174,7 +174,7 @@ export const part1 = [
 
         <p>Finger sind alles, was man zum Sprechen braucht. Deine Antwort findest du in diesen Gesten:</p>
         
-        <p><img src="/chals/chal2.gif" alt="fingercode"></p>
+        <p><img src="/chals/chal2.gif" alt="fingercode" style="max-width: 90vw"></p>
         
         <small><a href="https://gebaerdenlernen.ch/fingeralphabet" target="_blank">Quelle</a></small>
       `
@@ -1820,14 +1820,14 @@ export const part1 = [
         <p>Wir leben in einer internationalen Welt und auch Hacker sind in vielen Sprachen unterwegs. Manche Sprachen unterscheiden sich dabei stark von unserer Sprache und stellen uns so vor Herausforderungen. Welche Leckerei verbirgt sich hinter folgenden Schriftzeichen?
         </p>
         
-        <p><img src="/chals/chal45.png" alt="japanese characters"></p>
+        <p><img src="/chals/chal45.png" alt="japanese characters" style="max-width: 90vw"></p>
     `
       ),
       en: `
       <p>We live in an international world and hackers also speak many languages. Some languages differ greatly from our language and thus present us with challenges. What delicacy is hidden behind the following characters?
       </p>
       
-      <p><img src="/chals/chal45.png" alt="schriftzeichen"></p>
+      <p><img src="/chals/chal45.png" alt="schriftzeichen" style="max-width: 90vw"></p>
     `,
     },
     solution: secrets('chal_45'),

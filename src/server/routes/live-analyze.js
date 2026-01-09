@@ -506,6 +506,45 @@ export function setupLiveAnalyze(App) {
         .join('')}
     </tbody>
   </table>
+  <h2>Story</h2>
+  <p>${(() => {
+    /**
+     * @param {string} type
+     * @param {number} id
+     */
+    function get(type, id) {
+      const key = `story-${type}-${id}`
+      return storyData.get(key)?.users ?? new Set()
+    }
+    return [1, 2, 3, 4, 5, 6, 7, 8]
+      .map((id) => {
+        const triggeredUsers = get('triggered', id)
+        const viewUsers = get('view', id)
+        const completeUsers = get('complete', id)
+        const skipUsers = get('skip', id)
+
+        const viewInChain = new Set(
+          [...viewUsers].filter((u) => triggeredUsers.has(u))
+        )
+        const completeInChain = new Set(
+          [...completeUsers].filter((u) => viewInChain.has(u))
+        )
+        const skipInChain = new Set(
+          [...skipUsers].filter((u) => viewInChain.has(u))
+        )
+
+        const skipOnly = new Set(
+          [...skipUsers].filter((u) => !completeUsers.has(u))
+        )
+
+        const additionalView = viewUsers.size - viewInChain.size
+
+        return `<span>
+          Story ${id} | triggered ${triggeredUsers.size} -> view ${viewInChain.size} -> complete ${completeInChain.size} <span style="color: gray;">(${Math.round((completeInChain.size / triggeredUsers.size) * 100)}%)</span> / skip ${skipInChain.size} {no complete ${skipOnly.size}} | additional views ${additionalView}
+        </span>`
+      })
+      .join('<br>')
+  })()}</p>
   <h2>Quiz</h2>
   <p>Insgesamt ${
     [...quizData.values()].reduce((acc, cur) => {
@@ -549,48 +588,9 @@ export function setupLiveAnalyze(App) {
           quizData.get(`quiz-incorrectAnswer-${id}-2`)?.users ?? new Set()
         const quiz3FailUsers =
           quizData.get(`quiz-incorrectAnswer-${id}-3`)?.users ?? new Set()
-        return `${id} | <span style="width: 170px; display: inline-block">${App.quizData.getQuizTitleById(id)}</span> | total ${totalUsers.size}, first try ${completedWithoutFailUsers.size} <span style="color: gray;">(${Math.round((completedWithoutFailUsers.size / totalUsers.size) * 100)}%)</span>, retry ${completedWithFailUsers.size} <span style="color: gray;">(${Math.round((completedWithFailUsers.size / totalUsers.size) * 100)}%)</span>, incomplete ${incompleteUsersNoComplete.size} <span style="color: gray;">(${Math.round((incompleteUsersNoComplete.size / totalUsers.size) * 100)}%)</span> | Feedback: <span ${feedback1UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback1UpUsers.size}</span> <span ${feedback1DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback1DownUsers.size}</span>; <span ${feedback2UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback2UpUsers.size}</span> <span ${feedback2DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback2DownUsers.size}</span>; <span ${feedback3UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback3UpUsers.size}</span> <span ${feedback3DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback3DownUsers.size}</span> | Fails: ${quiz1FailUsers.size}; ${quiz2FailUsers.size}; ${quiz3FailUsers.size}<br>`
+        return `${id} | <span style="width: 170px; display: inline-block">${App.quizData.getQuizTitleById(id)}</span> | ${quizData.get(`quiz-complete-${id}`)?.total || 0} mal erfolgreich, ${quizData.get(`quiz-incomplete-${id}`)?.total || 0} mal unerfolgreich<br><span style="display: inline-block; width: 195px;"></span>| ${totalUsers.size} SpielerInnen, erster Versuch ${completedWithoutFailUsers.size} <span style="color: gray;">(${Math.round((completedWithoutFailUsers.size / totalUsers.size) * 100)}%)</span>, retry ${completedWithFailUsers.size} <span style="color: gray;">(${Math.round((completedWithFailUsers.size / totalUsers.size) * 100)}%)</span>, nie ${incompleteUsersNoComplete.size} <span style="color: gray;">(${Math.round((incompleteUsersNoComplete.size / totalUsers.size) * 100)}%)</span><br><span style="display: inline-block; width: 195px;"></span>| Feedback: <span ${feedback1UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback1UpUsers.size}</span> <span ${feedback1DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback1DownUsers.size}</span>; <span ${feedback2UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback2UpUsers.size}</span> <span ${feedback2DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback2DownUsers.size}</span>; <span ${feedback3UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback3UpUsers.size}</span> <span ${feedback3DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback3DownUsers.size}</span><br><span style="display: inline-block; width: 195px;"></span>| Fehler: ${quiz1FailUsers.size}; ${quiz2FailUsers.size}; ${quiz3FailUsers.size}<br><br>`
       })
       .join('')
-  })()}</p>
-  <h2>Story</h2>
-  <p>${(() => {
-    /**
-     * @param {string} type
-     * @param {number} id
-     */
-    function get(type, id) {
-      const key = `story-${type}-${id}`
-      return storyData.get(key)?.users ?? new Set()
-    }
-    return [1, 2, 3, 4, 5, 6, 7, 8]
-      .map((id) => {
-        const triggeredUsers = get('triggered', id)
-        const viewUsers = get('view', id)
-        const completeUsers = get('complete', id)
-        const skipUsers = get('skip', id)
-
-        const viewInChain = new Set(
-          [...viewUsers].filter((u) => triggeredUsers.has(u))
-        )
-        const completeInChain = new Set(
-          [...completeUsers].filter((u) => viewInChain.has(u))
-        )
-        const skipInChain = new Set(
-          [...skipUsers].filter((u) => viewInChain.has(u))
-        )
-
-        const skipOnly = new Set(
-          [...skipUsers].filter((u) => !completeUsers.has(u))
-        )
-
-        const additionalView = viewUsers.size - viewInChain.size
-
-        return `<span>
-          Story ${id} | triggered ${triggeredUsers.size} -> view ${viewInChain.size} -> complete ${completeInChain.size} <span style="color: gray;">(${Math.round((completeInChain.size / triggeredUsers.size) * 100)}%)</span> / skip ${skipInChain.size} {no complete ${skipOnly.size}} | additional views ${additionalView}
-        </span>`
-      })
-      .join('<br>')
   })()}</p>
   <h2>Wer wird Wort-Millionär</h2>
   <p>${wwwmLines}</p>

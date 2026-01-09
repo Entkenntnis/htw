@@ -12,6 +12,7 @@ export function setupHackerQuiz(App) {
       return
     }
     const meta = await App.mapMeta.get(req.user.id)
+    App.event.create('visit-quiz', req.user.id)
     renderPage(App, req, res, {
       page: 'hacker-quiz',
       heading: 'Hacker Quiz',

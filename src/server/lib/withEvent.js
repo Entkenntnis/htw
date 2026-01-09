@@ -3,7 +3,7 @@
  */
 export function withEvent(App) {
   App.event = {
-    create: async (/** @type {string} */ key, /** @type {number} */ userId) => {
+    create: async (key, userId) => {
       if (userId == 28863) {
         // skip editor
         return

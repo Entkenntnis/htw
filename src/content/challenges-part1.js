@@ -75,7 +75,7 @@ function story(name, intro, task) {
       <div class="avatar">
         ${
           name
-            ? `<img src="/story/${filename.toLowerCase()}.png" alt="${name} Avatar" style="height:80px;border-radius:9999px;">
+            ? `<img src="/story/${filename.toLowerCase()}.png" alt="${name} Avatar" style="height:80px; ${name != 'Bex' ? 'border-radius:9999px;' : ''}">
         <div style="text-align:center;">${name}</div>`
             : ''
         }

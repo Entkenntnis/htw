@@ -4098,7 +4098,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>I still know my way around pretty well, and I hope you do too. Your answer is the block ID (numeric or with namespace) of this block.</p>
 
-        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:65ch;"></p>
+        <p><img src="/chals/chal336.png" alt="block in minecraft" style="max-width:calc(min(90vw,65ch));"></p>
       `
       ),
     },
@@ -4126,7 +4126,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         
         <p>In dem Bild siehst du ein paar Blöcke dafür:</p>
 
-        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
+        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:calc(min(90vw,65ch));"></p>
 
         <p>Der Name der Kategorie dieser Blöcke ist deine Antwort.</p>
 
@@ -4140,7 +4140,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>In the picture, you can see a few of the blocks for that:</p>
 
-        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:65ch"></p>
+        <p><img src="/chals/chal337.png" alt="block in minecraft" style="max-width:calc(min(90vw,65ch));"></p>
         
         <p>The name of this category of blocks is your answer.</p>
       `

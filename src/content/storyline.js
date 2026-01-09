@@ -89,7 +89,6 @@ export function setupStoryline(App) {
             box-shadow:
               0 0 0 1px rgba(var(--main-color-rgb), 0.12) inset,
               0 0 20px rgba(var(--main-color-rgb), 0.12);
-            backdrop-filter: saturate(140%) blur(4px);
           }
           /* Shared story animations and affordances */
           @media (prefers-reduced-motion: reduce) {

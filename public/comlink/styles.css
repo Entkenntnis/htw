@@ -37,6 +37,7 @@
 
   font-family: var(--comlink-font);
   color: var(--comlink-text);
+  overflow: hidden;
 }
 
 #comlink.expanded {
@@ -126,6 +127,18 @@
 
   #comlink.expanded #comlink-content {
     filter: blur(0);
+  }
+}
+
+@media (max-width: 510px) {
+  #comlink:not(.expanded) {
+    width: 36px;
+  }
+  #comlink:not(.expanded) #comlink-toggle {
+    right: unset;
+  }
+  #comlink:not(.expanded) #comlink-title-text {
+    display: none;
   }
 }
 

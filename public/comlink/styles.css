@@ -131,8 +131,13 @@
 }
 
 @media (max-width: 510px) {
+  #comlink {
+    right: 4px;
+  }
+
   #comlink:not(.expanded) {
     width: 36px;
+    bottom: calc(min(80vh, 560px) * -1 + 36px);
   }
   #comlink:not(.expanded) #comlink-toggle {
     right: unset;

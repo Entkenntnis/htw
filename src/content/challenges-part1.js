@@ -2412,7 +2412,7 @@ export const part1 = [
 
         <p>Ich beweise es dir. Hier ist ein Geheimtext. Die Anfangsbuchstaben folgender Elemente ergeben deine Antwort.</p>
         
-        <p><img src="/chals/chal58_2.png" alt="genshin" width="540"></p>
+        <p><img src="/chals/chal58_2.png" alt="genshin" style="max-width:calc(min(90vw,65ch))"></p>
         
         <p><small><a href="https://game8.co/games/Genshin-Impact/archives/384388" target="_blank">Hinweis</a></small></p>
     `
@@ -2756,7 +2756,7 @@ export const part1 = [
         
         <p>Es kann passieren, dass du auch mal eine Internet-Leitung selber bauen musst. Nutze den Standard <a href="https://de.wikipedia.org/wiki/TIA-568A/B" target="_blank">TIA-568B</a> und verbinde die Adern. Die Buchstaben ergeben deine Antwort.</p>
       
-        <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
+        <p><img src="/chals/chal67.png" style="max-width: calc(min(90vw,500px))" alt="lan kable"></p>
     `
       ),
       en: `
@@ -3726,7 +3726,7 @@ To: ${req.user?.name}@arrrg.de</pre>
           `
         <p>Nehmen wir mal an, ich baue eine Schaltung, die nicht funktioniert. Das passiert in der Realität natürlich nicht. Schaue dir diese Situation an:</p>
 
-        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:65ch"></p>
+        <p><img src="/chals/chal112.jpg" alt="Blick auf Redstone-Schaltung" style="max-width:calc(min(90vw,65ch))"></p>
         
         <p>Ich möchte mit einem Schalter die Lampe an- und ausschalten, doch die Lampe leuchtet nicht. Wenn ich einen Block mit einem neuen Block ersetze, kann ich die Schaltung reparieren. Die Block-ID des neuen Blocks ist deine Antwort.</p>
       `
@@ -3734,7 +3734,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         en: `
         <p>I want to turn the lamp on and off with the switch, but the circuit isn't working.</p>
 
-        <p><img src="/chals/chal112.jpg" alt="View of Redstone circuit" style="max-width:100%"></p>
+        <p><img src="/chals/chal112.jpg" alt="View of Redstone circuit" style="max-width: calc(min(90vw,65ch))"></p>
 
         <p>My buddy immediately spots the problem: "You just need to replace one block!" The block ID of the new block is your answer.</p>
 

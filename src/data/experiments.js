@@ -479,9 +479,17 @@ export const experimentDefs = [
   {
     id: 26,
     description:
-      'Scratch: wusste gar nicht, dass das Ziehen der Objekte aktiv war. Probiere eine verschärfte Variante ohne das Ziehen, mal sehen ob das einen Effekt hat, ist ja nur eine minimale Anpassung. ',
+      'Scratch: wusste gar nicht, dass das Ziehen der Objekte aktiv war. Probiere eine verschärfte Variante ohne das Ziehen, mal sehen ob das einen Effekt hat, ist ja nur eine minimale Anpassung.',
     challenge: 87,
     startTs: new Date('2026-01-10 00:01+0100').getTime(),
     endTs: new Date('2026-02-14 00:01+0100').getTime(),
+  },
+  {
+    id: 27,
+    description:
+      'Minecraft III: Neue Version, komplettes Applet mit Redstone und Logik, zum Interagieren und Ausprobieren.',
+    challenge: 112,
+    startTs: new Date('2030-01-10 00:01+0100').getTime(), // <- SET BEFORE RELEASE
+    endTs: new Date('2030-02-14 00:01+0100').getTime(),
   },
 ]

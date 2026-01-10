@@ -41,18 +41,18 @@
     font-weight: bold;
   }
   .plaintext {
-    color: #c287bd
+    color: #c287bd;
   }
 </style>
 
-<div class="decipher-key-container">
-</div>
+<div class="decipher-key-container"></div>
 
 <div class="ciphertext-container"></div>
 
 <script>
   const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  const inputText = '"Pon fnv Thqrm", nogvd Uwzfoj. Uwzfoj adtkhg pdj Ywjp kw dfjdy nqxfdidj Zäqxdzj. Moptfdz nox klfnqxdj Uwzfoj wjp pdy Ihvh xfj wjp xdt. "Nfd fnv xübnqx", nogvd dt, hxjd gdjow kw lfnndj, lotwy. Dt adtzogdtvd pon Gdlfqxv. "Fnv nfd pdfjd Itdwjpfj?", itogvd dt wjp adtnwqxvd, dn bdfzäwifg rzfjgdj kw zonndj. Uwzfoj nqxjowbvd. "Jdfj." Dt zdxjvd nfqx kwtüqr wjp nvüvkd nfqx owi pfd Dzzbhgdj. "Fqx xobn jfqxv nh yfv Itdwjpfjjdj." Moptfdz adtptdxvd pfd Owgdj wjp zoqxvd nsövvfnqx. "Lfd? Ldfz pw dfj Ywudtfdgh bfnv hpdt lon? Xonv pw kw afdzd Adtdxtdtfjjdj, wy pfqx owi jwt Dfjd dfjkwzonndj?", itogvd dt zdfqxv adtätgdtv. "Jdfj", btwyyvd Uwzfoj, pdj Bzfqr fyydt jhqx owi pon Uoxtbwqx gdtfqxvdv. "Ldfz fqx nqxlwz bfj, pw Otnqxzhqx." Moptfdz bzfjkdzvd. Poyfv ... xovvd dt jfqxv gdtdqxjdv. Dt nvottvd Uwzfoj oj.'
+  const inputText =
+    '"Pon fnv Thqrm", nogvd Uwzfoj. Uwzfoj adtkhg pdj Ywjp kw dfjdy nqxfdidj Zäqxdzj. Moptfdz nox klfnqxdj Uwzfoj wjp pdy Ihvh xfj wjp xdt. "Nfd fnv xübnqx", nogvd dt, hxjd gdjow kw lfnndj, lotwy. Dt adtzogdtvd pon Gdlfqxv. "Fnv nfd pdfjd Itdwjpfj?", itogvd dt wjp adtnwqxvd, dn bdfzäwifg rzfjgdj kw zonndj. Uwzfoj nqxjowbvd. "Jdfj." Dt zdxjvd nfqx kwtüqr wjp nvüvkd nfqx owi pfd Dzzbhgdj. "Fqx xobn jfqxv nh yfv Itdwjpfjjdj." Moptfdz adtptdxvd pfd Owgdj wjp zoqxvd nsövvfnqx. "Lfd? Ldfz pw dfj Ywudtfdgh bfnv hpdt lon? Xonv pw kw afdzd Adtdxtdtfjjdj, wy pfqx owi jwt Dfjd dfjkwzonndj?", itogvd dt zdfqxv adtätgdtv. "Jdfj", btwyyvd Uwzfoj, pdj Bzfqr fyydt jhqx owi pon Uoxtbwqx gdtfqxvdv. "Ldfz fqx nqxlwz bfj, pw Otnqxzhqx." Moptfdz bzfjkdzvd. Poyfv ... xovvd dt jfqxv gdtdqxjdv. Dt nvottvd Uwzfoj oj.'
 
   const key = {}
 
@@ -69,9 +69,7 @@
   renderDecipherKey()
   renderText()
 
-
   // ------------- Functions --------------
-
 
   function renderDecipherKey() {
     const container = document.querySelector('.decipher-key-container')
@@ -81,7 +79,6 @@
       div.innerHTML = `<span class="ciphertext-letter">${char}</span><input class="plaintext-letter" maxlength="1" value="${key[char] || ''}">`
       container.appendChild(div)
       div.querySelector('input').addEventListener('input', (e) => {
-        
         const val = e.target.value.toUpperCase()
         if (val === '' || ALPHABET.includes(val)) {
           key[char] = val === '' ? null : val
@@ -101,7 +98,7 @@
   function renderText() {
     const cipherTextContainer = document.querySelector('.ciphertext-container')
     cipherTextContainer.innerHTML = ''
-    inputText.split('').forEach(char => {
+    inputText.split('').forEach((char) => {
       const div = document.createElement('div')
       let deciphered = char
       if (ALPHABET.includes(char.toUpperCase())) {
@@ -118,12 +115,4 @@
       cipherTextContainer.appendChild(div)
     })
   }
-
-
-
-
-  
-
-
-
 </script>

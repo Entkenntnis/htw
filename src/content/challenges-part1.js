@@ -3737,7 +3737,10 @@ To: ${req.user?.name}@arrrg.de</pre>
     pos: { x: 747, y: 249 },
     title: { de: 'Minecraft III', en: 'Minecraft III' },
     deps: [337],
-    render: ({ App, req }) => {
+    render: async ({ App, req }) => {
+      if (App.experiments.showTrial(112, req)) {
+        return story('Bex', await renderTemplate(App, req, 'minecraft_3'))
+      }
       return {
         de: story(
           'Bex',

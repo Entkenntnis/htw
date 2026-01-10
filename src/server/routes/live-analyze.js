@@ -318,17 +318,17 @@ export function setupLiveAnalyze(App) {
     }
 
     // Invert mainColorData to per-user color sets and fetch names
-    /** @type {Map<number, Set<string>>} */
+    /** @type {Map<number, string[]>} */
     const userColorMap = new Map()
     for (const r of mainColorData) {
       for (const uid of r.users) {
         if (uid == null) continue
         let set = userColorMap.get(uid)
         if (!set) {
-          set = new Set()
+          set = []
           userColorMap.set(uid, set)
         }
-        set.add(r.color)
+        set.push(r.color)
       }
     }
 
@@ -344,15 +344,16 @@ export function setupLiveAnalyze(App) {
     }
 
     const userColorLines = [...userColorMap.entries()]
+      .toReversed()
       .map(([uid, colors]) => ({
         uid,
         name: userNames.get(uid) || '(unbekannt)',
         colors: [...colors],
       }))
-      .sort(
-        (a, b) =>
-          b.colors.length - a.colors.length || a.name.localeCompare(b.name)
-      )
+      // .sort(
+      //   (a, b) =>
+      //     b.colors.length - a.colors.length || a.name.localeCompare(b.name)
+      // )
       .map((u) => {
         const colorSwatches = u.colors
           .sort((a, b) => a.localeCompare(b))

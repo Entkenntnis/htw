@@ -315,7 +315,7 @@
       const topicDiv = document.createElement('div')
       topicDiv.classList.add('topic')
       topicDiv.classList.add(`topic-${topic.id}`)
-      if (completed.includes(topic.id)) {
+      if (completed.length < QUIZ_DATA.length && completed.includes(topic.id)) {
         topicDiv.classList.add('topic-completed')
       }
       topicDiv.innerHTML = `<div>${topic[locale].topic}</div>`

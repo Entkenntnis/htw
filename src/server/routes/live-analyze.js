@@ -356,7 +356,7 @@ export function setupLiveAnalyze(App) {
       // )
       .map((u) => {
         const colorSwatches = u.colors
-          .sort((a, b) => a.localeCompare(b))
+          // .sort((a, b) => a.localeCompare(b))
           .map((c) => {
             const safeColor = sanitizeColor(c)
             return `<span title="${escapeHTML(c)}" style="display:inline-block; width:14px; height:14px; border:1px solid #333; background:${safeColor}; vertical-align:middle; margin-right:4px; border-radius:2px;"></span>`

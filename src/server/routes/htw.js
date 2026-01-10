@@ -118,6 +118,14 @@ htw_users_total ${c1.solvedBy}
         output += `Challenge ID: ${sol.cid} (${App.challenges.dataMap[sol.cid]?.title[req.lng] ?? '???'}), Timestamp: ${sol.createdAt}\n`
       })
 
+      const mapMeta = await App.mapMeta.get(req.user.id)
+      output += `\nMap Meta Information:\n${JSON.stringify(mapMeta)}\n`
+
+      const mainColor = await App.storage.getItem(`maincolor-${req.user.id}`)
+      if (mainColor) {
+        output += `\nMain Color: ${mainColor}\n`
+      }
+
       // Mortal Coil Level mortalcoil_<id> in KVPairs
       const mortalCoilLevels = await App.db.models.KVPair.findAll({
         where: {
@@ -155,6 +163,21 @@ htw_users_total ${c1.solvedBy}
         output += `Bot ID: ${bot.id}, Name: ${bot.name}, Created At: ${bot.createdAt}\n`
         // include source code
         output += `Source Code:\n${bot.code}\n\n`
+      })
+
+      // events
+      const events = await App.db.models.Event.findAll({
+        where: { userId: req.user.id },
+        raw: true,
+        order: [['createdAt', 'DESC']],
+      })
+
+      output += `\nEvents:\n`
+      if (events.length === 0) {
+        output += `No events found for user ${username}.\n`
+      }
+      events.forEach((event) => {
+        output += `${event.createdAt}: ${event.key}\n`
       })
 
       // offer output as txt download

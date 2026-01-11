@@ -189,11 +189,15 @@ export function setupLiveAnalyze(App) {
     const rows = await App.db.models.Event.findAll({
       where: { createdAt: { [Op.gte]: fromDateUTC } },
       attributes: ['key', 'userId'],
+      order: [['createdAt', 'ASC']],
       raw: true,
     })
 
     /** @type {Map<string, { total: number; users: Set<number>; perUser: Map<number, number> }>} */
     const byKey = new Map()
+
+    /** @type {{userid: number, color: string}[]} */
+    const mainColorData = []
     for (const r of rows) {
       let key = r.key
       if (key.startsWith('ex_')) {
@@ -202,6 +206,10 @@ export function setupLiveAnalyze(App) {
       const uid = r.userId
       if (uid == 74754) {
         continue // temporary: Skip ipad user events
+      }
+      if (key.startsWith('set-maincolor-') && uid) {
+        mainColorData.push({ userid: uid, color: key.substring(14) })
+        continue
       }
       let agg = byKey.get(key)
       if (!agg) {
@@ -295,18 +303,6 @@ export function setupLiveAnalyze(App) {
       }
     })
 
-    // handle events like set-maincolor-#46a5ea separately with color preview
-    /**
-     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & { key: string; color: string })[]}
-     */
-    const mainColorData = []
-    byKey.forEach((agg, key) => {
-      if (!key.startsWith('set-maincolor-')) return
-      const color = key.substring('set-maincolor-'.length)
-      mainColorData.push({ key, color, ...agg })
-      byKey.delete(key)
-    })
-
     /** @param {string} c @returns {string} */
     function sanitizeColor(c) {
       // only allow hex colors like #rgb, #rgba, #rrggbb, #rrggbbaa
@@ -321,15 +317,12 @@ export function setupLiveAnalyze(App) {
     /** @type {Map<number, string[]>} */
     const userColorMap = new Map()
     for (const r of mainColorData) {
-      for (const uid of r.users) {
-        if (uid == null) continue
-        let set = userColorMap.get(uid)
-        if (!set) {
-          set = []
-          userColorMap.set(uid, set)
-        }
-        set.push(r.color)
+      let set = userColorMap.get(r.userid)
+      if (!set) {
+        set = []
+        userColorMap.set(r.userid, set)
       }
+      set.push(r.color)
     }
 
     /** @type {Map<number,string>} */
@@ -356,7 +349,7 @@ export function setupLiveAnalyze(App) {
       // )
       .map((u) => {
         const colorSwatches = u.colors
-          .sort((a, b) => a.localeCompare(b))
+          // .sort((a, b) => a.localeCompare(b))
           .map((c) => {
             const safeColor = sanitizeColor(c)
             return `<span title="${escapeHTML(c)}" style="display:inline-block; width:14px; height:14px; border:1px solid #333; background:${safeColor}; vertical-align:middle; margin-right:4px; border-radius:2px;"></span>`

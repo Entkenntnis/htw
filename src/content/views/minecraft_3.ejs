@@ -1,0 +1,335 @@
+<style>
+  .mc-circuit {
+    background-color: #333;
+    width: 100%;
+    padding-bottom: 93.33333%;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    position: relative;
+    border-radius: 12px;
+    background-image: url('/chals/minecraft/grid.png');
+    background-repeat: repeat;
+    background-size: 6.66667% 7.14286%;
+  }
+  .mc-circuit img {
+    user-select: none;
+  }
+  .solution-box {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    background-color: rgb(89, 0, 0);
+    padding: 4px 12px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+    user-select: none;
+  }
+  img.lever {
+    border: 1px solid transparent;
+    transition: border 0.1s;
+  }
+  img.lever:hover {
+    border: 1px solid black;
+  }
+</style>
+
+<p>Es ist so dunkel hier, kannst du bitte mal das Licht anschalten?</p>
+
+<p>
+  Hehe, ich hab eine kleine Überraschung: Diese Redstone Lampe hat sieben
+  Schalter und es gibt nur eine Kombination, bei der die Lampe leuchtet. Das
+  sollte dich für eine Weile beschäftigen. Ich komme wieder, wenn du die
+  passende Kombination gefunden hast.
+</p>
+
+<div class="mc-circuit">
+  <div class="solution-box" onclick="gotoImg()">Antwort öffnen</div>
+</div>
+
+<p>
+  Anleitung: Tippe auf die Schalter und lass die Redstone-Lampe oben in der
+  Mitte leuchten.
+</p>
+
+<details>
+  <summary>Redstone Mini-Guide</summary>
+  <p style="margin-top: 12px">
+    Eine Redstone-Fackel leuchtet, wenn der angrenzende Block nicht mit Strom
+    versorgt wird. Sobald der Block mit Strom versorgt wird, geht die Fackel
+    aus.
+  </p>
+  <p>
+    Mit drei Fackeln und Blöcken kannst du ein UND-Gatter bauen. Die mittlere
+    Fackel leuchtet nur, wenn beide Eingänge an sind.
+  </p>
+  <p>
+    Mit diesem Wissen kannst du die Schaltung Schritt für Schritt
+    zurückverfolgen und die Kombination für die Schalter herausfinden.
+  </p>
+</details>
+
+<script>
+  const blocks = [
+    { x: 6, y: 1, z: 0, type: 'block', variant: 'lamp' },
+    // AND gate
+    { x: 6, y: 2, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 6, y: 3, z: 0, type: 'torch', variant: 'wall' },
+    { x: 5, y: 4, z: 0, type: 'block' },
+    { x: 6, y: 4, z: 0, type: 'block' },
+    { x: 7, y: 4, z: 0, type: 'block' },
+    { x: 5, y: 4, z: 1, type: 'torch' },
+    { x: 6, y: 4, z: 1, type: 'dust', variant: 'line' },
+    { x: 7, y: 4, z: 1, type: 'torch' },
+    // -- NOT gate
+    { x: 4, y: 4, z: 0, type: 'dust', variant: 'line' },
+    { x: 3, y: 4, z: 0, type: 'dust', variant: 'line' },
+    { x: 2, y: 4, z: 0, type: 'dust', variant: 'corner', rotate: 180 },
+    { x: 2, y: 5, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 2, y: 6, z: 0, type: 'torch', variant: 'wall' },
+    { x: 2, y: 7, z: 0, type: 'block' },
+    // -- -- OR + 2x NOT + 3x lever
+    { x: 2, y: 8, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 2, y: 9, z: 0, type: 'dust', variant: 'tee' },
+    { x: 3, y: 9, z: 0, type: 'dust', variant: 'tee', rotate: 180 },
+    { x: 3, y: 10, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 3, y: 11, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 4, y: 9, z: 0, type: 'dust', variant: 'line' },
+    { x: 3, y: 12, z: 0, type: 'lever' },
+    { x: 1, y: 9, z: 0, type: 'torch', variant: 'wall' },
+    { x: 1, y: 10, z: 0, type: 'block' },
+    { x: 1, y: 11, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 1, y: 12, z: 0, type: 'lever' },
+    { x: 5, y: 9, z: 0, type: 'torch', variant: 'wall' },
+    { x: 5, y: 10, z: 0, type: 'block' },
+    { x: 5, y: 11, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 5, y: 12, z: 0, type: 'lever' },
+    // -- AND gate
+    { x: 8, y: 4, z: 0, type: 'dust', variant: 'line' },
+    { x: 9, y: 4, z: 0, type: 'torch', variant: 'wall', rotate: -90 },
+    { x: 10, y: 3, z: 0, type: 'block' },
+    { x: 10, y: 4, z: 0, type: 'block' },
+    { x: 10, y: 5, z: 0, type: 'block' },
+    { x: 10, y: 3, z: 1, type: 'torch' },
+    { x: 10, y: 4, z: 1, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 10, y: 5, z: 1, type: 'torch' },
+    // -- -- AND gate + 2x lever
+    { x: 10, y: 6, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 10, y: 7, z: 0, type: 'dust', variant: 'corner' },
+    { x: 9, y: 7, z: 0, type: 'dust', variant: 'line' },
+    { x: 8, y: 7, z: 0, type: 'dust', variant: 'corner', rotate: 180 },
+    { x: 8, y: 8, z: 0, type: 'torch', variant: 'wall' },
+    { x: 7, y: 9, z: 0, type: 'block' },
+    { x: 8, y: 9, z: 0, type: 'block' },
+    { x: 9, y: 9, z: 0, type: 'block' },
+    { x: 7, y: 9, z: 1, type: 'torch' },
+    { x: 8, y: 9, z: 1, type: 'dust', variant: 'line' },
+    { x: 9, y: 9, z: 1, type: 'torch' },
+    { x: 7, y: 10, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 7, y: 11, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 7, y: 12, z: 0, type: 'lever' },
+    { x: 9, y: 10, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 9, y: 11, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 9, y: 12, z: 0, type: 'lever' },
+    // -- -- NOT
+    { x: 11, y: 3, z: 0, type: 'dust', variant: 'line' },
+    { x: 12, y: 3, z: 0, type: 'dust', variant: 'line' },
+    { x: 13, y: 3, z: 0, type: 'dust', variant: 'corner', rotate: -90 },
+    { x: 13, y: 4, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 13, y: 5, z: 0, type: 'torch', variant: 'wall' },
+    { x: 13, y: 6, z: 0, type: 'block' },
+    { x: 13, y: 7, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    // -- -- -- OR + NOT + 2x lever
+    { x: 13, y: 8, z: 0, type: 'dust', variant: 'tee', rotate: 270 },
+    { x: 12, y: 8, z: 0, type: 'dust', variant: 'corner', rotate: 180 },
+    { x: 12, y: 9, z: 0, type: 'dust', variant: 'tee' },
+    { x: 11, y: 9, z: 0, type: 'dust', variant: 'corner', rotate: 180 },
+    { x: 11, y: 10, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 11, y: 11, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 11, y: 12, z: 0, type: 'lever' },
+    { x: 13, y: 9, z: 0, type: 'torch', variant: 'wall' },
+    { x: 13, y: 10, z: 0, type: 'block' },
+    { x: 13, y: 11, z: 0, type: 'dust', variant: 'line', rotate: 90 },
+    { x: 13, y: 12, z: 0, type: 'lever' },
+  ]
+
+  const offsets = [
+    [0, -1, 0], // down
+    [0, 1, 0], // up
+    [-1, 0, 0], // left
+    [1, 0, 0], // right
+    [0, 0, -1], // back
+    [0, 0, 1], // front
+  ]
+
+  const coordMap = {}
+
+  const domImgMap = {}
+
+  const circuitDiv = document.querySelector('.mc-circuit')
+
+  blocks.forEach((block, id) => {
+    block.id = id
+    block.active = false
+    coordMap[`(${block.x}|${block.y}|${block.z})`] = block
+
+    const img = document.createElement('img')
+    img.style.position = 'absolute'
+    img.style.width = '6.66667%'
+    img.style.left = `${block.x * 6.66667}%`
+    img.style.top = `${block.y * 7.14286}%`
+    img.style.zIndex = block.z + 1
+    img.draggable = false
+
+    domImgMap[block.id] = img
+    circuitDiv.appendChild(img)
+
+    if (block.type == 'lever') {
+      img.classList.add('lever')
+      img.style.cursor = 'pointer'
+      img.addEventListener('click', () => {
+        block.active = !block.active
+        render()
+      })
+    }
+  })
+
+  for (let i = 0; i < 10; i++) {
+    simulate()
+  }
+
+  setInterval(() => {
+    simulate()
+    render()
+  }, 100)
+
+  // translate block types to images
+  function render() {
+    const solutionBox = document.querySelector('.solution-box')
+    solutionBox.style.display = coordMap['(6|1|0)'].active ? 'block' : 'none'
+    blocks.forEach(({ id, type, active, variant, rotate }) => {
+      const img = domImgMap[id]
+      if (type == 'lever') {
+        img.src = '/chals/minecraft/lever.png'
+        if (active) {
+          img.style.transform = 'rotate(180deg)'
+          img.style.filter = 'brightness(1.2)'
+        } else {
+          img.style.transform = 'rotate(0deg)'
+          img.style.filter = 'brightness(0.7)'
+        }
+      } else if (type == 'torch') {
+        img.src = `/chals/minecraft/torch_${variant == 'wall' ? 'wall_' : ''}${active ? 'on' : 'off'}.png`
+        if (active) {
+          img.style.filter = 'brightness(0.8)'
+        } else {
+          img.style.filter = ''
+        }
+        if (rotate) {
+          img.style.transform = `rotate(${rotate}deg)`
+        } else {
+          img.style.transform = 'rotate(0deg)'
+        }
+      } else if (type == 'dust') {
+        if (!variant) return // not ready yyet
+        // first select image and transformation
+        img.src = `/chals/minecraft/dust_${variant}.png`
+        if (rotate) {
+          img.style.transform = `rotate(${rotate}deg)`
+        } else {
+          img.style.transform = 'rotate(0deg)'
+        }
+        if (active) {
+          img.style.filter = 'brightness(1.9)'
+        } else {
+          img.style.filter = 'brightness(0.7)'
+        }
+      } else if (type == 'block') {
+        if (variant == 'lamp') {
+          img.src = '/chals/minecraft/lamp.png'
+          if (active) {
+            img.style.filter = 'brightness(1.9) hue-rotate(40deg)'
+          } else {
+            img.style.filter = 'brightness(0.4)'
+          }
+        } else {
+          img.src = '/chals/minecraft/moss.png'
+          img.style.filter = 'brightness(0.3)'
+          // if (active) {
+          //   img.style.filter = 'brightness(1.0)'
+          // } else {
+          //   img.style.filter = 'brightness(0.4)'
+          // }
+        }
+      }
+    })
+  }
+
+  function simulate() {
+    const toProp = []
+    blocks.forEach((block) => {
+      // mark active levers as to be propagated
+      if (block.type == 'lever' && block.active) {
+        toProp.push(block)
+      }
+      // torch sensing
+      if (block.type == 'torch') {
+        block.active = true
+        for (const [dx, dy, dz] of offsets) {
+          const neighbor =
+            coordMap[`(${block.x + dx}|${block.y + dy}|${block.z + dz})`]
+          if (neighbor && neighbor.active && neighbor.type == 'block') {
+            block.active = false
+            break
+          }
+        }
+        if (block.active) {
+          toProp.push(block)
+        }
+      }
+    })
+    blocks.forEach((block) => {
+      // reset passive blocks
+      if (block.type == 'dust' || block.type == 'block') {
+        block.active = false
+      }
+    })
+
+    function propagate(block, dustOnly = false) {
+      for (const [dx, dy, dz] of offsets) {
+        const neighbor =
+          coordMap[`(${block.x + dx}|${block.y + dy}|${block.z + dz})`]
+        if (neighbor) {
+          if (
+            neighbor.type == 'dust' ||
+            (!dustOnly && neighbor.type == 'block')
+          ) {
+            if (!neighbor.active) {
+              neighbor.active = true
+              if (neighbor.type == 'dust') {
+                propagate(neighbor)
+              }
+            }
+          }
+        }
+      }
+    }
+
+    toProp.forEach((block) => {
+      propagate(block, true)
+    })
+  }
+
+  function gotoImg() {
+    let key = 'img_'
+    blocks.forEach((block) => {
+      if (block.type == 'lever') {
+        key += block.active ? '1' : '0'
+      }
+    })
+    // open image in new tab
+    window.open(`/chals/${key}.png`, '_blank')
+  }
+</script>

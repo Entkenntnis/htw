@@ -617,6 +617,13 @@ export function getI18nExtension() {
       <p>Es werden verschiedene Statistiken über die Nutzung der Plattform geführt, um die Aufgaben zu verbessern und mögliche Probleme zu erkennen. Die Statistiken werden ausschließlich zur Verbesserung der Plattform ausgewertet. Eine mögliche Nutzung für die wissenschaftliche Forschung ist vorbehalten.
       </p>
       
+      <h3 class="my-4">Experimente</h3>
+      
+      <p>Neue Aufgaben werden gelegentlich in Form von Experimenten veröffentlicht. Dabei erhalten zufällig ausgewählte NutzerInnen früheren Zugriff auf neue Aufgaben und die Besuchs- und Lösungsrate wird mit der vorhandenen Version verglich. Im Rahmen der Experimente werden keine personenbezogenen Daten gesammelt und die Auswertung erfolgt vollständig anonymisiert.
+      </p>
+
+      <-- MARKER -->
+      
       <h3 class="my-4">Cookies</h3>
       
       <p>Wenn du dich bei Hack The Web registrierst bzw. einloggst, setzt die Website einen Cookie mit einer Session-ID. Diese wird benötigt, um deinen Login-Status aufrechtzuerhalten. Der Cookie wird beim Schließen des Browserfensters oder nach einem Tag automatisch gelöscht. Ein Tracking findet damit nicht statt. Außerdem wird die eingestellte Sprache für eine Woche in deinem Browser gespeichert.

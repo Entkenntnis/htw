@@ -20,6 +20,10 @@ export function withExperiments(App) {
         return null
       }
 
+      if (req.session.experimentOptOut) {
+        return null
+      }
+
       const ts = Date.now()
       const relevantExperiments = experimentDefs.filter(
         (exp) => exp.challenge == id && ts > exp.startTs && ts < exp.endTs

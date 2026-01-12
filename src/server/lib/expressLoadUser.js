@@ -30,6 +30,14 @@ export function expressLoadUser(App) {
           }
         }
       }
+      // check for experiment opt-out, probably not perfect, but this would be useful for other additional data associated with an user
+      const optOut =
+        (await App.storage.getItem(`experiment-opt-out-${id}`)) ?? ''
+      if (optOut) {
+        req.session.experimentOptOut = true
+      } else {
+        req.session.experimentOptOut = false
+      }
     }
     next()
   })

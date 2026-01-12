@@ -332,6 +332,7 @@ interface SessionData {
   lastMainColor?: string
   nextStoryId?: string
   returnToLogbook?: boolean
+  experimentOptOut?: boolean
 }
 
 export interface DungeonData {

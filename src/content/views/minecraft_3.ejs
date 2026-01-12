@@ -142,14 +142,15 @@
       img.style.cursor = 'pointer'
       img.addEventListener('click', () => {
         block.active = !block.active
-        simulate()
         render()
       })
     }
   })
 
-  simulate()
-  render()
+  setInterval(() => {
+    simulate()
+    render()
+  }, 100)
 
   // translate block types to images
   function render() {

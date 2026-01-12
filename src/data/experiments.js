@@ -489,7 +489,7 @@ export const experimentDefs = [
     description:
       'Minecraft III: Neue Version, komplettes Applet mit Redstone und Logik, zum Interagieren und Ausprobieren.',
     challenge: 112,
-    startTs: new Date('2030-01-10 00:01+0100').getTime(), // <- SET BEFORE RELEASE
-    endTs: new Date('2030-02-14 00:01+0100').getTime(),
+    startTs: new Date('2026-01-13 00:01+0100').getTime(),
+    endTs: new Date('2026-02-10 00:01+0100').getTime(),
   },
 ]

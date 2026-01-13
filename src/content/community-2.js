@@ -1106,4 +1106,33 @@ I'll give it to someone special
     },
     solution: secrets('chal_366'),
   },
+
+  {
+    id: 367,
+    pos: { x: 1830, y: 453 },
+    title: { de: 'Host', en: 'Host' },
+    date: '2026-01-14',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2026-01-14 15:00:00 GMT+0100').getTime(),
+    difficulty: 'hard',
+    author: 'peter34788',
+    html: {
+      de: `
+        <p>Hosting on Asteroids - das ist das Motte meines Hosting-Anbieters. Aber was genau bedeutet das eigentlich?</p>
+
+        <p>Damit werden wir uns hier beschäftigen. Finde heraus, auf welchem Asteroiden Hack The Web läuft. Der Name des Asteroiden ist deine Antwort.</p>
+
+        <p><i>Tipp: Der Name hat 5 Buchstaben. Eine direkte Verbindung auf die Host-IP ist hilfreich.</i></p>
+      `,
+      en: `
+        <p>Hosting on Asteroids — that’s the motto of my hosting provider. But what exactly does that actually mean?</p>
+
+        <p>That’s what we’ll look into here. Find out which asteroid Hack The Web is running on. The name of the asteroid is your answer.</p>
+        
+        <p><i>Tip: The name has 5 letters. A direct connection to the host IP is helpful.</i></p>
+      `,
+    },
+    solution: secrets('chal_367'),
+  },
 ]

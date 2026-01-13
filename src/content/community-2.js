@@ -1135,4 +1135,25 @@ I'll give it to someone special
     },
     solution: secrets('chal_367'),
   },
+
+  {
+    id: 368,
+    pos: { x: 1400, y: 580 },
+    title: { de: 'Alphabet', en: 'Alphabet' },
+    date: '2026-01-16',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2026-01-16 15:00:00 GMT+0100').getTime(),
+    difficulty: 'hard',
+    author: 'CleverLemming',
+    html: {
+      de: `
+        <p>ASCII enthält ein Alphabet aus Großbuchstaben und eines aus Kleinbuchstaben. Es gibt aber noch ein Drittes, das in <a href="/chals/368.txt">dieser Datei</a> verwendet wird.</p>
+      `,
+      en: `
+        <p>ASCII contains an alphabet of uppercase letters and one of lowercase letters. But there is also a third, which is used in <a href="/chals/368_en.txt">this file</a>.</p>
+      `,
+    },
+    solution: secrets('chal_368'),
+  },
 ]

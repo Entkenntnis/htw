@@ -684,4 +684,17 @@ export function setupChallengesServer(App) {
       })
     }
   )
+
+  App.express.get('/robot-party', (req, res) => {
+    res.json({
+      party: "Bit's and Bytes",
+      location: 'Datacenter FRA DE',
+      host: 'Gemminy',
+      dj: 'SUUNO',
+      hint:
+        req.lng === 'de'
+          ? `Die Antwort lautet ${secrets('chal_369')}.`
+          : `The answer is ${secrets('chal_369')}.`,
+    })
+  })
 }

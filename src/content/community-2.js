@@ -1156,4 +1156,25 @@ I'll give it to someone special
     },
     solution: secrets('chal_368'),
   },
+
+  {
+    id: 369,
+    pos: { x: 1750, y: 880 },
+    title: { de: 'Robots', en: 'TODO' },
+    date: '2026-01-19',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2026-01-19 15:00:00 GMT+0100').getTime(),
+    difficulty: 'medium',
+    author: 'bennosaurusrex',
+    html: {
+      de: `
+        <p>Mist, die Roboter feiern eine Party, aber ich bin nicht eingeladen. Ich würde aber gerne die Einladung sehen. Was könnte ein Ort auf der Webseite sein, der nur für Robots gedacht ist?</p>
+      `,
+      en: `
+        <p>Shoot, the robots are having a party, but I’m not invited. I’d love to see the invitation though. What could be a place on the website that’s meant only for robots?</p>
+      `,
+    },
+    solution: secrets('chal_369'),
+  },
 ]

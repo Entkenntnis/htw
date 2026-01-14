@@ -3856,7 +3856,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Speaking of nature, here's a picture of a tree, taken on Earth in the Europe area. The plants there are completely different from ours. The name of this tree species is your answer.</p>
 
-        <p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Identify the tree species" style="max-height:500px"></a></p>
+        <p><img src="/chals/chal114_rosskastanie.jpg" alt="Identify the tree species" style="max-height:500px"></p>
       `
         ),
       }

@@ -877,8 +877,10 @@ export const part1 = [
         </style>
     `
       ),
-      en: `
-        <p>If you can read this text, then you’ve already solved the task. The answer is simply "Vertical". Come on, grab a mirror, then you can read the text more easily.</p>
+      en: story(
+        'Bex',
+        `
+        <p>If you can read this text, then you’ve already solved the challenge. Because the answer is Vertical. Come on, grab a mirror — then you can read the text better.</p>
 
         <style>
           body {
@@ -889,7 +891,8 @@ export const part1 = [
             transform: scale(-1, 1);
           }
         </style>
-    `,
+    `
+      ),
     },
     solution: secrets('chal_17').split(','),
   },

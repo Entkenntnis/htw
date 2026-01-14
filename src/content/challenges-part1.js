@@ -87,14 +87,23 @@ function story(name, intro, task) {
 }
 
 /**
- * @param {string} ans
+ * @param {string | string[]} ans
  */
 function ignoreSpaces(ans) {
+  const ansArr = Array.isArray(ans) ? ans : [ans]
   return (/** @type {string} */ answer) => {
     const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
+    for (const a of ansArr) {
+      if (trimmed === a.toLowerCase().replace(/ /g, '').trim()) {
+        return {
+          answer: trimmed,
+          correct: true,
+        }
+      }
+    }
     return {
       answer: trimmed,
-      correct: trimmed === ans.toLowerCase().replace(/ /g, '').trim(),
+      correct: false,
     }
   }
 }
@@ -3633,13 +3642,14 @@ To: ${req.user?.name}@arrrg.de</pre>
     render: ({ App, req }) => {
       return {
         de: story(
-          App.experiments.showTrial(110, req) ? 'Bex2' : 'Bex',
+          'Bex',
           `
         <p>Jemand hat mir vor paar Wochen dieses mysteriöse Gerät zugeschickt, zusammen mit dem Hinweis <code>Startcode 256</code>:</p>
 
         <script>
           window.TARGET = 256
           window.SOLUTION = [${secrets('chal_110')
+            .split(',')[0]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3661,6 +3671,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 256
           window.SOLUTION = [${secrets('chal_110')
+            .split(',')[1]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3676,7 +3687,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         ),
       }
     },
-    solution: secrets('chal_110'),
+    solution: secrets('chal_110').split(','),
   },
 
   {
@@ -3700,6 +3711,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 10000
           window.SOLUTION = [${secrets('chal_111')
+            .split(',')[0]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3718,11 +3730,12 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Please, keep going. There was a second hint:</p>
 
-        <p style="font-size: 28px;"><code>10<sup>4</sup></code></p>
+        <p style="font-size: 28px;"><code>10000</code></p>
 
         <script>
           window.TARGET = 10000
           window.SOLUTION = [${secrets('chal_111')
+            .split(',')[1]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3733,7 +3746,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     `
       ),
     },
-    check: ignoreSpaces(secrets('chal_111')),
+    check: ignoreSpaces(secrets('chal_111').split(',')),
   },
 
   {
@@ -3867,6 +3880,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 15876000
           window.SOLUTION = [${secrets('chal_116')
+            .split(',')[0]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3886,6 +3900,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 15876000
           window.SOLUTION = [${secrets('chal_116')
+            .split(',')[1]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3896,7 +3911,7 @@ To: ${req.user?.name}@arrrg.de</pre>
       `
       ),
     },
-    check: ignoreSpaces(secrets('chal_116')),
+    solution: secrets('chal_116').split(','),
   },
 
   {

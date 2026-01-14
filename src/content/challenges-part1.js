@@ -2882,15 +2882,27 @@ export const part1 = [
     title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
     // date: '2021-03-19',
     deps: [4, 16],
-    render: () => {
+    render: ({ req }) => {
       const widget = `
         <div style="display:flex;flex-wrap:wrap;" id="puzzle-container">
-          <p><img src="/chals/chal69_1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
-          <p><img src="/chals/chal69_2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
-          <p><img src="/chals/chal69_3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
-          <p><img src="/chals/chal69_4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
-          <p><img src="/chals/chal69_5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
-          <p><img src="/chals/chal69_6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
+          <p><img src="/chals/chal69_${
+            req.lng == 'en' ? 'en_' : ''
+          }1.png" style="border: 1px solid black; max-width: 400px" class="draggable" alt="part 1"></p>
+          <p><img src="/chals/chal69_${
+            req.lng == 'en' ? 'en_' : ''
+          }2.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 2"></p>
+          <p><img src="/chals/chal69_${
+            req.lng == 'en' ? 'en_' : ''
+          }3.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 3"></p>
+          <p><img src="/chals/chal69_${
+            req.lng == 'en' ? 'en_' : ''
+          }4.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 4"></p>
+          <p><img src="/chals/chal69_${
+            req.lng == 'en' ? 'en_' : ''
+          }5.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 5"></p>
+          <p><img src="/chals/chal69_${
+            req.lng == 'en' ? 'en_' : ''
+          }6.png" style="border: 1px solid black; max-width: 400px;" class="draggable" alt="part 6"></p>
         </div>
         
         <script src="/jquery-3.6.0.js"></script>
@@ -2960,7 +2972,7 @@ export const part1 = [
         ),
       }
     },
-    solution: secrets('chal_69'),
+    solution: secrets('chal_69').split(','),
   },
 
   {
@@ -3644,7 +3656,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     title: { de: 'Taschenrechner', en: 'Calculator' },
     // date: '2023-05-13',
     deps: [5],
-    render: ({ App, req }) => {
+    render: () => {
       return {
         de: story(
           'Bex',

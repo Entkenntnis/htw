@@ -2154,10 +2154,11 @@ export const part1 = [
     title: { de: 'Klick mich', en: 'Click Me' },
     // date: '2020-08-01',
     deps: [66, 111],
-    html: {
-      de: story(
-        'Bex',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          'Bex',
+          `
           <p>Wie, ich soll bei dieser Aufgabe 2000 Mal auf einen Button klicken? Was für ein Kack ist das denn?</p>
 
           <p>Ich hoffe, du tust dir diese Dummheit nicht an. Schau doch mal in den Seitenquelltext und suche nach einem Hack oder so ähnlich. Oder nutze ein Programm, das die Klicks für dich erledigt ...</p>
@@ -2170,7 +2171,7 @@ export const part1 = [
           </script>
         
           <p style="margin-top: 48px;">
-            <button type="button" class="btn btn-warning mb-2 mr-5" id="ans1">Klick mich</button>
+            <button type="button" class="btn btn-warning mb-2 mr-5" id="ans1" ${App.experiments.showTrial(53, req) ? 'style="width: 330px; height: 100px; font-size: 2em; font-weight: bold"' : ''}>Klick mich</button>
           </p>
           
           <div class="progress my-4">
@@ -2181,10 +2182,10 @@ export const part1 = [
           
           <script src="/chals/chal53.js"></script>
     `
-      ),
-      en: story(
-        'Bex',
-        `
+        ),
+        en: story(
+          'Bex',
+          `
           <p>What, I'm supposed to click a button 2000 times for this task? What kind of crap is that?</p>
 
           <p>I hope you don't inflict this stupidity on yourself. Why don't you look into the page's source code and search for a hack or something similar. Or use a program that does the clicks for you ...</p>
@@ -2208,7 +2209,8 @@ export const part1 = [
           
           <script src="/chals/chal53.js"></script>
     `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_53'),
   },

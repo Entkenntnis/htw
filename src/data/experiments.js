@@ -500,4 +500,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-15 00:01+0100').getTime(),
     endTs: new Date('2026-02-19 00:01+0100').getTime(),
   },
+  {
+    id: 29,
+    description:
+      'Klick mich: Hat die Größe des Buttons einen Einfluss auf die Lösungsrate?',
+    challenge: 53,
+    startTs: new Date('2026-01-15 00:02+0100').getTime(),
+    endTs: new Date('2026-02-12 00:02+0100').getTime(),
+  },
 ]

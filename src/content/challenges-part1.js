@@ -1114,18 +1114,6 @@ export const part1 = [
     // date: '2017-08-25',
     deps: [51],
     render: ({ App, req }) => {
-      if (App.experiments.showTrial(23, req)) {
-        return story(
-          'Tina',
-          `
-            <p>Hallöchen, ich bin Tina und Kiwi hat mich eingeladen, hier auch eine Aufgabe zu stellen. Ich bin von der Webseite namens <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a>.</p>
-
-            <p>Da ich schon mal hier bin, dachte ich mir, machen wir doch was mit HTW. Mein Rätsel an dich lautet: Wie viele <strong>Vierecke</strong> siehst du in diesem H?</p>
-
-            <p><img src="/chals/vierecke.png" width="200px" /></p>
-          `
-        )
-      }
       return {
         de: story(
           'Josh',
@@ -1133,7 +1121,11 @@ export const part1 = [
             <p>Das <a href="https://einhorn.arrrg.de/" target="_blank">Einhorn der Mathematik</a> ist ein ähnliches Projekt wie Hack The Web, nur für Mathematik. Die Hauptrolle spielen dabei ein Einhorn-Geschwisterpaar.</p>
 
             <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Einhorn" width="150px"></p>
-            <p style="margin-top: -16px;"><small style="color: gray;" title ="base64">13 5 9 14 16 21 20 26 9 7 5 18 2 18 21 4 5 18 20 5 15 9 19 20 19 5 8 18 14 5 21 7 9 5 18 9 7</small></p> 
+            ${
+              App.experiments.showTrial(23, req)
+                ? '<p style="margin-top: -16px;"><small style="color: gray;" title ="base64">13 5 9 14 16 21 20 26 9 7 5 18 2 18 21 4 5 18 20 5 15 9 19 20 19 5 8 18 14 5 21 7 9 5 18 9 7</small></p>'
+                : ''
+            }
 
             <p>Besuche die Webseite. Deine Antwort ist der Name des kleinen Bruders.</p>
           `

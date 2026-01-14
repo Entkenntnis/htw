@@ -508,4 +508,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-15 00:02+0100').getTime(),
     endTs: new Date('2026-02-12 00:02+0100').getTime(),
   },
+  {
+    id: 30,
+    description:
+      'Einhorn: Also was macht dieser Hinweis, bringt der überhaupt was? Testen!',
+    challenge: 23,
+    startTs: new Date('2026-01-15 00:03+0100').getTime(),
+    endTs: new Date('2026-02-12 00:03+0100').getTime(),
+  },
 ]

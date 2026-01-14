@@ -1119,7 +1119,7 @@ I'll give it to someone special
     author: 'peter34788',
     html: {
       de: `
-        <p>Hosting on Asteroids - das ist das Motte meines Hosting-Anbieters. Aber was genau bedeutet das eigentlich?</p>
+        <p>Hosting on Asteroids - das ist das Motto meines Hosting-Anbieters. Aber was genau bedeutet das eigentlich?</p>
 
         <p>Damit werden wir uns hier beschäftigen. Finde heraus, auf welchem Asteroiden Hack The Web läuft. Der Name des Asteroiden ist deine Antwort.</p>
 

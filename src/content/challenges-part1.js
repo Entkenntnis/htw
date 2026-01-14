@@ -87,14 +87,23 @@ function story(name, intro, task) {
 }
 
 /**
- * @param {string} ans
+ * @param {string | string[]} ans
  */
 function ignoreSpaces(ans) {
+  const ansArr = Array.isArray(ans) ? ans : [ans]
   return (/** @type {string} */ answer) => {
     const trimmed = answer.toLowerCase().replace(/ /g, '').trim()
+    for (const a of ansArr) {
+      if (trimmed === a.toLowerCase().replace(/ /g, '').trim()) {
+        return {
+          answer: trimmed,
+          correct: true,
+        }
+      }
+    }
     return {
       answer: trimmed,
-      correct: trimmed === ans.toLowerCase().replace(/ /g, '').trim(),
+      correct: false,
     }
   }
 }
@@ -134,15 +143,17 @@ export const part1 = [
           'Kiwi',
           `
             <p>Hey <strong>${escapeHTML(req.user?.name)}</strong>,</p>
-  
-            <p>Great to have you on board! I almost thought you’d never leave our homeland, Naxion. Sirtach and its wonders will open your eyes. I only hope that during our two-month journey through space, we won’t die… of boredom.</p>
-  
-            <p>By the way, I’ve got something here to help pass the time. While studying the inhabitants of the planet “Earth”, I discovered an activity called “hacking” that is incredibly addictive. Ever since I found it two weeks ago, I just haven’t been able to stop. I even showed it to Josh and Bex — they got hooked just as quickly.</p>
-  
-            <p>The process is simple: You’ll be given a small challenge which you solve by either finding the answer or interacting with the website. Completing challenges unlocks new ones. There are no limits to the tools you can use — do whatever seems useful to you. I sometimes come up with the craziest ideas.</p>
-  
-            <p>I can hardly wait to show it to you. Let’s get started! The answer to this first challenge is the result of <span id="calculation">6 + 4 · 9</span>. This number is known among the inhabitants of Earth as “the answer” 🤭</p>
-            
+
+            <p>So cool that you’re into hacking and traveling with us! This is our cabin. Pretty tiny, phew. Just as cramped as Naxion. That stupid planet is my home, but damn, am I glad to get away from there.</p>
+
+            <img src="/story/bunks.jpg" style="width:280px; margin-bottom: 24px; margin-top: 12px; border-radius: 16px; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));" alt="4-berth cabin">
+
+            <p>During the two months on this spaceship, I can teach you a few tricks. But you learn hacking best by doing it yourself. I’ve prepared lots of challenges for you! For each one, look for an answer and type it into the input field below. Solving challenges unlocks new ones. There are no limits to the tools you can use. Do whatever is useful.</p>
+
+            <p>The answer to this first challenge is the result of <span id="calculation">6 + 4 · 9</span>. Among Earthlings, this number is also known as “the answer to everything” 🤭</p>
+
+            <p>Hmm, where are Bex and Josh with the luggage? I’d better go check. See ya!</p>
+
             <script src="/powerglitch.min.js"></script>
             <script>
               PowerGlitch.glitch('#calculation', {playMode: 'hover'})
@@ -2741,7 +2752,7 @@ export const part1 = [
     `
       ),
     },
-    solution: secrets('chal_66'),
+    solution: secrets('chal_66').split(','),
   },
 
   {
@@ -3631,13 +3642,14 @@ To: ${req.user?.name}@arrrg.de</pre>
     render: ({ App, req }) => {
       return {
         de: story(
-          App.experiments.showTrial(110, req) ? 'Bex2' : 'Bex',
+          'Bex',
           `
         <p>Jemand hat mir vor paar Wochen dieses mysteriöse Gerät zugeschickt, zusammen mit dem Hinweis <code>Startcode 256</code>:</p>
 
         <script>
           window.TARGET = 256
           window.SOLUTION = [${secrets('chal_110')
+            .split(',')[0]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3659,6 +3671,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 256
           window.SOLUTION = [${secrets('chal_110')
+            .split(',')[1]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3674,7 +3687,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         ),
       }
     },
-    solution: secrets('chal_110'),
+    solution: secrets('chal_110').split(','),
   },
 
   {
@@ -3698,6 +3711,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 10000
           window.SOLUTION = [${secrets('chal_111')
+            .split(',')[0]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3716,11 +3730,12 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Please, keep going. There was a second hint:</p>
 
-        <p style="font-size: 28px;"><code>10<sup>4</sup></code></p>
+        <p style="font-size: 28px;"><code>10000</code></p>
 
         <script>
           window.TARGET = 10000
           window.SOLUTION = [${secrets('chal_111')
+            .split(',')[1]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3731,7 +3746,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     `
       ),
     },
-    check: ignoreSpaces(secrets('chal_111')),
+    check: ignoreSpaces(secrets('chal_111').split(',')),
   },
 
   {
@@ -3865,6 +3880,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 15876000
           window.SOLUTION = [${secrets('chal_116')
+            .split(',')[0]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3884,6 +3900,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         <script>
           window.TARGET = 15876000
           window.SOLUTION = [${secrets('chal_116')
+            .split(',')[1]
             .split('')
             .map((el) =>
               el.charCodeAt(0)
@@ -3894,7 +3911,7 @@ To: ${req.user?.name}@arrrg.de</pre>
       `
       ),
     },
-    check: ignoreSpaces(secrets('chal_116')),
+    solution: secrets('chal_116').split(','),
   },
 
   {

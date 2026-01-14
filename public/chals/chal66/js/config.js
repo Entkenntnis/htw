@@ -532,6 +532,10 @@ export default (urlParams) => {
   validParams.effect = 'image'
   validParams.bgURL = '/chals/chal66/chal66.jpg'
 
+	if (document.cookie.includes("htw_language_preference=en")) {
+		validParams.bgURL = '/chals/chal66/chal66_en.jpg'
+	}
+
 	if (validParams.effect != null) {
 		if (validParams.cursorColor == null) {
 			validParams.cursorColor = hsl(0, 0, 1);

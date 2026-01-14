@@ -877,8 +877,10 @@ export const part1 = [
         </style>
     `
       ),
-      en: `
-        <p>If you can read this text, then you’ve already solved the task. The answer is simply "Vertical". Come on, grab a mirror, then you can read the text more easily.</p>
+      en: story(
+        'Bex',
+        `
+        <p>If you can read this text, then you’ve already solved the challenge. Because the answer is Vertical. Come on, grab a mirror — then you can read the text better.</p>
 
         <style>
           body {
@@ -889,7 +891,8 @@ export const part1 = [
             transform: scale(-1, 1);
           }
         </style>
-    `,
+    `
+      ),
     },
     solution: secrets('chal_17').split(','),
   },
@@ -1069,7 +1072,7 @@ export const part1 = [
       `
       ),
     }),
-    solution: secrets('chal_21'),
+    solution: secrets('chal_21').split(','),
   },
 
   /*{
@@ -1135,14 +1138,16 @@ export const part1 = [
             <p>Besuche die Webseite. Deine Antwort ist der Name des kleinen Bruders.</p>
           `
         ),
-        en: `
-      <p>The <a href="https://einhorn.arrrg.de/" target="_blank">Unicorn of Mathematics</a> is a project similar to Hack The Web, but for mathematics. The main characters are a pair of unicorn siblings.</p>
+        en: story(
+          'Josh',
+          `
+            <p>The <a href="https://einhorn.arrrg.de/" target="_blank">Unicorn of Mathematics</a> is a similar project to Hack The Web, just for mathematics. The main characters are a pair of unicorn siblings.</p>
 
-      <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Unicorn" width="150px"></p>
+            <p><img src="https://einhorn.arrrg.de/einhorn.png" alt="Unicorn" width="150px"></p>
 
-      <p>Visit the website. Your answer is the name of the little brother. The website is currently only available in German, but you can of course use a translator.</p>
-
-    `,
+            <p>Visit the website. Your answer is the name of the little brother. Please use a translator if you are not fluent in German.</p>
+          `
+        ),
       }
     },
     solution: secrets('chal_23').split(','),
@@ -3856,7 +3861,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Speaking of nature, here's a picture of a tree, taken on Earth in the Europe area. The plants there are completely different from ours. The name of this tree species is your answer.</p>
 
-        <p><a href="/chals/chal114_rosskastanie.jpg" target="_blank"><img src="/chals/chal114_rosskastanie.jpg" alt="Identify the tree species" style="max-height:500px"></a></p>
+        <p><img src="/chals/chal114_rosskastanie.jpg" alt="Identify the tree species" style="max-height:500px"></p>
       `
         ),
       }

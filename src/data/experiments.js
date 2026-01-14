@@ -492,4 +492,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-13 00:01+0100').getTime(),
     endTs: new Date('2026-02-10 00:01+0100').getTime(),
   },
+  {
+    id: 28,
+    description:
+      'Community-Area: Verbessertes Onboarding und klareres Call-to-Action',
+    challenge: 300,
+    startTs: new Date('2026-01-15 00:01+0100').getTime(),
+    endTs: new Date('2026-02-19 00:01+0100').getTime(),
+  },
 ]

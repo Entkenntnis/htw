@@ -16,6 +16,18 @@ export const communityChallenges = [
         where: { cid: 300, UserId: req.user ? req.user.id : -1 },
       })
 
+      if (App.experiments.showTrial(300, req) && !hasSolved) {
+        return `
+          <img src="/community-invite.png" style="width: 300px;">
+          
+          <p style="margin-top: 48px;">Startbereit? Dann nichts wie los!</p>
+                
+          <form method="post"><input type="hidden" name="answer" value="htw4ever">
+            <button class="btn btn-interaction">Community-Bereich freischalten</button>
+          </form>
+        `
+      }
+
       return req.lng.startsWith('de')
         ? `
         <p>Herzlich willkommen im Community-Bereich! Hier findest du eine Sammlung bunter Aufgaben, erstellt und inspiriert von SpielerInnen wie Du.</p>
@@ -70,10 +82,50 @@ export const communityChallenges = [
     },
     solution: 'htw4ever',
     hidesubmit: true,
-    renderMapHTML: () => {
-      return `
+    renderMapHTML: async ({ App, req }) => {
+      if (App.experiments.showTrial(300, req)) {
+        const isSolved = await App.db.models.Solution.findOne({
+          where: { cid: 300, UserId: req.user ? req.user.id : -1 },
+        })
+        if (!isSolved) {
+          // render invite
+          return `
+            <link href="/fonts/mansalva.css" rel="stylesheet" />
+
+            <style>
+              .mansalva-regular {
+                font-family: 'Mansalva', sans-serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 18px;
+              }
+            </style>
+            <div class="mansalva-regular" style="
+              position: absolute;
+              top: 638px;
+              left: 1493px;
+            ">
+              Entdecke mehr Aufgaben<br>in allen Schwierigkeitsstufen!
+            </div>
+            <div style="
+              position: absolute;
+              top: 630px;
+              left: 1705px;
+              width: 40px;
+            ">
+              <svg viewBox="44.487 119.182 259.44 164.973" draggable="false">
+                <path style="fill: none; stroke-width: 10px; stroke-linejoin: round; stroke-linecap: round; stroke: rgb(255, 255, 255);" d="M 57.055 267.485 C 57.055 267.485 129.447 283.435 192.025 247.239 C 254.603 211.043 262.577 131.902 262.577 131.902 L 219.632 168.098"/>
+                <path style="fill: none; stroke-width: 10px; stroke-linejoin: round; stroke-linecap: round; stroke: rgb(255, 255, 255);" d="M 262.732 131.752 L 288.887 182.051"/>
+              </svg>
+            </div>
+          `
+        }
+      }
+
+      return ''
+      /*return `
         <div style="position: absolute; top: 810px; left: 1900px; text-align: center;"><img draggable="false" src="/winter25.jpg" style="width: 120px; border-radius: 16px; margin-bottom: 8px;" /><br>Winter Challenges<br><small style="color: gray">im Community-Bereich</small></div>
-      `
+      `*/
     },
   },
 

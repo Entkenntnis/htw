@@ -2752,7 +2752,7 @@ export const part1 = [
     `
       ),
     },
-    solution: secrets('chal_66'),
+    solution: secrets('chal_66').split(','),
   },
 
   {

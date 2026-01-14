@@ -540,11 +540,14 @@ export function setupLiveAnalyze(App) {
       .join('<br>')
   })()}</p>
   <h2>Quiz</h2>
-  <p>Insgesamt ${
-    [...quizData.values()].reduce((acc, cur) => {
-      return new Set([...acc, cur.users])
-    }, new Set()).size
-  } SpielerInnen</p>
+  ${(() => {
+    const allUsers = byKey.get('visit-quiz')?.users ?? new Set()
+    const activeUsers = [...quizData.values()].reduce((acc, cur) => {
+      return new Set([...acc, ...cur.users])
+    }, new Set())
+    const retainerer = new Set([...activeUsers].filter((u) => allUsers.has(u)))
+    return `<p>${allUsers.size} BesucherInnen -> ${retainerer.size} aktiv (${Math.round((retainerer.size * 100) / allUsers.size)}%)<span style="width: 100px;display: inline-block"></span>[${activeUsers.size} total]</p>`
+  })()}
   <p>${(() => {
     return App.quizData
       .getQuizIds()

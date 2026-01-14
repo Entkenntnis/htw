@@ -272,6 +272,7 @@
     href="<%- locale == 'de' ? 'https://forms.gle/KYrmo2GMNaTmoj6M7' : 'https://forms.gle/E6e8YdrpMJDXSYLm7' %>"
     target="_blank"
     style="pointer-events: auto"
+    onclick="fetch('/api/event?key=suggest-quiz-question')"
     ><%= locale == 'de' ? 'Frage vorschlagen' : 'Suggest a Question' %></a
   >
 </div>

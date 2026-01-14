@@ -2343,6 +2343,19 @@ export function setupHints(App) {
       solutionMap[`${sol.UserId}-${sol.cid}`] = true
     })
 
+    const users = await App.db.models.User.findAll({
+      where: {
+        id: { [Op.in]: userIds },
+      },
+      raw: true,
+    })
+
+    /** @type {{[key: number]: number}} */
+    const userScoreMap = {}
+    users.forEach((user) => {
+      userScoreMap[user.id] = user.score
+    })
+
     let content = `
       <script>
         function closeFeedback(key) {
@@ -2379,7 +2392,7 @@ export function setupHints(App) {
             </p>
             <p style="margin-top:8px; margin-left: 24px; margin-bottom:16px; padding: 12px; background-color: #444; border-radius: 8px;">${escapeHTML(entry.feedback)}</p>
             <p style="text-align: right; color: #888; font-size: 14px;">    
-              ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, ${escapeHTML(entry.userScore.toString())} Punkte, ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? '' : 'UNGELÖST'}
+              ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, ${escapeHTML(entry.userScore.toString())} Punkte (${userScoreMap[entry.userid]}), ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? 'GELÖST' : 'ungelöst'}
             </p>
           </div>
           <hr />

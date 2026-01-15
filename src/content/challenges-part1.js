@@ -683,11 +683,14 @@ export const part1 = [
         <p>Mit einem Blick für Muster hast du 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99 schnell berechnet.</p>
     `
       ),
-      en: `
-      <p>You are not only good at mental math but also skilled in pattern recognition. With a bit of skill, you can save a lot of work.</p>
+      en: story(
+        'Josh',
+        `
+        <p>There are ordinary patterns — and then there are numbers that simply belong together, like 1 and 99, even if they sit on two different ends of the calculation.</p>
 
-      <p>Your answer is the result of 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99.</p>
-    `,
+        <p>With an eye for patterns, you can quickly compute 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99.</p>
+    `
+      ),
     },
     solution: secrets('chal_9'),
   },
@@ -708,11 +711,15 @@ export const part1 = [
         </p>
     `
       ),
-      en: `
-      <p>Mental math genius, skilled - and with a good imagination. With that, you solve complex problems in an elegant manner.</p>
-
-      <p>This time, calculate the result of 1 + 2 + 3 + ... + 98 + 99 + 100.</p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>In the end, it's up to you how you calculate — in your head, with a computer, or by combining terms cleverly. What matters is the result, and every way to get there makes sense.</p>
+        
+        <p>Calculate the result of 1 + 2 + 3 + ... + 97 + 98 + 99 + 100.
+        </p>
+    `
+      ),
     },
     solution: secrets('chal_10'),
   },
@@ -944,43 +951,50 @@ export const part1 = [
         </script>
     `
       ),
-      en: `
-      <p>You have received an encrypted message! It looks like complete nonsense. Your hacker's eye is in demand! You look wonderful when you think hard.
-      </p>
-      
-      <p>Drag the slider to shift the letters in the alphabet.</p>
-      
-      <p style="word-wrap:break-word" class="my-4" id="cipher">
-      </p>
-      
-      <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
-      
-      <script>
-        // noinspection SpellCheckingInspection
-        const message = 'terng lbh unir fhpprffshyyl qrpbqrq gur grkg nf n erjneq lbh abj trg gur nafjre naq vg vf fcvrtryovyq    (gur trezna jbeq sbe zveebe vzntr)'
+      en: story(
+        'Josh',
+        `
+        <p>People have been encrypting messages for thousands of years — and there must have been hackers just as long who decrypted those messages again.</p>
+
+        <p>A common method was shifting letters in the alphabet. With modern tools, this no longer provides any real security. Drag the slider to shift the letters and find your answer.</p>
+        `,
+        `
+        <p style="word-wrap:break-word" class="my-4" id="cipher">
+        </p>
+
+        <p>Shift: <span id="display">0</span></p>
         
-        const slider = document.getElementById('slider')
+        <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
         
-        const cipher = document.getElementById('cipher')
-        
-        function translate(n) {
-          cipher.innerHTML = message.split('').map(c => {
-            if (c === ' ' || c === '(' || c === ')') return c
-            return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
-          }).join('')
-        }
-        
-        function change() {
-          translate(parseInt(slider.value))
-        }
-        
-        change()
-        
-        
-      </script>
-    `,
+        <script>
+          // noinspection SpellCheckingInspection
+          const message = 'terng lbh unir fhpprffshyyl qrpbqrq gur grkg nf n erjneq lbh abj trg gur nafjre naq vg vf zveebeonyy'
+          
+          const slider = document.getElementById('slider')
+          
+          const cipher = document.getElementById('cipher')
+          
+          function translate(n) {
+            cipher.innerHTML = message
+              .split('')
+              .map((c) => {
+                if (c === ' ' || c === '(' || c === ')') return c
+                return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
+              })
+              .join('')
+          }
+          
+          function change() {
+            translate(parseInt(slider.value))
+            document.getElementById('display').innerHTML = slider.value
+          }
+          
+          change()
+        </script>
+    `
+      ),
     },
-    solution: secrets('chal_18'),
+    solution: secrets('chal_18').split(','),
   },
 
   /*{
@@ -1239,24 +1253,19 @@ export const part1 = [
         <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
     `
       ),
-      en: `
-      <p>You look like someone who is interested in backstories! There are a few exciting aspects to Hack The Web's origin story, and here's a little history lesson just for you.
-      </p>
-      
-      <p>The concept of challenges arranged in a map has been adopted by Hack The Web from <a href="https://hacker.org/" target="_blank">Hacker.org</a>. This site is a great inspiration, but it didn't fall from the sky either. When the Challenges were published in 2008, a project that could be described as a hacker community had been on the domain for many years.
-      </p>
-      
-      <p>Thanks to the Internet Archive, we can travel back in time, and you can experience how this community got along.
-      </p>
-      
-      <p>Here you can see a version of hacker.org from the <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">December 18, 1996</a>.
-      </p>
-      
-      <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
-      
-      <p>Your answer is any one of the misspelled words in the greeting text.
-      </p>
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>Josh said hackers have existed ever since the internet was invented. I didn't believe him. But when I searched through the archives, I stumbled upon some interesting pages.</p>
+        
+        <p>Here's a website from <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">December 18, 1996</a>. I have to say… it's special. I only understand a fraction of the abbreviations, but I'm relieved that even hackers back then weren't perfect at English spelling :)</p>
+
+        <p>In the greeting text ("Hi every one …"), there are four misspelled words. Pick one of them (in its misspelled form) and use it as your answer.</p>
+        `,
+        `
+        <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
+    `
+      ),
     },
     solution: secrets('chal_26').split(','),
   },
@@ -1377,11 +1386,12 @@ export const part1 = [
         </p>
       `
       ),
-      en: `
-      <p>The first letters of these towns are the answer to this challenge:  
-      </p>
-      
-      <p>
+      en: story(
+        'Bex',
+        `
+        <p>For this task, I found a few GPS coordinates. The first letters of these German places form your answer.</p>
+        
+        <p>
           52.7073, 8.5031<br>
           48.63253, 12.85515<br>
           50.9761, 8.8677<br>
@@ -1389,8 +1399,9 @@ export const part1 = [
           48.0336, 7.7649<br>
           49.59637, 11.11833<br>
           53.679, 10.6947
-      </p>
-    `,
+        </p>
+      `
+      ),
     },
     solution: secrets('chal_29'),
   },
@@ -1518,17 +1529,22 @@ export const part1 = [
         <script src="/chals/chal31.js"></script>
     `
       ),
-      en: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <p>This time, calculate the number 1337.
-      </p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>Calculate the number 1337.
+        </p>
+
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+    `
+      ),
     },
     check: (answer) => {
       const val = calculatorCheck(answer)
@@ -1563,17 +1579,22 @@ export const part1 = [
         <script src="/chals/chal33.js"></script>
     `
       ),
-      en: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal33.js"></script>
-      
-      <p>Calculate the number 100. However, this time a few keys are missing.
-      </p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>Calculate the number 100. However, a few buttons are missing.
+        </p>
+
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal33.js"></script>
+    `
+      ),
     },
     check: (answer) => {
       const val = calculatorCheck(answer)
@@ -1647,15 +1668,17 @@ export const part1 = [
         <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
     `
       ),
-      en: `
-      <p>Nothing in the world is as beautiful as your smile. I could look at it all day.
-      </p>
-      
-      <p>Send me a smile. Your answer is this emoji:
-      </p>
-      
-      <p><img src="/chals/chal37.png" style="max-width: 80px" alt="chal37"/></p>
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>I like emojis. Even when I'm not in a great mood, I can still send someone a smile. I think that's pretty practical.</p>
+
+        <p>Send me a smile. Your answer is this emoji:
+        </p>
+
+        <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
+    `
+      ),
     },
     check: (answer) => {
       const withoutWhitespace = answer.replace(/\s+/g, '')
@@ -1799,18 +1822,17 @@ export const part1 = [
         </p>
     `
       ),
-      en: `
-      <p>Who doesn't know him: the song that gets into our ears and haunts us day and night?
-      </p>
-      
-      <p>Here is an example of this:
-      </p>
-      
-      <audio src="/chals/chal_42.mp3" controls loop></audio>
-      
-      <p>The question now is: What is the name of the song?
-      </p>
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>I've had this catchy tune stuck in my head for a few days. I don't know where it came from, but somehow this song reminds me of my past.</p>
+        
+        <audio src="/chals/chal_42.mp3" controls loop style="margin-bottom:12px;"></audio>
+        
+        <p>Please look it up and tell me the title of the song. I don't dare to do it myself.
+        </p>
+    `
+      ),
     },
     solution: secrets('chal_42'),
   },
@@ -1831,12 +1853,15 @@ export const part1 = [
         <p><img src="/chals/chal45.png" alt="japanese characters" style="max-width: 90vw"></p>
     `
       ),
-      en: `
-      <p>We live in an international world and hackers also speak many languages. Some languages differ greatly from our language and thus present us with challenges. What delicacy is hidden behind the following characters?
-      </p>
-      
-      <p><img src="/chals/chal45.png" alt="schriftzeichen" style="max-width: 90vw"></p>
-    `,
+      en: story(
+        'Kiwi',
+        `
+        <p>We live in an international world, and hackers operate in many languages. Some languages differ greatly from ours and can be quite a challenge. What tasty treat is hidden behind the following characters?
+        </p>
+        
+        <p><img src="/chals/chal45.png" alt="japanese characters" style="max-width: 90vw"></p>
+    `
+      ),
     },
     solution: secrets('chal_45'),
   },
@@ -1909,62 +1934,64 @@ export const part1 = [
         </script>
     `
       ),
-      en: `
-      <p>II couldn't sit patiently like you and wait for the answer to load... I'm always impatient and fidgeting on the keyboard.
-      </p>
-      
-      <p>But could it be that this actually makes the loading bar faster?
-      </p>
-      
-      <p>You will receive the answer as soon as the loading bar is full.
-      </p>
-      
-      <div class="progress my-4">
-        <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
-      </div>
-      
-      <p id="value"></p>
-      
-      <p id="status"></p>
-      
-      <script>
-        const bar = document.getElementById('44_bar')
-        const value = document.getElementById('value')
-        const status = document.getElementById('status')
+      en: story(
+        'Bex',
+        `
+        <p>Let me tell you a slightly embarrassing story about me. Don't tell anyone!</p>
+
+        <p>For some reason, I used to believe that progress bars on a computer run faster if I type on the keyboard. So I did it every single time while waiting. Once, Kiwi asked me what I was doing, and I told her why. She just laughed — and I blushed like crazy when I realized my superstition.</p>
+
+        <p>To make myself feel better, I programmed a progress bar that actually becomes faster when you press keys. Go ahead and try it. As soon as the bar is full, you'll get your answer.</p>
+        `,
+        `
+        <div class="progress my-4">
+          <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
+        </div>
         
-        let step = 1
-        let steps = 1000
-        let x = 3
+        <p id="value"></p>
         
-        function transform(x) {
-          return (x * 11) % 10000
-        }
+        <p id="status"></p>
         
-        function work(noTimeout) {
-          if (step >= steps) {
-            bar.style.width = '100%'
-          } else {
-            step++
-            bar.style.width = ((step/steps) * 98.9 + 1) + '%'
-            x = transform(x)
-            value.innerHTML = x.toString()
-            status.innerHTML = '(' + step + '/' + steps + ')'
-            if (!noTimeout) {
-              setTimeout(work, 1000)
+        <script>
+          const bar = document.getElementById('44_bar')
+          const value = document.getElementById('value')
+          const status = document.getElementById('status')
+          
+          let step = 1
+          let steps = 1000
+          let x = 3
+          
+          function transform(x) {
+            return (x * 11) % 10000
+          }
+          
+          function work(noTimeout) {
+            if (step >= steps) {
+              bar.style.width = '100%'
+            } else {
+              step++
+              bar.style.width = ((step / steps) * 98.9 + 1) + '%'
+              x = transform(x)
+              value.innerHTML = x.toString()
+              status.innerHTML = '(' + step + '/' + steps + ')'
+              if (!noTimeout) {
+                setTimeout(work, 1000)
+              }
             }
           }
-        }
-        
-        window.onkeydown = () => {
-          work(true)
-        }
-        
-        value.innerHTML = x
-        status.innerHTML = '(1/' + steps + ')'
-        
-        setTimeout(work, 1000)
-      </script>
-    `,
+          
+          window.onkeydown = (e) => {
+            if (e.repeat) return
+            work(true)
+          }
+          
+          value.innerHTML = x
+          status.innerHTML = '(1/' + steps + ')'
+          
+          setTimeout(work, 1000)
+        </script>
+    `
+      ),
     },
     solution: secrets('chal_47'),
   },
@@ -2201,7 +2228,7 @@ export const part1 = [
           <p>... although, it is a bit funny to just click 🤷‍♀️</p>
 
           <script>
-            var solutionURL = "https://hack.arrrg.de/chals/klicker.png"
+            var solutionURL = "https://hack.arrrg.de/chals/klicker_en.png"
             var count = 2000
           </script>
         
@@ -2220,7 +2247,7 @@ export const part1 = [
         ),
       }
     },
-    solution: secrets('chal_53'),
+    solution: secrets('chal_53').split(','),
   },
 
   /*{
@@ -2427,16 +2454,18 @@ export const part1 = [
         <p><small><a href="https://game8.co/games/Genshin-Impact/archives/384388" target="_blank">Hinweis</a></small></p>
     `
       ),
-      en: `
-        <p>There are no limits for you when it comes to writing a secret text. You can handle all methods — even if it is a very special code.
-        </p>
+      en: story(
+        'Bex',
+        `
+        <p>It might seem like I don't play anything other than Minecraft. But that's not true. I used to spend a lot of time in the world of Teyvat, too.</p>
 
-        <p>The first letters of the following elements from Teyvat form your answer.
+        <p>I'll prove it to you. Here's a secret text. The first letters of the following elements form your answer.</p>
         
-        <p><img src="/chals/chal58_2.png" alt="genshin"></p>
+        <p><img src="/chals/chal58_2.png" alt="genshin" style="max-width:calc(min(90vw,65ch))"></p>
         
-        <p><small><a href="https://genshin-impact.fandom.com/wiki/Element" target="_blank">Hint</a></small></p>
-    `,
+        <p><small><a href="https://game8.co/games/Genshin-Impact/archives/384388" target="_blank">Hint</a></small></p>
+    `
+      ),
     },
     solution: secrets('chal_58'),
   },
@@ -2769,11 +2798,16 @@ export const part1 = [
         <p><img src="/chals/chal67.png" style="max-width: calc(min(90vw,500px))" alt="lan kable"></p>
     `
       ),
-      en: `
-      <p>Connect the wires in the right order with the plug. Use the TIA-568B standard.</p>
+      en: story(
+        'Kiwi',
+        `
+        <p>You can hack anything — software, hardware, or entire systems. Human creativity has no limits.</p>
+        
+        <p>Sometimes you might even have to build an internet cable yourself. Use the <a href="https://en.wikipedia.org/wiki/TIA/EIA-568" target="_blank">TIA-568B</a> standard and connect the wires. The letters form your answer.</p>
       
-      <p><img src="/chals/chal67.png" style="max-width: 500px" alt="lan kable"></p>
-    `,
+        <p><img src="/chals/chal67.png" style="max-width: calc(min(90vw,500px))" alt="lan kable"></p>
+    `
+      ),
     },
     solution: secrets('chal_67'),
   },
@@ -3137,19 +3171,39 @@ An: ${req.user?.name}@arrrg.de</pre>
           <p>Gib die verdächtige Domain als deine Antwort ein.</p>
     `
         ),
-        en: `
+        en: story(
+          'Josh',
+          App.experiments.showTrial(79, req)
+            ? `
+              <p>Some of these email addresses are fake — but it takes a good eye to spot them:</p>
+
+              <pre><code>noreply@dhl.de
+info@telekom.de
+security@mail.instagrarn.com
+no-reply@amazon.de
+bahncard-service@bahn.de
+info@teIekom.de
+noreply@zalando.de
+noreply@web.de
+security@mail.instagram.com
+no-reply@amaz0n.de
+</code></pre>
+              <p>Your answer is the first letters of the fake addresses, in the order shown above.</p>
+            `
+            : `
         <p>Your bank account is in the spotlight. You receive an email from your bank reporting unusual activity. But something feels shady – the sender doesn't seem entirely trustworthy.</p>
         
         <p>In the "From:" line, you find the sender's email address. Your bank normally uses the domain <code>htw-bank.de</code>, but this message shows a different domain.</p>
         
-        <pre>From: "Your Bank" &lt;support@secure-bank-login.com&gt;
+        <pre>From: "Hack The Web Bank" &lt;support@secure-bank-login.com&gt;
 Date: Fri, 08 Feb 2025 10:15:32 +0200
 Subject: Important security notice regarding your account
 To: ${req.user?.name}@arrrg.de</pre>
 
         <p>Enter the suspicious domain as your answer.</p>
 
-    `,
+    `
+        ),
       }
     },
     solution: secrets('chal_79').split(','),
@@ -3317,31 +3371,36 @@ To: ${req.user?.name}@arrrg.de</pre>
         })()}
     `
       ),
-      en: `
-      <p>Unintuitive forms are a nightmare for every internet user. For example, you can find the answer to this task in this much too small text field:</p>
-      
-      <p><input size="5" value="-> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> The answer is ${secrets(
-        'chal_81'
-      )}"/>
-      </p>
-      
-      <p>Now we're getting to the fun part. Only one of the input fields works:</p>
-      
-      ${(() => {
-        let output = ''
-        for (let i = 0; i < 25; i++) {
-          output += `
-            <form autocomplete="off" method="post" id="challenge_form"${
-              i !== 18 ? ' action="/wrong_submit"' : ''
-            }>
-              <input id="challenge_answer" type="text" name="answer" style="height:32px">
-              <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
-            </form>
-          `
-        }
-        return output
-      })()}
-    `,
+      en: story(
+        'Kiwi',
+        `
+        <p>Welcome to Hack The Web's obstacle course with two hurdles 🏃‍♀️. Get ready for annoying forms on the internet.</p>
+        
+        <p>First, find your answer in this much too small text field:</p>
+        
+        <p><input size="5" value="-> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> -> -> -> -> scroll further -> -> -> -> -> -> -> -> The answer is ${secrets(
+          'chal_81'
+        )}"/>
+        </p>
+        
+        <p>Now submit the answer. Only one of these input fields actually works:</p>
+        
+        ${(() => {
+          let output = ''
+          for (let i = 0; i < 25; i++) {
+            output += `
+              <form autocomplete="off" method="post" id="challenge_form"${
+                i !== 18 ? ' action="/wrong_submit"' : ''
+              }>
+                <input id="challenge_answer" type="text" name="answer" style="height:32px">
+                <input type="submit" id="challenge_submit" value="Los" style="height:32px;line-height:1;vertical-align:bottom;">
+              </form>
+            `
+          }
+          return output
+        })()}
+    `
+      ),
     },
     hidesubmit: true,
     solution: secrets('chal_81'),

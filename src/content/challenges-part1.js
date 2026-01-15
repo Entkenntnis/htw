@@ -947,41 +947,48 @@ export const part1 = [
         </script>
     `
       ),
-      en: `
-      <p>You have received an encrypted message! It looks like complete nonsense. Your hacker's eye is in demand! You look wonderful when you think hard.
-      </p>
-      
-      <p>Drag the slider to shift the letters in the alphabet.</p>
-      
-      <p style="word-wrap:break-word" class="my-4" id="cipher">
-      </p>
-      
-      <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
-      
-      <script>
-        // noinspection SpellCheckingInspection
-        const message = 'terng lbh unir fhpprffshyyl qrpbqrq gur grkg nf n erjneq lbh abj trg gur nafjre naq vg vf zveebeonyy'
+      en: story(
+        'Josh',
+        `
+        <p>People have been encrypting messages for thousands of years — and there must have been hackers just as long who decrypted those messages again.</p>
+
+        <p>A common method was shifting letters in the alphabet. With modern tools, this no longer provides any real security. Drag the slider to shift the letters and find your answer.</p>
+        `,
+        `
+        <p style="word-wrap:break-word" class="my-4" id="cipher">
+        </p>
+
+        <p>Shift: <span id="display">0</span></p>
         
-        const slider = document.getElementById('slider')
+        <input id="slider" type="range" min="0" max="26" step="1" style="width:500px" value="0" onchange="change()" oninput="change()"/>
         
-        const cipher = document.getElementById('cipher')
-        
-        function translate(n) {
-          cipher.innerHTML = message.split('').map(c => {
-            if (c === ' ' || c === '(' || c === ')') return c
-            return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
-          }).join('')
-        }
-        
-        function change() {
-          translate(parseInt(slider.value))
-        }
-        
-        change()
-        
-        
-      </script>
-    `,
+        <script>
+          // noinspection SpellCheckingInspection
+          const message = 'terng lbh unir fhpprffshyyl qrpbqrq gur grkg nf n erjneq lbh abj trg gur nafjre naq vg vf zveebeonyy'
+          
+          const slider = document.getElementById('slider')
+          
+          const cipher = document.getElementById('cipher')
+          
+          function translate(n) {
+            cipher.innerHTML = message
+              .split('')
+              .map((c) => {
+                if (c === ' ' || c === '(' || c === ')') return c
+                return String.fromCharCode(((c.charCodeAt(0) - 97 + n) % 26) + 97)
+              })
+              .join('')
+          }
+          
+          function change() {
+            translate(parseInt(slider.value))
+            document.getElementById('display').innerHTML = slider.value
+          }
+          
+          change()
+        </script>
+    `
+      ),
     },
     solution: secrets('chal_18').split(','),
   },
@@ -1521,17 +1528,22 @@ export const part1 = [
         <script src="/chals/chal31.js"></script>
     `
       ),
-      en: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal31.js"></script>
-      
-      <p>This time, calculate the number 1337.
-      </p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>Calculate the number 1337.
+        </p>
+
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal31.js"></script>
+    `
+      ),
     },
     check: (answer) => {
       const val = calculatorCheck(answer)
@@ -1566,17 +1578,22 @@ export const part1 = [
         <script src="/chals/chal33.js"></script>
     `
       ),
-      en: `
-      <p id="op-buttons"></p>
-      <p id="num-buttons"></p>
-      <p><svg id="stack"></svg></p>
-      
-      <script src="/svg.min.js"></script>
-      <script src="/chals/chal33.js"></script>
-      
-      <p>Calculate the number 100. However, this time a few keys are missing.
-      </p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>Calculate the number 100. However, a few buttons are missing.
+        </p>
+
+        <br>
+
+        <p id="op-buttons"></p>
+        <p id="num-buttons"></p>
+        <p><svg id="stack"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal33.js"></script>
+    `
+      ),
     },
     check: (answer) => {
       const val = calculatorCheck(answer)
@@ -1650,15 +1667,17 @@ export const part1 = [
         <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
     `
       ),
-      en: `
-      <p>Nothing in the world is as beautiful as your smile. I could look at it all day.
-      </p>
-      
-      <p>Send me a smile. Your answer is this emoji:
-      </p>
-      
-      <p><img src="/chals/chal37.png" style="max-width: 80px" alt="chal37"/></p>
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>I like emojis. Even when I'm not in a great mood, I can still send someone a smile. I think that's pretty practical.</p>
+
+        <p>Send me a smile. Your answer is this emoji:
+        </p>
+
+        <p><img src="/chals/chal37.png" style="max-width: 80px" alt="smily"/></p>
+    `
+      ),
     },
     check: (answer) => {
       const withoutWhitespace = answer.replace(/\s+/g, '')
@@ -2430,16 +2449,18 @@ export const part1 = [
         <p><small><a href="https://game8.co/games/Genshin-Impact/archives/384388" target="_blank">Hinweis</a></small></p>
     `
       ),
-      en: `
-        <p>There are no limits for you when it comes to writing a secret text. You can handle all methods — even if it is a very special code.
-        </p>
+      en: story(
+        'Bex',
+        `
+        <p>It might seem like I don't play anything other than Minecraft. But that's not true. I used to spend a lot of time in the world of Teyvat, too.</p>
 
-        <p>The first letters of the following elements from Teyvat form your answer.
+        <p>I'll prove it to you. Here's a secret text. The first letters of the following elements form your answer.</p>
         
-        <p><img src="/chals/chal58_2.png" alt="genshin"></p>
+        <p><img src="/chals/chal58_2.png" alt="genshin" style="max-width:calc(min(90vw,65ch))"></p>
         
-        <p><small><a href="https://genshin-impact.fandom.com/wiki/Element" target="_blank">Hint</a></small></p>
-    `,
+        <p><small><a href="https://game8.co/games/Genshin-Impact/archives/384388" target="_blank">Hint</a></small></p>
+    `
+      ),
     },
     solution: secrets('chal_58'),
   },

@@ -516,4 +516,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-15 00:03+0100').getTime(),
     endTs: new Date('2026-02-12 00:03+0100').getTime(),
   },
+  {
+    id: 31,
+    description:
+      'Verschiebung: ist ein technischer Titel wie ROT13 attraktiver?',
+    challenge: 23,
+    startTs: new Date('2026-01-16 00:01+0100').getTime(),
+    endTs: new Date('2026-02-13 00:01+0100').getTime(),
+  },
 ]

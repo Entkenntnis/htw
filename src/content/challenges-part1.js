@@ -683,11 +683,14 @@ export const part1 = [
         <p>Mit einem Blick für Muster hast du 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99 schnell berechnet.</p>
     `
       ),
-      en: `
-      <p>You are not only good at mental math but also skilled in pattern recognition. With a bit of skill, you can save a lot of work.</p>
+      en: story(
+        'Josh',
+        `
+        <p>There are ordinary patterns — and then there are numbers that simply belong together, like 1 and 99, even if they sit on two different ends of the calculation.</p>
 
-      <p>Your answer is the result of 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99.</p>
-    `,
+        <p>With an eye for patterns, you can quickly compute 1 + 2 + 3 + 4 + 5 + 95 + 96 + 97 + 98 + 99.</p>
+    `
+      ),
     },
     solution: secrets('chal_9'),
   },
@@ -957,7 +960,7 @@ export const part1 = [
       
       <script>
         // noinspection SpellCheckingInspection
-        const message = 'terng lbh unir fhpprffshyyl qrpbqrq gur grkg nf n erjneq lbh abj trg gur nafjre naq vg vf fcvrtryovyq    (gur trezna jbeq sbe zveebe vzntr)'
+        const message = 'terng lbh unir fhpprffshyyl qrpbqrq gur grkg nf n erjneq lbh abj trg gur nafjre naq vg vf zveebeonyy'
         
         const slider = document.getElementById('slider')
         
@@ -980,7 +983,7 @@ export const part1 = [
       </script>
     `,
     },
-    solution: secrets('chal_18'),
+    solution: secrets('chal_18').split(','),
   },
 
   /*{

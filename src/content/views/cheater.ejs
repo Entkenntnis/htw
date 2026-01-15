@@ -153,7 +153,7 @@
 </style>
 
 <!-- The game canvas is now inside a container for positioning the overlays. -->
-<div id="game-container" tabindex="1">
+<div id="game-container" tabindex="1" style="outline: none">
   <div id="game" style="outline: none"></div>
 
   <!-- The button is renamed and moved inside the game container -->
@@ -181,7 +181,7 @@
   <div id="source-overlay">
     <div id="source-content">
       <button id="close-source-button" onclick="hideSource()">✓</button>
-      <h3>Quellcode</h3>
+      <h3><%= locale == 'de' ? 'Quellcode' : 'Source Code' %></h3>
       <textarea style="font-family: monospace" id="code">
 const { Engine, World, Bodies, Body, Events } = Matter
 const { Application, loader, extras, Sprite, Text } = PIXI
@@ -209,12 +209,18 @@ function initGame() {
     status.text = text
   }
 
-  // ============================================
+  <%= locale == 'de' ? `// ============================================
   // ============== SCHAU MAL ===================
   // ============================================
   // = Hier wird die Start-Punkzahl festgelegt, =
-  // = die könntest du z.B. auf 50 setzen.      =
+  // = die knnntest du z.B. auf 50 setzen.      =
+  // ============================================` :
+  `// ============================================
+  // ============== LOOK HERE ===================
   // ============================================
+  // = This is where the starting score is set; =
+  // = you could, for example, change it to 50. =
+  // ============================================` %>
   updateScore(0)
 
   const woodTexture = loader.resources[HOLZ].texture
@@ -308,7 +314,7 @@ function initGame() {
     }
   }
 
-  $('game').focus()
+  $('game-container').focus()
 
   app.ticker.add(() => {
     Engine.update(engine)
@@ -336,9 +342,9 @@ loader.reset().add(HOLZ).add(BALL).load(initGame)</textarea
   function checkDone() {
     if (window.score >= 100) {
       window.setText(
-        'Die Antwort lautet ' +
-          String.fromCharCode(83, 109, 117, 114, 102, 101, 110) +
-          '.'
+        getLng() == 'de'
+          ? 'Die Antwort lautet ' + String.fromCharCode(71, 79, 65, 84) + '.'
+          : 'The answer is ' + String.fromCharCode(71, 79, 65, 84) + '.'
       )
     }
     setTimeout(checkDone, 10)
@@ -346,7 +352,6 @@ loader.reset().add(HOLZ).add(BALL).load(initGame)</textarea
 
   function showSource_() {
     // We use 'flex' because that's what we used in the CSS to center it.
-    console.log('test')
     $('source-overlay').style.display = 'flex'
   }
 

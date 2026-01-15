@@ -2201,7 +2201,7 @@ export const part1 = [
           <p>... although, it is a bit funny to just click 🤷‍♀️</p>
 
           <script>
-            var solutionURL = "https://hack.arrrg.de/chals/klicker.png"
+            var solutionURL = "https://hack.arrrg.de/chals/klicker_en.png"
             var count = 2000
           </script>
         
@@ -2220,7 +2220,7 @@ export const part1 = [
         ),
       }
     },
-    solution: secrets('chal_53'),
+    solution: secrets('chal_53').split(','),
   },
 
   /*{

@@ -1222,15 +1222,14 @@ export const part1 = [
         </p>
       `
       ),
-      en: `
-      <p>When you zip a file, it becomes smaller and requires less space. When you zip it again, does it become even smaller?</p>
-      </p>
-      
-      <p>Let's try it! I zipped the answer a bunch of times: This is the <a href="/chals/antwort25.zip">File</a>. In it, there is the answer to this challenge. And no: If you zip a file more than once, it becomes only bigger.
-      </p>
-      
-      <small style="margin-top:48px;display:inline-block">Note: The word "antwort" means "answer" in german</small>
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>When you zip a file, it becomes smaller and needs less storage space. If you zip a zip file again, does it become even smaller?</p>
+        
+        <p>Why not try it? I zipped the answer properly: here is the <a href="/chals/antwort25.zip">file</a>. Inside it you'll find the solution to this task. And no — zipping it multiple times doesn't help and actually makes the file bigger.</p>
+      `
+      ),
     },
     solution: secrets('chal_25'),
   },

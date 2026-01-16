@@ -1298,19 +1298,21 @@ export const part1 = [
         <script src="/chals/chal27.js"></script>
     `
       ),
-      en: `
-     <p>Carefully key over the field and read the answer:
-     </p>
-     
-     <p><svg id="chal27"></svg></p>
-       
-     <script src="/svg.min.js"></script>
-     <script src="/chals/chal27.js"></script>
-     
-     <p>Note: The answer is in German, so don't be confused if the word doesn't make sense to you.</p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>I'm getting old — and no technology can change that. No reason to despair. I do what I can. Recently, I started learning braille. It keeps my grey cells on their toes.</p>
+        
+        <p>Carefully feel across the field and read the answer:</p>
+        
+        <p><svg id="chal27"></svg></p>
+        
+        <script src="/svg.min.js"></script>
+        <script src="/chals/chal27.js"></script>
+    `
+      ),
     },
-    solution: secrets('chal_27'),
+    solution: secrets('chal_27').split(','),
   },
 
   {

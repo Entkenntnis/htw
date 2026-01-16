@@ -212,91 +212,102 @@ export const part1 = [
     title: { de: 'Auf hoher See', en: 'At Sea' },
     // date: '2017-05-17',
     deps: [42, 50],
-    html: {
-      de: story(
-        'Josh',
+    render: ({ App, req }) => {
+      const MORSE_ALPHABET_TABLE = `
+        <table style="border-collapse: collapse; width: 100%; text-align: center;">
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">A</td>
+            <td style="border: 1px solid black; padding: 4px;">• −</td>
+            <td style="border: 1px solid black; padding: 4px;">J</td>
+            <td style="border: 1px solid black; padding: 4px;">• − − −</td>
+            <td style="border: 1px solid black; padding: 4px;">S</td>
+            <td style="border: 1px solid black; padding: 4px;">• • •</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">B</td>
+            <td style="border: 1px solid black; padding: 4px;">− • • •</td>
+            <td style="border: 1px solid black; padding: 4px;">K</td>
+            <td style="border: 1px solid black; padding: 4px;">− • −</td>
+            <td style="border: 1px solid black; padding: 4px;">T</td>
+            <td style="border: 1px solid black; padding: 4px;">−</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">C</td>
+            <td style="border: 1px solid black; padding: 4px;">− • − •</td>
+            <td style="border: 1px solid black; padding: 4px;">L</td>
+            <td style="border: 1px solid black; padding: 4px;">• − • •</td>
+            <td style="border: 1px solid black; padding: 4px;">U</td>
+            <td style="border: 1px solid black; padding: 4px;">• • −</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">D</td>
+            <td style="border: 1px solid black; padding: 4px;">− • •</td>
+            <td style="border: 1px solid black; padding: 4px;">M</td>
+            <td style="border: 1px solid black; padding: 4px;">− −</td>
+            <td style="border: 1px solid black; padding: 4px;">V</td>
+            <td style="border: 1px solid black; padding: 4px;">• • • −</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">E</td>
+            <td style="border: 1px solid black; padding: 4px;">•</td>
+            <td style="border: 1px solid black; padding: 4px;">N</td>
+            <td style="border: 1px solid black; padding: 4px;">− •</td>
+            <td style="border: 1px solid black; padding: 4px;">W</td>
+            <td style="border: 1px solid black; padding: 4px;">• − −</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">F</td>
+            <td style="border: 1px solid black; padding: 4px;">• • − •</td>
+            <td style="border: 1px solid black; padding: 4px;">O</td>
+            <td style="border: 1px solid black; padding: 4px;">− − −</td>
+            <td style="border: 1px solid black; padding: 4px;">X</td>
+            <td style="border: 1px solid black; padding: 4px;">− • • −</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">G</td>
+            <td style="border: 1px solid black; padding: 4px;">− − •</td>
+            <td style="border: 1px solid black; padding: 4px;">P</td>
+            <td style="border: 1px solid black; padding: 4px;">• − − •</td>
+            <td style="border: 1px solid black; padding: 4px;">Y</td>
+            <td style="border: 1px solid black; padding: 4px;">− • − −</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">H</td>
+            <td style="border: 1px solid black; padding: 4px;">• • • •</td>
+            <td style="border: 1px solid black; padding: 4px;">Q</td>
+            <td style="border: 1px solid black; padding: 4px;">− − • −</td>
+            <td style="border: 1px solid black; padding: 4px;">Z</td>
+            <td style="border: 1px solid black; padding: 4px;">− − • •</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; padding: 4px;">I</td>
+            <td style="border: 1px solid black; padding: 4px;">• •</td>
+            <td style="border: 1px solid black; padding: 4px;">R</td>
+            <td style="border: 1px solid black; padding: 4px;">• − •</td>
+            <td style="border: 1px solid black; padding: 4px;"> </td>
+            <td style="border: 1px solid black; padding: 4px;"> </td>
+          </tr>
+        </table>
+      `
+
+      /** @param {'de' | 'en'} lng */
+      function renderMorseAlphabet(lng) {
+        const summary = lng === 'de' ? 'Morse-Alphabet' : 'Morse alphabet'
+        return `
+          <details style="margin-top:16px;margin-bottom:24px;">
+            <summary>${summary}</summary>
+            ${MORSE_ALPHABET_TABLE}
+          </details>
         `
+      }
+      return {
+        de: story(
+          'Josh',
+          `
         <p>Wie komfortabel heute die Kommunikation geworden ist! Mit einem Messenger kann man weltweit mühelos Nachrichten versenden und empfangen - da vergisst man leicht, dass noch vor wenigen Jahrzehnten die Situation ganz anders aussah. Damals hatte man, zum Beispiel in der Seefahrt, zur Kommunikation nichts mehr als einen Piepston und das Morse-Alphabet!
         </p>
 
-        <details style="margin-top:16px;margin-bottom:24px;">
-          <summary>Morse-Alphabet</summary>
-          <table style="border-collapse: collapse; width: 100%; text-align: center;">
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">A</td>
-              <td style="border: 1px solid black; padding: 4px;">• −</td>
-              <td style="border: 1px solid black; padding: 4px;">J</td>
-              <td style="border: 1px solid black; padding: 4px;">• − − −</td>
-              <td style="border: 1px solid black; padding: 4px;">S</td>
-              <td style="border: 1px solid black; padding: 4px;">• • •</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">B</td>
-              <td style="border: 1px solid black; padding: 4px;">− • • •</td>
-              <td style="border: 1px solid black; padding: 4px;">K</td>
-              <td style="border: 1px solid black; padding: 4px;">− • −</td>
-              <td style="border: 1px solid black; padding: 4px;">T</td>
-              <td style="border: 1px solid black; padding: 4px;">−</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">C</td>
-              <td style="border: 1px solid black; padding: 4px;">− • − •</td>
-              <td style="border: 1px solid black; padding: 4px;">L</td>
-              <td style="border: 1px solid black; padding: 4px;">• − • •</td>
-              <td style="border: 1px solid black; padding: 4px;">U</td>
-              <td style="border: 1px solid black; padding: 4px;">• • −</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">D</td>
-              <td style="border: 1px solid black; padding: 4px;">− • •</td>
-              <td style="border: 1px solid black; padding: 4px;">M</td>
-              <td style="border: 1px solid black; padding: 4px;">− −</td>
-              <td style="border: 1px solid black; padding: 4px;">V</td>
-              <td style="border: 1px solid black; padding: 4px;">• • • −</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">E</td>
-              <td style="border: 1px solid black; padding: 4px;">•</td>
-              <td style="border: 1px solid black; padding: 4px;">N</td>
-              <td style="border: 1px solid black; padding: 4px;">− •</td>
-              <td style="border: 1px solid black; padding: 4px;">W</td>
-              <td style="border: 1px solid black; padding: 4px;">• − −</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">F</td>
-              <td style="border: 1px solid black; padding: 4px;">• • − •</td>
-              <td style="border: 1px solid black; padding: 4px;">O</td>
-              <td style="border: 1px solid black; padding: 4px;">− − −</td>
-              <td style="border: 1px solid black; padding: 4px;">X</td>
-              <td style="border: 1px solid black; padding: 4px;">− • • −</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">G</td>
-              <td style="border: 1px solid black; padding: 4px;">− − •</td>
-              <td style="border: 1px solid black; padding: 4px;">P</td>
-              <td style="border: 1px solid black; padding: 4px;">• − − •</td>
-              <td style="border: 1px solid black; padding: 4px;">Y</td>
-              <td style="border: 1px solid black; padding: 4px;">− • − −</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">H</td>
-              <td style="border: 1px solid black; padding: 4px;">• • • •</td>
-              <td style="border: 1px solid black; padding: 4px;">Q</td>
-              <td style="border: 1px solid black; padding: 4px;">− − • −</td>
-              <td style="border: 1px solid black; padding: 4px;">Z</td>
-              <td style="border: 1px solid black; padding: 4px;">− − • •</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid black; padding: 4px;">I</td>
-              <td style="border: 1px solid black; padding: 4px;">• •</td>
-              <td style="border: 1px solid black; padding: 4px;">R</td>
-              <td style="border: 1px solid black; padding: 4px;">• − •</td>
-              <td style="border: 1px solid black; padding: 4px;"> </td>
-              <td style="border: 1px solid black; padding: 4px;"> </td>
-            </tr>
-          </table>
-
-        </details>
+        ${renderMorseAlphabet('de')}
         
         <p>Das sollte für uns kein Hindernis sein. Höre dir dieses Audio-Datei an. Darin findest du die Antwort zu dieser Aufgabe.
         </p>
@@ -305,18 +316,22 @@ export const part1 = [
         
         <p>Dein PC hat keine Lautsprecher? Scanne <a href="/chals/chal3_code.png">diesen QR-Code</a>, um dir <a href ="/chals/chal3.wav">die Datei</a> auf dem Handy anzuhören.</p>
       `
-      ),
-      en: `
-        <p>How comfortable communication has become today! With WhatsApp and Facebook, you can easily send and receive messages all over the world — it is easy to forget that a hundred years ago the situation was completely different. At that time, for example, in seafaring, one had nothing more than a beep and the Morse alphabet to communicate!
-        </p>
-        
-        <p>But that should not be an obstacle for you either. Listen to <a href ="/chals/chal3.wav">this file</a>. In it, you will find the answer to this challenge.
-        </p>
-        
-        <audio src="/chals/chal3.wav" controls></audio>
-        
-        <p>Your PC has no speakers? Scan <a href="/chals/chal3_code.png">this QR code</a> to listen to the file on your mobile phone.</p>
-      `,
+        ),
+        en: story(
+          'Josh',
+          `
+        <p>How comfortable communication has become today! With a messenger, you can effortlessly send and receive messages worldwide — and it’s easy to forget that only a few decades ago things were very different. Back then, for example in seafaring, people had nothing but a beep tone and the Morse alphabet to communicate!</p>
+
+        ${renderMorseAlphabet('en')}
+
+        <p>That shouldn’t be an obstacle for us either. Listen to this audio file — in it you’ll find the answer to this challenge.</p>
+
+        <audio src="/chals/chal3.wav" controls style="margin-bottom:16px;"></audio>
+
+        <p>Your PC has no speakers? Scan <a href="/chals/chal3_code.png">this QR code</a> to listen to <a href ="/chals/chal3.wav">the file</a> on your phone.</p>
+      `
+        ),
+      }
     },
     solution: secrets('chal_3'),
   },
@@ -1719,16 +1734,16 @@ export const part1 = [
         </p>
     `
       ),
-      en: `
-      <p>Flags can have many meanings: They exist for countries and territories, but you can also use them as signals and alphabets. This potential is fully exploited in shipping.
-      </p>
-      
-      <p>Watch <a href="/chals/chal39.mp4">this video</a>. What word do the letters of the signal flags make?
-      </p>
-      
-      <small style="margin-top:48px;display:inline-block">Note: The answer is in German, but you don't need to understand it to solve the challenge.
-      </small>
-    `,
+      en: story(
+        'Kiwi',
+        `
+          <p>Flags can have many meanings: They exist for countries and territories, but you can also use them as signals and alphabets. This potential is fully exploited in shipping.
+          </p>
+          
+          <p>Watch <a href="/chals/chal39.mp4">this video</a>. What word do the letters of the signal flags make?
+          </p>
+    `
+      ),
     },
     solution: secrets('chal_39'),
   },

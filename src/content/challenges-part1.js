@@ -3705,18 +3705,21 @@ To: ${req.user?.name}@arrrg.de</pre>
         </p>
     `
         ),
-        en: `
-        <p>You have a wonderfully relaxed aura! That inspired me to develop this little relaxed game.
-        </p>
-        
-        <p>Control with the <code>arrow keys</code>.
-        </p>
-        
-        <iframe src="https://scratch.mit.edu/projects/898484613/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
-        
-        <p style="margin-top:12px">Is it too slow for you? Look into the project: <a href="https://scratch.mit.edu/projects/898484613/editor/" target="_blank">https://scratch.mit.edu/projects/829930955/editor/</a>
-        </p>
-    `,
+        en: story(
+          'Bex',
+          `
+            <p>You have a wonderfully relaxed aura! That inspired me to develop this little relaxed game.
+            </p>
+            
+            <p>Control with the <code>arrow keys</code>.
+            </p>`,
+          `
+            <iframe src="https://scratch.mit.edu/projects/1267037271/embed" allowtransparency="true" width="485" height="402" allowfullscreen style="border: 0; overflow:hidden;"></iframe>
+            
+            <p style="margin-top:12px">Is it too slow for you? Look into the project: <a href="https://scratch.mit.edu/projects/1267037271/editor/" target="_blank">https://scratch.mit.edu/projects/1267037271/editor/</a>
+            </p>
+          `
+        ),
       }
     },
     solution: secrets('chal_87'),

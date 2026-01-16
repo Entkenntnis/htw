@@ -2060,22 +2060,21 @@ export const part1 = [
         <p class="my-4"><img src="/chals/chal50.png" alt="winkelschrift"></p>
     `
       ),
-      en: `
-      <p>What do these angular signs mean?
-      </p>
-      
-      <p><img src="/chals/chal50-en.png" alt="chal50"></p>
-      
-      <p>Luckily, there is the following hint:
-      </p>
-      
-      <p><img src="/chals/chal50.gif" alt="chal50"></p>
-      
-      <p>The first letter of the text would be a T, and the third letter of the text would be an E.
-      </p>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>I'm throwing you in at the deep end. First, get familiar with this guide. You can see the letters of the alphabet placed in different positions — sometimes with a dot and sometimes without.</p>
+
+        <p><img src="/chals/chal50.gif" alt="pigpen cipher guide"></p>
+
+        <p>Here is your message. You'll definitely notice some similarities: the dots are back, some familiar shapes... This is your answer in the pigpen cipher — decode it!
+        </p>
+        
+        <p class="my-4"><img src="/chals/chal50-en.png" alt="pigpen cipher" width="340" style="border: 1px solid white; padding: 6px;"></p>
+    `
+      ),
     },
-    solution: secrets('chal_50'),
+    solution: secrets('chal_50').split(','),
   },
 
   {

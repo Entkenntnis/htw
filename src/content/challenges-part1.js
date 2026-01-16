@@ -3520,9 +3520,9 @@ To: ${req.user?.name}@arrrg.de</pre>
           return `
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
           
-          <p style="margin-top:150px">Die Antwort lautet ${secrets(
-            'chal_84'
-          )}.</p>
+          <p style="margin-top:150px">Die Antwort lautet ${
+            secrets('chal_84').split(',')[0]
+          }.</p>
           
           <script>
             setTimeout(() => {
@@ -3535,14 +3535,15 @@ To: ${req.user?.name}@arrrg.de</pre>
         return ''
       } else {
         if (!req.query.level) {
-          return `
-          <p>Did you sleep well yesterday? I hope you didn't encounter any strange people in your dream like in the movie Inception.</p>
+          return story(
+            'Kiwi',
+            `
+          <p>Did you sleep well last night? I hope you didn't run into any strange people in your dreams like in the movie <i>Inception</i>.</p>
 
-          <p>This page is inspired by Inception. Scroll through all the levels. On the lowest level, you'll find the answer.</p>
-
-          
-          ${renderFrame(1110, 700, 1)}
-        `
+          <p>On a computer, it's pretty easy to nest realities inside each other. This page is inspired by <i>Inception</i>. You'll find three levels here — and on the deepest level, you'll find the answer.</p>
+        `,
+            renderFrame(1110, 700, 1)
+          )
         }
 
         const level = parseInt(req.query.level.toString())
@@ -3567,7 +3568,7 @@ To: ${req.user?.name}@arrrg.de</pre>
           return `
           <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
           
-          <p>The answer is ${secrets('chal_84')}.</p>
+          <p>The answer is ${secrets('chal_84').split(',')[1]}.</p>
           
           <script>
             setTimeout(() => {

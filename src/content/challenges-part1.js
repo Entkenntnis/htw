@@ -3058,33 +3058,20 @@ export const part1 = [
         </iframe>
     `
       ),
-      en: `
-      <p>If we competed against each other in a LEGO competition today, I wouldn't stand a chance against you. Somehow, I was more creative when I was young.
-      </p>
-      
-      <p>Luckily, programming doesn't require so much creativity, and you can focus more on problem-solving. Robot Karol tries to find a middle ground and connect to the LEGO world. You can find an online version of Robot Karol <a href="https://karol.arrrg.de/?id=IaepMRwFW" target="_blank">here</a>.
-      </p>
-      
-      <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/?id=IaepMRwFW">
-      </iframe>
-      
-      <p>Build the following code with Karol and run the program.
-      </p>
+      en: story(
+        'Josh',
+        `
+        <p>For this challenge, we have Robot Karol as our guest. Build this program.</p>
 
-      <p><img src="/chals/chal70_2.png" alt="blockly"></p>
-      
-      <p>The answer is the number of yellow tokens at the end.</p>
-      
-      <br />
-      <p>Note:</p>
-      <p>wiederhohle ... mal ≙ repeat ... times</p>
-      <p>schritt ≙ step</p>
-      <p>markeSetzen ≙ setMarker</p>
-      <p>wenn ... dann ≙ if ... than</p>
-      <p>istWand ≙ isWall</p>
-      <p>linksDrehen ≙ turnLeft</p>
-      <p>markeLöschen ≙ removeMarker</p>
-    `,
+        <p><img src="/chals/chal70_en.png" alt="blockly" width="200"></p>
+
+        <p>Your answer is the number of yellow markers left at the end.</p>
+        `,
+        `
+        <iframe style="width:100%;height:700px;margin-bottom:16px;background-color:white;" src="https://karol.arrrg.de/#W4SK">
+        </iframe>
+    `
+      ),
     },
     solution: secrets('chal_70'), // link: https://karol.arrrg.de/?id=b5S45y9RF
   },

@@ -2739,21 +2739,24 @@ export const part1 = [
                  window.alert(e)</code></pre>
     `
       ),
-      en: `
-      <p>You're already very close to the passage! Here is a small gift for you.
-      </p>
-      
-      <pre class="bg-dark p-3"><code>                  const d = [68,
-             105,               101,
-         32,                         65,
-      110,                             116,
-    119,                                 111,
-  114,        116,            32,         108,
- 97,          117,            116,         101,
-116,           32,            75,           111,
-114,                                         111,
-115,                                         101,
-110,     115                          ,      101,
+      en: story(
+        'Kiwi',
+        `
+        <p>If we had enough time, I'd really want to teach you programming, too. But be warned: my lessons won't be exactly orthodox. I write my programs in a slightly... more creative way.</p>
+
+        <p>This smiley is a program that tells you the answer. Copy it into a website like <a href="https://runjs.co/" target="_blank">RunJS</a> or into your browser console and run it.</p>`,
+        `
+        <pre class="bg-dark p-3" style="width:430px;"><code>                  const d = [84,
+             104,               101,
+         32,                         97,
+      110,                             115,
+    119,                                 101,
+  114,         32,           104,          101,
+ 114,         101,            32,           105,
+ 115,          32,            75,            111,
+ 114,                                        111,
+ 115,                                        101,
+ 110,     115                          ,     101,
  105      ,46                        ];     const
   e        = d                   .map(       (x 
    )=>       String.fromCharCode(x))      .join
@@ -2762,9 +2765,8 @@ export const part1 = [
         x                             x
            xxxxx                xxx*/
                  window.alert(e)</code></pre>
-                 
-      <p>Run the smiley as a program and you will receive your answer. A website like <a href="https://runjs.co/" target="_blank">RunJS</a> is helpful.</p>
-    `,
+    `
+      ),
     },
     solution: secrets('chal_64'),
   },

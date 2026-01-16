@@ -2318,10 +2318,13 @@ export const part1 = [
         </p>
     `
       ),
-      en: `
-        <p>It's your username again. This time your username should be contained on a website. As an answer, enter the complete link to this website, e.g. <code>https://www.wikipedia.de</code>. The server then calls up the website and searches it for your name.
+      en: story(
+        'Kiwi',
+        `
+        <p>It's your username again. This time, your username needs to be on a website. As your answer, enter the full URL to that website, e.g. <code>https://www.wikipedia.de</code>. The server will then fetch the page and search it for your name.
         </p>
-    `,
+    `
+      ),
     },
     check: async (answer, { req }) => {
       let value = ''

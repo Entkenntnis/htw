@@ -2015,7 +2015,7 @@ export const part1 = [
   {
     id: 48,
     pos: { x: 890, y: 1000 },
-    title: { de: 'Meditation', en: 'Silence' },
+    title: { de: 'Meditation', en: 'Meditation' },
     // date: '2020-05-21',
     deps: [56, 62],
     html: {
@@ -2029,18 +2029,16 @@ export const part1 = [
         <audio src="/chals/chal48_2.mp3" controls></audio>
     `
       ),
-      en: `
-      <p>Finding peace and listening to yourself - I need that again and again in order to connect with myself and be as balanced as you.
-      </p>
-      
-      <p>Some people find it helpful to have an acoustic background.
-      </p>
-      
-      <audio src="/chals/chal48_2.mp3" controls></audio>
-      
-      <p>But you are not alone. Your answer can be found among the chirping of the birds.
-      </p>
-    `,
+      en: story(
+        'Bex',
+        `
+        <p>Come to rest and listen within. Connect with yourself and be balanced…</p>
+
+        <p>Haha, just kidding. I'm the last person in the world who would meditate. What I much prefer is scaring people. I prepared a little surprise in this meditation track — that is your answer.</p>
+        
+        <audio src="/chals/chal48_2.mp3" controls></audio>
+    `
+      ),
     },
     solution: secrets('chal_48'),
   },

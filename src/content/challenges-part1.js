@@ -1242,7 +1242,7 @@ export const part1 = [
         `
         <p>When you zip a file, it becomes smaller and needs less storage space. If you zip a zip file again, does it become even smaller?</p>
         
-        <p>Why not try it? I zipped the answer properly: here is the <a href="/chals/antwort25.zip">file</a>. Inside it you'll find the solution to this task. And no — zipping it multiple times doesn't help and actually makes the file bigger.</p>
+        <p>Why not try it? I zipped the answer properly: here is the <a href="/chals/answer25.zip">file</a>. Inside it you'll find the solution to this task. And no — zipping it multiple times doesn't help and actually makes the file bigger.</p>
       `
       ),
     },

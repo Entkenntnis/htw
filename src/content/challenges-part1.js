@@ -1735,13 +1735,21 @@ export const part1 = [
     title: { de: 'Querlesen', en: 'Cross Reading' },
     // date: '2020-05-20',
     deps: [2, 47, 79],
-    html: {
-      de: story(
-        'Kiwi',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          'Kiwi',
+          `
+        
         <p>Ich habe eine gewisse Schwäche für schnulzige Gedichte. Aber lasse dich davon nicht täuschen! Wenn du jemals ein solches Gedicht von mir erhältst, solltest du immer deine Augen für geheime Botschaften offen halten.
         </p>`,
-        `<p><em>
+
+          `
+          ${
+            App.experiments.showTrial(41, req)
+              ? '<link rel="stylesheet" href="/fonts/mansalva.css"><p style="font-family: Mansalva; font-size: 20px">'
+              : '<p style="font-style: italic;">'
+          }
           <strong>D</strong>u fragst mich: Bin ich glücklich?<br>
           <strong>I</strong>mmer auf der Hut, auf Mission,<br>
           <strong>e</strong>in kleiner Fehler und alles ist vorbei -<br>
@@ -1759,48 +1767,50 @@ export const part1 = [
           <br>
           <strong>U</strong>nd du hast Recht, es ist<br>
           <strong>t</strong>rostlos manchmal, fast verzweifelnd vor<br>
-          <strong>e</strong>iner so großeren Herausforderung zu stehen:<br>
+          <strong>e</strong>iner so großen Herausforderung zu stehen:<br>
           <strong>T</strong>rostlos und erschreckend<br>
           <br>
-          <strong>S</strong>chön doch hier zu sein bei dir, wir<br>
+          <strong>S</strong>chön doch bei dir zu sein, wir<br>
           <strong>t</strong>rotzen dem gemeinsam,<br>
-          <strong>e</strong>ine kleine Familie, hier die<br>
+          <strong>e</strong>ine kleine Familie,<br>
+          <strong>g</strong>emeinsam hier, die<br>
           <strong>n</strong>iemand erwartet, die uns verbindet.<br>
           <strong>O</strong>h, ich frage mich: Ist das schon Glück?<br>
-        </em></p>
+        </p>
     `
-      ),
-      en: `
-       <p>A just a bad poem... or a secret message?
-       </p>
-       
-       <p>
-         <!-- noinspection SpellCheckingInspection -->
-         <em>
-         <strong>T</strong>he hours stretch before the glowing screen.<br>
-         <strong>H</strong>uman language is so imprecise.<br>
-         <strong>E</strong>verything depends on clarity.<br>
-         <strong>A</strong>nd clarity emerges through code's decree.<br>
-         <br>
-         <strong>N</strong>ow is the moment, a canvas to create,<br>
-         <strong>s</strong>culpting worlds in the digital state.<br>
-         <strong>W</strong>ith every line, a universe unfurls.<br>
-         <strong>E</strong>ager minds contemplate the code's weight.<br>
-         <br>
-         <strong>R</strong>evealing secrets in each algorithm's dance,<br>
-         <strong>i</strong>n the binary, we find our cosmic trance. <br>
-         <strong>S</strong>ynchronizing bytes in a digital romance: <br>
-         <br>
-         <strong>S</strong>eeking clarity, as we advance.<br>
-         <strong>T</strong>apping keys, we're bound to transcend,<br>
-         <strong>e</strong>levating thought, in this realm we intend,<br>
-         <strong>n</strong>urturing ideas, our journey won't end,<br>
-         <strong>o</strong>ffline is good, but online is better.
-         </em>
-       </p>
-       
-       <small style="margin-top:48px;display:inline-block">Note: This poem may not make sense as it was partly ki generated for the reason that i (the translator) cannot write poetry</small>
-    `,
+        ),
+        en: story(
+          'Kiwi',
+          `
+        <p>I have a bit of a weakness for cheesy poems. But don't let that fool you: if you ever get a poem like this from me, you should always keep your eyes open for hidden messages.
+        </p>`,
+          `
+          <p style="font-style: italic;">
+          <!-- noinspection SpellCheckingInspection -->
+          <strong>T</strong>ell me: am I happy?<br>
+          <strong>H</strong>unting shadows, always on a mission,<br>
+          <strong>E</strong>very small mistake and everything is over —<br>
+          <strong>A</strong>t the end, all in vain?<br>
+          <br>
+          <strong>N</strong>o, it isn't in vain.<br>
+          <strong>S</strong>teps speak for themselves.<br>
+          <strong>W</strong>ho follows their heart will<br>
+          <strong>E</strong>nd up a lighthouse, without a doubt.<br>
+          <br>
+          <strong>R</strong>est — do I ever rest? you ask me.<br>
+          <strong>I</strong>n motion, day after day.<br>
+          <strong>S</strong>miling only rarely these years,<br>
+          <br>
+          <strong>S</strong>ometimes it feels bleak, almost despairing,<br>
+          <strong>T</strong>o face a challenge this huge:<br>
+          <strong>E</strong>erie and frightening.<br>
+          <strong>G</strong>ood, though, to be with you; we<br>
+          <strong>N</strong>avigate it together — a small family.<br>
+          <strong>O</strong>h, I wonder: is that happiness?<br>
+        </p>
+    `
+        ),
+      }
     },
     solution: secrets('chal_41'),
   },

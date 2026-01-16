@@ -524,4 +524,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-16 00:01+0100').getTime(),
     endTs: new Date('2026-02-13 00:01+0100').getTime(),
   },
+  {
+    id: 32,
+    description:
+      'Querlesen: Ich würde gerne den Text etwas aufpeppen mit anderer Schriftart. Hoffentlich ist das keine Barriere.',
+    challenge: 41,
+    startTs: new Date('2026-01-17 00:01+0100').getTime(),
+    endTs: new Date('2026-02-14 00:01+0100').getTime(),
+  },
 ]

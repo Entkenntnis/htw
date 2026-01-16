@@ -1343,25 +1343,27 @@ export const part1 = [
         <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
      `
       ),
-      en: `
-      <p>Annoying advertising banners that block the content - who hasn't seen that? In this case too, an advertisement obscures the answer to the challenge.
-      </p>
-      
-      <p>Fortunately, modern browsers offer tools with which you can edit a website and thus remove one or two annoying elements. (If these are not available: <a href="#" onclick="(function () { const script=document.createElement('script');script.src='https://x-ray-goggles.mouse.org/webxray.js';script.className='webxray';script.setAttribute('data-lang','en-US');script.setAttribute('data-baseuri','https://x-ray-goggles.mouse.org');document.body.appendChild(script);}())">Load X-Ray</a>)
-      </p>
-      
-      <div style="position:absolute;width:1000px;height:1000px;background-color:green" id="banner">
-        <span style="font-size:100px" id="text">Congratulations! You have won!</span>
-        <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Skip in <span id="counter">4568</span> seconds ...</div>
-      </div>
-      
-      <p>The answer to this challenge is <span id="solution"></span>.
-      </p>
-      
-      <script src="/chals/chal28.js"></script>
-      <!--suppress JSDeprecatedSymbols -->
-      <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
-    `,
+      en: story(
+        'Josh',
+        `
+        <p>Advertising has a lot of power over us. Constant distractions manipulate our attention. But we're not helpless: in the browser, we have ways to fight back and block ads.</p>
+
+        <p>You can also do it manually. Look at this page: an ad is covering the task. Open your browser inspector (usually F12) and remove the annoying element. If that's not available: <a href="#" onclick="loadXRay()">load the “X-Ray” alternative</a>.</p>
+        `,
+        `
+        <div style="position:absolute;width:1000px;height:1000px;background-color:green;padding-left:16px;" id="banner">
+          <span style="font-size:100px;" id="text">Hacking endangers our security!</span>
+          <div style="margin-top:20px; border: 2px solid black; width: 350px; margin-left: 40px; cursor: pointer; padding: 8px" id="skipp">Skip the ad in <span id="counter">4568</span> seconds ...</div>
+        </div>
+        
+        <p>The answer to this challenge is <span id="solution"></span>.
+        </p>
+        
+        <script src="/chals/chal28.js"></script>
+        <!--suppress JSDeprecatedSymbols -->
+        <script>document.getElementById("solution").innerHTML = atob("TGl0ZmHfc+R1bGU=")</script>
+     `
+      ),
     },
     solution: secrets('chal_28'),
   },

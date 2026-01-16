@@ -23,7 +23,7 @@ function countdown() {
     if (!isNaN(val) && val > 0) {
       counter.innerHTML = val - 1
     } else {
-      document.getElementById('skipp').innerHTML = 'Werbung jetzt überspringen'
+      document.getElementById('skipp').innerHTML = getLng() == 'de' ? 'Werbung jetzt überspringen' : 'Skip ad now'
       document.getElementById('skipp').onclick = function () {
         document.getElementById('banner').style.display = 'none'
       }

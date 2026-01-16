@@ -3114,7 +3114,7 @@ export const part1 = [
 
         <p>In der Druckvorschau zu dieser Seite findest du deine Antwort.</p>
         
-        <p class="print-only">Die Antwort lautet ${secrets('chal_78')}.</p>
+        <p class="print-only">Die Antwort lautet ${secrets('chal_78').split(',')[0]}.</p>
         
         <style>
           .print-only {
@@ -3129,29 +3129,30 @@ export const part1 = [
         </style>
     `
       ),
-      en: `
-      <p>Most websites can adapt to the size of the screen, be it a mobile phone, tablet or large monitor. In the analog world, these options do not exist. There you will often only find the DIN A4 format.
-      </p>
-      
-      <p>A website can also be converted to DIN A4 format, for example, using the print preview. There you will find the answer to this task.
-      </p>
-      
-      <p class="print-only">The answer is ${secrets('chal_78')}.</p>
-      
-      <style>
-        .print-only {
-          display: none;
-        }
-        @media print { 
+      en: story(
+        'Kiwi',
+        `
+        <p>There are lots of ways to hide messages. Hardly anyone prints websites these days — and that's exactly an opportunity to hide a secret message in the print preview.</p>
+
+        <p>You can find your answer in this page's print preview.</p>
+        
+        <p class="print-only">The answer is ${secrets('chal_78').split(',')[1]}.</p>
+        
+        <style>
           .print-only {
-            display: block;
-            font-size: 4em;
+            display: none;
           }
-        }
-      </style>
-    `,
+          @media print { 
+            .print-only {
+              display: block;
+              font-size: 4em;
+            }
+          }
+        </style>
+    `
+      ),
     },
-    solution: secrets('chal_78'),
+    solution: secrets('chal_78').split(','),
   },
 
   {

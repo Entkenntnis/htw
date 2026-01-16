@@ -2639,43 +2639,41 @@ export const part1 = [
         </script>
     `
       ),
-      en: `
-      <p>I want to tell you: you are wonderful <3.
-      </p>
-      
-      <p>With this prompt I generated an image to make the message more clear. You can download it here:
-      </p>
-      
-      <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
-      
-      <p>File name:<strong id="filename">picture.txt</strong> [<a href="#" onclick="changeName()">change</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Download</button>
-      </p>
-    
-      <p>There is something wrong with the file extension, you need to fix it before downloading. You can find the answer in the picture.
-      </p>
-      
-      
-      <script>
-        const filename = document.getElementById('filename')
+      en: story(
+        'Kiwi',
+        `
+        <p>This is a little embarrassing — I think I made a mistake while uploading this image.</p>
         
-        function download() {
-          fetch('/chals/chal62-en.data')
-            .then(response => response.blob())
-            .then(blob => {
-              const link = document.createElement("a");
-              link.href = URL.createObjectURL(blob);
-              link.download = filename.innerHTML;
-              link.click();
-          })
-        }
+        <p><img src="/chals/chal62_placeholder.png" style="background:white; max-width: 200px" alt="placeholder"/></p>
         
-        function changeName() {
-          filename.innerHTML = prompt('New file name:', filename.innerHTML)
-        }
-      </script>
-    `,
+        <p>File name: <strong id="filename">image.txt</strong> [<a href="#" onclick="changeName()">change</a>]<br><button onclick="download()" style="margin-top:12px;margin-bottom:16px;">Download</button>
+        </p>
+      
+        <p>Download the file and take a look at it. You'll find the answer inside.</p>
+        
+        
+        <script>
+          const filename = document.getElementById('filename')
+          
+          function download() {
+            fetch('/chals/chal62-en.data')
+              .then(response => response.blob())
+              .then(blob => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename.innerHTML;
+                link.click();
+            })
+          }
+          
+          function changeName() {
+            filename.innerHTML = prompt('New file name:', filename.innerHTML)
+          }
+        </script>
+    `
+      ),
     },
-    solution: secrets('chal_62'),
+    solution: secrets('chal_62').split(','),
   },
 
   {

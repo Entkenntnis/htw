@@ -532,4 +532,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-17 00:01+0100').getTime(),
     endTs: new Date('2026-02-14 00:01+0100').getTime(),
   },
+  {
+    id: 33,
+    description:
+      'Winkelschrift: Das grün ist etwas grell, passe es stattdessen an die Farbe von Josh an. Mal sehen ob das einen Unterschied macht.',
+    challenge: 50,
+    startTs: new Date('2026-01-17 00:02+0100').getTime(),
+    endTs: new Date('2026-02-14 00:02+0100').getTime(),
+  },
 ]

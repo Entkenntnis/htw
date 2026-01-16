@@ -2046,10 +2046,11 @@ export const part1 = [
     title: { de: 'Winkelschrift', en: 'Pigpen Cipher' },
     // date: '2020-05-21',
     deps: [30, 70],
-    html: {
-      de: story(
-        'Josh',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          'Josh',
+          `
         <p>Ich schmeiße dich ins kalte Wasser. Mach dich einmal mit dieser Anleitung vertraut. Du siehst die Buchstaben des Alphabets an verschiedenen Orten untergebracht, mal mit Punkt und mal ohne Punkte.</p>
 
         <p><img src="/chals/chal50.gif" alt="winkelschrift hint"></p>
@@ -2057,12 +2058,16 @@ export const part1 = [
         <p>Hier ist deine Nachricht. Du erkennst sicherlich gewisse Ähnlichkeiten: Die Punkte sind wieder da, einige bekannte Formen ... das ist deine Antwort in der Winkelschrift, entschlüssle sie!
         </p>
         
-        <p class="my-4"><img src="/chals/chal50.png" alt="winkelschrift"></p>
+        <p class="my-4"><img src="/chals/chal50.png" alt="winkelschrift" ${
+          App.experiments.showTrial(50, req)
+            ? 'style="filter: hue-rotate(150deg) brightness(0.6)"'
+            : ''
+        }></p>
     `
-      ),
-      en: story(
-        'Josh',
-        `
+        ),
+        en: story(
+          'Josh',
+          `
         <p>I'm throwing you in at the deep end. First, get familiar with this guide. You can see the letters of the alphabet placed in different positions — sometimes with a dot and sometimes without.</p>
 
         <p><img src="/chals/chal50.gif" alt="pigpen cipher guide"></p>
@@ -2072,7 +2077,8 @@ export const part1 = [
         
         <p class="my-4"><img src="/chals/chal50-en.png" alt="pigpen cipher" width="340" style="border: 1px solid white; padding: 6px;"></p>
     `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_50').split(','),
   },

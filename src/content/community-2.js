@@ -1,5 +1,9 @@
 import { secrets } from '../helper/secrets-loader.js'
 
+const winterX = 1600
+const winterY = 2250
+const winterScale = 0.6
+
 /** @type {import('../data/types.js').HtwChallenge[]} */
 export const communityChallenges2 = [
   {
@@ -704,7 +708,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
   {
     id: 360,
-    pos: { x: 2200, y: 800 },
+    pos: { x: winterX, y: winterY },
     title: { de: 'Winter 2025 - Tag 1 ❄️', en: 'Winter 2025 - Day 1 ❄️' },
     date: '2025-12-18',
     deps: [300],
@@ -712,6 +716,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
     releaseTs: new Date('2025-12-18 15:00:00 GMT+0100').getTime(),
     author: 'Anna',
     color: '#c30f16',
+    hideLink: true,
     render() {
       const script = `
         <script>
@@ -754,7 +759,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
   {
     id: 361,
-    pos: { x: 2733, y: 1046 },
+    pos: { x: winterX + winterScale * 533, y: winterY + winterScale * 246 },
     title: { de: 'Tag 2 🌫️', en: 'Day 2 🌫️' },
     date: '2025-12-19',
     deps: [360],
@@ -803,7 +808,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
   {
     id: 362,
-    pos: { x: 2547, y: 1274 },
+    pos: { x: winterX + winterScale * 347, y: winterY + winterScale * 474 },
     title: { de: 'Tag 3 🧝‍♀️', en: 'Day 3 🧝‍♀️' },
     date: '2025-12-20',
     deps: [360],
@@ -852,7 +857,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
 
   {
     id: 363,
-    pos: { x: 2195, y: 1160 },
+    pos: { x: winterX + winterScale * -5, y: winterY + winterScale * 360 },
     title: { de: 'Tag 4 ♥️', en: 'Day 4 ♥️' },
     date: '2025-12-21',
     deps: [361],
@@ -992,7 +997,7 @@ I'll give it to someone special
 
   {
     id: 364,
-    pos: { x: 2516, y: 797 },
+    pos: { x: winterX + winterScale * 316, y: winterY + winterScale * -3 },
     title: { de: 'Tag 5 🎄', en: 'Day 5 🎄' },
     date: '2025-12-22',
     deps: [362],
@@ -1047,7 +1052,7 @@ I'll give it to someone special
 
   {
     id: 365,
-    pos: { x: 2343, y: 996 },
+    pos: { x: winterX + winterScale * 143, y: winterY + winterScale * 196 },
     title: { de: 'Tag 6 ✉️', en: 'Day 6 ✉️' },
     date: '2025-12-23',
     deps: [364, 360],
@@ -1080,7 +1085,7 @@ I'll give it to someone special
 
   {
     id: 366,
-    pos: { x: 2424, y: 903 },
+    pos: { x: winterX + winterScale * 224, y: winterY + winterScale * 103 },
     title: { de: 'Frohe Feiertage! 🎁', en: 'Happy Holidays! 🎁' },
     date: '2025-12-24',
     deps: [360, 363],

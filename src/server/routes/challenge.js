@@ -887,6 +887,27 @@ export function setupChallenges(App) {
         await App.db.models.Event.destroy({
           where: { userId: req.user.id },
         })
+        // delete survey data if present
+        const surveyData = await App.db.models.KVPair.findAll({
+          where: {
+            key: {
+              [Op.like]: 'survey_v2_' + req.user.id + '%',
+            },
+          },
+          raw: true,
+        })
+        if (surveyData) {
+          const relevantKeys = surveyData
+            .filter((entry) =>
+              entry.key.startsWith(`survey_v2_${req.user?.id}_`)
+            )
+            .map((entry) => entry.key)
+          await App.db.models.KVPair.destroy({
+            where: {
+              key: relevantKeys,
+            },
+          })
+        }
         App.challengeStats.nuke()
         purge_user_from_cache(req.user.id)
         delete req.session.userId

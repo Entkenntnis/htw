@@ -4,6 +4,8 @@ import { renderPage } from '../../helper/render-page.js'
 import { setupAnalyze } from './analyze.js'
 import { generateWeChallToken } from '../../helper/helper.js'
 
+let usercount = 0
+
 /**
  * @param {import("../../data/types.js").App} App
  */
@@ -26,6 +28,10 @@ export function setupHtw(App) {
     const cpu = process.cpuUsage()
     const c1 = await App.challengeStats.getData(1)
 
+    if (c1.solvedBy > usercount) {
+      usercount = c1.solvedBy
+    }
+
     res.send(`http_requests_total ${App.metrics.total_requests}
 http_request_duration_seconds_bucket{le="0.05"} ${App.metrics.bucket_50ms}
 http_request_duration_seconds_bucket{le="0.1"} ${App.metrics.bucket_100ms}
@@ -38,7 +44,7 @@ http_request_duration_seconds_bucket{le="+Inf"} ${App.metrics.bucket_Inf}
 node_memory_rss ${mem.rss}
 node_cpu_system ${cpu.system}
 node_cpu_user ${cpu.user}
-htw_users_total ${c1.solvedBy}
+htw_users_total ${Math.max(usercount, c1.solvedBy)}
 `)
   })
 
@@ -126,6 +132,23 @@ htw_users_total ${c1.solvedBy}
         output += `\nMain Color: ${mainColor}\n`
       }
 
+      // fetch survey data from KVPairs
+      const surveyData = await App.db.models.KVPair.findAll({
+        where: {
+          key: {
+            [Op.like]: 'survey_v2_' + req.user.id + '%',
+          },
+        },
+        raw: true,
+      })
+
+      const relevantEntry = surveyData.filter((entry) =>
+        entry.key.startsWith(`survey_v2_${req.user?.id}_`)
+      )
+
+      for (const entry of relevantEntry) {
+        output += `\nSurvey Entry (${entry.key}): ${entry.value}\n`
+      }
       // Mortal Coil Level mortalcoil_<id> in KVPairs
       const mortalCoilLevels = await App.db.models.KVPair.findAll({
         where: {

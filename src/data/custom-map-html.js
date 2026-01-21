@@ -138,6 +138,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
             <a draggable="false" href="/events" style="margin-left: 24px;">Events</a>
             <a href="/experiments" draggable="false" style="margin-left: 24px;">Experiments</a>
             <a draggable="false" href="/feedback" style="margin-left: 24px;">Feedback</a>
+            <a draggable="false" href="/quiz-stats" style="margin-left: 24px;">Quiz-Stats</a>
             <a href="/mapflow" draggable="false" style="margin-left: 24px;">MapFlow</a>
             <a href="${prometheusUrl}" target="_blank" draggable="false" style="margin-left: 24px;">Perf-Monitor</a>
             <a draggable="false" href="/questions" style="margin-left: 24px;">(Questions)</a>

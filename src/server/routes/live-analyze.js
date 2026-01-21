@@ -203,6 +203,9 @@ export function setupLiveAnalyze(App) {
       if (key.startsWith('ex_')) {
         key = 'ex_*'
       }
+      if (key.startsWith('quiz-')) {
+        key = 'quiz-*'
+      }
       const uid = r.userId
       if (uid == 74754) {
         continue // temporary: Skip ipad user events
@@ -287,18 +290,9 @@ export function setupLiveAnalyze(App) {
      */
     const storyData = new Map()
 
-    /**
-     * @type {typeof byKey}
-     */
-    const quizData = new Map()
-
     byKey.forEach((agg, key) => {
       if (key.startsWith('story-')) {
         storyData.set(key, agg)
-        byKey.delete(key)
-      }
-      if (key.startsWith('quiz-')) {
-        quizData.set(key, agg)
         byKey.delete(key)
       }
     })
@@ -538,56 +532,6 @@ export function setupLiveAnalyze(App) {
         </span>`
       })
       .join('<br>')
-  })()}</p>
-  <h2>Quiz</h2>
-  ${(() => {
-    const allUsers = byKey.get('visit-quiz')?.users ?? new Set()
-    const activeUsers = [...quizData.values()].reduce((acc, cur) => {
-      return new Set([...acc, ...cur.users])
-    }, new Set())
-    const retainerer = new Set([...activeUsers].filter((u) => allUsers.has(u)))
-    return `<p>${allUsers.size} BesucherInnen -> ${retainerer.size} aktiv (${Math.round((retainerer.size * 100) / allUsers.size)}%)<span style="width: 100px;display: inline-block"></span>[${activeUsers.size} total]</p>`
-  })()}
-  <p>${(() => {
-    return App.quizData
-      .getQuizIds()
-      .map((id) => {
-        const completedUsers =
-          quizData.get(`quiz-complete-${id}`)?.users ?? new Set()
-        const incompleteUsers =
-          quizData.get(`quiz-incomplete-${id}`)?.users ?? new Set()
-        const completedWithoutFailUsers = new Set(
-          [...completedUsers].filter((u) => !incompleteUsers.has(u))
-        )
-        const completedWithFailUsers = new Set(
-          [...completedUsers].filter((u) => incompleteUsers.has(u))
-        )
-        const incompleteUsersNoComplete = new Set(
-          [...incompleteUsers].filter((u) => !completedUsers.has(u))
-        )
-        const totalUsers = new Set([...completedUsers, ...incompleteUsers])
-        const feedback1UpUsers =
-          quizData.get(`quiz-feedback-${id}-1-up`)?.users ?? new Set()
-        const feedback1DownUsers =
-          quizData.get(`quiz-feedback-${id}-1-down`)?.users ?? new Set()
-        const feedback2UpUsers =
-          quizData.get(`quiz-feedback-${id}-2-up`)?.users ?? new Set()
-        const feedback2DownUsers =
-          quizData.get(`quiz-feedback-${id}-2-down`)?.users ?? new Set()
-        const feedback3UpUsers =
-          quizData.get(`quiz-feedback-${id}-3-up`)?.users ?? new Set()
-        const feedback3DownUsers =
-          quizData.get(`quiz-feedback-${id}-3-down`)?.users ?? new Set()
-
-        const quiz1FailUsers =
-          quizData.get(`quiz-incorrectAnswer-${id}-1`)?.users ?? new Set()
-        const quiz2FailUsers =
-          quizData.get(`quiz-incorrectAnswer-${id}-2`)?.users ?? new Set()
-        const quiz3FailUsers =
-          quizData.get(`quiz-incorrectAnswer-${id}-3`)?.users ?? new Set()
-        return `${id} | <span style="width: 170px; display: inline-block">${App.quizData.getQuizTitleById(id)}</span> | ${quizData.get(`quiz-complete-${id}`)?.total || 0} mal erfolgreich, ${quizData.get(`quiz-incomplete-${id}`)?.total || 0} mal unerfolgreich<br><span style="display: inline-block; width: 195px;"></span>| ${totalUsers.size} SpielerInnen, erster Versuch ${completedWithoutFailUsers.size} <span style="color: gray;">(${Math.round((completedWithoutFailUsers.size / totalUsers.size) * 100)}%)</span>, retry ${completedWithFailUsers.size} <span style="color: gray;">(${Math.round((completedWithFailUsers.size / totalUsers.size) * 100)}%)</span>, nie ${incompleteUsersNoComplete.size} <span style="color: gray;">(${Math.round((incompleteUsersNoComplete.size / totalUsers.size) * 100)}%)</span><br><span style="display: inline-block; width: 195px;"></span>| Feedback: <span ${feedback1UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback1UpUsers.size}</span> <span ${feedback1DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback1DownUsers.size}</span>; <span ${feedback2UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback2UpUsers.size}</span> <span ${feedback2DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback2DownUsers.size}</span>; <span ${feedback3UpUsers.size > 0 ? 'style="color: green; font-weight: bold"' : ''}>${feedback3UpUsers.size}</span> <span ${feedback3DownUsers.size > 0 ? 'style="color: red; font-weight: bold"' : ''}>${feedback3DownUsers.size}</span><br><span style="display: inline-block; width: 195px;"></span>| Fehler: ${quiz1FailUsers.size}; ${quiz2FailUsers.size}; ${quiz3FailUsers.size}<br><br>`
-      })
-      .join('')
   })()}</p>
   <h2>Wer wird Wort-Millionär</h2>
   <p>${wwwmLines}</p>

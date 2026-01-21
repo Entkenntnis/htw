@@ -300,7 +300,7 @@
 
 <div style="height: 140px"></div>
 
-<script src="/quiz/quiz-data-<%= locale %>.js"></script>
+<script src="/quiz/quiz-data-<%= locale %><%= group == 'control' || locale == 'en' ? '' : '-v2' %>.js"></script>
 
 <script>
   // hacking related questions, options are only words / very short, correct answer is always first
@@ -377,6 +377,7 @@
           document.getElementById('back-button').style.visibility = 'hidden'
           document.querySelector('.quiz-suggestion').style.visibility = 'hidden'
           prepareQuiz()
+          fetch('/api/event?key=quiz-start-' + topics[selectedIndex].id)
         }, 1000)
       }
     } else {

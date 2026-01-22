@@ -4,10 +4,8 @@ import { Op } from 'sequelize'
 
 import { renderPage } from '../../helper/render-page.js'
 import { renderTemplate } from '../../helper/render-template.js'
-import { resolveFromDate } from '../../helper/date-range.js'
 
 /**
- *
  * @param {number} userid
  */
 function getQuizGroup(userid) {
@@ -69,53 +67,95 @@ export function setupHackerQuiz(App) {
     res.send('OK')
   })
 
-  App.express.get('/quiz-stats', async (req, res) => {
-    if (!req.user || !App.config.editors.includes(req.user?.name)) {
-      res.status(403).send('forbidden')
-      return
-    }
+  const timeRanges = [
+    {
+      title: 'A/A warmup',
+      from: new Date('2026-01-22T00:00:00Z').getTime(),
+      to: new Date('2030-01-01T00:00:00Z').getTime(), // update in future
+    },
+  ]
 
+  App.express.get('/quiz-stats', async (req, res) => {
     if (!req.user || !App.config.editors.includes(req.user.name))
       return res.send('Zugriff nur für Editor')
 
-    const rows = await App.db.models.Event.findAll({
-      where: {
-        key: { [Op.like]: 'quiz-%' },
-      },
-      attributes: ['key', 'userId'],
-      order: [['createdAt', 'ASC']],
-      raw: true,
-    })
-
     /**
-     * @type {string[]}
+     * @type {{key: string, userId: number, group: 'control' | 'treatment', createdAt: number}[]}
      */
-    const controlData = []
+    const rows = []
 
-    /**
-     * @type {string[]}
-     */
-    const treatmentData = []
-
-    rows.forEach((row) => {
-      if (!row.userId) return
-      const group = getQuizGroup(row.userId)
-      if (group === 'control') {
-        controlData.push(row.key)
-      } else {
-        treatmentData.push(row.key)
+    ;(
+      await App.db.models.Event.findAll({
+        where: {
+          key: { [Op.like]: 'quiz-%' },
+        },
+        attributes: ['key', 'userId', 'createdAt'],
+        raw: true,
+      })
+    ).forEach((row) => {
+      if (row.userId) {
+        const createdAt = new Date(row.createdAt).getTime()
+        const group = getQuizGroup(row.userId)
+        rows.push({ key: row.key, userId: row.userId, createdAt, group })
       }
     })
+
+    /**
+     * @type {{title: string, from: number, to: number, control: (typeof rows), treatment: (typeof rows)}[]}}
+     */
+    const dataByRangesByGroup = []
+
+    for (const range of timeRanges) {
+      const cur = /** @type {typeof dataByRangesByGroup[number]} */ ({
+        control: [],
+        treatment: [],
+        ...range,
+      })
+      rows.forEach((row) => {
+        if (!row.userId) return
+        if (
+          new Date(row.createdAt).getTime() < range.from ||
+          new Date(row.createdAt).getTime() >= range.to
+        )
+          return
+        cur[row.group].push(row)
+      })
+      dataByRangesByGroup.push(cur)
+    }
+
+    /**
+     * @param {typeof rows} data
+     */
+    function renderEvents(data) {
+      return JSON.stringify(data)
+    }
 
     renderPage(App, req, res, {
       page: 'hacker-quiz-stats',
       heading: 'Quiz Stats',
       title: 'Quiz Stats',
       content: `
-        <h2>Treatment Group</h2>
-        ${JSON.stringify(treatmentData, null, 2)}
-        <h2>Control Group</h2>
-        ${JSON.stringify(controlData, null, 2)}
+        ${dataByRangesByGroup
+          .map(
+            (rangeData) => `
+            <h2>${rangeData.title}</h2>
+            <p>Zeitraum: ${new Date(rangeData.from).toISOString().split('.')[0]} bis ${new Date(rangeData.to).toISOString().split('.')[0]}</p>
+
+            <div style="display: flex; gap: 50px; width: 100%; justify-content: space-between;">
+              <div style="flex-grow: 1;">
+                <h3>Control-Gruppe</h3>
+                <p>Events: ${rangeData.control.length}</p>
+                ${renderEvents(rangeData.control)}
+              </div>
+              <div style="flex-grow: 1;">
+                <h3>Treatment-Gruppe</h3>
+                <p>Events: ${rangeData.treatment.length}</p>
+                ${renderEvents(rangeData.treatment)}
+              </div>
+            </div>
+            `
+          )
+          .join('<hr>')}
       `,
     })
   })

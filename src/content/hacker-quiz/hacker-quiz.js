@@ -1,7 +1,10 @@
 import crypto from 'crypto'
 
+import { Op } from 'sequelize'
+
 import { renderPage } from '../../helper/render-page.js'
 import { renderTemplate } from '../../helper/render-template.js'
+import { resolveFromDate } from '../../helper/date-range.js'
 
 /**
  *
@@ -72,13 +75,47 @@ export function setupHackerQuiz(App) {
       return
     }
 
+    if (!req.user || !App.config.editors.includes(req.user.name))
+      return res.send('Zugriff nur für Editor')
+
+    const rows = await App.db.models.Event.findAll({
+      where: {
+        key: { [Op.like]: 'quiz-%' },
+      },
+      attributes: ['key', 'userId'],
+      order: [['createdAt', 'ASC']],
+      raw: true,
+    })
+
+    /**
+     * @type {string[]}
+     */
+    const controlData = []
+
+    /**
+     * @type {string[]}
+     */
+    const treatmentData = []
+
+    rows.forEach((row) => {
+      if (!row.userId) return
+      const group = getQuizGroup(row.userId)
+      if (group === 'control') {
+        controlData.push(row.key)
+      } else {
+        treatmentData.push(row.key)
+      }
+    })
+
     renderPage(App, req, res, {
       page: 'hacker-quiz-stats',
       heading: 'Quiz Stats',
       title: 'Quiz Stats',
       content: `
-        <p>TODO</p>
-        <h2>Quiz</h2>
+        <h2>Treatment Group</h2>
+        ${JSON.stringify(treatmentData, null, 2)}
+        <h2>Control Group</h2>
+        ${JSON.stringify(controlData, null, 2)}
       `,
     })
   })

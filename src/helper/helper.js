@@ -62,3 +62,34 @@ export function generateWeChallToken(username) {
     ) + '@hack.arrrg.de'
   )
 }
+
+// calculate percentile
+/**
+ * @param {number[]} values
+ * @param {number} percentile between 0 and 100
+ * @returns {number}
+ */
+export function calculatePercentile(values, percentile) {
+  if (values.length === 0) return 0
+  const sortedValues = [...values].sort((a, b) => a - b)
+  const index = (percentile / 100) * (sortedValues.length - 1)
+  if (Number.isInteger(index)) {
+    return sortedValues[index]
+  } else {
+    const lowerIndex = Math.floor(index)
+    const upperIndex = Math.ceil(index)
+    return (
+      sortedValues[lowerIndex] +
+      (sortedValues[upperIndex] - sortedValues[lowerIndex]) *
+        (index - lowerIndex)
+    )
+  }
+}
+
+/**
+ * @param {number[]} values
+ * @returns {number}
+ */
+export function calculateMedian(values) {
+  return calculatePercentile(values, 50)
+}

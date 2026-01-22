@@ -4,6 +4,7 @@ import { Op } from 'sequelize'
 
 import { renderPage } from '../../helper/render-page.js'
 import { renderTemplate } from '../../helper/render-template.js'
+import { calculateMedian, calculatePercentile } from '../../helper/helper.js'
 
 /**
  * @param {number} userid
@@ -141,7 +142,61 @@ export function setupHackerQuiz(App) {
       const ordered = Object.entries(aggr).sort((a, b) =>
         a[0].localeCompare(b[0])
       )
-      return `
+
+      // now collect data for each user
+      /**
+       * @type {{[key: string]: {totalStarts: number, totalCompletes: number, totalFails: number, totalIncomplete: number}}}
+       */
+      const users = {}
+      data.forEach((row) => {
+        if (!users[row.userId]) {
+          users[row.userId] = {
+            totalStarts: 0,
+            totalCompletes: 0,
+            totalFails: 0,
+            totalIncomplete: 0,
+          }
+        }
+        if (row.key.startsWith('quiz-start-')) {
+          users[row.userId].totalStarts += 1
+        } else if (row.key.startsWith('quiz-complete-')) {
+          users[row.userId].totalCompletes += 1
+        } else if (row.key.startsWith('quiz-incorrectAnswer-')) {
+          users[row.userId].totalFails += 1
+        } else if (row.key.startsWith('quiz-incomplete-')) {
+          users[row.userId].totalIncomplete += 1
+        }
+      })
+
+      const startArr = Object.values(users).map((u) => u.totalStarts)
+      const completeArr = Object.values(users).map((u) => u.totalCompletes)
+      const failArr = Object.values(users).map((u) => u.totalFails)
+      const incompleteArr = Object.values(users).map((u) => u.totalIncomplete)
+
+      /**
+       * @param {number[]} arr
+       */
+      function printData(arr) {
+        // quartile data p25, p50, p75, p90
+        const median = calculateMedian(arr)
+        const p25 = calculatePercentile(arr, 25)
+        const p75 = calculatePercentile(arr, 75)
+        const p90 = calculatePercentile(arr, 90)
+
+        return `${p25.toLocaleString('de-DE', { maximumFractionDigits: 2 })} | ${median.toLocaleString('de-DE', { maximumFractionDigits: 2 })} | ${p75.toLocaleString('de-DE', { maximumFractionDigits: 2 })} | ${p90.toLocaleString('de-DE', { maximumFractionDigits: 2 })}`
+      }
+
+      return `       
+        <p style="margin-bottom: 48px; margin-top: 24px;">
+          SpielerInnen: ${Object.keys(users).length}<br>
+          <small style="padding-left: 50px; color: gray;">p25 | median | p75 | p90<br></small>
+          Start: ${printData(startArr)}<br>
+          komplett: ${printData(completeArr)}<br>
+          unvollständig: ${printData(incompleteArr)}<br>
+          falsche Antworten: ${printData(failArr)}<br>
+        </p>
+        
+        <p>${data.length} Events</p>
         <table>
           <tr><th>Event</th><th>Total</th><th>Unique</th></tr>
           ${ordered
@@ -174,15 +229,13 @@ export function setupHackerQuiz(App) {
             <h2>${rangeData.title}</h2>
             <p>Zeitraum: ${new Date(rangeData.from).toISOString().split('.')[0]} bis ${new Date(rangeData.to).toISOString().split('.')[0]}</p>
 
-            <div style="display: flex; gap: 50px; width: 100%; justify-content: space-between;">
+            <div style="display: flex; gap: 50px; width: 100%; justify-content: space-between; margin-top: 48px;">
               <div style="flex-grow: 1;">
                 <h3>Control-Gruppe</h3>
-                <p>Events: ${rangeData.control.length}</p>
                 ${renderEvents(rangeData.control)}
               </div>
               <div style="flex-grow: 1;">
                 <h3>Treatment-Gruppe</h3>
-                <p>Events: ${rangeData.treatment.length}</p>
                 ${renderEvents(rangeData.treatment)}
               </div>
             </div>

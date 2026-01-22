@@ -75,7 +75,7 @@ export function setupHackerQuiz(App) {
     },
   ]
 
-  App.express.get('/quiz-stats', async (req, res) => {
+  App.express.get_async_fix('/quiz-stats', async (req, res) => {
     if (!req.user || !App.config.editors.includes(req.user.name))
       return res.send('Zugriff nur für Editor')
 
@@ -127,7 +127,36 @@ export function setupHackerQuiz(App) {
      * @param {typeof rows} data
      */
     function renderEvents(data) {
-      return JSON.stringify(data)
+      /**
+       * @type {{[key: string]: {total: number, users: Set<number>}}}
+       */
+      const aggr = {}
+      data.forEach((row) => {
+        if (!aggr[row.key]) {
+          aggr[row.key] = { total: 0, users: new Set() }
+        }
+        aggr[row.key].total += 1
+        aggr[row.key].users.add(row.userId)
+      })
+      const ordered = Object.entries(aggr).sort((a, b) =>
+        a[0].localeCompare(b[0])
+      )
+      return `
+        <table>
+          <tr><th>Event</th><th>Total</th><th>Unique</th></tr>
+          ${ordered
+            .map(
+              ([key, val]) => `
+            <tr>
+              <td style="padding-right: 20px;">${key}</td>
+              <td>${val.total}</td>
+              <td>${val.users.size}</td>
+            </tr>
+          `
+            )
+            .join('')}
+        </table>
+      `
     }
 
     renderPage(App, req, res, {
@@ -135,6 +164,10 @@ export function setupHackerQuiz(App) {
       heading: 'Quiz Stats',
       title: 'Quiz Stats',
       content: `
+        <p style="margin-bottom: 52px">${App.quizData
+          .getQuizIds()
+          .map((id) => `${id}: ${App.quizData.getQuizTitleById(id)}`)
+          .join(', ')}</p>
         ${dataByRangesByGroup
           .map(
             (rangeData) => `

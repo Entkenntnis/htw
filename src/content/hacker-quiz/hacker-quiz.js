@@ -62,7 +62,9 @@ export function setupHackerQuiz(App) {
       !App.config.demos.includes(req.user.name)
     ) {
       await App.mapMeta.setQuizCompleted(req.user.id, id)
-      App.event.create('quiz-complete-' + id, req.user.id)
+      if (req.lng == 'de') {
+        App.event.create('quiz-complete-' + id, req.user.id)
+      }
     }
 
     res.send('OK')

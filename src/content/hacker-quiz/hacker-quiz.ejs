@@ -377,7 +377,9 @@
           document.getElementById('back-button').style.visibility = 'hidden'
           document.querySelector('.quiz-suggestion').style.visibility = 'hidden'
           prepareQuiz()
-          fetch('/api/event?key=quiz-start-' + topics[selectedIndex].id)
+          if (locale == 'de') {
+            fetch('/api/event?key=quiz-start-' + topics[selectedIndex].id)
+          }
         }, 1000)
       }
     } else {
@@ -545,12 +547,14 @@
         .getElementById(`quiz-question-${correctAnswerId + 1}`)
         .classList.add('correct-answer')
       events.push({ type: 'wrong', selected: options[id] })
-      fetch(
-        '/api/event?key=quiz-incorrectAnswer-' +
-          topics[selectedIndex].id +
-          '-' +
-          (quizIndex + 1)
-      )
+      if (locale == 'de') {
+        fetch(
+          '/api/event?key=quiz-incorrectAnswer-' +
+            topics[selectedIndex].id +
+            '-' +
+            (quizIndex + 1)
+        )
+      }
     }
     correctAnswerId = -1
     //
@@ -587,7 +591,9 @@
         method: 'POST',
       })
     } else {
-      fetch('/api/event?key=quiz-incomplete-' + topics[selectedIndex].id)
+      if (locale == 'de') {
+        fetch('/api/event?key=quiz-incomplete-' + topics[selectedIndex].id)
+      }
     }
 
     const summaryI18n = {
@@ -691,9 +697,11 @@
         upBtn.setAttribute('aria-pressed', vote === 'up' ? 'true' : 'false')
         downBtn.setAttribute('aria-pressed', vote === 'down' ? 'true' : 'false')
 
-        fetch(
-          `/api/event?key=quiz-feedback-${topics[selectedIndex].id}-${index}-${vote}`
-        )
+        if (locale == 'de') {
+          fetch(
+            `/api/event?key=quiz-feedback-${topics[selectedIndex].id}-${index}-${vote}`
+          )
+        }
       }
 
       upBtn.addEventListener('click', () => applyVote('up'))

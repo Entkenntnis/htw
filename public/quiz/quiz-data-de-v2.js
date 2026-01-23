@@ -57,29 +57,29 @@ var QUIZ_DATA = [
         },
         {
           question:
-            'Welches bekannte Tool wird oft verwendet, um Passwörtern zu knacken?',
-          options: ['John the Ripper', 'Wireshark', 'TeamViewer', 'WinRAR'],
+            'Was solltest du mit einem Passwort NIE machen?',
+          options: ['Einer fremden Person verraten', 'Deinem Haustier erzählen', 'Auswendig lernen', 'Regelmäßig ändern'],
           details: [
-            'John the Ripper ist ein berühmtes Programm, das darauf spezialisiert ist, schwache Passwörter zu identifizieren, indem es blitzschnell Millionen von Varianten gegen verschlüsselte Passwörter (Hashes) prüft. Es wird sowohl von Sicherheitsforschern als auch von Angreifern genutzt.', // Richtig
-            'Wireshark ist ein Analyse-Tool für Netzwerke, mit dem man Datenverkehr sichtbar macht, aber es ist kein Programm zum direkten Knacken von Passwort-Hashes.', // Wireshark
-            'TeamViewer ist eine Software für Fernwartung und Support, mit der man Computer aus der Ferne steuern kann, aber kein Hacking-Tool.', // TeamViewer
-            'WinRAR ist ein Programm zum Komprimieren und Entpacken von Dateien (wie .zip oder .rar) und kann nicht zum Knacken von Passwörtern genutzt werden.', // WinRAR
+            'Ein Passwort ist wie ein Schlüssel: Gib es niemals an fremde Personen weiter (auch nicht am Telefon/Chat). Damit können Konten übernommen und Daten missbraucht werden.', // Richtig
+            'Deinem Haustier es zu erzählen ist praktisch kein Sicherheitsproblem, weil es das Passwort weder eingeben noch weiterverbreiten kann. Wichtig ist trotzdem: Gewöhne dir an, Passwörter generell vertraulich zu behandeln und nur sichere Wege zu nutzen (z. B. Passwort-Manager statt „erzählen“).',
+            'Ein starkes Master-Passwort auswendig zu lernen ist sinnvoll (z. B. für deinen Passwort-Manager). Der Rest sollte idealerweise im Passwort-Manager gespeichert werden.',
+            'Passwörter regelmäßig zu ändern ist nicht „verboten“ und kann sogar helfen, wenn du unsicher bist. Am wichtigsten ist aber: starke, einzigartige Passwörter verwenden und sie sofort ändern, wenn es Hinweise auf ein Leak/Diebstahl gibt.',
           ],
         },
         {
           question:
-            'Wie sollten Passwörter idealerweise in einer Datenbank gespeichert werden?',
+            'Du hast ausversehen doch dein Passwort verraten. Welches Vorgehen wird empfohlen?',
           options: [
-            'Als Hash + Salt',
-            'Im Klartext',
-            'Als Base64',
-            'Nur als Hash',
+            'Passwort sofort ändern',
+            'Nichts tun',
+            'Antivirus-Software installieren',
+            'Computer neu starten',
           ],
           details: [
-            'Die sicherste Methode ist das "Hashen" (eine Einbahnstraßen-Verschlüsselung) kombiniert mit einem "Salt" (einer zufälligen Zusatzzeichenfolge). Das Salt sorgt dafür, dass selbst zwei identische Passwörter in der Datenbank völlig unterschiedlich aussehen, was Angriffe mit vorberechneten Tabellen (Rainbow Tables) verhindert.', // Richtig
-            'Klartext bedeutet, dass das Passwort lesbar gespeichert wird – wenn die Datenbank gehackt wird, hat der Angreifer sofort Zugriff auf alle Konten.', // Klartext
-            'Base64 ist keine Verschlüsselung, sondern eine Kodierung, die jeder innerhalb von Sekunden wieder in das lesbare Passwort zurückübersetzen kann.', // Base64
-            'Nur zu hashen (ohne Salt) ist unsicherer, da Angreifer sogenannte Rainbow Tables nutzen können, um häufige Passwörter schnell zu entschlüsseln.', // Nur Hash
+            'Ändere das Passwort sofort (und überall, wo du dasselbe Passwort benutzt hast). Danach: alle Sessions abmelden, Sicherheitsfragen prüfen und wenn möglich 2FA/MFA aktivieren.', // Richtig
+            'Nichts tun ist riskant: Wenn jemand das Passwort hat, kann er sich jederzeit einloggen – manchmal auch unbemerkt.',
+            'Ein Antivirus kann hilfreich sein, falls Malware beteiligt war, ersetzt aber nicht das Passwort-Ändern. Erst Passwort ändern, dann Gerät prüfen.',
+            'Ein Neustart behebt das Problem nicht – der Angreifer kann das Passwort weiterhin verwenden.',
           ],
         },
       ],

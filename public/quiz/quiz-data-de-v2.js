@@ -106,35 +106,46 @@ var QUIZ_DATA = [
       questions: [
         {
           question:
-            "Ein Benutzer gibt im Anmeldefeld <code>admin' OR 1=1; --</code> ein. Welcher Angriff wird hier versucht?",
-          options: ['SQL Injection', 'Phishing', 'Brute Force', 'Spam'],
+            'Welche dieser Benutzernamen ist der Versuch, eine Webseite zu hacken?',
+          options: ["admin' OR 1=1; --", 'SigmaUser42', '	(ง •̀_•́)ง', 'Guest_*'],
           details: [
             'Bei einer SQL Injection versucht der Angreifer, eigene Datenbankbefehle in das Eingabefeld zu schmuggeln, um die Abfrage zu manipulieren. Durch den Zusatz "OR 1=1" wird die Bedingung immer "wahr", was dazu führen kann, dass man ohne Passwort eingeloggt wird oder Daten auslesen kann.', // Richtig
-            'Phishing versucht Nutzer über gefälschte E-Mails oder Webseiten zur Dateneingabe zu bewegen und manipuliert nicht den Programmcode der Datenbank.', // Phishing
-            'Bei Brute Force werden automatisiert tausende Passwortkombinationen durchprobiert, anstatt logische Fehler in der Datenbankabfrage auszunutzen.', // Brute Force
-            'Spam bezeichnet unerwünschte Werbenachrichten im Postfach und ist kein technischer Angriff auf die Datenbankstruktur.', // Spam
+            '"SigmaUser42" sieht wie ein normaler Benutzername aus. Er enthält keine typischen SQL-Sonderzeichen oder -Schlüsselwörter, die eine Datenbankabfrage verändern würden.',
+            'Ein Emoji/Unicode-Name ist zwar ungewöhnlich, aber kein Angriff an sich: Er versucht nicht, die Logik einer Abfrage zu brechen, sondern ist einfach nur ein String.',
+            '"Guest_*" wirkt wie ein Muster, ist aber ohne passende (unsichere) Verarbeitung kein Hack. Ein Sternchen ist nicht automatisch „magisch“ – gefährlich wird es erst, wenn die Anwendung solche Zeichen falsch interpretiert (z. B. in unsicheren SQL- oder Regex-Konstruktionen).',
+          ],
+        },
+        {
+          question: 'Welchen Vorteil bieten Adblocker im Webbrowser?',
+          // 'Wie nennt man den Angriff, bei dem ein riesiges Netzwerk aus ferngesteuerten Geräten (Botnet) eine Webseite gleichzeitig aufruft, um sie lahmzulegen?',
+          options: [
+            'Alle drei genannten Vorteile',
+            'Blockieren von Werbung',
+            'Schutz vor Viren',
+            'Seiten laden schneller',
+          ],
+          details: [
+            'Adblocker können Werbung blockieren, Seiten oft schneller laden lassen (weniger Skripte/Anfragen) und zusätzlich das Risiko durch „Malvertising“ reduzieren. Sie sind kein vollständiger Virenschutz, aber sie können eine wichtige Schutzschicht sein.', // Richtig
+            'Nur „Werbung blockieren“ ist unvollständig: Viele Adblocker blockieren auch Tracker und ressourcenintensive Werbeskripte, wodurch Seiten häufig schneller laden und die Angriffsfläche sinken kann.',
+            '„Schutz vor Viren“ ist als alleinige Aussage irreführend: Adblocker ersetzen kein Antivirus und können nicht alles erkennen. Sie können aber manche Infektionswege über bösartige Werbung reduzieren.',
+            '„Seiten laden schneller“ stimmt oft, ist aber nicht der einzige Vorteil: Der Hauptzweck ist das Blockieren von Werbung/Trackern; die zusätzliche Sicherheitswirkung ist ein Nebeneffekt.',
           ],
         },
         {
           question:
-            'Wie nennt man den Angriff, bei dem ein riesiges Netzwerk aus ferngesteuerten Geräten (Botnet) eine Webseite gleichzeitig aufruft, um sie lahmzulegen?',
-          options: ['DDoS', 'Adware', 'VPN-Tunnel', '404 Error'],
-          details: [
-            'DDoS steht für "Distributed Denial of Service" und zielt darauf ab, den Server durch reine Überlastung in die Knie zu zwingen. Da die Anfragen von vielen verschiedenen Geräten weltweit kommen, kann der Server echte Besucher nicht mehr von den Angreifern unterscheiden und bricht zusammen.', // Richtig
-            'Adware ist Software, die Werbung anzeigt, greift aber keine Webserver an, um diese abzuschalten.', // Adware
-            'Ein VPN-Tunnel dient der sicheren Verbindung und ist kein Angriffsszenario zur Überlastung von Systemen.', // VPN-Tunnel
-            'Ein 404 Error ist der Statuscode für eine nicht gefundene Seite und kein Name für einen Angriff.', // 404 Error
+            'Eine unbekannte Nummer schickt dir einen Link per SMS. Was tust du?',
+          // 'Welche Sicherheitslücke ermöglicht es Angreifern, über einen manipulierten Link schädliche Skripte im Browser des Opfers auszuführen (z. B. um Cookies zu klauen)?',
+          options: [
+            'Link nicht anklicken, Nummer blockieren',
+            'Link anklicken, um zu sehen, wohin er führt',
+            'Zurückschreiben und nachfragen',
+            'Link an Freunde weiterleiten, um deren Meinung zu hören',
           ],
-        },
-        {
-          question:
-            'Welche Sicherheitslücke ermöglicht es Angreifern, über einen manipulierten Link schädliche Skripte im Browser des Opfers auszuführen (z. B. um Cookies zu klauen)?',
-          options: ['XSS', 'FTP', 'Ransomware', 'Bluescreen'],
           details: [
-            'Cross-Site Scripting (XSS) nutzt aus, dass der Browser dem Link vertraut und darin versteckten Code (meist JavaScript) auf der besuchten Seite ausführt. So können Angreifer im Hintergrund deine Anmeldeinformationen abgreifen, sobald du den Link anklickst.', // Richtig
-            'FTP ist ein Standardprotokoll zum Übertragen von Dateien auf einen Server und keine Sicherheitslücke.', // FTP
-            'Ransomware verschlüsselt Dateien auf der Festplatte und fordert Lösegeld, zielt aber nicht auf das Auslesen von Browser-Sitzungen ab.', // Ransomware
-            'Ein Bluescreen signalisiert einen Systemabsturz von Windows und ist kein Angriff zum Datendiebstahl über einen Link.', // Bluescreen
+            'Nicht klicken: Unbekannte SMS-Links sind häufig „Smishing“ (SMS-Phishing). Blockieren/Löschen reduziert das Risiko, auf eine Fake-Seite zu geraten oder unbeabsichtigt Malware zu laden.', // Richtig
+            '„Nur mal klicken“ ist genau das Risiko: Schon der Besuch kann dich auf eine täuschend echte Login-Seite führen oder dich zu Downloads/Abos/Weiterleitungen verleiten. Sicherer ist: gar nicht öffnen und den Absender unabhängig verifizieren.',
+            'Zurückschreiben kann dich als „aktiv“ markieren (mehr Spam) und in ein Gespräch ziehen, in dem du überredet wirst. Wenn es wirklich wichtig ist, sollte die Kontaktaufnahme über einen vertrauenswürdigen Kanal erfolgen (z. B. offizielle Website/Nummer).',
+            'Weiterleiten verbreitet den Betrug und setzt andere dem Risiko aus. Besser: nicht teilen, ggf. als Spam melden oder bei Verdacht die betroffene Organisation direkt (über offizielle Kontaktdaten) informieren.',
           ],
         },
       ],

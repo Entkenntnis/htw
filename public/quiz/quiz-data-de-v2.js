@@ -6,35 +6,45 @@ var QUIZ_DATA = [
       questions: [
         {
           question:
-            'Wie nennt man die Zeitspanne, die ein Datenpaket benötigt, um zum Server und wieder zurück zu gelangen?',
-          options: ['Ping', 'Lag', 'FPS', 'WLAN'],
+            'Damit Computer im Internet kommunizieren können, benötigen sie eine:',
+          options: [
+            'IP-Adresse',
+            'Grafikkarte',
+            'USB-Verbindung',
+            'Festplatte',
+          ],
           details: [
-            'Der Ping wird in Millisekunden gemessen und zeigt an, wie reaktionsschnell die Verbindung zum Server ist. Ein niedriger Wert ist besonders bei Online-Spielen wichtig, damit deine Aktionen ohne spürbare Verzögerung ausgeführt werden.', // Ping (Richtig)
-            'Lag ist kein Messwert, sondern bezeichnet lediglich das spürbare Ruckeln oder Hängen, das oft erst als Folge eines zu hohen Pings auftritt.', // Lag
-            'FPS (Frames Per Second) misst die Grafikleistung deines Computers (Bilder pro Sekunde), hat aber nichts mit der Geschwindigkeit der Internetverbindung zu tun.', // FPS
-            'WLAN bezeichnet nur die drahtlose Funktechnologie zur Übertragung, ist aber nicht der Name für die gemessene Antwortzeit.', // WLAN
+            'Eine IP-Adresse ist die eindeutige „Adresse“ im Netzwerk. Damit können Datenpakete an den richtigen Computer gesendet und von ihm beantwortet werden.', // IP-Adresse (Richtig)
+            'Eine Grafikkarte ist für die Darstellung von Bildern zuständig. Für die Kommunikation im Internet braucht dein Gerät aber eine Netzwerk-Adresse (IP), nicht mehr Grafikleistung.', // Grafikkarte
+            'USB ist eine Kabel-/Geräteschnittstelle und kein Internet-Adresssystem. Auch ohne USB kann ein Gerät online sein (z. B. über WLAN).', // USB-Verbindung
+            'Eine Festplatte speichert Daten. Für das Senden/Empfangen im Internet ist entscheidend, dass dein Gerät im Netzwerk adressierbar ist (IP-Adresse).', // Festplatte
           ],
         },
         {
           question:
-            'Welches Protokoll ist dafür zuständig, Webseiten vom Server in deinen Browser zu laden?',
-          options: ['HTTP(S)', 'HTML', 'USB', 'PDF'],
+            'Du kannst Webseiten über HTTP oder HTTPS aufrufen. Wofür steht das "S" in HTTPS?',
+          options: ['Secure', 'Simple', 'Speedy', 'Superduper'],
           details: [
-            'HTTP (bzw. das sichere HTTPS) regelt als Anwendungsprotokoll den Austausch von Daten zwischen Webserver und Browser. Es stellt sicher, dass Anfragen korrekt verstanden und die passenden Webseiteninhalte sicher an deinen Computer zurückgeschickt werden.', // HTTP(S) (Richtig)
-            'HTML ist die Sprache, die den Aufbau und Inhalt der Webseite beschreibt, aber sie transportiert die Daten nicht selbst über das Netzwerk.', // HTML
-            'USB ist eine Hardware-Schnittstelle für Geräte wie Tastaturen oder Speichersticks und kein Netzwerkprotokoll für Webseiten.', // USB
-            'PDF ist ein Dateiformat für Dokumente und hat nichts mit der technischen Übertragung von Webseiten zu tun.', // PDF
+            '„Secure“ bedeutet, dass die Verbindung verschlüsselt ist (TLS). So können Dritte den Inhalt nicht einfach mitlesen oder unbemerkt verändern.', // Secure (Richtig)
+            '„Simple“ klingt plausibel, ist aber falsch: Das S steht nicht für „einfach“, sondern für die abgesicherte (verschlüsselte) Verbindung.', // Simple
+            '„Speedy“ ist ebenfalls falsch: HTTPS macht eine Verbindung nicht automatisch schneller; es geht um Sicherheit (Verschlüsselung/Integrität).', // Speedy
+            '„Superduper“ ist ein Spaß-Begriff und hat keine technische Bedeutung bei HTTPS.', // Superduper
           ],
         },
         {
           question:
-            'Welcher Dienst ist technisch dafür verantwortlich, Domainnamen (wie arrrg.de) in IP-Adressen aufzulösen?',
-          options: ['DNS', 'VPN', 'URL', 'SSD'],
+            'Du öffnest einen Link und erhältst einen 404 Fehler. Was bedeutet das?',
+          options: [
+            'Die Seite wurde nicht gefunden',
+            'Das Internet ist kaputt',
+            'Dein Computer wurde gehackt',
+            'Der Server ist überlastet',
+          ],
           details: [
-            'Das Domain Name System (DNS) ist ein weltweit verteiltes Verzeichnis, das menschenlesbare Namen in maschinenlesbare IP-Adressen übersetzt. Ohne DNS müsstest du dir für jede Website eine lange Zahlenreihe merken, statt einfach den Namen einzutippen.', // DNS (Richtig)
-            'Ein VPN (Virtual Private Network) verschlüsselt deine Verbindung und verschleiert deinen Standort, ist aber nicht für die Namensauflösung zuständig.', // VPN
-            'Die URL ist lediglich die Adressezeile, die du eingibst, aber nicht der Hintergrunddienst, der diese technisch in eine IP-Adresse umwandelt.', // URL
-            'Eine SSD ist ein schneller Datenspeicher (Festplatte) in deinem Computer und hat keine Funktion im Netzwerkverkehr.', // SSD
+            '404 bedeutet „Not Found“: Der Server ist erreichbar, aber die angeforderte Seite/Datei existiert unter dieser Adresse nicht (mehr) oder wurde verschoben.', // Die Seite wurde nicht gefunden (Richtig)
+            'Dein Internet ist dabei meist völlig in Ordnung: Andere Seiten funktionieren weiterhin. Es ist eher ein Problem mit dem Link oder der Seite auf dem Server.', // Das Internet ist kaputt
+            'Ein 404 ist kein Hinweis auf einen Hack deines Computers. Es ist lediglich ein HTTP-Statuscode, der „nicht gefunden“ bedeutet.', // Dein Computer wurde gehackt
+            'Ein überlasteter Server führt typischerweise zu anderen Codes (z. B. 503). Bei 404 geht es darum, dass der Inhalt nicht vorhanden ist.', // Der Server ist überlastet
           ],
         },
       ],
@@ -56,9 +66,13 @@ var QUIZ_DATA = [
           ],
         },
         {
-          question:
-            'Was solltest du mit einem Passwort NIE machen?',
-          options: ['Einer fremden Person verraten', 'Deinem Haustier erzählen', 'Auswendig lernen', 'Regelmäßig ändern'],
+          question: 'Was solltest du mit einem Passwort NIE machen?',
+          options: [
+            'Einer fremden Person verraten',
+            'Deinem Haustier erzählen',
+            'Auswendig lernen',
+            'Regelmäßig ändern',
+          ],
           details: [
             'Ein Passwort ist wie ein Schlüssel: Gib es niemals an fremde Personen weiter (auch nicht am Telefon/Chat). Damit können Konten übernommen und Daten missbraucht werden.', // Richtig
             'Deinem Haustier es zu erzählen ist praktisch kein Sicherheitsproblem, weil es das Passwort weder eingeben noch weiterverbreiten kann. Wichtig ist trotzdem: Gewöhne dir an, Passwörter generell vertraulich zu behandeln und nur sichere Wege zu nutzen (z. B. Passwort-Manager statt „erzählen“).',

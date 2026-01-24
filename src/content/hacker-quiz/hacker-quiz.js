@@ -72,9 +72,14 @@ export function setupHackerQuiz(App) {
 
   const timeRanges = [
     {
+      title: 'Treatment gets more humour and more accessible questions',
+      from: new Date('2026-01-24T23:02:20.007Z').getTime(),
+      to: new Date('2030-01-01T00:00:00Z').getTime(), // update in future
+    },
+    {
       title: 'A/A warmup',
       from: new Date('2026-01-22T00:00:00Z').getTime(),
-      to: new Date('2030-01-01T00:00:00Z').getTime(), // update in future
+      to: new Date('2026-01-24T23:02:20.007Z').getTime(), // update in future
     },
   ]
 
@@ -243,7 +248,7 @@ export function setupHackerQuiz(App) {
             </div>
             `
           )
-          .join('<hr>')}
+          .join('<hr style="margin: 72px 0;">')}
       `,
     })
   })

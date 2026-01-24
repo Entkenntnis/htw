@@ -9,7 +9,7 @@ public/**/*.js
 !public/chals/chal51_2.js
 !public/chals/chal31.js
 !public/htw.js
-!public/quiz-data.js
+!public/quiz/*.js
 
 src/**/*.ejs
 

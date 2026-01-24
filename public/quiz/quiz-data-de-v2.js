@@ -247,40 +247,33 @@ var QUIZ_DATA = [
       questions: [
         {
           question:
-            'Mit welchem Windows-Tool kannst du ein Programm sofort beenden, wenn es sich aufgehängt hat und nicht mehr reagiert?',
-          options: [
-            'Task-Manager',
-            'Systemsteuerung',
-            'Datei-Explorer',
-            'BIOS',
-          ],
+            'Welcher Benutzer hat auf einem Computer die meisten Rechte?',
+          options: ['Administrator', 'Gast', 'Standardbenutzer', 'Power-User'],
           details: [
-            'Der Task-Manager überwacht alle laufenden Prozesse und zeigt deren Ressourcenverbrauch an. Über die Funktion "Task beenden" kann man abgestürzte Programme gezielt stoppen, ohne den gesamten Computer neu starten zu müssen.', // Richtig
-            'Die Systemsteuerung verwaltet allgemeine Einstellungen wie Benutzerkonten oder Hardware, bietet aber keine Echtzeit-Kontrolle über aktive Programmabstürze.', // Systemsteuerung
-            'Der Datei-Explorer dient der Organisation von Ordnern und Dokumenten auf der Festplatte, hat jedoch keinen Zugriff auf den Arbeitsspeicher laufender Anwendungen.', // Datei-Explorer
-            'Das BIOS ist die grundlegende Start-Software des Computers und läuft bereits ab, bevor Windows und seine Programme überhaupt gestartet sind.', // BIOS
+            'Der Administrator hat volle Systemrechte: Er kann Software installieren, Systemeinstellungen ändern, Benutzer verwalten und auf alle Dateien zugreifen.', // Richtig
+            'Der Gast hat sehr eingeschränkte Rechte und kann meist nur grundlegende Aufgaben ausführen – keine Installation oder Konfiguration.', // Gast
+            'Ein Standardbenutzer kann Alltagsaufgaben erledigen (Programme nutzen, Dateien speichern), aber keine systemweiten Änderungen vornehmen.', // Standardbenutzer
+            'Ein Power-User hat in manchen Umgebungen erweiterte Rechte, aber nicht die vollständigen Administratorrechte.', // Power-User
           ],
         },
         {
-          question:
-            'Wie nennt man eine isolierte Umgebung, in der man unbekannte Software testen kann, ohne das echte Betriebssystem zu gefährden?',
-          options: ['Virtuelle Maschine', 'ZIP-Archiv', 'Dark Mode', 'VPN'],
+          question: 'Welches dieser Betriebssysteme ist zuletzt erschienen?',
+          options: ['Windows 11', 'Windows 7', 'Windows 98', 'Windows 2000'],
           details: [
-            'Eine Virtuelle Maschine (VM) simuliert einen kompletten Computer innerhalb eines Fensters auf deinem PC. Da sie vom Hauptsystem getrennt ist (Sandbox), bleiben Viren oder Systemfehler dort gefangen und beschädigen nicht deinen echten Rechner.', // Richtig
-            'Ein ZIP-Archiv komprimiert Dateien für den platzsparenden Versand, führt diese aber nicht in einer geschützten Umgebung aus.', // ZIP-Archiv
-            'Der Dark Mode ändert das visuelle Erscheinungsbild der Benutzeroberfläche, besitzt aber keine Sicherheitsfunktionen zur Isolation von Programmen.', // Dark Mode
-            'Ein VPN verschlüsselt den Datenverkehr im Netzwerk, schützt das Betriebssystem aber nicht vor lokal ausgeführter Schadsoftware.', // VPN
+            'Windows 11 ist die neueste der aufgeführten Versionen (Einführung ab 2021), daher die aktuellste Antwort.', // Richtig
+            'Windows 7 stammt aus 2009 und ist deutlich älter als Windows 11.', // Windows 7
+            'Windows 98 erschien 1998 und gehört zur älteren Windows-9x-Reihe.', // Windows 98
+            'Windows 2000 wurde im Jahr 2000 veröffentlicht und ist ebenfalls älter als Windows 11.', // Windows 2000
           ],
         },
         {
-          question:
-            'Welches Betriebssystem ist speziell mit hunderten vorinstallierten Werkzeugen für Hacker und Sicherheitsforscher ausgestattet?',
-          options: ['Kali Linux', 'Windows 11', 'macOS', 'Android'],
+          question: 'Wo findest du Dateien, die du gelöscht hast?',
+          options: ['Papierkorb', 'Desktop', 'AppData', 'home-Verzeichnis'],
           details: [
-            'Kali Linux ist eine spezialisierte Linux-Distribution, die von Haus aus über 600 Tools für Penetrationstests und digitale Forensik mitbringt. Es wird weltweit von IT-Profis genutzt, um Sicherheitslücken in Netzwerken und Systemen aufzuspüren.', // Richtig
-            'Windows 11 ist auf Endanwender für Büroarbeiten oder Gaming ausgerichtet und enthält standardmäßig keine Angriffs-Software.', // Windows 11
-            'macOS fokussiert sich auf Benutzerfreundlichkeit und Kreativanwendungen für Apple-Geräte, nicht auf offensive Sicherheitsanalysen.', // macOS
-            'Android ist ein mobiles Betriebssystem für Smartphones und Tablets, das nicht für komplexe Sicherheitsüberprüfungen am PC konzipiert wurde.', // Android
+            'Gelöschte Dateien landen zunächst im Papierkorb (Recycle Bin) und können von dort wiederhergestellt oder endgültig entfernt werden.', // Richtig
+            'Der Desktop ist eine Arbeitsoberfläche, kein spezieller Sammelort für gelöschte Dateien.', // Desktop
+            'AppData enthält Anwendungsdaten und Konfigurationsordner – kein standardmäßiger Speicherort für gelöschte Dateien.', // AppData
+            'Das home-Verzeichnis (Benutzerordner) ist der persönliche Datenbereich, aber nicht der Zielort für Löschvorgänge.', // home-Verzeichnis
           ],
         },
       ],

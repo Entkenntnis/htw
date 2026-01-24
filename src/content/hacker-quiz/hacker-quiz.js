@@ -146,9 +146,6 @@ export function setupHackerQuiz(App) {
         aggr[row.key].total += 1
         aggr[row.key].users.add(row.userId)
       })
-      const ordered = Object.entries(aggr).sort((a, b) =>
-        a[0].localeCompare(b[0])
-      )
 
       // now collect data for each user
       /**
@@ -204,20 +201,77 @@ export function setupHackerQuiz(App) {
         </p>
         
         <p>${data.length} Events</p>
-        <table>
-          <tr><th>Event</th><th>Total</th><th>Unique</th></tr>
-          ${ordered
-            .map(
-              ([key, val]) => `
-            <tr>
-              <td style="padding-right: 20px;">${key}</td>
-              <td>${val.total}</td>
-              <td>${val.users.size}</td>
-            </tr>
-          `
-            )
-            .join('')}
-        </table>
+          ${App.quizData
+            .getQuizIds()
+            .map((id) => {
+              const startUsers = aggr['quiz-start-' + id]?.users ?? new Set()
+
+              const completeUsers =
+                aggr['quiz-complete-' + id]?.users ?? new Set()
+
+              const completeUsersWithStart = new Set(
+                [...completeUsers].filter((u) => startUsers.has(u))
+              )
+
+              const incompleteUsers =
+                aggr['quiz-incomplete-' + id]?.users ?? new Set()
+
+              const incompleteUsersWithNoCompleteAndWithStart = new Set(
+                [...incompleteUsers].filter(
+                  (u) => !completeUsers.has(u) && startUsers.has(u)
+                )
+              )
+
+              const t = startUsers.size
+
+              const a = completeUsersWithStart.size
+              const b = incompleteUsersWithNoCompleteAndWithStart.size
+              const c = t - a - b
+
+              const aPerc = t > 0 ? Math.round((a * 1000) / t) / 10 : 0
+              const bPerc = t > 0 ? Math.round((b * 1000) / t) / 10 : 0
+              const cPerc = t > 0 ? Math.round((c * 1000) / t) / 10 : 0
+
+              return `
+                QUIZ ${id} mit ${startUsers.size} Starts<br>
+                <div style="width: 90%; height: 8px; background-color: gray; margin-top: 12px; display: flex; opacity: 0.7; margin-bottom: 6px;">
+                  <div style="width: ${aPerc}%; background-color: green;" title="Erfolgreich: ${a} (${aPerc}%)"></div>
+                  <div style="width: ${bPerc}%; background-color: orange;" title="Unvollständig: ${b} (${bPerc}%)"></div>
+                  <div style="width: ${cPerc}%; background-color: red;" title="Nicht abgeschlossen: ${c} (${cPerc}%)"></div>
+                </div>
+                ${[0, 1, 2]
+                  .map((i) => {
+                    const incorrectAnswersFromStartUsers = new Set(
+                      [
+                        ...(aggr[`quiz-incorrectAnswer-${id}-${i + 1}`]
+                          ?.users ?? new Set()),
+                      ].filter((u) => startUsers.has(u))
+                    )
+                    const feedbackUpFromStartUsers = new Set(
+                      [
+                        ...(aggr[`quiz-feedback-${id}-${i}-up`]?.users ??
+                          new Set()),
+                      ].filter((u) => startUsers.has(u))
+                    )
+                    const feedbackDownFromStartUsers = new Set(
+                      [
+                        ...(aggr[`quiz-feedback-${id}-${i}-down`]?.users ??
+                          new Set()),
+                      ].filter((u) => startUsers.has(u))
+                    )
+                    return `
+                    Frage ${i + 1} falsche Antworten: ${
+                      incorrectAnswersFromStartUsers.size
+                    } | Feed-Up: ${
+                      feedbackUpFromStartUsers.size
+                    } | Feed-Down: ${feedbackDownFromStartUsers.size}<br>
+                  `
+                  })
+                  .join('')}
+                <br>
+              `
+            })
+            .join('<br>')}
       `
     }
 

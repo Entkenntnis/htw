@@ -209,33 +209,32 @@ var QUIZ_DATA = [
             'Vermeide übermäßigen Zucker- und Fettkonsum.',
           ],
           details: [
-            'Bei einer Prompt Injection gibt der Benutzer einen Text ein, der die KI so täuscht, dass sie ihn als internen Befehl interpretiert und nicht als normale Nachricht. Dadurch können Schutzmechanismen ausgehebelt werden, sodass die KI beispielsweise beleidigende Inhalte oder geheime Instruktionen ausgibt.', // Richtig
-            'Cloud Phishing zielt auf den Diebstahl von Zugangsdaten zu Online-Speichern ab und manipuliert keine KI-Eingaben.', // Cloud Phishing
-            'Social Hacking bezeichnet die psychologische Manipulation von Menschen und ist kein technischer Angriff auf die Softwarelogik.', // Social Hacking
-            'Ein Syntax Error ist ein technischer Fehler im Programmcode, der das System zum Absturz bringt, aber keine gezielte Manipulation darstellt.', // Syntax Error
+            'Das ist eine klare Halluzination: Es gibt keinen medizinischen Grund, Steine zu essen – im Gegenteil, das ist gefährlich. KI-Modelle können gelegentlich falsche oder erfundene Ratschläge ausgeben.', // Richtig
+            'Ausreichend Wasser zu trinken ist eine sinnvolle, evidenzbasierte Gesundheitsempfehlung – keine Halluzination.',
+            'Mehr Obst und Gemüse zu essen ist ein bewährter, gesunder Rat und kein Anzeichen für halluzinierte Inhalte.',
+            'Zu viel Zucker und Fett zu vermeiden ist ebenfalls vernünftig und belegt – keine Halluzination.',
           ],
         },
         {
           question:
             'Wie nennt man KIs, die neben Text auch Bilder und Videos verarbeiten können?',
-          // 'Wofür steht die Abkürzung LLM im Zusammenhang mit modernen KIs wie ChatGPT?',
           options: ['multi-modal', 'text-only', 'audio-centric', 'data-mining'],
           details: [
-            'Large Language Model bezeichnet ein KI-Modell, das mit riesigen Textmengen trainiert wurde, um menschliche Sprache zu verstehen und zu generieren. Diese Modelle erkennen statistische Muster in Sätzen und können darauf basierend sinnvolle Antworten formulieren.', // Richtig
-            'Long Lasting Machine suggeriert eine langlebige Hardware, ist aber kein Begriff aus der Softwareentwicklung.', // Long Lasting Machine
-            'Little Learning Monster ist ein fantasievoller Name, aber keine technische Bezeichnung für komplexe Sprachmodelle.', // Little Learning Monster
-            'Lazy Logic Module ist ein fantasievoller Name, aber keine technische Bezeichnung für komplexe Sprachmodelle.', // Lazy Logic Module
+            'Multimodal bedeutet: Das Modell kann mehrere Eingabetypen (z. B. Text, Bild, Audio, Video) gleichzeitig verarbeiten bzw. verknüpfen.', // Richtig
+            'Text-only beschreibt Modelle, die ausschließlich Text verstehen/generieren – nicht multimodal.',
+            'Audio-centric würde auf Audio spezialisieren, deckt aber nicht Bilder/Videos zusätzlich ab und ist kein etablierter Oberbegriff.',
+            'Data-Mining ist eine Disziplin zur Mustererkennung in Datenbeständen – kein Modus für Eingabetypen von KI-Modellen.',
           ],
         },
         {
-          question: 'Wie nennt man ',
-          // 'Welches Konzept wurde 2017 eingeführt, damit KI-Modelle gewichten können, welche Wörter in einem Satz besonders wichtig zueinander in Beziehung stehen?',
-          options: ['Attention', 'Friction', 'Tension', 'Confusion'],
+          question:
+            'Wie nennt man eine KI, die eigenständig Aktionen ausführt?',
+          options: ['Agent', 'Detektiv', 'Sherlock', 'Kommissar'],
           details: [
-            'Der Attention-Mechanismus (Aufmerksamkeit) ermöglicht es dem neuronalen Netz, sich bei der Verarbeitung auf relevante Wörter zu fokussieren und unwichtige Informationen auszublenden. Dies war der entscheidende Durchbruch für moderne Systeme, da sie so den Kontext auch über lange Textpassagen hinweg verstehen.', // Richtig
-            'Friction bezeichnet physikalische Reibung oder Widerstand und ist kein Konzept der Datenverarbeitung.', // Friction
-            'Tension beschreibt mechanische Spannung oder emotionale Anspannung, hilft aber nicht bei der Analyse von Textstrukturen.', // Tension
-            'Confusion beschreibt Verwirrung und ist das Gegenteil dessen, was man durch das Training einer KI erreichen möchte.', // Confusion
+            'Ein Agent ist ein System, das Ziele verfolgt und eigenständig Aktionen (z. B. Tool-Aufrufe, Web-Requests) plant und ausführt.', // Richtig
+            '„Detektiv“ ist eine metaphorische Rollenbezeichnung und kein technischer Begriff für handlungsfähige KI-Systeme.',
+            '„Sherlock“ ist ein Eigenname/Spitzname, aber keine fachliche Bezeichnung.',
+            '„Kommissar“ ist eine Berufsbezeichnung aus dem menschlichen Kontext, nicht der korrekte Terminus in der KI.',
           ],
         },
       ],

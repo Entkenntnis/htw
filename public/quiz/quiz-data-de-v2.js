@@ -157,41 +157,39 @@ var QUIZ_DATA = [
       topic: 'Hardware',
       questions: [
         {
-          question:
-            'Wie lautet die gängige Abkürzung für den Arbeitsspeicher eines Computers?',
-          options: ['RAM', 'CPU', 'GPU', 'ROM'],
+          question: 'Welcher Gegenstand macht keinen Sinn?',
+          options: ['WLAN-Kabel', 'USB-Stick', 'HDMI-Adapter', 'Bluetooth-Box'],
           details: [
-            'RAM (Random Access Memory) fungiert als Kurzzeitgedächtnis des Computers, in dem Daten laufender Programme für den schnellen Zugriff bereitliegen. Sobald der Computer ausgeschaltet wird, gehen die Daten in diesem Speicher verloren.', // Richtig
-            'Die CPU (Central Processing Unit) ist der Prozessor und das Gehirn des Computers, das Berechnungen durchführt.', // CPU
-            'Die GPU (Graphics Processing Unit) ist die Grafikkarte und berechnet Bildschirminhalte oder 3D-Modelle.', // GPU
-            'ROM (Read-Only Memory) ist ein dauerhafter Speicherbaustein, der Firmware-Daten enthält und nicht beschreibbar ist.', // ROM
+            '„WLAN-Kabel“ ist Unsinn: WLAN bedeutet drahtlose Verbindung. Ein Kabel wäre eine Ethernet-/LAN-Verbindung, aber kein WLAN.', // Richtig
+            'Ein USB-Stick ist ein legitimes Speichermedium und ergibt Sinn als Gegenstand.',
+            'Ein HDMI-Adapter ist ein sinnvolles Zubehör, um Geräte mit unterschiedlichen Videoanschlüssen zu verbinden.',
+            'Eine Bluetooth-Box (Lautsprecher) ist ein gängiges Gerät zur drahtlosen Audiowiedergabe und ergibt Sinn.',
           ],
         },
         {
           question:
-            'Wie nennt man die Hauptplatine, die alle Komponenten eines Computers miteinander verbindet?',
-          options: ['Motherboard', 'Keyboard', 'Dashboard', 'Breadboard'],
+            'Welche Taste ist auf einer Standardtastatur NICHT zu finden?',
+          options: ['F13', 'alt gr', 'Enter', 'Caps Lock'],
           details: [
-            'Das Motherboard (oder Mainboard) ist die zentrale Platine, auf der wichtige Bauteile wie Prozessor, Arbeitsspeicher und Grafikkarte sitzen. Es stellt die elektronischen Verbindungen bereit, damit alle Komponenten miteinander kommunizieren und Strom erhalten können.', // Richtig
-            'Keyboard ist der englische Begriff für die Tastatur zur Eingabe von Texten.', // Keyboard
-            'Ein Dashboard bezeichnet eine grafische Benutzeroberfläche zur Übersicht von Daten oder Einstellungen.', // Dashboard
-            'Ein Breadboard ist eine Steckplatine für Bastler, um elektronische Schaltungen testweise aufzubauen.', // Breadboard
+            'F13 gibt es auf Standardtastaturen nicht (üblich sind F1–F12). Spezialtastaturen können zusätzliche Funktionstasten haben.', // Richtig
+            'Alt Gr ist auf vielen deutschsprachigen Tastaturen vorhanden und dient zum Eingeben von Drittbelegungen (z. B. @, €).',
+            'Enter ist eine Standardtaste zum Bestätigen/Eingeben von Zeilenumbrüchen.',
+            'Caps Lock (Feststelltaste) ist eine Standardtaste zum dauerhaften Großschreiben.',
           ],
         },
         {
-          question:
-            'Wofür steht die Abkürzung SSD bei modernen Speichermedien?',
+          question: 'Wie lässt sich die Akkulaufzeit eines Handys verlängern?',
           options: [
-            'Solid State Drive',
-            'Super Speed Disk',
-            'System Security Data',
-            'Silent Storage Device',
+            'Helligkeit reduzieren',
+            'Flugmodus ausschalten',
+            'Standort aktivieren',
+            'Mehr Apps öffnen',
           ],
           details: [
-            'Solid State Drive bedeutet, dass das Laufwerk auf Flash-Speicherbausteinen basiert und keine beweglichen mechanischen Teile besitzt. Dadurch sind SSDs wesentlich schneller, robuster und stromsparender als herkömmliche Magnetfestplatten (HDDs).', // Richtig
-            'Super Speed Disk ist ein Fantasiebegriff und keine technische Bezeichnung für Speicherhardware.', // Super Speed Disk
-            'System Security Data klingt nach einem Begriff aus der IT-Sicherheit und beschreibt kein physisches Laufwerk.', // System Security Data
-            'Silent Storage Device beschreibt zwar eine Eigenschaft der SSD (lautlos), ist aber nicht die korrekte Auflösung der Abkürzung.', // Silent Storage Device
+            'Die Bildschirmhelligkeit reduziert den größten Stromverbraucher bei Smartphones. Niedrigere Helligkeit spart spürbar Energie und verlängert die Laufzeit.', // Richtig
+            'Flugmodus ausschalten erhöht i. d. R. den Verbrauch (Mobilfunk/WLAN/Bluetooth aktiv). Energiesparen: Funkverbindungen deaktivieren oder Flugmodus einschalten.',
+            'Standort aktivieren (GPS) verbraucht je nach Nutzung zusätzliche Energie. Für längere Laufzeit besser nur bei Bedarf aktivieren.',
+            'Mehr Apps öffnen erhöht Hintergrundaktivität und CPU-/Speicherlast—das verkürzt die Akkulaufzeit statt sie zu verlängern.',
           ],
         },
       ],
@@ -203,13 +201,12 @@ var QUIZ_DATA = [
       topic: 'KI',
       questions: [
         {
-          question:
-            'Wie nennt man die Technik, bei der eine KI durch manipulative Eingaben dazu gebracht wird, ihre internen Sicherheitsrichtlinien zu ignorieren?',
+          question: 'Welche Chat-Antwort ist Beispiel für eine Halluzination?',
           options: [
-            'Prompt Injection',
-            'Cloud Phishing',
-            'Social Hacking',
-            'Syntax Error',
+            'Esse jeden Tag ein paar kleine Steine, um deine Verdauung zu verbessern.',
+            'Trinke ausreichend Wasser, um hydriert zu bleiben.',
+            'Iss Obst und Gemüse für eine ausgewogene Ernährung.',
+            'Vermeide übermäßigen Zucker- und Fettkonsum.',
           ],
           details: [
             'Bei einer Prompt Injection gibt der Benutzer einen Text ein, der die KI so täuscht, dass sie ihn als internen Befehl interpretiert und nicht als normale Nachricht. Dadurch können Schutzmechanismen ausgehebelt werden, sodass die KI beispielsweise beleidigende Inhalte oder geheime Instruktionen ausgibt.', // Richtig
@@ -220,13 +217,9 @@ var QUIZ_DATA = [
         },
         {
           question:
-            'Wofür steht die Abkürzung LLM im Zusammenhang mit modernen KIs wie ChatGPT?',
-          options: [
-            'Large Language Model',
-            'Long Lasting Machine',
-            'Little Learning Monster',
-            'Lazy Logic Module',
-          ],
+            'Wie nennt man KIs, die neben Text auch Bilder und Videos verarbeiten können?',
+          // 'Wofür steht die Abkürzung LLM im Zusammenhang mit modernen KIs wie ChatGPT?',
+          options: ['multi-modal', 'text-only', 'audio-centric', 'data-mining'],
           details: [
             'Large Language Model bezeichnet ein KI-Modell, das mit riesigen Textmengen trainiert wurde, um menschliche Sprache zu verstehen und zu generieren. Diese Modelle erkennen statistische Muster in Sätzen und können darauf basierend sinnvolle Antworten formulieren.', // Richtig
             'Long Lasting Machine suggeriert eine langlebige Hardware, ist aber kein Begriff aus der Softwareentwicklung.', // Long Lasting Machine
@@ -235,8 +228,8 @@ var QUIZ_DATA = [
           ],
         },
         {
-          question:
-            'Welches Konzept wurde 2017 eingeführt, damit KI-Modelle gewichten können, welche Wörter in einem Satz besonders wichtig zueinander in Beziehung stehen?',
+          question: 'Wie nennt man ',
+          // 'Welches Konzept wurde 2017 eingeführt, damit KI-Modelle gewichten können, welche Wörter in einem Satz besonders wichtig zueinander in Beziehung stehen?',
           options: ['Attention', 'Friction', 'Tension', 'Confusion'],
           details: [
             'Der Attention-Mechanismus (Aufmerksamkeit) ermöglicht es dem neuronalen Netz, sich bei der Verarbeitung auf relevante Wörter zu fokussieren und unwichtige Informationen auszublenden. Dies war der entscheidende Durchbruch für moderne Systeme, da sie so den Kontext auch über lange Textpassagen hinweg verstehen.', // Richtig

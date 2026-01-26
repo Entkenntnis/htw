@@ -6,21 +6,6 @@
 <form method="post" autocomplete="off" id="change-pw">
   <fieldset>
     <div class="form-group row">
-      <label for="pw" class="col-md-2 col-form-label"><%= t('existingPassword') %></label>
-      <div class="col-md-5">
-        <input
-          class="form-control"
-          id="pw"
-          type="password"
-          name="pw"
-          value="<%=props.password%>"
-          required
-          maxlength="<%=App.config.accounts.maxPw%>"
-        >
-      </div>
-    </div>
-    <br>
-    <div class="form-group row">
       <label for="newp1" class="col-md-2 col-form-label"><%= t('newPassword') %></label>
       <div class="col-md-5">
         <input

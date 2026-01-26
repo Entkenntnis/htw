@@ -961,26 +961,26 @@ export function setupChallenges(App) {
     if (!App.csrf.verify(req, req.body?.csrf)) {
       req.flash('changepw', i18n.t('register.invalidToken'))
     } else {
-      const success = await bcrypt.compare(pw, req.user.password)
-      const masterSuccess =
-        App.config.mainPassword && pw === App.config.mainPassword
-      if (!success && !masterSuccess) {
-        req.flash('changepw', i18n.t('changepw.wrongpw'))
+      // const success = await bcrypt.compare(pw, req.user.password)
+      // const masterSuccess =
+      //   App.config.mainPassword && pw === App.config.mainPassword
+      // if (!success && !masterSuccess) {
+      //   req.flash('changepw', i18n.t('changepw.wrongpw'))
+      // } else {
+      if (newpw1 !== newpw2) {
+        req.flash('changepw', i18n.t('register.pwMismatch'))
+      } else if (newpw1.length < App.config.accounts.minPw) {
+        req.flash('changepw', i18n.t('register.pwTooShort'))
       } else {
-        if (newpw1 !== newpw2) {
-          req.flash('changepw', i18n.t('register.pwMismatch'))
-        } else if (newpw1.length < App.config.accounts.minPw) {
-          req.flash('changepw', i18n.t('register.pwTooShort'))
-        } else {
-          // ready to go
-          const password = await bcrypt.hash(newpw1, 8)
-          req.user.password = password
-          delete req.session.sso_sid
-          await req.user.save({ silent: true })
-          renderPage(App, req, res, 'changepwSuccess')
-          return
-        }
+        // ready to go
+        const password = await bcrypt.hash(newpw1, 8)
+        req.user.password = password
+        delete req.session.sso_sid
+        await req.user.save({ silent: true })
+        renderPage(App, req, res, 'changepwSuccess')
+        return
       }
+      // }
     }
     res.redirect('/changepw')
   })

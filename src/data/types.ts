@@ -308,6 +308,7 @@ interface SessionData {
   rooms?: string[]
   loginFail?: boolean
   rates?: { [key: string]: { count: number; lockedUntil: number } }
+  answers?: { [key: number]: { answers: string[] } }
   chal117?: DungeonData
   chal303_ts?: number
   chal303_result?: string

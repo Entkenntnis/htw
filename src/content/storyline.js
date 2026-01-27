@@ -77,9 +77,9 @@ export function setupStoryline(App) {
           .scene-panel {
             display: flex;
             justify-content: center;
-            position: relative;
           }
           .scene-panel .panel-inner {
+            position: relative;
             width: 100%;
             max-width: 72ch;
             margin: 0 auto;

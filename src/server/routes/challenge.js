@@ -337,6 +337,17 @@ export function setupChallenges(App) {
       } else {
         req.session.rates[key] = { count: 1, lockedUntil: -1 }
       }
+      // store last 10 answers
+      req.session.answers = req.session.answers || {}
+      req.session.answers[id] = req.session.answers[id] || { answers: [] }
+      let answer = req.body.answer
+      if (answer.length > 200) {
+        answer = answer.slice(0, 200) + '…'
+      }
+      req.session.answers[id].answers.push(req.body.answer)
+      if (req.session.answers[id].answers.length > 10) {
+        req.session.answers[id].answers.shift()
+      }
     }
     next()
   })

@@ -2272,6 +2272,7 @@ export function setupHints(App) {
         feedback: question.slice(0, 2000),
         userScore: req.user.score,
         attempts: req.session?.rates?.[`${req.user.id}-${id}`]?.count ?? -1,
+        answers: req.session?.answers?.[id]?.answers ?? [],
         trial: App.experiments.showTrial(id, req),
         open: true,
       })
@@ -2393,6 +2394,16 @@ export function setupHints(App) {
             <p style="margin-top:8px; margin-left: 24px; margin-bottom:16px; padding: 12px; background-color: #444; border-radius: 8px;">${escapeHTML(entry.feedback)}</p>
             <p style="text-align: right; color: #888; font-size: 14px;">    
               ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, ${escapeHTML(entry.userScore.toString())} Punkte (${userScoreMap[entry.userid]}), ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? 'GELÖST' : 'ungelöst'}
+              ${
+                entry.answers.length > 0
+                  ? `
+                <br>${entry.answers
+                  // @ts-ignore answer should be a string
+                  .map((answer) => escapeHTML(answer))
+                  .join(', ')}
+              `
+                  : ''
+              }
             </p>
           </div>
           <hr />

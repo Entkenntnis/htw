@@ -9,7 +9,8 @@ export function withMapMeta(App) {
     // distances are available via App.challenges.distance[<id>]
     // Story 1 is available if 5 or 15 is solved or any story with distance >= 2 is solved
     // Story 2 is available if 24 is solved or any story with distance >= 2 is solved
-    // story 3 - 7 is available if any story with distance >= 3 - 7 is solved (ignore 118)
+    // story 3 - 6 is available if any story with distance >= 3 - 6 is solved (ignore 118 survey)
+    // story 7 is only available for specific ids
     // story 8 is available if 57 is solved
 
     // return array of available story numbers
@@ -24,7 +25,7 @@ export function withMapMeta(App) {
       if (dist >= 4) available.push(4)
       if (dist >= 5) available.push(5)
       if (dist >= 6) available.push(6)
-      if (dist >= 7) available.push(7)
+      if (cid === 27 || cid === 64 || cid === 41) available.push(7)
       if (cid === 57) available.push(8)
     }
     return [...new Set(available)]

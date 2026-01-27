@@ -3984,7 +3984,6 @@ To: ${req.user?.name}@arrrg.de</pre>
     check: async (raw, { App, req }) => {
       if (req.user && App.experiments.showTrial(114, req)) {
         const correct = bcrypt.compareSync(raw, req.user.password)
-        console.log(correct)
         return {
           rawAnswer: true,
           answer: correct ? 'Passwort korrekt' : 'Falsches Passwort',

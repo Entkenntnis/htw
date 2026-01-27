@@ -2395,7 +2395,7 @@ export function setupHints(App) {
             <p style="text-align: right; color: #888; font-size: 14px;">    
               ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, ${escapeHTML(entry.userScore.toString())} Punkte (${userScoreMap[entry.userid]}), ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? 'GELÖST' : 'ungelöst'}
               ${
-                entry.answers.length > 0
+                entry.answers && entry.answers.length > 0
                   ? `
                 <br>${entry.answers
                   // @ts-ignore answer should be a string

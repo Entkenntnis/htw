@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize'
 import escapeHtml from 'escape-html'
 import { resolveFromDate } from '../../helper/date-range.js'
+import { renderPage } from '../../helper/render-page.js'
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -114,58 +115,46 @@ export function setupSurvey(App) {
 
     const overall = (avgQ1 + avgQ2 + avgQ3 + avgQ4) / 4
 
-    res.send(`
-    <!DOCTYPE html>
-    <html lang="de">
-      <head>
-        <meta charset="utf-8">
-        <link href="/fonts/font.css" rel="stylesheet">
-        <link href="/theme/darkly.min.css" rel="stylesheet">
-        <title>Umfrage Auswertung</title>
-      </head>
-      <body>
-        <div class="container-fluid">
-          <div style="margin-top: 24px;"><a href="/">← Zurück</a></div>
-          <h1 class="my-5">Umfrage Auswertung</h1>
-          <h2>Auswertung</h2>
-          <p>Zeitraum ab: ${fromDateStr} • Einträge: ${chronoEntries.length} / abzüglich Duplikate: ${skipDup}, Low Effort: ${skipNoise}</p>
+    renderPage(App, req, res, {
+      page: 'survey',
+      heading: 'Umfrage Auswertung',
+      content: `
+        <p>Zeitraum ab: ${fromDateStr} • Einträge: ${chronoEntries.length} / abzüglich Duplikate: ${skipDup}, Low Effort: ${skipNoise}</p>
 
-          <p style="margin-top: 48px">1. Der Einstieg bei Hack The Web ist klar und verständlich: <strong>${Math.round(avgQ1)}%</strong></p>
+        <p style="margin-top: 48px">1. Der Einstieg bei Hack The Web ist klar und verständlich: <strong>${Math.round(avgQ1)}%</strong></p>
 
-          <p>2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird [NEG]: <strong>${Math.round(avgQ2)}%</strong></p>
+        <p>2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird [NEG]: <strong>${Math.round(avgQ2)}%</strong></p>
 
-          <p>3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking: <strong>${Math.round(avgQ3)}%</strong></p>
+        <p>3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking: <strong>${Math.round(avgQ3)}%</strong></p>
 
-          <p>4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig [NEG]: <strong>${Math.round(avgQ4)}%</strong></p>
+        <p>4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig [NEG]: <strong>${Math.round(avgQ4)}%</strong></p>
 
-          <p><strong>→ Guter-Start-Faktor: ${Math.round(overall)}%</strong></p>
+        <p><strong>→ Guter-Start-Faktor: ${Math.round(overall)}%</strong></p>
 
-          <p style="margin-top: 32px">Sprache: DE: ${de} / EN: ${en}</p>
-          <p>Würdest du Hack The Web deinen Freunden weiterempfehlen: Ja: ${recommendYes} (<strong>${Math.round(
-            (recommendYes * 100) / (recommendYes + recommendNo)
-          )}%</strong>) / Nein: ${recommendNo}</p>
+        <p style="margin-top: 32px">Sprache: DE: ${de} / EN: ${en}</p>
+        <p>Würdest du Hack The Web deinen Freunden weiterempfehlen: Ja: ${recommendYes} (<strong>${Math.round(
+          (recommendYes * 100) / (recommendYes + recommendNo)
+        )}%</strong>) / Nein: ${recommendNo}</p>
 
-          <h2 style="margin-top:32px;">Einzelansicht</h2>
-          <small style="margin-bottom: 48px; display: inline-block;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen) / Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</small>
-          ${entries
-            .map((entry) => {
-              return `<p><span style="color: gray">${new Date(entry.ts).toLocaleString()} / ${escapeHtml(
-                userIndex[entry.userId]?.name ?? '--- gelöscht ---'
-              )} (${userIndex[entry.userId]?.score ?? -1}) / ${
-                entry.obj.q1
-              }_${entry.obj.q2}_${entry.obj.q3}_${entry.obj.q4}_${
-                entry.obj.recommend
-              }</span> &nbsp;&nbsp;•&nbsp;&nbsp; ${escapeHtml(
-                entry.obj.good || '--'
-              )} &nbsp;&nbsp;•&nbsp;&nbsp; ${escapeHtml(
-                entry.obj.improve || '--'
-              )}${entry.obj['survey-trial'] == 1 ? ' <span style="margin-left: 24px; border: 1px solid lime">&nbsp;&nbsp;</span>' : ''}</p>`
-            })
-            .join('')}
-          </div>
-          <div style="height: 250px;"></div>
-      </body>
-    </html>
-      `)
+        <h2 style="margin-top:32px;">Einzelansicht</h2>
+        <small style="margin-bottom: 48px; display: inline-block;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen) / Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</small>
+        ${entries
+          .map((entry) => {
+            return `<p><span style="color: gray">${new Date(entry.ts).toLocaleString()} /<span style="user-select: none;"> </span>${escapeHtml(
+              userIndex[entry.userId]?.name ?? '--- gelöscht ---'
+            )}<span style="user-select: none;"> </span>(${userIndex[entry.userId]?.score ?? -1}) / ${
+              entry.obj.q1
+            }_${entry.obj.q2}_${entry.obj.q3}_${entry.obj.q4}_${
+              entry.obj.recommend
+            }</span><span style="display: inline-block; margin-left: 24px; margin-right: 24px;">•</span>${escapeHtml(
+              entry.obj.good || '--'
+            )}<span style="display: inline-block; margin-left: 24px; margin-right: 24px;">•</span>${escapeHtml(
+              entry.obj.improve || '--'
+            )}${entry.obj['survey-trial'] == 1 ? ' <span style="margin-left: 24px; border: 1px solid lime">&nbsp;&nbsp;</span>' : ''}</p>`
+          })
+          .join('')}
+        </div>
+      `,
+    })
   })
 }

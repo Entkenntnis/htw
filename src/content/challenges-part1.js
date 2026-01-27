@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 import { secrets } from '../helper/secrets-loader.js'
 import { renderTemplate } from '../helper/render-template.js'
 import escapeHTML from 'escape-html'
+import bcrypt from 'bcryptjs'
 
 /**
  * @param {string} s
@@ -3932,8 +3933,31 @@ To: ${req.user?.name}@arrrg.de</pre>
     id: 114,
     pos: { x: 588, y: 313 },
     title: { de: 'Baum', en: 'Tree' },
+    trialTitle: 'Passwort-Check',
     deps: [68, 336],
     render: ({ App, req }) => {
+      if (App.experiments.showTrial(114, req)) {
+        return story(
+          'Kiwi',
+          `
+            <p>Ich möchte kurz sichergehen, dass du dein Passwort für diese Webseite noch im Kopf hast. Es wäre ja ärgerlich, wenn dein Fortschritt verloren geht. Tippe als Antwort dein Passwort ein, um diese Aufgabe zu lösen.</p>
+
+            <p>Du hast dein Passwort vergessen? Kein Problem, lege dir ein neues Passwort an, gehe dazu im <code>Profil</code> auf <code>Passwort ändern</code>. Für deinen Account auf Hack The Web ist es auch in Ordnung, deinen Benutzernamen und Passwort in einer Datei zu notieren und auf deinem Gerät zu speichern.</p>
+
+            <p>Weil wir keine E-Mail-Adresse von dir haben, können wir leider dein Passwort nicht zurücksetzen. Also merke dir dein Passwort gut! 👩‍🏫</p>
+
+            <script>
+              window.trial = true
+              document.addEventListener('DOMContentLoaded', function() {
+                const answerEl = document.getElementById("challenge_answer")
+                // change to password field
+                answerEl.type = "password"
+              })
+            </script>
+            
+          `
+        )
+      }
       return {
         de: story(
           'Kiwi',
@@ -3957,7 +3981,26 @@ To: ${req.user?.name}@arrrg.de</pre>
         ),
       }
     },
-    solution: secrets('chal_114').split(','),
+    check: async (raw, { App, req }) => {
+      if (req.user && App.experiments.showTrial(114, req)) {
+        const correct = bcrypt.compareSync(raw, req.user.password)
+        console.log(correct)
+        return {
+          rawAnswer: true,
+          answer: correct ? 'Passwort korrekt' : 'Falsches Passwort',
+          correct,
+        }
+      }
+      const answer = raw.toLowerCase().trim()
+      const solutions = secrets('chal_114').split(',')
+      const correct = solutions.some(
+        (solution) => solution && answer === solution.toLowerCase().trim()
+      )
+      return {
+        answer,
+        correct,
+      }
+    },
   },
 
   {

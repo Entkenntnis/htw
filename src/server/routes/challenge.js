@@ -245,7 +245,7 @@ export function setupChallenges(App) {
     for (const point of points) {
       svgCircles.push(
         `<a href="${
-          '/challenge/' + point.id
+          '/challenge/' + point.id + (point.withExperiment ? '?trial=1' : '')
         }" class="no-underline${point.difficulty ? ` map-difficulty-${point.difficulty}` : ''}"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
           point.pos.y
         }" ${

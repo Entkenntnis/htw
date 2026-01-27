@@ -540,4 +540,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-17 00:02+0100').getTime(),
     endTs: new Date('2026-02-14 00:02+0100').getTime(),
   },
+  {
+    id: 34,
+    description:
+      'Baum: alternative Aufgabe zum Passwort-Abfragen, mal sehen ob sie ähnliches Engagement erzeugt',
+    challenge: 114,
+    startTs: new Date('2026-01-28 00:01+0100').getTime(),
+    endTs: new Date('2026-02-25 00:01+0100').getTime(),
+  },
 ]

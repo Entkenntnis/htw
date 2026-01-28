@@ -2414,7 +2414,7 @@ export function setupHints(App) {
     content += `
       <details style="margin-top:128px;">
         <summary style="font-weight: bold; cursor: pointer;">Geschlossenes Feedback (${closed.length})</summary>
-        <pre>${JSON.stringify(closed, null, 2)}</pre>
+        <pre>${escapeHTML(JSON.stringify(closed, null, 2))}</pre>
       </details>
 
       <div style="height: 50px;"></div>

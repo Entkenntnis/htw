@@ -604,11 +604,14 @@ export function setupChallenges(App) {
       }
     }
 
+    const mapMeta = await App.mapMeta.get(req.user.id)
+    const hardMode = mapMeta.difficulty === 'hard'
+
     const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)
 
     let html = challenge.render
-      ? await challenge.render({ App, req })
+      ? await challenge.render({ App, req, hardMode })
       : challenge.html || ''
 
     html = typeof html == 'string' ? html : html[req.lng]
@@ -676,6 +679,7 @@ export function setupChallenges(App) {
         ratio,
         withComlink: withComlink.includes(id),
         inMainArea,
+        hardMode,
       },
       backButton: false,
       title: challengeTitle,

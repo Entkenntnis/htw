@@ -1187,7 +1187,7 @@ export const part1 = [
     hasHardVersion: true,
     // date: '2017-08-25',
     deps: [1],
-    render: ({ App, req }) => {
+    render: async ({ App, req, hardMode }) => {
       return {
         de: `
           <p id="poper" style="min-width: calc(min(55ch,90vw)); margin-bottom: 48px;">Achtung, nicht blinzeln!
@@ -1198,7 +1198,7 @@ export const part1 = [
               document.getElementById("poper").innerHTML = "Die Antwort auf diese Aufgabe lautet ${secrets('chal_24').split(',')[0]}"
               setTimeout(function(){
                 document.getElementById("poper").innerHTML = 'Das ging schnell, <a href="" click="function(){location.reload()}">erneut versuchen</a>'
-              }, 300)
+              }, ${hardMode ? 10 : 300})
             }, 1500)
           </script>
         `,
@@ -1210,7 +1210,7 @@ export const part1 = [
               document.getElementById("poper").innerHTML = "The answer to this challenge is ${secrets('chal_24').split(',')[1]}"
               setTimeout(function(){
                 document.getElementById("poper").innerHTML = 'That was fast, <a href="" click="function(){location.reload()}">try again</a>'
-              }, 300)
+              }, ${hardMode ? 10 : 300})
             }, 1500)
           </script>
         `,

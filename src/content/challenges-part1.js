@@ -470,9 +470,10 @@ export const part1 = [
     id: 5,
     pos: { x: 300, y: 120 },
     title: { de: 'Zitronentinte', en: 'Lemon Juice' },
+    hasHardVersion: true,
     // date: '2017-05-17',
     deps: [1],
-    render: ({ App, req }) => {
+    render: ({ App, req, hardMode }) => {
       return {
         de: story(
           'Kiwi',
@@ -486,7 +487,7 @@ export const part1 = [
           `
             <p>--- Hier fängt das Blatt an ---</p>
           
-            <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px">Die Antwort lautet: ${secrets('chal_5').split(',')[0]}</span><br><br>
+            <p><br><span style="color:#222222;padding-left:150px">Hier ist nichts.</span><br><br><span style="color:#222222">Lalala, das Wetter ist schön</span><br><br><br><br><span style="color:#222222;padding-left:400px;${hardMode ? 'font-size:2px' : ''}">Die Antwort lautet: ${secrets('chal_5').split(',')[0]}</span><br><br>
             </p>
             
             <p>--- Hier endet das Blatt ---</p>
@@ -504,7 +505,7 @@ export const part1 = [
           `
             <p>--- Here the sheet begins ---</p>
           
-            <p><br><span style="color:#222222;padding-left:150px">There is nothing here.</span><br><br><span style="color:#222222">Lalala, the weather is beautiful.</span><br><br><br><br><span style="color:#222222;padding-left:400px">The answer is: ${secrets('chal_5').split(',')[1]}</span><br><br>
+            <p><br><span style="color:#222222;padding-left:150px">There is nothing here.</span><br><br><span style="color:#222222">Lalala, the weather is beautiful.</span><br><br><br><br><span style="color:#222222;padding-left:400px;${hardMode ? 'font-size:2px' : ''}">The answer is: ${secrets('chal_5').split(',')[1]}</span><br><br>
             </p>
             
             <p>--- Here the sheet ends ---</p>

@@ -1187,7 +1187,7 @@ export const part1 = [
     hasHardVersion: true,
     // date: '2017-08-25',
     deps: [1],
-    render: async ({ App, req, hardMode }) => {
+    render: async ({ hardMode }) => {
       return {
         de: `
           <p id="poper" style="min-width: calc(min(55ch,90vw)); margin-bottom: 48px;">Achtung, nicht blinzeln!
@@ -2947,9 +2947,10 @@ export const part1 = [
     id: 69,
     pos: { x: 475, y: 460 },
     title: { de: 'Schattenbilder', en: 'Shadow Pictures' },
+    hasHardVersion: true,
     // date: '2021-03-19',
     deps: [4, 16],
-    render: ({ req }) => {
+    render: ({ req, hardMode }) => {
       const widget = `
         <div style="display:flex;flex-wrap:wrap;" id="puzzle-container">
           <p><img src="/chals/chal69_${
@@ -2987,36 +2988,40 @@ export const part1 = [
           }
         </style>
         
-        <script>
-          $(function() {
-            $(".draggable").each(function() {
-              var el = $(this);
-              var parent = el.parent();
-              
-              el.on("touchstart mousedown", function(e) {
-                e.preventDefault();
-                var startX = e.type === 'touchstart' ? e.originalEvent.touches[0].clientX : e.clientX;
-                var startY = e.type === 'touchstart' ? e.originalEvent.touches[0].clientY : e.clientY;
-                var offsetX = el.offset().left - startX;
-                var offsetY = el.offset().top - startY;
-                
-                $(document).on("touchmove mousemove", function(e) {
-                  e.preventDefault();
-                  var clientX = e.type === 'touchmove' ? e.originalEvent.touches[0].clientX : e.clientX;
-                  var clientY = e.type === 'touchmove' ? e.originalEvent.touches[0].clientY : e.clientY;
-                  el.offset({
-                    left: clientX + offsetX,
-                    top: clientY + offsetY
+        ${
+          !hardMode
+            ? `<script>
+                $(function() {
+                  $(".draggable").each(function() {
+                    var el = $(this);
+                    var parent = el.parent();
+                    
+                    el.on("touchstart mousedown", function(e) {
+                      e.preventDefault();
+                      var startX = e.type === 'touchstart' ? e.originalEvent.touches[0].clientX : e.clientX;
+                      var startY = e.type === 'touchstart' ? e.originalEvent.touches[0].clientY : e.clientY;
+                      var offsetX = el.offset().left - startX;
+                      var offsetY = el.offset().top - startY;
+                      
+                      $(document).on("touchmove mousemove", function(e) {
+                        e.preventDefault();
+                        var clientX = e.type === 'touchmove' ? e.originalEvent.touches[0].clientX : e.clientX;
+                        var clientY = e.type === 'touchmove' ? e.originalEvent.touches[0].clientY : e.clientY;
+                        el.offset({
+                          left: clientX + offsetX,
+                          top: clientY + offsetY
+                        });
+                      });
+                      
+                      $(document).on("touchend mouseup", function() {
+                        $(document).off("touchmove mousemove touchend mouseup");
+                      });
+                    });
                   });
                 });
-                
-                $(document).on("touchend mouseup", function() {
-                  $(document).off("touchmove mousemove touchend mouseup");
-                });
-              });
-            });
-          });
-        </script>
+              </script>`
+            : ''
+        }
       `
       return {
         de: story(
@@ -3024,7 +3029,9 @@ export const part1 = [
           `
           <p>Ich schaue so oft auf mein Leben und denke mir: Was soll das Ganze? Ich hoffe, es gibt einen Tag, an dem ich die Teile zusammensetzen kann und den Sinn verstehe.</p>
 
-          <p>Bei dieser Aufgabe hast du es leichter. Lege die sechs Teile mit der Maus oder dem Finger übereinander und erhalte deine Antwort.</p>
+          <p>Bei dieser Aufgabe hast du es leichter. Lege die sechs Teile ${
+            hardMode ? '' : 'mit der Maus oder dem Finger'
+          } übereinander und erhalte deine Antwort.</p>
           `,
           widget
         ),
@@ -3033,7 +3040,9 @@ export const part1 = [
           `
           <p>I so often look at my life and think to myself: What's the point of it all? I hope there will be a day when I can put the pieces together and understand the meaning.</p>
 
-          <p>With this task, you have it easier. Place the six parts on top of each other with your mouse or finger to get your answer.</p>
+          <p>With this task, you have it easier. Place the six parts on top of each other${
+            hardMode ? '' : 'with your mouse or finger'
+          } to get your answer.</p>
           `,
           widget
         ),

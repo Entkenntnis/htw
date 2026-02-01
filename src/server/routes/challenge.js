@@ -132,6 +132,15 @@ export function setupChallenges(App) {
       return res.redirect('/story/' + nextStoryId)
     }
 
+    // due to async requirements, check opt out for users on difficult here - this is not perfect
+    // might be a symptom of a larger architectural issue with mapMeta implementation
+    const mapMeta = await App.mapMeta.get(req.user.id)
+    if (mapMeta.difficulty === 'hard') {
+      req.session.__hackyExperimentOptOutBecauseHardMode = true
+    } else {
+      delete req.session.__hackyExperimentOptOutBecauseHardMode
+    }
+
     App.event.create(req.lng == 'de' ? 'map_de' : 'map_en', req.user.id)
 
     const solvedDb = await App.db.models.Solution.findAll({
@@ -727,6 +736,8 @@ export function setupChallenges(App) {
       where: { score: { [Op.gt]: 0 } },
     })
 
+    const mapMeta = await App.mapMeta.get(req.user.id)
+
     renderPage(App, req, res, {
       page: 'profile',
       props: {
@@ -739,6 +750,7 @@ export function setupChallenges(App) {
         rank,
         sum,
         token: generateWeChallToken(req.user.name),
+        difficulty: mapMeta.difficulty,
       },
       backButton: false,
     })

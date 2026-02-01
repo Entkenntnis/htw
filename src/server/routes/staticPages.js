@@ -44,6 +44,7 @@ export function setupStaticPages(App) {
     const id = req.user.id
     App.event.create('experiment-opt-out', id)
     await App.storage.setItem(`experiment-opt-out-${id}`, '1')
+    req.session.experimentOptOut = true
     res.redirect('/privacy')
   })
 
@@ -54,6 +55,7 @@ export function setupStaticPages(App) {
     const id = req.user.id
     App.event.create('experiment-opt-in', id)
     await App.storage.removeItem(`experiment-opt-out-${id}`)
+    req.session.experimentOptOut = false
     res.redirect('/privacy')
   })
 }

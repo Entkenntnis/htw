@@ -33,6 +33,12 @@ export function withExperiments(App) {
         return null
       }
 
+      if (req.session.__hackyExperimentOptOutBecauseHardMode) {
+        if (App.challenges.dataMap[id]?.hasHardVersion) {
+          return null
+        }
+      }
+
       if (relevantExperiments.length > 1) {
         if (process.env.UBERSPACE) {
           // ignore in production

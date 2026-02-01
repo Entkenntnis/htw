@@ -605,7 +605,7 @@ export function setupChallenges(App) {
     }
 
     const mapMeta = await App.mapMeta.get(req.user.id)
-    const hardMode = mapMeta.difficulty === 'hard'
+    const hardMode = mapMeta.difficulty === 'hard' && !!challenge.hasHardVersion
 
     const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)

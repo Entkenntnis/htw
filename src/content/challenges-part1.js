@@ -2305,33 +2305,36 @@ export const part1 = [
     id: 55,
     pos: { x: 540, y: 370 },
     title: { de: 'Farbe', en: 'Color' },
+    hasHardVersion: true,
     // date: '2020-08-01',
     deps: [16],
-    html: {
-      de: story(
-        'Josh',
-        `
+    render: ({ hardMode }) => {
+      return {
+        de: story(
+          'Josh',
+          `
         <p>Ich erinnere mich an eine Welt voller Farben. Aber meine Augen lassen mit dem Alter nach und ich habe das Gefühl, dass ich weniger gut Farben unterscheiden kann.</p>
 
         <p>Hilf mir auf die Sprünge und sage mir, welche aus den <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 Internetfarben</a> hier zu sehen ist:</p>
 
-        <div style="height:85px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:rgba(0, 0, 0, 0.66);font-size:12px;">#663399</small></div></div>
+        <div style="height:85px;width:250px;background-color:hsl(270, 50%, 40%);position:relative;margin-bottom:16px;">${hardMode ? '' : '<div style="position:absolute;right:4px;bottom:2px;"><small style="color:rgba(0, 0, 0, 0.66);font-size:12px;">#663399</small></div>'}</div>
 
         <p>Der Name dieser Farbe ist deine Antwort.</p>
     `
-      ),
-      en: story(
-        'Josh',
-        `
+        ),
+        en: story(
+          'Josh',
+          `
         <p>I remember a world full of colors. But my eyes are getting weaker with age, and I feel like I'm less able to distinguish between them.</p>
 
         <p>Help me out and tell me, which of the <a href="https://www.w3schools.com/tags/ref_colornames.asp" target="_blank">140 web colors</a> can be seen here:</p>
         
-        <div style="height:85px;width:250px;background-color:#663399;position:relative;margin-bottom:16px;"><div style="position:absolute;right:4px;bottom:2px;"><small style="color:rgba(0, 0, 0, 0.66);font-size:12px;">#663399</small></div></div>
+        <div style="height:85px;width:250px;background-color:hsl(270, 50%, 40%);position:relative;margin-bottom:16px;">${hardMode ? '' : '<div style="position:absolute;right:4px;bottom:2px;"><small style="color:rgba(0, 0, 0, 0.66);font-size:12px;">#663399</small></div>'}</div>
 
         <p>The name of this color is your answer.</p>
       `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_55').split(','),
     renderAfterSolveText: () => {

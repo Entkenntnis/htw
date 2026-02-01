@@ -2248,7 +2248,7 @@ export function setupHints(App) {
     })
   })
 
-  App.express.post('/feedback/send', (req, res) => {
+  App.express.post('/feedback/send', async (req, res) => {
     const question = req.body?.question?.toString()
     const id_ = req.body?.id?.toString()
 
@@ -2260,6 +2260,8 @@ export function setupHints(App) {
     }
 
     const key = `feedbackv2-${new Date().getTime()}`
+
+    const mapMeta = await App.mapMeta.get(req.user.id)
 
     // hard-code max-length
     App.storage.setItem(
@@ -2275,6 +2277,7 @@ export function setupHints(App) {
         answers: req.session?.answers?.[id]?.answers ?? [],
         trial: App.experiments.showTrial(id, req),
         open: true,
+        difficulty: mapMeta.difficulty,
       })
     )
 
@@ -2393,7 +2396,7 @@ export function setupHints(App) {
             </p>
             <p style="margin-top:8px; margin-left: 24px; margin-bottom:16px; padding: 12px; background-color: #444; border-radius: 8px;">${escapeHTML(entry.feedback)}</p>
             <p style="text-align: right; color: #888; font-size: 14px;">    
-              ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, ${escapeHTML(entry.userScore.toString())} Punkte (${userScoreMap[entry.userid]}), ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? 'GELÖST' : 'ungelöst'}
+              ${new Date(entry.ts).toLocaleString('de-DE')}, Challenge-Id ${escapeHTML(entry.challenge.toString())}, User-Id ${escapeHTML(entry.userid.toString())}, ${escapeHTML(entry.userScore.toString())} Punkte (${userScoreMap[entry.userid]}), ${entry.attempts > 0 ? escapeHTML(entry.attempts.toString()) + ' Versuche,' : ''} ${entry.trial ? 'TRIAL' : ''} ${solutionMap[`${entry.userid}-${entry.challenge}`] ? 'GELÖST' : 'ungelöst'} ${entry.difficulty == 'hard' && App.challenges.dataMap[entry.challenge].hasHardVersion ? ' SCHWER' : ''}
               ${
                 entry.answers && entry.answers.length > 0
                   ? `

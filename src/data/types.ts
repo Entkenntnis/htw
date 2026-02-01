@@ -135,6 +135,7 @@ export interface HtwChallenge {
   render?: (context: {
     App: App
     req: Request
+    hardMode: boolean
   }) =>
     | Promise<{ de: string; en: string } | string>
     | { de: string; en: string }

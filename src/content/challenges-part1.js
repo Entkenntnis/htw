@@ -170,6 +170,9 @@ export const part1 = [
     //     en: '<p>The answer to the ultimate question of life, the universe, and everything is ... 42!</p>',
     //   }
     // },
+    renderAfterSolveText: ({ App, req }) => {
+      return renderTemplate(App, req, 'set-difficulty')
+    },
   },
 
   {

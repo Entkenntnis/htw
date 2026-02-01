@@ -5,6 +5,7 @@
 
 <p><%= t('username') %> <%= user.name %></p>
 <p><%= t('score') %> <%= user.score %></p>
+<p><%= t('difficulty') %> <%= props.difficulty == 'easy' ? t('difficultyEasy') : t('difficultyHard') %> (<a href="/set-difficulty"><%= t('difficultyChange') %></a>)</p>
 <% if (props.rank) { %>
   <p><%= t('rank') %>: <%= props.rank %> <span style="color:#dddddd;margin-left:12px;">(von <%= props.sum %>, Top <%= Math.ceil(props.rank * 100 / props.sum) %>%)</span></p>
 <% } %>

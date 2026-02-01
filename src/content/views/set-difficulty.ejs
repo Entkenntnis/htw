@@ -1,0 +1,76 @@
+<!--<%
+  const isDe = locale === 'de'
+  const intro = isDe
+    ? 'Wähle eine Schwierigkeitsstufe. Du kannst deine Auswahl jederzeit im Profil anpassen.'
+    : 'Choose a difficulty level. You can change your selection anytime in your profile.'
+  const easyHeading = isDe ? 'Einsteiger' : 'Beginner'
+  const easyDesc = isDe
+    ? 'Empfohlen für alle, die neu dabei sind'
+    : 'Recommended if you are new here'
+  const hardHeading = isDe ? 'Fortgeschritten' : 'Advanced'
+  const hardDesc = isDe
+    ? 'Aufgaben im Anfangsbereich sind anspruchsvoller'
+    : 'Challenges in the early area are more challenging'
+  const continueLabel = isDe ? 'Weiter' : 'Continue'
+%>-->
+
+<p><%= intro %></p>
+
+<form method="POST" action="/set-difficulty" id="difficulty-form">
+  <div style="display: flex; gap: 16px; margin-bottom: 24px">
+    <label for="difficulty-easy" class="difficulty-option">
+      <input
+        type="radio"
+        id="difficulty-easy"
+        name="difficulty"
+        value="easy"
+        style="display: none"
+      />
+      <h3><%= easyHeading %></h3>
+      <p><%= easyDesc %></p>
+    </label>
+    <label for="difficulty-hard" class="difficulty-option">
+      <input
+        type="radio"
+        id="difficulty-hard"
+        name="difficulty"
+        value="hard"
+        style="display: none"
+      />
+      <h3><%= hardHeading %></h3>
+      <p><%= hardDesc %></p>
+    </label>
+  </div>
+  <button type="submit" id="continue-button2" class="btn btn-success" disabled>
+    <%= continueLabel %>
+  </button>
+</form>
+
+<script>
+  const options = document.querySelectorAll('.difficulty-option')
+  const continueButton = document.getElementById('continue-button2')
+  options.forEach((option) => {
+    option.addEventListener('click', () => {
+      options.forEach((opt) => (opt.style.borderColor = '#ccc'))
+      option.style.borderColor = 'var(--main-color)'
+      continueButton.disabled = false
+    })
+  })
+</script>
+
+<style>
+  #continue-button {
+    display: none;
+  }
+  #continue-button2:disabled {
+    cursor: not-allowed;
+  }
+  .difficulty-option {
+    flex: 1;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+  }
+</style>

@@ -47,6 +47,7 @@ export function withMapMeta(App) {
         storiesCompleted: [],
         communityFilter: 'E',
         quizzesCompleted: [],
+        difficulty: 'easy',
       }
 
       const json = JSON.parse(
@@ -81,6 +82,10 @@ export function withMapMeta(App) {
 
       if (json && Array.isArray(json.quizzesCompleted)) {
         data.quizzesCompleted = json.quizzesCompleted
+      }
+
+      if (json && (json.difficulty === 'easy' || json.difficulty === 'hard')) {
+        data.difficulty = json.difficulty
       }
 
       return data
@@ -137,6 +142,13 @@ export function withMapMeta(App) {
         data.quizzesCompleted.push(quizid)
         App.storage.setItem(key(userid), JSON.stringify(data))
       }
+    },
+
+    async setDifficulty(userid, difficulty) {
+      App.event.create('set-difficulty-' + difficulty, userid)
+      const data = await App.mapMeta.get(userid)
+      data.difficulty = difficulty
+      App.storage.setItem(key(userid), JSON.stringify(data))
     },
   }
 }

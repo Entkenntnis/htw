@@ -97,6 +97,7 @@ export interface App {
     onChange(userid: number): Promise<number | null>
     setCommunityFilter(userid: number, state: string): Promise<void>
     setQuizCompleted(userid: number, quizid: number): Promise<void>
+    setDifficulty(userid: number, difficulty: 'easy' | 'hard'): Promise<void>
   }
 }
 
@@ -105,6 +106,7 @@ export interface MapMeta {
   storiesAvailable: number[]
   communityFilter: string
   quizzesCompleted: number[]
+  difficulty: 'easy' | 'hard'
 }
 
 export interface Message {
@@ -160,6 +162,7 @@ export interface HtwChallenge {
   enableFeedback?: boolean
   trialTitle?: string
   color?: string
+  hasHardVersion?: boolean
 }
 
 export interface ChallengeStatsData {
@@ -334,6 +337,7 @@ interface SessionData {
   nextStoryId?: string
   returnToLogbook?: boolean
   experimentOptOut?: boolean
+  __hackyExperimentOptOutBecauseHardMode?: boolean
 }
 
 export interface DungeonData {

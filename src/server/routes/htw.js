@@ -3,6 +3,7 @@ import { secrets } from '../../helper/secrets-loader.js'
 import { renderPage } from '../../helper/render-page.js'
 import { setupAnalyze } from './analyze.js'
 import { generateWeChallToken } from '../../helper/helper.js'
+import { renderTemplate } from '../../helper/render-template.js'
 
 let usercount = 0
 
@@ -88,6 +89,38 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
 
     await App.mapMeta.setCommunityFilter(req.user.id, filter)
     res.send('ok')
+  })
+
+  App.express.get('/set-difficulty', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+    App.event.create('view-set-difficulty', req.user.id)
+    return renderPage(App, req, res, {
+      page: 'set-difficulty',
+      heading:
+        req.lng == 'de'
+          ? 'Schwierigkeitsstufe wählen'
+          : 'Select Difficulty Level',
+      content: await renderTemplate(App, req, 'set-difficulty'),
+    })
+  })
+
+  App.express.post('/set-difficulty', async (req, res) => {
+    if (!req.user) {
+      res.send('bad')
+      return
+    }
+    const difficulty = req.body.difficulty || ''
+
+    if (!['easy', 'hard'].includes(difficulty)) {
+      res.send('bad')
+      return
+    }
+
+    await App.mapMeta.setDifficulty(req.user.id, difficulty)
+    res.redirect('/map')
   })
 
   App.express.get('/export-data', async (req, res) => {

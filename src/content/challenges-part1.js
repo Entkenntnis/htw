@@ -3255,9 +3255,10 @@ To: ${req.user?.name}@arrrg.de</pre>
     id: 80,
     pos: { x: 270, y: 535 },
     title: { de: 'Bist du ein Mensch?', en: 'Are You Human?' },
+    hasHardVersion: true,
     // date: '2022-02-24',
     deps: [4, 6],
-    render: () => {
+    render: ({ hardMode }) => {
       const canvas = `
         <div id="canvas">
           <span class="letter" style="top:  70px; left:  30px; animation-duration: 6s;  animation-delay:   4.5s;">T</span>
@@ -3343,6 +3344,16 @@ To: ${req.user?.name}@arrrg.de</pre>
               }
             })
           });
+          ${
+            hardMode
+              ? `setTimeout(function() {
+                  document.querySelectorAll('.letter').forEach(function(letter) {
+                    letter.style.transition = 'opacity 4s';
+                    letter.style.opacity = '0';
+                  });
+                }, 1000);`
+              : ''
+          }
         </script>
       `
 

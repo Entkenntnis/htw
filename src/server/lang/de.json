@@ -172,7 +172,8 @@
       "ok": "naja, war ok",
       "thanks": "Danke für das Feedback!"
     },
-    "discordHelp": "Hilfe"
+    "discordHelp": "Hilfe",
+    "hard": "schwer"
   },
   "roomscore": {
     "title": "Highscore",

@@ -3,7 +3,7 @@
 <% } else { %><p>
     <% if (props.correct !== true) { %>
       <a href="/map" <%- App.config.historyBack ? `onclick="goBack(event, '/map')"` : ''%>><%= t('back') %></a><% if (props.hardMode) { %><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
-      <span style="color:gray" title="hard mode">🌶️</span>
+      <span style="color:gray">🌶️ <%= t('hard') %></span>
     <% } %><span style="display: inline-block; margin-left:8px; margin-right: 8px; color: #313131">•</span>
     <% } %>
     <span style="color: gray" title="<%= props.solvedBy == 1 ? t('solvedBy_one', {count: props.solvedBy}) : t('solvedBy_other', {count: props.solvedBy}) %><% if (props.lastSolved !== null) { %><%= ', ' + t('lastSolved', {ago: App.moment(props.lastSolved).locale(locale).fromNow(), name: props.lastSolvedUserName})%><% } %>">

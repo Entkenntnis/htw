@@ -172,7 +172,8 @@
       "ok": "meh, was ok",
       "thanks": "Thanks for the feedback!"
     },
-    "discordHelp": "help"
+    "discordHelp": "help",
+    "hard": "hard"
   },
   "roomscore": {
     "title": "Highscore",

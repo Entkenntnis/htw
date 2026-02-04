@@ -482,6 +482,9 @@ export function setupChallenges(App) {
       }
     }
 
+    const mapMeta = await App.mapMeta.get(req.user.id)
+    const hardMode = mapMeta.difficulty === 'hard' && !!challenge.hasHardVersion
+
     if (correct) {
       // mini uncritical ux improvement
       req.session.goHereOnMap = id
@@ -601,11 +604,12 @@ export function setupChallenges(App) {
           req.session.nextStoryId = trigger.toString()
           App.event.create(`story-triggered-${trigger}`, req.user.id)
         }
+
+        if (hardMode) {
+          App.event.create('challenge_solved_hard_' + id, req.user.id)
+        }
       }
     }
-
-    const mapMeta = await App.mapMeta.get(req.user.id)
-    const hardMode = mapMeta.difficulty === 'hard' && !!challenge.hasHardVersion
 
     const { solvedBy, solvedByLast4Weeks, lastSolved, lastSolvedUserName } =
       await App.challengeStats.getData(id)

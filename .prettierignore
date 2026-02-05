@@ -11,6 +11,8 @@ public/**/*.js
 !public/htw.js
 !public/quiz/*.js
 
+public/chals/archive/**/*.html
+
 src/**/*.ejs
 
 !src/server/views/pages/wwwm.ejs

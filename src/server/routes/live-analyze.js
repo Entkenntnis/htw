@@ -198,6 +198,9 @@ export function setupLiveAnalyze(App) {
 
     /** @type {{userid: number, color: string}[]} */
     const mainColorData = []
+
+    /** @type {{[key: number]: string[]}} */
+    const userSetDifficultyHistory = {}
     for (const r of rows) {
       let key = r.key
       if (key.startsWith('ex_')) {
@@ -212,6 +215,13 @@ export function setupLiveAnalyze(App) {
       }
       if (key.startsWith('set-maincolor-') && uid) {
         mainColorData.push({ userid: uid, color: key.substring(14) })
+        continue
+      }
+      if (key.startsWith('set-difficulty-') && uid) {
+        if (!userSetDifficultyHistory[uid]) {
+          userSetDifficultyHistory[uid] = []
+        }
+        userSetDifficultyHistory[uid].push(key.substring(15))
         continue
       }
       let agg = byKey.get(key)
@@ -547,7 +557,36 @@ export function setupLiveAnalyze(App) {
   <h2>Enough Pages</h2>
   <p>${enoughPageLines}</p>
   <h2>Schwierigkeitsstufen</h2>
-  <p>TODO</p>
+  <p>${(() => {
+    let countUsersOnlyEasy = 0
+    let countUsersOnlyHard = 0
+    let mixed = []
+    for (const [uid, diffs] of Object.entries(userSetDifficultyHistory)) {
+      if (uid == '983') continue
+      const onlyEasy = diffs.every((d) => d === 'easy')
+      const onlyHard = diffs.every((d) => d === 'hard')
+      if (onlyEasy) countUsersOnlyEasy++
+      if (onlyHard) countUsersOnlyHard++
+      if (!onlyEasy && !onlyHard) {
+        mixed.push({ uid: parseInt(uid), diffs })
+      }
+    }
+    mixed.sort((a, b) =>
+      a.diffs.length == b.diffs.length
+        ? a.diffs.join(', ').localeCompare(b.diffs.join(', '))
+        : a.diffs.length - b.diffs.length
+    )
+    const total = countUsersOnlyEasy + countUsersOnlyHard + mixed.length
+    return `Nur "Einsteiger" gewählt: ${countUsersOnlyEasy} NutzerInnen (${Math.round(
+      (100 * countUsersOnlyEasy) / total
+    )}%)<br>Nur "Fortgeschritten" gewählt: ${countUsersOnlyHard} NutzerInnen (${Math.round(
+      (100 * countUsersOnlyHard) / total
+    )}%)<br>Gemischt: ${mixed.length} NutzerInnen (${Math.round(
+      (100 * mixed.length) / total
+    )}%)<br><details><summary style="cursor: pointer; margin-bottom: 20px;">Gemischte Verläufe anzeigen</summary>${mixed
+      .map((u) => `User ${u.uid}: ${u.diffs.join(' → ')}`)
+      .join('<br>')}</details>`
+  })()}</p>
   <h5>Hardmode Challenges gelöst</h5>
   <p>${hardModeChallengesSolves
     .map((entry) => {

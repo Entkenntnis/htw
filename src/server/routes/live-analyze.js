@@ -258,6 +258,11 @@ export function setupLiveAnalyze(App) {
      */
     const feedbackData = []
 
+    /**
+     * @type {(NonNullable<ReturnType<(typeof byKey)['get']>> & {'key': string})[]}
+     */
+    const hardModeChallengesSolves = []
+
     byKey.forEach((agg, key) => {
       if (key.startsWith('wwwm_correct_')) {
         wwwmData.push({ key, ...agg })
@@ -281,6 +286,10 @@ export function setupLiveAnalyze(App) {
       }
       if (key.startsWith('feedback_')) {
         feedbackData.push({ key, ...agg })
+        byKey.delete(key)
+      }
+      if (key.startsWith('challenge_solved_hard_')) {
+        hardModeChallengesSolves.push({ key, ...agg })
         byKey.delete(key)
       }
     })
@@ -537,6 +546,16 @@ export function setupLiveAnalyze(App) {
   <p>${wwwmLines}</p>
   <h2>Enough Pages</h2>
   <p>${enoughPageLines}</p>
+  <h2>Schwierigkeitsstufen</h2>
+  <p>TODO</p>
+  <h5>Hardmode Challenges gelöst</h5>
+  <p>${hardModeChallengesSolves
+    .map((entry) => {
+      const id = parseInt(entry.key.substring(22))
+      const title = App.challenges.dataMap[id]?.title || '(unbekannt)'
+      return `<span style="width:250px; display: inline-block;">${title.de} [${id}]</span> ${entry.users.size} mal gelöst`
+    })
+    .join('<br>')}</p>
   <h2>Farbe</h2>
   <p>${userColorLines}</p>
   <h2>Community Filter</h2>

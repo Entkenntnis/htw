@@ -548,4 +548,12 @@ export const experimentDefs = [
     startTs: new Date('2026-01-28 00:01+0100').getTime(),
     endTs: new Date('2026-02-25 00:01+0100').getTime(),
   },
+  {
+    id: 35,
+    description:
+      'Zeitmaschine: nutze eine lokale Kopie, mal sehen ob der schnellere Zugriff einen Unterschied macht',
+    challenge: 26,
+    startTs: new Date('2026-02-06 00:01+0100').getTime(),
+    endTs: new Date('2026-03-06 00:01+0100').getTime(),
+  },
 ]

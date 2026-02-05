@@ -250,11 +250,14 @@ export function setupChallenges(App) {
       }
     }
 
+    const hasTrial = (req.query.trial || '0') === '1'
     // COMPAT: draw points after connections to show the above
     for (const point of points) {
       svgCircles.push(
         `<a href="${
-          '/challenge/' + point.id + (point.withExperiment ? '?trial=1' : '')
+          '/challenge/' +
+          point.id +
+          (point.withExperiment && hasTrial ? '?trial=1' : '')
         }" class="no-underline${point.difficulty ? ` map-difficulty-${point.difficulty}` : ''}"><g><circle r="${point.isSolved ? 8 : 9}" cx="${point.pos.x}" cy="${
           point.pos.y
         }" ${

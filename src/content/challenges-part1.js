@@ -1261,33 +1261,35 @@ export const part1 = [
     title: { de: 'Zeitmaschine', en: 'Time Machine' },
     // date: '2017-08-26',
     deps: [30, 78],
-    html: {
-      de: story(
-        'Bex',
-        `
+    render: ({ App, req }) => {
+      return {
+        de: story(
+          'Bex',
+          `
         <p>Josh meinte, Hacker gab es schon, seitdem das Internet erfunden wurde. Ich habe ihm das nicht geglaubt. Doch als ich in den Archiven gesucht habe, bin ich auf interessante Seiten gestoßen.</p>
         
         <p>Hier ist eine Website vom <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">18. Dezember 1996</a>. Ich muss sagen, sie ist ... speziell. Ich verstehe vielleicht einen Bruchteil der Abkürzungen, doch ich bin erleichtert, dass auch die Hacker damals nicht perfekt waren in englischer Rechtschreibung :)</p>
 
         <p>Im Begrüßungstext ("Hi every one ...") gibt es vier falsch geschriebene Wörter. Wähle eines davon in der fehlerhaften Schreibweise und nutze es als deine Antwort.</p>
         `,
-        `
-        <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
+          `
+        <iframe src="${App.experiments.showTrial(26, req) ? '/chals/archive/' : 'https://web.archive.org/web/19961218220409/http://hacker.org/'}" style="width:100%;height:800px;"></iframe>
     `
-      ),
-      en: story(
-        'Bex',
-        `
+        ),
+        en: story(
+          'Bex',
+          `
         <p>Josh said hackers have existed ever since the internet was invented. I didn't believe him. But when I searched through the archives, I stumbled upon some interesting pages.</p>
         
         <p>Here's a website from <a href="https://web.archive.org/web/19961218220409/http://hacker.org/" target="_blank">December 18, 1996</a>. I have to say… it's special. I only understand a fraction of the abbreviations, but I'm relieved that even hackers back then weren't perfect at English spelling :)</p>
 
         <p>In the greeting text ("Hi every one …"), there are four misspelled words. Pick one of them (in its misspelled form) and use it as your answer.</p>
         `,
-        `
+          `
         <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
     `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_26').split(','),
   },

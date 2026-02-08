@@ -556,4 +556,12 @@ export const experimentDefs = [
     startTs: new Date('2026-02-06 00:01+0100').getTime(),
     endTs: new Date('2026-03-06 00:01+0100').getTime(),
   },
+  {
+    id: 36,
+    description:
+      'Start: bitte, steinigt mich nicht, dass ich ausgerechnet diese zwei Zahlen gewählt habe. Nur 2 Wochen zum Testen. Ich habe keine Ahnung, ob ich überhaupt sinnvoll für die Startchallenge einen A/B-Test fahren kann ...',
+    challenge: 1,
+    startTs: new Date('2026-02-09 00:01+0100').getTime(),
+    endTs: new Date('2026-02-23 00:01+0100').getTime(),
+  },
 ]

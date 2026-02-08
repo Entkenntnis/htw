@@ -117,7 +117,7 @@ export const part1 = [
     title: { de: 'Start', en: 'Start' },
     // date: '2017-03-30',
     deps: [],
-    render: async ({ req }) => {
+    render: async ({ App, req }) => {
       return {
         de: story(
           'Kiwi',
@@ -130,7 +130,7 @@ export const part1 = [
 
           <p>In den zwei Monaten auf diesem Raumschiff kann ich dir einige Tricks beibringen. Wobei du Hacken am besten lernst, wenn du es selber machst. Dafür habe ich dir ganz viele Aufgaben vorbereitet! Suche bei jeder Aufgabe nach einer Antwort, die du unten ins Eingabefeld tippst. Gelöste Aufgaben schalten neue Aufgaben frei. Bei der Wahl der Hilfsmittel gibt es keine Grenzen. Du darfst tun, was immer dir nützlich ist.</p>
 
-          <p>Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">6 + 4 · 9</span>. Diese Zahl ist bei den Erdlingen auch als "die Antwort auf alles" bekannt 🤭</p>
+          <p>Die Antwort auf diese erste Aufgabe ist das Ergebnis von <span id="calculation">${App.experiments.showTrial(1, req) ? '3 + 6 · 7 − 3' : '6 + 4 · 9'}</span>. Diese Zahl ist bei den Erdlingen auch als "die Antwort auf alles" bekannt 🤭</p>
 
           <p>Hm, wo bleiben Bex und Josh mit dem Gepäck? Ich schaue lieber mal nach. Falls du Hilfe brauchst, ping mich jederzeit über das COM-LINK unten rechts.</p>
 

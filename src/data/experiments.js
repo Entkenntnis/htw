@@ -459,7 +459,7 @@ export const experimentDefs = [
       'Ankunft in Sirtach / Einreiseformular: biete eine Möglichkeit an, das HTML direkt zu bearbeiten',
     challenge: 57,
     startTs: new Date('2026-01-06 00:02+0100').getTime(),
-    endTs: new Date('2026-02-10 00:02+0100').getTime(),
+    endTs: new Date('2026-02-24 00:02+0100').getTime(),
   },
   {
     id: 24,
@@ -514,7 +514,7 @@ export const experimentDefs = [
       'Einhorn: Also was macht dieser Hinweis, bringt der überhaupt was? Testen!',
     challenge: 23,
     startTs: new Date('2026-01-15 00:03+0100').getTime(),
-    endTs: new Date('2026-02-12 00:03+0100').getTime(),
+    endTs: new Date('2026-02-26 00:03+0100').getTime(),
   },
   {
     id: 31,

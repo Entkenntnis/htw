@@ -452,6 +452,19 @@ export const experimentDefs = [
     challenge: 77,
     startTs: new Date('2026-01-06 00:01+0100').getTime(),
     endTs: new Date('2026-02-03 00:01+0100').getTime(),
+    baseImg: '/experiments/22_base.jpg',
+    trialImg: '/experiments/22_trial.jpg',
+    results: {
+      numEvents: 14826,
+      nShowBase: 459,
+      nShowTrial: 479,
+      nVisitorsBase: 293,
+      nVisitorsTrial: 318,
+      nSolversBase: 150,
+      nSolversTrial: 163,
+    },
+    learning:
+      'Ich weiß nicht so recht. Die Änderung am Titel/Theme hat jetzt nicht so einen großen Unterschied gemacht. Generell ist die Challenge jetzt nicht suuuper spannend, daher weiß ich auch nicht, ob ich langfristig bei diesem Thema bleiben möchte, eine Lösungsrate von 50% ist jetzt auch eher im Durchschnitt. An sich finde ich das Konzept nicht ganz verkehrt, in den Quellcode zu blicken. Vielleicht könnte ich in Zukunft das Konzept etwas schärfen und eine gezieltere Aufgabe dazu stellen.',
   },
   {
     id: 23,

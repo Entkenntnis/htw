@@ -3100,21 +3100,13 @@ export const part1 = [
     id: 77,
     pos: { x: 680, y: 555 },
     title: { de: 'Geburtstag', en: 'Birthday' },
-    trialTitle: 'Codeknacker',
     // date: '2022-02-09',
     deps: [55, 69],
     render: async ({ App, req }) => {
       if (req.lng == 'de') {
-        return story(
-          'Kiwi',
-          await renderTemplate(
-            App,
-            req,
-            App.experiments.showTrial(77, req) ? 'codeknacker' : 'quellcode'
-          )
-        )
+        return story('Kiwi', await renderTemplate(App, req, 'geburtstag'))
       } else {
-        return story('Kiwi', await renderTemplate(App, req, 'source'))
+        return story('Kiwi', await renderTemplate(App, req, 'birthday'))
       }
     },
     solution: secrets('chal_77'),

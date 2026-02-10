@@ -491,6 +491,19 @@ export const experimentDefs = [
     challenge: 112,
     startTs: new Date('2026-01-13 00:01+0100').getTime(),
     endTs: new Date('2026-02-10 00:01+0100').getTime(),
+    baseImg: '/experiments/27_base.jpg',
+    trialImg: '/experiments/27_trial.jpg',
+    results: {
+      numEvents: 18010,
+      nShowBase: 533,
+      nShowTrial: 516,
+      nVisitorsBase: 402,
+      nVisitorsTrial: 381,
+      nSolversBase: 167,
+      nSolversTrial: 277,
+    },
+    learning:
+      'Nicht viel zu sagen, die neue Version hat mit 75% Uplift komplett gewonnen.',
   },
   {
     id: 28,

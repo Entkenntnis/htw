@@ -36,39 +36,46 @@
   }
 </style>
 
-<p>Es ist so dunkel hier, kannst du bitte mal das Licht anschalten?</p>
+<!--<%
+  const isDe = locale === 'de'
+  const introLine = isDe
+    ? 'Es ist so dunkel hier, kannst du bitte mal das Licht anschalten?'
+    : "It's so dark here—could you turn on the light?"
+  const surpriseText = isDe
+    ? 'Hehe, ich hab eine kleine Überraschung: Diese Redstone Lampe hat sieben Schalter und es gibt nur eine Kombination, bei der die Lampe leuchtet. Das sollte dich für eine Weile beschäftigen. Ich komme wieder, wenn du die passende Kombination gefunden hast.'
+    : "Hehe, I have a little surprise: this redstone lamp has seven switches, and there is only one combination that makes the lamp light up. That should keep you busy for a while. I'll be back once you've found the right combination."
+  const openAnswerLabel = isDe ? 'Antwort öffnen' : 'Open answer'
+  const instructionText = isDe
+    ? 'Anleitung: Tippe auf die Schalter und lass die Redstone-Lampe oben in der Mitte leuchten.'
+    : 'Instructions: Tap the switches and make the redstone lamp at the top center light up.'
 
-<p>
-  Hehe, ich hab eine kleine Überraschung: Diese Redstone Lampe hat sieben
-  Schalter und es gibt nur eine Kombination, bei der die Lampe leuchtet. Das
-  sollte dich für eine Weile beschäftigen. Ich komme wieder, wenn du die
-  passende Kombination gefunden hast.
-</p>
+  const guideSummary = isDe ? 'Redstone Mini-Guide' : 'Redstone mini guide'
+  const guideP1 = isDe
+    ? 'Eine Redstone-Fackel leuchtet, wenn der angrenzende Block nicht mit Strom versorgt wird. Sobald der Block mit Strom versorgt wird, geht die Fackel aus.'
+    : 'A redstone torch is on when the adjacent block is not powered. As soon as the block is powered, the torch turns off.'
+  const guideP2 = isDe
+    ? 'Mit drei Fackeln und Blöcken kannst du ein UND-Gatter bauen. Die mittlere Fackel leuchtet nur, wenn beide Eingänge an sind.'
+    : 'With three torches and some blocks you can build an AND gate. The middle torch only lights up when both inputs are on.'
+  const guideP3 = isDe
+    ? 'Mit diesem Wissen kannst du die Schaltung Schritt für Schritt zurückverfolgen und die Kombination für die Schalter herausfinden.'
+    : 'With this knowledge, you can trace the circuit back step by step and figure out the correct switch combination.'
+%>-->
+
+<p><%= introLine %></p>
+
+<p><%= surpriseText %></p>
 
 <div class="mc-circuit">
-  <div class="solution-box" onclick="gotoImg()">Antwort öffnen</div>
+  <div class="solution-box" onclick="gotoImg()"><%= openAnswerLabel %></div>
 </div>
 
-<p>
-  Anleitung: Tippe auf die Schalter und lass die Redstone-Lampe oben in der
-  Mitte leuchten.
-</p>
+<p><%= instructionText %></p>
 
 <details>
-  <summary>Redstone Mini-Guide</summary>
-  <p style="margin-top: 12px">
-    Eine Redstone-Fackel leuchtet, wenn der angrenzende Block nicht mit Strom
-    versorgt wird. Sobald der Block mit Strom versorgt wird, geht die Fackel
-    aus.
-  </p>
-  <p>
-    Mit drei Fackeln und Blöcken kannst du ein UND-Gatter bauen. Die mittlere
-    Fackel leuchtet nur, wenn beide Eingänge an sind.
-  </p>
-  <p>
-    Mit diesem Wissen kannst du die Schaltung Schritt für Schritt
-    zurückverfolgen und die Kombination für die Schalter herausfinden.
-  </p>
+  <summary><%= guideSummary %></summary>
+  <p style="margin-top: 12px"><%= guideP1 %></p>
+  <p><%= guideP2 %></p>
+  <p><%= guideP3 %></p>
 </details>
 
 <script>
@@ -330,6 +337,6 @@
       }
     })
     // open image in new tab
-    window.open(`/chals/${key}.png`, '_blank')
+    window.open(`/chals/${key}<%= locale == 'en' ? '_en' : '' %>.png`, '_blank')
   }
 </script>

@@ -488,6 +488,19 @@ export const experimentDefs = [
     challenge: 59,
     startTs: new Date('2026-01-07 00:02+0100').getTime(),
     endTs: new Date('2026-02-04 00:02+0100').getTime(),
+    baseImg: '/experiments/25_base.jpg',
+    trialImg: '/experiments/25_trial.jpg',
+    results: {
+      numEvents: 15355,
+      nShowBase: 355,
+      nShowTrial: 360,
+      nVisitorsBase: 211,
+      nVisitorsTrial: 208,
+      nSolversBase: 49,
+      nSolversTrial: 50,
+    },
+    learning:
+      'Absolut kein Ergebnis. Keine Verbesserung und keine Verschlechterung. Ich weiß auch nicht, was der beste Weg ist. Ich könnte mir vorstellen, die jetzige Original-Version zu behalten und als schwere Variante zu markieren und dann eine leichtere Version zu testen. Hm, ich weiß es noch nicht, es wartet noch ein bisschen Arbeit.',
   },
   {
     id: 26,

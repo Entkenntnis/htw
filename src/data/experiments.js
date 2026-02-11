@@ -480,6 +480,19 @@ export const experimentDefs = [
     challenge: 84,
     startTs: new Date('2026-01-13 00:01+0100').getTime(),
     endTs: new Date('2026-02-10 00:01+0100').getTime(),
+    baseImg: '/experiments/24_base.jpg',
+    trialImg: '/experiments/24_trial.jpg',
+    results: {
+      numEvents: 15450,
+      nShowBase: 458,
+      nShowTrial: 415,
+      nVisitorsBase: 212,
+      nVisitorsTrial: 296,
+      nSolversBase: 170,
+      nSolversTrial: 53,
+    },
+    learning:
+      'Ziemlicher Fail, ich muss wieder zurück ans Zeichenbrett und mir was neues überlegen.',
   },
   {
     id: 25,

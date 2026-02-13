@@ -201,7 +201,11 @@ export function setupChallenges(App) {
       const point = {
         id: challenge.id,
         pos: challenge.pos,
-        title: App.challenges.getTitle(challenge.id, req),
+        title:
+          App.challenges.getTitle(challenge.id, req) +
+          (mapMeta.difficulty == 'hard' && challenge.hasHardVersion
+            ? '🌶️'
+            : ''),
         difficulty: challenge.difficulty,
         isSolved,
         color,

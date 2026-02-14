@@ -522,7 +522,7 @@ export const part1 = [
     title: { de: 'HTML', en: 'HTML' },
     // date: '2017-05-17',
     deps: [24],
-    render: () => {
+    render: ({ App, req }) => {
       const script = `
         <script>
           function transform() {
@@ -552,7 +552,7 @@ export const part1 = [
         |                                        |
         |<!-- Die Antwort lautet ${secrets(
           'chal_6'
-        )}. -->                                        |
+        )}${App.experiments.showTrial(6, req) ? req.user?.id : ''}. -->                                        |
         |________________________________________|
         
         </pre>
@@ -589,6 +589,25 @@ export const part1 = [
       }
     },
     solution: secrets('chal_6'),
+    check: (raw, { App, req }) => {
+      const answer = raw.toLowerCase().trim()
+      const solutions = secrets('chal_6').split(',')
+      if (req.user && App.experiments.showTrial(6, req)) {
+        const correct =
+          answer == solutions[0].toLowerCase().trim() + req.user.id
+        return {
+          answer,
+          correct,
+        }
+      }
+      const correct = solutions.some(
+        (solution) => solution && answer === solution.toLowerCase().trim()
+      )
+      return {
+        answer,
+        correct,
+      }
+    },
   },
 
   {

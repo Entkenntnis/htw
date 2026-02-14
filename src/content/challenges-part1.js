@@ -880,10 +880,9 @@ export const part1 = [
 
         <p>Ich wollte dir eigentlich die wichtige Notiz verlinken, aber jetzt musst du einen Weg um meinen Fehler herum finden:</p>
 
-        ${App.experiments.showTrial(16, req) ? '<p style="display: none;" id="continue-button"></p>' : ''}
-
         <p><a href="/wihtige_notiz.txt" target="_blank">https://hack.arrrg.de/wihtige_notiz.txt</a></p>
         
+        ${App.experiments.showTrial(16, req) ? '<p style="margin-top: -16px; color: gray;">↑↑↑ öffne den Link ↑↑↑</p>' : ''}
     `
         ),
         en: story(

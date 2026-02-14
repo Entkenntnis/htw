@@ -3457,7 +3457,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     id: 84,
     pos: { x: 860, y: 580 },
     title: { de: 'Inception', en: 'Inception' },
-    trialTitle: 'Nintendo Switch',
+    trialTitle: 'Zensiert',
     // date: '2023-02-26',
     deps: [8, 52, 77],
     render: ({ App, req }) => {
@@ -3465,23 +3465,9 @@ To: ${req.user?.name}@arrrg.de</pre>
         return story(
           'Kiwi',
           `
-          <p>Bex wollte unbedingt Mario Kart spielen. Leider ist die Erde weit entfernt und es ist nicht leicht, auf Naxion eine Switch mit dem Spiel herzubekommen. Zum Glück reicht auch ein normaler Computer aus und ich habe das Spiel dort zum Laufen bekommen:
-          </p>
+          <p>Stell dir vor, eine Gruppe von Menschen begeht ein Verbrechen, und die Polizei beschützt diese Personen und stellt sicher, dass keiner von ihnen bestraft wird, indem sie die Beweise zensiert. Schrecklich und unerhört!</p>
 
-          <p style="margin-top: 32px; margin-bottom: 32px;">
-            <img src="/chals/yuzu.jpg" style="max-width: 400px;"/>
-          </p>
-
-          <p>Eine Schwierigkeit war die Verschlüsslung der Spiele. Die Dateien sind eigentlich alle unlesbar und die Schlüssel sicher in der Hardware gespeichert - bis jemand einen Hardware-Fehler gefunden und die Schlüssel seitdem alle ausgelesen hat.
-          </p>
-
-          <p>Die Antwort auf diese Aufgabe ist der <code>master_key_00</code> und hat die Form <code>c2ca************************1c7d</code>. Es ist mir allerdings rechtlich absolut verboten, dir den Schlüssel zu verraten.
-          </p>
-
-          <p>Und schaue dir auch nicht <a href="https://github.com/Entkenntnis?tab=repositories" target="_blank">die Liste meiner Repositories</a> durch, dort wirst du nichts finden!!
-          </p>
-
-          <p>( ﾟｏ⌒)</p>
+          <p>Es gibt verschiedene Arten von Zensur und manchmal kannst du was dagegen tun! Deine Antwort ist in <a href="/chals/redacted.pdf" target="blank">diesem pfd-Dokument</a> notiert, leider wurde sie zensiert.</p>
         `
         )
       }

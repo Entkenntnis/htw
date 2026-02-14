@@ -616,4 +616,12 @@ export const experimentDefs = [
     startTs: new Date('2026-02-09 00:01+0100').getTime(),
     endTs: new Date('2026-02-23 00:01+0100').getTime(),
   },
+  {
+    id: 37,
+    description:
+      'Inception: neue Aufgabe angelehnt an die redacted Dateien, wo man mit der Maus den Text wieder sichtbar machen kann.',
+    challenge: 84,
+    startTs: new Date('2026-02-15 00:01+0100').getTime(),
+    endTs: new Date('2026-03-15 00:01+0100').getTime(),
+  },
 ]

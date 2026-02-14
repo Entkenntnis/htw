@@ -624,4 +624,12 @@ export const experimentDefs = [
     startTs: new Date('2026-02-15 00:01+0100').getTime(),
     endTs: new Date('2026-03-15 00:01+0100').getTime(),
   },
+  {
+    id: 38,
+    description:
+      'HTML: dynamische Antwort im Vergleich mit statischer Antwort, ich erwarte eine Verschlechterung, aber um wie viel?',
+    challenge: 6,
+    startTs: new Date('2026-02-15 00:01+0100').getTime(),
+    endTs: new Date('2026-03-15 00:01+0100').getTime(),
+  },
 ]

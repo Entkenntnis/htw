@@ -636,7 +636,7 @@ export const experimentDefs = [
     id: 39,
     description:
       'Notiz: Ein etwas expliziterer Tipp, dass man auf den Link klickt.',
-    challenge: 6,
+    challenge: 16,
     startTs: new Date('2026-02-15 00:03+0100').getTime(),
     endTs: new Date('2026-03-15 00:03+0100').getTime(),
   },

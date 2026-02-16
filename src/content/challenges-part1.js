@@ -946,8 +946,7 @@ export const part1 = [
   {
     id: 18,
     pos: { x: 930, y: 520 },
-    title: { de: 'Verschiebung', en: 'ROT13' },
-    trialTitle: 'ROT13',
+    title: { de: 'ROT13', en: 'ROT13' },
     // date: '2017-05-18',
     deps: [8, 77],
     html: {

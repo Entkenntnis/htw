@@ -3485,7 +3485,7 @@ To: ${req.user?.name}@arrrg.de</pre>
           `
           <p>Stell dir vor, eine Gruppe von Menschen begeht ein Verbrechen, und die Polizei beschützt diese Personen und stellt sicher, dass keiner von ihnen bestraft wird, indem sie die Beweise zensiert. Schrecklich und unerhört!</p>
 
-          <p>Es gibt verschiedene Arten von Zensur und manchmal kannst du was dagegen tun! Deine Antwort ist in <a href="/chals/redacted.pdf" target="blank">diesem pfd-Dokument</a> notiert, leider wurde sie zensiert.</p>
+          <p>Es gibt verschiedene Arten von Zensur und manchmal kannst du was dagegen tun! Deine Antwort ist in <a href="/chals/redacted.pdf" target="blank">diesem pdf-Dokument</a> notiert, leider wurde sie zensiert.</p>
         `
         )
       }

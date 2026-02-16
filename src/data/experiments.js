@@ -559,6 +559,19 @@ export const experimentDefs = [
     challenge: 53,
     startTs: new Date('2026-01-15 00:02+0100').getTime(),
     endTs: new Date('2026-02-12 00:02+0100').getTime(),
+    baseImg: '/experiments/29_base.jpg',
+    trialImg: '/experiments/29_trial.jpg',
+    results: {
+      numEvents: 16889,
+      nShowBase: 645,
+      nShowTrial: 615,
+      nVisitorsBase: 479,
+      nVisitorsTrial: 450,
+      nSolversBase: 340,
+      nSolversTrial: 300,
+    },
+    learning:
+      'Falls meine Hypothese war, dass der große Button bei der Lösung hilft - konnte das nicht bestätigt werden, wenn, dann zeigen die Daten eher fast auf eine minimale Verschlechterung. Die Datenbasis ist groß genug, dass ich das Experiment abschließen kann. Es gibt denke ich dann nichts mehr zu tun, das Trial läuft aus und ich kehre zur normalen Version zurück.',
   },
   {
     id: 30,

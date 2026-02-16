@@ -522,6 +522,19 @@ export const experimentDefs = [
     challenge: 87,
     startTs: new Date('2026-01-10 00:01+0100').getTime(),
     endTs: new Date('2026-02-14 00:01+0100').getTime(),
+    baseImg: '/experiments/26_base.jpg',
+    trialImg: '/experiments/26_trial.jpg',
+    results: {
+      numEvents: 6880,
+      nShowBase: 260,
+      nShowTrial: 244,
+      nVisitorsBase: 143,
+      nVisitorsTrial: 121,
+      nSolversBase: 121,
+      nSolversTrial: 74,
+    },
+    learning:
+      'Auch hier wieder: die Version ohne das Ziehen performt absolut deutlich schlechter. Auch dieses Feature ist kritisch und sollte nicht weggelassen werden. Ich hätte keinen so starken Effekt erwartet. Das zeigt vielleicht, wie viele NutzerInnen tatsächlich mobil unterwegs sind.',
   },
   {
     id: 27,

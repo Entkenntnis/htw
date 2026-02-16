@@ -596,6 +596,19 @@ export const experimentDefs = [
     challenge: 41,
     startTs: new Date('2026-01-17 00:01+0100').getTime(),
     endTs: new Date('2026-02-14 00:01+0100').getTime(),
+    baseImg: '/experiments/32_base.jpg',
+    trialImg: '/experiments/32_trial.jpg',
+    results: {
+      numEvents: 5840,
+      nShowBase: 211,
+      nShowTrial: 196,
+      nVisitorsBase: 145,
+      nVisitorsTrial: 141,
+      nSolversBase: 112,
+      nSolversTrial: 74,
+    },
+    learning:
+      'Ein bisschen schockierend wie deutlich schlechter die Variante mit Handschrift performt. Meine Vermutung ist, dass die Handschrift nicht so gut in der Lage ist, zwischen fett und normal zu unterscheiden - und in diesem Unterschied der wesentliche Hinweis liegt und wirklich viele Leute diesen Hinweis brauchen. Ich bleibe daher bei der jetzigen Variante. Im Rahmen dieser Überlegungen habe ich aber meine handschriftliche Font geändert und werde mal Excalifont für das Tagebuch nutzen als besser lesbare Version.',
   },
   {
     id: 33,

@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'Excalifont';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap; /* Performance: allows text to show immediately with fallback */
+  src: url(Excalifont-Regular.woff2) format('woff2'); /* Ensure path is correct */
+}

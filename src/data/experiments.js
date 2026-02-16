@@ -643,6 +643,19 @@ export const experimentDefs = [
     challenge: 50,
     startTs: new Date('2026-01-17 00:02+0100').getTime(),
     endTs: new Date('2026-02-14 00:02+0100').getTime(),
+    baseImg: '/experiments/33_base.jpg',
+    trialImg: '/experiments/33_trial.jpg',
+    results: {
+      numEvents: 7575,
+      nShowBase: 203,
+      nShowTrial: 246,
+      nVisitorsBase: 110,
+      nVisitorsTrial: 130,
+      nSolversBase: 48,
+      nSolversTrial: 54,
+    },
+    learning:
+      'Das Experiment ist ein gutes Beispiel für einen Durchlauf ohne Ergebnis. Es ist nicht besser geworden, es ist nicht schlechter geworden. Ich darf es also so auswählen, wie es mir gefällt. Und ich finde ... die neon-grüne Version doch besser, sie hat was cooles und hacky. Ich lasse es also einfach so, wie es ist, cool, cool.',
   },
   {
     id: 34,

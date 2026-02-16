@@ -601,6 +601,19 @@ export const experimentDefs = [
     challenge: 18,
     startTs: new Date('2026-01-18 00:01+0100').getTime(),
     endTs: new Date('2026-02-15 00:01+0100').getTime(),
+    baseImg: '/experiments/31_base.jpg',
+    trialImg: '/experiments/31_trial.jpg',
+    results: {
+      numEvents: 7064,
+      nShowBase: 292,
+      nShowTrial: 284,
+      nVisitorsBase: 147,
+      nVisitorsTrial: 143,
+      nSolversBase: 128,
+      nSolversTrial: 133,
+    },
+    learning:
+      'Der technische Titel hat einen hauch-dünnen positiven Effekt, ich finde ihn auch sympathischer, weil er direkter auf das Thema zeigt. Ich werde also den technischen Titel (der ja auch das Original war) daher übernehmen.',
   },
   {
     id: 32,

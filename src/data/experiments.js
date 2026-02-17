@@ -686,8 +686,8 @@ export const experimentDefs = [
     description:
       'Inception: neue Aufgabe angelehnt an die redacted Dateien, wo man mit der Maus den Text wieder sichtbar machen kann.',
     challenge: 84,
-    startTs: new Date('2026-02-15 00:01+0100').getTime(),
-    endTs: new Date('2026-03-15 00:01+0100').getTime(),
+    startTs: new Date('2026-02-18 00:01+0100').getTime(),
+    endTs: new Date('2026-03-18 00:01+0100').getTime(),
   },
   {
     id: 38,

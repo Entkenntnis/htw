@@ -3,7 +3,7 @@ import { Sequelize, Op } from 'sequelize'
 import { capitalizeFirstLetter, generateToken } from '../helper/helper.js'
 import { renderPage } from '../helper/render-page.js'
 
-const maxLevel = 200
+const maxLevel = 300
 
 const levels = JSON.parse(
   fs.readFileSync('./src/content/mortal-coil-levels.json', 'utf-8')

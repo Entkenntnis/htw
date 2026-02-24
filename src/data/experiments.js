@@ -693,6 +693,19 @@ export const experimentDefs = [
     challenge: 1,
     startTs: new Date('2026-02-09 00:01+0100').getTime(),
     endTs: new Date('2026-02-23 00:01+0100').getTime(),
+    baseImg: '/experiments/36_base.jpg',
+    trialImg: '/experiments/36_trial.jpg',
+    results: {
+      numEvents: 2932,
+      nShowBase: 392,
+      nShowTrial: 374,
+      nVisitorsBase: 386,
+      nVisitorsTrial: 370,
+      nSolversBase: 356,
+      nSolversTrial: 337,
+    },
+    learning:
+      'Keine Veränderung. Und ich denke, dass dieser Witz es nicht wirklich wert ist, daher lasse ich es so, wie es ist. Gut zu wissen, dass Start eine Lösungsrate von 92% hat - und ja, ich kann auch für Start Experimente fahren.',
   },
   {
     id: 37,

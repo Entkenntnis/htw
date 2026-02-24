@@ -89,6 +89,18 @@
       </script>
     <% } else { %>
       <p><a href="/map" id="continue-button"><%= t('continue') %></a></p>
+      <% if (!props.afterSolveText) { %>
+        <script>
+          // Auto-focus continue button if no additional text is shown
+          var btn = document.getElementById('continue-button');
+          if (btn && btn.focus) { btn.focus(); }
+        </script>
+        <style>
+          #continue-button:focus {
+            outline: 1px solid var(--main-color);
+          }
+        </style>
+      <% } %>
     <% } %>
   <% } else { %>
     <%- props.html %>

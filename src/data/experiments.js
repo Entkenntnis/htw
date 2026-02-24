@@ -684,7 +684,7 @@ export const experimentDefs = [
       'Zeitmaschine: nutze eine lokale Kopie, mal sehen ob der schnellere Zugriff einen Unterschied macht',
     challenge: 26,
     startTs: new Date('2026-02-06 00:01+0100').getTime(),
-    endTs: new Date('2026-03-06 00:01+0100').getTime(),
+    endTs: new Date('2026-03-27 00:01+0100').getTime(),
   },
   {
     id: 36,
@@ -713,7 +713,7 @@ export const experimentDefs = [
       'Inception: neue Aufgabe angelehnt an die redacted Dateien, wo man mit der Maus den Text wieder sichtbar machen kann.',
     challenge: 84,
     startTs: new Date('2026-02-18 00:01+0100').getTime(),
-    endTs: new Date('2026-03-18 00:01+0100').getTime(),
+    endTs: new Date('2026-03-25 00:01+0100').getTime(),
   },
   {
     id: 38,
@@ -721,7 +721,7 @@ export const experimentDefs = [
       'HTML: dynamische Antwort im Vergleich mit statischer Antwort, ich erwarte eine Verschlechterung, aber um wie viel?',
     challenge: 6,
     startTs: new Date('2026-02-15 00:02+0100').getTime(),
-    endTs: new Date('2026-03-15 00:02+0100').getTime(),
+    endTs: new Date('2026-03-22 00:02+0100').getTime(),
   },
   {
     id: 39,
@@ -729,7 +729,7 @@ export const experimentDefs = [
       'Notiz: Ein etwas expliziterer Tipp, dass man auf den Link klickt.',
     challenge: 16,
     startTs: new Date('2026-02-15 00:03+0100').getTime(),
-    endTs: new Date('2026-03-15 00:03+0100').getTime(),
+    endTs: new Date('2026-03-29 00:03+0100').getTime(),
   },
   {
     id: 40,

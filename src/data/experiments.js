@@ -564,6 +564,19 @@ export const experimentDefs = [
     challenge: 300,
     startTs: new Date('2026-01-15 00:01+0100').getTime(),
     endTs: new Date('2026-02-19 00:01+0100').getTime(),
+    baseImg: '/experiments/28_base.jpg',
+    trialImg: '/experiments/28_trial.jpg',
+    results: {
+      numEvents: 36685,
+      nShowBase: 956,
+      nShowTrial: 942,
+      nVisitorsBase: 140,
+      nVisitorsTrial: 116,
+      nSolversBase: 77,
+      nSolversTrial: 81,
+    },
+    learning:
+      'Erstmal ein klares Signal, dass die optisch ansprechendere Version mehr geklickt wird, das ist gut zu wissen. Der Invite auf der Map dagegen hat nicht wirklich was gebracht, schade. Egal, es sind denke ich wirklich genug Daten, dass ich sicher sagen kann, dass die Idee jetzt nicht die gewünschte Wirkung hat. Stattdessen werde ich nochmal ein Experiment starten mit einer leicht angepassten Version der verkürzten, graphischen Version.',
   },
   {
     id: 29,
@@ -704,5 +717,13 @@ export const experimentDefs = [
     challenge: 16,
     startTs: new Date('2026-02-15 00:03+0100').getTime(),
     endTs: new Date('2026-03-15 00:03+0100').getTime(),
+  },
+  {
+    id: 40,
+    description:
+      'Community-Area: Verbessertes Onboarding 2 mit Bild statt viel Text',
+    challenge: 300,
+    startTs: new Date('2026-02-25 00:01+0100').getTime(),
+    endTs: new Date('2026-03-01 00:01+0100').getTime(),
   },
 ]

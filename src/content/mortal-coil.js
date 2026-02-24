@@ -146,7 +146,7 @@ export function setupMortalCoil(App) {
         ${
           level == 0
             ? `
-        
+
           <p>${strings.description}
           </p>
         `
@@ -160,7 +160,7 @@ export function setupMortalCoil(App) {
         }; var height = ${levelData.height}; var boardStr = "${
           levelData.boardStr
         }"; var lng = "${req.lng}"</script>
-  
+
         <div id="coilframe">
           <button id="coilrestart" class="btn btn-sm btn-primary">
             ${strings.restart}
@@ -189,7 +189,7 @@ export function setupMortalCoil(App) {
 
         <div style="height:200px;"></div>
 
-  
+
         <script>
           document.getElementById('jump').addEventListener('click', (e) => {
             const level = prompt('${capitalizeFirstLetter(
@@ -202,7 +202,7 @@ export function setupMortalCoil(App) {
 
         <script src="/jquery-3.6.0.js"></script>
         <script src="/mortal-coil/coil.js"></script>
-        
+
         <link rel="stylesheet" href="/mortal-coil/coil.css" />
       `,
     })
@@ -213,12 +213,8 @@ export function setupMortalCoil(App) {
 
     const allUsers = await App.db.models.KVPair.findAll({
       where: {
-        key: {
-          [Op.like]: 'mortalcoil_%',
-        },
-        updatedAt: {
-          [Op.gte]: new Date(cutoff),
-        },
+        key: { [Op.like]: 'mortalcoil_%' },
+        updatedAt: { [Op.gte]: new Date(cutoff) },
       },
       raw: true,
     })
@@ -241,11 +237,7 @@ export function setupMortalCoil(App) {
     const lastActive =
       /** @type {(import('../data/types.js').KVPairModel & {id?: number})[]} */ (
         await App.db.models.KVPair.findAll({
-          where: {
-            key: {
-              [Op.like]: 'mortalcoil_%',
-            },
-          },
+          where: { key: { [Op.like]: 'mortalcoil_%' } },
           order: [['updatedAt', 'DESC']],
           limit: 10,
           raw: true,
@@ -324,7 +316,10 @@ export function setupMortalCoil(App) {
 
         <div style="height:32px"></div>
 
+        <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+
 
         <script>
           const ctx = document.getElementById('myChart');
@@ -346,6 +341,26 @@ export function setupMortalCoil(App) {
               plugins: {
                 legend: {
                   display: false
+                },
+                zoom: {
+                  limits: {
+                    x: {
+                      minRange: 50
+                    }
+                  },
+                  pan: {
+                    enabled: true,
+                    mode: 'x'
+                  },
+                  zoom: {
+                    wheel: {
+                      enabled: true
+                    },
+                    pinch: {
+                      enabled: true
+                    },
+                    mode: 'x'
+                  }
                 }
               }
             }

@@ -677,6 +677,19 @@ export const experimentDefs = [
     challenge: 114,
     startTs: new Date('2026-01-28 00:01+0100').getTime(),
     endTs: new Date('2026-02-25 00:01+0100').getTime(),
+    baseImg: '/experiments/34_base.jpg',
+    trialImg: '/experiments/34_trial.jpg',
+    results: {
+      numEvents: 16470,
+      nShowBase: 697,
+      nShowTrial: 726,
+      nVisitorsBase: 470,
+      nVisitorsTrial: 463,
+      nSolversBase: 377,
+      nSolversTrial: 360,
+    },
+    learning:
+      'Es ist gut zu Wissen, dass das Konzept der Aufgabe verständlich ist und die Leute auch so ähnlich wie bei Baum draufklicken. Aber ich finde das nicht sympathisch, vor allem nicht als Teil des Lernpfads. Ich werde also Baum behalten, ich habe doch gemerkt, wie sehr mir die Aufgabe fehlt. So ganz hauchdünn ist Baum auch besser für die Lernenden, wobei an der Position im Lernpfad eigentlich jede Aufgabe gut performt. Die Passwort-Abfrage kann ich dann an anderer Stelle ansetzen, zum Beispiel auf der Map als Icon.',
   },
   {
     id: 35,

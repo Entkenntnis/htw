@@ -1,0 +1,40 @@
+<p>
+  Ich möchte kurz sichergehen, dass du dein Passwort für diese Webseite noch im
+  Kopf hast. Es wäre ja ärgerlich, wenn dein Fortschritt verloren geht. Tippe
+  einfach dein Passwort für den Account <strong><%= user.name %></strong> ein,
+  um den Check abzuschließen.
+</p>
+
+<p>
+  Du hast dein Passwort vergessen? Kein Problem, lege dir ein neues Passwort an,
+  gehe dazu im <code>Profil</code> auf <code>Passwort ändern</code>. Für deinen
+  Account auf Hack The Web ist es auch in Ordnung, deinen Benutzernamen und
+  Passwort in einer Datei zu notieren und auf deinem Gerät zu speichern.
+</p>
+
+<p>
+  Weil wir keine E-Mail-Adresse von dir haben, können wir leider dein Passwort
+  nicht zurücksetzen. Also merke dir dein Passwort gut! 👩‍🏫
+</p>
+
+<form
+  autocomplete="off"
+  method="post"
+  id="challenge_form"
+  style="display: flex; align-items: center"
+>
+  <input
+    id="challenge_answer"
+    class="form-control"
+    type="password"
+    name="answer"
+    style="height: 32px; width: 300px"
+  />
+  <input
+    type="submit"
+    id="challenge_submit"
+    class="btn btn-interaction"
+    value="Los"
+    style="height: 32px; line-height: 1; margin-left: 10px"
+  />
+</form>

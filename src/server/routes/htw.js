@@ -123,6 +123,18 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
     res.redirect('/map')
   })
 
+  App.express.get('/pw-check', async (req, res) => {
+    if (!req.user) {
+      res.redirect('/')
+      return
+    }
+    App.event.create('view-pw-check', req.user.id)
+    return renderPage(App, req, res, {
+      page: 'pw-check',
+      heading: req.lng == 'de' ? 'Passwort-Check' : 'Password Check',
+    })
+  })
+
   App.express.get('/export-data', async (req, res) => {
     if (!req.user || App.config.demos.includes(req.user.name)) {
       res.status(403).send('Forbidden')

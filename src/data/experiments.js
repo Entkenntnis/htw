@@ -737,6 +737,6 @@ export const experimentDefs = [
       'Community-Area: Verbessertes Onboarding 2 mit Bild statt viel Text',
     challenge: 300,
     startTs: new Date('2026-02-25 00:01+0100').getTime(),
-    endTs: new Date('2026-03-01 00:01+0100').getTime(),
+    endTs: new Date('2026-04-01 00:01+0100').getTime(),
   },
 ]

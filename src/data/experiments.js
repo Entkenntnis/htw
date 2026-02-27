@@ -778,4 +778,12 @@ export const experimentDefs = [
     startTs: new Date('2026-02-25 00:01+0100').getTime(),
     endTs: new Date('2026-04-01 00:01+0100').getTime(),
   },
+  {
+    id: 41,
+    description:
+      'Ankunft in Sirtach: nochmal eine kleine Vereinfachung der Aufgabe mit einer besseren Erklärung',
+    challenge: 57,
+    startTs: new Date('2026-02-28 00:01+0100').getTime(),
+    endTs: new Date('2026-04-11 00:01+0100').getTime(),
+  },
 ]

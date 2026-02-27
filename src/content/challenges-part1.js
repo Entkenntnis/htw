@@ -171,7 +171,11 @@ export const part1 = [
     //   }
     // },
     renderAfterSolveText: ({ App, req }) => {
-      return renderTemplate(App, req, 'set-difficulty')
+      return renderTemplate(
+        App,
+        req,
+        '../../server/views/partials/set-difficulty'
+      )
     },
   },
 

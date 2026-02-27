@@ -104,7 +104,11 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
         req.lng == 'de'
           ? 'Schwierigkeitsstufe wählen'
           : 'Select Difficulty Level',
-      content: await renderTemplate(App, req, 'set-difficulty'),
+      content: await renderTemplate(
+        App,
+        req,
+        '../../server/views/partials/set-difficulty'
+      ),
     })
   })
 

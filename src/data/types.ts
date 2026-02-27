@@ -98,6 +98,7 @@ export interface App {
     setCommunityFilter(userid: number, state: string): Promise<void>
     setQuizCompleted(userid: number, quizid: number): Promise<void>
     setDifficulty(userid: number, difficulty: 'easy' | 'hard'): Promise<void>
+    setPwCheckCompleted(userid: number): Promise<void>
   }
 }
 
@@ -107,6 +108,7 @@ export interface MapMeta {
   communityFilter: string
   quizzesCompleted: number[]
   difficulty: 'easy' | 'hard'
+  pwCheckCompleted: boolean
 }
 
 export interface Message {
@@ -339,6 +341,7 @@ interface SessionData {
   returnToLogbook?: boolean
   experimentOptOut?: boolean
   __hackyExperimentOptOutBecauseHardMode?: boolean
+  __loggedInWithSSO?: boolean
 }
 
 export interface DungeonData {

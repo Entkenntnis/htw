@@ -153,7 +153,6 @@ export function setupEduplacesSSO(App) {
 
       const { sub, sid } = decodedToken
 
-      // If sub is known, set session and redirect to map (the simple case)
       const userId = parseInt(
         (await App.storage.getItem(`eduplaces_sso_sub_${sub}`)) ?? 'xx'
       )
@@ -161,9 +160,11 @@ export function setupEduplacesSSO(App) {
       req.session.sso_sid = sid
       req.session.sso_sub = sub
 
+      // If sub is known, set session and redirect to map (the simple case)
       if (!isNaN(userId)) {
         App.event.create('login_eduplaces', userId)
         req.session.userId = userId
+        req.session.__loggedInWithSSO = true
         res.redirect('/map')
         return
       }

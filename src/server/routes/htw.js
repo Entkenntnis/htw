@@ -4,6 +4,7 @@ import { renderPage } from '../../helper/render-page.js'
 import { setupAnalyze } from './analyze.js'
 import { generateWeChallToken } from '../../helper/helper.js'
 import { renderTemplate } from '../../helper/render-template.js'
+import bcrypt from 'bcryptjs'
 
 let usercount = 0
 
@@ -132,7 +133,34 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
     return renderPage(App, req, res, {
       page: 'pw-check',
       heading: req.lng == 'de' ? 'Passwort-Check' : 'Password Check',
+      props: {
+        fail: req.query.fail === '1',
+      },
     })
+  })
+
+  App.express.post('/pw-check', async (req, res) => {
+    if (!req.user) {
+      res.send('bad')
+      return
+    }
+    const password = req.body.password || ''
+    const isCorrect = await bcrypt.compare(password, req.user.password)
+    if (isCorrect) {
+      await App.mapMeta.setPwCheckCompleted(req.user.id)
+      App.event.create('pw-check-success', req.user.id)
+      return renderPage(App, req, res, {
+        page: 'pw-check-success',
+        heading: req.lng == 'de' ? 'Passwort-Check' : 'Password Check',
+        content:
+          req.lng == 'de'
+            ? '<p style="margin-top: 42px;">Super, dein Passwort ist korrekt!</p><p><a href="/map">weiter</a>'
+            : '<p style="margin-top: 42px;">Great, your password is correct!</p><p><a href="/map">continue</a>',
+        backButton: false,
+      })
+    } else {
+      res.redirect('/pw-check?fail=1')
+    }
   })
 
   App.express.get('/export-data', async (req, res) => {

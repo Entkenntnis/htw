@@ -781,9 +781,9 @@ export const experimentDefs = [
   {
     id: 41,
     description:
-      'Ankunft in Sirtach: nochmal eine kleine Vereinfachung der Aufgabe mit einer besseren Erklärung',
+      'Ankunft in Sirtach: eine deutlich vereinfachte Variante mit bereits vorgegebenen (auskommentieren) Quellcode + explizite Anleitung, in der Hoffnung, den Charakter der Aufgabe zu behalten und sie doch zugänglich zu behalten.',
     challenge: 57,
     startTs: new Date('2026-02-28 00:01+0100').getTime(),
-    endTs: new Date('2026-04-11 00:01+0100').getTime(),
+    endTs: new Date('2026-04-18 00:01+0100').getTime(),
   },
 ]

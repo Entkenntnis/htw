@@ -546,8 +546,10 @@ export function setupChallengesServer(App) {
       gender: isGerman ? 'Geschlecht' : 'Gender',
       male: isGerman ? 'männlich' : 'male',
       female: isGerman ? 'weiblich' : 'female',
+      other: isGerman ? 'keine Angabe' : 'other',
       submit: isGerman ? 'Absenden' : 'Submit',
       defaultPlanet: isGerman ? 'Erde' : 'Earth',
+      editHtml: isGerman ? 'HTML bearbeiten' : 'Edit HTML',
     }
 
     renderPage(App, req, res, {
@@ -607,7 +609,11 @@ export function setupChallengesServer(App) {
                   <label>${s.gender}:</label>
                   <div class="ef-radio-group">
                     <label><input type="radio" name="gender" value="male" required> ${s.male}</label>
-                    <label><input type="radio" name="gender" value="female"> ${s.female}</label>
+                    <label><input type="radio" name="gender" value="female"> ${s.female}</label>${
+                      App.experiments.showTrial(57, req)
+                        ? `<!-- <label><input type="radio" name="gender" value="other"> ${s.other}</label> -->`
+                        : ''
+                    }
                   </div>
                 </div>
                 <div class="ef-row ef-row--full">
@@ -618,11 +624,15 @@ export function setupChallengesServer(App) {
           </div>
         </div>
           
+        <p style="margin-top: 50px">[<a href="#" onclick="loadXRay()">${
+          s.editHtml
+        }</a>]</p>
+
         ${
           App.experiments.showTrial(57, req)
             ? `
-          <p style="margin-top: 50px;">[<a href="#" onclick="loadXRay()">HTML bearbeiten</a>]</p>
-        `
+            <p style="margin-top: 36px; color: gray; margin-bottom: 200px;">Anleitung: Klicke auf "HTML bearbeiten" und dann auf die Zeile mit den Radio-Buttons. Du siehst nun den Qeulltext und kannst ihn ändern. Klicke dann auf "Update", um die Änderungen anzuwenden. Um den Bearbeitungsmodus zu schließen, klicke "ESC".</p>
+          `
             : ''
         }
       `,

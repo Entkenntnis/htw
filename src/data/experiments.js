@@ -619,6 +619,19 @@ export const experimentDefs = [
     challenge: 23,
     startTs: new Date('2026-01-15 00:03+0100').getTime(),
     endTs: new Date('2026-02-26 00:03+0100').getTime(),
+    baseImg: '/experiments/30_base.jpg',
+    trialImg: '/experiments/30_trial.jpg',
+    results: {
+      numEvents: 13047,
+      nShowBase: 424,
+      nShowTrial: 414,
+      nVisitorsBase: 264,
+      nVisitorsTrial: 265,
+      nSolversBase: 189,
+      nSolversTrial: 167,
+    },
+    learning:
+      'Der Hinweis lenkt ab und die Aufgabe ist so, wie sie ist, eigentlich auch ganz solide. Finde ich auch schöner, ohne diesen komischen Hinweis da unten. Jetzt ist das Ganze etwas cleaner und ich kann auch mit gutem Gewissen den Hinweis weglassen, weil ich weiß, dass dadurch die Performance nicht schlechter wird.',
   },
   {
     id: 31,

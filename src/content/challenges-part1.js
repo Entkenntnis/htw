@@ -171,7 +171,11 @@ export const part1 = [
     //   }
     // },
     renderAfterSolveText: ({ App, req }) => {
-      return renderTemplate(App, req, 'set-difficulty')
+      return renderTemplate(
+        App,
+        req,
+        '../../server/views/partials/set-difficulty'
+      )
     },
   },
 
@@ -2479,7 +2483,15 @@ export const part1 = [
           `
             <p>Alles klar, lasst uns dieses blöde Formular hacken. Es muss möglich sein, bei Geschlecht weder männlich noch weiblich anzugeben!</p>
 
-            <p>Ich habe schon probiert, das HTML so zu ändern, dass man nichts auswählen muss, aber der Server schmeißt eine Fehlermeldung. So einfach geht es leider nicht. Nicht aufgeben. Wir sollten als nächsten probieren, einen anderen Wert für das Feld zu setzen als vorgegeben.</p>
+            ${
+              App.experiments.showTrial(57, req)
+                ? `
+                  <p>Ich bin mir ziemlich sicher, dass das vor zwei Monaten noch möglich war. Hoffentlich finden wir im Quelltext eine Spur. 
+                  </p>
+
+                `
+                : `<p>Ich habe schon probiert, das HTML so zu ändern, dass man nichts auswählen muss, aber der Server schmeißt eine Fehlermeldung. So einfach geht es leider nicht. Nicht aufgeben. Wir sollten als nächsten probieren, einen anderen Wert für das Feld zu setzen als vorgegeben.</p>`
+            }
 
             <p><a href="/einreiseformular" target="_blank">Einreiseformular öffnen</a></p>
         `

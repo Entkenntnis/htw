@@ -473,6 +473,19 @@ export const experimentDefs = [
     challenge: 57,
     startTs: new Date('2026-01-06 00:02+0100').getTime(),
     endTs: new Date('2026-02-24 00:02+0100').getTime(),
+    baseImg: '/experiments/23_base.jpg',
+    trialImg: '/experiments/23_trial.jpg',
+    results: {
+      numEvents: 13196,
+      nShowBase: 310,
+      nShowTrial: 307,
+      nVisitorsBase: 242,
+      nVisitorsTrial: 215,
+      nSolversBase: 58,
+      nSolversTrial: 69,
+    },
+    learning:
+      'Ich kann sagen, dass der prominente HTML-Bearbeiten-Button seine Wirkung getan hat, also gut, dass ich das Experiment getan habe. Leider nicht super-absolut-eindeutig, aber ich nehme, was ich bekommen kann. Die verringerte Besuchsrate ist dagegen signifikant, was ich wirklich sehr seltsam finde, also warum? Wie passiert sowas? Kann es sein, dass die Leute "HTML" sehen und dann die Aufgabe abschreiben und auch ihren Freunden nicht empfehlen? Wird im Klassenzimmer diese Aufgabe so oft erreicht? Bei der Menge an Anrufen kann ich eigentlich nicht sagen, dass das Noise ist. Vielleicht habe ich doch noch eine falsche Vorstellung davon, wie Aufgaben "in freier Wildbahn" funktionieren.',
   },
   {
     id: 24,

@@ -48,6 +48,7 @@ export function withMapMeta(App) {
         communityFilter: 'E',
         quizzesCompleted: [],
         difficulty: 'easy',
+        pwCheckCompleted: false,
       }
 
       const json = JSON.parse(
@@ -86,6 +87,10 @@ export function withMapMeta(App) {
 
       if (json && (json.difficulty === 'easy' || json.difficulty === 'hard')) {
         data.difficulty = json.difficulty
+      }
+
+      if (json && typeof json.pwCheckCompleted === 'boolean') {
+        data.pwCheckCompleted = json.pwCheckCompleted
       }
 
       return data
@@ -148,6 +153,12 @@ export function withMapMeta(App) {
       App.event.create('set-difficulty-' + difficulty, userid)
       const data = await App.mapMeta.get(userid)
       data.difficulty = difficulty
+      App.storage.setItem(key(userid), JSON.stringify(data))
+    },
+
+    async setPwCheckCompleted(userid) {
+      const data = await App.mapMeta.get(userid)
+      data.pwCheckCompleted = true
       App.storage.setItem(key(userid), JSON.stringify(data))
     },
   }

@@ -1,0 +1,70 @@
+<!--<%
+  const isDe = locale === 'de'
+
+  const failText = isDe
+    ? 'Das eingegebene Passwort ist leider nicht korrekt. Bitte versuche es erneut.'
+    : 'The password you entered is not correct. Please try again.'
+
+  const greetingHello = isDe ? 'Hallo' : 'Hi'
+
+  const introText = isDe
+    ? 'schön, dass du hier auf Hack The Web dabei bist! Wir wollen kurz überprüfen, ob du dein Passwort für diesen Account noch im Kopf hast. Keine Sorge, das ist kein Test, sondern nur eine kleine Hilfe, damit du auch in Zukunft weiterhin Zugriff auf deinen Account hast und dein Fortschritt nicht verloren geht. Wir werden dich danach außerhalb des Logins nie wieder nach deinem Passwort fragen, versprochen!'
+    : "Nice to have you here on Hack The Web! We just want to quickly check whether you still remember the password for this account. Don't worry — this isn't a test, it's just a small safety net so you can keep access to your account in the future and your progress doesn't get lost. After this, we will never ask you for your password again outside of logging in — promise!"
+
+  const passwordPlaceholder = isDe
+    ? 'Dein aktuelles Passwort'
+    : 'Your current password'
+  const submitLabel = isDe ? 'Prüfen' : 'Check'
+
+  const forgotTextP1 = isDe
+    ? 'Du hast dein Passwort vergessen? Kein Problem, lege dir ein neues Passwort an, gehe dazu im'
+    : "Forgot your password? No problem — just set a new one. Go to"
+  const forgotProfileLabel = isDe ? 'Profil' : 'Profile'
+  const forgotConnector = isDe ? 'auf' : 'and click'
+  const forgotChangePwLabel = isDe ? 'Passwort ändern' : 'Change password'
+  const forgotTextP2 = isDe
+    ? '. Für deinen Account auf Hack The Web ist es auch in Ordnung, deinen Benutzernamen und Passwort in einer Datei zu notieren und auf deinem Gerät zu speichern.'
+    : ". For your Hack The Web account it's also totally fine to write down your username and password in a file and store it on your device."
+%>-->
+
+<!-- <% if (props.fail) { %> -->
+<div class="alert alert-danger" role="alert" style="margin-bottom: 42px">
+  <%= failText %>
+</div>
+<!-- <% } %>-->
+
+<div style="max-width: 66ch">
+  <p><%= greetingHello %> <strong><%= user.name %></strong>,</p>
+  <p><%= introText %></p>
+
+  <form
+    autocomplete="off"
+    method="post"
+    id="challenge_form"
+    style="display: flex; align-items: center"
+  >
+    <input
+      id="challenge_answer"
+      class="form-control"
+      type="password"
+      name="password"
+      placeholder="<%= passwordPlaceholder %>"
+      style="height: 32px; width: 300px"
+    />
+    <input
+      type="submit"
+      id="challenge_submit"
+      class="btn btn-interaction"
+      value="<%= submitLabel %>"
+      style="height: 32px; line-height: 1; margin-left: 10px"
+    />
+  </form>
+
+  <hr style="margin-top: 32px" />
+
+  <p style="margin-top: 68px">
+    <%= forgotTextP1 %> <code><%= forgotProfileLabel %></code> <%=
+    forgotConnector %> <code><%= forgotChangePwLabel %></code><%= forgotTextP2
+    %>
+  </p>
+</div>

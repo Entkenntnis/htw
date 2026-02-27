@@ -138,6 +138,7 @@ export function setupDiscordSSO(App) {
       if (!isNaN(localUserId) && user) {
         App.event.create('login_discord', localUserId)
         req.session.userId = localUserId
+        req.session.__loggedInWithSSO = true
         res.redirect('/map')
         return
       }

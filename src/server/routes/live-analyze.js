@@ -501,13 +501,16 @@ export function setupLiveAnalyze(App) {
         .map(
           (r) => `
         <tr>
-          <td class="mono"><code>${escapeHTML(r.key)}<code></td>
-          <td style="text-align: right">${r.total}</td>
-          <td style="text-align: right">${r.userCount}</td>
-          <td style="text-align: right">${r.avg.toLocaleString('de-DE', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}</td>
+          <td class="mono" style="padding: 3px 9px"><code>${escapeHTML(r.key)}<code></td>
+          <td style="text-align: right; padding: 3px 9px">${r.total}</td>
+          <td style="text-align: right; padding: 3px 9px">${r.userCount}</td>
+          <td style="text-align: right; padding: 3px 9px">${r.avg.toLocaleString(
+            'de-DE',
+            {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }
+          )}</td>
         </tr>`
         )
         .join('')}

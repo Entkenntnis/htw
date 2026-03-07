@@ -448,6 +448,9 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
         dialect: 'sqlite',
         storage: './db.sqlite',
         logging: false,
+        dialectModule: (
+          await import('../../external-wrapper/sqlite3-compat.js')
+        ).default,
       })
       await (await import('../lib/dbModel.js')).dbModel(LOCALAPP)
       await LOCALAPP.db.authenticate()

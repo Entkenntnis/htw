@@ -63,7 +63,7 @@ const preApp = {
 // load parts of app
 withEntry(preApp)
 withLogger(preApp)
-withDb(preApp)
+await withDb(preApp)
 withI18n(preApp)
 withExpress(preApp)
 withCsrf(preApp)

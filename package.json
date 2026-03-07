@@ -15,11 +15,11 @@
   "author": "Entkenntnis <hack@arrrg.de>",
   "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
+    "bcryptjs": "^3.0.3",
     "body-parser": "^2.2.1",
     "cookie-parser": "^1.4.6",
     "csrf": "^3.1.0",
-    "ejs": "^3.1.0",
+    "ejs": "^5.0.0",
     "escape-html": "^1.0.3",
     "express": "^5.1.0",
     "i18next": "^25.3.6",
@@ -32,13 +32,13 @@
     "multer": "^2.1.1",
     "node-fetch": "^3.3.2",
     "pngjs": "^7.0.0",
-    "quickjs-emscripten": "^0.31.0",
+    "quickjs-emscripten": "^0.32.0",
     "seedrandom": "^3.0.5",
     "sequelize": "^6.37.5",
     "uid-safe": "^2.1.5"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
+    "@tsconfig/node24": "^24.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/escape-html": "^1.0.4",
@@ -51,13 +51,15 @@
     "@types/seedrandom": "^3.0.8",
     "@types/uid-safe": "^2.1.5",
     "nodemon": "^3.1.7",
-    "prettier": "^3.3.3",
+    "prettier": "^3.8.1",
     "sqlite3": "^5.1.7",
     "typescript": "^5.9.2"
   },
   "overrides": {
-    "glob": "13.0.6",
-    "node-gyp": "10.2.0",
-    "tar": "7.5.8"
+    "sqlite3": {
+      "node-gyp": "npm:empty-npm-package@^1.0.0",
+      "node-addon-api": "npm:empty-npm-package@^1.0.0",
+      "tar": "npm:empty-npm-package@^1.0.0"
+    }
   }
 }

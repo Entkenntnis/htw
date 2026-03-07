@@ -52,14 +52,6 @@
     "@types/uid-safe": "^2.1.5",
     "nodemon": "^3.1.7",
     "prettier": "^3.8.1",
-    "sqlite3": "^5.1.7",
     "typescript": "^5.9.2"
-  },
-  "overrides": {
-    "sqlite3": {
-      "node-gyp": "npm:empty-npm-package@^1.0.0",
-      "node-addon-api": "npm:empty-npm-package@^1.0.0",
-      "tar": "npm:empty-npm-package@^1.0.0"
-    }
   }
 }

@@ -4306,7 +4306,7 @@ To: ${req.user?.name}@arrrg.de</pre>
       body.lng = req.lng
       const result = JSON.stringify(req.body).slice(0, 10000)
       await App.storage.setItem(
-        'survey_v3_' + req.user?.id + '_' + new Date().getTime(),
+        'survey_v2_' + req.user?.id + '_' + new Date().getTime(),
         result
       )
       if (!req.body?.recommend) {

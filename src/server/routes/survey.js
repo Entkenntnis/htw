@@ -19,10 +19,7 @@ export function setupSurvey(App) {
       await App.db.models.KVPair.findAll({
         where: {
           key: {
-            [Sequelize.Op.or]: [
-              { [Sequelize.Op.like]: 'survey_v2_%' },
-              { [Sequelize.Op.like]: 'survey_v3_%' },
-            ],
+            [Sequelize.Op.or]: [{ [Sequelize.Op.like]: 'survey_v2_%' }],
           },
           updatedAt: { [Sequelize.Op.gte]: fromDateUTC },
         },
@@ -159,7 +156,7 @@ export function setupSurvey(App) {
               entry.obj.good || '--'
             )}<span style="display: inline-block; margin-left: 24px; margin-right: 24px;">•</span>${escapeHtml(
               entry.obj.improve || '--'
-            )}${entry.obj['survey-trial'] == 1 ? ' <span style="margin-left: 24px; border: 1px solid lime">&nbsp;v3&nbsp;</span>' : ''}</p>`
+            )}${entry.obj['survey-trial'] == 1 ? ' <span style="margin-left: 24px; border: 1px solid lime">&nbsp;trial&nbsp;</span>' : ''}</p>`
           })
           .join('')}
         </div>

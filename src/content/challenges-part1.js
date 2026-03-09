@@ -4073,6 +4073,7 @@ To: ${req.user?.name}@arrrg.de</pre>
     title: { de: '[Umfrage]', en: '[Survey]' },
     deps: [2, 45, 47],
     render: ({ App, req }) => {
+      const trial = App.experiments.showTrial(118, req)
       /**
        * @param {string} name
        */
@@ -4118,6 +4119,32 @@ To: ${req.user?.name}@arrrg.de</pre>
         ]
         return values.join('')
       }
+      /**
+       * @param {string} name
+       */
+      function buildRecommendScale(name) {
+        return `
+          <ul class="likert likert-11">
+            ${Array.from({ length: 11 }, (_, index) => {
+              const leftLabel =
+                index === 0
+                  ? req.lng == 'de'
+                    ? 'Sehr unwahrscheinlich'
+                    : 'Not at all'
+                  : ''
+              const rightLabel =
+                index === 10
+                  ? req.lng == 'de'
+                    ? 'Sehr wahrscheinlich'
+                    : 'Very likely'
+                  : ''
+              return `<li><label><input type="radio" name="${name}" value="${index}" ${
+                index === 0 ? 'required="required"' : ''
+              }/><br>${index}<br><small>${leftLabel || rightLabel || '&nbsp;'}</small></label></li>`
+            }).join('')}
+          </ul>
+        `
+      }
       const style = `
         <style>
           .likert {
@@ -4127,6 +4154,10 @@ To: ${req.user?.name}@arrrg.de</pre>
             align-items: bottom;
             justify-content: start;
             gap: 32px;
+            flex-wrap: wrap;
+          }
+          .likert-11 {
+            gap: 12px;
           }
           .likert input {
             width: 22px;
@@ -4139,8 +4170,16 @@ To: ${req.user?.name}@arrrg.de</pre>
             color: rgba(168, 168, 168, 1);
             font-size: 14px;
           }
+          .likert-11 li {
+            width: 52px;
+          }
           .likert li label {
             cursor: pointer;
+          }
+          .likert li small {
+            display: inline-block;
+            margin-top: 4px;
+            line-height: 1.2;
           }
           .form-check input {
             cursor: pointer;
@@ -4164,30 +4203,55 @@ To: ${req.user?.name}@arrrg.de</pre>
           <hr />
           <form autocomplete="off" method="post">
 
-            <p style="margin-top:64px;">1. Der Einstieg bei Hack The Web ist klar und verständlich.</p>
+            <p style="margin-top:64px;">1. ${
+              trial
+                ? 'Ich habe hier etwas Neues übers Hacking gelernt.'
+                : 'Der Einstieg bei Hack The Web ist klar und verständlich.'
+            }</p>
             ${buildHLikert('q1')}
             
-            <p style="margin-top:48px;">2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird.</p>
+            <p style="margin-top:48px;">2. ${
+              trial
+                ? 'Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.'
+                : 'Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird.'
+            }</p>
             ${buildHLikert('q2')}
 
-            <p style="margin-top:48px;">3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking.</p>
+            <p style="margin-top:48px;">3. ${
+              trial
+                ? 'Die Aufgaben haben mir nicht genug Neues beigebracht.'
+                : 'Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking.'
+            }</p>
             ${buildHLikert('q3')}
 
-            <p style="margin-top:48px;">4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig.</p>
+            <p style="margin-top:48px;">4. ${
+              trial
+                ? 'Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.'
+                : 'Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig.'
+            }</p>
             ${buildHLikert('q4')}
 
-            <p style="margin-top:64px;">${App.experiments.showTrial(118, req) ? 'Wie sieht Hacking nach deiner Vorstellung aus?' : 'Was hat dir an Hack The Web besonders gut gefallen und warum?'} (max. 500 Zeichen)</p>
+            <p style="margin-top:64px;">${'Was hat dir an Hack The Web besonders gut gefallen und warum?'} (max. 500 Zeichen)</p>
             <textarea class="form-control" rows="3" maxlength="500" name="good" required></textarea>
 
-            <p style="margin-top:32px;">${App.experiments.showTrial(118, req) ? 'Welche eine Sache würdest du gerne Hacken, um dein Leben besser zu machen?' : 'Was würdest du an Hack The Web verbessern oder anders machen?'} (max. 500 Zeichen)</p>
+            <p style="margin-top:32px;">${'Was würdest du an Hack The Web verbessern oder anders machen?'} (max. 500 Zeichen)</p>
             <textarea class="form-control" rows="3" maxlength="500" name="improve" required></textarea>
 
-            <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
-            ${buildYesNo('recommend')}
-
+            ${
+              trial
+                ? `
+                <p style="margin-top:32px;">Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web deinen Freunden weiterempfehlen würdest?</p>
+                ${buildRecommendScale('recommend')}
+              `
+                : `
+                <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
+                ${buildYesNo('recommend')}
+              `
+            }
+            
             <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Abschicken</button></p>
             
-            ${App.experiments.showTrial(118, req) ? '<input type="hidden" name="survey-trial" value="1">' : ''}
+            ${trial ? '<input type="hidden" name="survey-trial" value="1">' : ''}
             <input type="hidden" name="answer" value="_">
           </form>
         </details>
@@ -4242,7 +4306,7 @@ To: ${req.user?.name}@arrrg.de</pre>
       body.lng = req.lng
       const result = JSON.stringify(req.body).slice(0, 10000)
       await App.storage.setItem(
-        'survey_v2_' + req.user?.id + '_' + new Date().getTime(),
+        'survey_v3_' + req.user?.id + '_' + new Date().getTime(),
         result
       )
       if (!req.body?.recommend) {

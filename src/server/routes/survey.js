@@ -19,7 +19,10 @@ export function setupSurvey(App) {
       await App.db.models.KVPair.findAll({
         where: {
           key: {
-            [Sequelize.Op.like]: 'survey_v2_%',
+            [Sequelize.Op.or]: [
+              { [Sequelize.Op.like]: 'survey_v2_%' },
+              { [Sequelize.Op.like]: 'survey_v3_%' },
+            ],
           },
           updatedAt: { [Sequelize.Op.gte]: fromDateUTC },
         },
@@ -33,6 +36,7 @@ export function setupSurvey(App) {
         userId: id,
         obj,
         ts: parseInt(parts[3]),
+        version: parts[1],
       }
     })
 
@@ -57,6 +61,11 @@ export function setupSurvey(App) {
     let chronoEntries = entries.slice()
     chronoEntries.reverse()
 
+    // const analysisEntries = chronoEntries.filter(
+    //   (entry) => entry.version === 'v2'
+    // )
+    // const v3Entries = chronoEntries.filter((entry) => entry.version === 'v3')
+
     const userIds = new Set()
 
     let skipDup = 0
@@ -79,62 +88,62 @@ export function setupSurvey(App) {
       return entry.obj
     })
 
-    let sumQ1 = 0
-    let sumQ2 = 0
-    let sumQ3 = 0
-    let sumQ4 = 0
+    // let sumQ1 = 0
+    // let sumQ2 = 0
+    // let sumQ3 = 0
+    // let sumQ4 = 0
 
-    let recommendYes = 0
-    let recommendNo = 0
-    let de = 0
-    let en = 0
+    // let recommendYes = 0
+    // let recommendNo = 0
+    // let de = 0
+    // let en = 0
 
-    relevantEnt.forEach((entry) => {
-      sumQ1 += parseInt(entry.obj.q1)
-      sumQ2 += 5 - parseInt(entry.obj.q2)
-      sumQ3 += parseInt(entry.obj.q3)
-      sumQ4 += 5 - parseInt(entry.obj.q4)
-      if (entry.obj.recommend === 'yes') recommendYes++
-      if (entry.obj.recommend === 'no') recommendNo++
-      if (entry.obj.lng === 'de') de++
-      if (entry.obj.lng === 'en') en++
-    })
+    // relevantEnt.forEach((entry) => {
+    //   sumQ1 += parseInt(entry.obj.q1)
+    //   sumQ2 += 5 - parseInt(entry.obj.q2)
+    //   sumQ3 += parseInt(entry.obj.q3)
+    //   sumQ4 += 5 - parseInt(entry.obj.q4)
+    //   if (entry.obj.recommend === 'yes') recommendYes++
+    //   if (entry.obj.recommend === 'no') recommendNo++
+    //   if (entry.obj.lng === 'de') de++
+    //   if (entry.obj.lng === 'en') en++
+    // })
 
-    /**
-     * @param {number} value
-     */
-    function convertToPercentage(value) {
-      // 1 -> -100%, 4 -> + 100%
-      return ((value - 1) / 3) * 200 - 100
-    }
+    // /**
+    //  * @param {number} value
+    //  */
+    // function convertToPercentage(value) {
+    //   // 1 -> -100%, 4 -> + 100%
+    //   return ((value - 1) / 3) * 200 - 100
+    // }
 
-    const avgQ1 = convertToPercentage(sumQ1 / relevantEnt.length)
-    const avgQ2 = convertToPercentage(sumQ2 / relevantEnt.length)
-    const avgQ3 = convertToPercentage(sumQ3 / relevantEnt.length)
-    const avgQ4 = convertToPercentage(sumQ4 / relevantEnt.length)
+    // const avgQ1 = convertToPercentage(sumQ1 / relevantEnt.length)
+    // const avgQ2 = convertToPercentage(sumQ2 / relevantEnt.length)
+    // const avgQ3 = convertToPercentage(sumQ3 / relevantEnt.length)
+    // const avgQ4 = convertToPercentage(sumQ4 / relevantEnt.length)
 
-    const overall = (avgQ1 + avgQ2 + avgQ3 + avgQ4) / 4
+    // const overall = (avgQ1 + avgQ2 + avgQ3 + avgQ4) / 4
+
+    // <p style="margin-top: 48px">1. Der Einstieg bei Hack The Web ist klar und verständlich: <strong>${Math.round(avgQ1)}%</strong></p>
+
+    //     <p>2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird [NEG]: <strong>${Math.round(avgQ2)}%</strong></p>
+
+    //     <p>3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking: <strong>${Math.round(avgQ3)}%</strong></p>
+
+    //     <p>4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig [NEG]: <strong>${Math.round(avgQ4)}%</strong></p>
+
+    //     <p><strong>→ Guter-Start-Faktor: ${Math.round(overall)}%</strong></p>
+
+    // <p style="margin-top: 32px">Sprache: DE: ${de} / EN: ${en}</p>
+    //     <p>Würdest du Hack The Web deinen Freunden weiterempfehlen: Ja: ${recommendYes} (<strong>${Math.round(
+    //       (recommendYes * 100) / (recommendYes + recommendNo)
+    //     )}%</strong>) / Nein: ${recommendNo}</p>
 
     renderPage(App, req, res, {
       page: 'survey',
       heading: 'Umfrage Auswertung',
       content: `
         <p>Zeitraum ab: ${fromDateStr} • Einträge: ${chronoEntries.length} / abzüglich Duplikate: ${skipDup}, Low Effort: ${skipNoise}</p>
-
-        <p style="margin-top: 48px">1. Der Einstieg bei Hack The Web ist klar und verständlich: <strong>${Math.round(avgQ1)}%</strong></p>
-
-        <p>2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird [NEG]: <strong>${Math.round(avgQ2)}%</strong></p>
-
-        <p>3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking: <strong>${Math.round(avgQ3)}%</strong></p>
-
-        <p>4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig [NEG]: <strong>${Math.round(avgQ4)}%</strong></p>
-
-        <p><strong>→ Guter-Start-Faktor: ${Math.round(overall)}%</strong></p>
-
-        <p style="margin-top: 32px">Sprache: DE: ${de} / EN: ${en}</p>
-        <p>Würdest du Hack The Web deinen Freunden weiterempfehlen: Ja: ${recommendYes} (<strong>${Math.round(
-          (recommendYes * 100) / (recommendYes + recommendNo)
-        )}%</strong>) / Nein: ${recommendNo}</p>
 
         <h2 style="margin-top:32px;">Einzelansicht</h2>
         <small style="margin-bottom: 48px; display: inline-block;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen) / Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</small>
@@ -150,7 +159,7 @@ export function setupSurvey(App) {
               entry.obj.good || '--'
             )}<span style="display: inline-block; margin-left: 24px; margin-right: 24px;">•</span>${escapeHtml(
               entry.obj.improve || '--'
-            )}${entry.obj['survey-trial'] == 1 ? ' <span style="margin-left: 24px; border: 1px solid lime">&nbsp;&nbsp;</span>' : ''}</p>`
+            )}${entry.obj['survey-trial'] == 1 ? ' <span style="margin-left: 24px; border: 1px solid lime">&nbsp;v3&nbsp;</span>' : ''}</p>`
           })
           .join('')}
         </div>

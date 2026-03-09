@@ -786,4 +786,12 @@ export const experimentDefs = [
     startTs: new Date('2026-02-28 00:01+0100').getTime(),
     endTs: new Date('2026-04-18 00:01+0100').getTime(),
   },
+  {
+    id: 42,
+    description:
+      'Umfrage: probiere es mal, eine größere Änderung an der Umfrage zu machen ohne die Auswertung kaputtzumachen.',
+    challenge: 118,
+    startTs: new Date('2026-03-10 00:01+0100').getTime(),
+    endTs: new Date('2026-04-28 00:01+0100').getTime(),
+  },
 ]

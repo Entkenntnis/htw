@@ -293,6 +293,12 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
     }
   })
 
+  App.express.get('/start', (req, res) => {
+    App.event.create('promo', 42)
+    // redirect to main page
+    res.redirect('/')
+  })
+
   App.express.get('/api/top100', async (req, res) => {
     const users = await App.db.models.User.findAll({
       attributes: ['name', 'score', 'updatedAt'],

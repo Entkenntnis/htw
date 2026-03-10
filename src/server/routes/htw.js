@@ -294,7 +294,10 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
   })
 
   App.express.get('/start', (req, res) => {
-    App.event.create('promo', 42)
+    if (!req.user && !req.session.__hasSentPromoEvent) {
+      App.event.create('promo', 42)
+      req.session.__hasSentPromoEvent = true
+    }
     // redirect to main page
     res.redirect('/')
   })

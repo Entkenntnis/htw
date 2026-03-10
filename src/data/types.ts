@@ -342,6 +342,7 @@ interface SessionData {
   experimentOptOut?: boolean
   __hackyExperimentOptOutBecauseHardMode?: boolean
   __loggedInWithSSO?: boolean
+  __hasSentPromoEvent?: boolean
 }
 
 export interface DungeonData {

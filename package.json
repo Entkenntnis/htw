@@ -34,7 +34,7 @@
     "pngjs": "^7.0.0",
     "quickjs-emscripten": "^0.32.0",
     "seedrandom": "^3.0.5",
-    "sequelize": "^6.37.5",
+    "sequelize": "^6.37.8",
     "uid-safe": "^2.1.5"
   },
   "devDependencies": {

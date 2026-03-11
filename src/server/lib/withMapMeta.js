@@ -89,9 +89,9 @@ export function withMapMeta(App) {
         data.difficulty = json.difficulty
       }
 
-      if (json && typeof json.pwCheckCompleted === 'boolean') {
-        data.pwCheckCompleted = json.pwCheckCompleted
-      }
+      // if (json && typeof json.pwCheckCompleted === 'boolean') {
+      //   data.pwCheckCompleted = json.pwCheckCompleted
+      // }
 
       return data
     },

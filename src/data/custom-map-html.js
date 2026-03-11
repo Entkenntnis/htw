@@ -132,17 +132,17 @@ export async function customMapHtmlCreator({ App, req, solved }) {
           </a>`
   }
 
-  if (
-    req.user.score >= 128 &&
-    !req.session.__loggedInWithSSO &&
-    !mapMeta.pwCheckCompleted
-  ) {
-    output += `
-      <a draggable="false" href="/pw-check" style="position:absolute;left:1180px;top:8px;" class="text-reset text-decoration-none fade-in">
-        <div>Passwort-Check</div>
-        <img draggable="false" src="/password_check.png" style="width:46px; margin-left: 30px; margin-top: 2px;">
-      </a>`
-  }
+  // if (
+  //   req.user.score >= 128 &&
+  //   !req.session.__loggedInWithSSO &&
+  //   !mapMeta.pwCheckCompleted
+  // ) {
+  //   output += `
+  //     <a draggable="false" href="/pw-check" style="position:absolute;left:1180px;top:8px;" class="text-reset text-decoration-none fade-in">
+  //       <div>Passwort-Check</div>
+  //       <img draggable="false" src="/password_check.png" style="width:46px; margin-left: 30px; margin-top: 2px;">
+  //     </a>`
+  // }
 
   if (App.config.editors.includes(req.user.name)) {
     output += `<div style="position: absolute; left: 1000px; top: -25px;">

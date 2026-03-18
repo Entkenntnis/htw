@@ -656,9 +656,9 @@ $(document).ready(function () {
     if (document.fullscreenElement) {
         $('#coilgame').css({
             width: '100%',
-            height: 'calc(100% - 60px)',
+            height: 'calc(100% - 90px)',
             left: '0px',
-            bottom: '0px'
+            bottom: '30px'
         });
         scale = 1;
         panX = 0;
@@ -727,7 +727,7 @@ $(document).ready(function () {
       const dx = e.clientX - dragStartX;
       const dy = e.clientY - dragStartY;
 
-      if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
           isPanning = true;
       }
 

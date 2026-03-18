@@ -85,6 +85,7 @@ export const communityChallenges = [
     solution: 'htw4ever',
     hidesubmit: true,
     renderMapHTML: async ({ App, req }) => {
+      return ''
       return `
         <div style="position: absolute; top: 810px; left: 1900px; text-align: center;"><img draggable="false" src="/where_the_hack.png" style="width: 120px; border-radius: 16px; margin-bottom: 8px;" /><br>Where The Hack?<br><small style="color: gray">${
           req.lng == 'de' ? 'im Community-Bereich' : 'in the Community Area'

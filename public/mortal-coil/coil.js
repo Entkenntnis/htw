@@ -1,32 +1,41 @@
 $(document).ready(function () {
-  var maxWidth = $('#coilgame').width()
-  var maxHeight = $('#coilgame').height()
-  var maxAspect = maxWidth / maxHeight
-
   var coilParent = $('#coilgame_inner')
   var aspect = width / height
   const statusMessage = $('#status_message')
+  let isPanning = false;
 
-  if (aspect <= maxAspect) {
-    // too wide
-    coilParent.css({
-      width: maxHeight * aspect,
-      height: '100%',
-      'grid-template-columns': 'repeat(' + width + ', 1fr)',
-    })
-  } else {
-    // too tall
-    coilParent.css({
-      width: '100%',
-      height: maxWidth / aspect,
-      'grid-template-columns': 'repeat(' + width + ', 1fr)',
-    })
+  function layoutBoard() {
+    var maxWidth = $('#coilgame').width()
+    var maxHeight = $('#coilgame').height()
+    var maxAspect = maxWidth / maxHeight
+
+    if (aspect <= maxAspect) {
+      // too wide
+      coilParent.css({
+        width: maxHeight * aspect,
+        height: '100%',
+        'grid-template-columns': 'repeat(' + width + ', 1fr)',
+      })
+    } else {
+      // too tall
+      coilParent.css({
+        width: '100%',
+        height: maxWidth / aspect,
+        'grid-template-columns': 'repeat(' + width + ', 1fr)',
+      })
+    }
   }
+  layoutBoard()
 
   function genClick(dom, x, y) {
-    dom.click(function () {
+    dom.click(function (e) {
+      if (isPanning || e.shiftKey) return;
       clicked(x, y)
     })
+    dom.hover(
+      function() { $('#coord_display').text(`(${x}, ${y})`); },
+      function() { $('#coord_display').text(''); }
+    );
   }
 
   var board = new Array(height)
@@ -54,6 +63,7 @@ $(document).ready(function () {
   }
 
   function restart() {
+    if (typeof level !== 'undefined' && level >= 30) $('#zoom-controls').show();
     debounce = false
     start.set = false
     path = ''
@@ -249,7 +259,8 @@ $(document).ready(function () {
 
     if (checkIfWon()) {
       updateSuggestions(true)
-      $('#coilcontinue').css('display', 'block')
+      $('#coilcontinue').show();
+      if (typeof level !== 'undefined' && level >= 30) $('#zoom-controls').hide();
     } else {
       updateSuggestions()
       debounce = false
@@ -586,4 +597,154 @@ $(document).ready(function () {
     }
     return newBoard
   }
+
+  let scale = 1;
+  let panX = 0;
+  let panY = 0;
+  let isDragging = false;
+  let startPanX = 0;
+  let startPanY = 0;
+  let dragStartX = 0;
+  let dragStartY = 0;
+
+  const gameContainer = $('#coilgame');
+
+  function updateTransform() {
+    if (scale < 1) scale = 1;
+    const innerW = coilParent.width() * scale;
+    const innerH = coilParent.height() * scale;
+    const outerW = gameContainer.width();
+    const outerH = gameContainer.height();
+
+    if (innerW <= outerW) {
+        panX = (outerW - innerW) / 2;
+    } else {
+        const minX = outerW - innerW;
+        const maxX = 0;
+        if (panX < minX) panX = minX;
+        if (panX > maxX) panX = maxX;
+    }
+
+    if (innerH <= outerH) {
+        panY = (outerH - innerH) / 2;
+    } else {
+        const minY = outerH - innerH;
+        const maxY = 0;
+        if (panY < minY) panY = minY;
+        if (panY > maxY) panY = maxY;
+    }
+
+    coilParent.css('transform', `translate(${panX}px, ${panY}px) scale(${scale})`);
+  }
+
+  updateTransform();
+
+  $('#zoom-in').click(() => { scale *= 1.2; updateTransform(); });
+  $('#zoom-out').click(() => { scale /= 1.2; updateTransform(); });
+  $('#toggle-fullscreen').click(() => {
+    const elem = document.getElementById('coilframe');
+    if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+  });
+
+  $(document).on('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+        $('#coilgame').css({
+            width: '100%',
+            height: 'calc(100% - 60px)',
+            left: '0px',
+            bottom: '0px'
+        });
+        scale = 1;
+        panX = 0;
+        panY = 0;
+    } else {
+        $('#coilgame').css({
+            width: '',
+            height: '',
+            left: '',
+            bottom: ''
+        });
+        scale = 1;
+        panX = 0;
+        panY = 0;
+    }
+    setTimeout(() => {
+        layoutBoard();
+        updateTransform();
+    }, 100);
+  });
+
+  gameContainer.on('wheel', function(e) {
+      if (typeof level !== 'undefined' && level < 30) return;
+      e.preventDefault();
+      const delta = e.originalEvent.deltaY;
+      const zoomFactor = 1.1;
+
+      const oldScale = scale;
+      let newScale = scale;
+
+      if (delta < 0) newScale *= zoomFactor;
+      else newScale /= zoomFactor;
+
+      if (newScale < 1) newScale = 1;
+      if (newScale > 10) newScale = 10;
+
+      if (newScale === oldScale) return;
+
+      const offset = gameContainer.offset();
+      const mouseX = e.pageX - offset.left;
+      const mouseY = e.pageY - offset.top;
+
+      panX = mouseX - (mouseX - panX) * (newScale / oldScale);
+      panY = mouseY - (mouseY - panY) * (newScale / oldScale);
+
+      scale = newScale;
+      updateTransform();
+  });
+
+  gameContainer.on('mousedown', function(e) {
+      if (typeof level !== 'undefined' && level < 30) return;
+
+      e.preventDefault();
+
+      isDragging = true;
+      isPanning = false;
+      startPanX = panX;
+      startPanY = panY;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+  });
+
+  $(window).on('mousemove', function(e) {
+      if (!isDragging) return;
+
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+          isPanning = true;
+      }
+
+      if (isPanning) {
+          e.preventDefault();
+          panX = startPanX + dx;
+          panY = startPanY + dy;
+          updateTransform();
+          gameContainer.css('cursor', 'grabbing');
+      }
+  });
+
+  $(window).on('mouseup', function() {
+      if (isDragging) {
+          isDragging = false;
+          gameContainer.css('cursor', 'default');
+          setTimeout(() => { isPanning = false; updateTransform(); }, 50);
+      }
+  });
 })

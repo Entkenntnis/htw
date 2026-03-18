@@ -162,27 +162,39 @@ export function setupMortalCoil(App) {
         }"; var lng = "${req.lng}"</script>
 
         <div id="coilframe">
-          <button id="coilrestart" class="btn btn-sm btn-primary">
-            ${strings.restart}
-          </button>
-          <button id="coilundo" class="btn btn-sm btn-secondary">
-            ${strings.undo}
-          </button>
-          <div id="coilgame">
-            <div id="coilgame_inner"></div>
-          </div>
-          <button id="coilcontinue"
-            class="btn btn-success">
-            ${strings.nextLevel}
-          </button>
-          <div style="bottom:4px;left:36px;position:absolute;color:lightgray;">
-            Status: <span id="status_message"></span>
-          </div>
-          <div style="position:absolute; right:24px; bottom: 4px; color: lightgray">
+            <button id="coilrestart" class="btn btn-sm btn-primary">
+              ${strings.restart}
+            </button>
+            <button id="coilundo" class="btn btn-sm btn-secondary">
+              ${strings.undo}
+            </button>
+            <div id="coilgame" style="overflow: hidden;">
+              <div id="coilgame_inner" style="transform-origin: top left;"></div>
+            </div>
+            <button id="coilcontinue"
+              class="btn btn-success">
+              ${strings.nextLevel}
+            </button>
+
             ${
-              strings.autocomplete
-            }: <strong id="autocomplete_toggle" style="cursor:pointer;user-select:none;text-decoration:underline;"></strong>
-          </div>
+              level >= 30
+                ? `<div id="zoom-controls" style="position: absolute; right: 12px; top: 13px" class="btn-group btn-group-sm">
+              <button id="zoom-in" class="btn btn-secondary">+</button>
+              <button id="zoom-out" class="btn btn-secondary">-</button>
+              <button id="toggle-fullscreen" class="btn btn-secondary">&#x26F6;</button>
+            </div>`
+                : ''
+            }
+
+            <div style="bottom:4px;left:36px;position:absolute;color:lightgray;">
+              Status: <span id="status_message"></span>
+            </div>
+            <div style="position:absolute; right:24px; bottom: 4px; color: lightgray">
+              <span id="coord_display" style="margin-right: 15px; font-family: monospace;"></span>
+              ${
+                strings.autocomplete
+              }: <strong id="autocomplete_toggle" style="cursor:pointer;user-select:none;text-decoration:underline;"></strong>
+            </div>
         </div>
 
         <p style="color:gray;margin-left:44px;line-height:1"><small>Puzzle concept by Erich Friedman. Art by Omar Aria. JS version by AdarkTheCoder. Adapted from hacker.org.</small></p>

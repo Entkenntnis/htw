@@ -1,28 +1,31 @@
 $(document).ready(function () {
-  var maxWidth = $('#coilgame').width()
-  var maxHeight = $('#coilgame').height()
-  var maxAspect = maxWidth / maxHeight
-
   var coilParent = $('#coilgame_inner')
   var aspect = width / height
   const statusMessage = $('#status_message')
   let isPanning = false;
 
-  if (aspect <= maxAspect) {
-    // too wide
-    coilParent.css({
-      width: maxHeight * aspect,
-      height: '100%',
-      'grid-template-columns': 'repeat(' + width + ', 1fr)',
-    })
-  } else {
-    // too tall
-    coilParent.css({
-      width: '100%',
-      height: maxWidth / aspect,
-      'grid-template-columns': 'repeat(' + width + ', 1fr)',
-    })
+  function layoutBoard() {
+    var maxWidth = $('#coilgame').width()
+    var maxHeight = $('#coilgame').height()
+    var maxAspect = maxWidth / maxHeight
+
+    if (aspect <= maxAspect) {
+      // too wide
+      coilParent.css({
+        width: maxHeight * aspect,
+        height: '100%',
+        'grid-template-columns': 'repeat(' + width + ', 1fr)',
+      })
+    } else {
+      // too tall
+      coilParent.css({
+        width: '100%',
+        height: maxWidth / aspect,
+        'grid-template-columns': 'repeat(' + width + ', 1fr)',
+      })
+    }
   }
+  layoutBoard()
 
   function genClick(dom, x, y) {
     dom.click(function (e) {
@@ -638,9 +641,43 @@ $(document).ready(function () {
 
   $('#zoom-in').click(() => { scale *= 1.2; updateTransform(); });
   $('#zoom-out').click(() => { scale /= 1.2; updateTransform(); });
-  $('#zoom-reset').click(() => {
-      scale = 1;
-      updateTransform();
+  $('#toggle-fullscreen').click(() => {
+    const elem = document.getElementById('coilframe');
+    if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+  });
+
+  $(document).on('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+        $('#coilgame').css({
+            width: '100%',
+            height: 'calc(100% - 60px)',
+            left: '0px',
+            bottom: '0px'
+        });
+        scale = 1;
+        panX = 0;
+        panY = 0;
+    } else {
+        $('#coilgame').css({
+            width: '',
+            height: '',
+            left: '',
+            bottom: ''
+        });
+        scale = 1;
+        panX = 0;
+        panY = 0;
+    }
+    setTimeout(() => {
+        layoutBoard();
+        updateTransform();
+    }, 100);
   });
 
   gameContainer.on('wheel', function(e) {
@@ -673,10 +710,6 @@ $(document).ready(function () {
 
   gameContainer.on('mousedown', function(e) {
       if (typeof level !== 'undefined' && level < 30) return;
-      const isMiddleClick = (e.button === 1);
-      const isShiftClick = (e.button === 0 && e.shiftKey);
-
-      if (!isMiddleClick && !isShiftClick) return;
 
       e.preventDefault();
 
@@ -686,7 +719,6 @@ $(document).ready(function () {
       startPanY = panY;
       dragStartX = e.clientX;
       dragStartY = e.clientY;
-      gameContainer.css('cursor', 'grabbing');
   });
 
   $(window).on('mousemove', function(e) {
@@ -695,7 +727,7 @@ $(document).ready(function () {
       const dx = e.clientX - dragStartX;
       const dy = e.clientY - dragStartY;
 
-      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
           isPanning = true;
       }
 
@@ -704,6 +736,7 @@ $(document).ready(function () {
           panX = startPanX + dx;
           panY = startPanY + dy;
           updateTransform();
+          gameContainer.css('cursor', 'grabbing');
       }
   });
 

@@ -181,7 +181,7 @@ export function setupMortalCoil(App) {
                 ? `<div id="zoom-controls" style="position: absolute; right: 12px; top: 13px" class="btn-group btn-group-sm">
               <button id="zoom-in" class="btn btn-secondary">+</button>
               <button id="zoom-out" class="btn btn-secondary">-</button>
-              <button id="zoom-reset" class="btn btn-secondary">R</button>
+              <button id="toggle-fullscreen" class="btn btn-secondary">&#x26F6;</button>
             </div>`
                 : ''
             }

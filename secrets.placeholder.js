@@ -184,4 +184,11 @@ export const secretValues = {
   chal_367: '42',
   chal_368: '42',
   chal_369: '42',
+  chal_370: '42',
+  chal_371: '42',
+  chal_372: '42',
+  chal_373: '42',
+  chal_374: '42',
+  chal_375: '42',
+  chal_376: '42',
 }

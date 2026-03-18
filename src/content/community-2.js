@@ -4,6 +4,8 @@ const winterX = 1600
 const winterY = 2250
 const winterScale = 0.6
 
+function renderGeoguessrUI() {}
+
 /** @type {import('../data/types.js').HtwChallenge[]} */
 export const communityChallenges2 = [
   {
@@ -1165,7 +1167,7 @@ I'll give it to someone special
   {
     id: 369,
     pos: { x: 1750, y: 880 },
-    title: { de: 'Robots', en: 'TODO' },
+    title: { de: 'Robots', en: 'Robots' },
     date: '2026-01-19',
     deps: [300],
     noScore: true,
@@ -1181,5 +1183,152 @@ I'll give it to someone special
       `,
     },
     solution: secrets('chal_369'),
+  },
+
+  {
+    id: 370,
+    pos: { x: 2150, y: 790 },
+    title: { de: 'Where The Hack? - Nr. 1', en: 'TODO' },
+    date: '2026-03-23',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2026-03-23 08:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#95eb83',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_370'),
+  },
+
+  {
+    id: 371,
+    pos: { x: 2370, y: 770 },
+    title: { de: 'Nr. 2', en: 'TODO' },
+    date: '2026-03-25',
+    deps: [370],
+    noScore: true,
+    releaseTs: new Date('2026-03-25 08:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#95eb83',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_371'),
+  },
+
+  {
+    id: 372,
+    pos: { x: 2250, y: 970 },
+    title: { de: 'Nr. 3', en: 'TODO' },
+    date: '2026-03-27',
+    deps: [370],
+    noScore: true,
+    releaseTs: new Date('2026-03-27 08:00:00 GMT+0100').getTime(),
+    author: 'Anna',
+    color: '#95eb83',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_372'),
+  },
+
+  {
+    id: 373,
+    pos: { x: 2370, y: 900 },
+    title: { de: 'Nr. 4', en: 'TODO' },
+    date: '2026-03-30',
+    deps: [370],
+    noScore: true,
+    releaseTs: new Date('2026-03-30 08:00:00 GMT+0200').getTime(),
+    author: 'Anna',
+    color: '#95eb83',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_373'),
+  },
+
+  {
+    id: 374,
+    pos: { x: 2650, y: 870 },
+    title: { de: '5 .ɹN', en: 'TODO' },
+    date: '2026-04-01',
+    deps: [371, 373],
+    noScore: true,
+    releaseTs: new Date('2026-04-01 08:00:00 GMT+0200').getTime(),
+    author: 'Anna',
+    color: '#95eb83',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_374'),
+  },
+
+  {
+    id: 375,
+    pos: { x: 2530, y: 1090 },
+    title: { de: 'Nr. 6', en: 'TODO' },
+    date: '2026-04-03',
+    deps: [372, 373],
+    noScore: true,
+    releaseTs: new Date('2026-04-03 08:00:00 GMT+0200').getTime(),
+    author: 'Anna',
+    color: '#95eb83',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_375'),
+  },
+
+  {
+    id: 376,
+    pos: { x: 2740, y: 1010 },
+    title: { de: 'Frohe Feiertage! 🐇', en: 'TODO' },
+    date: '2026-04-05',
+    deps: [374, 375],
+    noScore: true,
+    releaseTs: new Date('2026-04-05 08:00:00 GMT+0200').getTime(),
+    author: 'Anna',
+    color: '#95eb83',
+    html: {
+      de: `
+        <p>TODO</p>
+      `,
+      en: `
+        <p>TODO</p>
+      `,
+    },
+    solution: secrets('chal_376'),
   },
 ]

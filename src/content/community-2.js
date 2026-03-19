@@ -4,7 +4,113 @@ const winterX = 1600
 const winterY = 2250
 const winterScale = 0.6
 
-function renderGeoguessrUI() {}
+/**
+ * @param {string} stemDE
+ * @param {string} stemEN
+ */
+function renderGeoguessrUI(stemDE, stemEN) {
+  /**
+   * @param {string} lng
+   * @param {string} stem
+   */
+  function renderUI(lng, stem) {
+    return `
+      ${stem}
+
+      <script src="/pannellum/pannellum.js"></script>
+      <link rel="stylesheet" href="/pannellum/pannellum.css"/>
+
+      <style>
+        #panorama {
+          height: 600px;
+          position: relative;
+        }
+        @media (max-width: 700px) {
+          #panorama {
+            height: 300px;
+          }
+        }
+          
+        @media (max-width: 991px) {
+          #panorama {
+            height: 400px;
+          }
+        }
+        #map {
+          width: 200px;
+          height: 200px;
+          position: absolute;
+          bottom: 12px;
+          right: 12px;
+          z-index: 10;
+          overflow: hidden;
+          border-radius: 8px;  
+          transition: width 0.3s ease, height 0.3s ease; 
+        }
+        #map:hover {
+          width: 400px;
+          height: 340px; 
+        }
+        @media (min-width: 1200px) {
+          #map:hover {
+            width: 600px;
+            height: 500px;
+          }
+        }
+      </style>
+
+      <div id="panorama" style="width: 100%; margin-top: 42px;">
+        
+        <div id="map"></div>
+      </div>
+      <script>
+        pannellum.viewer('panorama', {
+            "type": "equirectangular",
+            "panorama": "/chals/where_the_hack/test2.jpg",
+            "autoLoad": true,
+        });
+      </script>
+
+      <script src="/leaflet/leaflet.js"></script>
+      <link rel="stylesheet" href="/leaflet/leaflet.css"/>
+
+      <script>
+        var map = L.map('map', { zoomControl: false }).setView([48.133333, 11.566667], 6);
+        const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 15,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        }).addTo(map);
+
+        let currentMarker = null;
+        let selectedLocation = null;
+
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+            selectedLocation = { lat, lng };
+
+            // If a marker already exists, move it. Otherwise, create a new one.
+            if (currentMarker) {
+                currentMarker.setLatLng(e.latlng);
+            } else {
+                currentMarker = L.marker(e.latlng).addTo(map);
+            }
+        });
+        const mapDiv = document.getElementById('map');
+        const resizeObserver = new ResizeObserver(() => {
+          map.invalidateSize();
+        });
+
+        resizeObserver.observe(mapDiv);
+      </script>
+    
+    `
+  }
+  return {
+    de: renderUI('de', stemDE),
+    en: renderUI('en', stemEN),
+  }
+}
 
 /** @type {import('../data/types.js').HtwChallenge[]} */
 export const communityChallenges2 = [
@@ -1188,28 +1294,28 @@ I'll give it to someone special
   {
     id: 370,
     pos: { x: 2150, y: 790 },
-    title: { de: 'Where The Hack? - Nr. 1', en: 'TODO' },
+    title: { de: 'Where The Hack? - Nr. 1', en: 'Where The Hack? - No. 1' },
     date: '2026-03-23',
     deps: [300],
     noScore: true,
     releaseTs: new Date('2026-03-23 08:00:00 GMT+0100').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: {
-      de: `
-        <p>TODO</p>
+    html: renderGeoguessrUI(
+      `
+        <p>Willkommen bei der Reise um die Welt!!!</p>
       `,
-      en: `
-        <p>TODO</p>
-      `,
-    },
+      `
+        <p>TODO EN</p>
+      `
+    ),
     solution: secrets('chal_370'),
   },
 
   {
     id: 371,
     pos: { x: 2370, y: 770 },
-    title: { de: 'Nr. 2', en: 'TODO' },
+    title: { de: 'Nr. 2', en: 'No. 2' },
     date: '2026-03-25',
     deps: [370],
     noScore: true,
@@ -1230,7 +1336,7 @@ I'll give it to someone special
   {
     id: 372,
     pos: { x: 2250, y: 970 },
-    title: { de: 'Nr. 3', en: 'TODO' },
+    title: { de: 'Nr. 3', en: 'No. 3' },
     date: '2026-03-27',
     deps: [370],
     noScore: true,
@@ -1251,7 +1357,7 @@ I'll give it to someone special
   {
     id: 373,
     pos: { x: 2370, y: 900 },
-    title: { de: 'Nr. 4', en: 'TODO' },
+    title: { de: 'Nr. 4', en: 'No. 4' },
     date: '2026-03-30',
     deps: [370],
     noScore: true,
@@ -1272,7 +1378,7 @@ I'll give it to someone special
   {
     id: 374,
     pos: { x: 2650, y: 870 },
-    title: { de: '5 .ɹN', en: 'TODO' },
+    title: { de: '5 .ɹN', en: '5 .oN' },
     date: '2026-04-01',
     deps: [371, 373],
     noScore: true,
@@ -1293,7 +1399,7 @@ I'll give it to someone special
   {
     id: 375,
     pos: { x: 2530, y: 1090 },
-    title: { de: 'Nr. 6', en: 'TODO' },
+    title: { de: 'Nr. 6', en: 'No. 6' },
     date: '2026-04-03',
     deps: [372, 373],
     noScore: true,
@@ -1314,7 +1420,7 @@ I'll give it to someone special
   {
     id: 376,
     pos: { x: 2740, y: 1010 },
-    title: { de: 'Frohe Feiertage! 🐇', en: 'TODO' },
+    title: { de: 'Frohe Feiertage! 🐇', en: 'Happy Holidays! 🐇' },
     date: '2026-04-05',
     deps: [374, 375],
     noScore: true,

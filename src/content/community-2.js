@@ -1,116 +1,9 @@
+import { renderTemplate } from '../helper/render-template.js'
 import { secrets } from '../helper/secrets-loader.js'
 
 const winterX = 1600
 const winterY = 2250
 const winterScale = 0.6
-
-/**
- * @param {string} stemDE
- * @param {string} stemEN
- */
-function renderGeoguessrUI(stemDE, stemEN) {
-  /**
-   * @param {string} lng
-   * @param {string} stem
-   */
-  function renderUI(lng, stem) {
-    return `
-      ${stem}
-
-      <script src="/pannellum/pannellum.js"></script>
-      <link rel="stylesheet" href="/pannellum/pannellum.css"/>
-
-      <style>
-        #panorama {
-          height: 600px;
-          position: relative;
-        }
-        @media (max-width: 700px) {
-          #panorama {
-            height: 300px;
-          }
-        }
-          
-        @media (max-width: 991px) {
-          #panorama {
-            height: 400px;
-          }
-        }
-        #map {
-          width: 200px;
-          height: 200px;
-          position: absolute;
-          bottom: 12px;
-          right: 12px;
-          z-index: 10;
-          overflow: hidden;
-          border-radius: 8px;  
-          transition: width 0.3s ease, height 0.3s ease; 
-        }
-        #map:hover {
-          width: 400px;
-          height: 340px; 
-        }
-        @media (min-width: 1200px) {
-          #map:hover {
-            width: 600px;
-            height: 500px;
-          }
-        }
-      </style>
-
-      <div id="panorama" style="width: 100%; margin-top: 42px;">
-        
-        <div id="map"></div>
-      </div>
-      <script>
-        pannellum.viewer('panorama', {
-            "type": "equirectangular",
-            "panorama": "/chals/where_the_hack/test2.jpg",
-            "autoLoad": true,
-        });
-      </script>
-
-      <script src="/leaflet/leaflet.js"></script>
-      <link rel="stylesheet" href="/leaflet/leaflet.css"/>
-
-      <script>
-        var map = L.map('map', { zoomControl: false }).setView([48.133333, 11.566667], 6);
-        const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 15,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        }).addTo(map);
-
-        let currentMarker = null;
-        let selectedLocation = null;
-
-        map.on('click', function(e) {
-            const lat = e.latlng.lat;
-            const lng = e.latlng.lng;
-            selectedLocation = { lat, lng };
-
-            // If a marker already exists, move it. Otherwise, create a new one.
-            if (currentMarker) {
-                currentMarker.setLatLng(e.latlng);
-            } else {
-                currentMarker = L.marker(e.latlng).addTo(map);
-            }
-        });
-        const mapDiv = document.getElementById('map');
-        const resizeObserver = new ResizeObserver(() => {
-          map.invalidateSize();
-        });
-
-        resizeObserver.observe(mapDiv);
-      </script>
-    
-    `
-  }
-  return {
-    de: renderUI('de', stemDE),
-    en: renderUI('en', stemEN),
-  }
-}
 
 /** @type {import('../data/types.js').HtwChallenge[]} */
 export const communityChallenges2 = [
@@ -1301,14 +1194,20 @@ I'll give it to someone special
     releaseTs: new Date('2026-03-23 08:00:00 GMT+0100').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: renderGeoguessrUI(
-      `
-        <p>Willkommen bei der Reise um die Welt!!!</p>
-      `,
-      `
-        <p>TODO EN</p>
-      `
-    ),
+    render: async ({ App, req }) => {
+      return await renderTemplate(App, req, 'where_the_hack', {
+        stem:
+          req.lng == 'de'
+            ? `
+              <p>Willkommen bei der Ostersuch-Aktion! Begleite mich auf eine Tour durch das schöne Bayern. Finde den Panorama-Ort auf 100m genau und erhalte die Antwort.</p>
+            `
+            : `
+              <p>TODO EN</p>
+            `,
+        id: 370,
+        img: 'test3',
+      })
+    },
     solution: secrets('chal_370'),
   },
 

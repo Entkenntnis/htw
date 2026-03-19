@@ -6,6 +6,7 @@ import escape from 'escape-html'
 import { jsQR } from '../external-wrapper/jsQR.js'
 import { setupDungeon } from './dungeon.js'
 import { renderPage } from '../helper/render-page.js'
+import { calculateDistance } from '../helper/helper.js'
 
 const storage = multer.memoryStorage()
 const upload = multer({
@@ -710,5 +711,41 @@ export function setupChallengesServer(App) {
           ? `Die Antwort lautet ${secrets('chal_369')}.`
           : `The answer is ${secrets('chal_369')}.`,
     })
+  })
+
+  App.express.post('/where-the-hack/check/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    if (isNaN(id) || id < 370 || id > 376) {
+      return res.send(req.lng === 'de' ? 'Ungültige ID.' : 'Invalid ID.')
+    }
+    const answer = secrets('chal_' + id)
+    const pos = JSON.parse(secrets('chal_' + id + '_pos'))
+    const userAnswer = req.body.answer
+
+    try {
+      const userPos = JSON.parse(userAnswer)
+      const distance = calculateDistance(
+        userPos.lat,
+        userPos.lng,
+        pos[0],
+        pos[1]
+      )
+      if (distance <= 0.1) {
+        return res.send(
+          req.lng === 'de'
+            ? `Richtig! Die Antwort lautet ${answer}.`
+            : `Correct! The answer is ${answer}.`
+        )
+      } else {
+        return res.send(
+          req.lng === 'de'
+            ? `Leider daneben. Versuche es nochmal.`
+            : `Wrong location. Try again.`
+        )
+      }
+    } catch (e) {
+      console.log(e)
+      return res.send('bad')
+    }
   })
 }

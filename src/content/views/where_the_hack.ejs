@@ -1,0 +1,272 @@
+<%- stem %>
+
+<script src="/pannellum/pannellum.js"></script>
+<link rel="stylesheet" href="/pannellum/pannellum.css" />
+
+<style>
+  #panorama {
+    height: 600px;
+    position: relative;
+  }
+  @media (max-width: 700px) {
+    #panorama {
+      height: 300px;
+    }
+  }
+
+  @media (max-width: 991px) {
+    #panorama {
+      height: 400px;
+    }
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+  #map-wrapper {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 10;
+    overflow: hidden;
+    border-radius: 8px;
+    transition:
+      width 0.3s ease,
+      height 0.3s ease;
+  }
+  #map-wrapper:hover {
+    width: 400px;
+    height: 340px;
+  }
+  @media (min-width: 1200px) {
+    #map-wrapper:hover {
+      width: 600px;
+      height: 500px;
+    }
+  }
+  .pnlm-controls {
+    opacity: 0.5;
+  }
+
+  #ui-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Higher than Pannellum and Leaflet */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none; /* Lets clicks pass through empty space to panorama if needed, but not on button */
+  }
+
+  #submit-btn {
+    background-color: #6ec971; /* Green */
+    border: none;
+    color: white;
+    padding: 4px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition:
+      transform 0.2s,
+      background-color 0.2s;
+    pointer-events: auto; /* Re-enable clicks for button */
+  }
+
+  #submit-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+
+  /* The Modal (background) */
+  .modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 2000; /* Even higher than button */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Modal Content (The Box) */
+  .modal-content {
+    background-color: #474545;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    max-width: 40%;
+    position: relative;
+  }
+
+  /* The Hopping Rabbit Animation */
+  .rabbit-emoji {
+    font-size: 100px;
+    display: block;
+    margin-bottom: 10px;
+    animation: hop 1.5s infinite ease-in-out;
+  }
+
+  @keyframes hop {
+    0% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-30px) scale(1.2);
+    } /* Jump up */
+    100% {
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Loading Spinner */
+  .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #4caf50;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<div id="panorama" style="width: 100%; margin-top: 64px">
+  <div id="map-wrapper">
+    <div id="map" style="display: none"></div>
+    <div id="ui-container">
+      <button
+        id="submit-btn"
+        style="display: none"
+        onclick="startHoppingProcess()"
+      >
+        <%= locale == "de" ? 'Einreichen' : 'Submit' %>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="loading-screen" class="modal-overlay">
+  <div class="modal-content">
+    <h3><%= locale == "de" ? 'Wird überprüft ...' : 'Checking ...' %></h3>
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<!-- The Rabbit Modal (Hidden by default) -->
+<div id="rabbit-modal" class="modal-overlay">
+  <div class="modal-content">
+    <span class="rabbit-emoji">🐰</span>
+    <h2 id="check-result">Rabbit is Hopping!</h2>
+    <button
+      onclick="closeRabbitModal()"
+      style="padding: 10px; margin-top: 15px; cursor: pointer"
+    >
+      <%= locale == "de" ? 'Schließen' : 'Close' %>
+    </button>
+  </div>
+</div>
+
+<script>
+  pannellum
+    .viewer('panorama', {
+      type: 'equirectangular',
+      panorama: '/chals/where_the_hack/<%= img %>.jpg',
+      yaw: -150,
+    })
+    .on('load', function () {
+      document.getElementById('map').style.display = 'block'
+    })
+</script>
+
+<script src="/leaflet/leaflet.js"></script>
+<link rel="stylesheet" href="/leaflet/leaflet.css" />
+
+<script>
+  var map = L.map('map', { zoomControl: false }).setView(
+    [48.133333, 11.566667],
+    6
+  )
+  const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 16,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OSM</a>',
+  }).addTo(map)
+
+  let currentMarker = null
+  let selectedLocation = null
+
+  map.on('click', function (e) {
+    const lat = e.latlng.lat
+    const lng = e.latlng.lng
+    selectedLocation = { lat, lng }
+    document.getElementById('submit-btn').style.display = 'block'
+
+    // If a marker already exists, move it. Otherwise, create a new one.
+    if (currentMarker) {
+      currentMarker.setLatLng(e.latlng)
+    } else {
+      currentMarker = L.marker(e.latlng).addTo(map)
+    }
+  })
+  const mapDiv = document.getElementById('map')
+  const resizeObserver = new ResizeObserver(() => {
+    map.invalidateSize()
+  })
+
+  resizeObserver.observe(mapDiv)
+
+  async function startHoppingProcess() {
+    // 1. Hide Rabbit Modal (if open)
+    document.getElementById('rabbit-modal').style.display = 'none'
+
+    // 2. Show Loading Screen
+    const loadingScreen = document.getElementById('loading-screen')
+    loadingScreen.style.display = 'flex'
+
+    const res = await fetch('/where-the-hack/check/' + '<%= id %>', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ answer: JSON.stringify(selectedLocation) }),
+    })
+    // 3. Async / Wait 2 Seconds
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    loadingScreen.style.display = 'none'
+    // insert result into check result
+    document.getElementById('check-result').innerText = await res.text()
+
+    // Show the Rabbit Modal
+    document.getElementById('rabbit-modal').style.display = 'flex'
+  }
+
+  function closeRabbitModal() {
+    document.getElementById('rabbit-modal').style.display = 'none'
+    // reset selected location and marker
+    selectedLocation = null
+    document.getElementById('submit-btn').style.display = 'none'
+  }
+</script>

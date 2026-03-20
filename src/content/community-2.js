@@ -1200,6 +1200,8 @@ I'll give it to someone special
           req.lng == 'de'
             ? `
               <p>Willkommen bei der Ostersuch-Aktion! Begleite mich auf eine Tour durch das schöne Bayern. Finde den Panorama-Ort auf 100m genau und erhalte die Antwort.</p>
+
+              <p>Hinweis 1: Es sind zwei Schlösser zu sehen.<br>Hinweis 2: Die Parkplätze sind nummeriert.</p>
             `
             : `
               <p>Welcome to the Easter egg hunt! Join me on a tour through beautiful Bavaria. Find the panorama location with 100m accuracy and get the answer.</p>

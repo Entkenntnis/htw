@@ -193,6 +193,7 @@
     type: 'equirectangular',
     panorama: '/chals/where_the_hack/<%= img %>.jpg',
     yaw: parseInt('<%= yaw %>'),
+    minHfov: 12,
   })
   pano.on('load', function () {
     document.getElementById('map').style.display = 'block'

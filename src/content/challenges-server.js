@@ -730,11 +730,11 @@ export function setupChallengesServer(App) {
         pos[0],
         pos[1]
       )
-      if (distance <= 0.1) {
+      if (distance <= 0.15) {
         return res.send(
           req.lng === 'de'
-            ? `Richtig! Die Antwort lautet ${answer}.`
-            : `Correct! The answer is ${answer}.`
+            ? `Richtig!<br>Die Antwort lautet <strong>${answer}</strong>.`
+            : `Correct!<br>The answer is <strong>${answer}</strong>.`
         )
       } else {
         return res.send(

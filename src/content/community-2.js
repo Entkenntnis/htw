@@ -1202,10 +1202,11 @@ I'll give it to someone special
               <p>Willkommen bei der Ostersuch-Aktion! Begleite mich auf eine Tour durch das schöne Bayern. Finde den Panorama-Ort auf 100m genau und erhalte die Antwort.</p>
             `
             : `
-              <p>TODO EN</p>
+              <p>Welcome to the Easter egg hunt! Join me on a tour through beautiful Bavaria. Find the panorama location with 100m accuracy and get the answer.</p>
             `,
         id: 370,
-        img: 'test3',
+        img: 'nr1_panorama_2_1',
+        yaw: 100,
       })
     },
     solution: secrets('chal_370'),

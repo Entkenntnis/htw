@@ -105,7 +105,7 @@
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    max-width: 40%;
+    max-width: calc(min(80%, 600px));
     position: relative;
   }
 
@@ -189,15 +189,19 @@
 <%- stem %>
 
 <script>
-  pannellum
-    .viewer('panorama', {
-      type: 'equirectangular',
-      panorama: '/chals/where_the_hack/<%= img %>.jpg',
-      yaw: -150,
-    })
-    .on('load', function () {
-      document.getElementById('map').style.display = 'block'
-    })
+  const pano = pannellum.viewer('panorama', {
+    type: 'equirectangular',
+    panorama: '/chals/where_the_hack/<%= img %>.jpg',
+    yaw: parseInt('<%= yaw %>'),
+  })
+  pano.on('load', function () {
+    document.getElementById('map').style.display = 'block'
+    pano.toggleFullscreen()
+  })
+  let isFullscreen = false
+  pano.on('fullscreenchange', (status) => {
+    isFullscreen = status
+  })
 </script>
 
 <script src="/leaflet/leaflet.js"></script>
@@ -209,7 +213,6 @@
     6
   )
   const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 16,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OSM</a>',
   }).addTo(map)
@@ -238,6 +241,9 @@
   resizeObserver.observe(mapDiv)
 
   async function startHoppingProcess() {
+    if (isFullscreen) {
+      pano.toggleFullscreen()
+    }
     // 1. Hide Rabbit Modal (if open)
     document.getElementById('rabbit-modal').style.display = 'none'
 
@@ -257,7 +263,7 @@
 
     loadingScreen.style.display = 'none'
     // insert result into check result
-    document.getElementById('check-result').innerText = await res.text()
+    document.getElementById('check-result').innerHTML = await res.text()
 
     // Show the Rabbit Modal
     document.getElementById('rabbit-modal').style.display = 'flex'

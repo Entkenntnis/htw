@@ -1264,13 +1264,20 @@ I'll give it to someone special
     releaseTs: new Date('2026-03-30 08:00:00 GMT+0200').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render: async ({ App, req }) => {
+      return await renderTemplate(App, req, 'where_the_hack', {
+        stem:
+          req.lng == 'de'
+            ? `
+              <p>Lasst uns diesen Sonnenuntergang genießen.</p>
+            `
+            : `
+              <p>Let's enjoy this sunset.</p>
+            `,
+        id: 373,
+        img: 'nr4_panorama_2_1',
+        yaw: -70,
+      })
     },
     solution: secrets('chal_373'),
   },

@@ -33,15 +33,18 @@
     transition:
       width 0.3s ease,
       height 0.3s ease;
+    transition-delay: 0.4s;
   }
   #map-wrapper:hover {
     width: 400px;
     height: 340px;
+    transition-delay: 0s;
   }
   @media (min-width: 1200px) {
     #map-wrapper:hover {
       width: 600px;
       height: 500px;
+      transition-delay: 0s;
     }
   }
   .pnlm-controls {
@@ -150,7 +153,7 @@
   }
 </style>
 
-<div id="panorama" style="width: 100%; margin-bottom: 32px">
+<div id="panorama" style="width: 100%; margin-bottom: 6px">
   <div id="map-wrapper">
     <div id="map" style="display: none"></div>
     <div id="ui-container">
@@ -176,7 +179,7 @@
 <div id="rabbit-modal" class="modal-overlay">
   <div class="modal-content">
     <span class="rabbit-emoji">🐰</span>
-    <h2 id="check-result">Rabbit is Hopping!</h2>
+    <h2 id="check-result"></h2>
     <button
       onclick="closeRabbitModal()"
       style="padding: 10px; margin-top: 15px; cursor: pointer"

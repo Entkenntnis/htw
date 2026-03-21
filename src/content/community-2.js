@@ -1199,12 +1199,14 @@ I'll give it to someone special
         stem:
           req.lng == 'de'
             ? `
-              <p>Willkommen bei der Ostersuch-Aktion! Begleite mich auf eine Tour durch das schöne Bayern. Finde den Panorama-Ort auf 100m genau und erhalte die Antwort.</p>
+              <p>Willkommen bei der Ostersuch-Aktion! Begleite mich auf eine Tour durch das schöne Bayern. Finde den Panorama-Ort auf 200m genau und erhalte die Antwort.</p>
 
               <p>Hinweis 1: Es sind zwei Schlösser zu sehen.<br>Hinweis 2: Die Parkplätze sind nummeriert.</p>
             `
             : `
-              <p>Welcome to the Easter egg hunt! Join me on a tour through beautiful Bavaria. Find the panorama location with 100m accuracy and get the answer.</p>
+              <p>Welcome to the Easter egg hunt! Join me on a tour through beautiful Bavaria. Find the panorama location with 200m accuracy and get the answer.</p>
+
+              <p>Hint 1: There are two castles visible.<br>Hint 2: The parking lots are numbered.</p>
             `,
         id: 370,
         img: 'nr1_panorama_2_1',
@@ -1245,13 +1247,20 @@ I'll give it to someone special
     releaseTs: new Date('2026-03-27 08:00:00 GMT+0100').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render: async ({ App, req }) => {
+      return await renderTemplate(App, req, 'where_the_hack', {
+        stem:
+          req.lng == 'de'
+            ? `
+              <p>Ein schöner Ort, nur ab und zu mal unter Wasser.</p>
+            `
+            : `
+              <p>A beautiful place, only underwater from time to time.</p>
+            `,
+        id: 372,
+        img: 'nr3_panorama_2_1',
+        yaw: 100,
+      })
     },
     solution: secrets('chal_372'),
   },

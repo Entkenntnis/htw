@@ -1259,7 +1259,7 @@ I'll give it to someone special
         stem:
           req.lng == 'de'
             ? `
-              <p>Ein schöner Ort, nur ab und zu mal unter Wasser.</p>
+              <p>Ain Schoana-Ort, noor ab und zu mal un-t'r Vassa.</p>
             `
             : `
               <p>A beautiful place, only underwater from time to time.</p>

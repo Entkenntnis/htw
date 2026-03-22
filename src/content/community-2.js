@@ -1226,13 +1226,20 @@ I'll give it to someone special
     releaseTs: new Date('2026-03-25 08:00:00 GMT+0100').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render: async ({ App, req }) => {
+      return await renderTemplate(App, req, 'where_the_hack', {
+        stem:
+          req.lng == 'de'
+            ? `
+              <p>Tausend Jahre sollte es halten ...</p>
+            `
+            : `
+              <p>It was supposed to last a thousand years...</p>
+            `,
+        id: 371,
+        img: 'nr2_panorama_2_1',
+        yaw: -100,
+      })
     },
     solution: secrets('chal_371'),
   },

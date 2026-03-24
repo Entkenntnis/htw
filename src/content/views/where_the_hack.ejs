@@ -154,8 +154,8 @@
 </style>
 
 <div id="panorama" style="width: 100%; margin-bottom: 6px">
-  <div id="map-wrapper">
-    <div id="map" style="display: none"></div>
+  <div id="map-wrapper" style="display: none">
+    <div id="map"></div>
     <div id="ui-container">
       <button
         id="submit-btn"
@@ -199,7 +199,7 @@
     minHfov: 12,
   })
   pano.on('load', function () {
-    document.getElementById('map').style.display = 'block'
+    document.getElementById('map-wrapper').style.display = 'block'
     pano.toggleFullscreen()
   })
   let isFullscreen = false
@@ -237,7 +237,7 @@
       currentMarker = L.marker(e.latlng).addTo(map)
     }
   })
-  const mapDiv = document.getElementById('map')
+  const mapDiv = document.getElementById('map-wrapper')
   const resizeObserver = new ResizeObserver(() => {
     map.invalidateSize()
   })

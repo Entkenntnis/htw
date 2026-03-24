@@ -368,7 +368,7 @@ export const challengesAfterPassage = [
           } else {
             bar.style.width = (((steps+step)/steps) * 98.9 + 1) + '%'
             valueDiv.innerHTML = forward(valueDiv.innerHTML)
-            status.innerHTML = '(' + (step+steps) + '/' + steps + ')'
+            status.innerHTML = '(' + (step+steps) + '/' + steps.toLocaleString() + ')'
             if (!noTimeout) {
               setTimeout(work, 1000)
             }

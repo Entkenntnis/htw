@@ -1310,13 +1310,20 @@ I'll give it to someone special
     releaseTs: new Date('2026-04-01 08:00:00 GMT+0200').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render: async ({ App, req }) => {
+      return await renderTemplate(App, req, 'where_the_hack', {
+        stem:
+          req.lng == 'de'
+            ? `
+              <p>so frei, der Himmel, so nah</p>
+            `
+            : `
+              <p>so free, the sky, so close</p>
+            `,
+        id: 374,
+        img: 'nr5_panorama_2_1',
+        yaw: -20,
+      })
     },
     solution: secrets('chal_374'),
   },
@@ -1331,13 +1338,20 @@ I'll give it to someone special
     releaseTs: new Date('2026-04-03 08:00:00 GMT+0200').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render: async ({ App, req }) => {
+      return await renderTemplate(App, req, 'where_the_hack', {
+        stem:
+          req.lng == 'de'
+            ? `
+              <p>Ende März noch so viel Schnee, wow</p>
+            `
+            : `
+              <p>So much snow at the end of March, wow</p>
+            `,
+        id: 375,
+        img: 'nr6_panorama_2_1',
+        yaw: 80,
+      })
     },
     solution: secrets('chal_375'),
   },
@@ -1352,13 +1366,20 @@ I'll give it to someone special
     releaseTs: new Date('2026-04-05 08:00:00 GMT+0200').getTime(),
     author: 'Anna',
     color: '#95eb83',
-    html: {
-      de: `
-        <p>TODO</p>
-      `,
-      en: `
-        <p>TODO</p>
-      `,
+    render: async ({ App, req }) => {
+      return await renderTemplate(App, req, 'where_the_hack', {
+        stem:
+          req.lng == 'de'
+            ? `
+              <p>Ein Zuhause, ist das nicht das, der schönste Ort?</p>
+            `
+            : `
+              <p>A home, isn't that the most beautiful place?</p>
+            `,
+        id: 376,
+        img: 'nr7_panorama_2_1',
+        yaw: 80,
+      })
     },
     solution: secrets('chal_376'),
   },

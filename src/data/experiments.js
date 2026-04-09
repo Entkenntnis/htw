@@ -724,6 +724,19 @@ export const experimentDefs = [
     challenge: 26,
     startTs: new Date('2026-02-06 00:01+0100').getTime(),
     endTs: new Date('2026-03-27 00:01+0100').getTime(),
+    baseImg: '/experiments/35_base.jpg',
+    trialImg: '/experiments/35_trial.jpg',
+    results: {
+      numEvents: 9281,
+      nShowBase: 281,
+      nShowTrial: 229,
+      nVisitorsBase: 156,
+      nVisitorsTrial: 132,
+      nSolversBase: 66,
+      nSolversTrial: 67,
+    },
+    learning:
+      'Das ist ein solcher Fall, wo die Veränderung nicht signifikant ist, wahrscheinlich wegen der "relativ kleinen" Stichprobe. Es besteht aber die Wahrscheinlichkeit, dass die neue Version einfach besser funktioniert, deshalb lohnt es sich glaube ich, die lokale Version zu nutzen. Naja, und die outlinks zeigen ja alle auf das Archiv, also in der Hinsicht bleibt das Erlebnis authentisch.',
   },
   {
     id: 36,

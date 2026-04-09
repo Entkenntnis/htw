@@ -1294,7 +1294,7 @@ export const part1 = [
         <p>Im Begrüßungstext ("Hi every one ...") gibt es vier falsch geschriebene Wörter. Wähle eines davon in der fehlerhaften Schreibweise und nutze es als deine Antwort.</p>
         `,
           `
-        <iframe src="${App.experiments.showTrial(26, req) ? '/chals/archive/' : 'https://web.archive.org/web/19961218220409/http://hacker.org/'}" style="width:100%;height:800px;"></iframe>
+        <iframe src="/chals/archive/" style="width:100%;height:800px;"></iframe>
     `
         ),
         en: story(
@@ -1307,7 +1307,7 @@ export const part1 = [
         <p>In the greeting text ("Hi every one …"), there are four misspelled words. Pick one of them (in its misspelled form) and use it as your answer.</p>
         `,
           `
-        <iframe src="https://web.archive.org/web/19961218220409/http://hacker.org/" style="width:100%;height:800px;"></iframe>
+        <iframe src="/chals/archive/" style="width:100%;height:800px;"></iframe>
     `
         ),
       }

@@ -92,6 +92,8 @@ class Wormer {
     this.actRed = replayRed(this.dirs)
     this.actGreen = replayGreen(this.dirs)
 
+    this.withCrash = replay.withCrash
+
     this.run(true)
   }
 
@@ -104,6 +106,9 @@ class Wormer {
     const message = document.createElement('div')
     message.innerHTML =
       (this.winner == 'red' ? 'Rot gewinnt' : 'Grün gewinnt') +
+      (this.withCrash
+        ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
+        : '') +
       (window.restart
         ? '<br><span onclick="restart()" style="text-decoration:underline; cursor: pointer; color: gray; font-size: 16px;">Neustart</span>'
         : '')

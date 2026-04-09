@@ -31,5 +31,3 @@ Depending on how you host the project, other requirements may arise. Feel free t
 ### Credits
 
 Background image (milky way): scotbot, CC BY 2.0
-
-Password Check Icon: Freepik

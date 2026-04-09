@@ -808,6 +808,19 @@ export const experimentDefs = [
     challenge: 16,
     startTs: new Date('2026-02-15 00:03+0100').getTime(),
     endTs: new Date('2026-03-29 00:03+0100').getTime(),
+    baseImg: '/experiments/39_base.jpg',
+    trialImg: '/experiments/39_trial.jpg',
+    results: {
+      numEvents: 37961,
+      nShowBase: 1163,
+      nShowTrial: 1149,
+      nVisitorsBase: 731,
+      nVisitorsTrial: 699,
+      nSolversBase: 387,
+      nSolversTrial: 378,
+    },
+    learning:
+      'Das ist mal sehr eindeutig kein Ergebnis! Ich kann die Oberfläche also so lassen, wie davor und brauche nicht einen Link einzubauen. Andererseits heißt das aber auch, dass dieser Ansatz nicht funktioniert, hm, sad.',
   },
   {
     id: 40,

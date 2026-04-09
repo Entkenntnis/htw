@@ -16,8 +16,9 @@ export const communityChallenges = [
         where: { cid: 300, UserId: req.user ? req.user.id : -1 },
       })
 
-      if (App.experiments.showTrial(300, req) && !hasSolved) {
-        return `
+      if (!hasSolved) {
+        return {
+          de: `
           <p>Entdecke mehr Aufgaben in allen Schwierigkeitsstufen!</p>
 
           <img src="/community-invite.png" style="width: 300px;">
@@ -27,7 +28,23 @@ export const communityChallenges = [
           <form method="post"><input type="hidden" name="answer" value="htw4ever">
             <button class="btn btn-interaction">Community-Bereich freischalten</button>
           </form>
-        `
+
+          <p style="margin-top: 64px;">Die Aufgaben hier sind von SpielerInnen erstellt. Auch du kannst mitmachen! Besuche dafür unseren <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a>.</p>
+        `,
+          en: `
+          <p>Discover more challenges at all difficulty levels!</p>
+
+          <img src="/community-invite.png" style="width: 300px;">
+          
+          <p style="margin-top: 48px;">Ready to start? Let’s go!</p>
+                
+          <form method="post"><input type="hidden" name="answer" value="htw4ever">
+            <button class="btn btn-interaction">Unlock Community Area</button>
+          </form>
+
+          <p style="margin-top: 64px;">The challenges here are created by players. You can join in too! To do so, visit our <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord server</a>.</p>
+        `,
+        }
       }
 
       return req.lng.startsWith('de')
@@ -40,21 +57,10 @@ export const communityChallenges = [
         
         <!-- psst - hey - probiere mal /challenge/1337 -->
         
-        ${
-          hasSolved
-            ? `
-                <p style="margin-top: 52px;">Besuche uns auf Discord:</p>
-                <p>
-                  <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
-                </p>
-              `
-            : `<p style="margin-top: 48px;">Startbereit? Dann nichts wie los!
+        <p style="margin-top: 52px;">Besuche uns auf Discord:</p>
+        <p>
+          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
         </p>
-        
-        <form method="post"><input type="hidden" name="answer" value="htw4ever">
-          <button class="btn btn-interaction">Community-Bereich freischalten</button>
-        </form>`
-        }
       `
         : `
         <p>Welcome to the Community Area! Here you'll find a collection of varied challenges, created and inspired by players like you.</p>
@@ -65,21 +71,10 @@ export const communityChallenges = [
 
         <!-- psst - hey - try /challenge/1337 -->
 
-        ${
-          hasSolved
-            ? `
-                <p style="margin-top: 52px;">Join us on Discord:</p>
-                <p>
-                  <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
-                </p>
-              `
-            : `<p style="margin-top: 48px;">Ready to start? Then let's go!
+        <p style="margin-top: 52px;">Join us on Discord:</p>
+        <p>
+          <a href="https://discord.gg/9zDMZP9edd" target="_blank"><img src="/discord.png" style="max-width: 200px;" alt="discord"></a>
         </p>
-        
-        <form method="post"><input type="hidden" name="answer" value="htw4ever">
-          <button class="btn btn-interaction">Unlock Community Area</button>
-        </form>`
-        }
       `
     },
     solution: 'htw4ever',

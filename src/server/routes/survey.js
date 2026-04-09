@@ -146,7 +146,7 @@ export function setupSurvey(App) {
         <small style="margin-bottom: 48px; display: inline-block;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen) / Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</small>
         ${entries
           .map((entry) => {
-            return `<p><span style="color: gray">${new Date(entry.ts).toLocaleString()} /<span style="user-select: none;"> </span>${escapeHtml(
+            return `<p><span style="color: gray">${new Date(entry.ts).toLocaleString('de-DE')} /<span style="user-select: none;"> </span>${escapeHtml(
               userIndex[entry.userId]?.name ?? '--- gelöscht ---'
             )}<span style="user-select: none;"> </span>(${userIndex[entry.userId]?.score ?? -1}) / ${
               entry.obj.q1

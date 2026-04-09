@@ -3485,180 +3485,29 @@ To: ${req.user?.name}@arrrg.de</pre>
   {
     id: 84,
     pos: { x: 860, y: 580 },
-    title: { de: 'Inception', en: 'Inception' },
-    trialTitle: 'Zensiert',
+    title: { de: '[Zensiert]', en: '[Redacted]' },
     // date: '2023-02-26',
     deps: [8, 52, 77],
-    render: ({ App, req }) => {
-      if (App.experiments.showTrial(84, req)) {
-        return story(
+    render: () => {
+      return {
+        de: story(
           'Kiwi',
           `
-          <p>Stell dir vor, eine Gruppe von Menschen begeht ein Verbrechen, und die Polizei beschützt diese Personen und stellt sicher, dass keiner von ihnen bestraft wird, indem sie die Beweise zensiert. Schrecklich und unerhört!</p>
+            <p>Stell dir vor, eine Gruppe von Menschen begeht ein Verbrechen, und die Polizei beschützt diese Personen und stellt sicher, dass keiner von ihnen bestraft wird, indem sie die Beweise zensiert. Schrecklich und unerhört!</p>
 
-          <p>Es gibt verschiedene Arten von Zensur und manchmal kannst du was dagegen tun! Deine Antwort ist in <a href="/chals/redacted.pdf" target="blank">diesem pdf-Dokument</a> notiert, leider wurde sie zensiert.</p>
-        `
-        )
-      }
+            <p>Es gibt verschiedene Arten von Zensur und manchmal kannst du was dagegen tun! Deine Antwort ist in <a href="/chals/redacted.pdf" target="blank">diesem pdf-Dokument</a> notiert, leider wurde sie zensiert.</p>
+          `
+        ),
+        en: story(
+          'Kiwi',
+          `
+            <p>Imagine a group of people commits a crime, and the police protect these individuals and ensure that none of them are punished by censoring the evidence. Terrible and unheard of!</p>
 
-      /**
-       * @param {number} w
-       * @param {number} h
-       * @param {number} level
-       * @param {string | undefined} [lang]
-       */
-      function renderFrame(w, h, level, lang) {
-        return `
-          <iframe src="/challenge/84/?level=${level}" width="${w}" height="${h}" id="if" style="display:none"></iframe>
-          
-          ${
-            lang === 'de'
-              ? `<button onclick="run()" id="bt" style="margin-top:16px">Stufe ${level} betreten</button>`
-              : `<button onclick="run()" id="bt" style="margin-top:16px">Entered ${level} level</button>`
-          }
-          
-          <script>
-            function run() {
-              document.getElementById('if').style.display = 'block'
-              document.getElementById('bt').style.display = 'none'
-            }
-            
-            run()
-          </script>
-        `
-      }
-      if (req.lng === 'de') {
-        if (!req.query.level) {
-          return story(
-            'Kiwi',
-            `
-            <p>Im Computer kann man relativ leicht Realitäten ineinander verschachteln. Ich kann auf dieser Seite nochmal die selbe Seite einbinden. Du findest hier drei Ebenen. Auf der untersten Ebene findest du die Antwort.</p>
-        `,
-            renderFrame(500, 700, 1)
-          )
-        }
-
-        const level = parseInt(req.query.level.toString())
-
-        if (level === 1) {
-          return `
-          <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-          
-          <p>Eine Webseite innerhalb einer Webseite. Es geht noch mehr, gehe tiefer:</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-          
-          ${renderFrame(450, 500, 3)}
-        `
-        }
-
-        if (level === 3) {
-          return `
-          <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
-          
-          <p style="margin-top:150px">Die Antwort lautet ${
-            secrets('chal_84').split(',')[0]
-          }.</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-        `
-        }
-
-        return ''
-      } else {
-        if (!req.query.level) {
-          return story(
-            'Kiwi',
-            `
-          <p>Did you sleep well last night? I hope you didn't run into any strange people in your dreams like in the movie <i>Inception</i>.</p>
-
-          <p>On a computer, it's pretty easy to nest realities inside each other. This page is inspired by <i>Inception</i>. You'll find three levels here — and on the deepest level, you'll find the answer.</p>
-        `,
-            renderFrame(1110, 700, 1)
-          )
-        }
-
-        const level = parseInt(req.query.level.toString())
-
-        if (level === 1) {
-          return `
-          <img src="/chals/chal84_2.jpg" style="width:100%;margin-bottom:16px" alt="inception">
-          
-          <p>A website within a website. There's more, go deeper:</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-          
-          ${renderFrame(1000, 500, 3)}
-        `
-        }
-
-        if (level === 3) {
-          return `
-          <img src="/chals/chal84_5.jpg" style="width:100%;margin-bottom:16px;" alt="inception">
-          
-          <p>The answer is ${secrets('chal_84').split(',')[1]}.</p>
-          
-          <script>
-            setTimeout(() => {
-              document.getElementById('challenge_form').style.display = 'none'
-            }, 100)
-          </script>
-        `
-        }
-
-        return ''
+            <p>There are different types of censorship, and sometimes you can do something about it! Your answer is noted in <a href="/chals/redacted_en.pdf" target="blank">this PDF document</a>; unfortunately, it has been censored.</p>
+          `
+        ),
       }
     },
-    /*check: (raw, { App, req }) => {
-      if (App.experiments.showTrial(84, req)) {
-        const n = parseInt(raw)
-        if (isNaN(n) || n < 100 || n > 999) {
-          return {
-            answer: `Erwarte eine 3-stellige Zahl, stattdessen erhalten: '${raw}'`,
-            correct: false,
-            rawAnswer: true,
-          }
-        }
-        const sol = parseInt(secrets('chal_84_2'))
-        if (n == sol) {
-          return {
-            answer: n.toString(),
-            correct: true,
-          }
-        }
-        if (n < sol) {
-          return {
-            answer: `'${raw}' ist zu niedrig`,
-            correct: false,
-            rawAnswer: true,
-          }
-        } else {
-          return {
-            answer: `'${raw}' ist zu hoch`,
-            correct: false,
-            rawAnswer: true,
-          }
-        }
-      }
-      const answer = raw.toLowerCase().trim()
-      const correct = answer == secrets('chal_84').toLowerCase().trim()
-      return {
-        answer,
-        correct,
-      }
-    },*/
     solution: secrets('chal_84').split(','),
   },
 
@@ -4070,7 +3919,7 @@ To: ${req.user?.name}@arrrg.de</pre>
   {
     id: 118,
     pos: { x: 1221, y: 761 },
-    title: { de: '[Umfrage]', en: '[Survey]' },
+    title: { de: '/Umfrage/', en: '/Survey/' },
     deps: [2, 45, 47],
     render: ({ App, req }) => {
       const trial = App.experiments.showTrial(118, req)

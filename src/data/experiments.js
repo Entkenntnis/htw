@@ -753,6 +753,19 @@ export const experimentDefs = [
     challenge: 84,
     startTs: new Date('2026-02-18 00:01+0100').getTime(),
     endTs: new Date('2026-03-25 00:01+0100').getTime(),
+    baseImg: '/experiments/37_base.jpg',
+    trialImg: '/experiments/37_trial.jpg',
+    results: {
+      numEvents: 10160,
+      nShowBase: 327,
+      nShowTrial: 338,
+      nVisitorsBase: 139,
+      nVisitorsTrial: 193,
+      nSolversBase: 119,
+      nSolversTrial: 132,
+    },
+    learning:
+      'Boah, das ist schwierig. Einerseits gibt es deutlich mehr Leute, die die Aufgabe öffnen, weil der Titel interessanter ist. Gleichzeitig ist die Aufgabe schwieriger - in Summe wird die Aufgabe trotzdem ganz wenig mehr gelöst. Das ist jetzt meine Entscheidung, welche Art von Aufgaben ich bevorzugen möchte.',
   },
   {
     id: 38,
@@ -761,6 +774,19 @@ export const experimentDefs = [
     challenge: 6,
     startTs: new Date('2026-02-15 00:02+0100').getTime(),
     endTs: new Date('2026-03-22 00:02+0100').getTime(),
+    baseImg: '/experiments/38_base.jpg',
+    trialImg: '/experiments/38_trial.jpg',
+    results: {
+      numEvents: 16041,
+      nShowBase: 652,
+      nShowTrial: 652,
+      nVisitorsBase: 413,
+      nVisitorsTrial: 413,
+      nSolversBase: 333,
+      nSolversTrial: 319,
+    },
+    learning:
+      'Der Unterschied ist wirklich fast nicht merkbar. Das zeigt, dass die Leute eigentlich schon mit Copy-Paste arbeiten, right? Weil ansonsten würde ich einen größeren Unterschied merken. Ich meine, ein ganz kleines bisschen ist die Lösungsrate runter, aber bei weitem nicht so viel wie ich erwartet habe. Das ist gut zu wissen für die Zukunft.',
   },
   {
     id: 39,

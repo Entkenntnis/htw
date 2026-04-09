@@ -829,6 +829,19 @@ export const experimentDefs = [
     challenge: 300,
     startTs: new Date('2026-02-25 00:01+0100').getTime(),
     endTs: new Date('2026-04-01 00:01+0100').getTime(),
+    baseImg: '/experiments/40_base.jpg',
+    trialImg: '/experiments/40_trial.jpg',
+    results: {
+      numEvents: 34193,
+      nShowBase: 887,
+      nShowTrial: 896,
+      nVisitorsBase: 139,
+      nVisitorsTrial: 128,
+      nSolversBase: 67,
+      nSolversTrial: 82,
+    },
+    learning:
+      'Die neue Version mit dem Bild ist ziemlich erfolgreich. Ich kann also umsteigen und die neue Version nutzen, aber vielleicht mit bisschen mehr Kontext, so dass man weiß, dass man mitmachen kann.',
   },
   {
     id: 41,

@@ -849,7 +849,7 @@ export const experimentDefs = [
       'Ankunft in Sirtach: eine deutlich vereinfachte Variante mit bereits vorgegebenen (auskommentieren) Quellcode + explizite Anleitung, in der Hoffnung, den Charakter der Aufgabe zu behalten und sie doch zugänglich zu behalten.',
     challenge: 57,
     startTs: new Date('2026-02-28 00:01+0100').getTime(),
-    endTs: new Date('2026-04-18 00:01+0100').getTime(),
+    endTs: new Date('2026-04-18 00:01+0200').getTime(),
   },
   {
     id: 42,
@@ -857,6 +857,19 @@ export const experimentDefs = [
       'Umfrage: probiere es mal, eine größere Änderung an der Umfrage zu machen ohne die Auswertung kaputtzumachen.',
     challenge: 118,
     startTs: new Date('2026-03-10 00:01+0100').getTime(),
-    endTs: new Date('2026-04-28 00:01+0100').getTime(),
+    endTs: new Date('2026-04-07 00:01+0200').getTime(),
+    baseImg: '/experiments/42_base.jpg',
+    trialImg: '/experiments/42_trial.jpg',
+    results: {
+      numEvents: 3753,
+      nShowBase: 170,
+      nShowTrial: 180,
+      nVisitorsBase: 118,
+      nVisitorsTrial: 110,
+      nSolversBase: 102,
+      nSolversTrial: 96,
+    },
+    learning:
+      'So, also die CTR-Analyse zeigt, dass die Daten etwas unstabil waren, das ist schon interessant, aber die Datenbasis war auch nicht so riesig. Dadurch, dass es keine Regression gab, kann ich davon ausgehen, dass die neue Umfrage jetzt das Lösungsverhalten nicht wirklich beeinflusst und Leute, die die Umfrage davor ausgefüllt hätten, sie weiter ausfüllen würden.',
   },
 ]

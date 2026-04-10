@@ -58,11 +58,6 @@ export function setupSurvey(App) {
     let chronoEntries = entries.slice()
     chronoEntries.reverse()
 
-    // const analysisEntries = chronoEntries.filter(
-    //   (entry) => entry.version === 'v2'
-    // )
-    // const v3Entries = chronoEntries.filter((entry) => entry.version === 'v3')
-
     const userIds = new Set()
 
     let skipDup = 0
@@ -85,62 +80,224 @@ export function setupSurvey(App) {
       return entry.obj
     })
 
-    // let sumQ1 = 0
-    // let sumQ2 = 0
-    // let sumQ3 = 0
-    // let sumQ4 = 0
+    const relevantEntriesV3 = relevantEnt.filter((entry) => {
+      return entry.obj['survey-trial'] || entry.obj.version == '3'
+    })
 
-    // let recommendYes = 0
-    // let recommendNo = 0
-    // let de = 0
-    // let en = 0
+    const chartEntries = relevantEntriesV3
 
-    // relevantEnt.forEach((entry) => {
-    //   sumQ1 += parseInt(entry.obj.q1)
-    //   sumQ2 += 5 - parseInt(entry.obj.q2)
-    //   sumQ3 += parseInt(entry.obj.q3)
-    //   sumQ4 += 5 - parseInt(entry.obj.q4)
-    //   if (entry.obj.recommend === 'yes') recommendYes++
-    //   if (entry.obj.recommend === 'no') recommendNo++
-    //   if (entry.obj.lng === 'de') de++
-    //   if (entry.obj.lng === 'en') en++
-    // })
+    const questionLabels = {
+      q1: 'Ich habe hier etwas Neues übers Hacking gelernt.',
+      q2: 'Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.',
+      q3: 'Die Aufgaben haben mir nicht genug Neues beigebracht.',
+      q4: 'Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.',
+      recommend:
+        'Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web einer FreundIn weiterempfehlen würdest?',
+    }
 
-    // /**
-    //  * @param {number} value
-    //  */
-    // function convertToPercentage(value) {
-    //   // 1 -> -100%, 4 -> + 100%
-    //   return ((value - 1) / 3) * 200 - 100
-    // }
+    const likertScaleValues = [1, 2, 3, 4]
+    const recommendScaleValues = Array.from({ length: 11 }, (_, i) => i)
 
-    // const avgQ1 = convertToPercentage(sumQ1 / relevantEnt.length)
-    // const avgQ2 = convertToPercentage(sumQ2 / relevantEnt.length)
-    // const avgQ3 = convertToPercentage(sumQ3 / relevantEnt.length)
-    // const avgQ4 = convertToPercentage(sumQ4 / relevantEnt.length)
+    /**
+     * @param {{obj: {[key: string]: any}}[]} inputEntries
+     * @param {string} key
+     * @param {number[]} allowedValues
+     * @param {(value: number) => number} [transform]
+     */
+    function buildScaleCounts(inputEntries, key, allowedValues, transform) {
+      const counts = allowedValues.map(() => 0)
+      inputEntries.forEach((entry) => {
+        const value = parseInt(entry.obj[key], 10)
+        if (Number.isNaN(value)) return
+        const normalized = transform ? transform(value) : value
+        const index = allowedValues.indexOf(normalized)
+        if (index >= 0) counts[index]++
+      })
+      return counts
+    }
 
-    // const overall = (avgQ1 + avgQ2 + avgQ3 + avgQ4) / 4
+    const likertColors = ['#d9534f', '#f0ad4e', '#a9f9a8', '#5cb85c']
+    const likertColorsNegated = [...likertColors].reverse()
+    const recommendColors = [
+      '#d9534f',
+      '#dd684a',
+      '#e87d46',
+      '#f1944a',
+      '#f6ab50',
+      '#f2c057',
+      '#d3c85b',
+      '#a7c763',
+      '#7cc66b',
+      '#5fbf6e',
+      '#4caf50',
+    ]
 
-    // <p style="margin-top: 48px">1. Der Einstieg bei Hack The Web ist klar und verständlich: <strong>${Math.round(avgQ1)}%</strong></p>
+    const likertQuestions = [
+      { key: 'q1', label: questionLabels.q1, invertColorScale: false },
+      { key: 'q3', label: questionLabels.q3, invertColorScale: true },
+      { key: 'q4', label: questionLabels.q4, invertColorScale: false },
+      { key: 'q2', label: questionLabels.q2, invertColorScale: true },
+    ]
 
-    //     <p>2. Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird [NEG]: <strong>${Math.round(avgQ2)}%</strong></p>
+    const likertQuestionCharts = likertQuestions.map((question) => ({
+      key: question.key,
+      label: question.label,
+      counts: buildScaleCounts(chartEntries, question.key, likertScaleValues),
+      colors: question.invertColorScale ? likertColorsNegated : likertColors,
+    }))
 
-    //     <p>3. Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking: <strong>${Math.round(avgQ3)}%</strong></p>
+    const recommendCounts = buildScaleCounts(
+      chartEntries,
+      'recommend',
+      recommendScaleValues
+    )
 
-    //     <p>4. Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig [NEG]: <strong>${Math.round(avgQ4)}%</strong></p>
-
-    //     <p><strong>→ Guter-Start-Faktor: ${Math.round(overall)}%</strong></p>
-
-    // <p style="margin-top: 32px">Sprache: DE: ${de} / EN: ${en}</p>
-    //     <p>Würdest du Hack The Web deinen Freunden weiterempfehlen: Ja: ${recommendYes} (<strong>${Math.round(
-    //       (recommendYes * 100) / (recommendYes + recommendNo)
-    //     )}%</strong>) / Nein: ${recommendNo}</p>
+    const chartPayload = {
+      hasData: chartEntries.length > 0,
+      chartEntryCount: chartEntries.length,
+      likertLabels: likertScaleValues.map(String),
+      recommendLabels: recommendScaleValues.map(String),
+      recommendColors,
+      likertQuestionCharts,
+      recommendQuestion: {
+        label: questionLabels.recommend,
+        counts: recommendCounts,
+      },
+    }
 
     renderPage(App, req, res, {
       page: 'survey',
       heading: 'Umfrage Auswertung',
       content: `
         <p>Zeitraum ab: ${fromDateStr} • Einträge: ${chronoEntries.length} / abzüglich Duplikate: ${skipDup}, Low Effort: ${skipNoise}</p>
+
+        <h2 style="margin-top: 32px;">Grafische Auswertung</h2>
+        <details><summary>Anzeigen</summary>
+        <small style="display:inline-block; margin-bottom: 24px; margin-top: 16px;">
+          Ausgewertete Einträge (v3 / trial): ${chartPayload.chartEntryCount}
+        </small>
+        ${
+          chartPayload.hasData
+            ? `
+          <div style="max-width: 960px; margin-bottom: 20px; height: 170px;">
+            <canvas id="survey-chart-q1"></canvas>
+          </div>
+          <div style="max-width: 960px; margin-bottom: 100px; height: 170px;">
+            <canvas id="survey-chart-q3"></canvas>
+          </div>
+          <div style="max-width: 960px; margin-bottom: 20px; height: 170px;">
+            <canvas id="survey-chart-q4"></canvas>
+          </div>
+          <div style="max-width: 960px; margin-bottom: 100px; height: 170px;">
+            <canvas id="survey-chart-q2"></canvas>
+          </div>
+          <div style="max-width: 960px; margin-bottom: 28px;">
+            <canvas id="survey-chart-recommend"></canvas>
+          </div>
+
+          <script src="/lib/chart.js"></script>
+          <script>
+            ;(() => {
+              const payload = ${JSON.stringify(chartPayload)}
+              if (!payload.hasData || typeof Chart === 'undefined') return
+
+              function createLikertChart(canvasId, question) {
+                const canvas = document.getElementById(canvasId)
+                if (!canvas) return
+                const datasets = question.counts.map((count, index) => ({
+                  label: payload.likertLabels[index],
+                  data: [count],
+                  backgroundColor: question.colors[index],
+                  borderColor: '#111111',
+                  borderWidth: 1,
+                  stack: 'likert',
+                }))
+
+                new Chart(canvas, {
+                  type: 'bar',
+                  data: {
+                    labels: ['Antworten'],
+                    datasets,
+                  },
+                  options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: { display: true },
+                      title: {
+                        display: true,
+                        text: question.label,
+                        font: { size: 16 },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: { precision: 0 },
+                        title: { display: true, text: 'Anzahl Antworten' },
+                      },
+                      y: {
+                        stacked: true,
+                        ticks: { display: false },
+                      },
+                    },
+                  },
+                })
+              }
+
+              createLikertChart('survey-chart-q1', payload.likertQuestionCharts[0])
+              createLikertChart('survey-chart-q3', payload.likertQuestionCharts[1])
+              createLikertChart('survey-chart-q4', payload.likertQuestionCharts[2])
+              createLikertChart('survey-chart-q2', payload.likertQuestionCharts[3])
+
+              const recommendCanvas = document.getElementById('survey-chart-recommend')
+              if (recommendCanvas) {
+                new Chart(recommendCanvas, {
+                  type: 'bar',
+                  data: {
+                    labels: payload.recommendLabels,
+                    datasets: [
+                      {
+                        label: 'Anzahl',
+                        data: payload.recommendQuestion.counts,
+                        backgroundColor: payload.recommendColors,
+                        borderColor: '#111111',
+                        borderWidth: 1,
+                      },
+                    ],
+                  },
+                  options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                      legend: { display: false },
+                      title: {
+                        display: true,
+                        text: payload.recommendQuestion.label,
+                        font: { size: 16 },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        beginAtZero: true,
+                        ticks: { precision: 0 },
+                        title: { display: true, text: 'Anzahl Antworten' },
+                      },
+                      y: {
+                        title: { display: true, text: 'Skalenwert' },
+                      },
+                    },
+                  },
+                })
+              }
+            })()
+          </script>
+        `
+            : '<p>Keine auswertbaren Umfrageeinträge für die grafische Auswertung gefunden.</p>'
+        }
+        </details>
 
         <h2 style="margin-top:32px;">Einzelansicht</h2>
         <small style="margin-bottom: 48px; display: inline-block;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 300 Zeichen) / Was würdest du an Hack The Web verbessern oder anders machen? (max. 300 Zeichen)</small>

@@ -525,7 +525,7 @@ export function _deprecated__setupDecodeMe(App) {
 
         <div style="height:32px"></div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/lib/chart.js"></script>
 
         <script>
           const ctx = document.getElementById('myChart');

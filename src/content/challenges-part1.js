@@ -3922,7 +3922,6 @@ To: ${req.user?.name}@arrrg.de</pre>
     title: { de: '/Umfrage/', en: '/Survey/' },
     deps: [2, 45, 47],
     render: ({ App, req }) => {
-      const trial = App.experiments.showTrial(118, req)
       /**
        * @param {string} name
        */
@@ -4053,30 +4052,26 @@ To: ${req.user?.name}@arrrg.de</pre>
           <form autocomplete="off" method="post">
 
             <p style="margin-top:64px;">1. ${
-              trial
-                ? 'Ich habe hier etwas Neues übers Hacking gelernt.'
-                : 'Der Einstieg bei Hack The Web ist klar und verständlich.'
+              'Ich habe hier etwas Neues übers Hacking gelernt.'
+              // : 'Der Einstieg bei Hack The Web ist klar und verständlich.'
             }</p>
             ${buildHLikert('q1')}
             
             <p style="margin-top:48px;">2. ${
-              trial
-                ? 'Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.'
-                : 'Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird.'
+              'Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.'
+              // : 'Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird.'
             }</p>
             ${buildHLikert('q2')}
 
             <p style="margin-top:48px;">3. ${
-              trial
-                ? 'Die Aufgaben haben mir nicht genug Neues beigebracht.'
-                : 'Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking.'
+              'Die Aufgaben haben mir nicht genug Neues beigebracht.'
+              // : 'Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking.'
             }</p>
             ${buildHLikert('q3')}
 
             <p style="margin-top:48px;">4. ${
-              trial
-                ? 'Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.'
-                : 'Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig.'
+              'Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.'
+              // 'Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig.'
             }</p>
             ${buildHLikert('q4')}
 
@@ -4087,20 +4082,19 @@ To: ${req.user?.name}@arrrg.de</pre>
             <textarea class="form-control" rows="3" maxlength="500" name="improve" required></textarea>
 
             ${
-              trial
-                ? `
-                <p style="margin-top:32px;">Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web deinen Freunden weiterempfehlen würdest?</p>
+              `
+                <p style="margin-top:32px;">Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web einer FreundIn weiterempfehlen würdest?</p>
                 ${buildRecommendScale('recommend')}
               `
-                : `
-                <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
-                ${buildYesNo('recommend')}
-              `
+              //   : `
+              //   <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
+              //   ${buildYesNo('recommend')}
+              // `
             }
             
             <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Abschicken</button></p>
             
-            ${trial ? '<input type="hidden" name="survey-trial" value="1">' : ''}
+            <input type="hidden" name="version" value="3">
             <input type="hidden" name="answer" value="_">
           </form>
         </details>

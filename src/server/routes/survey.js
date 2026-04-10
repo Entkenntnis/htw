@@ -85,6 +85,38 @@ export function setupSurvey(App) {
       return entry.obj
     })
 
+    const relevantEntriesV3 = relevantEnt.filter((entry) => {
+      // TOOD: also allow version = 3 submissions
+      return entry.obj['survey-trial']
+    })
+
+    /*
+    
+    TODO: please create graphs entry.obj
+    q1 to q4 is 1, 2, 3, 4
+    recommend is 0 - 10
+
+    I want horizontal bar charts that show the values colour coded with labels
+    Use /lib/chart.js
+
+    The questions are
+
+    q1: 'Ich habe hier etwas Neues übers Hacking gelernt.'
+    q2: 'Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.'
+    q3: 'Die Aufgaben haben mir nicht genug Neues beigebracht.'
+    q4: 'Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.'
+    recommend: Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web einer FreundIn weiterempfehlen würdest?
+
+    Show questions in UI as well, q1 and q3 (negated) and q2 (negated) and q4 are related, group them
+
+
+
+
+
+
+    */
+
+    // OLD STUFF
     // let sumQ1 = 0
     // let sumQ2 = 0
     // let sumQ3 = 0

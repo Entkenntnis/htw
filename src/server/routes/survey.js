@@ -139,12 +139,16 @@ export function setupSurvey(App) {
       { key: 'q2', label: questionLabels.q2, invertColorScale: true },
     ]
 
-    const likertQuestionCharts = likertQuestions.map((question) => ({
-      key: question.key,
-      label: question.label,
-      counts: buildScaleCounts(chartEntries, question.key, likertScaleValues),
-      colors: question.invertColorScale ? likertColorsNegated : likertColors,
-    }))
+    const likertQuestionCharts = likertQuestions.map((question) => {
+      const counts = buildScaleCounts(chartEntries, question.key, likertScaleValues)
+      return {
+        key: question.key,
+        label: question.label,
+        counts,
+        totalCount: counts.reduce((sum, count) => sum + count, 0),
+        colors: question.invertColorScale ? likertColorsNegated : likertColors,
+      }
+    })
 
     const recommendCounts = buildScaleCounts(
       chartEntries,
@@ -201,19 +205,57 @@ export function setupSurvey(App) {
               const payload = ${JSON.stringify(chartPayload)}
               if (!payload.hasData || typeof Chart === 'undefined') return
 
+              const likertPercentageLabelsPlugin = {
+                id: 'likertPercentageLabels',
+                afterDatasetsDraw(chart, _args, options) {
+                  if (options && options.enabled === false) return
+                  const ctx = chart.ctx
+                  ctx.save()
+                  chart.data.datasets.forEach((dataset, datasetIndex) => {
+                    const meta = chart.getDatasetMeta(datasetIndex)
+                    if (meta.hidden) return
+                    meta.data.forEach((bar, dataIndex) => {
+                      const value = Number(dataset.data[dataIndex])
+                      if (!Number.isFinite(value) || value <= 0) return
+                      const barX = Number(bar.x)
+                      const barBase = Number(bar.base)
+                      const barY = Number(bar.y)
+                      const centerX =
+                        Number.isFinite(barX) && Number.isFinite(barBase)
+                          ? barBase + (barX - barBase) / 2
+                          : bar.tooltipPosition().x
+                      const centerY = Number.isFinite(barY)
+                        ? barY
+                        : bar.tooltipPosition().y
+                      ctx.fillStyle = options?.color ?? '#111111'
+                      ctx.font = options?.font ?? '11px sans-serif'
+                      ctx.textAlign = 'center'
+                      ctx.textBaseline = 'middle'
+                      ctx.fillText(Math.round(value) + '%', centerX, centerY)
+                    })
+                  })
+                  ctx.restore()
+                },
+              }
+
               function createLikertChart(canvasId, question) {
                 const canvas = document.getElementById(canvasId)
                 if (!canvas) return
+                const totalCount =
+                  Number(question.totalCount) ||
+                  question.counts.reduce((sum, count) => sum + count, 0)
                 const datasets = question.counts.map((count, index) => ({
                   label: payload.likertLabels[index],
-                  data: [count],
+                  data: [totalCount > 0 ? (count / totalCount) * 100 : 0],
                   backgroundColor: question.colors[index],
                   borderColor: '#111111',
                   borderWidth: 1,
                   stack: 'likert',
+                  rawCount: count,
                 }))
 
                 new Chart(canvas, {
+                  plugins: [likertPercentageLabelsPlugin],
                   type: 'bar',
                   data: {
                     labels: ['Antworten'],
@@ -230,13 +272,39 @@ export function setupSurvey(App) {
                         text: question.label,
                         font: { size: 16 },
                       },
+                      likertPercentageLabels: {
+                        color: '#111111',
+                      },
+                      tooltip: {
+                        callbacks: {
+                          label(context) {
+                            const percentage = Math.round(context.parsed.x)
+                            const rawCount =
+                              Number(context.dataset.rawCount) || 0
+                            return (
+                              context.dataset.label +
+                              ': ' +
+                              percentage +
+                              '% (' +
+                              rawCount +
+                              ')'
+                            )
+                          },
+                        },
+                      },
                     },
                     scales: {
                       x: {
                         stacked: true,
                         beginAtZero: true,
-                        ticks: { precision: 0 },
-                        title: { display: true, text: 'Anzahl Antworten' },
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                          callback(value) {
+                            return value + '%'
+                          },
+                        },
+                        title: { display: true, text: 'Anteil Antworten (%)' },
                       },
                       y: {
                         stacked: true,

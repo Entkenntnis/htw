@@ -328,9 +328,9 @@ export function setupMortalCoil(App) {
 
         <div style="height:32px"></div>
 
-        <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+        <script src="/lib/hammer.min.js"></script>
+        <script src="/lib/chart.js"></script>
+        <script src="/lib/chartjs-plugin-zoom.min.js"></script>
 
 
         <script>

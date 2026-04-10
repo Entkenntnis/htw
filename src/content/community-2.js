@@ -1187,7 +1187,10 @@ I'll give it to someone special
   {
     id: 370,
     pos: { x: 2150, y: 790 },
-    title: { de: 'Where The Hack? - Nr. 1', en: 'Where The Hack? - No. 1' },
+    title: {
+      de: 'Where The Hack? - Nr. 1 [GeOSINT 2026]',
+      en: 'Where The Hack? - No. 1 [GeOSINT 2026]',
+    },
     date: '2026-03-23',
     deps: [300],
     noScore: true,

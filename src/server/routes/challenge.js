@@ -300,6 +300,7 @@ export function setupChallenges(App) {
       },
       outsideOfContainer: true,
       backButton: false,
+      bodyClass: 'map-body',
     })
   })
 

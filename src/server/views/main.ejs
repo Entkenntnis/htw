@@ -30,7 +30,7 @@
 
     <title><%= title %></title>
   </head>
-  <body>
+  <body<%- bodyClass ? ' class="' + bodyClass + '"' : ''%>>
     <div class="container"><% if (user) { %>
         <%- include('./partials/statusBar', {user, t, App}) %>
       <% } %>

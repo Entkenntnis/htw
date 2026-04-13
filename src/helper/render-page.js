@@ -82,6 +82,8 @@ export async function renderPage(App, req, res, opts) {
 
   req.session.lastMainColor = mainColor
 
+  const bodyClass = typeof opts == 'object' ? opts.bodyClass : ''
+
   res.render('main', {
     locale,
     brand,
@@ -97,5 +99,6 @@ export async function renderPage(App, req, res, opts) {
     content,
     backHref,
     mainColor,
+    bodyClass,
   })
 }

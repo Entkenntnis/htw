@@ -375,6 +375,7 @@ export type RenderPageOptions =
       content?: string
       backButton?: boolean
       outsideOfContainer?: boolean
+      bodyClass?: string
     }
 
 export interface WormsReplay {

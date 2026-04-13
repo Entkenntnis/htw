@@ -133,7 +133,7 @@ hr {
   }
 }
 @media (min-width: 1024px) {
-  .status {
+  .map-body .map-glassy-backdrop {
     backdrop-filter: saturate(120%) blur(2px);
   }
 }
@@ -155,7 +155,6 @@ hr {
   border: 1px solid #313030;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: saturate(120%) blur(2px);
   text-align: right;
 }
 .lang-label {

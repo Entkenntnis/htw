@@ -199,7 +199,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
 
   if (solved.includes(300)) {
     output += `
-      <div class="lang-picker fade-in difficulty-picker" style="position: absolute; left: 1790px; top: 210px; display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 6px; padding-top: 6px;">
+      <div class="lang-picker fade-in difficulty-picker map-glassy-backdrop" style="position: absolute; left: 1790px; top: 210px; display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding-bottom: 6px; padding-top: 6px;">
         <div style="opacity:0.8;">${req.lng == 'de' ? 'Filter' : 'Filter'}</div>
         <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
           <input style="cursor: pointer;" type="checkbox" id="show-easy" ${mapMeta.communityFilter.includes('E') ? 'checked' : ''}/>

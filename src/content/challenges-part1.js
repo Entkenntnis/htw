@@ -3978,7 +3978,7 @@ To: ${req.user?.name}@arrrg.de</pre>
                 index === 0
                   ? req.lng == 'de'
                     ? 'Sehr unwahrscheinlich'
-                    : 'Not at all'
+                    : 'Very unlikely'
                   : ''
               const rightLabel =
                 index === 10
@@ -4051,46 +4051,26 @@ To: ${req.user?.name}@arrrg.de</pre>
           <hr />
           <form autocomplete="off" method="post">
 
-            <p style="margin-top:64px;">1. ${
-              'Ich habe hier etwas Neues übers Hacking gelernt.'
-              // : 'Der Einstieg bei Hack The Web ist klar und verständlich.'
-            }</p>
+            <p style="margin-top:64px;">1. Ich habe hier etwas Neues übers Hacking gelernt.</p>
             ${buildHLikert('q1')}
             
-            <p style="margin-top:48px;">2. ${
-              'Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.'
-              // : 'Am Anfang fühlte ich mich etwas verloren und wusste nicht genau, was von mir erwartet wird.'
-            }</p>
+            <p style="margin-top:48px;">2. Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.</p>
             ${buildHLikert('q2')}
 
-            <p style="margin-top:48px;">3. ${
-              'Die Aufgaben haben mir nicht genug Neues beigebracht.'
-              // : 'Die ersten Aufgaben bieten einen motivierenden und passenden Einstieg in das Thema Hacking.'
-            }</p>
+            <p style="margin-top:48px;">3. Die Aufgaben haben mir nicht genug Neues beigebracht.</p>
             ${buildHLikert('q3')}
 
-            <p style="margin-top:48px;">4. ${
-              'Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.'
-              // 'Ich finde die ersten Aufgaben zu langsam oder langweilig oder direkt zu schwierig.'
-            }</p>
+            <p style="margin-top:48px;">4. Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.</p>
             ${buildHLikert('q4')}
 
-            <p style="margin-top:64px;">${'Was hat dir an Hack The Web besonders gut gefallen und warum?'} (max. 500 Zeichen)</p>
+            <p style="margin-top:64px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 500 Zeichen)</p>
             <textarea class="form-control" rows="3" maxlength="500" name="good" required></textarea>
 
-            <p style="margin-top:32px;">${'Was würdest du an Hack The Web verbessern oder anders machen?'} (max. 500 Zeichen)</p>
+            <p style="margin-top:32px;">Was würdest du an Hack The Web verbessern oder anders machen? (max. 500 Zeichen)</p>
             <textarea class="form-control" rows="3" maxlength="500" name="improve" required></textarea>
 
-            ${
-              `
-                <p style="margin-top:32px;">Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web einer FreundIn weiterempfehlen würdest?</p>
-                ${buildRecommendScale('recommend')}
-              `
-              //   : `
-              //   <p style="margin-top:32px;">Würdest du Hack The Web deinen Freunden weiterempfehlen?</p>
-              //   ${buildYesNo('recommend')}
-              // `
-            }
+            <p style="margin-top:32px;">Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web einer FreundIn weiterempfehlen würdest?</p>
+            ${buildRecommendScale('recommend')}
             
             <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Abschicken</button></p>
             
@@ -4102,7 +4082,7 @@ To: ${req.user?.name}@arrrg.de</pre>
         en: `
         ${style}
 
-        <p>I know: a survey isn’t the most thrilling adventure in the world (yeah, yeah, nobody loves them), but hey... this one only takes 3 minutes, promise. Your opinion really helps make Hack The Web even better. Our time is valuable, so I want to fill it with the best content.</p>
+        <p>I know: a survey isn’t the most exciting adventure in the world (yeah, yeah, nobody loves them), but hey... this one only takes 3 minutes, promise. Your opinion helps a lot to make Hack The Web even better. Our time is valuable, and I really want to fill this time with only the best content.</p>
 
         <details>
           <summary>
@@ -4111,16 +4091,16 @@ To: ${req.user?.name}@arrrg.de</pre>
           <hr />
           <form autocomplete="off" method="post">
 
-            <p style="margin-top:64px;">1. The onboarding in Hack The Web is clear and understandable.</p>
+            <p style="margin-top:64px;">1. I learned something new about hacking here.</p>
             ${buildHLikert('q1')}
             
-            <p style="margin-top:48px;">2. At the beginning, I felt a bit lost and wasn’t sure what was expected of me.</p>
+            <p style="margin-top:48px;">2. I would have preferred to do the tasks without the story around them.</p>
             ${buildHLikert('q2')}
 
-            <p style="margin-top:48px;">3. The first tasks provide a motivating and suitable introduction to hacking.</p>
+            <p style="margin-top:48px;">3. The tasks did not teach me enough new things.</p>
             ${buildHLikert('q3')}
 
-            <p style="margin-top:48px;">4. I find the first steps too slow or boring, or immediately too difficult.</p>
+            <p style="margin-top:48px;">4. I like that there is a story that runs through the tasks.</p>
             ${buildHLikert('q4')}
 
             <p style="margin-top:64px;">What did you particularly like about Hack The Web and why? (max. 500 characters)</p>
@@ -4129,11 +4109,12 @@ To: ${req.user?.name}@arrrg.de</pre>
             <p style="margin-top:32px;">What would you improve or do differently in Hack The Web? (max. 500 characters)</p>
             <textarea class="form-control" rows="3" maxlength="500" name="improve" required></textarea>
 
-            <p style="margin-top:32px;">Would you recommend Hack The Web to your friends?</p>
-            ${buildYesNo('recommend')}
+            <p style="margin-top:32px;">On a scale from 0 to 10, how likely is it that you would recommend Hack The Web to a friend?</p>
+            ${buildRecommendScale('recommend')}
 
             <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Submit</button></p>
             
+            <input type="hidden" name="version" value="3">
             <input type="hidden" name="answer" value="_">
           </form>
         </details>
@@ -4142,7 +4123,6 @@ To: ${req.user?.name}@arrrg.de</pre>
     },
     check: async (answer, { App, req }) => {
       if (answer == 'skip') {
-        // testing
         return { answer, correct: true }
       }
       const body = req.body || {}
@@ -4154,13 +4134,19 @@ To: ${req.user?.name}@arrrg.de</pre>
       )
       if (!req.body?.recommend) {
         return {
-          answer: 'Keine Formulardaten erhalten',
+          answer:
+            req.lng == 'de'
+              ? 'Keine Formulardaten erhalten'
+              : 'No form data received',
           correct: false,
           rawAnswer: true,
         }
       }
       return {
-        answer: 'Vielen Dank für die Teilnahme an der Umfrage.',
+        answer:
+          req.lng == 'de'
+            ? 'Vielen Dank für die Teilnahme an der Umfrage.'
+            : 'Thank you for participating in the survey.',
         correct: true,
         rawAnswer: true,
       }

@@ -140,7 +140,11 @@ export function setupSurvey(App) {
     ]
 
     const likertQuestionCharts = likertQuestions.map((question) => {
-      const counts = buildScaleCounts(chartEntries, question.key, likertScaleValues)
+      const counts = buildScaleCounts(
+        chartEntries,
+        question.key,
+        likertScaleValues
+      )
       return {
         key: question.key,
         label: question.label,
@@ -176,10 +180,7 @@ export function setupSurvey(App) {
         <p>Zeitraum ab: ${fromDateStr} • Einträge: ${chronoEntries.length} / abzüglich Duplikate: ${skipDup}, Low Effort: ${skipNoise}</p>
 
         <h2 style="margin-top: 32px;">Grafische Auswertung</h2>
-        <details><summary>Anzeigen</summary>
-        <small style="display:inline-block; margin-bottom: 24px; margin-top: 16px;">
-          Ausgewertete Einträge (v3 / trial): ${chartPayload.chartEntryCount}
-        </small>
+        <details><summary>Anzeigen (${chartPayload.chartEntryCount} Einträge)</summary>
         ${
           chartPayload.hasData
             ? `

@@ -302,7 +302,8 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
     res.redirect('/')
   })
 
-  App.express.get(['/salü', encodeURI('/salü')], (req, res) => {
+  // also handle NFC variant
+  App.express.get(['/salü', encodeURI('/salü'), '/salu%CC%88'], (req, res) => {
     if (!req.user && !req.session.__hasSentPromoEvent) {
       App.event.create('promo_salü', 42)
       req.session.__hasSentPromoEvent = true

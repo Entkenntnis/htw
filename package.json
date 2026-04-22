@@ -24,7 +24,7 @@
     "escape-html": "^1.0.3",
     "express": "^5.1.0",
     "i18next": "^25.3.6",
-    "i18next-fs-backend": "^2.6.0",
+    "i18next-fs-backend": "^2.6.4",
     "jsonwebtoken": "^9.0.2",
     "jsqr": "^1.4.0",
     "jwk-to-pem": "^2.0.7",

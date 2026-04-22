@@ -850,6 +850,19 @@ export const experimentDefs = [
     challenge: 57,
     startTs: new Date('2026-02-28 00:01+0100').getTime(),
     endTs: new Date('2026-04-18 00:01+0200').getTime(),
+    baseImg: '/experiments/41_base.jpg',
+    trialImg: '/experiments/41_trial.jpg',
+    results: {
+      numEvents: 11775,
+      nShowBase: 272,
+      nShowTrial: 288,
+      nVisitorsBase: 217,
+      nVisitorsTrial: 229,
+      nSolversBase: 54,
+      nSolversTrial: 77,
+    },
+    learning:
+      'Deutliche und sichtbare Steigerung, das ist eine Erleichterung, weil ich bisher immer dachte, dass diese Aufgabe notorisch schwer zu integrieren ist. Mit diesem Update bin ich aber jetzt ganz happy.',
   },
   {
     id: 42,

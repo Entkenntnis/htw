@@ -13,6 +13,7 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   const mapMeta = await App.mapMeta.get(req.user.id)
 
   const logbookVisible = showAll || mapMeta.storiesAvailable.length > 0 // any story available
+  const shadowsVisible = showAll || mapMeta.storiesAvailable.includes(3) // story 1 available
   const enoughVisible = showAll || mapMeta.storiesAvailable.includes(4) // story 4 available
   const musicVisible = showAll || mapMeta.storiesAvailable.includes(5) // story 5 available
 
@@ -184,14 +185,21 @@ export async function customMapHtmlCreator({ App, req, solved }) {
   }
 
   if (enoughVisible) {
-    output += `<a draggable="false" href="/enough" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/enough" style="position:absolute;left:140px;top:1085px;" class="text-reset text-decoration-none fade-in">
             <div>&nbsp;&nbsp;&nbsp;Enough</div>
             <img draggable="false" src="/enough.png" style="width:65px;margin-top:6px;">
           </a>`
   }
 
+  if (shadowsVisible) {
+    output += `<a draggable="false" href="/quiz" style="position:absolute;left:140px;top:955px;" class="text-reset text-decoration-none fade-in">
+              <div style="text-align: center; line-height: 1.1">Schatten von<br>Naxion</div>
+              <img draggable="false" src="/naxion.png" style="width:66px;margin-left:9px; margin-top: 4px">
+            </a>`
+  }
+
   if (musicVisible) {
-    output += `<a draggable="false" href="/music" target="_blank" style="position:absolute;left:158px;top:1160px;" class="text-reset text-decoration-none fade-in">
+    output += `<a draggable="false" href="/music" target="_blank" style="position:absolute;left:163px;top:1200px;" class="text-reset text-decoration-none fade-in">
             <div>Musik</div>
             <img draggable="false" src="/musical-note.png" style="width:36px; margin-top: 4px;">
           </a>`

@@ -1186,7 +1186,7 @@ I'll give it to someone special
 
   {
     id: 370,
-    pos: { x: 2150, y: 790 },
+    pos: { x: 2150, y: 2290 },
     title: {
       de: 'Where The Hack? - Nr. 1 [GeOSINT 2026]',
       en: 'Where The Hack? - No. 1 [GeOSINT 2026]',
@@ -1197,6 +1197,7 @@ I'll give it to someone special
     releaseTs: new Date('2026-03-23 08:00:00 GMT+0100').getTime(),
     author: 'Anna',
     color: '#95eb83',
+    hideLink: true,
     render: async ({ App, req }) => {
       return await renderTemplate(App, req, 'where_the_hack', {
         stem:
@@ -1221,7 +1222,7 @@ I'll give it to someone special
 
   {
     id: 371,
-    pos: { x: 2370, y: 770 },
+    pos: { x: 2340, y: 2270 },
     title: { de: 'Nr. 2', en: 'No. 2' },
     date: '2026-03-25',
     deps: [370],
@@ -1249,7 +1250,7 @@ I'll give it to someone special
 
   {
     id: 372,
-    pos: { x: 2250, y: 970 },
+    pos: { x: 2180, y: 2450 },
     title: { de: 'Nr. 3', en: 'No. 3' },
     date: '2026-03-27',
     deps: [370],
@@ -1277,7 +1278,7 @@ I'll give it to someone special
 
   {
     id: 373,
-    pos: { x: 2370, y: 900 },
+    pos: { x: 2300, y: 2370 },
     title: { de: 'Nr. 4', en: 'No. 4' },
     date: '2026-03-30',
     deps: [370],
@@ -1305,7 +1306,7 @@ I'll give it to someone special
 
   {
     id: 374,
-    pos: { x: 2650, y: 870 },
+    pos: { x: 2530, y: 2370 },
     title: { de: '5 .ɹN', en: '5 .oN' },
     date: '2026-04-01',
     deps: [371, 373],
@@ -1333,7 +1334,7 @@ I'll give it to someone special
 
   {
     id: 375,
-    pos: { x: 2530, y: 1090 },
+    pos: { x: 2350, y: 2570 },
     title: { de: 'Nr. 6', en: 'No. 6' },
     date: '2026-04-03',
     deps: [372, 373],
@@ -1361,7 +1362,7 @@ I'll give it to someone special
 
   {
     id: 376,
-    pos: { x: 2740, y: 1010 },
+    pos: { x: 2560, y: 2580 },
     title: { de: 'Frohe Feiertage! 🐇', en: 'Happy Holidays! 🐇' },
     date: '2026-04-05',
     deps: [374, 375],

@@ -1,5 +1,6 @@
 import { Op } from 'sequelize'
 import escapeHTML from 'escape-html'
+import { experimentDefs } from '../../data/experiments.js'
 
 const fromDate = '2025-02-08'
 
@@ -537,6 +538,157 @@ export function setupAnalyze(App) {
         .join(' ') +
       '</ul></html>'
 
+    res.send(output)
+  })
+
+  async function getDataForId(id) {
+    const def = experimentDefs.find((el) => el.id == id)
+
+    const events = await App.db.models.Event.findAll({
+      where: {
+        key: {
+          [Op.like]: 'ex_' + id + '_%',
+          [Op.not]: 'export_data',
+        },
+      },
+      raw: true,
+    })
+
+    // Hilfsfunktion: normal CDF und inverse über erf
+    const erf = (x) => {
+      const sign = x >= 0 ? 1 : -1
+      const ax = Math.abs(x)
+      const a1 = 0.254829592,
+        a2 = -0.284496736,
+        a3 = 1.421413741,
+        a4 = -1.453152027,
+        a5 = 1.061405429,
+        p = 0.3275911
+      const t = 1 / (1 + p * ax)
+      const y =
+        1 -
+        ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-ax * ax)
+      return sign * y
+    }
+    const normalCdf = (x) => 0.5 * (1 + erf(x / Math.SQRT2))
+
+    /** p-Wert für zweiseitigen Test auf Gleichheit zweier Proportionen (χ²/ z‑Test) */
+    function computePValue(nA, xA, nB, xB) {
+      if (nA <= 0 || nB <= 0) return null
+      const pA = xA / nA
+      const pB = xB / nB
+      const pPool = (xA + xB) / (nA + nB)
+      const se = Math.sqrt(pPool * (1 - pPool) * (1 / nA + 1 / nB))
+      if (se === 0) return null
+      const z = (pB - pA) / se
+      return 2 * (1 - normalCdf(Math.abs(z)))
+    }
+
+    const dayBuckets = {}
+    const days = new Set()
+    const key = 'lalal'
+
+    for (const event of events) {
+      if (!event.key.startsWith('ex_' + id + '_')) continue
+      if (
+        new Date(event.createdAt) < new Date(def.startTs) ||
+        new Date(event.createdAt) > new Date(def.endTs)
+      )
+        continue
+      if (!dayBuckets[key]) dayBuckets[key] = []
+      days.add(key)
+      dayBuckets[key].push({ key: event.key, userId: event.userId })
+    }
+
+    const sortedDays = [...days].sort() // chronologisch
+
+    // console.log(sortedDays)
+
+    // Kumulierte Sets über die Zeit
+    const usersWhoSaw_base = new Set()
+    const usersWhoVisit_base = new Set()
+    const usersWhoSolve_base = new Set()
+    const usersWhoSaw_trial = new Set()
+    const usersWhoVisit_trial = new Set()
+    const usersWhoSolve_trial = new Set()
+
+    let output = '<pre>'
+
+    let currentN = 0
+    const value = []
+
+    for (const day of sortedDays) {
+      // Ereignisse des Tages in kumulierte Sets einpflegen
+      for (const ev of dayBuckets[day]) {
+        const parts = ev.key.split('_')
+        if (parts.length < 4) continue
+        const variant = parts[2] // base | trial
+        const action = parts[3] // show | visit | solve
+        const uid = ev.userId
+        if (uid == null) continue
+
+        if (variant === 'base') {
+          if (action === 'show') usersWhoSaw_base.add(uid)
+          else if (action === 'visit') usersWhoVisit_base.add(uid)
+          else if (action === 'solve') usersWhoSolve_base.add(uid)
+        } else if (variant === 'trial') {
+          if (action === 'show') usersWhoSaw_trial.add(uid)
+          else if (action === 'visit') usersWhoVisit_trial.add(uid)
+          else if (action === 'solve') usersWhoSolve_trial.add(uid)
+        }
+
+        const visitors_base = new Set(
+          [...usersWhoVisit_base].filter((uid) => usersWhoSaw_base.has(uid))
+        )
+        const visitors_trial = new Set(
+          [...usersWhoVisit_trial].filter((uid) => usersWhoSaw_trial.has(uid))
+        )
+        const solvers_base = new Set(
+          [...usersWhoSolve_base].filter((uid) => usersWhoVisit_base.has(uid))
+        )
+        const solvers_trial = new Set(
+          [...usersWhoSolve_trial].filter((uid) => usersWhoVisit_trial.has(uid))
+        )
+
+        const nShowBase = usersWhoSaw_base.size
+        const nShowTrial = usersWhoSaw_trial.size
+        const nVisBase = visitors_base.size
+        const nVisTrial = visitors_trial.size
+        const nSolvBase = solvers_base.size
+        const nSolvTrial = solvers_trial.size
+
+        // Kennzahlen
+        const ctrBase = nShowBase > 0 ? nVisBase / nShowBase : 0
+        const ctrTrial = nShowTrial > 0 ? nVisTrial / nShowTrial : 0
+        const solveBase = nVisBase > 0 ? nSolvBase / nVisBase : 0
+        const solveTrial = nVisTrial > 0 ? nSolvTrial / nVisTrial : 0
+
+        const upliftCTR =
+          ctrBase > 0 ? ((ctrTrial - ctrBase) / ctrBase) * 100 : null
+        const upliftSolve =
+          solveBase > 0 ? ((solveTrial - solveBase) / solveBase) * 100 : null
+
+        const pCTR = computePValue(nShowBase, nVisBase, nShowTrial, nVisTrial)
+        const pSolve = computePValue(nVisBase, nSolvBase, nVisTrial, nSolvTrial)
+
+        const N = nVisBase + nVisTrial
+        if (N > currentN) {
+          // console.log(N, nVisBase, nSolvBase, nVisTrial, nSolvTrial)
+          value.push(pSolve ?? 0)
+          currentN = N
+        }
+      }
+    }
+
+    return value
+  }
+
+  App.express.get('/tmp-events-p-value', async (req, res) => {
+    const output = {}
+    for (let i = 1; i <= 42; i++) {
+      const values = await getDataForId(i)
+      output[i] = values
+    }
     res.send(output)
   })
 }

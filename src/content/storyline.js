@@ -153,7 +153,7 @@ export function setupStoryline(App) {
             hint.textContent = hintText
             c.appendChild(hint)
 
-            var P_DUR = 4000, L_GAP = 600
+            var P_DUR = 4000000, L_GAP = 6000000
             function calcDur(s) {
               var w = (s || '').trim().split(/\s+/).filter(Boolean).length
               var d = 2400 + w * 120
@@ -222,7 +222,7 @@ export function setupStoryline(App) {
                 var p = ps[state.pi]
                 var ls2 = p.querySelectorAll('.line-fade-in')
                 if (state.li + 1 < ls2.length) startLine(state.li + 1)
-                else nextParagraph()
+                else nextParagraph(true)
               } else {
                 startParagraph(state.pi, true)
               }
@@ -239,11 +239,13 @@ export function setupStoryline(App) {
               c.classList.add('scene-interactive')
               if (hint) hint.classList.add('show')
               startParagraph(0, false)
-              c.addEventListener('click', function(ev){
-                if (state.done) return
-                if (ev.target && ev.target.closest && ev.target.closest('.continue')) return
-                skipCurrent()
-              })
+              document.addEventListener('click', function(ev){
+                if (state.done) return;
+                if (ev.target && ev.target.closest) {
+                  if (ev.target.closest('.continue') || ev.target.closest('.scene-skip')) return;
+                }
+                skipCurrent();
+              });
             }
             if ('IntersectionObserver' in window) {
               new IntersectionObserver(function(e, o){ if (e[0].isIntersecting) { startSequence(); o.disconnect() } }, { threshold: 0.1 }).observe(c)

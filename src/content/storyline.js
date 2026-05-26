@@ -128,6 +128,73 @@ export function setupStoryline(App) {
             z-index: 1000;
           }
           .scene-panel .panel-inner .click-hint.show { opacity: 0.75; }
+
+          /* Pride Rainbow Pulse – only when .scene-container has .rbc */
+          .scene-container.rbc .scene-panel .panel-inner {
+            /* Override the main‑colour border & glow */
+            border-color: #e40303;            /* fallback red */
+            box-shadow:
+              0 0 0 1px rgba(228, 3, 3, 0.25) inset,
+              0 0 20px rgba(228, 3, 3, 0.2);
+
+            /* Smooth cycle through the six‑colour pride flag */
+            animation: pridePulse 4s infinite linear;
+          }
+
+          .scene-container.black .scene-panel .panel-inner {
+            /* Override the main‑colour border & glow */
+            border-color: black;            /* fallback red */
+            box-shadow:
+              0 0 0 1px rgba(228, 3, 3, 0) inset,
+              0 0 20px rgba(228, 3, 3, 0);
+            background-color: black;
+          }
+
+          @keyframes pridePulse {
+            0% {
+              border-color: #e40303;                    /* red */
+              box-shadow:
+                0 0 0 1px rgba(228, 3, 3, 0.25) inset,
+                0 0 20px rgba(228, 3, 3, 0.2);
+            }
+            16.6% {
+              border-color: #ff8c00;                    /* orange */
+              box-shadow:
+                0 0 0 1px rgba(255, 140, 0, 0.25) inset,
+                0 0 20px rgba(255, 140, 0, 0.2);
+            }
+            33.3% {
+              border-color: #ffed00;                    /* yellow */
+              box-shadow:
+                0 0 0 1px rgba(255, 237, 0, 0.25) inset,
+                0 0 20px rgba(255, 237, 0, 0.2);
+            }
+            50% {
+              border-color: #008026;                    /* green */
+              box-shadow:
+                0 0 0 1px rgba(0, 128, 38, 0.25) inset,
+                0 0 20px rgba(0, 128, 38, 0.2);
+            }
+            66.6% {
+              border-color: #24408e;                    /* blue */
+              box-shadow:
+                0 0 0 1px rgba(36, 64, 142, 0.25) inset,
+                0 0 20px rgba(36, 64, 142, 0.2);
+            }
+            83.3% {
+              border-color: #732982;                    /* purple */
+              box-shadow:
+                0 0 0 1px rgba(115, 41, 130, 0.25) inset,
+                0 0 20px rgba(115, 41, 130, 0.2);
+            }
+            100% {
+              border-color: #e40303;                    /* back to red */
+              box-shadow:
+                0 0 0 1px rgba(228, 3, 3, 0.25) inset,
+                0 0 20px rgba(228, 3, 3, 0.2);
+            }
+          }
+
         </style>
         <div class="scene-container">
           <a href="/story/${id}/skip" class="scene-skip" aria-label="${lng === 'en' ? 'Skip' : 'Überspringen'}">${lng === 'en' ? 'skip' : 'überspringen'}</a>
@@ -185,6 +252,18 @@ export function setupStoryline(App) {
             function startParagraph(i, immediate) {
               var p = ps[i]
               p.classList.add('start')
+              if (p.classList.contains('rainbow-colour-start')) {
+                document.querySelector(".scene-container").classList.add("black")
+                setTimeout(() => {
+                  document.querySelector(".scene-container").classList.add("rbc")
+                }, 2000)
+              }
+              if (p.classList.contains('rainbow-colour-end')) {
+                setTimeout(() => {
+                  document.querySelector(".scene-container").classList.remove("rbc")
+                  document.querySelector(".scene-container").classList.remove("black")
+                }, 2000)
+              }
               state.currentEl = p
               state.currentType = 'paragraph'
               state.li = -1

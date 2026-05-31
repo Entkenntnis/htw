@@ -198,4 +198,5 @@ export const secretValues = {
   chal_375_pos: '[42, 42]',
   chal_376: '42',
   chal_376_pos: '[42, 42]',
+  chal_377: '42',
 }

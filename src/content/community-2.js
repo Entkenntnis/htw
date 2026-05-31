@@ -1387,4 +1387,29 @@ I'll give it to someone special
     },
     solution: secrets('chal_376'),
   },
+
+  {
+    id: 377,
+    pos: { x: 1410, y: 670 },
+    title: { de: 'Stalker', en: 'Stalker' },
+    date: '2026-06-01',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2026-06-01 15:00:00 GMT+0200').getTime(),
+    difficulty: 'medium',
+    author: 'bennosaurusrex',
+    html: {
+      de: `
+        <p>Du bist richtig verliebt in Jake, du hast seinen <a href="https://github.com/expressionismus" target="_blank">Github-Account</a> gefunden, aber findest dort keine Kontaktinformationen. Hm, das lässt dich nicht los! Es muss doch eine Möglichkeit geben, Jake zu kontaktieren?</p>
+
+        <p>Die Antwort ist die private E-Mail-Adresse von Jake.</p>
+      `,
+      en: `
+        <p>You are really in love with Jake, you found his <a href="https://github.com/expressionismus" target="_blank">GitHub account</a>, but you can't find any contact information there. Hm, that won't leave you alone! There must be a way to contact Jake, right?</p>
+        
+        <p>The answer is Jake's private email address.</p>
+      `,
+    },
+    solution: secrets('chal_377'),
+  },
 ]

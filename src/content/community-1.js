@@ -1550,10 +1550,10 @@ RS#1</pre>
     difficulty: 'easy',
     html: {
       de: `
-        <p>Discord ist faszinierend. Die Antwort auf diese Aufgabe ist die Nutzer-ID von virusrpi.</p>
+        <p>Discord ist faszinierend. Die Antwort auf diese Aufgabe ist die Nutzer-ID von virus_rpi.</p>
       `,
       en: `
-        <p>Discord is fascinating. The answer to this task is the user id of virusrpi.</p>
+        <p>Discord is fascinating. The answer to this task is the user id of virus_rpi.</p>
       `,
     },
     solution: secrets('chal_333'),

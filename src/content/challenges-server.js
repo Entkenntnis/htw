@@ -536,6 +536,8 @@ export function setupChallengesServer(App) {
       res.send(req.lng === 'de' ? 'Bitte einloggen.' : 'Please log in.')
       return
     }
+    const mapMeta = await App.mapMeta.get(req.user.id)
+    const hardMode = mapMeta.difficulty === 'hard'
 
     const isGerman = req.lng === 'de'
     const s = {
@@ -614,7 +616,7 @@ export function setupChallengesServer(App) {
                   <div class="ef-radio-group">
                     <label><input type="radio" name="gender" value="male" required> ${s.male}</label>
                     <label><input type="radio" name="gender" value="female"> ${s.female}</label>
-                    <!-- <label><input type="radio" name="gender" value="other"> ${s.other}</label> -->
+                    ${hardMode ? '' : `<!-- <label><input type="radio" name="gender" value="other"> ${s.other}</label> -->`}
                   </div>
                 </div>
                 <div class="ef-row ef-row--full">
@@ -625,11 +627,15 @@ export function setupChallengesServer(App) {
           </div>
         </div>
           
-        <p style="margin-top: 50px">[<a href="#" onclick="loadXRay()">${
-          s.editHtml
-        }</a>]</p>
+        ${
+          hardMode
+            ? ''
+            : `<p style="margin-top: 50px">[<a href="#" onclick="loadXRay()">${
+                s.editHtml
+              }</a>]</p>`
+        }
 
-        <p style="margin-top: 36px; color: gray; margin-bottom: 200px;">${s.hint}</p>
+        ${hardMode ? '' : `<p style="margin-top: 36px; color: gray; margin-bottom: 200px;">${s.hint}</p>`}
       `,
     })
   })

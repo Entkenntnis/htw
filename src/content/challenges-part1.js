@@ -2476,6 +2476,7 @@ export const part1 = [
     title: { de: 'Ankunft in Sirtach', en: 'Arrival In Sirtach' },
     // date: '2020-08-17',
     deps: [27, 41, 64],
+    hasHardVersion: true,
     render: ({ App, req }) => {
       return {
         de: story(

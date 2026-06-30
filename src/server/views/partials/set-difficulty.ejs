@@ -51,6 +51,8 @@
   const continueButton = document.getElementById('continue-button2')
   options.forEach((option) => {
     option.addEventListener('click', () => {
+      options.forEach(opt => opt.classList.remove("selected"))
+      option.classList.add("selected")
       options.forEach((opt) => (opt.style.borderColor = '#ccc'))
       option.style.borderColor = 'var(--main-color)'
       continueButton.disabled = false
@@ -72,5 +74,9 @@
     padding: 16px;
     text-align: center;
     cursor: pointer;
+  }
+  .difficulty-option.selected {
+    border-color: var(--main-color);
+    background-color: rgba(var(--main-color-rgb), 0.1)
   }
 </style>

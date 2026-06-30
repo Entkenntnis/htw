@@ -174,7 +174,8 @@ export const part1 = [
       return renderTemplate(
         App,
         req,
-        '../../server/views/partials/set-difficulty'
+        '../../server/views/partials/set-difficulty',
+        { difficulty: '' }
       )
     },
   },

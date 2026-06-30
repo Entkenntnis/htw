@@ -18,24 +18,26 @@
 
 <form method="POST" action="/set-difficulty" id="difficulty-form">
   <div style="display: flex; gap: 16px; margin-bottom: 24px">
-    <label for="difficulty-easy" class="difficulty-option">
+    <label for="difficulty-easy" class="difficulty-option <%= difficulty == 'easy' ? 'selected' : ''%>">
       <input
         type="radio"
         id="difficulty-easy"
         name="difficulty"
         value="easy"
         style="display: none"
+        <%= difficulty == 'easy' ? 'checked' : ''%>
       />
       <h3><%= easyHeading %></h3>
       <p><%= easyDesc %></p>
     </label>
-    <label for="difficulty-hard" class="difficulty-option">
+    <label for="difficulty-hard" class="difficulty-option <%= difficulty == 'hard' ? 'selected' : ''%>">
       <input
         type="radio"
         id="difficulty-hard"
         name="difficulty"
         value="hard"
         style="display: none"
+        <%= difficulty == 'hard' ? 'checked' : ''%>
       />
       <h3><%= hardHeading %></h3>
       <p><%= hardDesc %></p>
@@ -49,15 +51,24 @@
 <script>
   const options = document.querySelectorAll('.difficulty-option')
   const continueButton = document.getElementById('continue-button2')
-  options.forEach((option) => {
-    option.addEventListener('click', () => {
+
+  function updateAfterClick(option) {
+    return () => {
       options.forEach(opt => opt.classList.remove("selected"))
       option.classList.add("selected")
       options.forEach((opt) => (opt.style.borderColor = '#ccc'))
       option.style.borderColor = 'var(--main-color)'
       continueButton.disabled = false
-    })
+    }
+  }
+
+  options.forEach((option) => {
+    option.addEventListener('click', updateAfterClick(option))
   })
+
+  if (document.querySelector('.difficulty-option.selected')) {
+    continueButton.disabled = false
+  }
 </script>
 
 <style>

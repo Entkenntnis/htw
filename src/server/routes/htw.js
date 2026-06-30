@@ -107,7 +107,8 @@ htw_users_total ${Math.max(usercount, c1.solvedBy)}
       content: await renderTemplate(
         App,
         req,
-        '../../server/views/partials/set-difficulty'
+        '../../server/views/partials/set-difficulty',
+        { difficulty: (await App.mapMeta.get(req.user.id)).difficulty }
       ),
     })
   })

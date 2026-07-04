@@ -80,17 +80,15 @@ export function setupSurvey(App) {
       return entry.obj
     })
 
-    const relevantEntriesV3 = relevantEnt.filter((entry) => {
-      return entry.obj['survey-trial'] || entry.obj.version == '3'
+    const chartEntries = relevantEnt.filter((entry) => {
+      return entry.obj.version == '4'
     })
-
-    const chartEntries = relevantEntriesV3
 
     const questionLabels = {
       q1: 'Ich habe hier etwas Neues übers Hacking gelernt.',
-      q2: 'Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.',
+      q2: 'Hacken ist eine sinnlose Aktivität.',
       q3: 'Die Aufgaben haben mir nicht genug Neues beigebracht.',
-      q4: 'Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.',
+      q4: 'Ich finde es wichtig, sich mit dem Thema Hacking zu beschäftigen.',
       recommend:
         'Wie wahrscheinlich ist es auf einer Skala von 0 bis 10, dass du Hack The Web einer FreundIn weiterempfehlen würdest?',
     }

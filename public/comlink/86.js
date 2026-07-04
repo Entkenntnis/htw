@@ -1,6 +1,5 @@
 const COM_TREE = {
   character: 'JOSH',
-  dev: true,
   messages: {
     start: {
       text: ['Hey Kiddo!', 'Du weißt schon ...'],

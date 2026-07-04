@@ -1,7 +1,6 @@
 const COM_TREE = window.trial
   ? {
       character: 'KIWI',
-      dev: true,
       messages: {
         start: {
           text: 'Na, kommst du klar?',

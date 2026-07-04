@@ -1466,12 +1466,9 @@ export const part1 = [
       return {
         de: story(
           'Josh',
-          App.experiments.showTrial(30, req)
-            ? `
-          <p>Auf welchen Account möchten Hacker am liebsten zugreifen? Der Name des Accounts ist die Antwort zu dieser Aufgabe.</p>
-        `
-            : `
+          `
           <p style="min-width: 65ch">Im welchem Jahr liegt der Zeitpunkt 817876800?</p>
+          ${App.experiments.showTrial(30, req) ? '' : `<div id="continue-button"></div>`}
         `
         ),
         en: story(

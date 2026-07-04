@@ -885,4 +885,12 @@ export const experimentDefs = [
     learning:
       'So, also die CTR-Analyse zeigt, dass die Daten etwas unstabil waren, das ist schon interessant, aber die Datenbasis war auch nicht so riesig. Dadurch, dass es keine Regression gab, kann ich davon ausgehen, dass die neue Umfrage jetzt das Lösungsverhalten nicht wirklich beeinflusst und Leute, die die Umfrage davor ausgefüllt hätten, sie weiter ausfüllen würden.',
   },
+  {
+    id: 43,
+    description:
+      'UNIX: Ich probiere mal COMLINK auch mit Link zu einem Konverter.',
+    challenge: 30,
+    startTs: new Date('2026-07-05 00:01+0200').getTime(),
+    endTs: new Date('2026-07-26 00:01+0200').getTime(),
+  },
 ]

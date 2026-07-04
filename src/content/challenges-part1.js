@@ -1927,19 +1927,25 @@ export const part1 = [
     id: 47,
     pos: { x: 1060, y: 690 },
     title: { de: 'Ladebalken', en: 'Progressbar' },
+    hasHardVersion: true,
     // date: '2020-05-20',
     deps: [18, 60, 84],
-    html: {
-      de: story(
-        'Bex',
-        `
+    render: ({ hardMode }) => {
+      return {
+        de: story(
+          'Bex',
+          `
         <p>Ich verrate dir eine kleine peinliche Geschichte von mir. Erzähle sie ja nicht weiter!</p>
 
         <p>Aus irgendeinem Grund glaubte ich lange Zeit, dass Ladebalken am Computer schneller laufen, wenn ich auf der Tastatur tippe. Das machte ich also jedes Mal, während ich auf etwas wartete. Einmal fragte mich Kiwi, was ich denn da mache und ich erzählte ihr den Grund. Sie lachte mich einfach aus und mein Kopf lief total rot an als ich meinen Aberglauben bemerkte.</p>
 
-        <p>Um mich besser zu fühlen programmierte ich dann einen Ladebalken, der tatsächlich schneller läuft wenn man auf Tasten drückt. An dem darfst du dich jetzt ausprobieren. Sobald der Balken voll ist, erhältst du deine Antwort.</p>
+        <p>${
+          hardMode
+            ? `Zwar funktioniert das Tippen nicht, aber mit bisschen Hacking kannst du das Ergebnis schneller erhalten.`
+            : `Um mich besser zu fühlen programmierte ich dann einen Ladebalken, der tatsächlich schneller läuft wenn man auf Tasten drückt. An dem darfst du dich jetzt ausprobieren. Sobald der Balken voll ist, erhältst du deine Antwort.`
+        }</p>
         `,
-        `
+          `
         <div class="progress my-4">
           <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
         </div>
@@ -1979,9 +1985,13 @@ export const part1 = [
             }
           }
           
-          window.onkeydown = (e) => {
+          ${
+            hardMode
+              ? ''
+              : `window.onkeydown = (e) => {
             if (e.repeat) return
             work(true)
+          }`
           }
           
           value.innerHTML = x
@@ -1990,17 +2000,21 @@ export const part1 = [
           setTimeout(work, 1000)
         </script>
     `
-      ),
-      en: story(
-        'Bex',
-        `
+        ),
+        en: story(
+          'Bex',
+          `
         <p>Let me tell you a slightly embarrassing story about me. Don't tell anyone!</p>
 
         <p>For some reason, I used to believe that progress bars on a computer run faster if I type on the keyboard. So I did it every single time while waiting. Once, Kiwi asked me what I was doing, and I told her why. She just laughed — and I blushed like crazy when I realized my superstition.</p>
 
-        <p>To make myself feel better, I programmed a progress bar that actually becomes faster when you press keys. Go ahead and try it. As soon as the bar is full, you'll get your answer.</p>
+        <p>${
+          hardMode
+            ? `Admittedly, typing doesn't work, but with a little hacking you can get the result faster.`
+            : `To make myself feel better, I programmed a progress bar that actually becomes faster when you press keys. Go ahead and try it. As soon as the bar is full, you'll get your answer.`
+        }</p>
         `,
-        `
+          `
         <div class="progress my-4">
           <div id="44_bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 1%"></div>
         </div>
@@ -2037,9 +2051,13 @@ export const part1 = [
             }
           }
           
-          window.onkeydown = (e) => {
+          ${
+            hardMode
+              ? ''
+              : `window.onkeydown = (e) => {
             if (e.repeat) return
             work(true)
+          }`
           }
           
           value.innerHTML = x
@@ -2048,7 +2066,8 @@ export const part1 = [
           setTimeout(work, 1000)
         </script>
     `
-      ),
+        ),
+      }
     },
     solution: secrets('chal_47'),
   },

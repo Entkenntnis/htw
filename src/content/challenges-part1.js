@@ -4056,13 +4056,13 @@ To: ${req.user?.name}@arrrg.de</pre>
             <p style="margin-top:64px;">1. Ich habe hier etwas Neues übers Hacking gelernt.</p>
             ${buildHLikert('q1')}
             
-            <p style="margin-top:48px;">2. Ich hätte die Aufgaben lieber ohne die Geschichte drumherum gemacht.</p>
+            <p style="margin-top:48px;">2. Hacken ist eine sinnlose Aktivität.</p>
             ${buildHLikert('q2')}
 
             <p style="margin-top:48px;">3. Die Aufgaben haben mir nicht genug Neues beigebracht.</p>
             ${buildHLikert('q3')}
 
-            <p style="margin-top:48px;">4. Ich finde es gut, dass es eine Geschichte gibt, die sich durch die Aufgaben zieht.</p>
+            <p style="margin-top:48px;">4. Ich finde es wichtig, sich mit dem Thema Hacking zu beschäftigen.</p>
             ${buildHLikert('q4')}
 
             <p style="margin-top:64px;">Was hat dir an Hack The Web besonders gut gefallen und warum? (max. 500 Zeichen)</p>
@@ -4076,7 +4076,7 @@ To: ${req.user?.name}@arrrg.de</pre>
             
             <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Abschicken</button></p>
             
-            <input type="hidden" name="version" value="3">
+            <input type="hidden" name="version" value="4">
             <input type="hidden" name="answer" value="_">
           </form>
         </details>
@@ -4116,7 +4116,7 @@ To: ${req.user?.name}@arrrg.de</pre>
 
             <p style="margin-top:32px;"><button type="submit" class="btn btn-interaction">Submit</button></p>
             
-            <input type="hidden" name="version" value="3">
+            <input type="hidden" name="version" value="4">
             <input type="hidden" name="answer" value="_">
           </form>
         </details>

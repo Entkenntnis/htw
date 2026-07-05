@@ -3221,27 +3221,29 @@ export const part1 = [
     // date: '2022-02-24',
     deps: [18, 84],
     render: ({ App, req }) => {
+      if (App.experiments.showTrial(79, req)) {
+        return story(
+          'Josh',
+          `
+          <p>Im Internet muss man schon gut aufpassen, ansonsten wird man doch glatt über den Tisch gezogen ...</p>
+          
+          <hr>
+
+          <p>Hey!</p>
+
+          <p>Du bist auf der Suche nach deiner Antwort? Um das Wort mit 7 Buchstaben zu erhalten, musst du mir nur 1337€ auf <a href="https://www.paypal.com/paypalme/Dav1dL1">dieses Konto</a> überweisen, ganz einfach.</p>
+
+          <p>Worauf wartest du noch? Das Wort, dass sich auf "Wein" reimt, findet sich nicht von selber! <a href="https://www.paypal.com/paypalme/Dav1dL1">Klicke hier</a> und überweise das Geld, dann erhältst du die Antwort sofort.</p>
+
+          <p>Psst, Sonderangebot! Du erhältst die ersten drei Buchstaben gratis (sie lauten SCH), und ich mache 50% Rabatt, dann verrate ich dir die Lösung. <a href="https://www.paypal.com/paypalme/Dav1dL1">Überweise das Geld</a> jetzt!
+          
+        `
+        )
+      }
       return {
         de: story(
           'Josh',
-          App.experiments.showTrial(79, req)
-            ? `
-              <p>Ein paar dieser E-Mail-Adressen sind gefälscht, aber es braucht ein gutes Auge, um sie zu erkennen:</p>
-
-              <pre><code>noreply@dhl.de
-info@telekom.de
-security@mail.instagrarn.com
-no-reply@amazon.de
-bahncard-service@bahn.de
-info@teIekom.de
-noreply@zalando.de
-noreply@web.de
-security@mail.instagram.com
-no-reply@amaz0n.de
-</code></pre>
-              <p>Deine Antwort sind die Anfangsbuchstaben der gefälschten Adressen, in der Reihenfolge wie oben.</p>
-            `
-            : `
+          `
           <p>Dein Bankkonto steht im Fokus. Du erhältst eine E-Mail von deiner Bank, in der von ungewöhnlichen Aktivitäten berichtet wird. Doch irgendetwas ist shady – der Absender scheint nicht ganz vertrauenswürdig zu sein.</p>
           
           <p>In der "Von:"-Zeile findest du die E-Mail-Adresse des Absenders. Deine Bank verwendet normalerweise die Domain <code>htw-bank.de</code>, aber in dieser Nachricht taucht eine andere Domain auf.</p>
@@ -3256,24 +3258,7 @@ An: ${req.user?.name}@arrrg.de</pre>
         ),
         en: story(
           'Josh',
-          App.experiments.showTrial(79, req)
-            ? `
-              <p>Some of these email addresses are fake — but it takes a good eye to spot them:</p>
-
-              <pre><code>noreply@dhl.de
-info@telekom.de
-security@mail.instagrarn.com
-no-reply@amazon.de
-bahncard-service@bahn.de
-info@teIekom.de
-noreply@zalando.de
-noreply@web.de
-security@mail.instagram.com
-no-reply@amaz0n.de
-</code></pre>
-              <p>Your answer is the first letters of the fake addresses, in the order shown above.</p>
-            `
-            : `
+          `
         <p>Your bank account is in the spotlight. You receive an email from your bank reporting unusual activity. But something feels shady – the sender doesn't seem entirely trustworthy.</p>
         
         <p>In the "From:" line, you find the sender's email address. Your bank normally uses the domain <code>htw-bank.de</code>, but this message shows a different domain.</p>

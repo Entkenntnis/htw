@@ -893,4 +893,12 @@ export const experimentDefs = [
     startTs: new Date('2026-07-05 00:01+0200').getTime(),
     endTs: new Date('2026-07-26 00:01+0200').getTime(),
   },
+  {
+    id: 44,
+    description:
+      'Verdächtig: Lösungsrate ist immer noch super niedrig, ich versuche es mal mit einer Version, die bisschen Humor reinbringt',
+    challenge: 30,
+    startTs: new Date('2026-07-06 00:01+0200').getTime(),
+    endTs: new Date('2026-07-27 00:01+0200').getTime(),
+  },
 ]

@@ -54,6 +54,7 @@ import { withExperiments } from './server/lib/withExperiments.js'
 import { setupStoryline } from './content/storyline.js'
 import { setupHackerQuiz } from './content/hacker-quiz/hacker-quiz.js'
 import { withQuizData } from './server/lib/withQuizData.js'
+import { setupCoolesGame } from './content/cooles-game.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -121,6 +122,8 @@ setupDiscordSSO(App)
 
 setupLiveAnalyze(App)
 setupEvent(App)
+
+setupCoolesGame(App)
 
 // keep it for now
 _deprecated__setupDecodeMe(App)

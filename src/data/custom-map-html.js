@@ -155,8 +155,10 @@ export async function customMapHtmlCreator({ App, req, solved }) {
             <a href="${prometheusUrl}" target="_blank" draggable="false" style="margin-left: 24px;">Perf-Monitor</a>
             <a draggable="false" href="/questions" style="margin-left: 24px;">(Questions)</a>
           </div>`
+
+    // dev, wip
     output += `
-      <a draggable="false" href="/cooles-game" style="position:absolute;left:1313px;top:418px;" class="text-reset text-decoration-none fade-in">
+      <a draggable="false" href="/cooles-game" style="position:absolute;left:1383px;top:312px;" class="text-reset text-decoration-none fade-in">
         <div>Cooles Game</div>
         <img draggable="false" src="/spaceship.png" style="width:46px; margin-left: 30px; margin-top: 2px;">
       </a>

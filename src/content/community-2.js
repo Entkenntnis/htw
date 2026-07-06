@@ -1412,4 +1412,29 @@ I'll give it to someone special
     },
     solution: secrets('chal_377'),
   },
+
+  {
+    id: 378,
+    pos: { x: 1382, y: 460 },
+    title: { de: 'Alphabet II', en: 'Alphabet II' },
+    date: '2026-07-07',
+    deps: [368],
+    noScore: true,
+    releaseTs: new Date('2026-07-07 12:00:00 GMT+0200').getTime(),
+    difficulty: 'hard',
+    author: 'CleverLemming',
+    html: {
+      de: `
+        <p>Unicode enthält über 150.000 Zeichen und über 160 moderne und alte Schriftsysteme. Doch das ist für manche Zwecke nicht genug. Zum Glück gibt es Bereiche mit Zeichen für den persönlichen Gebrauch (PUA). Eine Verwendungsmöglichkeit davon siehst du in <a href="/chals/378.txt">dieser Datei</a>.</p>
+
+        <p>Mit ein wenig Sprachkenntnis findet sich dort die Antwort – vorausgesetzt, du weißt, welche Sprache verwendet wird.</p>
+      `,
+      en: `
+        <p>Unicode contains more than 150,000 characters and more than 150 modern and historic scripts. But for some purposes, this isn’t enough. Fortunately, there are Private Use Areas (PUA). You can see one use case in <a href="/chals/378.txt">this file</a>.</p>
+
+        <p>With a little language knowledge, you will find the answer there – provided that you know which language is being used.</p>
+      `,
+    },
+    solution: secrets('chal_378'),
+  },
 ]

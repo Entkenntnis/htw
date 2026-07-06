@@ -7,6 +7,12 @@ export function expressLanguage(App) {
   App.express.use((req, res, next) => {
     let lng = req.cookies[cookieKey]
 
+    // query can override language
+    // @ts-ignore value can be anything, but includes has a strict check
+    if (App.config.languages.includes(req.query.lng)) {
+      lng = req.query.lng
+    }
+
     for (const configLng of App.config.languages) {
       if (req.path == '/' + configLng) {
         lng = configLng

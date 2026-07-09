@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kreuzblick — find the missing dot</title>
+<style>
+  :root {
+    --bg: #f4f3ee;
+    --panel: #ffffff;
+    --border: #e2e0d8;
+    --border-strong: #c9c6ba;
+    --text-primary: #23221e;
+    --text-secondary: #6b6a63;
+    --text-muted: #9a988e;
+    --accent: #185fa5;
+    --accent-bg: #e6f1fb;
+    --success: #0f6e56;
+    --success-bg: #e1f5ee;
+    --danger: #993c1d;
+    --danger-bg: #faece7;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    padding: 24px 12px 48px;
+  }
+  .app { width: 100%; max-width: 760px; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { font-size: 14px; color: var(--text-secondary); margin: 0 0 20px; line-height: 1.5; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 16px; }
+  .controls-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 12px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+  select, button { font-family: inherit; font-size: 14px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--panel); padding: 8px 12px; color: var(--text-primary); }
+  select { min-width: 130px; }
+  button.primary { background: var(--text-primary); color: #fff; border-color: var(--text-primary); font-weight: 600; cursor: pointer; }
+  button.primary:hover { opacity: 0.9; }
+  button.secondary { cursor: pointer; }
+  button.secondary:hover { background: #f0efe9; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .stat .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+  .stat .value { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .board-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; position: relative; }
+  .boards-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .board-single { position: relative; width: 320px; max-width: 100%; }
+  .board-single canvas { width: 100%; height: auto; display: block; cursor: crosshair; touch-action: manipulation; border-radius: 6px; }
+  .board-label { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+  .sector-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 14px; }
+  .sector-btn {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border-strong);
+    background: var(--panel); font-size: 11px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 0;
+  }
+  .sector-btn:hover { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+  .sector-row.hidden { display: none; }
+
+  .overlay {
+    position: absolute; inset: 16px; display: flex; align-items: center; justify-content: center;
+    background: rgba(244,243,238,0.94); border-radius: 6px; flex-direction: column; gap: 12px;
+    text-align: center; padding: 20px; z-index: 5;
+  }
+  .overlay.hidden { display: none; }
+  .overlay .msg { font-size: 17px; font-weight: 600; }
+  .overlay .sub { font-size: 13px; color: var(--text-secondary); max-width: 380px; }
+  .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+  .badge.success { background: var(--success-bg); color: var(--success); }
+  .badge.danger { background: var(--danger-bg); color: var(--danger); }
+  .badge.accent { background: var(--accent-bg); color: var(--accent); }
+
+  .history { margin-top: 16px; }
+  .history h2 { font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--text-secondary); }
+  .history-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .history-item { font-size: 12px; padding: 4px 8px; border-radius: 6px; background: var(--panel); border: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  .history-item.miss { color: var(--danger); border-color: #eecfc0; }
+
+  .hint { font-size: 12px; color: var(--text-muted); margin-top: 12px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Kreuzblick — find the missing dot</h1>
+  <p class="subtitle">Two identical colored dot-wheels, except one dot is missing from one side. Cross-view mode only reveals a 1/16 wedge of both wheels at a time as it sweeps around — compare the two sides as they spin. Instant mode reveals both wheels immediately.</p>
+
+  <div class="panel">
+    <div class="controls-row">
+      <div class="field">
+        <label for="mode">Mode</label>
+        <select id="mode">
+          <option value="crossview" selected>Cross-view (sweep)</option>
+          <option value="instant">Instant view</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="difficulty">Density</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="boardSize">Board size</label>
+        <select id="boardSize">
+          <option value="small">Small</option>
+          <option value="medium" selected>Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </div>
+      <div class="field" id="speedField">
+        <label for="speed">Sweep speed</label>
+        <select id="speed">
+          <option value="0.6">Slow</option>
+          <option value="1.1" selected>Medium</option>
+          <option value="1.8">Fast</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rounds">Rounds</label>
+        <select id="rounds">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+      <button class="primary" id="startBtn">Start training</button>
+      <button class="secondary" id="resetBtn">Reset stats</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="label">Round</div><div class="value" id="roundStat">0 / 0</div></div>
+    <div class="stat"><div class="label">Last time</div><div class="value" id="lastStat">–</div></div>
+    <div class="stat"><div class="label">Best time</div><div class="value" id="bestStat">–</div></div>
+    <div class="stat"><div class="label">Accuracy</div><div class="value" id="accStat">–</div></div>
+  </div>
+
+  <div class="board-wrap">
+    <div class="boards-row">
+      <div class="board-single">
+        <canvas id="boardA" width="300" height="300"></canvas>
+        <div class="board-label">Left</div>
+      </div>
+      <div class="board-single">
+        <canvas id="boardB" width="300" height="300"></canvas>
+        <div class="board-label">Right (missing dot appears here)</div>
+      </div>
+    </div>
+    <div class="sector-row hidden" id="sectorRow"></div>
+    <div class="overlay" id="overlay">
+      <span class="badge accent">Ready</span>
+      <div class="msg">Pick a mode and press start</div>
+      <div class="sub">Cross-view: watch the sweep on both wheels and call the sector where they differ. Instant: click the missing dot as fast as you can.</div>
+    </div>
+  </div>
+  <p class="hint" id="hint"></p>
+
+  <div class="history">
+    <h2>Round history</h2>
+    <div class="history-list" id="historyList"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvasA = document.getElementById('boardA');
+  const canvasB = document.getElementById('boardB');
+  const ctxA = canvasA.getContext('2d');
+  const ctxB = canvasB.getContext('2d');
+  const overlay = document.getElementById('overlay');
+  const sectorRow = document.getElementById('sectorRow');
+  const startBtn = document.getElementById('startBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const modeSel = document.getElementById('mode');
+  const difficultySel = document.getElementById('difficulty');
+  const speedSel = document.getElementById('speed');
+  const speedField = document.getElementById('speedField');
+  const boardSizeSel = document.getElementById('boardSize');
+  const roundsSel = document.getElementById('rounds');
+  const roundStat = document.getElementById('roundStat');
+  const lastStat = document.getElementById('lastStat');
+  const bestStat = document.getElementById('bestStat');
+  const accStat = document.getElementById('accStat');
+  const historyList = document.getElementById('historyList');
+  const hint = document.getElementById('hint');
+
+  const NUM_SECTORS = 16;
+  const REF_R = 130;
+  let CX = 150, CY = 150, R = 130, DOT_R = 4.2;
+
+  const BOARD_SIZES = {
+    small:  { size: 220, R: 88,  dotR: 3.2 },
+    medium: { size: 300, R: 122, dotR: 4.0 },
+    large:  { size: 400, R: 165, dotR: 5.0 }
+  };
+
+  const PALETTE = ['#7F77DD', '#1D9E75', '#D85A30', '#D4537E', '#378ADD', '#639922', '#BA7517', '#E24B4A'];
+
+  const DIFFICULTIES = {
+    easy:   { rings: 3, perCell: 2, minDist: 17 },
+    medium: { rings: 4, perCell: 2, minDist: 14 },
+    hard:   { rings: 5, perCell: 2, minDist: 11 },
+    expert: { rings: 6, perCell: 2, minDist: 9 }
+  };
+
+  function applyBoardSize() {
+    const cfg = BOARD_SIZES[boardSizeSel.value];
+    canvasA.width = cfg.size; canvasA.height = cfg.size;
+    canvasB.width = cfg.size; canvasB.height = cfg.size;
+    CX = cfg.size / 2; CY = cfg.size / 2; R = cfg.R; DOT_R = cfg.dotR;
+    clearBoth();
+    drawGuides(ctxA);
+    drawGuides(ctxB);
+  }
+
+  let state = {
+    running: false,
+    mode: 'crossview',
+    phase: 'idle',
+    roundIndex: 0,
+    totalRounds: 10,
+    dots: [],
+    missingDot: null,
+    missingSide: 'A',
+    angleOffset: 0,
+    lastTime: 0,
+    sweepStart: 0,
+    sectorCallMs: null,
+    sectorGuess: null,
+    revealStart: 0,
+    results: []
+  };
+
+  function fmt(ms) { return (ms / 1000).toFixed(2) + 's'; }
+  function sectorAngleWidth() { return (2 * Math.PI) / NUM_SECTORS; }
+
+  function buildSectorButtons() {
+    sectorRow.innerHTML = '';
+    for (let s = 0; s < NUM_SECTORS; s++) {
+      const btn = document.createElement('button');
+      btn.className = 'sector-btn';
+      btn.textContent = s + 1;
+      btn.dataset.sector = s;
+      btn.addEventListener('click', () => onSectorCall(s));
+      sectorRow.appendChild(btn);
+    }
+  }
+  buildSectorButtons();
+
+  function setSectorRowVisible(visible) {
+    sectorRow.classList.toggle('hidden', !visible);
+  }
+
+  function generateSharedDots() {
+    const cfg = DIFFICULTIES[difficultySel.value];
+    const minDist = cfg.minDist * (R / REF_R);
+    const w = sectorAngleWidth();
+    const dots = [];
+    for (let s = 0; s < NUM_SECTORS; s++) {
+      const angleStart = s * w - Math.PI / 2;
+      const margin = w * 0.10;
+      for (let ring = 0; ring < cfg.rings; ring++) {
+        const rInner = R * (0.16 + ring / cfg.rings * 0.78);
+        const rOuter = R * (0.16 + (ring + 1) / cfg.rings * 0.78);
+        for (let k = 0; k < cfg.perCell; k++) {
+          let placed = false;
+          for (let attempt = 0; attempt < 30 && !placed; attempt++) {
+            const angle = angleStart + margin + Math.random() * (w - margin * 2);
+            const radius = rInner + Math.random() * (rOuter - rInner);
+            const x = CX + radius * Math.cos(angle);
+            const y = CY + radius * Math.sin(angle);
+            let ok = true;
+            for (let i = 0; i < dots.length; i++) {
+              const dx = dots[i].x - x, dy = dots[i].y - y;
+              if (dx * dx + dy * dy < minDist * minDist) { ok = false; break; }
+            }
+            if (ok) {
+              dots.push({ x, y, sector: s, color: PALETTE[Math.floor(Math.random() * PALETTE.length)] });
+              placed = true;
+            }
+          }
+        }
+      }
+    }
+    return dots;
+  }
+
+  function generateRoundData() {
+    const dots = generateSharedDots();
+    const missingIndex = Math.floor(Math.random() * dots.length);
+    state.dots = dots;
+    state.missingDot = dots[missingIndex];
+    state.missingSide = 'B';
+  }
+
+  function drawGuides(ctx) {
+    ctx.strokeStyle = '#d8d6cc';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, 0, Math.PI * 2);
+    ctx.stroke();
+    const w = sectorAngleWidth();
+    for (let s = 0; s < NUM_SECTORS; s++) {
+      const angle = s * w - Math.PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(CX, CY);
+      ctx.lineTo(CX + R * Math.cos(angle), CY + R * Math.sin(angle));
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#9a988e';
+    ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let s = 0; s < NUM_SECTORS; s++) {
+      const mid = s * w + w / 2 - Math.PI / 2;
+      const lx = CX + (R + 13) * Math.cos(mid);
+      const ly = CY + (R + 13) * Math.sin(mid);
+      ctx.fillText(String(s + 1), lx, ly);
+    }
+  }
+
+  function drawDots(ctx, dotList, skip) {
+    for (const d of dotList) {
+      if (skip && d === skip) continue;
+      ctx.beginPath();
+      ctx.fillStyle = d.color;
+      ctx.arc(d.x, d.y, DOT_R, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function clearBoth() {
+    ctxA.clearRect(0, 0, canvasA.width, canvasA.height);
+    ctxB.clearRect(0, 0, canvasB.width, canvasB.height);
+  }
+
+  function drawSweepFrame() {
+    clearBoth();
+    drawGuides(ctxA);
+    drawGuides(ctxB);
+    const w = sectorAngleWidth();
+    const startAngle = state.angleOffset - Math.PI / 2;
+    const endAngle = startAngle + w;
+
+    [[ctxA, 'A'], [ctxB, 'B']].forEach(([ctx, side]) => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(CX, CY);
+      ctx.arc(CX, CY, R, startAngle, endAngle);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(24,95,165,0.06)';
+      ctx.fill();
+      ctx.clip();
+      drawDots(ctx, state.dots, side === state.missingSide ? state.missingDot : null);
+      ctx.restore();
+      ctx.strokeStyle = '#185fa5';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(CX, CY);
+      ctx.lineTo(CX + R * Math.cos(startAngle), CY + R * Math.sin(startAngle));
+      ctx.moveTo(CX, CY);
+      ctx.lineTo(CX + R * Math.cos(endAngle), CY + R * Math.sin(endAngle));
+      ctx.stroke();
+    });
+  }
+
+  function drawFullBoth(highlight) {
+    clearBoth();
+    drawGuides(ctxA);
+    drawGuides(ctxB);
+    drawDots(ctxA, state.dots, state.missingSide === 'A' ? state.missingDot : null);
+    drawDots(ctxB, state.dots, state.missingSide === 'B' ? state.missingDot : null);
+    if (highlight) {
+      const ctx = state.missingSide === 'A' ? ctxA : ctxB;
+      ctx.beginPath();
+      ctx.arc(state.missingDot.x, state.missingDot.y, 9, 0, Math.PI * 2);
+      ctx.strokeStyle = highlight;
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+  }
+
+  function tick(now) {
+    if (state.phase !== 'sweeping') return;
+    if (!state.lastTime) state.lastTime = now;
+    const dt = (now - state.lastTime) / 1000;
+    state.lastTime = now;
+    state.angleOffset += parseFloat(speedSel.value) * dt;
+    state.angleOffset %= (2 * Math.PI);
+    drawSweepFrame();
+    requestAnimationFrame(tick);
+  }
+
+  function startRound() {
+    generateRoundData();
+    overlay.classList.add('hidden');
+    state.sectorGuess = null;
+    state.sectorCallMs = null;
+
+    if (state.mode === 'crossview') {
+      hint.textContent = 'Watch both wheels sweep together. Click the sector number where the right wheel is missing a dot.';
+      setSectorRowVisible(true);
+      state.phase = 'sweeping';
+      state.angleOffset = 0;
+      state.lastTime = 0;
+      state.sweepStart = performance.now();
+      requestAnimationFrame(tick);
+    } else {
+      hint.textContent = 'The right wheel is missing a dot. Click that exact spot.';
+      setSectorRowVisible(false);
+      state.phase = 'reveal';
+      state.revealStart = performance.now();
+      drawFullBoth();
+    }
+  }
+
+  function onSectorCall(sector) {
+    if (state.phase !== 'sweeping') return;
+    state.sectorCallMs = performance.now() - state.sweepStart;
+    state.sectorGuess = sector;
+    setSectorRowVisible(false);
+    state.phase = 'reveal';
+    state.revealStart = performance.now();
+    drawFullBoth();
+  }
+
+  function handleBoardClick(side, e, canvas) {
+    if (state.phase !== 'reveal') return;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+    const clickMs = performance.now() - state.revealStart;
+
+    const rightSide = side === state.missingSide;
+    const dist = rightSide ? Math.hypot(x - state.missingDot.x, y - state.missingDot.y) : Infinity;
+    const hit = rightSide && dist < 24;
+    const sectorOk = state.mode === 'instant' ? true : state.sectorGuess === state.missingDot.sector;
+
+    let totalMs;
+    if (state.mode === 'crossview') {
+      totalMs = state.sectorCallMs + clickMs;
+    } else {
+      totalMs = clickMs;
+    }
+    finishClickRound(hit && sectorOk, totalMs);
+  }
+
+  canvasA.addEventListener('click', (e) => handleBoardClick('A', e, canvasA));
+  canvasB.addEventListener('click', (e) => handleBoardClick('B', e, canvasB));
+
+  function finishClickRound(success, ms) {
+    state.results.push({ ms, success });
+    state.roundIndex++;
+    updateStats();
+
+    overlay.classList.remove('hidden');
+    if (success) {
+      overlay.innerHTML = `<span class="badge success">Found it</span><div class="msg">${fmt(ms)}</div>`;
+    } else {
+      overlay.innerHTML = `<span class="badge danger">Missed</span><div class="msg">Not quite — try the next one</div>`;
+    }
+    drawFullBoth(success ? '#0f6e56' : '#993c1d');
+
+    if (state.roundIndex >= state.totalRounds) {
+      setTimeout(finishSession, 900);
+    } else {
+      setTimeout(startRound, 900);
+    }
+  }
+
+  function updateStats() {
+    roundStat.textContent = `${state.roundIndex} / ${state.totalRounds}`;
+    const last = state.results[state.results.length - 1];
+    lastStat.textContent = last ? fmt(last.ms) : '–';
+    if (state.results.length) {
+      const successes = state.results.filter(r => r.success);
+      const best = successes.length ? Math.min(...successes.map(r => r.ms)) : null;
+      bestStat.textContent = best !== null ? fmt(best) : '–';
+      accStat.textContent = Math.round((successes.length / state.results.length) * 100) + '%';
+    } else {
+      bestStat.textContent = '–';
+      accStat.textContent = '–';
+    }
+    historyList.innerHTML = '';
+    state.results.forEach((r, idx) => {
+      const el = document.createElement('span');
+      el.className = 'history-item' + (r.success ? '' : ' miss');
+      el.textContent = `#${idx + 1} ${r.success ? fmt(r.ms) : 'miss'}`;
+      historyList.appendChild(el);
+    });
+  }
+
+  function finishSession() {
+    state.running = false;
+    state.phase = 'idle';
+    setSectorRowVisible(false);
+    const successes = state.results.filter(r => r.success);
+    const avg = successes.length ? successes.reduce((a, r) => a + r.ms, 0) / successes.length : null;
+    overlay.classList.remove('hidden');
+    overlay.innerHTML = `
+      <span class="badge accent">Session complete</span>
+      <div class="msg">${successes.length}/${state.totalRounds} correct${avg !== null ? ', avg ' + fmt(avg) : ''}</div>
+      <div class="sub">Press start to train again, or raise the density.</div>
+    `;
+    startBtn.textContent = 'Start training';
+    hint.textContent = '';
+  }
+
+  function applyModeVisibility() {
+    speedField.style.display = modeSel.value === 'crossview' ? 'flex' : 'none';
+  }
+  modeSel.addEventListener('change', applyModeVisibility);
+  applyModeVisibility();
+
+  boardSizeSel.addEventListener('change', () => {
+    if (state.running && state.phase !== 'idle') return;
+    applyBoardSize();
+  });
+  applyBoardSize();
+
+  startBtn.addEventListener('click', () => {
+    state.running = true;
+    state.mode = modeSel.value;
+    state.roundIndex = 0;
+    state.results = [];
+    state.totalRounds = parseInt(roundsSel.value, 10);
+    updateStats();
+    overlay.classList.remove('hidden');
+    overlay.innerHTML = '<span class="badge accent">Get ready</span><div class="msg">Starting…</div>';
+    startBtn.textContent = 'Restart';
+    setSectorRowVisible(false);
+    setTimeout(startRound, 500);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    state.running = false;
+    state.phase = 'idle';
+    state.roundIndex = 0;
+    state.totalRounds = parseInt(roundsSel.value, 10);
+    state.results = [];
+    setSectorRowVisible(false);
+    clearBoth();
+    updateStats();
+    hint.textContent = '';
+    overlay.classList.remove('hidden');
+    overlay.innerHTML = '<span class="badge accent">Ready</span><div class="msg">Pick a mode and press start</div><div class="sub">Cross-view: watch the sweep on both wheels and call the sector where they differ. Instant: click the missing dot as fast as you can.</div>';
+    startBtn.textContent = 'Start training';
+  });
+
+  updateStats();
+})();
+</script>
+</body>
+</html>

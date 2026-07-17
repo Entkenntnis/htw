@@ -3033,7 +3033,7 @@ export const part1 = [
             margin: 12px;
             touch-action: none;
             user-select: none;
-            cursor: move;
+            ${hardMode ? '' : 'cursor: move;'}
           }
           #puzzle-container {
             position: relative;

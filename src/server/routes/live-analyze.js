@@ -1069,4 +1069,162 @@ export function setupLiveAnalyze(App) {
       content,
     })
   })
+
+  App.express.get('/kpi', async (req, res) => {
+    if (!req.user || !App.config.editors.includes(req.user.name))
+      return res.send('Zugriff nur für Editor')
+
+    const solutions = await App.db.models.Solution.findAll({
+      attributes: ['createdAt', 'UserId'],
+      raw: true,
+    })
+    const now = Date.now()
+
+    /**
+     * @param {Date} date
+     */
+    function toDayKey(date) {
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+    }
+
+    // Precompute dateIndex and map date strings to their index
+    /** @type {Map<string, number>} */
+    const dateStrToIndex = new Map()
+    for (let i = 0; i < 1300; i++) {
+      const dateStr = toDayKey(new Date(now - i * 86400000))
+      dateStrToIndex.set(dateStr, i)
+    }
+
+    // console.log('KPI: Daten geladen, gruppiere ...')
+
+    // Initialize usersByDate as an array for O(1) access
+    /** @type {number[][]} */
+    const usersByDate = Array.from({ length: 1300 }, () => [])
+
+    for (const obj of solutions) {
+      const date = new Date(obj.createdAt)
+      const key = toDayKey(date)
+      if (key === '2020-05-29') continue
+      const index = dateStrToIndex.get(key)
+      if (index !== undefined) {
+        usersByDate[index].push(obj.UserId)
+      }
+    }
+
+    // console.log('KPI: Daten nach Tag gruppiert')
+
+    // Calculate MAUs using sliding window technique
+    const MAUs = []
+    /** @type {Map<number, number>} */
+    const freqMap = new Map()
+
+    // Initialize the first window (days 28 to 0)
+    for (let d = 28; d >= 0; d--) {
+      for (const userId of usersByDate[d] || []) {
+        freqMap.set(userId, (freqMap.get(userId) || 0) + 1)
+      }
+    }
+    MAUs.push(freqMap.size)
+
+    // Slide the window for remaining days
+    for (let i = 1; i < 1250; i++) {
+      const removeDay = i - 1
+      const addDay = i + 28
+
+      // Remove outgoing day (i-1)
+      for (const userId of usersByDate[removeDay] || []) {
+        const count = freqMap.get(userId)
+        if (count === 1) {
+          freqMap.delete(userId)
+        } else if (count !== undefined) {
+          freqMap.set(userId, count - 1)
+        }
+      }
+
+      // Add incoming day (i+28)
+      for (const userId of usersByDate[addDay] || []) {
+        freqMap.set(userId, (freqMap.get(userId) || 0) + 1)
+      }
+
+      MAUs.push(freqMap.size)
+    }
+
+    // Get the last 365 values for this year
+    const thisYear = MAUs.slice(0, 365 - 30)
+    thisYear.reverse()
+
+    // Get the last 365 values for the previous year
+    const previousYear = MAUs.slice(365 - 30, 365 * 2 - 30)
+    previousYear.reverse()
+
+    // Get the last 365 values for the previous previous year
+    const previousPreviousYear = MAUs.slice(365 * 2 - 30, 365 * 3 - 30)
+    previousPreviousYear.reverse()
+
+    const labels = []
+    let startTs = Date.now() + 30 * 86400000
+    for (let i = 0; i < 365; i++) {
+      labels.push(
+        new Date(startTs).toLocaleDateString('de-DE', {
+          day: 'numeric',
+          month: 'short',
+        })
+      )
+      startTs -= 86400000
+    }
+    labels.reverse()
+
+    res.send(`
+        <head>
+          <title>
+            Hack The Web - KPI Dashboard
+          </title>
+        </head>
+        <div>
+          <canvas id="myChart"></canvas>
+        </div>
+  
+        <script src="/lib/chart.js"></script>
+  
+        <script>
+          const ctx = document.getElementById('myChart');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ${JSON.stringify(labels)},
+              datasets: [{
+                label: 'Dieses Jahr',
+                data: ${JSON.stringify(thisYear)},
+                borderWidth: 1
+              },{
+                label: 'Letztes Jahr',
+                data: ${JSON.stringify(previousYear)},
+                borderWidth: 1
+              },{
+                label: 'Vorletztes Jahr',
+                data: ${JSON.stringify(previousPreviousYear)},
+                borderWidth: 1
+              }]
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'KPI: Monatlich aktive NutzerInnen',
+                  font: {
+                    size: 32,
+                  }
+                } 
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        </script>
+      
+      `)
+  })
 }

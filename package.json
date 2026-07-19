@@ -56,6 +56,7 @@
     "typescript": "^5.9.2"
   },
   "overrides": {
-    "uuid": "14.0.0"
+    "uuid": "14.0.0",
+    "elliptic": "https://registry.npmjs.org/@mapped/elliptic/-/elliptic-6.6.5.tgz"
   }
 }

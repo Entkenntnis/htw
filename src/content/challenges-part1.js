@@ -2763,7 +2763,7 @@ export const part1 = [
         de: story(
           'Kiwi',
           `
-          <p>Ein "skill issue" liegt vor, wenn es einer Person an Kompetenz mangelt. So geht es mir bei diesem dämlichen Spiel. Du steuerst den Ball mit den Pfeiltasten und versuchst, abwechselnd die linke und rechte Wand zu berühren. Nach 100 Mal erhältst du die Antwort. Bex ist ein richtiges Naturtalent, <a href="/chals/volleyball.mp4" target="blank">hier siehst du ein Video</a> wie er das spielt.</p>
+          <p>Ein "skill issue" liegt vor, wenn es einer Person an Kompetenz mangelt. So geht es mir bei diesem dämlichen Spiel. Du steuerst den Ball mit den Pfeiltasten und versuchst, abwechselnd die linke und rechte Wand zu berühren. Nach 100 Mal erhältst du die Antwort. Bex ist ein richtiges Naturtalent, <a href="/chals/volleyball.mp4" target="blank">hier siehst du ein Video</a> wie sie das spielt.</p>
 
           <p>Vielleicht bist du ja auch so kompetent - ich bin es nicht. Dafür kann ich hacken, haha. Du kannst dir den Quellcode des Spiels anschauen und bearbeiten. Ich habe dir eine Stelle im Code markiert, mit der du ganz einfach gewinnen kannst. Viel Erfolg!</p>
           `,
@@ -2772,7 +2772,7 @@ export const part1 = [
         en: story(
           'Kiwi',
           `
-          <p>A "skill issue" is when a person simply lacks competence. That's exactly how I feel about this stupid game. You control the ball with the arrow keys and have to alternately touch the left and right walls. After doing that 100 times, you get the answer. Bex is a real natural at this, <a href="/chals/volleyball.mp4" target="blank">here's a video of him playing</a>.</p>
+          <p>A "skill issue" is when a person simply lacks competence. That's exactly how I feel about this stupid game. You control the ball with the arrow keys and have to alternately touch the left and right walls. After doing that 100 times, you get the answer. Bex is a real natural at this, <a href="/chals/volleyball.mp4" target="blank">here's a video of her playing</a>.</p>
           
           <p>Maybe you're that competent - I'm not. But what I can do is hack, haha. You can view and edit the game's source code. I've even marked a spot in the code for you that'll let you win easily. Good luck!</p>
           `,

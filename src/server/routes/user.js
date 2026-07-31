@@ -341,6 +341,26 @@ export function setupUser(App) {
     const pageSize = App.config.accounts.highscoreLimit
 
     const sort = req.query.sort?.toString() || ''
+
+    if (sort == 'creators') {
+      if (req.user) {
+        App.event.create('highscore_creators', req.user.id)
+      }
+
+      const { creators, challengeCount } = await buildCreatorHighscore()
+
+      renderPage(App, req, res, {
+        page: 'highscore',
+        props: {
+          users: [],
+          creators,
+          creatorChallengeCount: challengeCount,
+          sort,
+        },
+      })
+      return
+    }
+
     const parsedQueryPage =
       req.query.page && !sort ? parseInt(req.query.page.toString()) : 1
     const page =
@@ -484,6 +504,67 @@ export function setupUser(App) {
     delete req.session.sso_sid
     res.redirect('/')
   })
+
+  async function buildCreatorHighscore() {
+    const authoredChals = App.challenges.data.filter(
+      (chal) =>
+        chal.author && (!chal.releaseTs || chal.releaseTs < Date.now())
+    )
+    const ids = authoredChals.map((chal) => chal.id)
+
+    /** @type {{[key: number]: number}} */
+    const solveCountByCid = {}
+    if (ids.length > 0) {
+      const sols = await App.db.models.Solution.findAll({
+        attributes: ['cid'],
+        where: { cid: ids },
+        raw: true,
+      })
+      for (const sol of sols) {
+        solveCountByCid[sol.cid] = (solveCountByCid[sol.cid] || 0) + 1
+      }
+    }
+
+    /**
+     * @type {{[author: string]: {challenges: number, solves: number}}}
+     */
+    const byAuthor = {}
+    for (const chal of authoredChals) {
+      const author = /** @type {string} */ (chal.author)
+      const entry = (byAuthor[author] = byAuthor[author] || {
+        challenges: 0,
+        solves: 0,
+      })
+      entry.challenges++
+      entry.solves += solveCountByCid[chal.id] || 0
+    }
+
+    const creators = Object.entries(byAuthor)
+      .map(([name, data]) => ({
+        name,
+        challenges: data.challenges,
+        solves: data.solves,
+        rank: 0,
+      }))
+      .sort((a, b) => {
+        if (b.solves !== a.solves) return b.solves - a.solves
+        return b.challenges - a.challenges
+      })
+
+    creators.forEach((entry, i) => {
+      if (
+        i > 0 &&
+        creators[i - 1].solves === entry.solves &&
+        creators[i - 1].challenges === entry.challenges
+      ) {
+        entry.rank = creators[i - 1].rank
+      } else {
+        entry.rank = i + 1
+      }
+    })
+
+    return { creators, challengeCount: authoredChals.length }
+  }
 
   /**
    * @param {import('../../data/types.js').UserModel[]} dbUsers

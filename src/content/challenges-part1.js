@@ -3093,7 +3093,7 @@ export const part1 = [
           `
           <p>I so often look at my life and think to myself: What's the point of it all? I hope there will be a day when I can put the pieces together and understand the meaning.</p>
 
-          <p>With this task, you have it easier. Place the six parts on top of each other${
+          <p>With this task, you have it easier. Place the six parts on top of each other ${
             hardMode ? '' : 'with your mouse or finger'
           } to get your answer.</p>
           `,

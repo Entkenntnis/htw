@@ -3220,60 +3220,40 @@ export const part1 = [
     title: { de: 'Verdächtig', en: 'Suspicious' },
     // date: '2022-02-24',
     deps: [18, 84],
-    render: ({ App, req }) => {
-      if (App.experiments.showTrial(79, req)) {
-        return story(
-          'Josh',
-          `
-          <p>Im Internet muss man schon gut aufpassen, ansonsten wird man doch glatt über den Tisch gezogen ...</p>
-          
-          <hr>
-
-          <p>Hey!</p>
-
-          <p>Du bist auf der Suche nach deiner Antwort? Um das Wort mit 7 Buchstaben zu erhalten, musst du mir nur 1337€ auf <a href="https://www.paypal.com/paypalme/Dav1dL1">dieses Konto</a> überweisen, ganz einfach.</p>
-
-          <p>Worauf wartest du noch? Das Wort, dass sich auf "Wein" reimt, findet sich nicht von selber! <a href="https://www.paypal.com/paypalme/Dav1dL1">Klicke hier</a> und überweise das Geld, dann erhältst du die Antwort sofort.</p>
-
-          <p>Psst, Sonderangebot! Du erhältst die ersten drei Buchstaben gratis (sie lauten SCH), und ich mache 50% Rabatt, dann verrate ich dir die Lösung. <a href="https://www.paypal.com/paypalme/Dav1dL1">Überweise das Geld</a> jetzt!
-          
+    render: () => ({
+      de: story(
+        'Josh',
         `
-        )
-      }
-      return {
-        de: story(
-          'Josh',
-          `
-          <p>Dein Bankkonto steht im Fokus. Du erhältst eine E-Mail von deiner Bank, in der von ungewöhnlichen Aktivitäten berichtet wird. Doch irgendetwas ist shady – der Absender scheint nicht ganz vertrauenswürdig zu sein.</p>
-          
-          <p>In der "Von:"-Zeile findest du die E-Mail-Adresse des Absenders. Deine Bank verwendet normalerweise die Domain <code>htw-bank.de</code>, aber in dieser Nachricht taucht eine andere Domain auf.</p>
-          
-          <pre>Von: "Hack The Web Bank" &lt;support@secure-bank-login.com&gt;
-Datum: Fri, 08 Feb 2025 10:15:32 +0200
-Betreff: Wichtige Sicherheitsinformation zu Ihrem Konto
-An: ${req.user?.name}@arrrg.de</pre>
-
-          <p>Gib die verdächtige Domain als deine Antwort ein.</p>
-    `
-        ),
-        en: story(
-          'Josh',
-          `
-        <p>Your bank account is in the spotlight. You receive an email from your bank reporting unusual activity. But something feels shady – the sender doesn't seem entirely trustworthy.</p>
+        <p>Im Internet muss man schon gut aufpassen, ansonsten wird man doch glatt über den Tisch gezogen ...</p>
         
-        <p>In the "From:" line, you find the sender's email address. Your bank normally uses the domain <code>htw-bank.de</code>, but this message shows a different domain.</p>
-        
-        <pre>From: "Hack The Web Bank" &lt;support@secure-bank-login.com&gt;
-Date: Fri, 08 Feb 2025 10:15:32 +0200
-Subject: Important security notice regarding your account
-To: ${req.user?.name}@arrrg.de</pre>
+        <hr>
 
-        <p>Enter the suspicious domain as your answer.</p>
+        <p>Hey!</p>
 
-    `
-        ),
-      }
-    },
+        <p>Du bist auf der Suche nach deiner Antwort? Um das Wort mit 7 Buchstaben zu erhalten, musst du mir nur 1337€ auf <a href="https://www.paypal.com/paypalme/Dav1dL1">dieses Konto</a> überweisen, ganz einfach.</p>
+
+        <p>Worauf wartest du noch? Das Wort, dass sich auf "Wein" reimt, findet sich nicht von selber! <a href="https://www.paypal.com/paypalme/Dav1dL1">Klicke hier</a> und überweise das Geld, dann erhältst du die Antwort sofort.</p>
+
+        <p>Psst, Sonderangebot! Du erhältst die ersten drei Buchstaben gratis (sie lauten SCH), und ich mache 50% Rabatt, dann verrate ich dir die Lösung. <a href="https://www.paypal.com/paypalme/Dav1dL1">Überweise das Geld</a> jetzt!
+      `
+      ),
+      en: story(
+        'Josh',
+        `
+        <p>The internet is full of people out to scam you — you have to keep your wits about you, or you'll get taken for a ride...</p>
+
+        <hr>
+
+        <p>Hey!</p>
+
+        <p>Looking for your answer? To get the 5-letter word you need, all you have to do is send me 1337€ to <a href="https://www.paypal.com/paypalme/Dav1dL1">this account</a>. Easy, right?</p>
+
+        <p>What are you waiting for? The word won't find itself! It rhymes with "wine". <a href="https://www.paypal.com/paypalme/Dav1dL1">Click here</a> and transfer the money, and you'll get the answer right away.</p>
+
+        <p>Psst, special offer! I'll give you the first two letters for free (they are S, W), and I'll even knock off 50% — then I'll spill the answer. <a href="https://www.paypal.com/paypalme/Dav1dL1">Send the money</a> now!</p>
+      `
+      ),
+    }),
     solution: secrets('chal_79').split(','),
   },
 

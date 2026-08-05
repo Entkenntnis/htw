@@ -832,7 +832,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
           <p style="color: gray;">Hinweis: Ich bin etwas schusselig, nimm also meine Antworten nicht zu ernst und frag lieber mehrmals nach.</p>
 
           <div id="chat" style="margin-top: 48px;"></div>
-          <p style="color: gray; margin-bottom: 32px;"><small>LLM-Modell: mistralai/mistral-small-3.2-24b-instruct</small></p>
+          <p style="color: gray; margin-bottom: 32px;"><small>LLM-Modell: mistralai/ministral-3b-2512</small></p>
           <script src="/chals/chat/script.js" ></script>
         `,
         en: `
@@ -848,7 +848,7 @@ And will we all be contaminated?\u200b\u200b\u200c\u200b\u200c
           <p style="color: gray;">Hint: I'm a bit scatty, so don't take my answers too seriously and ask multiple times.</p>
 
           <div id="chat" style="margin-top: 48px;"></div>
-          <p style="color: gray; margin-bottom: 32px;"><small>LLM model: mistralai/mistral-small-3.2-24b-instruct</small></p>
+          <p style="color: gray; margin-bottom: 32px;"><small>LLM model: mistralai/ministral-3b-2512</small></p>
           <script src="/chals/chat/script.js" ></script>
         `,
       }

@@ -19,7 +19,7 @@ export function withChat(App) {
             Authorization: `Bearer ${secrets('config_openrouter_api_key')}`,
           },
           body: JSON.stringify({
-            model: 'mistralai/mistral-small-3.2-24b-instruct',
+            model: 'mistralai/ministral-3b-2512',
             provider: { only: ['Mistral'] },
             messages,
             max_tokens: 300,

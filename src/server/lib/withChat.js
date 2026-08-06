@@ -19,8 +19,8 @@ export function withChat(App) {
             Authorization: `Bearer ${secrets('config_openrouter_api_key')}`,
           },
           body: JSON.stringify({
-            model: 'mistralai/ministral-3b-2512',
-            provider: { only: ['Mistral'] },
+            model: 'google/gemma-4-26b-a4b-it',
+            provider: { only: ['nextbit/bf16'] },
             messages,
             max_tokens: 300,
           }),

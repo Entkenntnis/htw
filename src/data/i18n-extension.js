@@ -609,7 +609,7 @@ export function getI18nExtension() {
       
       <h3 class="my-4">LLM</h3>
       
-      <p>Einzelne Aufgaben verwenden ein Sprachmodell (Mistral Small). Die Eingaben werden dabei an den französichen Anbieter <a href="https://mistral.ai">mistral.ai</a> übermittelt. Es werden keine personenbezogenen Daten übermittelt. Die Eingaben werden nur für die Beantwortung der Anfrage verwendet und nicht gespeichert oder zum Trainieren von Modellen genutzt.
+      <p>Einzelne Aufgaben verwenden ein Sprachmodell. Die Eingaben werden dabei an den spanischen Anbieter <a href="https://www.nextbit256.com/">Nextbit</a> übermittelt. Es werden keine personenbezogenen Daten übermittelt. Die Eingaben werden nur für die Beantwortung der Anfrage verwendet und nicht gespeichert oder zum Trainieren von Modellen genutzt.
       </p>
       
       <h3 class="my-4">Statistiken</h3>
@@ -652,7 +652,7 @@ export function getI18nExtension() {
 
       <h3 class="my-4">LLM</h3>
 
-      <p>Some tasks use a language model (Mistral Small). The inputs are transmitted to the French provider <a href="https://mistral.ai">mistral.ai</a>. No personal data is transmitted. The inputs are only used to answer the request and are not stored or used to train models.
+      <p>Some tasks use a language model. The inputs are transmitted to the Spain provider <a href="https://www.nextbit256.com/">Nextbit</a>. No personal data is transmitted. The inputs are only used to answer the request and are not stored or used to train models.
       </p>
       
       <h3 class="my-4">Statistics</h3>

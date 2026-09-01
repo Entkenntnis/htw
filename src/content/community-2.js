@@ -1437,4 +1437,41 @@ I'll give it to someone special
     },
     solution: secrets('chal_378'),
   },
+
+  {
+    id: 379,
+    pos: { x: 1452, y: 755 },
+    title: { de: 'Quadratur des Kreises?', en: 'Squaring the Circle?' },
+    date: '2026-09-01',
+    deps: [300],
+    noScore: true,
+    releaseTs: new Date('2026-09-01 18:00:00 GMT+0200').getTime(),
+    difficulty: 'hard',
+    author: 'оωo',
+    html: {
+      de: `
+        <p>Um Text über Funk zu verschicken, wird er erst einmal <a href="https://de.wikipedia.org/wiki/UTF-8" target="_blank">in eine Folge von Bytes umgewandelt</a>. Danach kann man entweder jedes Bit einzeln verschicken, oder über Verfahren wie <a href="https://de.wikipedia.org/wiki/Quadraturamplitudenmodulation" target="_blank">QAM</a> mehrere auf einmal.</p>
+        
+        <p>Über 256-QAM kann mit jedem Impuls ein ganzes Byte wie folgt kodiert werden:</p>
+
+        <p><img src="/chals/qam/overview.png" width="400"></p>
+
+        <p>Welcher Text wurde hier übermittelt?</p>
+        
+        <p><audio src="/chals/qam/signal.wav" controls style="margin-bottom:16px;"></audio></p>
+      `,
+      en: `
+        <p>To send a textual message wirelessly, it is initially <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">converted into a sequence of bytes</a>. Each bit may then be transmitted bit individually, or through the use of a method like <a href="https://en.wikipedia.org/wiki/Quadrature_amplitude_modulation" target="_blank">QAM</a>, multiple can be sent at a time.</p>
+
+        <p>Through the use of 256-QAM, it is possible to transmit an entire byte with every impulse, as shown here:</p>
+
+        <p><img src="/chals/qam/overview.png" width="400"></p>
+
+        <p>What message does this audio file encode?</p>
+
+        <p><audio src="/chals/qam/signal.wav" controls style="margin-bottom:16px;"></audio></p>
+      `,
+    },
+    solution: secrets('chal_379'),
+  },
 ]

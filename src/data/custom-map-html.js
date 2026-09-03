@@ -158,12 +158,12 @@ export async function customMapHtmlCreator({ App, req, solved }) {
           </div>`
 
     // dev, wip
-    output += `
-      <a draggable="false" href="/cooles-game" style="position:absolute;left:1383px;top:312px;" class="text-reset text-decoration-none fade-in">
-        <div>Cooles Game</div>
-        <img draggable="false" src="/spaceship.png" style="width:46px; margin-left: 30px; margin-top: 2px;">
-      </a>
-    `
+    // output += `
+    //   <a draggable="false" href="/cooles-game" style="position:absolute;left:1383px;top:312px;" class="text-reset text-decoration-none fade-in">
+    //     <div>Cooles Game</div>
+    //     <img draggable="false" src="/spaceship.png" style="width:46px; margin-left: 30px; margin-top: 2px;">
+    //   </a>
+    // `
   }
 
   const newStoriesCount = !showAll

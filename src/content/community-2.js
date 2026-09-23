@@ -1456,7 +1456,7 @@ I'll give it to someone special
 
         <p><img src="/chals/qam/overview.png" width="400"></p>
 
-        <p>Welcher Text wurde hier übermittelt?</p>
+        <p>Welcher Text wurde in <a href="/chals/qam/signal.wav" target="_blank">dieser Audio-Datei</a> übermittelt?</p>
         
         <p><audio src="/chals/qam/signal.wav" controls style="margin-bottom:16px;"></audio></p>
       `,
@@ -1467,7 +1467,7 @@ I'll give it to someone special
 
         <p><img src="/chals/qam/overview.png" width="400"></p>
 
-        <p>What message does this audio file encode?</p>
+        <p>What message does this <a href="/chals/qam/signal.wav">audio file</a> encode?</p>
 
         <p><audio src="/chals/qam/signal.wav" controls style="margin-bottom:16px;"></audio></p>
       `,

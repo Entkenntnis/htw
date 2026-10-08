@@ -610,7 +610,7 @@ export function setupWormsArena(App) {
 
           <script>
             // Polling until status is red-win or green-win
-            let interval = setInterval(fetchStatus, 1000)
+            let interval = setInterval(fetchStatus, 3000)
             function fetchStatus() {
               fetch('/worms/arena/poll-match?id=${match.id}')
                 .then((res) => res.text())

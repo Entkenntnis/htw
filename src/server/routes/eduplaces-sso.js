@@ -95,6 +95,11 @@ export function setupEduplacesSSO(App) {
       req.session.ssoVerifier = codeVerifier
       req.session.ssoIss = iss
 
+      // Generate a cryptographically random, session-bound state value to
+      // protect against CSRF attacks on the OAuth flow
+      const state = randomBytes(16).toString('hex')
+      req.session.ssoState = state
+
       const codeChallenge = createHash('sha256')
         .update(codeVerifier)
         .digest('base64')
@@ -107,7 +112,7 @@ export function setupEduplacesSSO(App) {
           'config_client_id'
         )}&redirect_uri=${encodeURIComponent(
           'https://hack.arrrg.de/sso/callback'
-        )}&scope=openid&login_hint=${login_hint}&code_challenge=${codeChallenge}&code_challenge_method=S256&state=hacktheweb`
+        )}&scope=openid&login_hint=${login_hint}&code_challenge=${codeChallenge}&code_challenge_method=S256&state=${state}`
       )
     })
   )
@@ -116,6 +121,14 @@ export function setupEduplacesSSO(App) {
     '/sso/callback',
     safeRoute(async (req, res) => {
       const code = req.query.code?.toString() ?? ''
+      const state = req.query.state?.toString() ?? ''
+
+      if (!state || state !== req.session.ssoState) {
+        res.status(400).send('Invalid state')
+        return
+      }
+      delete req.session.ssoState
+
       const body = new URLSearchParams({
         grant_type: 'authorization_code',
         code,

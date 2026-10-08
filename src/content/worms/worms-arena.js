@@ -1,216 +1,57 @@
 // This file implements the actual bot fights
-import { getQuickJS } from 'quickjs-emscripten'
+import { Worker } from 'node:worker_threads'
 import { renderNavigation } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
 import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
 import { safeRoute } from '../../helper/helper.js'
 
-let matchSteps = -1
+/** @type {Int32Array | null} */
+let currentProgress = null
+let queueChain = Promise.resolve()
 
 /**
- * Standalone server-side worms runner
- * @param {string} srcRed
- * @param {string} srcGreen
+ * Serialize matches: only one match runs at a time.
+ * @template T
+ * @param {() => Promise<T>} fn
+ * @returns {Promise<T>}
+ */
+function enqueue(fn) {
+  const run = queueChain.then(fn, fn)
+  queueChain = run.then(
+    () => {},
+    () => {}
+  )
+  return run
+}
+
+/**
+ * Run a match in a dedicated worker thread.
+ * @param {string} redCode
+ * @param {string} greenCode
  * @returns {Promise<import('../../data/types.js').WormsReplay>}
  */
-async function runWorms(srcRed, srcGreen) {
-  const offsets = [
-    [0, -1],
-    [1, 0],
-    [0, 1],
-    [-1, 0],
-  ]
-
-  /** @type {number[][]} */
-  const board = []
-  for (let x = 0; x < 74; x++) {
-    const col = []
-    for (let y = 0; y < 42; y++) {
-      if (x == 0 || y == 0 || x == 73 || y == 41) {
-        col.push(-1)
+function runWormsInWorker(redCode, greenCode) {
+  const progress = new SharedArrayBuffer(4)
+  currentProgress = new Int32Array(progress)
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(new URL('./worms-worker.js', import.meta.url), {
+      workerData: { redCode, greenCode, progress },
+    })
+    worker.once('message', (msg) => {
+      worker.terminate()
+      currentProgress = null
+      if (msg && msg.ok) {
+        resolve(msg.replay)
       } else {
-        col.push(0)
+        reject(new Error(msg && msg.error ? msg.error : 'worker failed'))
       }
-    }
-    board.push(col)
-  }
-
-  let xRed = 10 + Math.floor(Math.random() * 8 - 4)
-  let yRed = 20 + Math.floor(Math.random() * 8 - 4)
-  let dirRed = Math.floor(Math.random() * 3)
-
-  let xGreen = 61 + Math.floor(Math.random() * 8 - 4)
-  let yGreen = 21 + Math.floor(Math.random() * 8 - 4)
-  let dirGreen = (Math.floor(Math.random() * 3) + 2) % 4
-
-  board[xRed][yRed] = 1
-  board[xGreen][yGreen] = 1
-
-  /** @type {import('../../data/types.js').WormsReplay} */
-  const replay = {
-    xRed,
-    yRed,
-    dirRed,
-    xGreen,
-    yGreen,
-    dirGreen,
-    dirs: [],
-    winner: '',
-    redElo: -1,
-    greenElo: -1,
-  }
-
-  const QuickJS = await getQuickJS()
-
-  const runtimeRed = QuickJS.newRuntime()
-  runtimeRed.setMemoryLimit(1024 * 640)
-  runtimeRed.setMaxStackSize(1024 * 320)
-  let cyclesRed = { val: 0 }
-  runtimeRed.setInterruptHandler(() => {
-    return cyclesRed.val++ > 101
+    })
+    worker.once('error', (err) => {
+      currentProgress = null
+      reject(err)
+    })
   })
-  const ctxRed = runtimeRed.newContext()
-
-  // ---------------------------------------
-  const logHandleRed = ctxRed.newFunction('log', (...args) => {
-    // no-op
-  })
-  const consoleHandleRed = ctxRed.newObject()
-  ctxRed.setProp(consoleHandleRed, 'log', logHandleRed)
-  ctxRed.setProp(ctxRed.global, 'console', consoleHandleRed)
-  consoleHandleRed.dispose()
-  logHandleRed.dispose()
-  // -------------------------
-
-  try {
-    ctxRed.evalCode(srcRed)
-  } catch (e) {
-    console.log(e)
-  }
-
-  const runtimeGreen = QuickJS.newRuntime()
-  runtimeGreen.setMemoryLimit(1024 * 640)
-  runtimeGreen.setMaxStackSize(1024 * 320)
-
-  let cyclesGreen = { val: 0 }
-  runtimeGreen.setInterruptHandler(() => {
-    return cyclesGreen.val++ > 101
-  })
-  const ctxGreen = runtimeGreen.newContext()
-
-  // ---------------------------------------
-  const logHandleGreen = ctxGreen.newFunction('log', (...args) => {
-    // no-op
-  })
-  const consoleHandleGreen = ctxGreen.newObject()
-  ctxGreen.setProp(consoleHandleGreen, 'log', logHandleGreen)
-  ctxGreen.setProp(ctxGreen.global, 'console', consoleHandleGreen)
-  consoleHandleGreen.dispose()
-  logHandleGreen.dispose()
-  // -------------------------
-
-  try {
-    ctxGreen.evalCode(srcGreen)
-  } catch (e) {
-    console.log(e)
-  }
-
-  let lastInterrupt = Date.now()
-
-  // todo: provide console.log in context
-
-  while (!replay.winner) {
-    matchSteps++
-    if (Date.now() - lastInterrupt > 50) {
-      await new Promise((resolve) => setTimeout(resolve, 50))
-      lastInterrupt = Date.now()
-    }
-
-    const callScriptRed = `
-      think(74, 42, ${JSON.stringify(board)}, ${xRed}, ${yRed}, ${dirRed}, ${xGreen}, ${yGreen});
-    `
-    let newDirRed = -1
-    try {
-      cyclesRed.val = 0
-      const resultRed = ctxRed.unwrapResult(ctxRed.evalCode(callScriptRed))
-      newDirRed = ctxRed.getNumber(resultRed)
-      resultRed.dispose()
-      // console.log('red cycles (10k)', cyclesRed.val)
-    } catch {}
-    if (
-      newDirRed === 0 ||
-      newDirRed === 1 ||
-      newDirRed === 2 ||
-      newDirRed === 3
-    ) {
-      dirRed = newDirRed
-      replay.dirs.push(newDirRed)
-    } else {
-      replay.winner = 'green'
-      replay.withCrash = true
-      break
-    }
-    const nrx = xRed + offsets[dirRed][0]
-    const nry = yRed + offsets[dirRed][1]
-    if (board[nrx][nry] == 0) {
-      xRed = nrx
-      yRed = nry
-      board[xRed][yRed] = 1
-    } else {
-      replay.winner = 'green'
-      break
-    }
-
-    const callScriptGreen = `
-      think(74, 42, ${JSON.stringify(board)}, ${xGreen}, ${yGreen}, ${dirGreen}, ${xRed}, ${yRed});
-    `
-    let newDirGreen = -1
-    try {
-      //console.time('green')
-      cyclesGreen.val = 0
-      const resultGreen = ctxGreen.unwrapResult(
-        ctxGreen.evalCode(callScriptGreen)
-      )
-      newDirGreen = ctxGreen.getNumber(resultGreen)
-      resultGreen.dispose()
-      //console.log('cycles green', cyclesGreen.val)
-      //console.timeEnd('green')
-    } catch {}
-    if (
-      newDirGreen === 0 ||
-      newDirGreen === 1 ||
-      newDirGreen === 2 ||
-      newDirGreen === 3
-    ) {
-      dirGreen = newDirGreen
-      replay.dirs.push(newDirGreen)
-    } else {
-      replay.winner = 'red'
-      replay.withCrash = true
-      break
-    }
-    const ngx = xGreen + offsets[dirGreen][0]
-    const ngy = yGreen + offsets[dirGreen][1]
-    if (board[ngx][ngy] == 0) {
-      xGreen = ngx
-      yGreen = ngy
-      board[xGreen][yGreen] = 2
-    } else {
-      replay.winner = 'red'
-      break
-    }
-  }
-
-  try {
-    ctxRed.dispose()
-    ctxGreen.dispose()
-
-    runtimeRed.dispose()
-    runtimeGreen.dispose()
-  } catch {}
-
-  return replay
 }
 
 /**
@@ -649,133 +490,67 @@ export function setupWormsArena(App) {
 
       setTimeout(async () => {
         try {
-          // a simple match runner that tries to run the match in a coordinated way
-
-          // first of all, check if another match is runner, otherwise I'll wait
-          let matchRunning = true
-          while (matchRunning) {
-            const runningMatches = await App.db.models.WormsArenaMatch.findAll({
-              where: {
+          await enqueue(async () => {
+            await App.db.models.WormsArenaMatch.update(
+              {
                 status: 'running',
               },
-            })
-            if (runningMatches.length == 0) {
-              matchRunning = false
-            } else {
-              await new Promise((resolve) => setTimeout(resolve, 1000))
-            }
-          }
+              {
+                where: {
+                  id: match.id,
+                },
+              }
+            )
 
-          // now check if I am the oldest pending match, otherwise I'll wait
-          let oldestPendingMatch = true
-          while (oldestPendingMatch) {
-            const oldestMatch = await App.db.models.WormsArenaMatch.findOne({
-              where: {
-                status: 'pending',
+            const replay = await runWormsInWorker(bot.code, opponentBot.code)
+
+            // load elo of bots
+            const botELO = parseFloat(
+              (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
+            )
+            const opponentELO = parseFloat(
+              (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ??
+                '500'
+            )
+
+            replay.redElo = botELO
+            replay.greenElo = opponentELO
+
+            const K = 32
+
+            let S = 0
+            if (replay.winner == 'red') {
+              S = 1
+            } else if (replay.winner == 'green') {
+              S = 0
+            }
+
+            const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
+
+            const newBotELO = botELO + K * (S - E)
+            const newOpponentELO = opponentELO + K * (E - S)
+
+            await App.storage.setItem(
+              `worms_botelo_${bot.id}`,
+              newBotELO.toString()
+            )
+            await App.storage.setItem(
+              `worms_botelo_${opponentBot.id}`,
+              newOpponentELO.toString()
+            )
+
+            await App.db.models.WormsArenaMatch.update(
+              {
+                status: replay.winner == 'red' ? 'red-win' : 'green-win',
+                replay: JSON.stringify(replay),
               },
-              order: [['createdAt', 'ASC']],
-            })
-            if (oldestMatch && oldestMatch.id == match.id) {
-              oldestPendingMatch = false
-            } else {
-              await new Promise((resolve) => setTimeout(resolve, 1000))
-            }
-          }
-
-          matchSteps = 0
-
-          // now I am the oldest pending match, I can start
-          await App.db.models.WormsArenaMatch.update(
-            {
-              status: 'running',
-            },
-            {
-              where: {
-                id: match.id,
-              },
-            }
-          )
-
-          const replay = await runWorms(bot.code, opponentBot.code)
-
-          // // first try running match with external runner
-          // const ENDPOINT = 'https://worms-runner.vercel.app/api/run'
-
-          // /** @type {import('../../data/types.js').WormsReplay | null} */
-          // let replay = null
-          // try {
-          //   // make post request with json and redCode and greenCode
-          //   const response = await fetch(ENDPOINT, {
-          //     method: 'POST',
-          //     headers: { 'Content-Type': 'application/json' },
-          //     body: JSON.stringify({
-          //       redCode: bot.code,
-          //       greenCode: opponentBot.code,
-          //     }),
-          //   })
-          //   replay = /** @type {any} */ (await response.json())
-          //   if (
-          //     !replay ||
-          //     !replay.winner ||
-          //     !Array.isArray(replay.dirs) ||
-          //     !replay.dirs.every((d) => [0, 1, 2, 3].includes(d))
-          //   ) {
-          //     throw new Error('Invalid replay data from endpoint')
-          //   }
-          // } catch (e) {
-          //   console.log(
-          //     'External runner failed, falling back to internal runner',
-          //     e
-          //   )
-
-          // }
-
-          // load elo of bots
-          const botELO = parseFloat(
-            (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
-          )
-          const opponentELO = parseFloat(
-            (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ??
-              '500'
-          )
-
-          replay.redElo = botELO
-          replay.greenElo = opponentELO
-
-          const K = 32
-
-          let S = 0
-          if (replay.winner == 'red') {
-            S = 1
-          } else if (replay.winner == 'green') {
-            S = 0
-          }
-
-          const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
-
-          const newBotELO = botELO + K * (S - E)
-          const newOpponentELO = opponentELO + K * (E - S)
-
-          await App.storage.setItem(
-            `worms_botelo_${bot.id}`,
-            newBotELO.toString()
-          )
-          await App.storage.setItem(
-            `worms_botelo_${opponentBot.id}`,
-            newOpponentELO.toString()
-          )
-
-          await App.db.models.WormsArenaMatch.update(
-            {
-              status: replay.winner == 'red' ? 'red-win' : 'green-win',
-              replay: JSON.stringify(replay),
-            },
-            {
-              where: {
-                id: match.id,
-              },
-            }
-          )
+              {
+                where: {
+                  id: match.id,
+                },
+              }
+            )
+          })
         } catch (e) {
           console.log('match failed', e)
           await App.db.models.WormsArenaMatch.update(
@@ -878,10 +653,11 @@ export function setupWormsArena(App) {
       }
 
       if (match.status == 'running') {
+        const steps = currentProgress ? Atomics.load(currentProgress, 0) : 0
         res.send(
-          matchSteps == 0
-            ? 'Match läuft ... (kann bis zu eine Minute dauern)'
-            : `Match läuft ... (Schritt ${matchSteps})`
+          steps == 0
+            ? 'Match läuft ... (kann bis zu einer Minute dauern)'
+            : `Match läuft ... (Schritt ${steps})`
         )
         return
       }

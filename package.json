@@ -28,7 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "jsqr": "^1.4.0",
     "jwk-to-pem": "^2.0.7",
-    "mariadb": "^3.5.3",
+    "mariadb": "^3.5.4",
     "moment": "^2.31.0",
     "multer": "^2.4.0",
     "node-fetch": "^3.3.2",

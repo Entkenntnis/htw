@@ -1,8 +1,36 @@
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
-import { renderNavigation } from './worms-basic.js'
+import { getWormsTranslator, renderNavigation } from './worms-basic.js'
 import { Sequelize } from 'sequelize'
 import { safeRoute } from '../../helper/helper.js'
+
+/**
+ * @param {(key: string) => string} t
+ * @returns {string}
+ */
+function getDefaultBotCode(t) {
+  return `/**
+ * ${t('worms.management.template.direction')}
+ *
+ * @param {number} dx         ${t('worms.management.template.width')}
+ * @param {number} dy         ${t('worms.management.template.height')}
+ * @param {number[][]} board  ${t('worms.management.template.board')}
+ *                            -1 = ${t('worms.management.template.wall')}, 0 = ${t('worms.management.template.free')}, 1 = ${t('worms.management.template.red')}, 2 = ${t('worms.management.template.green')}
+ * @param {number} x          ${t('worms.management.template.x')}
+ * @param {number} y          ${t('worms.management.template.y')}
+ * @param {number} dir        ${t('worms.management.template.directionValue')}
+ * @param {number} oppX       ${t('worms.management.template.opponentX')}
+ * @param {number} oppY       ${t('worms.management.template.opponentY')}
+ *
+ * @returns {number}          ${t('worms.management.template.returnValue')}
+ */
+function think(dx, dy, board, x, y, dir, oppX, oppY) {
+  // ${t('worms.management.template.writeCode')}
+
+  return dir
+}
+`
+}
 
 /**
  *
@@ -12,6 +40,7 @@ export function setupWormsManagement(App) {
   App.express.get(
     '/worms/your-bots',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const user = req.user
       if (!user) {
         res.redirect('/')
@@ -30,7 +59,7 @@ export function setupWormsManagement(App) {
         heading: 'Worms',
         backButton: false,
         content: `
-      ${renderNavigation(3)}
+      ${renderNavigation(3, req, App)}
 
       <div style="height: 24px;"></div>
 
@@ -39,17 +68,17 @@ export function setupWormsManagement(App) {
           (bot) =>
             `<div style="margin-bottom: 24px;"><strong style="font-size: 20px;">${escapeHTML(
               bot.name
-            )}</strong><span style="margin-left: 24px; color: gray; user-select: none;">zuletzt bearbeitet ${App.moment(bot.updatedAt).locale('de').fromNow()}</span><br>
+            )}</strong><span style="margin-left: 24px; color: gray; user-select: none;">${t('worms.management.lastEdited')} ${App.moment(bot.updatedAt).locale(req.lng).fromNow()}</span><br>
           <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
-            <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> Bearbeiten</a>
+            <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> ${t('worms.management.edit')}</a>
             <span>
-              <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">Umbenennen</button>
+              <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">${t('worms.management.rename')}</button>
               ${
                 /*bots.length >= 20
                   ? '<button class="btn btn-sm btn-outline-warning" disabled>Duplizieren</button>'
                   : `<a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>`*/ ''
               }
-              <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">Löschen</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">${t('worms.management.delete')}</button>
             </span>
           </div>
           </div> <hr>`
@@ -62,7 +91,7 @@ export function setupWormsManagement(App) {
       <div style="margin-bottom: 32px; display: flex; justify-content: center;">
         <form action="/worms/your-bots/test-run" style="display: flex; flex-direction: column; align-items: center;">
           <div style="display: flex; align-items: baseline;">
-            <label>Rot: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
+            <label>${t('worms.arena.red')}: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
               (bot) =>
                 `<option value="${bot.id}" ${
                   bot.id === req.session.lastTestRun?.[0]
@@ -70,7 +99,7 @@ export function setupWormsManagement(App) {
                     : ''
                 }>${escapeHTML(bot.name)}</option>`
             )}</select></label>
-            <label style="margin-left: 24px;">Grün: <select name="gId" style="padding: 8px; margin-left: 8px;">${bots.map(
+            <label style="margin-left: 24px;">${t('worms.arena.green')}: <select name="gId" style="padding: 8px; margin-left: 8px;">${bots.map(
               (bot) =>
                 `<option value="${bot.id}" ${
                   bot.id === req.session.lastTestRun?.[1]
@@ -78,12 +107,12 @@ export function setupWormsManagement(App) {
                     : ''
                 }>${escapeHTML(bot.name)}</option>`
             )}</select></label>
-            <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="Testlauf starten">
+            <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="${t('worms.management.startTestRun')}">
           </div>
           <div style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
             <label style="display: inline-flex; align-items: center;">
               <input type="checkbox" id="extensiveTest" onchange="document.getElementById('repeatInput').disabled = !this.checked" style="margin-right: 8px;" />
-              Ausgiebig testen
+              ${t('worms.management.extensiveTest')}
             </label>
             <input type="number" name="repeat" id="repeatInput" min="1" value="100" style="padding: 8px; width: 100px; margin-left: 8px; height: 28px;" disabled />
           </div>
@@ -92,14 +121,14 @@ export function setupWormsManagement(App) {
           : ''
       }
 
-      ${bots.length < 20 ? `<form action="/worms/drafts/create" method="POST"><input name="name" required autocomplete="off" maxlength="32"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="Neuen Bot erstellen"></form>` : '<p style="margin-top: 44px;">Du hast das Limit von 20 Bots erreicht.</p>'}
+      ${bots.length < 20 ? `<form action="/worms/drafts/create" method="POST"><input name="name" required autocomplete="off" maxlength="32"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="${t('worms.management.createBot')}"></form>` : `<p style="margin-top: 44px;">${t('worms.management.botLimit')}</p>`}
 
       <div style="height: 250px;"></div>
 
       <script>
         function confirmDelete(id, name) {
           name = atobUTF8(name)
-          if (confirm('Möchtest du den Bot ' + name + ' wirklich löschen?')) {
+          if (confirm(${JSON.stringify(t('worms.management.confirmDelete'))}.replace('{{name}}', name))) {
             fetch('/worms/drafts/delete', {
               method: 'POST',
               headers: {
@@ -111,22 +140,22 @@ export function setupWormsManagement(App) {
               if (response.ok) {
                 window.location.reload();
               } else {
-                alert('Löschen fehlgeschlagen');
+                alert(${JSON.stringify(t('worms.management.deleteFailed'))});
               }
             })
             .catch(error => {
               console.error('Error:', error);
-              alert('Fehler beim Löschen');
+              alert(${JSON.stringify(t('worms.management.deleteError'))});
             });
           }
         }
 
         function renameBot(id, name) {
           name = atobUTF8(name)
-          const newName = prompt('Neuer Name:', name)
+          const newName = prompt(${JSON.stringify(t('worms.management.newName'))}, name)
           if (newName) {
             if (newName.length > 32) {
-              alert('Name zu lang (maximal 32 Zeichen)')
+              alert(${JSON.stringify(t('worms.management.nameTooLong'))})
               return
             }
             fetch('/worms/drafts/rename', {
@@ -140,12 +169,12 @@ export function setupWormsManagement(App) {
               if (response.ok) {
                 window.location.reload();
               } else {
-                alert('Umbenennen fehlgeschlagen');
+                alert(${JSON.stringify(t('worms.management.renameFailed'))});
               }
             })
             .catch(error => {
               console.error('Error:', error);
-              alert('Fehler beim Umbenennen');
+              alert(${JSON.stringify(t('worms.management.renameError'))});
             });
           }
         }
@@ -169,6 +198,7 @@ export function setupWormsManagement(App) {
   App.express.post(
     '/worms/drafts/create',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       if (!req.user) {
         res.redirect('/')
         return
@@ -177,7 +207,7 @@ export function setupWormsManagement(App) {
       const name = req.body?.name ? req.body.name.toString() : ''
 
       if (!name || name.length > 32) {
-        res.send('Fehler: Name fehlt oder zu lang (maximal 32 Zeichen)')
+        res.send(t('worms.management.invalidBotName'))
         return
       }
 
@@ -186,7 +216,7 @@ export function setupWormsManagement(App) {
           where: { name, UserId: req.user.id },
         })) > 0
       ) {
-        res.send('Fehler: Bot mit diesem Namen existiert bereits')
+        res.send(t('worms.management.botNameExists'))
         return
       }
 
@@ -195,34 +225,14 @@ export function setupWormsManagement(App) {
           where: { UserId: req.user.id },
         })) >= 20
       ) {
-        res.send('Fehler: Du hast bereits 20 Bots erstellt')
+        res.send(t('worms.management.botLimit'))
         return
       }
 
       await App.db.models.WormsBotDraft.create({
         name,
         UserId: req.user.id,
-        code: `/**
- * Bestimme bei jedem Schritt deines Bots die Laufrichtung
- * 
- * @param {number} dx         Breite des Spielfelds (fixiert auf 74)
- * @param {number} dy         Höhe des Spielfelds (fixiert auf 42)
- * @param {number[][]} board  Zwei-dimensionales Feld, board[x][y] beschreibt den Inhalt bei (x|y) mit
- *                            -1 = Wand, 0 = frei, 1 = von rot besetzt, 2 = vom grün besetzt
- * @param {number} x          x-Koordinate deines Bots
- * @param {number} y          y-Koordinate deines Bots
- * @param {number} dir        Laufrichtung deines Bots (0 = hoch, 1 = rechts, 2 = runter, 3 = links)
- * @param {number} oppX       x-Koordinate des Gegners
- * @param {number} oppY       y-Koordinate des Gegners
- *
- * @returns {number}          Neue Laufrichtung
- */
-function think(dx, dy, board, x, y, dir, oppX, oppY) {
-  // Schreibe hier deinen Code
-
-  return dir
-}
-`,
+        code: getDefaultBotCode(t),
       })
 
       res.redirect('/worms/your-bots')
@@ -286,6 +296,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
   App.express.get(
     '/worms/drafts/edit',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       if (!req.user) {
         res.redirect('/')
         return
@@ -294,7 +305,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       const id = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
       if (isNaN(id)) {
-        res.send('Invalid ID')
+        res.send(t('worms.management.invalidId'))
         return
       }
 
@@ -303,13 +314,19 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       })
 
       if (!bot) {
-        res.send('Bot not found')
+        res.send(t('worms.management.botNotFound'))
         return
       }
 
+      const isGermanStarterCode =
+        bot.code.includes('Bestimme bei jedem Schritt deines Bots') &&
+        bot.code.includes('function think(dx, dy, board, x, y, dir, oppX, oppY)') &&
+        bot.code.includes('Schreibe hier deinen Code')
+      const initialCode = isGermanStarterCode ? getDefaultBotCode(t) : bot.code
+
       renderPage(App, req, res, {
         page: 'worms-drafts-edit',
-        heading: 'Bot bearbeiten - ' + bot.name,
+        heading: t('worms.management.editBot') + ' - ' + bot.name,
         backButton: false,
         outsideOfContainer: true,
         content: `
@@ -318,12 +335,12 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
           <h1>${escapeHTML(bot.name)}<span id="changedMarker" style="display: none;">*</span></h1>
 
           <p>
-            <button class="btn btn-success" onClick="saveButtonClickedAndExit()">Speichern und Schließen</button>
+            <button class="btn btn-success" onClick="saveButtonClickedAndExit()">${t('worms.management.saveAndClose')}</button>
             <span style="display: inline-block; width: 30px;"></span>
-            <button class="btn btn-primary" onClick="saveButtonClicked()">Speichern</button>
+            <button class="btn btn-primary" onClick="saveButtonClicked()">${t('worms.management.save')}</button>
             <span style="display: inline-block; width: 30px;"></span>
-            <a href="/worms/your-bots" class="btn btn-danger">Schließen</a>
-            <span style="margin-left: 32px; color: gray;">Formatieren und speichern mit <kbd>Strg</kbd>+<kbd>S</kbd></span>
+            <a href="/worms/your-bots" class="btn btn-danger">${t('worms.management.close')}</a>
+            <span style="margin-left: 32px; color: gray;">${t('worms.management.formatAndSave')} <kbd>Ctrl</kbd>+<kbd>S</kbd></span>
           </p>
 
           <div id="container" style="flex-grow: 1;"></div>
@@ -342,7 +359,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         <script src="/monaco/vs/editor/editor.main.js"></script>
 
         <script>
-          let initialValue = \`${bot.code.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`
+          let initialValue = \`${initialCode.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`
           const myEditor = monaco.editor.create(document.getElementById("container"), {
             value: initialValue,
             language: "typescript",
@@ -406,7 +423,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
               document.getElementById('changedMarker').style.display = 'none'
               initialValue = code
               if (!silent)
-                alert('Erfolgreich gespeichert!')
+                alert(${JSON.stringify(t('worms.management.saved'))})
             })
           }
 
@@ -429,7 +446,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
               });
 
               if (!response.ok) {
-                  alert('Speichern fehlgeschlagen!')
+                  alert(${JSON.stringify(t('worms.management.saveFailed'))})
               }
             } catch (error) {
               alert(error)
@@ -444,6 +461,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
   App.express.post(
     '/worms/drafts/save',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       if (!req.user) {
         res.redirect('/')
         return
@@ -452,7 +470,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       const id = req.body?.id ? parseInt(req.body.id.toString()) : NaN
 
       if (isNaN(id)) {
-        res.send('Invalid ID')
+        res.send(t('worms.management.invalidId'))
         return
       }
 
@@ -460,7 +478,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
 
       // ensure code is not too long
       if (code.length > 100000) {
-        res.send('Code zu lang')
+        res.send(t('worms.management.codeTooLong'))
         return
       }
 
@@ -469,7 +487,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       })
 
       if (!bot) {
-        res.send('Bot not found')
+        res.send(t('worms.management.botNotFound'))
         return
       }
 
@@ -482,6 +500,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
   App.express.get(
     '/worms/your-bots/test-run',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       if (!req.user) {
         res.redirect('/')
         return
@@ -491,7 +510,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       const gId = req.query.gId ? parseInt(req.query.gId.toString()) : NaN
 
       if (isNaN(rId) || isNaN(gId)) {
-        res.send('Missing gId or rId')
+        res.send(t('worms.management.missingIds'))
         return
       }
 
@@ -503,7 +522,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       })
 
       if (!rBot || !gBot) {
-        res.send('Bot not found')
+        res.send(t('worms.management.botNotFound'))
         return
       }
 
@@ -517,22 +536,22 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         renderPage(App, req, res, {
           page: 'worms-test-run-headless',
           backButton: false,
-          title: 'Worms - Testlauf (headless)',
+          title: t('worms.testRun.title') + ' (headless)',
           content: `
-            <h2>Headless-Testlauf</h2>
-            <p>Lasse Worms ${repeat}× gegeneinander antreten – ohne Rendering, so schnell wie die CPU erlaubt.</p>
+            <h2>${t('worms.testRun.headlessTitle')}</h2>
+            <p>${t('worms.testRun.headlessDescription', { count: repeat })}</p>
 
             <div style="margin: 16px 0;">
-              <button id="stop-btn" class="btn btn-sm btn-danger">Stopp</button>
-              <a href="/worms/your-bots" class="btn btn-sm btn-secondary" style="margin-left: 8px;">Zurück</a>
+              <button id="stop-btn" class="btn btn-sm btn-danger">${t('worms.testRun.stop')}</button>
+              <a href="/worms/your-bots" class="btn btn-sm btn-secondary" style="margin-left: 8px;">${t('worms.testRun.back')}</a>
             </div>
 
             <div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; background:#0b1220; padding:12px; border-radius:8px;">
-              <div>Fortschritt: <span id="done">0</span>/<span id="total">${repeat}</span></div>
-              <div>Rot (${escapeHTML(rBot.name)}) gewinnt: <span id="rWins">0</span> (<span id="rPct">0</span>%)</div>
-              <div>Grün (${escapeHTML(gBot.name)}) gewinnt: <span id="gWins">0</span> (<span id="gPct">0</span>%)</div>
-              <div>Ø Züge pro Spiel (Tick-Paare): <span id="avgMoves">0</span></div>
-              <div>Vergangene Zeit: <span id="elapsed">0.00</span>s | Rate: <span id="rate">0</span>/s</div>
+              <div>${t('worms.testRun.progress')}: <span id="done">0</span>/<span id="total">${repeat}</span></div>
+              <div>${t('worms.testRun.redWins')} (${escapeHTML(rBot.name)}): <span id="rWins">0</span> (<span id="rPct">0</span>%)</div>
+              <div>${t('worms.testRun.greenWins')} (${escapeHTML(gBot.name)}): <span id="gWins">0</span> (<span id="gPct">0</span>%)</div>
+              <div>${t('worms.testRun.averageMoves')}: <span id="avgMoves">0</span></div>
+              <div>${t('worms.testRun.elapsed')}: <span id="elapsed">0.00</span>s | Rate: <span id="rate">0</span>/s</div>
             </div>
 
             <div style="margin-top: 128px; margin-bottom: 96px; font-size: 13px; line-height: 1">
@@ -799,7 +818,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
       renderPage(App, req, res, {
         page: 'worms-test-run',
         backButton: false,
-        title: 'Worms - Testlauf',
+        title: t('worms.testRun.title'),
         content: `
         <h2><span style="color: rgb(239, 68, 68)">${escapeHTML(
           rBot.name
@@ -807,7 +826,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
           gBot.name
         )}</span></h2>
 
-        <p><a href="/worms/your-bots">zurück</a></p>
+        <p><a href="/worms/your-bots">${t('worms.testRun.back')}</a></p>
 
         <script src="/worms/wormer.js"></script>
 
@@ -817,8 +836,8 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
         ></script>
 
         <div style="display: flex; justify-content: end; margin-bottom: 16px; margin-top: 24px;">
-          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>&nbsp;&nbsp;|&nbsp;&nbsp;
-          <span style="color: gray;">CPU-Rot: <span id="red-cpu">0</span>% | CPU-Grün: <span id="green-cpu">0</span>%</span>
+          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <span style="color: gray;">${t('worms.testRun.cpuRed')}: <span id="red-cpu">0</span>% | ${t('worms.testRun.cpuGreen')}: <span id="green-cpu">0</span>%</span>
         </div>
         <div id="board"></div>
         <div style="margin-top: 48px;">
@@ -846,7 +865,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
               document.getElementById('red-cpu').innerText = Math.min(100, Math.max(1, cyclesRed.val))
               const over = cyclesRed.val++ > 100
               if (over) {
-                logToConsole('[rot] CPU-Zeit überschritten')
+                logToConsole('[red] ' + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
               }
               return over
             })
@@ -877,7 +896,7 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
               document.getElementById('green-cpu').innerText = Math.min(100, Math.max(1, cyclesGreen.val))
               const over = cyclesGreen.val++ > 100
               if (over) {
-                logToConsole('[grün] CPU-Zeit überschritten')
+                logToConsole('[green] ' + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
               }
               return over
             })

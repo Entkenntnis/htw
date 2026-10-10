@@ -4,30 +4,95 @@ import { renderPage } from '../../helper/render-page.js'
 /**
  *
  * @param {number} active active index
+ * @param {import('express').Request} req
+ * @param {import('../../data/types.js').App} App
  * @returns string
  */
-export function renderNavigation(active) {
+export function renderNavigation(active, req, App) {
+  const t = getWormsTranslator(App, req)
+
   return `
   <ul class="nav nav-tabs" style="margin-bottom: 24px;">
     <li class="nav-item">
-      <a class="nav-link" style="color: var(--main-color); border: none;" href="/map">zurück</a>
+      <a class="nav-link" style="color: var(--main-color); border: none;" href="/map">${t('worms.navigation.back')}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link${active == 0 ? ' active' : ''}" href="/worms/two-player">2-Spieler</a>
+      <a class="nav-link${active == 0 ? ' active' : ''}" href="/worms/two-player">${t('worms.navigation.twoPlayer')}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link${active == 1 ? ' active' : ''}" href="/worms/single-player">Einzelspieler</a>
+      <a class="nav-link${active == 1 ? ' active' : ''}" href="/worms/single-player">${t('worms.navigation.singlePlayer')}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link${active == 2 ? ' active' : ''}" href="/worms/arena">Bot-Arena</a>
+      <a class="nav-link${active == 2 ? ' active' : ''}" href="/worms/arena">${t('worms.navigation.arena')}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link${active == 3 ? ' active' : ''}" href="/worms/your-bots">Deine Bots</a>
+      <a class="nav-link${active == 3 ? ' active' : ''}" href="/worms/your-bots">${t('worms.navigation.yourBots')}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link${active == 4 ? ' active' : ''}" href="/worms/guide">Anleitung</a>
+      <a class="nav-link${active == 4 ? ' active' : ''}" href="/worms/guide">${t('worms.navigation.guide')}</a>
     </li>
   </ul>`
+}
+
+/**
+ * @param {import('../../data/types.js').App} App
+ * @param {import('express').Request} req
+ */
+export function getWormsTranslator(App, req) {
+  const i18n = App.i18n.get(req.lng)
+  return i18n.t.bind(i18n)
+}
+
+/**
+ * @param {string} content
+ * @param {(key: string) => string} germanT
+ * @param {(key: string) => string} t
+ * @returns {string}
+ */
+function translateGuideExamples(content, germanT, t) {
+  const replacements = [
+    'wallsAreGreat',
+    'pureChance',
+    'coilCoil',
+    'turned45Degrees',
+    'snailHouse',
+    'headToHead',
+    'zigzagDirection',
+    'direction',
+    'width',
+    'height',
+    'board',
+    'boardValues',
+    'xCoordinate',
+    'yCoordinate',
+    'directionValues',
+    'opponentX',
+    'opponentY',
+    'newDirection',
+    'deadEnd',
+    'canMove',
+    'calculateDifferences',
+    'prioritizeDirections',
+    'rightOrLeft',
+    'downOrUp',
+    'chooseAlternative',
+    'keepDirection',
+    'writeCode',
+  ]
+
+  return replacements.reduce(
+    (result, key) =>
+      result
+        .replaceAll(
+          germanT(`worms.guide.examples.source.${key}`),
+          t(`worms.guide.examples.source.${key}`)
+        )
+        .replaceAll(
+          t(`worms.guide.examples.source.${key}`),
+          t(`worms.guide.examples.${key}`)
+        ),
+    content
+  )
 }
 
 /**
@@ -51,7 +116,7 @@ export function setupWormsBasic(App) {
         heading: 'Worms',
         backButton: false,
         props: {
-          navigation: renderNavigation(0),
+          navigation: renderNavigation(0, req, App),
           mode: 'two',
         },
       })
@@ -67,7 +132,7 @@ export function setupWormsBasic(App) {
         heading: 'Worms',
         backButton: false,
         props: {
-          navigation: renderNavigation(1),
+          navigation: renderNavigation(1, req, App),
           mode: 'single',
         },
       })
@@ -77,43 +142,47 @@ export function setupWormsBasic(App) {
   App.express.get(
     '/worms/guide',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
+      const germanI18n = App.i18n.get('de')
+      const sourceT = germanI18n.t.bind(germanI18n)
       req.session.lastWormsTab = 'guide'
       renderPage(App, req, res, {
         page: 'worms',
         heading: 'Worms',
         backButton: false,
-        content: `
-        ${renderNavigation(4)}
+        content: translateGuideExamples(
+          `
+          ${renderNavigation(4, req, App)}
 
-        <p>Zwei Würmer und ein Kampf auf Leben und Tod - herzlich Willkommen bei Worms!</p>
+        <p>${t('worms.guide.welcome')}</p>
 
-        <p>Die Regeln sind denkbar einfach. Ein roter und ein grüner Wurm starten auf einem Spielfeld der Größe 72x40, an einer leicht zufälligen Position. Abwechseln, beginnend mit rot, bewegen sich die Würmer auf ein neues freie Feld. Wer gegen die Wand, den gegnerischen Wurm oder sich selbst läuft, verliert.</p>        
+        <p>${t('worms.guide.rules')}</p>
 
-        <p>Steuere im 2-Spieler und Einzelspieler einen Wurm und erlebe die taktischen und strategischen Herausforderungen.</p>
+        <p>${t('worms.guide.play')}</p>
 
-        <p>In den Tabs Bot-Arena und Deine Bots kannst du Computerprogramme schreiben, die an deiner Stelle in den Kampf treten. In wenigen Schritten ist dein erster Bot geschrieben!</p>
+        <p>${t('worms.guide.botIntro')}</p>
 
-        <p>(1. Schritt) Neuen Bot erstellen</p>
+        <p>${t('worms.guide.step1Title')}</p>
 
-        <p>Gehe in den Tab Deine Bots. Trage dort einen epischen Namen für deinen Bot ein und klicke auf Neuen Bot erstellen.</p>
+        <p>${t('worms.guide.step1')}</p>
 
-        <p>(2. Schritt) Programm schreiben</p>
+        <p>${t('worms.guide.step2Title')}</p>
 
-        <p>Klicke auf Bearbeiten. Der Editor öffnet sich. Das Programm besteht aus einer Funktion <code>think</code>, die vor jedem Schritt aufgerufen wird. Die Vorlage enthält einen Bot, der immer geradeaus läuft. Das passiert, weil durch <code>return dir</code> immer die aktuelle Richtung als nächsten Schritt ausgegeben wird. Wie man andere Bots schreibt, wird später vorgestellt. Schließe den Editor.</p>
+        <p>${t('worms.guide.step2')}</p>
 
-        <p>(3. Schritt) Gegner in Arena herausfordern</p>
+        <p>${t('worms.guide.step3Title')}</p>
 
-        <p>Jetzt geht es an die Sache. Gehe auf Bot-Arena. Wähle zuerst deinen neu erstellen Bot aus. Wähle dann einen Gegner, den du herausfordern willst. Sobald du auf herausfordern klickst, wird ein neues Match gestartet. Nach einer Weile siehst du das Ergebnis und ein Replay.</p>
+        <p>${t('worms.guide.step3')}</p>
 
-        <p>(Hurray) Du hast dein erstes Match mit deinem eigenen Bot bestritten!</p>
+        <p>${t('worms.guide.hurray')}</p>
 
         <hr />
 
-        <p>Der anspruchsvolle Teil ist nun die Programmierung der Bots. Es geht mehr um deine Ideen, weniger um den Code. Solange du deine Idee beschreiben kannst, kann immer eine LLM dir bei der Umsetzung helfen. Damit ist Worms auch für Programmieranfänger gut geeignet! Du kannst bis zu 20 Bots anlegen.</p>
+        <p>${t('worms.guide.advancedIntro')}</p>
 
-        <p>Das Programm wird in modernen JavaScript geschrieben. Da die Matches auf dem Server laufen, gibt es eine Sandbox, die sicherheitskritische Funktionen deaktiviert (Netzwerkanfragen, etc..). Pro Denkvorgang, d.h. Aufruf von <code>think</code>, darf dein Programm 1 Millionen Anweisungen ausführen und hat insgesamt 1 MB an Arbeitsspeicher zur Verfügung. Im Testlauf kannst du mit <code>console.log()</code> Information in der Konsole ausgeben.</p>
+        <p>${t('worms.guide.technicalDetails')}</p>
 
-        <p>Im folgenden sind ein paar Beispielprogramme gegeben, um dir ein Gefühl für die Programmierung zu geben. Gegen diese kannst du in der Arena antreten.</p>
+        <p>${t('worms.guide.examplesIntro')}</p>
 
         <h3>WändeSindToll</h3>
 
@@ -141,6 +210,9 @@ export function setupWormsBasic(App) {
         
         <div style="height: 300px;"></div>
       `,
+          sourceT,
+          t
+        ),
       })
     })
   )

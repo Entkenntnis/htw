@@ -167,6 +167,24 @@ async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
 }
 
 /**
+ * @param {import("../../data/types.js").App} App
+ * @param {any} match
+ * @returns {Promise<number>}
+ */
+async function getQueuePosition(App, match) {
+  // find matches that are older and still pending
+  const olderMatches = await App.db.models.WormsArenaMatch.count({
+    where: {
+      status: 'pending',
+      createdAt: {
+        [Op.lt]: match.createdAt,
+      },
+    },
+  })
+  return olderMatches + 1
+}
+
+/**
  * Status line shown while waiting for a match
  * @param {import("../../data/types.js").App} App
  * @param {any} match
@@ -181,16 +199,7 @@ async function getMatchStatusText(App, match) {
   }
 
   if (match.status == 'pending') {
-    // find matches that are older and still pending
-    const olderMatches = await App.db.models.WormsArenaMatch.findAll({
-      where: {
-        status: 'pending',
-        createdAt: {
-          [Op.lt]: match.createdAt,
-        },
-      },
-    })
-    return `Match in Warteschlange auf Position ${olderMatches.length + 1} ...`
+    return `Match in Warteschlange auf Position ${await getQueuePosition(App, match)} ...`
   }
 
   if (match.status == 'error') {
@@ -715,10 +724,6 @@ export function setupWormsArena(App) {
         return
       }
 
-      const randomGif = ['fighting.gif', 'fighting2.gif', 'fighting3.gif'][
-        Math.floor(Math.random() * 3)
-      ]
-
       const redBot = await App.db.models.WormsBotDraft.findOne({
         where: { id: match.redBotId },
       })
@@ -745,9 +750,20 @@ export function setupWormsArena(App) {
               : ''
           }
 
-          <img id="waiting-gif" src="/worms/${randomGif}" style="margin-top: 24px;">
+          <style>
+            #board-overlay {
+              position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+              background-color: rgba(0, 0, 0, 0.7); color: white; padding: 12px 20px;
+              border-radius: 10px; font-size: 22px; text-align: center; z-index: 1000;
+            }
+            #board-overlay small { display: block; font-size: 15px; color: gray; margin-top: 4px; }
+            #board-overlay .dots span { animation: worms-dot 1.4s infinite; opacity: 0.2; }
+            #board-overlay .dots span:nth-child(2) { animation-delay: 0.2s; }
+            #board-overlay .dots span:nth-child(3) { animation-delay: 0.4s; }
+            @keyframes worms-dot { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+          </style>
 
-          <div id="live" style="display: none;">
+          <div id="live">
             <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}</span></h4>
             <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 16px;">
               <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
@@ -760,20 +776,39 @@ export function setupWormsArena(App) {
 
           <script>
             const replayUrl = '/worms/arena/replay?id=${match.id}&msg=done'
-            let wormer = null
+            // empty arena is shown right away, worms appear with the first move
+            const wormer = new Wormer(document.getElementById('board'))
+            let started = false
             let pollTimer = null
+
+            const overlay = document.createElement('div')
+            overlay.id = 'board-overlay'
+            document.getElementById('board').appendChild(overlay)
+
+            function showOverlay(title, subtitle) {
+              const html =
+                title +
+                '<span class="dots"><span>.</span><span>.</span><span>.</span></span>' +
+                (subtitle ? '<small>' + subtitle + '</small>' : '')
+              // only update on change, otherwise the dot animation restarts
+              if (overlay.dataset.html != html) {
+                overlay.dataset.html = html
+                overlay.innerHTML = html
+              }
+            }
+            showOverlay('Match startet')
 
             // Polling until status is red-win or green-win, moves are shown live
             function fetchStatus() {
               pollTimer = null
-              const from = wormer ? wormer.dirs.length : 0
+              const from = started ? wormer.dirs.length : 0
               fetch('/worms/arena/live-match?id=${match.id}&from=' + from)
                 .then((res) => res.json())
                 .then((data) => {
                   document.getElementById('status').innerText = data.text
                   if (data.finished) {
                     hideCancel()
-                    if (!wormer || !data.replay.dirs.length) {
+                    if (!started || !data.replay.dirs.length) {
                       window.location.href = replayUrl
                       return
                     }
@@ -787,16 +822,20 @@ export function setupWormsArena(App) {
                   }
                   if (data.status == 'error') {
                     hideCancel()
+                    overlay.innerHTML = 'Match fehlgeschlagen'
                     return
                   }
-                  if (data.start && !wormer) {
-                    document.getElementById('waiting-gif').style.display = 'none'
-                    document.getElementById('live').style.display = 'block'
-                    wormer = new Wormer(document.getElementById('board'))
+                  if (data.start && !started) {
+                    started = true
+                    overlay.remove()
                     wormer.runLive(data.start)
                   }
-                  if (wormer) {
+                  if (started) {
                     wormer.feedLive(data.dirs)
+                  } else if (data.status == 'pending') {
+                    showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
+                  } else {
+                    showOverlay('Match startet', 'Bots werden geladen')
                   }
                   pollTimer = setTimeout(fetchStatus, 1000)
                 })
@@ -881,6 +920,8 @@ export function setupWormsArena(App) {
       res.json({
         status: match.status,
         text: await getMatchStatusText(App, match),
+        queuePosition:
+          match.status == 'pending' ? await getQueuePosition(App, match) : 0,
         finished: false,
         start: live?.start ?? null,
         dirs: live ? live.dirs.slice(from) : [],

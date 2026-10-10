@@ -837,7 +837,7 @@ export function setupWormsArena(App) {
                   } else {
                     showOverlay('Match startet', 'Bots werden geladen')
                   }
-                  pollTimer = setTimeout(fetchStatus, 1000)
+                  pollTimer = setTimeout(fetchStatus, 500)
                 })
                 .catch(() => {
                   pollTimer = setTimeout(fetchStatus, 3000)

@@ -104,11 +104,37 @@ class Wormer {
     this.live = true
     this.liveDone = false
     this.consumed = 0
+    this.interval = 120
+    this.liveSamples = []
     this.runReplay({ ...start, dirs: [] })
   }
 
   feedLive(dirs) {
     this.dirs.push(...dirs)
+    if (dirs.length == 0 && this.liveSamples.length > 0) return
+    // remember when how many moves had arrived to estimate the server speed
+    const now = new Date().getTime()
+    this.liveSamples.push({ t: now, n: this.dirs.length })
+    while (this.liveSamples.length > 2 && now - this.liveSamples[0].t > 5000) {
+      this.liveSamples.shift()
+    }
+  }
+
+  // live mode: show moves at one steady speed, never faster than a replay,
+  // slower if the server needs more time per move
+  updateLiveInterval() {
+    if (this.liveDone) return
+    const first = this.liveSamples[0]
+    const last = this.liveSamples[this.liveSamples.length - 1]
+    if (!first || last.t == first.t || last.n == first.n) return
+    const serverMs = (last.t - first.t) / ((last.n - first.n) / 2)
+    // keep about 1.5 s of moves buffered, slow down a bit when it runs low
+    const buffered = (this.dirs.length - this.consumed) / 2
+    const wanted = 1500 / Math.max(serverMs, 120)
+    const factor = buffered >= wanted ? 1 : 1 + 0.5 * (1 - buffered / wanted)
+    const target = Math.max(120, serverMs * factor)
+    // change speed gradually
+    this.interval += (target - this.interval) * 0.1
   }
 
   finishLive(replay) {
@@ -179,10 +205,9 @@ class Wormer {
 
     const ts = new Date().getTime()
 
-    // live mode: catch up quickly if the server is ahead
-    const behind = this.live && this.dirs.length - this.consumed > 20
+    const interval = this.live ? this.interval : 120
 
-    if (ts - this.lastTick < 120 && !this.turbo && !this.instant && !behind) {
+    if (ts - this.lastTick < interval && !this.turbo && !this.instant) {
       requestAnimationFrame(this.tick.bind(this))
       return
     } else {
@@ -193,6 +218,8 @@ class Wormer {
     do {
       this.step()
     } while (this.instant && !this.winner)
+
+    if (this.live) this.updateLiveInterval()
 
     if (!this.winner) {
       requestAnimationFrame(this.tick.bind(this))

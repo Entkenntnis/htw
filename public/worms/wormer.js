@@ -72,6 +72,7 @@ class Wormer {
 
     this.lastTick = new Date().getTime()
     this.turbo = false
+    this.consumed = 0
   }
 
   toggleTurbo() {
@@ -93,8 +94,30 @@ class Wormer {
     this.actGreen = replayGreen(this.dirs)
 
     this.withCrash = replay.withCrash
+    this.aborted = replay.aborted
 
     this.run(true)
+  }
+
+  // live mode: moves arrive while the match is still computed on the server
+  runLive(start) {
+    this.live = true
+    this.liveDone = false
+    this.consumed = 0
+    this.runReplay({ ...start, dirs: [] })
+  }
+
+  feedLive(dirs) {
+    this.dirs.push(...dirs)
+  }
+
+  finishLive(replay) {
+    // replace in place, the replay players hold a reference to this array
+    this.dirs.length = 0
+    this.dirs.push(...replay.dirs)
+    this.withCrash = replay.withCrash
+    this.aborted = replay.aborted
+    this.liveDone = true
   }
 
   setColor(x, y, bg) {
@@ -106,9 +129,11 @@ class Wormer {
     const message = document.createElement('div')
     message.innerHTML =
       (this.winner == 'red' ? 'Rot gewinnt' : 'Grün gewinnt') +
-      (this.withCrash
-        ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
-        : '') +
+      (this.aborted
+        ? '<br><span style="font-size: 15px; color: gray;">(Match abgebrochen)</span>'
+        : this.withCrash
+          ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
+          : '') +
       (window.restart
         ? '<br><span onclick="restart()" style="text-decoration:underline; cursor: pointer; color: gray; font-size: 16px;">Neustart</span>'
         : '')
@@ -126,6 +151,8 @@ class Wormer {
 
     // Append message to this.div
     this.div.appendChild(message)
+
+    if (this.onFinish) this.onFinish(this.winner)
   }
 
   run(noReset) {
@@ -143,14 +170,37 @@ class Wormer {
     if (this.winner) {
       return
     }
+
+    // live mode: wait until the next red and green move have arrived
+    if (this.live && !this.liveDone && this.dirs.length < this.consumed + 2) {
+      requestAnimationFrame(this.tick.bind(this))
+      return
+    }
+
     const ts = new Date().getTime()
 
-    if (ts - this.lastTick < 120 && !this.turbo) {
+    // live mode: catch up quickly if the server is ahead
+    const behind = this.live && this.dirs.length - this.consumed > 20
+
+    if (ts - this.lastTick < 120 && !this.turbo && !this.instant && !behind) {
       requestAnimationFrame(this.tick.bind(this))
       return
     } else {
       this.lastTick = ts
     }
+
+    // instant: play the whole replay at once and only show the final board
+    do {
+      this.step()
+    } while (this.instant && !this.winner)
+
+    if (!this.winner) {
+      requestAnimationFrame(this.tick.bind(this))
+    }
+  }
+
+  step() {
+    this.consumed += 2
 
     const newRedDir = this.actRed(
       74,
@@ -227,7 +277,6 @@ class Wormer {
       this.setColor(this.greenX, this.greenY, '#052e16')
       this.setWinnerMessage()
     }
-    requestAnimationFrame(this.tick.bind(this))
   }
 }
 

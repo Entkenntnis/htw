@@ -4,15 +4,15 @@
 
 <div id="game" style="position: relative; padding-top: 4px;">
   <p style="color: gray; padding-left: 8px;">
-    Roter Wurm: <span style="color: lightgray">WASD</span>
+    <%= t('redWorm') %> <span style="color: lightgray">WASD</span>
     <% if (props.mode === 'two') { %>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grüner Wurm: <span style="color: lightgray">PFEILTASTEN</span>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= t('greenWorm') %> <span style="color: lightgray"><%= t('arrowKeys') %></span>
     <% } else { %>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: lightgray">Besiege den grünen Wurm!</span>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: lightgray"><%= t('defeatGreenWorm') %></span>
     <% } %>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Neustart: <span style="color: lightgray">ENTER</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= t('restart') %> <span style="color: lightgray">ENTER</span>
   </p>
-  <div id="fullscreenToggle" style="position:absolute; top:4px; right: 0; padding-right: 4px; color: gray; text-decoration: underline; cursor: pointer;">Vollbild</div>
+  <div id="fullscreenToggle" data-fullscreen-label="<%= t('fullscreen') %>" data-close-fullscreen-label="<%= t('closeFullscreen') %>" style="position:absolute; top:4px; right: 0; padding-right: 4px; color: gray; text-decoration: underline; cursor: pointer;"><%= t('fullscreen') %></div>
   <div id="board" style="max-width: min(90vw, 130vh); margin: 0 auto;"></div>
 </div>
 
@@ -67,7 +67,9 @@
 
   function updateFsButton() {
     if (!fsBtn) return
-    fsBtn.textContent = isFullscreen() ? 'Vollbild schließen' : 'Vollbild'
+    fsBtn.textContent = isFullscreen()
+      ? fsBtn.dataset.closeFullscreenLabel
+      : fsBtn.dataset.fullscreenLabel
   }
 
   function requestFs(element) {

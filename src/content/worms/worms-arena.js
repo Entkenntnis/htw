@@ -1,6 +1,6 @@
 // This file implements the actual bot fights
 import { Worker } from 'node:worker_threads'
-import { renderNavigation } from './worms-basic.js'
+import { getWormsTranslator, renderNavigation } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
 import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
@@ -76,6 +76,7 @@ export function setupWormsArena(App) {
   })
 
   App.express.get('/worms/arena', async (req, res) => {
+    const t = getWormsTranslator(App, req)
     const user = req.user
     if (!user) {
       res.redirect('/')
@@ -169,7 +170,7 @@ export function setupWormsArena(App) {
       if (redBot && redBot.matches.length < 10) {
         redBot.matches.push({
           id: match.id,
-          htmlLabel: `${match.status == 'red-win' ? 'Sieg' : 'Niederlage'} gegen ${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}`,
+          htmlLabel: `${match.status == 'red-win' ? t('worms.arena.win') : t('worms.arena.loss')} ${t('worms.arena.against')} ${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}`,
           ts: App.moment(match.createdAt).unix(),
         })
       }
@@ -177,7 +178,7 @@ export function setupWormsArena(App) {
       if (greenBot && greenBot.matches.length < 10) {
         greenBot.matches.push({
           id: match.id,
-          htmlLabel: `${match.status == 'green-win' ? 'Sieg' : 'Niederlage'} gegen ${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}`,
+          htmlLabel: `${match.status == 'green-win' ? t('worms.arena.win') : t('worms.arena.loss')} ${t('worms.arena.against')} ${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}`,
           ts: App.moment(match.createdAt).unix(),
         })
       }
@@ -229,7 +230,7 @@ export function setupWormsArena(App) {
       heading: 'Worms',
       backButton: false,
       content: `
-        ${renderNavigation(2)}
+        ${renderNavigation(2, req, App)}
 
         <style>
           .hidden {
@@ -237,14 +238,14 @@ export function setupWormsArena(App) {
           }
         </style>
 
-        <h4>Letzte Matches</h4>
+        <h4>${t('worms.arena.lastMatches')}</h4>
         <table class="table">
           <thead>
             <tr>
-              <th>Bot Rot</th>
-              <th>Bot Grün</th>
-              <th>Ergebnis</th>
-              <th>Datum</th>
+              <th>${t('worms.arena.redBot')}</th>
+              <th>${t('worms.arena.greenBot')}</th>
+              <th>${t('worms.arena.result')}</th>
+              <th>${t('worms.arena.date')}</th>
             </tr>
           </thead>
           <tbody>
@@ -254,14 +255,14 @@ export function setupWormsArena(App) {
               <tr ${i < 10 ? '' : 'class="hidden"'}>
                 <td>${escapeHTML(
                   botData.find((b) => b.id == match.redBotId)?.name ??
-                    '[gelöschter Bot]'
+                    `[${t('worms.arena.deletedBot')}]`
                 )}${match.status == 'red-win' ? ' 🏆' : ''}</td>
                 <td>${escapeHTML(
                   botData.find((b) => b.id == match.greenBotId)?.name ??
-                    '[gelöschter Bot]'
+                    `[${t('worms.arena.deletedBot')}]`
                 )}${match.status == 'green-win' ? ' 🏆' : ''}</td>
-                <td>${match.status == 'red-win' ? 'Rot' : 'Grün'} gewinnt [<a href="/worms/arena/replay?id=${match.id}">ansehen</a>]</td>
-                <td>${App.moment(match.createdAt).locale('de').fromNow()}</td>
+                <td>${match.status == 'red-win' ? t('worms.arena.red') : t('worms.arena.green')} ${t('worms.arena.wins')} [<a href="/worms/arena/replay?id=${match.id}">${t('worms.arena.view')}</a>]</td>
+                <td>${App.moment(match.createdAt).locale(req.lng).fromNow()}</td>
               </tr>
             `
               )
@@ -269,7 +270,7 @@ export function setupWormsArena(App) {
           </tbody>
         </table>
 
-        ${matchesToShow.length > 10 ? '<a id="show-more" href="#">mehr ...</a>' : ''}
+        ${matchesToShow.length > 10 ? `<a id="show-more" href="#">${t('worms.arena.more')}</a>` : ''}
 
         <div style="text-align: center; margin-bottom: 24px; margin-top: 56px;">
           <img src="/worms/arena.jpg">
@@ -277,34 +278,36 @@ export function setupWormsArena(App) {
 
         ${
           ownBots.length == 0
-            ? '<p>Du hast noch keine eigenen Bots. Erstelle welche unter &quot;Deine Bots&quot;.</p>'
+            ? `<p>${t('worms.arena.noBots')}</p>`
             : matchesInTheLast24h.length >= 50
-              ? `<p>Du hast das Limit von 50 Matches in 24 Stunden erreicht. Du kannst ${App.moment(
-                  new Date(matchesInTheLast24h[0].createdAt).getTime() +
-                    1000 * 60 * 60 * 24
-                )
-                  .locale('de')
-                  .fromNow()} wieder ein Match starten.</p>`
-              : `<p>Wähle deinen Bot für das Match:
+              ? `<p>${t('worms.arena.limitReached', {
+                  until: App.moment(
+                    new Date(matchesInTheLast24h[0].createdAt).getTime() +
+                      1000 * 60 * 60 * 24
+                  )
+                    .locale(req.lng)
+                    .fromNow(),
+                })}</p>`
+              : `<p>${t('worms.arena.chooseBot')}
           <select name="bot" id="bot-selector" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
-            <option value="">Bitte wählen...</option>
+            <option value="">${t('worms.arena.pleaseChoose')}</option>
             ${ownBots
               .map(
                 (bot) =>
                   `<option value="${bot.id}" ${bot.id === req.session.lastWormsBotId ? 'selected' : ''}>${escapeHTML(bot.name)}</option>`
               )
               .join('')}
-          </select><small style="margin-left: 12px;">Limit: 50 Matches pro 24h (${matchesInTheLast24h.length} / 50)</small>
+          </select><small style="margin-left: 12px;">${t('worms.arena.limit')} (${matchesInTheLast24h.length} / 50)</small>
         </p>`
         }
 
         <table class="table">
           <thead>
             <tr>
-              <th>Platz</th>
-              <th>Bot</th>
-              <th>ELO</th>
-              <th class="challenge-button" style="visibility: hidden;">Wähle Gegner</th>
+              <th>${t('worms.arena.rank')}</th>
+              <th>${t('worms.arena.bot')}</th>
+              <th>${t('worms.arena.elo')}</th>
+              <th class="challenge-button" style="visibility: hidden;">${t('worms.arena.chooseOpponent')}</th>
             </tr>
           </thead>
           <tbody>
@@ -321,7 +324,7 @@ export function setupWormsArena(App) {
                 }<br >
                   <div style="display: flex">
                     <details>
-                      <summary><span style="color: darkgray">Siege: ${bot.wins}, Niederlagen: ${bot.losses}</span></summary>
+                      <summary><span style="color: darkgray">${t('worms.arena.wins')}: ${bot.wins}, ${t('worms.arena.losses')}: ${bot.losses}</span></summary>
                       <ul>
                         ${bot.matches
                           .map(
@@ -329,12 +332,12 @@ export function setupWormsArena(App) {
                               `<li><a href="/worms/arena/replay?id=${match.id}">${match.htmlLabel}</a> <span style="color: gray;">${App.moment(
                                 match.ts * 1000
                               )
-                                .locale('de')
+                                .locale(req.lng)
                                 .fromNow()}</span></li>`
                           )
                           .join('')}
                       </ul>
-                      <p style="margin-top: -14px; margin-left: 20px;"><a href="/worms/arena/bot-history?id=${bot.id}">Gesamter Verlauf</a></p>
+                      <p style="margin-top: -14px; margin-left: 20px;"><a href="/worms/arena/bot-history?id=${bot.id}">${t('worms.arena.fullHistory')}</a></p>
                     </details>
                   </div>
                 </td>
@@ -342,7 +345,7 @@ export function setupWormsArena(App) {
                 <td>
                   <form action="/worms/arena/start-match" method="POST" style="display: inline;" class="challenge-form">
                     <input type="hidden" name="opponent" value="${bot.id}">
-                    <button type="submit" class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" id="challenge-${bot.id}">Herausfordern</button>
+                    <button type="submit" class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" id="challenge-${bot.id}">${t('worms.arena.challenge')}</button>
                   </form>
                 </td>
               </tr>
@@ -573,6 +576,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/match',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const user = req.user
       if (!user) {
         res.redirect('/')
@@ -602,7 +606,7 @@ export function setupWormsArena(App) {
         heading: 'Worms',
         backButton: false,
         content: `
-          ${renderNavigation(2)}  
+          ${renderNavigation(2, req, App)}
   
           <h3 id="status">...</h3>
 
@@ -633,6 +637,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/poll-match',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const user = req.user
       if (!user) {
         res.redirect('/')
@@ -656,8 +661,8 @@ export function setupWormsArena(App) {
         const steps = currentProgress ? Atomics.load(currentProgress, 0) : 0
         res.send(
           steps == 0
-            ? 'Match läuft ... (kann bis zu einer Minute dauern)'
-            : `Match läuft ... (Schritt ${steps})`
+            ? t('worms.arena.matchRunningLong')
+            : `${t('worms.arena.matchRunning')} (${t('worms.arena.step')} ${steps})`
         )
         return
       }
@@ -673,14 +678,14 @@ export function setupWormsArena(App) {
           },
         })
         res.send(
-          `Match in Warteschlange auf Position ${olderMatches.length + 1} ...`
+          `${t('worms.arena.matchQueued')} ${olderMatches.length + 1} ...`
         )
         return
       }
 
       if (match.status == 'error') {
         res.send(
-          'Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.'
+          t('worms.arena.matchError')
         )
         return
       }
@@ -711,6 +716,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/replay',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
       const backToBot = req.query.backToBot
@@ -762,36 +768,36 @@ export function setupWormsArena(App) {
         backHref: '/worms/arena',
         content: `
 
-        ${renderNavigation(2)}
+        ${renderNavigation(2, req, App)}
 
         <h3 style="text-align: center;">${
           match.status == 'red-win' ? '🏆 ' : ''
-        }<span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}${
+        }<span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}${
           !showMsg ? ` (${Math.round(replay.redElo)})` : ''
-        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}${
+        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}${
           !showMsg ? ` (${Math.round(replay.greenElo)})` : ''
         }</span>${match.status == 'green-win' ? ' 🏆' : ''}</h3>
 
         ${
           showMsg
-            ? `<p style="font-size: 20px; text-align: center">Dein Bot ${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'} hat das Match gegen ${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'} <strong>${
-                match.status == 'red-win' ? 'gewonnen' : 'verloren'
-              }</strong>.<br >Deine neue ELO beträgt ${redBotELO} (${
+            ? `<p style="font-size: 20px; text-align: center">${t('worms.arena.yourBot')} ${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`} ${t('worms.arena.wentAgainst')} ${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`} <strong>${
+                match.status == 'red-win' ? t('worms.arena.won') : t('worms.arena.lost')
+              }</strong>.<br >${t('worms.arena.newElo')} ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''
               }${Math.round(eloDiff)}).</p>`
-            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}</p>`
+            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}</p>`
         }
         
         <p style="text-align: center; margin-top: 24px;"><a href="${
           backToBot
             ? '/worms/arena/bot-history?id=' + backToBot
             : '/worms/arena'
-        }" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a><button class="btn btn-secondary" style="margin-left: 32px;" onClick="window.location.reload()">Replay wiederholen</button></p>
+        }" class="btn btn-primary">${showMsg ? 'OK' : t('worms.arena.close')}</a><button class="btn btn-secondary" style="margin-left: 32px;" onClick="window.location.reload()">${t('worms.arena.replayAgain')}</button></p>
         
         <script src="/worms/wormer.js"></script>
 
         <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
-          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
+          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>
         </div>
         
         <div id="board"></div>
@@ -810,6 +816,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/bot-history',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const botId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
       const bot = await App.db.models.WormsBotDraft.findOne({
@@ -887,13 +894,13 @@ export function setupWormsArena(App) {
         heading: 'Worms',
         backButton: false,
         content: `
-          ${renderNavigation(2)}
+          ${renderNavigation(2, req, App)}
 
           <h3 style="text-align: center;">${escapeHTML(bot.name)} (${Math.round(botELO)})</h3>
 
-          <h4 style="text-align: center; margin-bottom: 48px;">von ${escapeHTML(player.name)}</h4>
+          <h4 style="text-align: center; margin-bottom: 48px;">${t('worms.arena.by')} ${escapeHTML(player.name)}</h4>
 
-          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">schließen</a></p>
+          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">${t('worms.arena.close')}</a></p>
 
           <canvas id="chart" style="margin-top: 32px; margin-bottom: 32px;"></canvas>
 
@@ -915,13 +922,13 @@ export function setupWormsArena(App) {
             });
           </script>
 
-          <h4>Matches</h4>
+          <h4>${t('worms.arena.matches')}</h4>
           <table class="table">
             <thead>
               <tr>
-                <th>Gegner</th>
-                <th>Ergebnis</th>
-                <th>Datum</th>
+                <th>${t('worms.arena.opponent')}</th>
+                <th>${t('worms.arena.result')}</th>
+                <th>${t('worms.arena.date')}</th>
               </tr>
             </thead>
             <tbody>
@@ -933,11 +940,11 @@ export function setupWormsArena(App) {
                     match.redBotId == bot.id
                       ? escapeHTML(
                           opponents.find((opp) => opp.id == match.greenBotId)
-                            ?.name ?? '[gelöschter Bot]'
+                            ?.name ?? `[${t('worms.arena.deletedBot')}]`
                         )
                       : escapeHTML(
                           opponents.find((opp) => opp.id == match.redBotId)
-                            ?.name ?? '[gelöschter Bot]'
+                            ?.name ?? `[${t('worms.arena.deletedBot')}]`
                         )
                   } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">ansehen</a>]</td>
                   <td>${
@@ -946,7 +953,7 @@ export function setupWormsArena(App) {
                       ? 'Sieg'
                       : 'Niederlage'
                   }</td>
-                  <td>${App.moment(match.createdAt).locale('de').fromNow()}</td>
+                  <td>${App.moment(match.createdAt).locale(req.lng).fromNow()}</td>
                 </tr>
               `
                 )

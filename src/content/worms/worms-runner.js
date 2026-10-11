@@ -5,7 +5,7 @@ import { getQuickJS } from 'quickjs-emscripten'
  * @param {string} srcRed
  * @param {string} srcGreen
  * @param {(steps: number) => void} [onStep]
- * @param {{ onStart?: (start: import('../../data/types.js').WormsStart) => void, onMove?: (dir: number) => void }} [hooks]
+ * @param {{ onStart?: (start: import('../../data/types.js').WormsStart) => void, onMove?: (dir: number, ms: number) => void }} [hooks]
  * @returns {Promise<import('../../data/types.js').WormsReplay>}
  */
 export async function runWorms(
@@ -134,6 +134,7 @@ export async function runWorms(
       think(74, 42, ${JSON.stringify(board)}, ${xRed}, ${yRed}, ${dirRed}, ${xGreen}, ${yGreen});
     `
     let newDirRed = -1
+    const thinkStartRed = performance.now()
     try {
       cyclesRed.val = 0
       const resultRed = ctxRed.unwrapResult(ctxRed.evalCode(callScriptRed))
@@ -149,7 +150,7 @@ export async function runWorms(
     ) {
       dirRed = newDirRed
       replay.dirs.push(newDirRed)
-      onMove(newDirRed)
+      onMove(newDirRed, performance.now() - thinkStartRed)
     } else {
       replay.winner = 'green'
       replay.withCrash = true
@@ -170,6 +171,7 @@ export async function runWorms(
       think(74, 42, ${JSON.stringify(board)}, ${xGreen}, ${yGreen}, ${dirGreen}, ${xRed}, ${yRed});
     `
     let newDirGreen = -1
+    const thinkStartGreen = performance.now()
     try {
       //console.time('green')
       cyclesGreen.val = 0
@@ -189,7 +191,7 @@ export async function runWorms(
     ) {
       dirGreen = newDirGreen
       replay.dirs.push(newDirGreen)
-      onMove(newDirGreen)
+      onMove(newDirGreen, performance.now() - thinkStartGreen)
     } else {
       replay.winner = 'red'
       replay.withCrash = true

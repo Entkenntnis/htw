@@ -5,18 +5,43 @@ import { renderPage } from '../../helper/render-page.js'
 import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
 import { safeRoute } from '../../helper/helper.js'
+import { setupWormsLive } from './worms-live.js'
+
+// browsers cache assets for days, a new version per server start makes sure
+// pages never run with an outdated wormer.js / live-view.js
+const assetVersion = Date.now().toString(36)
 
 /** @type {Int32Array | null} */
 let currentProgress = null
 let queueChain = Promise.resolve()
 
 /**
+ * @typedef {object} MatchNames
+ * @property {string} red name of the red bot
+ * @property {string} green name of the green bot
+ * @property {number} userId who started the match
+ */
+
+/**
  * @typedef {object} LiveMatch
  * @property {number} matchId
+ * @property {MatchNames} names
  * @property {import('../../data/types.js').WormsStart | null} start
  * @property {number[]} dirs
+ * @property {number[]} times think time per move in ms
  * @property {boolean} aborted
  * @property {() => boolean} abort returns false if the match already ended
+ */
+
+/**
+ * @typedef {object} MatchResult
+ * @property {'red-win' | 'green-win' | 'cancelled' | 'error'} status
+ * @property {MatchNames} names
+ * @property {import('../../data/types.js').WormsStart | null} start
+ * @property {number[]} dirs
+ * @property {boolean} withCrash
+ * @property {boolean} aborted
+ * @property {{red: number[], green: number[]} | null} elo before and after
  */
 
 /**
@@ -25,8 +50,45 @@ let queueChain = Promise.resolve()
  */
 let liveMatch = null
 
-/** ids of matches that wait in the queue and were not cancelled */
-const pendingMatches = new Set()
+/**
+ * Matches that wait in the queue and were not cancelled, in queue order
+ * @type {Map<number, MatchNames>}
+ */
+const pendingMatches = new Map()
+
+/**
+ * Recently finished matches, so live viewers get the result without a
+ * database lookup
+ * @type {Map<number, MatchResult>}
+ */
+const recentResults = new Map()
+/** @type {number | null} */
+let lastFinishedMatch = null
+
+/**
+ * @param {number} id
+ * @param {MatchResult} result
+ */
+function rememberResult(id, result) {
+  recentResults.set(id, result)
+  if (result.status == 'red-win' || result.status == 'green-win') {
+    lastFinishedMatch = id
+  }
+  for (const old of recentResults.keys()) {
+    if (recentResults.size <= 30) break
+    recentResults.delete(old)
+  }
+}
+
+/**
+ * @param {import('../../data/types.js').WormsReplay} replay
+ * @returns {import('../../data/types.js').WormsStart | null}
+ */
+function startOf(replay) {
+  if (replay.xRed < 0) return null
+  const { xRed, yRed, dirRed, xGreen, yGreen, dirGreen } = replay
+  return { xRed, yRed, dirRed, xGreen, yGreen, dirGreen }
+}
 
 /**
  * Replay of a cancelled match: red loses, unfinished half-moves are dropped
@@ -102,6 +164,7 @@ function runWormsInWorker(redCode, greenCode, live) {
         live.start = msg.start
       } else if (msg?.type == 'move') {
         live.dirs.push(msg.dir)
+        live.times.push(Math.round(msg.ms))
       } else if (msg?.type == 'done') {
         finish(() => {
           if (msg.ok) {
@@ -129,8 +192,9 @@ function runWormsInWorker(redCode, greenCode, live) {
  * @param {number} redBotId
  * @param {number} greenBotId
  * @param {import('../../data/types.js').WormsReplay} replay
+ * @param {MatchNames} names
  */
-async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
+async function finishMatch(App, matchId, redBotId, greenBotId, replay, names) {
   // load elo of bots
   const botELO = parseFloat(
     (await App.storage.getItem(`worms_botelo_${redBotId}`)) ?? '500'
@@ -162,9 +226,11 @@ async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
     newOpponentELO.toString()
   )
 
+  const status = replay.winner == 'red' ? 'red-win' : 'green-win'
+
   await App.db.models.WormsArenaMatch.update(
     {
-      status: replay.winner == 'red' ? 'red-win' : 'green-win',
+      status,
       replay: JSON.stringify(replay),
     },
     {
@@ -173,6 +239,19 @@ async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
       },
     }
   )
+
+  rememberResult(matchId, {
+    status,
+    names,
+    start: startOf(replay),
+    dirs: replay.dirs,
+    withCrash: !!replay.withCrash,
+    aborted: !!replay.aborted,
+    elo: {
+      red: [botELO, newBotELO],
+      green: [opponentELO, newOpponentELO],
+    },
+  })
 }
 
 /**
@@ -215,6 +294,10 @@ async function getMatchStatusText(App, match) {
     return 'Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.'
   }
 
+  if (match.status == 'cancelled') {
+    return 'Match abgebrochen (keine Wertung)'
+  }
+
   return match.status
 }
 
@@ -223,6 +306,62 @@ async function getMatchStatusText(App, match) {
  * @param {import("../../data/types.js").App} App
  */
 export function setupWormsArena(App) {
+  setupWormsLive(App, {
+    getLive: () => liveMatch,
+    getSteps: () => (currentProgress ? Atomics.load(currentProgress, 0) : 0),
+    pending: pendingMatches,
+    results: recentResults,
+    getLastFinished: () => lastFinishedMatch,
+    loadResult: async (id) => {
+      const match = await App.db.models.WormsArenaMatch.findOne({
+        where: { id },
+      })
+      if (!match) return false
+      const names = {
+        red:
+          (
+            await App.db.models.WormsBotDraft.findOne({
+              where: { id: match.redBotId },
+            })
+          )?.name ?? '[gelöschter Bot]',
+        green:
+          (
+            await App.db.models.WormsBotDraft.findOne({
+              where: { id: match.greenBotId },
+            })
+          )?.name ?? '[gelöschter Bot]',
+        userId: match.UserId,
+      }
+      if (match.status == 'red-win' || match.status == 'green-win') {
+        /** @type {import('../../data/types.js').WormsReplay} */
+        const replay = JSON.parse(match.replay)
+        rememberResult(id, {
+          status: match.status,
+          names,
+          start: startOf(replay),
+          dirs: replay.dirs,
+          withCrash: !!replay.withCrash,
+          aborted: !!replay.aborted,
+          // old ELO is stored in the replay, the new one is not
+          elo: null,
+        })
+      } else {
+        // pending/running matches that are not in memory did not survive
+        // a restart, they are marked as error on startup
+        rememberResult(id, {
+          status: match.status == 'cancelled' ? 'cancelled' : 'error',
+          names,
+          start: null,
+          dirs: [],
+          withCrash: false,
+          aborted: false,
+          elo: null,
+        })
+      }
+      return true
+    },
+  })
+
   App.entry.add(async () => {
     // safe guard: if there is still a running match, we reset it
     await App.db.models.WormsArenaMatch.update(
@@ -415,14 +554,18 @@ export function setupWormsArena(App) {
           liveArenaMatch && liveNames
             ? `
           <p style="text-align: center; margin-top: 24px;">
-            <a href="/worms/arena/match?id=${liveArenaMatch.id}" class="btn btn-outline-warning">
-              🔴 Laufendes Match live ansehen:
+            <a href="/worms/arena/tv" class="btn btn-outline-warning">
+              🔴 Laufendes Match live im Arena-TV ansehen:
               ${escapeHTML(liveNames.red ?? '[gelöschter Bot]')} vs
               ${escapeHTML(liveNames.green ?? '[gelöschter Bot]')}
             </a>
           </p>
         `
-            : ''
+            : `
+          <p style="text-align: center; margin-top: 24px;">
+            <a href="/worms/arena/tv" class="btn btn-outline-secondary">📺 Arena-TV</a>
+          </p>
+        `
         }
 
         <style>
@@ -682,7 +825,9 @@ export function setupWormsArena(App) {
 
       req.session.lastWormsBotId = bot.id
 
-      pendingMatches.add(match.id)
+      /** @type {MatchNames} */
+      const names = { red: bot.name, green: opponentBot.name, userId: user.id }
+      pendingMatches.set(match.id, names)
 
       setTimeout(async () => {
         try {
@@ -693,8 +838,10 @@ export function setupWormsArena(App) {
             /** @type {LiveMatch} */
             const live = {
               matchId: match.id,
+              names,
               start: null,
               dirs: [],
+              times: [],
               aborted: false,
               // before the worker runs, the flag is checked below
               abort: () => {
@@ -720,7 +867,26 @@ export function setupWormsArena(App) {
                 ? abortedReplay(live)
                 : await runWormsInWorker(bot.code, opponentBot.code, live)
 
-              await finishMatch(App, match.id, bot.id, opponentBot.id, replay)
+              await finishMatch(
+                App,
+                match.id,
+                bot.id,
+                opponentBot.id,
+                replay,
+                names
+              )
+            } catch (e) {
+              // before liveMatch is cleared, so live viewers never see a gap
+              rememberResult(match.id, {
+                status: 'error',
+                names,
+                start: null,
+                dirs: [],
+                withCrash: false,
+                aborted: false,
+                elo: null,
+              })
+              throw e
             } finally {
               if (liveMatch === live) liveMatch = null
             }
@@ -774,9 +940,11 @@ export function setupWormsArena(App) {
         where: { id: match.greenBotId },
       })
 
-      const canCancel =
-        match.UserId == user.id &&
-        (match.status == 'pending' || match.status == 'running')
+      const isOwner = match.UserId == user.id
+      const ownNames = {
+        red: redBot ? redBot.name : '[gelöschter Bot]',
+        green: greenBot ? greenBot.name : '[gelöschter Bot]',
+      }
 
       renderPage(App, req, res, {
         page: 'worms-match-running',
@@ -788,127 +956,100 @@ export function setupWormsArena(App) {
           <h3 id="status">...</h3>
 
           ${
-            canCancel
-              ? `<p id="cancel-area">
-                  <span id="cancel-ask"><button class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">Match abbrechen</button> <span style="color: gray; margin-left: 8px;">(zählt als Niederlage)</span></span>
-                  <span id="cancel-confirm" style="display: none;">Wirklich abbrechen? Das zählt als Niederlage für deinen Bot. <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">Ja, abbrechen</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
+            isOwner
+              ? `<p id="cancel-area" hidden>
+                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)"></button> <span id="cancel-hint" style="color: gray; margin-left: 8px;"></span></span>
+                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question"></span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()"></button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
                 </p>`
               : ''
           }
 
-          <style>
-            #board-overlay {
-              position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-              background-color: rgba(0, 0, 0, 0.7); color: white; padding: 12px 20px;
-              border-radius: 10px; font-size: 22px; text-align: center; z-index: 1000;
-            }
-            #board-overlay small { display: block; font-size: 15px; color: gray; margin-top: 4px; }
-            #board-overlay .dots span { animation: worms-dot 1.4s infinite; opacity: 0.2; }
-            #board-overlay .dots span:nth-child(2) { animation-delay: 0.2s; }
-            #board-overlay .dots span:nth-child(3) { animation-delay: 0.4s; }
-            @keyframes worms-dot { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
-          </style>
+          <div id="live-view"></div>
 
-          <div id="live">
-            <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}</span></h4>
-            <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 16px;">
-              <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
-            </div>
-            <div id="board"></div>
-            <div style="height:70px"></div>
-          </div>
+          <p id="result-links" style="text-align: center; margin-top: 16px;" hidden>
+            <a id="replay-link" href="/worms/arena/replay?id=${match.id}${isOwner ? '&msg=done' : ''}" class="btn btn-primary">${isOwner ? 'Ergebnis und ELO' : 'Zum Replay'}</a>
+            <a href="/worms/arena" class="btn btn-secondary" style="margin-left: 16px;">Zurück zur Arena</a>
+          </p>
 
-          <script src="/worms/wormer.js"></script>
+          <div style="height: 70px;"></div>
+
+          <script src="/worms/wormer.js?v=${assetVersion}"></script>
+          <script src="/worms/live-view.js?v=${assetVersion}"></script>
 
           <script>
-            const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
-            // empty arena is shown right away, worms appear with the first move
-            const wormer = new Wormer(document.getElementById('board'))
-            let started = false
-            let pollTimer = null
+            const matchId = ${match.id}
+            const isOwner = ${isOwner}
+            const ownNames = ${JSON.stringify(ownNames).replace(/</g, '\\u003c')}
+            let queuePosition = 0
+            let cancelState = ''
 
-            // the animation pauses while the tab is hidden, catch up when coming back
-            document.addEventListener('visibilitychange', () => {
-              if (document.visibilityState == 'visible' && started && !wormer.liveDone) {
-                wormer.skipAhead()
-              }
+            const view = new LiveView(document.getElementById('live-view'), {
+              ownMatchId: matchId,
+              foreignText: (info) =>
+                'Du siehst gerade das Match von jemand anderem. ' +
+                (isOwner ? 'Dein Match' : 'Dieses Match') +
+                ' (' + ownNames.red + ' vs ' + ownNames.green + ') wartet noch' +
+                (queuePosition ? ' auf Position ' + queuePosition + ' in der Warteschlange' : '') +
+                ' und startet automatisch hier.',
             })
 
-            const overlay = document.createElement('div')
-            overlay.id = 'board-overlay'
-            document.getElementById('board').appendChild(overlay)
+            const source = new EventSource('/worms/arena/stream?match=' + matchId)
+            view.attach(source)
 
-            function showOverlay(title, subtitle) {
-              const html =
-                title +
-                '<span class="dots"><span>.</span><span>.</span><span>.</span></span>' +
-                (subtitle ? '<small>' + subtitle + '</small>' : '')
-              // only update on change, otherwise the dot animation restarts
-              if (overlay.dataset.html != html) {
-                overlay.dataset.html = html
-                overlay.innerHTML = html
+            source.addEventListener('status', (e) => showStatus(JSON.parse(e.data)))
+
+            function showStatus(s) {
+              const status = document.getElementById('status')
+              if (s.state == 'pending') {
+                queuePosition = s.position
+                status.innerText = (isOwner ? 'Dein Match' : 'Das Match') + ' wartet in der Warteschlange (Position ' + s.position + ')'
+                if (view.lastInfo && view.lastInfo.foreign) {
+                  view.el.banner.textContent = view.opts.foreignText(view.lastInfo)
+                }
+              } else if (s.state == 'running') {
+                status.innerText = s.steps ? 'Match läuft ... (Schritt ' + s.steps + ')' : 'Match läuft ...'
+              } else if (s.state == 'red-win' || s.state == 'green-win') {
+                status.innerText = 'Match fertig berechnet'
+              } else if (s.state == 'cancelled') {
+                status.innerText = 'Match abgebrochen (keine Wertung)'
+              } else if (s.state == 'error') {
+                status.innerText = 'Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.'
               }
-            }
-            showOverlay('Match startet')
-
-            // Polling until status is red-win or green-win, moves are shown live
-            function fetchStatus() {
-              pollTimer = null
-              const from = started ? wormer.dirs.length : 0
-              fetch('/worms/arena/live-match?id=${match.id}&from=' + from)
-                .then((res) => res.json())
-                .then((data) => {
-                  document.getElementById('status').innerText = data.text
-                  if (data.finished) {
-                    hideCancel()
-                    if (!started || !data.replay.dirs.length) {
-                      window.location.href = replayUrl
-                      return
-                    }
-                    wormer.onFinish = () => {
-                      setTimeout(() => {
-                        window.location.href = replayUrl + '&instant=1'
-                      }, 2000)
-                    }
-                    // cancelled: don't keep playing moves the viewer hasn't seen yet
-                    if (data.replay.aborted) wormer.instant = true
-                    wormer.finishLive(data.replay)
-                    return
-                  }
-                  if (data.status == 'error') {
-                    hideCancel()
-                    overlay.innerHTML = 'Match fehlgeschlagen'
-                    document.getElementById('board').appendChild(overlay)
-                    return
-                  }
-                  const joining = data.start && !started
-                  if (joining) {
-                    started = true
-                    overlay.remove()
-                    wormer.runLive(data.start)
-                  }
-                  if (started) {
-                    wormer.feedLive(data.dirs)
-                    // joined a match that is already running: start at the current state
-                    if (joining) wormer.skipAhead()
-                  } else if (data.status == 'pending') {
-                    showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
-                  } else {
-                    showOverlay('Match startet', 'Bots werden geladen')
-                  }
-                  const moves = started ? wormer.dirs.length : 0
-                  const initPhase = moves < 4
-                  const interval = started && initPhase ? 300 : 2000
-                  pollTimer = setTimeout(fetchStatus, interval)
-                })
-                .catch(() => {
-                  pollTimer = setTimeout(fetchStatus, 3000)
-                })
+              setCancelState(s.state)
             }
 
-            function hideCancel() {
+            view.onResult = (data) => {
+              if (data.id !== matchId) return
+              // everything about this match is known now, the connection is
+              // closed right away, so a status update sent with the result
+              // would get lost
+              source.close()
+              showStatus({ state: data.status })
+              // cancelled or failed matches have no replay
+              document.getElementById('replay-link').hidden =
+                data.status != 'red-win' && data.status != 'green-win'
+              document.getElementById('result-links').hidden = false
+            }
+
+            // waiting in the queue: cancel without rating, running: give up = loss
+            function setCancelState(state) {
               const area = document.getElementById('cancel-area')
-              if (area) area.style.display = 'none'
+              if (!area) return
+              const active = state == 'pending' || state == 'running'
+              area.hidden = !active
+              if (!active || state == cancelState) return
+              cancelState = state
+              showCancelConfirm(false)
+              document.getElementById('cancel-yes').disabled = false
+              const pending = state == 'pending'
+              document.getElementById('cancel-button').innerText = pending ? 'Match abbrechen' : 'Aufgeben'
+              document.getElementById('cancel-hint').innerText = pending
+                ? '(hat noch nicht begonnen, keine Wertung)'
+                : '(zählt als Niederlage)'
+              document.getElementById('cancel-question').innerText = pending
+                ? 'Match abbrechen? Es wird nicht gewertet.'
+                : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'
+              document.getElementById('cancel-yes').innerText = pending ? 'Ja, abbrechen' : 'Ja, aufgeben'
             }
 
             // confirmation inside the page, native dialogs can be blocked
@@ -922,21 +1063,145 @@ export function setupWormsArena(App) {
               fetch('/worms/arena/cancel-match', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: ${match.id} }),
+                // tells the server what the user agreed to: cancelling a
+                // waiting match must never turn into giving up a running one
+                body: JSON.stringify({ id: matchId, expect: cancelState }),
               }).then((res) => {
-                // 409: match already over, the next poll shows the result
-                if (!res.ok && res.status != 409) throw new Error()
+                if (res.status == 409) {
+                  // the match changed in the meantime, the next status update shows how
+                  document.getElementById('cancel-yes').disabled = false
+                  showCancelConfirm(false)
+                } else if (!res.ok) {
+                  throw new Error()
+                }
               }).catch(() => {
                 document.getElementById('cancel-yes').disabled = false
-              }).finally(() => {
-                if (pollTimer) {
-                  clearTimeout(pollTimer)
-                  fetchStatus()
-                }
               })
             }
+          </script>
+        `,
+      })
+    })
+  )
 
-            fetchStatus()
+  App.express.get(
+    '/worms/arena/tv',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.redirect('/')
+        return
+      }
+
+      const isEditor = App.config.editors.includes(user.name)
+
+      renderPage(App, req, res, {
+        page: 'worms-arena-tv',
+        heading: 'Worms',
+        backButton: false,
+        content: `
+          ${renderNavigation(2)}
+
+          <style>
+            .tv-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+            @media (max-width: 900px) { .tv-layout { grid-template-columns: minmax(0, 1fr); } }
+            .tv-chat { border: 1px solid #444; border-radius: 8px; padding: 12px; }
+            .tv-chat-list { height: 420px; overflow-y: auto; font-size: 14px; margin-bottom: 8px; overflow-wrap: anywhere; }
+            .tv-chat-list div { margin-bottom: 4px; }
+            .tv-chat-time { color: gray; font-size: 12px; margin-right: 4px; }
+            .tv-chat-del { color: gray; cursor: pointer; margin-left: 4px; }
+            .tv-chat form { display: flex; gap: 6px; }
+            .tv-chat input { flex: 1; min-width: 0; }
+          </style>
+
+          <h3 style="margin-top: 16px;">📺 Arena-TV</h3>
+          <p style="color: gray;">Hier läuft immer das aktuelle Arena-Match live. Ist es vorbei, geht es automatisch mit dem nächsten weiter.</p>
+
+          <div class="tv-layout">
+            <div id="live-view"></div>
+            <div class="tv-chat">
+              <h5 style="margin-top: 0;">Chat</h5>
+              <div class="tv-chat-list" id="chat-list"></div>
+              <form id="chat-form">
+                <input id="chat-input" class="form-control form-control-sm" maxlength="200" placeholder="Nachricht ..." autocomplete="off">
+                <button class="btn btn-sm btn-primary" type="submit">Senden</button>
+              </form>
+              <small id="chat-hint" style="color: gray; display: block; margin-top: 6px;">Bleib freundlich. Der Chat wird nicht gespeichert und ist nach einem Neustart leer.</small>
+            </div>
+          </div>
+
+          <div style="height: 70px;"></div>
+
+          <script src="/worms/wormer.js?v=${assetVersion}"></script>
+          <script src="/worms/live-view.js?v=${assetVersion}"></script>
+
+          <script>
+            const isEditor = ${isEditor}
+            const view = new LiveView(document.getElementById('live-view'), {
+              catchUpOnFinish: true,
+              holdResultMs: 5000,
+            })
+            const source = new EventSource('/worms/arena/stream?match=tv')
+            view.attach(source)
+
+            const list = document.getElementById('chat-list')
+            const seen = new Set()
+
+            function addMessage(m) {
+              if (seen.has(m.id)) return
+              seen.add(m.id)
+              const atBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 40
+              const row = document.createElement('div')
+              row.dataset.id = m.id
+              const time = document.createElement('span')
+              time.className = 'tv-chat-time'
+              time.textContent = new Date(m.t).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+              const name = document.createElement('strong')
+              name.textContent = m.name + ': '
+              const text = document.createElement('span')
+              text.textContent = m.text
+              row.append(time, name, text)
+              if (isEditor) {
+                const del = document.createElement('span')
+                del.className = 'tv-chat-del'
+                del.textContent = '×'
+                del.title = 'Nachricht löschen'
+                del.onclick = () => fetch('/worms/arena/chat-delete', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ id: m.id }),
+                })
+                row.append(del)
+              }
+              list.append(row)
+              if (atBottom) list.scrollTop = list.scrollHeight
+            }
+
+            source.addEventListener('chat', (e) => {
+              JSON.parse(e.data).messages.forEach(addMessage)
+            })
+            source.addEventListener('chatdel', (e) => {
+              const row = list.querySelector('[data-id="' + JSON.parse(e.data).id + '"]')
+              if (row) row.remove()
+            })
+
+            document.getElementById('chat-form').addEventListener('submit', (e) => {
+              e.preventDefault()
+              const input = document.getElementById('chat-input')
+              const text = input.value.trim()
+              if (!text) return
+              fetch('/worms/arena/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text }),
+              }).then((res) => {
+                if (res.ok) {
+                  input.value = ''
+                } else if (res.status == 429) {
+                  document.getElementById('chat-hint').innerText = 'Nicht so schnell, warte kurz.'
+                }
+              })
+            })
           </script>
         `,
       })
@@ -1023,18 +1288,37 @@ export function setupWormsArena(App) {
         return
       }
 
+      // what the user confirmed: 'pending' = cancel without rating,
+      // 'running' = give up
+      const expect = (req.body?.expect ?? '').toString()
+
+      // running: giving up counts as a loss
       if (liveMatch && liveMatch.matchId == match.id) {
+        if (expect == 'pending') {
+          // started in the meantime, the user did not agree to a loss
+          res.sendStatus(409)
+          return
+        }
         res.sendStatus(liveMatch.abort() ? 200 : 409)
         return
       }
 
-      if (pendingMatches.delete(match.id)) {
-        await finishMatch(
-          App,
-          match.id,
-          match.redBotId,
-          match.greenBotId,
-          abortedReplay(null)
+      // still waiting in the queue: the match never started, so it is just
+      // dropped without any rating
+      const names = pendingMatches.get(match.id)
+      if (names && pendingMatches.delete(match.id)) {
+        rememberResult(match.id, {
+          status: 'cancelled',
+          names,
+          start: null,
+          dirs: [],
+          withCrash: false,
+          aborted: false,
+          elo: null,
+        })
+        await App.db.models.WormsArenaMatch.update(
+          { status: 'cancelled' },
+          { where: { id: match.id } }
         )
         res.sendStatus(200)
         return
@@ -1105,6 +1389,12 @@ export function setupWormsArena(App) {
 
       if (!match) {
         res.redirect('/worms/arena')
+        return
+      }
+
+      // no replay yet (still waiting or running) or never (cancelled, error)
+      if (match.status != 'red-win' && match.status != 'green-win') {
+        res.redirect('/worms/arena/match?id=' + match.id)
         return
       }
 
@@ -1193,7 +1483,7 @@ export function setupWormsArena(App) {
         ${
           hasBoard
             ? `
-        <script src="/worms/wormer.js"></script>
+        <script src="/worms/wormer.js?v=${assetVersion}"></script>
 
         <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
           <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>

@@ -12,7 +12,7 @@ try {
     },
     {
       onStart: (start) => parentPort?.postMessage({ type: 'start', start }),
-      onMove: (dir) => parentPort?.postMessage({ type: 'move', dir }),
+      onMove: (dir, ms) => parentPort?.postMessage({ type: 'move', dir, ms }),
     }
   )
   parentPort?.postMessage({ type: 'done', ok: true, replay })

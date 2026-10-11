@@ -821,11 +821,18 @@ export function setupWormsArena(App) {
           <script src="/worms/wormer.js"></script>
 
           <script>
-            const replayUrl = '/worms/arena/replay?id=${match.id}&msg=done'
+            const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
             // empty arena is shown right away, worms appear with the first move
             const wormer = new Wormer(document.getElementById('board'))
             let started = false
             let pollTimer = null
+
+            // the animation pauses while the tab is hidden, catch up when coming back
+            document.addEventListener('visibilitychange', () => {
+              if (document.visibilityState == 'visible' && started && !wormer.liveDone) {
+                wormer.skipAhead()
+              }
+            })
 
             const overlay = document.createElement('div')
             overlay.id = 'board-overlay'
@@ -874,13 +881,16 @@ export function setupWormsArena(App) {
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
-                  if (data.start && !started) {
+                  const joining = data.start && !started
+                  if (joining) {
                     started = true
                     overlay.remove()
                     wormer.runLive(data.start)
                   }
                   if (started) {
                     wormer.feedLive(data.dirs)
+                    // joined a match that is already running: start at the current state
+                    if (joining) wormer.skipAhead()
                   } else if (data.status == 'pending') {
                     showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
                   } else {
@@ -1087,8 +1097,6 @@ export function setupWormsArena(App) {
 
       const backToBot = req.query.backToBot
 
-      const showMsg = req.query.msg == 'done'
-
       const match = await App.db.models.WormsArenaMatch.findOne({
         where: {
           id: matchId,
@@ -1099,6 +1107,10 @@ export function setupWormsArena(App) {
         res.redirect('/worms/arena')
         return
       }
+
+      // "your bot won/lost" only makes sense for the one who started the match
+      const showMsg =
+        req.query.msg == 'done' && !!req.user && match.UserId == req.user.id
 
       /** @type {import('../../data/types.js').WormsReplay} */
       const replay = JSON.parse(match.replay)

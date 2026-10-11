@@ -106,5 +106,8 @@ export const appConfig = {
     enabled: true,
     timespan: 3, // min
     requests: 250,
+    // polling of live views, counted separately from page views
+    livePaths: ['/worms/arena/live-match'],
+    liveRequests: 600,
   },
 }

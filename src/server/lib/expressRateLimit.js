@@ -1,5 +1,7 @@
 /** @type {{[key: number]:number}} */
 let requestCounter = {}
+/** @type {{[key: number]:number}} */
+let liveCounter = {}
 let lastReset = 0
 
 /**
@@ -11,6 +13,19 @@ export function expressRateLimit(App) {
       const user = req.user
       if (user) {
         const key = user.id
+
+        // background requests of live views are not page views,
+        // they get their own (larger) limit
+        if (App.config.rateLimit.livePaths.includes(req.path)) {
+          liveCounter[key] = (liveCounter[key] ?? 0) + 1
+          if (liveCounter[key] > App.config.rateLimit.liveRequests) {
+            res.sendStatus(429)
+            return
+          }
+          next()
+          return
+        }
+
         if (!requestCounter[key]) {
           requestCounter[key] = 0
         }
@@ -37,6 +52,7 @@ export function expressRateLimit(App) {
     App.periodic.add(App.config.rateLimit.timespan, () => {
       // reset
       requestCounter = {}
+      liveCounter = {}
       lastReset = new Date().getTime()
     })
   }

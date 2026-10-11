@@ -1,5 +1,8 @@
 'use strict'
 
+// replays: time per single move (red and green take turns)
+const MOVE_MS = 60
+
 // directions: 0 up, 1, right, 2, down, 3, left
 
 class Wormer {
@@ -108,12 +111,9 @@ class Wormer {
     this.loop = (this.loop || 0) + 1
   }
 
-  // replay: jump to the state after `target` moves (two moves per round)
+  // replay: jump to the state after `target` moves
   seek(target) {
-    target = Math.max(
-      0,
-      Math.min(target, this.dirs.length - (this.dirs.length % 2))
-    )
+    target = Math.max(0, Math.min(target, this.dirs.length))
     if (this.winnerMessage) {
       this.winnerMessage.remove()
       this.winnerMessage = null
@@ -137,7 +137,7 @@ class Wormer {
     this.consumed = 0
     this.placeStart()
     while (!this.winner && this.consumed < target) {
-      this.step()
+      this.advance()
     }
     this.lastTick = new Date().getTime()
     if (!this.winner) this.startLoop()
@@ -148,7 +148,7 @@ class Wormer {
     this.live = true
     this.liveDone = false
     this.consumed = 0
-    this.interval = 120
+    this.interval = MOVE_MS
     this.liveSamples = []
     // how much time worth of moves to keep in stock while watching live
     if (!this.liveBuffer) this.liveBuffer = 1500
@@ -157,9 +157,9 @@ class Wormer {
 
   // jump close to the newest move, e.g. when joining a running match late
   skipAhead() {
-    const keep = Math.ceil(this.liveBuffer / 120) * 2
-    while (!this.winner && this.dirs.length - this.consumed >= keep + 2) {
-      this.step()
+    const keep = Math.ceil(this.liveBuffer / MOVE_MS)
+    while (!this.winner && this.dirs.length - this.consumed > keep) {
+      this.advance()
     }
   }
 
@@ -181,12 +181,12 @@ class Wormer {
     const first = this.liveSamples[0]
     const last = this.liveSamples[this.liveSamples.length - 1]
     if (!first || last.t == first.t || last.n == first.n) return
-    const serverMs = (last.t - first.t) / ((last.n - first.n) / 2)
+    const serverMs = (last.t - first.t) / (last.n - first.n)
     // keep some moves buffered, slow down a bit when it runs low
-    const buffered = (this.dirs.length - this.consumed) / 2
-    const wanted = this.liveBuffer / Math.max(serverMs, 120)
+    const buffered = this.dirs.length - this.consumed
+    const wanted = this.liveBuffer / Math.max(serverMs, MOVE_MS)
     const factor = buffered >= wanted ? 1 : 1 + 0.5 * (1 - buffered / wanted)
-    const target = Math.max(120, serverMs * factor)
+    const target = Math.max(MOVE_MS, serverMs * factor)
     // change speed gradually
     this.interval += (target - this.interval) * 0.1
   }
@@ -263,15 +263,17 @@ class Wormer {
     }
     const next = () => requestAnimationFrame(() => this.tick(loop))
 
-    // live mode: wait until the next red and green move have arrived
-    if (this.live && !this.liveDone && this.dirs.length < this.consumed + 2) {
+    // live mode: wait until the next move has arrived
+    if (this.live && !this.liveDone && this.dirs.length <= this.consumed) {
       next()
       return
     }
 
     const ts = new Date().getTime()
 
-    const interval = this.live ? this.interval : 120
+    // replays show red and green taking turns, one move at a time, at the
+    // same overall speed as the game (both worms every 120 ms)
+    const interval = !this.isReplay ? 120 : this.live ? this.interval : MOVE_MS
 
     if (
       this.paused ||
@@ -284,9 +286,18 @@ class Wormer {
     }
 
     // instant: play the whole replay at once and only show the final board
-    do {
-      this.step()
-    } while (this.instant && !this.winner)
+    if (this.isReplay) {
+      // turbo: keep the old speed of one red and one green move per frame
+      let moves = this.turbo ? 2 : 1
+      do {
+        this.advance()
+        moves--
+      } while (!this.winner && (this.instant || moves > 0))
+    } else {
+      do {
+        this.step()
+      } while (this.instant && !this.winner)
+    }
 
     if (this.live) this.updateLiveInterval()
 
@@ -297,7 +308,22 @@ class Wormer {
 
   step() {
     this.consumed += 2
+    this.moveRed()
+    if (!this.winner) this.moveGreen()
+  }
 
+  // replays and live view: one move at a time, red and green take turns
+  advance() {
+    const red = this.consumed % 2 == 0
+    this.consumed++
+    if (red) {
+      this.moveRed()
+    } else {
+      this.moveGreen()
+    }
+  }
+
+  moveRed() {
     const newRedDir = this.actRed(
       74,
       42,
@@ -333,9 +359,10 @@ class Wormer {
       this.winner = 'green'
       this.setWinnerMessage()
       this.setColor(this.redX, this.redY, '#450a0a')
-      return
     }
+  }
 
+  moveGreen() {
     const newGreenDir = this.actGreen(
       74,
       42,

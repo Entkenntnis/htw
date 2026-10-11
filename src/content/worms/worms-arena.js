@@ -280,7 +280,8 @@ async function getQueuePosition(App, match) {
  */
 async function getMatchStatusText(App, match) {
   if (match.status == 'running') {
-    const steps = currentProgress ? Atomics.load(currentProgress, 0) : 0
+    const steps =
+      liveMatch && liveMatch.matchId == match.id ? liveMatch.dirs.length : 0
     return steps == 0
       ? 'Match läuft ... (kann bis zu einer Minute dauern)'
       : `Match läuft ... (Schritt ${steps})`
@@ -308,7 +309,8 @@ async function getMatchStatusText(App, match) {
 export function setupWormsArena(App) {
   setupWormsLive(App, {
     getLive: () => liveMatch,
-    getSteps: () => (currentProgress ? Atomics.load(currentProgress, 0) : 0),
+    // moves made so far (one per worm and turn), like the timeline counts them
+    getSteps: () => (liveMatch ? liveMatch.dirs.length : 0),
     pending: pendingMatches,
     results: recentResults,
     getLastFinished: () => lastFinishedMatch,
@@ -1093,8 +1095,6 @@ export function setupWormsArena(App) {
         return
       }
 
-      const isEditor = App.config.editors.includes(user.name)
-
       renderPage(App, req, res, {
         page: 'worms-arena-tv',
         heading: 'Worms',
@@ -1109,7 +1109,6 @@ export function setupWormsArena(App) {
             .tv-chat-list { height: 420px; overflow-y: auto; font-size: 14px; margin-bottom: 8px; overflow-wrap: anywhere; }
             .tv-chat-list div { margin-bottom: 4px; }
             .tv-chat-time { color: gray; font-size: 12px; margin-right: 4px; }
-            .tv-chat-del { color: gray; cursor: pointer; margin-left: 4px; }
             .tv-chat form { display: flex; gap: 6px; }
             .tv-chat input { flex: 1; min-width: 0; }
           </style>
@@ -1136,7 +1135,6 @@ export function setupWormsArena(App) {
           <script src="/worms/live-view.js?v=${assetVersion}"></script>
 
           <script>
-            const isEditor = ${isEditor}
             const view = new LiveView(document.getElementById('live-view'), {
               catchUpOnFinish: true,
               holdResultMs: 5000,
@@ -1161,18 +1159,6 @@ export function setupWormsArena(App) {
               const text = document.createElement('span')
               text.textContent = m.text
               row.append(time, name, text)
-              if (isEditor) {
-                const del = document.createElement('span')
-                del.className = 'tv-chat-del'
-                del.textContent = '×'
-                del.title = 'Nachricht löschen'
-                del.onclick = () => fetch('/worms/arena/chat-delete', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ id: m.id }),
-                })
-                row.append(del)
-              }
               list.append(row)
               if (atBottom) list.scrollTop = list.scrollHeight
             }
@@ -1180,11 +1166,6 @@ export function setupWormsArena(App) {
             source.addEventListener('chat', (e) => {
               JSON.parse(e.data).messages.forEach(addMessage)
             })
-            source.addEventListener('chatdel', (e) => {
-              const row = list.querySelector('[data-id="' + JSON.parse(e.data).id + '"]')
-              if (row) row.remove()
-            })
-
             document.getElementById('chat-form').addEventListener('submit', (e) => {
               e.preventDefault()
               const input = document.getElementById('chat-input')

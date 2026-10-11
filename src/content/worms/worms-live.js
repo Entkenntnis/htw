@@ -335,20 +335,4 @@ export function setupWormsLive(App, state) {
       res.sendStatus(200)
     })
   )
-
-  App.express.post(
-    '/worms/arena/chat-delete',
-    safeRoute(async (req, res) => {
-      const user = req.user
-      if (!user || !App.config.editors.includes(user.name)) {
-        res.sendStatus(403)
-        return
-      }
-      const id = parseInt((req.body?.id ?? '').toString())
-      const index = chat.findIndex((m) => m.id === id)
-      if (index >= 0) chat.splice(index, 1)
-      broadcastChat('chatdel', { id })
-      res.sendStatus(200)
-    })
-  )
 }

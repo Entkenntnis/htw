@@ -110,7 +110,7 @@ class LiveView {
       // seek at most once per frame while dragging
       if (this.seekTarget < 0) {
         requestAnimationFrame(() => {
-          if (this.started) this.wormer.seek(this.seekTarget * 2)
+          if (this.started) this.wormer.seek(this.seekTarget)
           this.seekTarget = -1
         })
       }
@@ -325,13 +325,13 @@ class LiveView {
     const sawMoves = this.wormer.dirs.length > 0
     this.wormer.onFinish = () => this.showResult()
     this.wormer.finishLive(data)
-    const end = data.dirs.length - (data.dirs.length % 2)
+    const end = data.dirs.length
     if (!sawMoves || data.aborted) {
       // joined after the end, or someone gave up: show the final board
       this.wormer.seek(data.dirs.length + 2)
     } else if (this.opts.catchUpOnFinish) {
       // arena tv: don't lag behind for minutes, show the last seconds
-      const keep = Math.ceil(5000 / 120) * 2
+      const keep = Math.ceil(5000 / 60)
       if (end - this.wormer.consumed > keep) this.wormer.seek(end - keep)
     }
   }
@@ -386,8 +386,8 @@ class LiveView {
       this.wormer.skipAhead()
     } else if (this.started && this.finished && !this.wormer.winner) {
       const w = this.wormer
-      const end = w.dirs.length - (w.dirs.length % 2)
-      const keep = Math.ceil(w.liveBuffer / 120) * 2
+      const end = w.dirs.length
+      const keep = Math.ceil(w.liveBuffer / 60)
       if (end - w.consumed > keep) w.seek(end - keep)
     }
   }
@@ -405,19 +405,20 @@ class LiveView {
   updateControls() {
     this.releaseHeld()
     const w = this.wormer
-    const total = this.started ? Math.floor(w.dirs.length / 2) : 0
-    const pos = this.started ? Math.floor(w.consumed / 2) : 0
+    // one step = one move of one worm
+    const total = this.started ? w.dirs.length : 0
+    const pos = this.started ? Math.min(w.consumed, total) : 0
     this.el.range.disabled = !this.started
     if (!this.dragging) {
       this.el.range.max = String(total)
       this.el.range.value = String(pos)
     }
-    this.el.pos.textContent = `Runde ${this.dragging ? this.el.range.value : pos} / ${total}`
+    this.el.pos.textContent = `${this.dragging ? this.el.range.value : pos} / ${total}`
     this.el.play.textContent = w.paused ? '▶' : '⏸'
     this.el.play.disabled = !this.started
 
     if (this.isLive()) {
-      const behindMs = (total - pos) * (w.interval || 120)
+      const behindMs = (total - pos) * (w.interval || 60)
       const atLive = this.following && !w.paused && behindMs < 3000
       this.el.live.hidden = false
       this.el.live.classList.toggle('lv-is-live', atLive)
@@ -509,21 +510,20 @@ class LiveView {
         lastGreen = w.dirs[i]
       }
     }
-    const lenRed = Math.ceil(shown / 2) + 1
-    const lenGreen = Math.floor(shown / 2) + 1
-    const free = 72 * 40 - lenRed - lenGreen
+    // both start on one cell, every move takes one more
+    const free = 72 * 40 - 2 - shown
 
     /** @param {string} label @param {string} r @param {string} g */
     const pair = (label, r, g) =>
       '<span><b>' + label + '</b> <span class="lv-r">' + r + '</span> · <span class="lv-g">' + g + '</span></span>'
-    let html = meet
+    let html = '<span><b>Schritt</b> ' + shown + '</span>'
+    html += meet
       ? pair(
           'Gebiet',
           Math.round((redArea / free) * 100) + ' %',
           Math.round((greenArea / free) * 100) + ' %'
         )
       : pair('Getrennt, Platz', redArea + ' Felder', greenArea + ' Felder')
-    html += pair('Länge', String(lenRed), String(lenGreen))
     html += pair('Kurven', String(turnsRed), String(turnsGreen))
     html += '<span><b>Frei</b> ' + free + ' Felder</span>'
     const ms = this.thinkMs

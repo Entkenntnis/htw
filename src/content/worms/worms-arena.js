@@ -259,6 +259,22 @@ export function setupWormsArena(App) {
       return
     }
 
+    const liveArenaMatch = await App.db.models.WormsArenaMatch.findOne({
+      where: { status: 'running' },
+      order: [['createdAt', 'DESC']],
+    })
+
+    let liveNames = null
+    if (liveArenaMatch) {
+      const r = await App.db.models.WormsBotDraft.findOne({
+        where: { id: liveArenaMatch.redBotId },
+      })
+      const g = await App.db.models.WormsBotDraft.findOne({
+        where: { id: liveArenaMatch.greenBotId },
+      })
+      liveNames = { red: r?.name ?? null, green: g?.name ?? null }
+    }
+
     const botELOs = await App.db.models.KVPair.findAll({
       where: {
         key: {
@@ -394,6 +410,20 @@ export function setupWormsArena(App) {
       backButton: false,
       content: `
         ${renderNavigation(2)}
+
+        ${
+          liveArenaMatch && liveNames
+            ? `
+          <p style="text-align: center; margin-top: 24px;">
+            <a href="/worms/arena/match?id=${liveArenaMatch.id}" class="btn btn-outline-warning">
+              🔴 Laufendes Match live ansehen:
+              ${escapeHTML(liveNames.red ?? '[gelöschter Bot]')} vs
+              ${escapeHTML(liveNames.green ?? '[gelöschter Bot]')}
+            </a>
+          </p>
+        `
+            : ''
+        }
 
         <style>
           .hidden {

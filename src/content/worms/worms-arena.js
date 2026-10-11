@@ -746,7 +746,10 @@ export function setupWormsArena(App) {
 
           ${
             canCancel
-              ? `<p><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="cancelMatch()">Match abbrechen</button> <span style="color: gray; margin-left: 8px;">(zählt als Niederlage)</span></p>`
+              ? `<p id="cancel-area">
+                  <span id="cancel-ask"><button class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">Match abbrechen</button> <span style="color: gray; margin-left: 8px;">(zählt als Niederlage)</span></span>
+                  <span id="cancel-confirm" style="display: none;">Wirklich abbrechen? Das zählt als Niederlage für deinen Bot. <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">Ja, abbrechen</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
+                </p>`
               : ''
           }
 
@@ -817,6 +820,8 @@ export function setupWormsArena(App) {
                         window.location.href = replayUrl + '&instant=1'
                       }, 2000)
                     }
+                    // cancelled: don't keep playing moves the viewer hasn't seen yet
+                    if (data.replay.aborted) wormer.instant = true
                     wormer.finishLive(data.replay)
                     return
                   }
@@ -845,15 +850,18 @@ export function setupWormsArena(App) {
             }
 
             function hideCancel() {
-              const button = document.getElementById('cancel-button')
-              if (button) button.parentElement.style.display = 'none'
+              const area = document.getElementById('cancel-area')
+              if (area) area.style.display = 'none'
+            }
+
+            // confirmation inside the page, native dialogs can be blocked
+            function showCancelConfirm(show) {
+              document.getElementById('cancel-ask').style.display = show ? 'none' : 'inline'
+              document.getElementById('cancel-confirm').style.display = show ? 'inline' : 'none'
             }
 
             function cancelMatch() {
-              if (!confirm('Match wirklich abbrechen? Das zählt als Niederlage für deinen Bot.')) {
-                return
-              }
-              document.getElementById('cancel-button').disabled = true
+              document.getElementById('cancel-yes').disabled = true
               fetch('/worms/arena/cancel-match', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

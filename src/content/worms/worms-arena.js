@@ -239,7 +239,7 @@ export function setupWormsArena(App) {
     )
   })
 
-  App.express.get('/worms/arena', async (req, res) => {
+  App.express.get_async_fix('/worms/arena', async (req, res) => {
     const user = req.user
     if (!user) {
       res.redirect('/')

@@ -5,9 +5,15 @@ import { getQuickJS } from 'quickjs-emscripten'
  * @param {string} srcRed
  * @param {string} srcGreen
  * @param {(steps: number) => void} [onStep]
+ * @param {{ onStart?: (start: import('../../data/types.js').WormsStart) => void, onMove?: (dir: number) => void }} [hooks]
  * @returns {Promise<import('../../data/types.js').WormsReplay>}
  */
-export async function runWorms(srcRed, srcGreen, onStep = () => {}) {
+export async function runWorms(
+  srcRed,
+  srcGreen,
+  onStep = () => {},
+  { onStart = () => {}, onMove = () => {} } = {}
+) {
   const offsets = [
     [0, -1],
     [1, 0],
@@ -53,6 +59,8 @@ export async function runWorms(srcRed, srcGreen, onStep = () => {}) {
     redElo: -1,
     greenElo: -1,
   }
+
+  onStart({ xRed, yRed, dirRed, xGreen, yGreen, dirGreen })
 
   const QuickJS = await getQuickJS()
 
@@ -141,6 +149,7 @@ export async function runWorms(srcRed, srcGreen, onStep = () => {}) {
     ) {
       dirRed = newDirRed
       replay.dirs.push(newDirRed)
+      onMove(newDirRed)
     } else {
       replay.winner = 'green'
       replay.withCrash = true
@@ -180,6 +189,7 @@ export async function runWorms(srcRed, srcGreen, onStep = () => {}) {
     ) {
       dirGreen = newDirGreen
       replay.dirs.push(newDirGreen)
+      onMove(newDirGreen)
     } else {
       replay.winner = 'red'
       replay.withCrash = true

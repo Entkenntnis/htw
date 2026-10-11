@@ -72,6 +72,7 @@ class Wormer {
 
     this.lastTick = new Date().getTime()
     this.turbo = false
+    this.consumed = 0
   }
 
   toggleTurbo() {
@@ -93,8 +94,56 @@ class Wormer {
     this.actGreen = replayGreen(this.dirs)
 
     this.withCrash = replay.withCrash
+    this.aborted = replay.aborted
 
     this.run(true)
+  }
+
+  // live mode: moves arrive while the match is still computed on the server
+  runLive(start) {
+    this.live = true
+    this.liveDone = false
+    this.consumed = 0
+    this.interval = 120
+    this.liveSamples = []
+    this.runReplay({ ...start, dirs: [] })
+  }
+
+  feedLive(dirs) {
+    this.dirs.push(...dirs)
+    if (dirs.length == 0) return
+    // remember when how many moves had arrived to estimate the server speed
+    const now = new Date().getTime()
+    this.liveSamples.push({ t: now, n: this.dirs.length })
+    while (this.liveSamples.length > 2 && now - this.liveSamples[0].t > 5000) {
+      this.liveSamples.shift()
+    }
+  }
+
+  // live mode: show moves at one steady speed, never faster than a replay,
+  // slower if the server needs more time per move
+  updateLiveInterval() {
+    if (this.liveDone) return
+    const first = this.liveSamples[0]
+    const last = this.liveSamples[this.liveSamples.length - 1]
+    if (!first || last.t == first.t || last.n == first.n) return
+    const serverMs = (last.t - first.t) / ((last.n - first.n) / 2)
+    // keep about 1.5 s of moves buffered, slow down a bit when it runs low
+    const buffered = (this.dirs.length - this.consumed) / 2
+    const wanted = 1500 / Math.max(serverMs, 120)
+    const factor = buffered >= wanted ? 1 : 1 + 0.5 * (1 - buffered / wanted)
+    const target = Math.max(120, serverMs * factor)
+    // change speed gradually
+    this.interval += (target - this.interval) * 0.1
+  }
+
+  finishLive(replay) {
+    // replace in place, the replay players hold a reference to this array
+    this.dirs.length = 0
+    this.dirs.push(...replay.dirs)
+    this.withCrash = replay.withCrash
+    this.aborted = replay.aborted
+    this.liveDone = true
   }
 
   setColor(x, y, bg) {
@@ -106,9 +155,11 @@ class Wormer {
     const message = document.createElement('div')
     message.innerHTML =
       (this.winner == 'red' ? 'Rot gewinnt' : 'Grün gewinnt') +
-      (this.withCrash
-        ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
-        : '') +
+      (this.aborted
+        ? '<br><span style="font-size: 15px; color: gray;">(Match abgebrochen)</span>'
+        : this.withCrash
+          ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
+          : '') +
       (window.restart
         ? '<br><span onclick="restart()" style="text-decoration:underline; cursor: pointer; color: gray; font-size: 16px;">Neustart</span>'
         : '')
@@ -126,6 +177,8 @@ class Wormer {
 
     // Append message to this.div
     this.div.appendChild(message)
+
+    if (this.onFinish) this.onFinish(this.winner)
   }
 
   run(noReset) {
@@ -143,14 +196,38 @@ class Wormer {
     if (this.winner) {
       return
     }
+
+    // live mode: wait until the next red and green move have arrived
+    if (this.live && !this.liveDone && this.dirs.length < this.consumed + 2) {
+      requestAnimationFrame(this.tick.bind(this))
+      return
+    }
+
     const ts = new Date().getTime()
 
-    if (ts - this.lastTick < 120 && !this.turbo) {
+    const interval = this.live ? this.interval : 120
+
+    if (ts - this.lastTick < interval && !this.turbo && !this.instant) {
       requestAnimationFrame(this.tick.bind(this))
       return
     } else {
       this.lastTick = ts
     }
+
+    // instant: play the whole replay at once and only show the final board
+    do {
+      this.step()
+    } while (this.instant && !this.winner)
+
+    if (this.live) this.updateLiveInterval()
+
+    if (!this.winner) {
+      requestAnimationFrame(this.tick.bind(this))
+    }
+  }
+
+  step() {
+    this.consumed += 2
 
     const newRedDir = this.actRed(
       74,
@@ -227,7 +304,6 @@ class Wormer {
       this.setColor(this.greenX, this.greenY, '#052e16')
       this.setWinnerMessage()
     }
-    requestAnimationFrame(this.tick.bind(this))
   }
 }
 

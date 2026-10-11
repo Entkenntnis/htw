@@ -856,7 +856,10 @@ export function setupWormsArena(App) {
                   } else {
                     showOverlay('Match startet', 'Bots werden geladen')
                   }
-                  pollTimer = setTimeout(fetchStatus, 500)
+                  const moves = started ? wormer.dirs.length : 0
+                  const initPhase = moves < 4
+                  const interval = started && initPhase ? 300 : 2000
+                  pollTimer = setTimeout(fetchStatus, interval)
                 })
                 .catch(() => {
                   pollTimer = setTimeout(fetchStatus, 3000)

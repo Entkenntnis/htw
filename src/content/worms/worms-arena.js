@@ -16,7 +16,7 @@ let queueChain = Promise.resolve()
  * @property {import('../../data/types.js').WormsStart | null} start
  * @property {number[]} dirs
  * @property {boolean} aborted
- * @property {() => void} stop
+ * @property {() => boolean} abort returns false if the match already ended
  */
 
 /**
@@ -91,7 +91,12 @@ function runWormsInWorker(redCode, greenCode, live) {
       worker.terminate()
       fn()
     }
-    live.stop = () => finish(() => resolve(abortedReplay(live)))
+    live.abort = () => {
+      if (settled) return false
+      live.aborted = true
+      finish(() => resolve(abortedReplay(live)))
+      return true
+    }
     worker.on('message', (msg) => {
       if (msg?.type == 'start') {
         live.start = msg.start
@@ -109,6 +114,10 @@ function runWormsInWorker(redCode, greenCode, live) {
     })
     worker.once('error', (err) => {
       finish(() => reject(err))
+    })
+    // otherwise the queue would wait forever if the worker dies silently
+    worker.once('exit', () => {
+      finish(() => reject(new Error('worker exited without result')))
     })
   })
 }
@@ -657,7 +666,11 @@ export function setupWormsArena(App) {
               start: null,
               dirs: [],
               aborted: false,
-              stop: () => {},
+              // before the worker runs, the flag is checked below
+              abort: () => {
+                live.aborted = true
+                return true
+              },
             }
             liveMatch = live
 
@@ -828,6 +841,7 @@ export function setupWormsArena(App) {
                   if (data.status == 'error') {
                     hideCancel()
                     overlay.innerHTML = 'Match fehlgeschlagen'
+                    document.getElementById('board').appendChild(overlay)
                     return
                   }
                   if (data.start && !started) {
@@ -866,6 +880,11 @@ export function setupWormsArena(App) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: ${match.id} }),
+              }).then((res) => {
+                // 409: match already over, the next poll shows the result
+                if (!res.ok && res.status != 409) throw new Error()
+              }).catch(() => {
+                document.getElementById('cancel-yes').disabled = false
               }).finally(() => {
                 if (pollTimer) {
                   clearTimeout(pollTimer)
@@ -912,7 +931,8 @@ export function setupWormsArena(App) {
         const replay = JSON.parse(match.replay)
         res.json({
           status: match.status,
-          text: 'Match beendet',
+          // the live view may still be replaying moves at this point
+          text: replay.aborted ? 'Match abgebrochen' : 'Match fertig berechnet',
           finished: true,
           replay: {
             dirs: replay.dirs,
@@ -961,9 +981,7 @@ export function setupWormsArena(App) {
       }
 
       if (liveMatch && liveMatch.matchId == match.id) {
-        liveMatch.aborted = true
-        liveMatch.stop()
-        res.sendStatus(200)
+        res.sendStatus(liveMatch.abort() ? 200 : 409)
         return
       }
 

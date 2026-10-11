@@ -111,7 +111,7 @@ class Wormer {
 
   feedLive(dirs) {
     this.dirs.push(...dirs)
-    if (dirs.length == 0 && this.liveSamples.length > 0) return
+    if (dirs.length == 0) return
     // remember when how many moves had arrived to estimate the server speed
     const now = new Date().getTime()
     this.liveSamples.push({ t: now, n: this.dirs.length })

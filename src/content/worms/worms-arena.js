@@ -939,6 +939,17 @@ export function setupWormsArena(App) {
             })
             const source = new EventSource('/worms/arena/stream')
             view.attach(source)
+            const csrfToken = ${JSON.stringify(App.csrf.create(req))}
+
+            source.addEventListener('error', () => {
+              // the server refused the stream (too many open tabs) or is gone
+              if (source.readyState === EventSource.CLOSED) {
+                view.showOverlay(
+                  'Verbindung beendet',
+                  'Vielleicht sind zu viele Arena-TV-Tabs offen. Schließe welche und lade die Seite neu.'
+                )
+              }
+            })
 
             // --- own matches of the viewer ---
             let mineCurrent = null
@@ -1067,7 +1078,7 @@ export function setupWormsArena(App) {
                 headers: { 'Content-Type': 'application/json' },
                 // tells the server what the user agreed to: cancelling a
                 // waiting match must never turn into giving up a running one
-                body: JSON.stringify({ id: mineCurrent.id, expect: mineCurrent.state }),
+                body: JSON.stringify({ id: mineCurrent.id, expect: mineCurrent.state, csrf: csrfToken }),
               })
                 .then((res) => {
                   if (res.status == 409) {
@@ -1117,7 +1128,7 @@ export function setupWormsArena(App) {
                 fetch('/worms/arena/chat', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ text }),
+                  body: JSON.stringify({ text, csrf: csrfToken }),
                 }).then((res) => {
                   if (res.ok) {
                     input.value = ''
@@ -1139,6 +1150,11 @@ export function setupWormsArena(App) {
       const user = req.user
       if (!user) {
         res.sendStatus(401)
+        return
+      }
+
+      if (!App.csrf.verify(req, (req.body?.csrf ?? '').toString())) {
+        res.sendStatus(403)
         return
       }
 

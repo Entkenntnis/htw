@@ -11,6 +11,31 @@ const CHAT_COOLDOWN_MS = 2000
 // results of own matches that ended shortly before connecting are still shown
 const RECENT_RESULT_MS = 2 * 60 * 1000
 
+// limits against abuse
+const MAX_STREAMS_PER_USER = 5
+const MAX_STREAMS = 1000
+// a viewer that does not read its stream must not fill up the server memory
+const MAX_BUFFERED_BYTES = 256 * 1024
+// all users together, against spam with many accounts
+const CHAT_GLOBAL_LIMIT = 20
+const CHAT_GLOBAL_WINDOW_MS = 10000
+
+/**
+ * Plain, readable chat text: no control or invisible formatting characters
+ * (they can e.g. reverse the direction of the text and fake a message), no
+ * towers of combining marks that cover other messages
+ * @param {string} text
+ */
+function cleanChatText(text) {
+  const cleaned = text
+    .replace(/[\p{Cc}\p{Cf}\p{Cs}\p{Co}\p{Cn}]/gu, ' ')
+    .replace(/(\p{M}{2})\p{M}+/gu, '$1')
+    .replace(/\s+/g, ' ')
+    .trim()
+  // count characters, not UTF-16 units, so no emoji is cut in half
+  return Array.from(cleaned).slice(0, CHAT_MAX_LENGTH).join('').trim()
+}
+
 /**
  * @typedef {object} WormsLiveState
  * @property {() => (import('./worms-arena.js').LiveMatch | null)} getLive
@@ -34,6 +59,7 @@ const RECENT_RESULT_MS = 2 * 60 * 1000
  * @property {Set<number>} ownMatches own matches this viewer knows about
  * @property {Set<number>} ownResultsSent
  * @property {number} lastWrite
+ * @property {boolean} closed
  * @property {string | null} resume `matchId:moves` from Last-Event-ID after a reconnect
  */
 
@@ -52,6 +78,8 @@ export function setupWormsLive(App, state) {
   let chatId = 0
   /** @type {Map<number, number>} */
   const lastChatMessage = new Map()
+  /** @type {number[]} */
+  const recentChat = []
 
   /**
    * @param {Client} c
@@ -60,11 +88,37 @@ export function setupWormsLive(App, state) {
    * @param {string} [id]
    */
   function send(c, event, data, id) {
-    c.res.write(
+    write(
+      c,
       (id ? `id: ${id}\n` : '') +
         `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`
     )
+  }
+
+  /**
+   * @param {Client} c
+   * @param {string} text
+   */
+  function write(c, text) {
+    if (c.closed) return
+    if (c.res.writableLength > MAX_BUFFERED_BYTES) {
+      // the browser does not read anymore
+      drop(c)
+      return
+    }
+    c.res.write(text)
     c.lastWrite = Date.now()
+  }
+
+  /** @param {Client} c */
+  function drop(c) {
+    c.closed = true
+    clients.delete(c)
+    c.res.destroy()
+    if (clients.size == 0 && timer) {
+      clearInterval(timer)
+      timer = null
+    }
   }
 
   /**
@@ -256,8 +310,7 @@ export function setupWormsLive(App, state) {
         send(c, 'viewers', { names })
       } else if (now - c.lastWrite > HEARTBEAT_MS) {
         // keeps proxies from closing an idle connection
-        c.res.write(': ping\n\n')
-        c.lastWrite = now
+        write(c, ': ping\n\n')
       }
     }
   }
@@ -268,6 +321,14 @@ export function setupWormsLive(App, state) {
       const user = req.user
       if (!user) {
         res.sendStatus(401)
+        return
+      }
+
+      // every open stream holds a connection on the server
+      let own = 0
+      for (const other of clients) if (other.userId === user.id) own++
+      if (own >= MAX_STREAMS_PER_USER || clients.size >= MAX_STREAMS) {
+        res.sendStatus(429)
         return
       }
 
@@ -295,6 +356,7 @@ export function setupWormsLive(App, state) {
         ownMatches: new Set(),
         ownResultsSent: new Set(),
         lastWrite: Date.now(),
+        closed: false,
         resume: (req.headers['last-event-id'] ?? '').toString() || null,
       }
       // an own match that ended just before (e.g. page reloaded at the end)
@@ -311,13 +373,7 @@ export function setupWormsLive(App, state) {
       if (!timer) timer = setInterval(tick, TICK_MS)
       tick()
 
-      req.on('close', () => {
-        clients.delete(c)
-        if (clients.size == 0 && timer) {
-          clearInterval(timer)
-          timer = null
-        }
-      })
+      req.on('close', () => drop(c))
     })
   )
 
@@ -331,11 +387,12 @@ export function setupWormsLive(App, state) {
         res.sendStatus(401)
         return
       }
-      const text = (req.body?.text ?? '')
-        .toString()
-        .replace(/\s+/g, ' ')
-        .trim()
-        .slice(0, CHAT_MAX_LENGTH)
+      // only the arena tv page can send messages in the name of the user
+      if (!App.csrf.verify(req, (req.body?.csrf ?? '').toString())) {
+        res.sendStatus(403)
+        return
+      }
+      const text = cleanChatText((req.body?.text ?? '').toString())
       if (!text) {
         res.sendStatus(400)
         return
@@ -345,7 +402,20 @@ export function setupWormsLive(App, state) {
         res.sendStatus(429)
         return
       }
+      while (recentChat.length && now - recentChat[0] > CHAT_GLOBAL_WINDOW_MS) {
+        recentChat.shift()
+      }
+      if (recentChat.length >= CHAT_GLOBAL_LIMIT) {
+        res.sendStatus(429)
+        return
+      }
+      recentChat.push(now)
       lastChatMessage.set(user.id, now)
+      if (lastChatMessage.size > 5000) {
+        for (const [id, t] of lastChatMessage) {
+          if (now - t > CHAT_COOLDOWN_MS) lastChatMessage.delete(id)
+        }
+      }
       const message = { id: ++chatId, name: user.name, text, t: now }
       chat.push(message)
       if (chat.length > CHAT_HISTORY) chat.shift()

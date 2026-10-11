@@ -90,6 +90,8 @@ export const appConfig = {
   },
   editors: ['editor'],
   demos: ['demo'],
+  // chat next to the worms arena tv, false removes it completely
+  wormsChat: true,
   mainPassword: process.env.UBERSPACE
     ? secrets('config_main_password')
     : '1234',
@@ -106,8 +108,8 @@ export const appConfig = {
     enabled: true,
     timespan: 3, // min
     requests: 250,
-    // polling of live views, counted separately from page views
-    livePaths: ['/worms/arena/live-match', '/worms/arena/stream'],
+    // live view of the arena tv, counted separately from page views
+    livePaths: ['/worms/arena/stream'],
     liveRequests: 600,
   },
 }

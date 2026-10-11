@@ -42,6 +42,7 @@ let queueChain = Promise.resolve()
  * @property {boolean} withCrash
  * @property {boolean} aborted
  * @property {{red: number[], green: number[]} | null} elo before and after
+ * @property {number} finishedAt
  */
 
 /**
@@ -67,10 +68,10 @@ let lastFinishedMatch = null
 
 /**
  * @param {number} id
- * @param {MatchResult} result
+ * @param {Omit<MatchResult, 'finishedAt'>} result
  */
 function rememberResult(id, result) {
-  recentResults.set(id, result)
+  recentResults.set(id, { ...result, finishedAt: Date.now() })
   if (result.status == 'red-win' || result.status == 'green-win') {
     lastFinishedMatch = id
   }
@@ -309,59 +310,9 @@ async function getMatchStatusText(App, match) {
 export function setupWormsArena(App) {
   setupWormsLive(App, {
     getLive: () => liveMatch,
-    // moves made so far (one per worm and turn), like the timeline counts them
-    getSteps: () => (liveMatch ? liveMatch.dirs.length : 0),
     pending: pendingMatches,
     results: recentResults,
     getLastFinished: () => lastFinishedMatch,
-    loadResult: async (id) => {
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: { id },
-      })
-      if (!match) return false
-      const names = {
-        red:
-          (
-            await App.db.models.WormsBotDraft.findOne({
-              where: { id: match.redBotId },
-            })
-          )?.name ?? '[gelöschter Bot]',
-        green:
-          (
-            await App.db.models.WormsBotDraft.findOne({
-              where: { id: match.greenBotId },
-            })
-          )?.name ?? '[gelöschter Bot]',
-        userId: match.UserId,
-      }
-      if (match.status == 'red-win' || match.status == 'green-win') {
-        /** @type {import('../../data/types.js').WormsReplay} */
-        const replay = JSON.parse(match.replay)
-        rememberResult(id, {
-          status: match.status,
-          names,
-          start: startOf(replay),
-          dirs: replay.dirs,
-          withCrash: !!replay.withCrash,
-          aborted: !!replay.aborted,
-          // old ELO is stored in the replay, the new one is not
-          elo: null,
-        })
-      } else {
-        // pending/running matches that are not in memory did not survive
-        // a restart, they are marked as error on startup
-        rememberResult(id, {
-          status: match.status == 'cancelled' ? 'cancelled' : 'error',
-          names,
-          start: null,
-          dirs: [],
-          withCrash: false,
-          aborted: false,
-          elo: null,
-        })
-      }
-      return true
-    },
   })
 
   App.entry.add(async () => {
@@ -396,7 +347,7 @@ export function setupWormsArena(App) {
     })
 
     if (runningMatch) {
-      res.redirect('/worms/arena/match?id=' + runningMatch.id)
+      res.redirect('/worms/arena/tv')
       return
     }
 
@@ -908,183 +859,14 @@ export function setupWormsArena(App) {
         }
       }, 0)
 
-      res.redirect('/worms/arena/match?id=' + match.id)
+      res.redirect('/worms/arena/tv')
     })
   )
 
-  App.express.get(
-    '/worms/arena/match',
-    safeRoute(async (req, res) => {
-      const user = req.user
-      if (!user) {
-        res.redirect('/')
-        return
-      }
-
-      // match id
-      const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
-
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: {
-          id: matchId,
-        },
-      })
-
-      if (!match) {
-        res.status(404).send('Not found')
-        return
-      }
-
-      const redBot = await App.db.models.WormsBotDraft.findOne({
-        where: { id: match.redBotId },
-      })
-      const greenBot = await App.db.models.WormsBotDraft.findOne({
-        where: { id: match.greenBotId },
-      })
-
-      const isOwner = match.UserId == user.id
-      const ownNames = {
-        red: redBot ? redBot.name : '[gelöschter Bot]',
-        green: greenBot ? greenBot.name : '[gelöschter Bot]',
-      }
-
-      renderPage(App, req, res, {
-        page: 'worms-match-running',
-        heading: 'Worms',
-        backButton: false,
-        content: `
-          ${renderNavigation(2)}
-
-          <h3 id="status">...</h3>
-
-          ${
-            isOwner
-              ? `<p id="cancel-area" hidden>
-                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)"></button> <span id="cancel-hint" style="color: gray; margin-left: 8px;"></span></span>
-                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question"></span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()"></button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
-                </p>`
-              : ''
-          }
-
-          <div id="live-view"></div>
-
-          <p id="result-links" style="text-align: center; margin-top: 16px;" hidden>
-            <a id="replay-link" href="/worms/arena/replay?id=${match.id}${isOwner ? '&msg=done' : ''}" class="btn btn-primary">${isOwner ? 'Ergebnis und ELO' : 'Zum Replay'}</a>
-            <a href="/worms/arena" class="btn btn-secondary" style="margin-left: 16px;">Zurück zur Arena</a>
-          </p>
-
-          <div style="height: 70px;"></div>
-
-          <script src="/worms/wormer.js?v=${assetVersion}"></script>
-          <script src="/worms/live-view.js?v=${assetVersion}"></script>
-
-          <script>
-            const matchId = ${match.id}
-            const isOwner = ${isOwner}
-            const ownNames = ${JSON.stringify(ownNames).replace(/</g, '\\u003c')}
-            let queuePosition = 0
-            let cancelState = ''
-
-            const view = new LiveView(document.getElementById('live-view'), {
-              ownMatchId: matchId,
-              foreignText: (info) =>
-                'Du siehst gerade das Match von jemand anderem. ' +
-                (isOwner ? 'Dein Match' : 'Dieses Match') +
-                ' (' + ownNames.red + ' vs ' + ownNames.green + ') wartet noch' +
-                (queuePosition ? ' auf Position ' + queuePosition + ' in der Warteschlange' : '') +
-                ' und startet automatisch hier.',
-            })
-
-            const source = new EventSource('/worms/arena/stream?match=' + matchId)
-            view.attach(source)
-
-            source.addEventListener('status', (e) => showStatus(JSON.parse(e.data)))
-
-            function showStatus(s) {
-              const status = document.getElementById('status')
-              if (s.state == 'pending') {
-                queuePosition = s.position
-                status.innerText = (isOwner ? 'Dein Match' : 'Das Match') + ' wartet in der Warteschlange (Position ' + s.position + ')'
-                if (view.lastInfo && view.lastInfo.foreign) {
-                  view.el.banner.textContent = view.opts.foreignText(view.lastInfo)
-                }
-              } else if (s.state == 'running') {
-                status.innerText = s.steps ? 'Match läuft ... (Schritt ' + s.steps + ')' : 'Match läuft ...'
-              } else if (s.state == 'red-win' || s.state == 'green-win') {
-                status.innerText = 'Match fertig berechnet'
-              } else if (s.state == 'cancelled') {
-                status.innerText = 'Match abgebrochen (keine Wertung)'
-              } else if (s.state == 'error') {
-                status.innerText = 'Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.'
-              }
-              setCancelState(s.state)
-            }
-
-            view.onResult = (data) => {
-              if (data.id !== matchId) return
-              // everything about this match is known now, the connection is
-              // closed right away, so a status update sent with the result
-              // would get lost
-              source.close()
-              showStatus({ state: data.status })
-              // cancelled or failed matches have no replay
-              document.getElementById('replay-link').hidden =
-                data.status != 'red-win' && data.status != 'green-win'
-              document.getElementById('result-links').hidden = false
-            }
-
-            // waiting in the queue: cancel without rating, running: give up = loss
-            function setCancelState(state) {
-              const area = document.getElementById('cancel-area')
-              if (!area) return
-              const active = state == 'pending' || state == 'running'
-              area.hidden = !active
-              if (!active || state == cancelState) return
-              cancelState = state
-              showCancelConfirm(false)
-              document.getElementById('cancel-yes').disabled = false
-              const pending = state == 'pending'
-              document.getElementById('cancel-button').innerText = pending ? 'Match abbrechen' : 'Aufgeben'
-              document.getElementById('cancel-hint').innerText = pending
-                ? '(hat noch nicht begonnen, keine Wertung)'
-                : '(zählt als Niederlage)'
-              document.getElementById('cancel-question').innerText = pending
-                ? 'Match abbrechen? Es wird nicht gewertet.'
-                : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'
-              document.getElementById('cancel-yes').innerText = pending ? 'Ja, abbrechen' : 'Ja, aufgeben'
-            }
-
-            // confirmation inside the page, native dialogs can be blocked
-            function showCancelConfirm(show) {
-              document.getElementById('cancel-ask').style.display = show ? 'none' : 'inline'
-              document.getElementById('cancel-confirm').style.display = show ? 'inline' : 'none'
-            }
-
-            function cancelMatch() {
-              document.getElementById('cancel-yes').disabled = true
-              fetch('/worms/arena/cancel-match', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                // tells the server what the user agreed to: cancelling a
-                // waiting match must never turn into giving up a running one
-                body: JSON.stringify({ id: matchId, expect: cancelState }),
-              }).then((res) => {
-                if (res.status == 409) {
-                  // the match changed in the meantime, the next status update shows how
-                  document.getElementById('cancel-yes').disabled = false
-                  showCancelConfirm(false)
-                } else if (!res.ok) {
-                  throw new Error()
-                }
-              }).catch(() => {
-                document.getElementById('cancel-yes').disabled = false
-              })
-            }
-          </script>
-        `,
-      })
-    })
-  )
+  // old links: matches are watched in the arena tv now
+  App.express.get('/worms/arena/match', (req, res) => {
+    res.redirect('/worms/arena/tv')
+  })
 
   App.express.get(
     '/worms/arena/tv',
@@ -1105,20 +887,34 @@ export function setupWormsArena(App) {
           <style>
             .tv-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
             @media (max-width: 900px) { .tv-layout { grid-template-columns: minmax(0, 1fr); } }
+            .tv-layout.tv-no-chat { grid-template-columns: minmax(0, 1fr); }
             .tv-chat { border: 1px solid #444; border-radius: 8px; padding: 12px; }
             .tv-chat-list { height: 420px; overflow-y: auto; font-size: 14px; margin-bottom: 8px; overflow-wrap: anywhere; }
             .tv-chat-list div { margin-bottom: 4px; }
             .tv-chat-time { color: gray; font-size: 12px; margin-right: 4px; }
             .tv-chat form { display: flex; gap: 6px; }
+            .tv-mine { border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; }
+            .tv-mine-close { float: right; color: gray; cursor: pointer; margin-left: 8px; }
             .tv-chat input { flex: 1; min-width: 0; }
           </style>
 
           <h3 style="margin-top: 16px;">📺 Arena-TV</h3>
           <p style="color: gray;">Hier läuft immer das aktuelle Arena-Match live. Ist es vorbei, geht es automatisch mit dem nächsten weiter.</p>
 
-          <div class="tv-layout">
+          <div id="mine" class="tv-mine" hidden>
+            <div id="mine-status"></div>
+            <div id="mine-cancel" style="margin-top: 6px;" hidden>
+              <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)"></button> <span id="cancel-hint" style="color: gray; margin-left: 8px;"></span></span>
+              <span id="cancel-confirm" style="display: none;"><span id="cancel-question"></span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()"></button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
+            </div>
+            <div id="mine-result" hidden></div>
+          </div>
+
+          <div class="tv-layout${App.config.wormsChat ? '' : ' tv-no-chat'}">
             <div id="live-view"></div>
-            <div class="tv-chat">
+            ${
+              App.config.wormsChat
+                ? `<div class="tv-chat">
               <h5 style="margin-top: 0;">Chat</h5>
               <div class="tv-chat-list" id="chat-list"></div>
               <form id="chat-form">
@@ -1126,7 +922,9 @@ export function setupWormsArena(App) {
                 <button class="btn btn-sm btn-primary" type="submit">Senden</button>
               </form>
               <small id="chat-hint" style="color: gray; display: block; margin-top: 6px;">Bleib freundlich. Der Chat wird nicht gespeichert und ist nach einem Neustart leer.</small>
-            </div>
+            </div>`
+                : ''
+            }
           </div>
 
           <div style="height: 70px;"></div>
@@ -1139,109 +937,198 @@ export function setupWormsArena(App) {
               catchUpOnFinish: true,
               holdResultMs: 5000,
             })
-            const source = new EventSource('/worms/arena/stream?match=tv')
+            const source = new EventSource('/worms/arena/stream')
             view.attach(source)
 
-            const list = document.getElementById('chat-list')
-            const seen = new Set()
+            // --- own matches of the viewer ---
+            let mineCurrent = null
+            let mineResult = null
+            let pendingResult = null
 
-            function addMessage(m) {
-              if (seen.has(m.id)) return
-              seen.add(m.id)
-              const atBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 40
-              const row = document.createElement('div')
-              row.dataset.id = m.id
-              const time = document.createElement('span')
-              time.className = 'tv-chat-time'
-              time.textContent = new Date(m.t).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
-              const name = document.createElement('strong')
-              name.textContent = m.name + ': '
-              const text = document.createElement('span')
-              text.textContent = m.text
-              row.append(time, name, text)
-              list.append(row)
-              if (atBottom) list.scrollTop = list.scrollHeight
+            function esc(text) {
+              const div = document.createElement('div')
+              div.textContent = text
+              return div.innerHTML
             }
 
-            source.addEventListener('chat', (e) => {
-              JSON.parse(e.data).messages.forEach(addMessage)
+            function updateMinePanel() {
+              document.getElementById('mine').hidden = !mineCurrent && !mineResult
+            }
+
+            source.addEventListener('mine', (e) => {
+              const matches = JSON.parse(e.data).matches
+              const running = matches.find((m) => m.state == 'running')
+              const waiting = matches.find((m) => m.state == 'pending')
+              mineCurrent = running || waiting || null
+              view.setWaiting(!running && waiting ? waiting : null)
+              const status = document.getElementById('mine-status')
+              status.innerHTML = ''
+              if (mineCurrent) {
+                const names = '<b>' + esc(mineCurrent.red) + ' vs ' + esc(mineCurrent.green) + '</b>'
+                status.innerHTML = running
+                  ? 'Dein Match ' + names + ' läuft gerade, du siehst es unten.'
+                  : 'Dein Match ' + names + ' wartet in der Warteschlange auf Position ' + mineCurrent.position + '.'
+                const more = matches.length - 1
+                if (more > 0) {
+                  status.innerHTML += ' Dazu ' + (more == 1 ? 'wartet noch ein weiteres Match' : 'warten noch ' + more + ' weitere Matches') + ' von dir.'
+                }
+                document.getElementById('mine-result').hidden = true
+              } else if (mineResult) {
+                document.getElementById('mine-result').hidden = false
+              }
+              setCancelState(mineCurrent)
+              updateMinePanel()
             })
-            document.getElementById('chat-form').addEventListener('submit', (e) => {
-              e.preventDefault()
-              const input = document.getElementById('chat-input')
-              const text = input.value.trim()
-              if (!text) return
-              fetch('/worms/arena/chat', {
+
+            source.addEventListener('mineResult', (e) => {
+              const result = JSON.parse(e.data)
+              // the match is on screen: show the result when the board gets there
+              if (view.matchId === result.id && !view.resultShownAt && result.status != 'cancelled') {
+                pendingResult = result
+              } else {
+                showMineResult(result)
+              }
+            })
+
+            view.onResult = (data) => {
+              if (pendingResult && pendingResult.id === data.id) {
+                showMineResult(pendingResult)
+                pendingResult = null
+              }
+            }
+
+            function showMineResult(r) {
+              mineResult = r
+              let text = ''
+              if (r.status == 'cancelled') {
+                text = 'abgebrochen, es wird nicht gewertet.'
+              } else if (r.status == 'error') {
+                text = 'konnte wegen eines Fehlers nicht fertig gespielt werden.'
+              } else {
+                // the own bot always plays red
+                const won = r.status == 'red-win'
+                text = r.aborted
+                  ? '<b>aufgegeben</b>, das zählt als Niederlage.'
+                  : won
+                    ? '<b>gewonnen</b> 🏆'
+                    : '<b>verloren</b>.'
+                if (r.elo) {
+                  const before = Math.round(r.elo.red[0])
+                  const after = Math.round(r.elo.red[1])
+                  text += ' Neue ELO: ' + after + ' (' + (after - before >= 0 ? '+' : '') + (after - before) + ').'
+                }
+                text += ' <a href="/worms/arena/replay?id=' + r.id + '">Replay ansehen</a>'
+              }
+              const el = document.getElementById('mine-result')
+              el.innerHTML =
+                '<span class="tv-mine-close" title="Ausblenden" onClick="closeMineResult()">×</span>Dein Match <b>' +
+                esc(r.red) + ' vs ' + esc(r.green) + '</b>: ' + text
+              el.hidden = !!mineCurrent
+              updateMinePanel()
+            }
+
+            function closeMineResult() {
+              mineResult = null
+              document.getElementById('mine-result').hidden = true
+              updateMinePanel()
+            }
+
+            // waiting in the queue: cancel without rating, running: give up = loss
+            let cancelKey = ''
+            function setCancelState(match) {
+              document.getElementById('mine-cancel').hidden = !match
+              const key = match ? match.id + ':' + match.state : ''
+              if (!match || key == cancelKey) return
+              cancelKey = key
+              showCancelConfirm(false)
+              document.getElementById('cancel-yes').disabled = false
+              const pending = match.state == 'pending'
+              document.getElementById('cancel-button').innerText = pending ? 'Match abbrechen' : 'Aufgeben'
+              document.getElementById('cancel-hint').innerText = pending
+                ? '(hat noch nicht begonnen, keine Wertung)'
+                : '(zählt als Niederlage)'
+              document.getElementById('cancel-question').innerText = pending
+                ? 'Match abbrechen? Es wird nicht gewertet.'
+                : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'
+              document.getElementById('cancel-yes').innerText = pending ? 'Ja, abbrechen' : 'Ja, aufgeben'
+            }
+
+            // confirmation inside the page, native dialogs can be blocked
+            function showCancelConfirm(show) {
+              document.getElementById('cancel-ask').style.display = show ? 'none' : 'inline'
+              document.getElementById('cancel-confirm').style.display = show ? 'inline' : 'none'
+            }
+
+            function cancelMatch() {
+              if (!mineCurrent) return
+              document.getElementById('cancel-yes').disabled = true
+              fetch('/worms/arena/cancel-match', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text }),
-              }).then((res) => {
-                if (res.ok) {
-                  input.value = ''
-                } else if (res.status == 429) {
-                  document.getElementById('chat-hint').innerText = 'Nicht so schnell, warte kurz.'
-                }
+                // tells the server what the user agreed to: cancelling a
+                // waiting match must never turn into giving up a running one
+                body: JSON.stringify({ id: mineCurrent.id, expect: mineCurrent.state }),
               })
-            })
+                .then((res) => {
+                  if (res.status == 409) {
+                    // the match changed in the meantime, the next update shows how
+                    document.getElementById('cancel-yes').disabled = false
+                    showCancelConfirm(false)
+                  } else if (!res.ok) {
+                    throw new Error()
+                  }
+                })
+                .catch(() => {
+                  document.getElementById('cancel-yes').disabled = false
+                })
+            }
+
+            // chat, can be switched off with wormsChat in config.js
+            if (${App.config.wormsChat}) {
+              const list = document.getElementById('chat-list')
+              const seen = new Set()
+  
+              function addMessage(m) {
+                if (seen.has(m.id)) return
+                seen.add(m.id)
+                const atBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 40
+                const row = document.createElement('div')
+                row.dataset.id = m.id
+                const time = document.createElement('span')
+                time.className = 'tv-chat-time'
+                time.textContent = new Date(m.t).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+                const name = document.createElement('strong')
+                name.textContent = m.name + ': '
+                const text = document.createElement('span')
+                text.textContent = m.text
+                row.append(time, name, text)
+                list.append(row)
+                if (atBottom) list.scrollTop = list.scrollHeight
+              }
+  
+              source.addEventListener('chat', (e) => {
+                JSON.parse(e.data).messages.forEach(addMessage)
+              })
+              document.getElementById('chat-form').addEventListener('submit', (e) => {
+                e.preventDefault()
+                const input = document.getElementById('chat-input')
+                const text = input.value.trim()
+                if (!text) return
+                fetch('/worms/arena/chat', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ text }),
+                }).then((res) => {
+                  if (res.ok) {
+                    input.value = ''
+                  } else if (res.status == 429) {
+                    document.getElementById('chat-hint').innerText = 'Nicht so schnell, warte kurz.'
+                  }
+                })
+              })
+              }
           </script>
         `,
-      })
-    })
-  )
-
-  App.express.get(
-    '/worms/arena/live-match',
-    safeRoute(async (req, res) => {
-      const user = req.user
-      if (!user) {
-        res.status(401).json({})
-        return
-      }
-
-      const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
-      const from = Math.max(
-        0,
-        parseInt((req.query.from ?? '0').toString()) || 0
-      )
-
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: {
-          id: matchId,
-        },
-      })
-
-      if (!match) {
-        res.status(404).json({})
-        return
-      }
-
-      if (match.status == 'red-win' || match.status == 'green-win') {
-        /** @type {import('../../data/types.js').WormsReplay} */
-        const replay = JSON.parse(match.replay)
-        res.json({
-          status: match.status,
-          // the live view may still be replaying moves at this point
-          text: replay.aborted ? 'Match abgebrochen' : 'Match fertig berechnet',
-          finished: true,
-          replay: {
-            dirs: replay.dirs,
-            withCrash: !!replay.withCrash,
-            aborted: !!replay.aborted,
-          },
-        })
-        return
-      }
-
-      const live = liveMatch && liveMatch.matchId == match.id ? liveMatch : null
-
-      res.json({
-        status: match.status,
-        text: await getMatchStatusText(App, match),
-        queuePosition:
-          match.status == 'pending' ? await getQueuePosition(App, match) : 0,
-        finished: false,
-        start: live?.start ?? null,
-        dirs: live ? live.dirs.slice(from) : [],
       })
     })
   )
@@ -1375,7 +1262,7 @@ export function setupWormsArena(App) {
 
       // no replay yet (still waiting or running) or never (cancelled, error)
       if (match.status != 'red-win' && match.status != 'green-win') {
-        res.redirect('/worms/arena/match?id=' + match.id)
+        res.redirect('/worms/arena/tv')
         return
       }
 

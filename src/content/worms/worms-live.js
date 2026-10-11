@@ -1,5 +1,6 @@
-// Live view of arena matches via server-sent events (SSE): one connection per
-// viewer, the server pushes moves, viewers, queue and chat as they happen.
+// Arena tv: live view of the running arena match via server-sent events (SSE).
+// One connection per viewer, the server pushes moves, viewers, queue, the
+// viewer's own matches and chat as they happen.
 import { safeRoute } from '../../helper/helper.js'
 
 const TICK_MS = 200
@@ -7,29 +8,31 @@ const HEARTBEAT_MS = 15000
 const CHAT_HISTORY = 50
 const CHAT_MAX_LENGTH = 200
 const CHAT_COOLDOWN_MS = 2000
+// results of own matches that ended shortly before connecting are still shown
+const RECENT_RESULT_MS = 2 * 60 * 1000
 
 /**
  * @typedef {object} WormsLiveState
  * @property {() => (import('./worms-arena.js').LiveMatch | null)} getLive
- * @property {() => number} getSteps
  * @property {Map<number, import('./worms-arena.js').MatchNames>} pending matches in queue order
  * @property {Map<number, import('./worms-arena.js').MatchResult>} results recently finished matches
  * @property {() => number | null} getLastFinished
- * @property {(id: number) => Promise<boolean>} loadResult puts a match from the database into `results`
  */
 
 /**
  * @typedef {object} Client
  * @property {import('express').Response} res
- * @property {number | 'tv'} follow match id of the match page, or 'tv' for the arena tv
+ * @property {number} userId
  * @property {string} name
  * @property {number | null | undefined} focus match that is shown right now
  * @property {number} sent moves already sent for the focus match
  * @property {boolean} startSent
  * @property {boolean} finishedSent
- * @property {string} lastStatus
  * @property {string} lastQueue
  * @property {string} lastViewers
+ * @property {string} lastMine
+ * @property {Set<number>} ownMatches own matches this viewer knows about
+ * @property {Set<number>} ownResultsSent
  * @property {number} lastWrite
  * @property {string | null} resume `matchId:moves` from Last-Event-ID after a reconnect
  */
@@ -64,6 +67,23 @@ export function setupWormsLive(App, state) {
     c.lastWrite = Date.now()
   }
 
+  /**
+   * @param {Client} c
+   * @param {number} id
+   * @param {import('./worms-arena.js').MatchResult} result
+   */
+  function sendFinished(c, id, result) {
+    send(c, 'finished', {
+      id,
+      status: result.status,
+      dirs: result.dirs,
+      withCrash: result.withCrash,
+      aborted: result.aborted,
+      elo: result.elo,
+    })
+    c.finishedSent = true
+  }
+
   /** @param {number} id */
   function namesOf(id) {
     const live = state.getLive()
@@ -72,37 +92,15 @@ export function setupWormsLive(App, state) {
   }
 
   /**
-   * Which match a viewer sees: the arena tv always shows the running match,
-   * the match page shows its own match - or, while that one still waits in
-   * the queue, the match that is running right now.
+   * The tv always shows the running match; when nothing runs, the last one
+   * (and its result) stays on screen.
    * @param {Client} c
    * @returns {number | null}
    */
   function resolveFocus(c) {
     const live = state.getLive()
-    if (c.follow === 'tv') {
-      if (live) return live.matchId
-      // nothing running: keep showing the last match (and its result)
-      return c.focus === undefined ? state.getLastFinished() : (c.focus ?? null)
-    }
-    if (state.pending.has(c.follow)) return live ? live.matchId : null
-    return c.follow
-  }
-
-  /** @param {number} id */
-  function followedStatus(id) {
-    if (state.pending.has(id)) {
-      return {
-        state: 'pending',
-        position: [...state.pending.keys()].indexOf(id) + 1,
-      }
-    }
-    const live = state.getLive()
-    if (live && live.matchId === id) {
-      return { state: 'running', steps: state.getSteps() }
-    }
-    const result = state.results.get(id)
-    return { state: result ? result.status : 'unknown' }
+    if (live) return live.matchId
+    return c.focus === undefined ? state.getLastFinished() : (c.focus ?? null)
   }
 
   function queuePreview() {
@@ -112,10 +110,38 @@ export function setupWormsLive(App, state) {
     return { next, total: state.pending.size }
   }
 
+  /**
+   * Own matches of the viewer: the running one first, then the waiting ones
+   * @param {Client} c
+   */
+  function ownMatches(c) {
+    const matches = []
+    const live = state.getLive()
+    if (live && live.names.userId === c.userId) {
+      const { red, green } = live.names
+      matches.push({ id: live.matchId, red, green, state: 'running' })
+    }
+    let position = 0
+    for (const [id, names] of state.pending) {
+      position++
+      if (names.userId === c.userId) {
+        const { red, green } = names
+        matches.push({ id, red, green, state: 'pending', position })
+      }
+    }
+    return matches
+  }
+
   /** @param {Client} c */
   function update(c) {
     const focus = resolveFocus(c)
     if (focus !== c.focus) {
+      // the next match started right away: the viewer still gets the end of
+      // the previous one, the tv shows its result before switching
+      if (c.focus != null && c.startSent && !c.finishedSent) {
+        const result = state.results.get(c.focus)
+        if (result) sendFinished(c, c.focus, result)
+      }
       c.focus = focus
       c.sent = 0
       c.startSent = false
@@ -129,15 +155,17 @@ export function setupWormsLive(App, state) {
         }
         c.resume = null
       }
+      const names = focus == null ? null : namesOf(focus)
       send(
         c,
         'match',
-        focus == null
+        focus == null || !names
           ? null
           : {
               id: focus,
-              ...namesOf(focus),
-              foreign: c.follow !== 'tv' && focus !== c.follow,
+              red: names.red,
+              green: names.green,
+              mine: names.userId === c.userId,
             }
       )
     }
@@ -169,25 +197,30 @@ export function setupWormsLive(App, state) {
             send(c, 'start', result.start)
             c.startSent = true
           }
-          send(c, 'finished', {
-            id: focus,
-            status: result.status,
-            dirs: result.dirs,
-            withCrash: result.withCrash,
-            aborted: result.aborted,
-            elo: result.elo,
-          })
-          c.finishedSent = true
+          sendFinished(c, focus, result)
         }
       }
     }
 
-    if (c.follow !== 'tv') {
-      const status = followedStatus(c.follow)
-      const key = JSON.stringify(status)
-      if (key !== c.lastStatus) {
-        c.lastStatus = key
-        send(c, 'status', status)
+    const mine = ownMatches(c)
+    for (const m of mine) c.ownMatches.add(m.id)
+    const mineKey = JSON.stringify(mine)
+    if (mineKey !== c.lastMine) {
+      c.lastMine = mineKey
+      send(c, 'mine', { matches: mine })
+    }
+    for (const id of c.ownMatches) {
+      const result = state.results.get(id)
+      if (result && !c.ownResultsSent.has(id)) {
+        c.ownResultsSent.add(id)
+        send(c, 'mineResult', {
+          id,
+          red: result.names.red,
+          green: result.names.green,
+          status: result.status,
+          aborted: result.aborted,
+          elo: result.elo,
+        })
       }
     }
 
@@ -229,16 +262,6 @@ export function setupWormsLive(App, state) {
     }
   }
 
-  /**
-   * @param {string} event
-   * @param {any} data
-   */
-  function broadcastChat(event, data) {
-    for (const c of clients) {
-      if (c.follow === 'tv') send(c, event, data)
-    }
-  }
-
   App.express.get(
     '/worms/arena/stream',
     safeRoute(async (req, res) => {
@@ -246,24 +269,6 @@ export function setupWormsLive(App, state) {
       if (!user) {
         res.sendStatus(401)
         return
-      }
-
-      const param = (req.query.match ?? '').toString()
-      /** @type {number | 'tv'} */
-      const follow = param === 'tv' ? 'tv' : parseInt(param)
-      if (follow !== 'tv') {
-        if (isNaN(follow)) {
-          res.sendStatus(400)
-          return
-        }
-        const known =
-          state.pending.has(follow) ||
-          state.getLive()?.matchId === follow ||
-          state.results.has(follow)
-        if (!known && !(await state.loadResult(follow))) {
-          res.sendStatus(404)
-          return
-        }
       }
 
       res.writeHead(200, {
@@ -278,19 +283,30 @@ export function setupWormsLive(App, state) {
       /** @type {Client} */
       const c = {
         res,
-        follow,
+        userId: user.id,
         name: user.name,
         focus: undefined,
         sent: 0,
         startSent: false,
         finishedSent: false,
-        lastStatus: '',
         lastQueue: '',
         lastViewers: '',
+        lastMine: '',
+        ownMatches: new Set(),
+        ownResultsSent: new Set(),
         lastWrite: Date.now(),
         resume: (req.headers['last-event-id'] ?? '').toString() || null,
       }
-      if (follow === 'tv') send(c, 'chat', { messages: chat })
+      // an own match that ended just before (e.g. page reloaded at the end)
+      for (const [id, result] of state.results) {
+        if (
+          result.names.userId === user.id &&
+          Date.now() - result.finishedAt < RECENT_RESULT_MS
+        ) {
+          c.ownMatches.add(id)
+        }
+      }
+      if (App.config.wormsChat) send(c, 'chat', { messages: chat })
       clients.add(c)
       if (!timer) timer = setInterval(tick, TICK_MS)
       tick()
@@ -304,6 +320,8 @@ export function setupWormsLive(App, state) {
       })
     })
   )
+
+  if (!App.config.wormsChat) return
 
   App.express.post(
     '/worms/arena/chat',
@@ -331,7 +349,7 @@ export function setupWormsLive(App, state) {
       const message = { id: ++chatId, name: user.name, text, t: now }
       chat.push(message)
       if (chat.length > CHAT_HISTORY) chat.shift()
-      broadcastChat('chat', { messages: [message] })
+      for (const c of clients) send(c, 'chat', { messages: [message] })
       res.sendStatus(200)
     })
   )

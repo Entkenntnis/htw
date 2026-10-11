@@ -1,19 +1,23 @@
 'use strict'
 
-// Live view of arena matches: board, timeline, viewers and queue. It is fed by
-// the server-sent events of /worms/arena/stream (see worms-live.js) and used
-// by the match page and the arena tv. Needs wormer.js.
+// Live view of the arena tv: board, timeline, viewers, queue and statistics.
+// It is fed by the server-sent events of /worms/arena/stream (see
+// worms-live.js). Needs wormer.js.
 
 const LIVE_VIEW_STYLES = `
   .lv-title { text-align: center; margin: 16px 0 4px 0; }
   .lv-badge { display: inline-block; font-size: 13px; padding: 2px 8px; border-radius: 6px; background: #f59e0b; color: #1f2937; vertical-align: middle; margin-left: 8px; }
-  .lv-banner { border: 1px solid #f59e0b; background: rgba(245, 158, 11, 0.12); color: #fcd34d; border-radius: 8px; padding: 8px 12px; margin: 12px 0; }
-  .lv-banner.lv-banner-own { border-color: #22c55e; background: rgba(34, 197, 94, 0.12); color: #86efac; }
   .lv-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 16px; color: gray; font-size: 14px; margin-bottom: 6px; }
   .lv-stage { position: relative; }
   .lv-foreign .lv-stage { outline: 3px solid #f59e0b; outline-offset: 3px; }
   .lv-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 12px 20px; border-radius: 10px; font-size: 22px; text-align: center; z-index: 1000; max-width: 90%; }
   .lv-overlay small { display: block; font-size: 15px; color: gray; margin-top: 4px; }
+  .lv-flash { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.85); color: white; padding: 24px 36px; border-radius: 14px; text-align: center; z-index: 1100; max-width: 90%; font-size: 48px; font-weight: bold; line-height: 1.1; transition: opacity 0.6s; pointer-events: none; }
+  .lv-flash small { display: block; font-size: 18px; font-weight: normal; color: #d1d5db; margin-top: 10px; line-height: 1.4; }
+  .lv-flash.lv-flash-foreign { border: 3px solid #f59e0b; color: #fcd34d; }
+  .lv-flash.lv-flash-own { border: 3px solid #22c55e; color: #86efac; }
+  .lv-flash.lv-flash-out { opacity: 0; }
+  @media (max-width: 600px) { .lv-flash { font-size: 30px; padding: 16px 20px; } .lv-flash small { font-size: 15px; } }
   .lv-dots span { animation: lv-dot 1.4s infinite; opacity: 0.2; }
   .lv-dots span:nth-child(2) { animation-delay: 0.2s; }
   .lv-dots span:nth-child(3) { animation-delay: 0.4s; }
@@ -22,12 +26,14 @@ const LIVE_VIEW_STYLES = `
   .lv-controls button { min-width: 40px; }
   .lv-range { flex: 1; min-width: 160px; accent-color: #3b82f6; }
   .lv-pos { color: gray; font-size: 14px; min-width: 110px; text-align: right; font-variant-numeric: tabular-nums; }
+  .lv-live { min-width: 120px; }
   .lv-live.lv-is-live { color: #ef4444; border-color: #ef4444; }
-  .lv-result { text-align: center; font-size: 18px; margin-top: 16px; }
-  .lv-result small { display: block; color: gray; font-size: 15px; }
+  .lv-result { position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%); background-color: rgba(0, 0, 0, 0.75); padding: 8px 18px; border-radius: 10px; text-align: center; font-size: 18px; z-index: 1000; max-width: 90%; }
+  .lv-result small { display: block; color: #d1d5db; font-size: 15px; }
   .lv-queue { color: gray; font-size: 14px; margin-top: 8px; }
-  .lv-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 14px; color: #d1d5db; }
-  .lv-stats b { color: gray; font-weight: normal; }
+  .lv-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px 16px; margin-top: 10px; font-size: 15px; color: #d1d5db; font-variant-numeric: tabular-nums; min-height: 44px; }
+  .lv-stats b { display: block; color: gray; font-weight: normal; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 600px) { .lv-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .lv-r { color: rgb(239, 68, 68); }
   .lv-g { color: rgb(34, 197, 94); }
 `
@@ -35,7 +41,7 @@ const LIVE_VIEW_STYLES = `
 class LiveView {
   /**
    * @param {HTMLElement} root
-   * @param {{ ownMatchId?: number, foreignText?: (info: any) => string, catchUpOnFinish?: boolean, holdResultMs?: number }} [opts]
+   * @param {{ catchUpOnFinish?: boolean, holdResultMs?: number }} [opts]
    */
   constructor(root, opts = {}) {
     this.opts = opts
@@ -46,12 +52,14 @@ class LiveView {
       document.head.appendChild(style)
     }
     root.innerHTML = `
-      <div class="lv-banner" hidden></div>
       <h4 class="lv-title"></h4>
       <div class="lv-meta"><span class="lv-viewers"></span><span class="lv-queue-short"></span></div>
       <div class="lv-stage">
         <div class="lv-board"></div>
         <div class="lv-overlay" hidden></div>
+        <div class="lv-flash" hidden></div>
+        <!-- on the board, so nothing below moves when it appears -->
+        <div class="lv-result" hidden></div>
       </div>
       <div class="lv-controls">
         <button type="button" class="btn btn-sm btn-outline-secondary lv-play" title="Pause / Weiter">⏸</button>
@@ -61,18 +69,17 @@ class LiveView {
         <label style="margin: 0;"><input type="checkbox" class="lv-turbo"> Turbo</label>
       </div>
       <div class="lv-stats"></div>
-      <div class="lv-result" hidden></div>
     `
     this.root = root
     /** @param {string} cls */
     const $ = (cls) => /** @type {HTMLElement} */ (root.querySelector('.' + cls))
     this.el = {
-      banner: $('lv-banner'),
       title: $('lv-title'),
       viewers: $('lv-viewers'),
       queue: $('lv-queue-short'),
       board: $('lv-board'),
       overlay: $('lv-overlay'),
+      flash: $('lv-flash'),
       play: $('lv-play'),
       range: /** @type {HTMLInputElement} */ ($('lv-range')),
       pos: $('lv-pos'),
@@ -218,55 +225,86 @@ class LiveView {
   setTitle(info) {
     this.el.title.innerHTML = info
       ? `<span style="color: rgb(239, 68, 68)">${escapeLV(info.red)}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${escapeLV(info.green)}</span>` +
-        (info.foreign ? '<span class="lv-badge">Fremdes Match</span>' : '')
+        (this.isForeign() ? '<span class="lv-badge">Nicht dein Match</span>' : '')
       : ''
+  }
+
+  // someone else's match while the own one still waits in the queue
+  isForeign() {
+    return !!(this.waiting && this.lastInfo && !this.lastInfo.mine)
+  }
+
+  /**
+   * The page tells which own match waits in the queue (or null)
+   * @param {{red: string, green: string, position: number} | null} waiting
+   */
+  setWaiting(waiting) {
+    const wasWaiting = !!this.waiting
+    this.waiting = waiting
+    const foreign = this.isForeign()
+    // own match just went into the queue while someone else's is shown
+    if (foreign && waiting && !wasWaiting && this.lastInfo) {
+      this.flash(
+        'Nicht dein Match',
+        `Du schaust gerade ${this.lastInfo.red} vs ${this.lastInfo.green} zu. Dein Match ist auf Position ${waiting.position} und startet danach hier.`,
+        'lv-flash-foreign'
+      )
+    }
+    this.root.classList.toggle('lv-foreign', foreign)
+    this.setTitle(this.lastInfo)
+  }
+
+  /**
+   * Shows a big message on the board for a few seconds
+   * @param {string} title @param {string} text @param {string} cls
+   */
+  flash(title, text, cls) {
+    const el = this.el.flash
+    el.className = 'lv-flash ' + cls
+    el.innerHTML = escapeLV(title) + (text ? '<small>' + escapeLV(text) + '</small>' : '')
+    el.hidden = false
+    clearTimeout(this.flashTimer)
+    clearTimeout(this.flashOutTimer)
+    this.flashTimer = setTimeout(() => el.classList.add('lv-flash-out'), 3500)
+    this.flashOutTimer = setTimeout(() => (el.hidden = true), 4100)
   }
 
   /** @param {any} info */
   onMatch(info) {
     // same match again after a reconnect: keep everything
     if (info && info.id === this.matchId) {
-      this.setTitle(info)
       return
     }
-    const wasForeign = this.lastInfo && this.lastInfo.foreign
     this.lastInfo = info
     this.wormer.stop()
     this.wormer = new Wormer(this.el.board)
     this.wormer.turbo = this.el.turbo.checked
     this.matchId = info ? info.id : null
     this.started = false
+    this.el.flash.hidden = true
     this.following = true
     this.finished = null
     this.resultShownAt = 0
     this.thinkMs = { red: [0, 0], green: [0, 0] }
     this.el.result.hidden = true
-    this.setTitle(info)
-    this.root.classList.toggle('lv-foreign', !!(info && info.foreign))
-
+    // numbers of the previous match must not stay until the next update
+    this.el.stats.innerHTML = ''
+    this.setWaiting(this.waiting)
     if (!info) {
-      this.el.banner.hidden = true
       this.showOverlay(
         'Gerade läuft kein Match',
         'Sobald jemand in der Arena herausfordert, geht es hier los.'
       )
       return
     }
-    if (info.foreign) {
-      this.el.banner.className = 'lv-banner'
-      this.el.banner.textContent = this.opts.foreignText
-        ? this.opts.foreignText(info)
-        : 'Das ist das Match von jemand anderem.'
-      this.el.banner.hidden = false
-    } else if (wasForeign && info.id === this.opts.ownMatchId) {
-      this.el.banner.className = 'lv-banner lv-banner-own'
-      this.el.banner.textContent = 'Jetzt geht es los: Dein Match startet!'
-      this.el.banner.hidden = false
-      setTimeout(() => {
-        if (this.matchId === info.id) this.el.banner.hidden = true
-      }, 5000)
-    } else {
-      this.el.banner.hidden = true
+    if (info.mine) {
+      this.flash('Dein Match!', `${info.red} vs ${info.green}`, 'lv-flash-own')
+    } else if (this.waiting) {
+      this.flash(
+        'Nicht dein Match',
+        `Du schaust gerade ${info.red} vs ${info.green} zu. Dein Match ist auf Position ${this.waiting.position} und startet danach hier.`,
+        'lv-flash-foreign'
+      )
     }
     this.showOverlay('Match startet', 'Bots werden geladen', true)
   }
@@ -275,7 +313,9 @@ class LiveView {
   onStart(start) {
     if (this.started) return
     this.started = true
-    this.joining = true
+    // joining someone else's running match: start at the current state,
+    // the own match is shown from the beginning
+    this.joining = !(this.lastInfo && this.lastInfo.mine)
     this.hideOverlay()
     this.wormer.runLive(start)
   }
@@ -303,7 +343,6 @@ class LiveView {
   onFinished(data) {
     this.finished = data
     if (data.status == 'cancelled' || data.status == 'error') {
-      this.el.banner.hidden = true
       this.showOverlay(
         data.status == 'cancelled'
           ? 'Match abgebrochen'
@@ -329,7 +368,7 @@ class LiveView {
     if (!sawMoves || data.aborted) {
       // joined after the end, or someone gave up: show the final board
       this.wormer.seek(data.dirs.length + 2)
-    } else if (this.opts.catchUpOnFinish) {
+    } else if (this.opts.catchUpOnFinish && !this.lastInfo?.mine) {
       // arena tv: don't lag behind for minutes, show the last seconds
       const keep = Math.ceil(5000 / 60)
       if (end - this.wormer.consumed > keep) this.wormer.seek(end - keep)
@@ -419,7 +458,9 @@ class LiveView {
 
     if (this.isLive()) {
       const behindMs = (total - pos) * (w.interval || 60)
-      const atLive = this.following && !w.paused && behindMs < 3000
+      // live as long as the viewer did not pause or scroll back; the small
+      // delay of the steady playback does not count, otherwise the label flickers
+      const atLive = this.following && !w.paused
       this.el.live.hidden = false
       this.el.live.classList.toggle('lv-is-live', atLive)
       this.el.live.textContent = atLive
@@ -513,28 +554,32 @@ class LiveView {
     // both start on one cell, every move takes one more
     const free = 72 * 40 - 2 - shown
 
-    /** @param {string} label @param {string} r @param {string} g */
+    // fixed columns: label on top, value below, so changing numbers never
+    // move the other values around
+    /** @param {string} label @param {string} value */
+    const cell = (label, value) => '<div><b>' + label + '</b>' + value + '</div>'
+    /** @param {string} label @param {string | number} r @param {string | number} g */
     const pair = (label, r, g) =>
-      '<span><b>' + label + '</b> <span class="lv-r">' + r + '</span> · <span class="lv-g">' + g + '</span></span>'
-    let html = '<span><b>Schritt</b> ' + shown + '</span>'
-    html += meet
-      ? pair(
-          'Gebiet',
-          Math.round((redArea / free) * 100) + ' %',
-          Math.round((greenArea / free) * 100) + ' %'
-        )
-      : pair('Getrennt, Platz', redArea + ' Felder', greenArea + ' Felder')
-    html += pair('Kurven', String(turnsRed), String(turnsGreen))
-    html += '<span><b>Frei</b> ' + free + ' Felder</span>'
+      cell(label, '<span class="lv-r">' + r + '</span> · <span class="lv-g">' + g + '</span>')
     const ms = this.thinkMs
-    if (ms.red[1] && ms.green[1]) {
-      html += pair(
-        'Ø Rechenzeit',
-        Math.round(ms.red[0] / ms.red[1]) + ' ms',
-        Math.round(ms.green[0] / ms.green[1]) + ' ms'
-      )
-    }
-    this.el.stats.innerHTML = html
+    this.el.stats.innerHTML =
+      cell('Schritt', String(shown)) +
+      (meet
+        ? pair(
+            'Gebiet in %',
+            Math.round((redArea / free) * 100),
+            Math.round((greenArea / free) * 100)
+          )
+        : pair('Getrennt, Felder', redArea, greenArea)) +
+      pair('Kurven', turnsRed, turnsGreen) +
+      cell('Freie Felder', String(free)) +
+      (ms.red[1] && ms.green[1]
+        ? pair(
+            'Ø Rechenzeit in ms',
+            Math.round(ms.red[0] / ms.red[1]),
+            Math.round(ms.green[0] / ms.green[1])
+          )
+        : cell('Ø Rechenzeit in ms', '–'))
   }
 }
 

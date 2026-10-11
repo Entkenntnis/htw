@@ -394,7 +394,13 @@ export interface WormsReplay {
 
   winner: 'red' | 'green' | ''
   withCrash?: boolean
+  aborted?: boolean
 }
+
+export type WormsStart = Pick<
+  WormsReplay,
+  'xRed' | 'yRed' | 'dirRed' | 'xGreen' | 'yGreen' | 'dirGreen'
+>
 
 export type HintsData = {
   [key: number]: { entries: { question: string; answer: string }[] }

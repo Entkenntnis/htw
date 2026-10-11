@@ -9,9 +9,13 @@ try {
     workerData.greenCode,
     (steps) => {
       Atomics.store(progress, 0, steps)
+    },
+    {
+      onStart: (start) => parentPort?.postMessage({ type: 'start', start }),
+      onMove: (dir) => parentPort?.postMessage({ type: 'move', dir }),
     }
   )
-  parentPort?.postMessage({ ok: true, replay })
+  parentPort?.postMessage({ type: 'done', ok: true, replay })
 } catch (e) {
-  parentPort?.postMessage({ ok: false, error: String(e) })
+  parentPort?.postMessage({ type: 'done', ok: false, error: String(e) })
 }

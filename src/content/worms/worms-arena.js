@@ -15,6 +15,7 @@ let queueChain = Promise.resolve()
  * @property {number} matchId
  * @property {import('../../data/types.js').WormsStart | null} start
  * @property {number[]} dirs
+ * @property {number[]} times think time per move in ms
  * @property {boolean} aborted
  * @property {() => boolean} abort returns false if the match already ended
  */
@@ -102,6 +103,7 @@ function runWormsInWorker(redCode, greenCode, live) {
         live.start = msg.start
       } else if (msg?.type == 'move') {
         live.dirs.push(msg.dir)
+        live.times.push(Math.round(msg.ms))
       } else if (msg?.type == 'done') {
         finish(() => {
           if (msg.ok) {
@@ -695,6 +697,7 @@ export function setupWormsArena(App) {
               matchId: match.id,
               start: null,
               dirs: [],
+              times: [],
               aborted: false,
               // before the worker runs, the flag is checked below
               abort: () => {
@@ -811,6 +814,7 @@ export function setupWormsArena(App) {
 
           <div id="live">
             <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}</span></h4>
+            <div id="worm-stats"></div>
             <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 16px;">
               <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
             </div>
@@ -819,6 +823,7 @@ export function setupWormsArena(App) {
           </div>
 
           <script src="/worms/wormer.js"></script>
+          <script src="/worms/worms-stats.js"></script>
 
           <script>
             const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
@@ -888,6 +893,7 @@ export function setupWormsArena(App) {
                     wormer.runLive(data.start)
                   }
                   if (started) {
+                    wormStats.addThinkTimes(wormer.dirs.length, data.ms)
                     wormer.feedLive(data.dirs)
                     // joined a match that is already running: start at the current state
                     if (joining) wormer.skipAhead()
@@ -937,6 +943,10 @@ export function setupWormsArena(App) {
             }
 
             fetchStatus()
+          </script>
+
+          <script>
+            wormStats.show(document.getElementById('worm-stats'), () => wormer, true)
           </script>
         `,
       })
@@ -996,6 +1006,7 @@ export function setupWormsArena(App) {
         finished: false,
         start: live?.start ?? null,
         dirs: live ? live.dirs.slice(from) : [],
+        ms: live ? live.times.slice(from) : [],
       })
     })
   )
@@ -1194,6 +1205,12 @@ export function setupWormsArena(App) {
           hasBoard
             ? `
         <script src="/worms/wormer.js"></script>
+        <script src="/worms/worms-stats.js"></script>
+
+        <div id="worm-stats" style="margin-top: 24px;"></div>
+        <script>
+          wormStats.show(document.getElementById('worm-stats'), () => wormer, false)
+        </script>
 
         <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
           <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>

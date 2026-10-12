@@ -904,7 +904,8 @@ export function setupWormsArena(App) {
             function inLiveZone() {
               return parseInt(timeline.value) >= parseInt(timeline.max)
             }
-            // live = the newest moves minus the small buffer that keeps it smooth
+            // the timeline ends where live is: the newest moves minus the small
+            // buffer that keeps them smooth, so live is always the furthest point
             function liveRound() {
               const keep = wormer.liveDone ? 0 : Math.ceil(wormer.liveBuffer / 120) * 2
               return Math.max(0, Math.floor((wormer.dirs.length - keep) / 2))
@@ -947,14 +948,14 @@ export function setupWormsArena(App) {
               timeline.disabled = !started
               pauseButton.disabled = !started
               if (!started) return
-              const total = Math.floor(wormer.dirs.length / 2)
-              const pos = Math.min(total, Math.floor(wormer.consumed / 2))
+              const total = liveRound()
+              const pos = Math.floor(wormer.consumed / 2)
               // watching live: the slider stays at the right end, the moves
               // in the buffer would make it jitter
               const live = following && !wormer.liveDone
               if (!dragging) {
                 timeline.max = total
-                timeline.value = live ? total : pos
+                timeline.value = live ? total : Math.min(total, pos)
               }
               document.getElementById('timeline-pos').innerText = dragging
                 ? 'Runde ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)

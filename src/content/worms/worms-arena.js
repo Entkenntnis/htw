@@ -872,6 +872,10 @@ export function setupWormsArena(App) {
               <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
             </div>
             <div id="board"></div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+              <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" disabled title="Pause / Weiter">⏸︎</button>
+              <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" disabled aria-label="Zeitleiste">
+              <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>            </div>
             <div style="height:70px"></div>
           </div>
 
@@ -886,10 +890,77 @@ export function setupWormsArena(App) {
 
             // the animation pauses while the tab is hidden, catch up when coming back
             document.addEventListener('visibilitychange', () => {
-              if (document.visibilityState == 'visible' && started && !wormer.liveDone) {
+              if (document.visibilityState == 'visible' && started && following && !wormer.liveDone) {
                 wormer.skipAhead()
               }
             })
+
+            // timeline: scroll back and forth, the right end is live again
+            const timeline = document.getElementById('timeline')
+            let following = true
+            let dragging = false
+            let seekTo = -1
+            // all the way to the right is live
+            function inLiveZone() {
+              return parseInt(timeline.value) >= parseInt(timeline.max)
+            }
+            // live = the newest moves minus the small buffer that keeps it smooth
+            function liveRound() {
+              const keep = wormer.liveDone ? 0 : Math.ceil(wormer.liveBuffer / 120) * 2
+              return Math.max(0, Math.floor((wormer.dirs.length - keep) / 2))
+            }
+            timeline.addEventListener('input', () => {
+              dragging = true
+              following = false
+              // no moves while the timeline is held
+              wormer.held = true
+              // seek at most once per frame while dragging
+              if (seekTo < 0) {
+                requestAnimationFrame(() => {
+                  wormer.seek(seekTo * 2)
+                  seekTo = -1
+                })
+              }
+              seekTo = inLiveZone() ? liveRound() : parseInt(timeline.value)
+            })
+            function release() {
+              if (!dragging) return
+              dragging = false
+              wormer.held = false
+              if (inLiveZone()) {
+                following = true
+                wormer.paused = false
+                if (!wormer.liveDone) wormer.skipAhead()
+              }
+            }
+            timeline.addEventListener('change', release)
+            // the change event is missing when let go at the starting value
+            document.addEventListener('pointerup', release)
+
+            const pauseButton = document.getElementById('pause-button')
+            pauseButton.addEventListener('click', () => {
+              wormer.paused = !wormer.paused
+              if (wormer.paused) following = false
+            })
+
+            setInterval(() => {
+              timeline.disabled = !started
+              pauseButton.disabled = !started
+              if (!started) return
+              const total = Math.floor(wormer.dirs.length / 2)
+              const pos = Math.min(total, Math.floor(wormer.consumed / 2))
+              // watching live: the slider stays at the right end, the moves
+              // in the buffer would make it jitter
+              const live = following && !wormer.liveDone
+              if (!dragging) {
+                timeline.max = total
+                timeline.value = live ? total : pos
+              }
+              document.getElementById('timeline-pos').innerText = dragging
+                ? 'Runde ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)
+                : 'Runde ' + pos + (live ? ' · Live' : '')
+              pauseButton.innerText = wormer.paused ? '▶︎' : '⏸︎'
+            }, 100)
 
             const overlay = document.createElement('div')
             overlay.id = 'board-overlay'
@@ -1305,6 +1376,11 @@ export function setupWormsArena(App) {
         </div>
 
         <div id="board"></div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+          <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="Pause / Weiter">⏸︎</button>
+          <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="Zeitleiste">
+          <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>
+        </div>
 
         <div style="height:70px"></div>
 
@@ -1312,6 +1388,51 @@ export function setupWormsArena(App) {
           const wormer = new Wormer(document.getElementById('board'))
           wormer.instant = ${instant}
           wormer.runReplay(${JSON.stringify(replay)})
+
+          // timeline: scroll back and forth, the replay continues from there
+          const timeline = document.getElementById('timeline')
+          const total = Math.floor(wormer.dirs.length / 2)
+          timeline.max = total
+          let dragging = false
+          let seekTo = -1
+          timeline.addEventListener('input', () => {
+            dragging = true
+            // no moves while the timeline is held
+            wormer.held = true
+            // from the end of the live view: play normally after scrolling back
+            wormer.instant = false
+            // seek at most once per frame while dragging
+            if (seekTo < 0) {
+              requestAnimationFrame(() => {
+                wormer.seek(seekTo * 2)
+                seekTo = -1
+              })
+            }
+            seekTo = parseInt(timeline.value)
+          })
+          function release() {
+            dragging = false
+            wormer.held = false
+          }
+          timeline.addEventListener('change', release)
+          // the change event is missing when let go at the starting value
+          document.addEventListener('pointerup', release)
+          const pauseButton = document.getElementById('pause-button')
+          pauseButton.addEventListener('click', () => {
+            wormer.paused = !wormer.paused
+            // paused on the last move: start again from the beginning
+            if (!wormer.paused && wormer.winner) {
+              wormer.instant = false
+              wormer.seek(0)
+            }
+          })
+          setInterval(() => {
+            const pos = Math.min(total, Math.floor(wormer.consumed / 2))
+            if (!dragging) timeline.value = pos
+            document.getElementById('timeline-pos').innerText =
+              'Runde ' + (dragging ? timeline.value : pos) + ' / ' + total
+            pauseButton.innerText = wormer.paused || wormer.winner ? '▶︎' : '⏸︎'
+          }, 100)
         </script>
         `
             : `<p style="text-align: center; color: gray; margin-top: 24px;">Das Match wurde aufgegeben, bevor der erste Zug gemacht war.</p>`

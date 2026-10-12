@@ -3,10 +3,17 @@
 // directions: 0 up, 1, right, 2, down, 3, left
 
 class Wormer {
-  constructor(div, actRed, actGreen) {
+  constructor(div, actRed, actGreen, messages = {}) {
     this.div = div
     this.actRed = actRed
     this.actGreen = actGreen
+    this.messages = {
+      redWins: 'Red wins',
+      greenWins: 'Green wins',
+      opponentCrashed: 'Opponent bot crashed, e.g. error or limit reached',
+      restart: 'Restart',
+      ...messages,
+    }
 
     // constants
     this.OFFSETS = [
@@ -105,12 +112,14 @@ class Wormer {
   setWinnerMessage() {
     const message = document.createElement('div')
     message.innerHTML =
-      (this.winner == 'red' ? 'Rot gewinnt' : 'Grün gewinnt') +
+      (this.winner == 'red'
+        ? this.messages.redWins
+        : this.messages.greenWins) +
       (this.withCrash
-        ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
+        ? `<br><span style="font-size: 15px; color: gray;">(${this.messages.opponentCrashed})</span>`
         : '') +
       (window.restart
-        ? '<br><span onclick="restart()" style="text-decoration:underline; cursor: pointer; color: gray; font-size: 16px;">Neustart</span>'
+        ? `<br><span onclick="restart()" style="text-decoration:underline; cursor: pointer; color: gray; font-size: 16px;">${this.messages.restart}</span>`
         : '')
     message.style.position = 'absolute'
     message.style.top = '30%'

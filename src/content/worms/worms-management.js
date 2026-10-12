@@ -318,11 +318,16 @@ export function setupWormsManagement(App) {
         return
       }
 
-      const isGermanStarterCode =
-        bot.code.includes('Bestimme bei jedem Schritt deines Bots') &&
-        bot.code.includes('function think(dx, dy, board, x, y, dir, oppX, oppY)') &&
-        bot.code.includes('Schreibe hier deinen Code')
-      const initialCode = isGermanStarterCode ? getDefaultBotCode(t) : bot.code
+      const isStarterCode =
+        bot.code.includes(
+          'function think(dx, dy, board, x, y, dir, oppX, oppY)'
+        ) &&
+        (bot.code.includes('Bestimme bei jedem Schritt deines Bots') ||
+          bot.code.includes('Determine the direction of your bot at each step') ||
+          bot.code.includes('worms.management.template.direction') ||
+          bot.code.includes('Schreibe hier deinen Code') ||
+          bot.code.includes('Write your code here'))
+      const initialCode = isStarterCode ? getDefaultBotCode(t) : bot.code
 
       renderPage(App, req, res, {
         page: 'worms-drafts-edit',
@@ -874,7 +879,7 @@ export function setupWormsManagement(App) {
             // ---------------------------------------
             const logHandle = ctxRed.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxRed.dump)
-              logToConsole("[rot] " + nativeArgs.join(" "))
+              logToConsole("[red] " + nativeArgs.join(" "))
             })
             const consoleHandle = ctxRed.newObject()
             ctxRed.setProp(consoleHandle, "log", logHandle)
@@ -908,7 +913,7 @@ export function setupWormsManagement(App) {
             // ---------------------------------------
             const logHandle2 = ctxGreen.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxGreen.dump)
-              logToConsole("[grün] " + nativeArgs.join(" "))
+              logToConsole("[green] " + nativeArgs.join(" "))
             })
             const consoleHandle2 = ctxGreen.newObject()
             ctxGreen.setProp(consoleHandle2, "log", logHandle2)
@@ -932,7 +937,7 @@ export function setupWormsManagement(App) {
                   resultRed.dispose()
                   //logToConsole('red cycles (10k): ' + cyclesRed.val)
                 } catch(e) {
-                  logToConsole('[rot] ' + e)
+                  logToConsole('[red] ' + e)
                   // alert('Fehler in Rot: ' + e) 
                 }
                 return newDirRed
@@ -949,22 +954,36 @@ export function setupWormsManagement(App) {
                   const resultGreen = ctxGreen.unwrapResult(ctxGreen.evalCode(callScriptGreen))
                   newDirGreen = ctxGreen.getNumber(resultGreen)
                   if (isNaN(newDirGreen)) {
-                    throw new Error('Rückgabe ist nicht eine Zahl')
+                    throw new Error(${JSON.stringify(
+                      t('worms.testRun.returnNotNumber')
+                    )})
                   }
 
                   if (newDirGreen < 0 || newDirGreen > 3) {
-                    throw new Error('Rückgabe "' + newDirGreen + '" ist keine gültige Laufrichtung (0-3)')
+                    throw new Error(${JSON.stringify(
+                      t('worms.testRun.invalidDirection')
+                    )}.replace('{{direction}}', newDirGreen))
                   }
 
                   resultGreen.dispose()
                   //logToConsole('green cycles (10k): ' + cyclesGreen.val)
                 } catch(e) {
-                  logToConsole('[grün] ' + e)
+                  logToConsole('[green] ' + e)
                 }
                 return newDirGreen
               }
             })()
-            const wormer = new Wormer(document.getElementById('board'), red, green)
+            const wormer = new Wormer(
+              document.getElementById('board'),
+              red,
+              green,
+              ${JSON.stringify({
+                redWins: t('worms.wormer.redWins'),
+                greenWins: t('worms.wormer.greenWins'),
+                opponentCrashed: t('worms.wormer.opponentCrashed'),
+                restart: t('worms.wormer.restart'),
+              })}
+            )
             window.wormer = wormer
             wormer.run()
           })

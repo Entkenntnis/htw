@@ -243,7 +243,7 @@
       "date": "Date",
       "red": "Red",
       "green": "Green",
-      "wins": "wins",
+      "wins": "Wins",
       "win": "Win",
       "loss": "Loss",
       "against": "against",
@@ -307,7 +307,24 @@
       "invalidId": "Invalid ID",
       "botNotFound": "Bot not found",
       "codeTooLong": "Code too long",
-      "missingIds": "Missing gId or rId"
+      "missingIds": "Missing gId or rId",
+      "template": {
+        "direction": "Determine the direction of your bot at each step",
+        "width": "Width of the playing field (fixed at 74)",
+        "height": "Height of the playing field (fixed at 42)",
+        "board": "Two-dimensional field; board[x][y] describes the contents at (x|y) with",
+        "wall": "wall",
+        "free": "free",
+        "red": "occupied by red",
+        "green": "occupied by green",
+        "x": "x-coordinate of your bot",
+        "y": "y-coordinate of your bot",
+        "directionValue": "direction of your bot (0 = up, 1 = right, 2 = down, 3 = left)",
+        "opponentX": "x-coordinate of the opponent",
+        "opponentY": "y-coordinate of the opponent",
+        "returnValue": "New direction",
+        "writeCode": "Write your code here"
+      }
     },
     "testRun": {
       "title": "Worms - Test run",
@@ -323,8 +340,16 @@
       "cpuRed": "CPU-Red",
       "cpuGreen": "CPU-Green",
       "cpuTimeExceeded": "CPU time exceeded",
+      "returnNotNumber": "Return value is not a number",
+      "invalidDirection": "Return \"{{direction}}\" is not a valid direction (0-3)",
       "close": "Close",
       "turbo": "Turbo"
+    },
+    "wormer": {
+      "redWins": "Red wins",
+      "greenWins": "Green wins",
+      "opponentCrashed": "Opponent bot crashed, e.g. error or limit reached",
+      "restart": "Restart"
     },
     "guide": {
       "welcome": "Two worms and a fight to the death - welcome to Worms!",

@@ -307,7 +307,24 @@
       "invalidId": "Ungültige ID",
       "botNotFound": "Bot nicht gefunden",
       "codeTooLong": "Code zu lang",
-      "missingIds": "gId oder rId fehlt"
+      "missingIds": "gId oder rId fehlt",
+      "template": {
+        "direction": "Bestimme bei jedem Schritt deines Bots die Laufrichtung",
+        "width": "Breite des Spielfelds (fixiert auf 74)",
+        "height": "Höhe des Spielfelds (fixiert auf 42)",
+        "board": "Zwei-dimensionales Feld, board[x][y] beschreibt den Inhalt bei (x|y) mit",
+        "wall": "Wand",
+        "free": "frei",
+        "red": "von rot besetzt",
+        "green": "vom grün besetzt",
+        "x": "x-Koordinate deines Bots",
+        "y": "y-Koordinate deines Bots",
+        "directionValue": "Laufrichtung deines Bots (0 = hoch, 1 = rechts, 2 = runter, 3 = links)",
+        "opponentX": "x-Koordinate des Gegners",
+        "opponentY": "y-Koordinate des Gegners",
+        "returnValue": "Neue Laufrichtung",
+        "writeCode": "Schreibe hier deinen Code"
+      }
     },
     "testRun": {
       "title": "Worms - Testlauf",
@@ -323,8 +340,16 @@
       "cpuRed": "CPU-Rot",
       "cpuGreen": "CPU-Grün",
       "cpuTimeExceeded": "CPU-Zeit überschritten",
+      "returnNotNumber": "Rückgabe ist keine Zahl",
+      "invalidDirection": "Rückgabe \"{{direction}}\" ist keine gültige Laufrichtung (0-3)",
       "close": "schließen",
       "turbo": "Turbo"
+    },
+    "wormer": {
+      "redWins": "Rot gewinnt",
+      "greenWins": "Grün gewinnt",
+      "opponentCrashed": "Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht",
+      "restart": "Neustart"
     },
     "guide": {
       "welcome": "Zwei Würmer und ein Kampf auf Leben und Tod - herzlich Willkommen bei Worms!",

@@ -317,7 +317,7 @@ export function setupWormsArena(App) {
               <tr>
                 
                 <td>${index + 1}</td>
-                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span>${
+                <td>${escapeHTML(bot.name)}<span style="color: gray"> ${t('worms.arena.by')} ${escapeHTML(bot.username)}</span>${
                   bot.userid == user.id
                     ? ` <span onClick="updateBotIdAndUpdateUI(${bot.id})" id="bot-chooser-${bot.id}" class="bot-chooser"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 14px; height: 14px; cursor: pointer;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span>`
                     : ''
@@ -805,7 +805,14 @@ export function setupWormsArena(App) {
         <div style="height:70px"></div>
 
         <script>
-          const wormer = new Wormer(document.getElementById('board'))
+          const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${JSON.stringify(
+            {
+              redWins: t('worms.wormer.redWins'),
+              greenWins: t('worms.wormer.greenWins'),
+              opponentCrashed: t('worms.wormer.opponentCrashed'),
+              restart: t('worms.wormer.restart'),
+            }
+          )})
           wormer.runReplay(${JSON.stringify(replay)})
         </script>
         `,
@@ -946,12 +953,12 @@ export function setupWormsArena(App) {
                           opponents.find((opp) => opp.id == match.redBotId)
                             ?.name ?? `[${t('worms.arena.deletedBot')}]`
                         )
-                  } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">ansehen</a>]</td>
+                  } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">${t('worms.arena.view')}</a>]</td>
                   <td>${
                     (match.status == 'red-win' && match.redBotId == bot.id) ||
                     (match.status == 'green-win' && match.greenBotId == bot.id)
-                      ? 'Sieg'
-                      : 'Niederlage'
+                      ? t('worms.arena.win')
+                      : t('worms.arena.loss')
                   }</td>
                   <td>${App.moment(match.createdAt).locale(req.lng).fromNow()}</td>
                 </tr>

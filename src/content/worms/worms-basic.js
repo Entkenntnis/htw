@@ -105,6 +105,8 @@ export function setupWormsBasic(App) {
 
         <p>Jetzt geht es an die Sache. Gehe auf Bot-Arena. Wähle zuerst deinen neu erstellen Bot aus. Wähle dann einen Gegner, den du herausfordern willst. Sobald du auf herausfordern klickst, wird ein neues Match gestartet. Nach einer Weile siehst du das Ergebnis und ein Replay.</p>
 
+        <p>Damit alle fair drankommen, kannst du immer nur ein Match gleichzeitig in der Arena haben. Erst wenn es vorbei ist, kannst du das nächste starten. Solange dein Match noch in der Warteschlange wartet, kannst du es ohne Wertung abbrechen. Wer viele Matches spielen will, darf sich gerne ein Programm schreiben, das nach jedem Match automatisch das nächste startet.</p>
+
         <p>(Hurray) Du hast dein erstes Match mit deinem eigenen Bot bestritten!</p>
 
         <hr />

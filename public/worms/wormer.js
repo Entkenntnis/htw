@@ -166,7 +166,7 @@ class Wormer {
     message.innerHTML =
       (this.winner == 'red' ? 'Rot gewinnt' : 'Grün gewinnt') +
       (this.aborted
-        ? '<br><span style="font-size: 15px; color: gray;">(Match abgebrochen)</span>'
+        ? '<br><span style="font-size: 15px; color: gray;">(Match aufgegeben)</span>'
         : this.withCrash
           ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
           : '') +

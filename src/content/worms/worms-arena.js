@@ -13,6 +13,7 @@ let queueChain = Promise.resolve()
 /**
  * @typedef {object} LiveMatch
  * @property {number} matchId
+ * @property {{red: string, green: string}} names
  * @property {import('../../data/types.js').WormsStart | null} start
  * @property {number[]} dirs
  * @property {boolean} aborted
@@ -693,6 +694,7 @@ export function setupWormsArena(App) {
             /** @type {LiveMatch} */
             const live = {
               matchId: match.id,
+              names: { red: bot.name, green: opponentBot.name },
               start: null,
               dirs: [],
               aborted: false,
@@ -823,7 +825,8 @@ export function setupWormsArena(App) {
           <script>
             const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
             // empty arena is shown right away, worms appear with the first move
-            const wormer = new Wormer(document.getElementById('board'))
+            // replaced by another one while the match of someone else is shown
+            let wormer = new Wormer(document.getElementById('board'))
             let started = false
             let pollTimer = null
 
@@ -851,11 +854,92 @@ export function setupWormsArena(App) {
             }
             showOverlay('Match startet')
 
+            // while this match waits in the queue, the running match of
+            // someone else is shown on the board, clearly marked as such
+            const ownerView = ${match.UserId == user.id}
+            const boardEl = document.getElementById('board')
+            const matchTitle = document.querySelector('#live h4')
+            const ownTitle = matchTitle.innerHTML
+            let foreignId = null
+            let foreignStarted = false
+            let foreignShown = false
+
+            function escapeText(text) {
+              const div = document.createElement('div')
+              div.textContent = text
+              return div.innerHTML
+            }
+
+            // a big message on the board for a few seconds
+            function showFlash(title, text, color) {
+              const el = document.createElement('div')
+              el.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.85); color: ' + color + '; border: 3px solid ' + color + '; padding: 2% 4%; border-radius: 14px; text-align: center; z-index: 1100; width: max-content; max-width: 80%; font-size: clamp(18px, 4.5vw, 42px); font-weight: bold; line-height: 1.1; pointer-events: none; transition: opacity 0.6s;'
+              el.innerHTML = escapeText(title) + (text ? '<div style="font-size: clamp(12px, 1.8vw, 17px); font-weight: normal; color: #d1d5db; margin-top: 6px; line-height: 1.3;">' + escapeText(text) + '</div>' : '')
+              boardEl.appendChild(el)
+              setTimeout(() => (el.style.opacity = '0'), 3500)
+              setTimeout(() => el.remove(), 4100)
+            }
+
+            // stops the animation loop of the current board
+            function stopWormer() {
+              if (!wormer.winner) wormer.winner = 'stopped'
+            }
+
+            function showForeign(data) {
+              const f = data.foreign
+              if (!f) {
+                leaveForeign()
+                if (!overlay.isConnected) boardEl.appendChild(overlay)
+                showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
+                return
+              }
+              if (f.id !== foreignId) {
+                // another match is running now: start it from scratch
+                stopWormer()
+                wormer = new Wormer(boardEl)
+                foreignId = f.id
+                foreignStarted = false
+                matchTitle.innerHTML =
+                  '<span style="color: rgb(239, 68, 68)">' + escapeText(f.red) + '</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">' + escapeText(f.green) + '</span>' +
+                  ' <span style="display: inline-block; font-size: 13px; padding: 2px 8px; border-radius: 6px; background: #f59e0b; color: #1f2937; vertical-align: middle;">Nicht dein Match</span>'
+                boardEl.style.outline = '3px solid #f59e0b'
+                boardEl.style.outlineOffset = '3px'
+                if (!foreignShown) {
+                  foreignShown = true
+                  showFlash(
+                    ownerView ? 'Nicht dein Match' : 'Fremdes Match',
+                    'Du schaust gerade ' + f.red + ' vs ' + f.green + ' zu. ' + (ownerView ? 'Dein' : 'Dieses') + ' Match ist auf Position ' + data.queuePosition + ' und startet danach hier.',
+                    '#f59e0b'
+                  )
+                }
+              }
+              if (f.start && !foreignStarted) {
+                foreignStarted = true
+                wormer.runLive(f.start)
+                wormer.feedLive(f.dirs)
+                // joined while it is running: start at the current state
+                wormer.skipAhead()
+              } else if (foreignStarted) {
+                wormer.feedLive(f.dirs)
+              }
+            }
+
+            function leaveForeign() {
+              if (foreignId === null) return
+              foreignId = null
+              foreignStarted = false
+              stopWormer()
+              wormer = new Wormer(boardEl)
+              matchTitle.innerHTML = ownTitle
+              boardEl.style.outline = ''
+            }
+
             // Polling until status is red-win or green-win, moves are shown live
             function fetchStatus() {
               pollTimer = null
               const from = started ? wormer.dirs.length : 0
-              fetch('/worms/arena/live-match?id=${match.id}&from=' + from)
+              const foreignFrom = foreignStarted ? wormer.dirs.length : 0
+              fetch('/worms/arena/live-match?id=${match.id}&from=' + from + '&cid=' + foreignId + '&cfrom=' + foreignFrom)
                 .then((res) => res.json())
                 .then((data) => {
                   document.getElementById('status').innerText = data.text
@@ -885,6 +969,10 @@ export function setupWormsArena(App) {
                   if (joining) {
                     started = true
                     overlay.remove()
+                    if (foreignId !== null) {
+                      leaveForeign()
+                      showFlash('Dein Match!', '', '#22c55e')
+                    }
                     wormer.runLive(data.start)
                   }
                   if (started) {
@@ -892,7 +980,7 @@ export function setupWormsArena(App) {
                     // joined a match that is already running: start at the current state
                     if (joining) wormer.skipAhead()
                   } else if (data.status == 'pending') {
-                    showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
+                    showForeign(data)
                   } else {
                     showOverlay('Match startet', 'Bots werden geladen')
                   }
@@ -957,6 +1045,12 @@ export function setupWormsArena(App) {
         0,
         parseInt((req.query.from ?? '0').toString()) || 0
       )
+      // the running match of someone else, shown while this one waits
+      const foreignId = parseInt((req.query.cid ?? '').toString())
+      const foreignFrom = Math.max(
+        0,
+        parseInt((req.query.cfrom ?? '0').toString()) || 0
+      )
 
       const match = await App.db.models.WormsArenaMatch.findOne({
         where: {
@@ -993,6 +1087,18 @@ export function setupWormsArena(App) {
         text: await getMatchStatusText(App, match),
         queuePosition:
           match.status == 'pending' ? await getQueuePosition(App, match) : 0,
+        foreign:
+          match.status == 'pending' && liveMatch
+            ? {
+                id: liveMatch.matchId,
+                red: liveMatch.names.red,
+                green: liveMatch.names.green,
+                start: liveMatch.start,
+                dirs: liveMatch.dirs.slice(
+                  foreignId == liveMatch.matchId ? foreignFrom : 0
+                ),
+              }
+            : null,
         finished: false,
         start: live?.start ?? null,
         dirs: live ? live.dirs.slice(from) : [],

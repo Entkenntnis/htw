@@ -838,14 +838,25 @@ export function setupWormsArena(App) {
               }
             })
 
-            // timeline: scroll back and forth, all the way to the right is live again
+            // timeline: scroll back and forth, the right end is live again
             const timeline = document.getElementById('timeline')
             let following = true
             let dragging = false
             let seekTo = -1
+            // all the way to the right is live
+            function inLiveZone() {
+              return parseInt(timeline.value) >= parseInt(timeline.max)
+            }
+            // live = the newest moves minus the small buffer that keeps it smooth
+            function liveRound() {
+              const keep = wormer.liveDone ? 0 : Math.ceil(wormer.liveBuffer / 120) * 2
+              return Math.max(0, Math.floor((wormer.dirs.length - keep) / 2))
+            }
             timeline.addEventListener('input', () => {
               dragging = true
               following = false
+              // no moves while the timeline is held
+              wormer.held = true
               // seek at most once per frame while dragging
               if (seekTo < 0) {
                 requestAnimationFrame(() => {
@@ -853,15 +864,21 @@ export function setupWormsArena(App) {
                   seekTo = -1
                 })
               }
-              seekTo = parseInt(timeline.value)
+              seekTo = inLiveZone() ? liveRound() : parseInt(timeline.value)
             })
-            timeline.addEventListener('change', () => {
+            function release() {
+              if (!dragging) return
               dragging = false
-              if (parseInt(timeline.value) >= parseInt(timeline.max)) {
+              wormer.held = false
+              if (inLiveZone()) {
                 following = true
+                wormer.paused = false
                 if (!wormer.liveDone) wormer.skipAhead()
               }
-            })
+            }
+            timeline.addEventListener('change', release)
+            // the change event is missing when let go at the starting value
+            document.addEventListener('pointerup', release)
 
             const pauseButton = document.getElementById('pause-button')
             pauseButton.addEventListener('click', () => {
@@ -875,12 +892,16 @@ export function setupWormsArena(App) {
               if (!started) return
               const total = Math.floor(wormer.dirs.length / 2)
               const pos = Math.min(total, Math.floor(wormer.consumed / 2))
+              // watching live: the slider stays at the right end, the moves
+              // in the buffer would make it jitter
+              const live = following && !wormer.liveDone
               if (!dragging) {
                 timeline.max = total
-                timeline.value = pos
+                timeline.value = live ? total : pos
               }
-              document.getElementById('timeline-pos').innerText =
-                'Runde ' + (dragging ? timeline.value : pos) + ' / ' + total
+              document.getElementById('timeline-pos').innerText = dragging
+                ? 'Runde ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)
+                : 'Runde ' + pos + (live ? ' · Live' : '')
               pauseButton.innerText = wormer.paused ? '▶︎' : '⏸︎'
             }, 100)
 
@@ -1271,6 +1292,8 @@ export function setupWormsArena(App) {
           let seekTo = -1
           timeline.addEventListener('input', () => {
             dragging = true
+            // no moves while the timeline is held
+            wormer.held = true
             // from the end of the live view: play normally after scrolling back
             wormer.instant = false
             // seek at most once per frame while dragging
@@ -1282,9 +1305,13 @@ export function setupWormsArena(App) {
             }
             seekTo = parseInt(timeline.value)
           })
-          timeline.addEventListener('change', () => {
+          function release() {
             dragging = false
-          })
+            wormer.held = false
+          }
+          timeline.addEventListener('change', release)
+          // the change event is missing when let go at the starting value
+          document.addEventListener('pointerup', release)
           const pauseButton = document.getElementById('pause-button')
           pauseButton.addEventListener('click', () => {
             wormer.paused = !wormer.paused

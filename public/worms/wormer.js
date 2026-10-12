@@ -264,8 +264,10 @@ class Wormer {
 
     const interval = this.live ? this.interval : 120
 
+    // held: the viewer drags the timeline, no moves until it is let go
     if (
       this.paused ||
+      this.held ||
       (ts - this.lastTick < interval && !this.turbo && !this.instant)
     ) {
       requestAnimationFrame(this.tick.bind(this))

@@ -822,6 +822,8 @@ export function setupWormsArena(App) {
 
           <script>
             const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
+            const isOwner = ${match.UserId == user.id}
+            const botNames = ${JSON.stringify([redBot ? redBot.name : '[gelöschter Bot]', greenBot ? greenBot.name : '[gelöschter Bot]']).replace(/</g, '\\u003c')}
             // empty arena is shown right away, worms appear with the first move
             const wormer = new Wormer(document.getElementById('board'))
             let started = false
@@ -865,11 +867,8 @@ export function setupWormsArena(App) {
                       window.location.href = replayUrl
                       return
                     }
-                    wormer.onFinish = () => {
-                      setTimeout(() => {
-                        window.location.href = replayUrl + '&instant=1'
-                      }, 2000)
-                    }
+                    // stay on the page and show the result once the board got there
+                    wormer.onFinish = () => showResult(data)
                     // cancelled: don't keep playing moves the viewer hasn't seen yet
                     if (data.replay.aborted) wormer.instant = true
                     wormer.finishLive(data.replay)
@@ -904,6 +903,47 @@ export function setupWormsArena(App) {
                 .catch(() => {
                   pollTimer = setTimeout(fetchStatus, 3000)
                 })
+            }
+
+            // result on the board, so nothing below moves when it appears
+            function showResult(data) {
+              const esc = (text) => {
+                const div = document.createElement('div')
+                div.textContent = text
+                return div.innerHTML
+              }
+              const redWins = data.status == 'red-win'
+              const color = redWins ? 'rgb(239, 68, 68)' : 'rgb(34, 197, 94)'
+              let html = '🏆 <span style="color: ' + color + '">' + esc(redWins ? botNames[0] : botNames[1]) + '</span> gewinnt'
+              if (isOwner) {
+                // the own bot always plays red
+                html += '<small>Dein Bot hat ' + (data.replay.aborted ? 'aufgegeben und damit verloren' : redWins ? 'gewonnen' : 'verloren') + '.</small>'
+              } else if (data.replay.aborted) {
+                html += '<small>Rot hat aufgegeben.</small>'
+              }
+              if (data.elo) {
+                const fmt = (e) => {
+                  // round the change itself, both sides then show the same amount
+                  const diff = Math.round(e[1] - e[0])
+                  return Math.round(e[1]) + ' (' + (diff >= 0 ? '+' : '') + diff + ')'
+                }
+                html += '<small>ELO: ' + esc(botNames[0]) + ' ' + fmt(data.elo.red) + ' · ' + esc(botNames[1]) + ' ' + fmt(data.elo.green) + '</small>'
+              }
+              html += '<small><a href="' + replayUrl + '">Replay ansehen</a> · <a href="/worms/arena">Zurück zur Arena</a></small>'
+              const result = document.createElement('div')
+              result.id = 'match-result'
+              result.style.cssText = 'position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.75); color: white; padding: 8px 18px; border-radius: 10px; text-align: center; font-size: 18px; z-index: 1000; max-width: 90%;'
+              result.innerHTML = html
+              result.querySelectorAll('small').forEach((el) => {
+                el.style.cssText = 'display: block; color: #d1d5db; font-size: 15px; margin-top: 2px;'
+              })
+              // replaces the short winner message of the board at the same place
+              const board = document.getElementById('board')
+              board.querySelectorAll(':scope > div').forEach((el) => {
+                // also an older result, e.g. when the end is shown a second time
+                if (el.style.top == '30%') el.remove()
+              })
+              board.appendChild(result)
             }
 
             function hideCancel() {
@@ -972,6 +1012,14 @@ export function setupWormsArena(App) {
       if (match.status == 'red-win' || match.status == 'green-win') {
         /** @type {import('../../data/types.js').WormsReplay} */
         const replay = JSON.parse(match.replay)
+        // the ELO before is stored in the replay, after is the current one
+        const redElo = parseFloat(
+          (await App.storage.getItem(`worms_botelo_${match.redBotId}`)) ?? '500'
+        )
+        const greenElo = parseFloat(
+          (await App.storage.getItem(`worms_botelo_${match.greenBotId}`)) ??
+            '500'
+        )
         res.json({
           status: match.status,
           // the live view may still be replaying moves at this point
@@ -981,6 +1029,10 @@ export function setupWormsArena(App) {
             dirs: replay.dirs,
             withCrash: !!replay.withCrash,
             aborted: !!replay.aborted,
+          },
+          elo: {
+            red: [replay.redElo, redElo],
+            green: [replay.greenElo, greenElo],
           },
         })
         return

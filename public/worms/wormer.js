@@ -106,7 +106,17 @@ class Wormer {
     this.consumed = 0
     this.interval = 120
     this.liveSamples = []
+    // how much time worth of moves to keep in stock while watching live
+    if (!this.liveBuffer) this.liveBuffer = 1500
     this.runReplay({ ...start, dirs: [] })
+  }
+
+  // jump close to the newest move, e.g. when joining a running match late
+  skipAhead() {
+    const keep = Math.ceil(this.liveBuffer / 120) * 2
+    while (!this.winner && this.dirs.length - this.consumed >= keep + 2) {
+      this.step()
+    }
   }
 
   feedLive(dirs) {
@@ -128,9 +138,9 @@ class Wormer {
     const last = this.liveSamples[this.liveSamples.length - 1]
     if (!first || last.t == first.t || last.n == first.n) return
     const serverMs = (last.t - first.t) / ((last.n - first.n) / 2)
-    // keep about 1.5 s of moves buffered, slow down a bit when it runs low
+    // keep some moves buffered, slow down a bit when it runs low
     const buffered = (this.dirs.length - this.consumed) / 2
-    const wanted = 1500 / Math.max(serverMs, 120)
+    const wanted = this.liveBuffer / Math.max(serverMs, 120)
     const factor = buffered >= wanted ? 1 : 1 + 0.5 * (1 - buffered / wanted)
     const target = Math.max(120, serverMs * factor)
     // change speed gradually

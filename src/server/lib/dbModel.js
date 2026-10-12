@@ -129,7 +129,7 @@ export function dbModel(App) {
     },
     status: {
       type: DataTypes.STRING(20),
-      allowNull: false, // pending, running, red-win, green-win
+      allowNull: false, // pending, running, red-win, green-win, error, cancelled
     },
     replay: {
       type: DataTypes.TEXT, // JSON, can be null

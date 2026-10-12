@@ -28,6 +28,9 @@ let liveMatch = null
 /** ids of matches that wait in the queue and were not cancelled */
 const pendingMatches = new Set()
 
+/** users whose start-match request is being handled right now */
+const startingUsers = new Set()
+
 /**
  * Replay of a cancelled match: red loses, unfinished half-moves are dropped
  * @param {LiveMatch | null} live
@@ -215,6 +218,10 @@ async function getMatchStatusText(App, match) {
     return 'Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.'
   }
 
+  if (match.status == 'cancelled') {
+    return 'Match abgebrochen (keine Wertung)'
+  }
+
   return match.status
 }
 
@@ -246,18 +253,30 @@ export function setupWormsArena(App) {
       return
     }
 
-    // first check if there is still a running match of this user
-    const runningMatch = await App.db.models.WormsArenaMatch.findOne({
+    // only one match per person in the queue: while it waits or runs, the
+    // overview links to it and no new match can be started
+    const ownMatch = await App.db.models.WormsArenaMatch.findOne({
       where: {
-        status: 'running',
+        status: { [Op.in]: ['pending', 'running'] },
         UserId: user.id,
       },
     })
-
-    if (runningMatch) {
-      res.redirect('/worms/arena/match?id=' + runningMatch.id)
-      return
-    }
+    const ownMatchNames = ownMatch
+      ? {
+          red:
+            (
+              await App.db.models.WormsBotDraft.findOne({
+                where: { id: ownMatch.redBotId },
+              })
+            )?.name ?? '[gelöschter Bot]',
+          green:
+            (
+              await App.db.models.WormsBotDraft.findOne({
+                where: { id: ownMatch.greenBotId },
+              })
+            )?.name ?? '[gelöschter Bot]',
+        }
+      : null
 
     const liveArenaMatch = await App.db.models.WormsArenaMatch.findOne({
       where: { status: 'running' },
@@ -412,7 +431,20 @@ export function setupWormsArena(App) {
         ${renderNavigation(2)}
 
         ${
-          liveArenaMatch && liveNames
+          ownMatch && ownMatchNames
+            ? `
+          <div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px;">
+            Dein Match <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
+            ${ownMatch.status == 'running' ? 'läuft gerade' : 'wartet in der Warteschlange'}.
+            Solange kannst du kein weiteres Match starten.
+            <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">Zum Match</a>
+          </div>
+        `
+            : ''
+        }
+
+        ${
+          liveArenaMatch && liveNames && liveArenaMatch.id != ownMatch?.id
             ? `
           <p style="text-align: center; margin-top: 24px;">
             <a href="/worms/arena/match?id=${liveArenaMatch.id}" class="btn btn-outline-warning">
@@ -548,12 +580,14 @@ export function setupWormsArena(App) {
         
         <script>
           let botId = null
+          // only one match per person in the queue
+          const canChallenge = ${!ownMatch}
 
           function updateBotIdAndUpdateUI(id) {
             if (isNaN(id)) {
               id = null
             }
-            if (id == null) {
+            if (id == null || !canChallenge) {
               // make all challenge buttons invisible
               const buttons = document.getElementsByClassName('challenge-button')
               for (let i = 0; i < buttons.length; i++) {
@@ -672,13 +706,35 @@ export function setupWormsArena(App) {
         return
       }
 
-      const match = await App.db.models.WormsArenaMatch.create({
-        redBotId: bot.id,
-        greenBotId: opponentBot.id,
-        status: 'pending',
-        replay: '',
-        UserId: user.id,
-      })
+      // fairness: only one match per person in the queue (waiting or
+      // running), nobody can block the arena for a long time
+      if (startingUsers.has(user.id)) {
+        res.redirect('/worms/arena')
+        return
+      }
+      startingUsers.add(user.id)
+      let match
+      try {
+        const ownMatch = await App.db.models.WormsArenaMatch.findOne({
+          where: {
+            status: { [Op.in]: ['pending', 'running'] },
+            UserId: user.id,
+          },
+        })
+        if (ownMatch) {
+          res.redirect('/worms/arena/match?id=' + ownMatch.id)
+          return
+        }
+        match = await App.db.models.WormsArenaMatch.create({
+          redBotId: bot.id,
+          greenBotId: opponentBot.id,
+          status: 'pending',
+          replay: '',
+          UserId: user.id,
+        })
+      } finally {
+        startingUsers.delete(user.id)
+      }
 
       req.session.lastWormsBotId = bot.id
 
@@ -777,6 +833,7 @@ export function setupWormsArena(App) {
       const canCancel =
         match.UserId == user.id &&
         (match.status == 'pending' || match.status == 'running')
+      const pending = match.status == 'pending'
 
       renderPage(App, req, res, {
         page: 'worms-match-running',
@@ -790,8 +847,8 @@ export function setupWormsArena(App) {
           ${
             canCancel
               ? `<p id="cancel-area">
-                  <span id="cancel-ask"><button class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">Match abbrechen</button> <span style="color: gray; margin-left: 8px;">(zählt als Niederlage)</span></span>
-                  <span id="cancel-confirm" style="display: none;">Wirklich abbrechen? Das zählt als Niederlage für deinen Bot. <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">Ja, abbrechen</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
+                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">${pending ? 'Match abbrechen' : 'Aufgeben'}</button> <span id="cancel-hint" style="color: gray; margin-left: 8px;">${pending ? '(hat noch nicht begonnen, keine Wertung)' : '(zählt als Niederlage)'}</span></span>
+                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question">${pending ? 'Match abbrechen? Es wird nicht gewertet.' : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'}</span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">${pending ? 'Ja, abbrechen' : 'Ja, aufgeben'}</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
                 </p>`
               : ''
           }
@@ -881,6 +938,13 @@ export function setupWormsArena(App) {
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
+                  if (data.status == 'cancelled') {
+                    hideCancel()
+                    overlay.innerHTML = 'Match abgebrochen<small>Es hat nicht begonnen und wird nicht gewertet. <a href="/worms/arena">Zurück zur Arena</a></small>'
+                    document.getElementById('board').appendChild(overlay)
+                    return
+                  }
+                  setCancelState(data.status)
                   const joining = data.start && !started
                   if (joining) {
                     started = true
@@ -911,6 +975,25 @@ export function setupWormsArena(App) {
               if (area) area.style.display = 'none'
             }
 
+            // waiting in the queue: cancel without rating, running: give up = loss
+            let cancelState = '${match.status}'
+            function setCancelState(state) {
+              if (!document.getElementById('cancel-area') || state == cancelState) return
+              if (state != 'pending' && state != 'running') return
+              cancelState = state
+              showCancelConfirm(false)
+              document.getElementById('cancel-yes').disabled = false
+              const pending = state == 'pending'
+              document.getElementById('cancel-button').innerText = pending ? 'Match abbrechen' : 'Aufgeben'
+              document.getElementById('cancel-hint').innerText = pending
+                ? '(hat noch nicht begonnen, keine Wertung)'
+                : '(zählt als Niederlage)'
+              document.getElementById('cancel-question').innerText = pending
+                ? 'Match abbrechen? Es wird nicht gewertet.'
+                : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'
+              document.getElementById('cancel-yes').innerText = pending ? 'Ja, abbrechen' : 'Ja, aufgeben'
+            }
+
             // confirmation inside the page, native dialogs can be blocked
             function showCancelConfirm(show) {
               document.getElementById('cancel-ask').style.display = show ? 'none' : 'inline'
@@ -922,10 +1005,17 @@ export function setupWormsArena(App) {
               fetch('/worms/arena/cancel-match', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: ${match.id} }),
+                // tells the server what the user agreed to: cancelling a
+                // waiting match must never turn into giving up a running one
+                body: JSON.stringify({ id: ${match.id}, expect: cancelState }),
               }).then((res) => {
-                // 409: match already over, the next poll shows the result
-                if (!res.ok && res.status != 409) throw new Error()
+                // 409: the match started or ended meanwhile, the next poll shows it
+                if (res.status == 409) {
+                  document.getElementById('cancel-yes').disabled = false
+                  showCancelConfirm(false)
+                } else if (!res.ok) {
+                  throw new Error()
+                }
               }).catch(() => {
                 document.getElementById('cancel-yes').disabled = false
               }).finally(() => {
@@ -975,7 +1065,7 @@ export function setupWormsArena(App) {
         res.json({
           status: match.status,
           // the live view may still be replaying moves at this point
-          text: replay.aborted ? 'Match abgebrochen' : 'Match fertig berechnet',
+          text: replay.aborted ? 'Match aufgegeben' : 'Match fertig berechnet',
           finished: true,
           replay: {
             dirs: replay.dirs,
@@ -1023,18 +1113,27 @@ export function setupWormsArena(App) {
         return
       }
 
+      // what the user confirmed: 'pending' = cancel without rating,
+      // 'running' = give up
+      const expect = (req.body?.expect ?? '').toString()
+
+      // running: giving up counts as a loss
       if (liveMatch && liveMatch.matchId == match.id) {
+        if (expect == 'pending') {
+          // started in the meantime, the user did not agree to a loss
+          res.sendStatus(409)
+          return
+        }
         res.sendStatus(liveMatch.abort() ? 200 : 409)
         return
       }
 
+      // still waiting in the queue: the match never started, so it is just
+      // dropped without any rating
       if (pendingMatches.delete(match.id)) {
-        await finishMatch(
-          App,
-          match.id,
-          match.redBotId,
-          match.greenBotId,
-          abortedReplay(null)
+        await App.db.models.WormsArenaMatch.update(
+          { status: 'cancelled' },
+          { where: { id: match.id } }
         )
         res.sendStatus(200)
         return
@@ -1108,6 +1207,12 @@ export function setupWormsArena(App) {
         return
       }
 
+      // no replay yet (waiting or running) or never (cancelled, error)
+      if (match.status != 'red-win' && match.status != 'green-win') {
+        res.redirect('/worms/arena/match?id=' + match.id)
+        return
+      }
+
       // "your bot won/lost" only makes sense for the one who started the match
       const showMsg =
         req.query.msg == 'done' && !!req.user && match.UserId == req.user.id
@@ -1166,14 +1271,14 @@ export function setupWormsArena(App) {
           showMsg
             ? `<p style="font-size: 20px; text-align: center">Dein Bot ${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'} hat das Match gegen ${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'} <strong>${
                 replay.aborted
-                  ? 'abgebrochen'
+                  ? 'aufgegeben'
                   : match.status == 'red-win'
                     ? 'gewonnen'
                     : 'verloren'
               }</strong>${replay.aborted ? ' und damit verloren' : ''}.<br >Deine neue ELO beträgt ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''
               }${Math.round(eloDiff)}).</p>`
-            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}${replay.aborted ? ' (abgebrochen)' : ''}</p>`
+            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}${replay.aborted ? ' (aufgegeben)' : ''}</p>`
         }
 
         <p style="text-align: center; margin-top: 24px;"><a href="${
@@ -1209,7 +1314,7 @@ export function setupWormsArena(App) {
           wormer.runReplay(${JSON.stringify(replay)})
         </script>
         `
-            : `<p style="text-align: center; color: gray; margin-top: 24px;">Das Match wurde abgebrochen, bevor es begonnen hat.</p>`
+            : `<p style="text-align: center; color: gray; margin-top: 24px;">Das Match wurde aufgegeben, bevor der erste Zug gemacht war.</p>`
         }
         `,
       })

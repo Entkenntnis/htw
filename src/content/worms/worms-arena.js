@@ -200,9 +200,10 @@ async function getQueuePosition(App, match) {
  * Status line shown while waiting for a match
  * @param {import("../../data/types.js").App} App
  * @param {any} match
+ * @param {import('i18next').TFunction} t
  * @returns {Promise<string>}
  */
-async function getMatchStatusText(App, match) {
+async function getMatchStatusText(App, match, t) {
   if (match.status == 'running') {
     const steps = currentProgress ? Atomics.load(currentProgress, 0) : 0
     return steps == 0
@@ -221,7 +222,7 @@ async function getMatchStatusText(App, match) {
 
   if (match.status == 'cancelled') {
     // If you've added a translation key for cancelled, use it here:
-    return t('worms.arena.matchCancelled') 
+    return t('worms.arena.matchCancelled')
   }
 
   return match.status
@@ -1158,7 +1159,7 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
 
       res.json({
         status: match.status,
-        text: await getMatchStatusText(App, match),
+        text: await getMatchStatusText(App, match, getWormsTranslator(App, req)),
         queuePosition:
           match.status == 'pending' ? await getQueuePosition(App, match) : 0,
         finished: false,
@@ -1245,7 +1246,7 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
         return
       }
 
-      res.send(await getMatchStatusText(App, match))
+      res.send(await getMatchStatusText(App, match, getWormsTranslator(App, req)))
     })
   )
 

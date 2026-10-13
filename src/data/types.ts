@@ -255,7 +255,13 @@ export class WormsArenaMatchModel extends Model<
   InferCreationAttributes<WormsArenaMatchModel>
 > {
   declare id: CreationOptional<number>
-  declare status: 'pending' | 'running' | 'red-win' | 'green-win' | 'error'
+  declare status:
+    | 'pending'
+    | 'running'
+    | 'red-win'
+    | 'green-win'
+    | 'error'
+    | 'cancelled'
   declare redBotId: number
   declare greenBotId: number
   declare UserId: number

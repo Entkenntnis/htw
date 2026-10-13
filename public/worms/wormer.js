@@ -96,7 +96,53 @@ class Wormer {
     this.withCrash = replay.withCrash
     this.aborted = replay.aborted
 
+    // replays don't look at the board, no need to copy it for every move
+    this.isReplay = true
+    this.startPos = replay
+
     this.run(true)
+  }
+
+  // replay: jump to the state after `target` moves (red and green in pairs)
+  seek(target) {
+    target = Math.max(
+      0,
+      Math.min(target, this.dirs.length - (this.dirs.length % 2))
+    )
+    // the animation loop ends with the match, it has to start again then
+    const loopEnded = !!this.winner
+    if (this.winnerMessage) {
+      this.winnerMessage.remove()
+      this.winnerMessage = null
+    }
+    for (let x = 0; x < 74; x++) {
+      for (let y = 0; y < 42; y++) {
+        const wall = x == 0 || y == 0 || x == 73 || y == 41
+        this.board[x][y] = wall ? -1 : 0
+        this.setColor(x, y, wall ? '#172554' : '#1e40af')
+      }
+    }
+    this.winner = ''
+    this.redX = this.startPos.xRed
+    this.redY = this.startPos.yRed
+    this.redDir = this.startPos.dirRed
+    this.greenX = this.startPos.xGreen
+    this.greenY = this.startPos.yGreen
+    this.greenDir = this.startPos.dirGreen
+    this.actRed = replayRed(this.dirs)
+    this.actGreen = replayGreen(this.dirs)
+    this.consumed = 0
+    this.setColor(this.redX, this.redY, this.COLORS.red.head)
+    this.setColor(this.greenX, this.greenY, this.COLORS.green.head)
+    this.board[this.redX][this.redY] = 1
+    this.board[this.greenX][this.greenY] = 2
+    while (!this.winner && this.consumed < target) {
+      this.step()
+    }
+    this.lastTick = new Date().getTime()
+    if (loopEnded && !this.winner) {
+      requestAnimationFrame(this.tick.bind(this))
+    }
   }
 
   // live mode: moves arrive while the match is still computed on the server
@@ -166,7 +212,7 @@ class Wormer {
     message.innerHTML =
       (this.winner == 'red' ? 'Rot gewinnt' : 'Grün gewinnt') +
       (this.aborted
-        ? '<br><span style="font-size: 15px; color: gray;">(Match abgebrochen)</span>'
+        ? '<br><span style="font-size: 15px; color: gray;">(Match aufgegeben)</span>'
         : this.withCrash
           ? '<br><span style="font-size: 15px; color: gray;">(Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht)</span>'
           : '') +
@@ -187,6 +233,7 @@ class Wormer {
 
     // Append message to this.div
     this.div.appendChild(message)
+    this.winnerMessage = message
 
     if (this.onFinish) this.onFinish(this.winner)
   }
@@ -217,7 +264,12 @@ class Wormer {
 
     const interval = this.live ? this.interval : 120
 
-    if (ts - this.lastTick < interval && !this.turbo && !this.instant) {
+    // held: the viewer drags the timeline, no moves until it is let go
+    if (
+      this.paused ||
+      this.held ||
+      (ts - this.lastTick < interval && !this.turbo && !this.instant)
+    ) {
       requestAnimationFrame(this.tick.bind(this))
       return
     } else {
@@ -242,7 +294,7 @@ class Wormer {
     const newRedDir = this.actRed(
       74,
       42,
-      JSON.parse(JSON.stringify(this.board)),
+      this.isReplay ? null : JSON.parse(JSON.stringify(this.board)),
       this.redX,
       this.redY,
       this.redDir,
@@ -280,7 +332,7 @@ class Wormer {
     const newGreenDir = this.actGreen(
       74,
       42,
-      JSON.parse(JSON.stringify(this.board)),
+      this.isReplay ? null : JSON.parse(JSON.stringify(this.board)),
       this.greenX,
       this.greenY,
       this.greenDir,

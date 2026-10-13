@@ -268,6 +268,7 @@
       "step": "Schritt",
       "matchQueued": "Match in Warteschlange auf Position",
       "matchError": "Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.",
+      "matchCancelled": "Match abgebrochen (keine Wertung)",
       "yourBot": "Dein Bot",
       "wentAgainst": "hat das Match gegen",
       "won": "gewonnen",
@@ -348,6 +349,7 @@
     "wormer": {
       "redWins": "Rot gewinnt",
       "greenWins": "Grün gewinnt",
+      "matchAborted": "Match abgebrochen",
       "opponentCrashed": "Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht",
       "restart": "Neustart"
     },
@@ -362,6 +364,7 @@
       "step2": "Klicke auf Bearbeiten. Der Editor öffnet sich. Das Programm besteht aus einer Funktion <code>think</code>, die vor jedem Schritt aufgerufen wird. Die Vorlage enthält einen Bot, der immer geradeaus läuft, weil durch <code>return dir</code> immer die aktuelle Richtung als nächsten Schritt ausgegeben wird. Weitere Bot-Beispiele folgen weiter unten. Schließe den Editor, wenn du fertig bist.",
       "step3Title": "(3. Schritt) Gegner in Arena herausfordern",
       "step3": "Gehe auf Bot-Arena und wähle zuerst deinen neu erstellten Bot aus. Wähle dann einen Gegner. Sobald du auf Herausfordern klickst, wird ein neues Match gestartet. Nach einer Weile siehst du das Ergebnis und ein Replay.",
+      "fairness": "Damit alle fair drankommen, kannst du immer nur ein Match gleichzeitig in der Arena haben. Erst wenn es vorbei ist, kannst du das nächste starten. Solange dein Match noch in der Warteschlange wartet, kannst du es ohne Wertung abbrechen. Wer viele Matches spielen will, darf sich gerne ein Programm schreiben, das nach jedem Match automatisch das nächste startet.",
       "hurray": "(Hurray) Du hast dein erstes Match mit deinem eigenen Bot bestritten!",
       "advancedIntro": "Der anspruchsvolle Teil ist nun die Programmierung der Bots. Es geht mehr um deine Ideen, weniger um den Code. Solange du deine Idee beschreiben kannst, kann immer eine LLM dir bei der Umsetzung helfen. Damit ist Worms auch für Programmieranfänger gut geeignet! Du kannst bis zu 20 Bots anlegen.",
       "technicalDetails": "Das Programm wird in modernen JavaScript geschrieben. Da die Matches auf dem Server laufen, gibt es eine Sandbox, die sicherheitskritische Funktionen deaktiviert (Netzwerkanfragen, etc..). Pro Denkvorgang, d.h. Aufruf von <code>think</code>, darf dein Programm 1 Millionen Anweisungen ausführen und hat insgesamt 1 MB an Arbeitsspeicher zur Verfügung. Im Testlauf kannst du mit <code>console.log()</code> Information in der Konsole ausgeben.",

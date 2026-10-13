@@ -433,7 +433,7 @@ export function setupWormsArena(App) {
         ${
           ownMatch && ownMatchNames
             ? `
-          <div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px;">
+          <div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px; margin-bottom: 12px;">
             Dein Match <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
             ${ownMatch.status == 'running' ? 'läuft gerade' : 'wartet in der Warteschlange'}.
             Solange kannst du kein weiteres Match starten.

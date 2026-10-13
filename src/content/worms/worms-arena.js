@@ -11,6 +11,52 @@ let currentProgress = null
 let queueChain = Promise.resolve()
 
 /**
+ * @typedef {object} LiveMatch
+ * @property {number} matchId
+ * @property {import('../../data/types.js').WormsStart | null} start
+ * @property {number[]} dirs
+ * @property {boolean} aborted
+ * @property {() => boolean} abort returns false if the match already ended
+ */
+
+/**
+ * The match that is currently running, moves are streamed in from the worker
+ * @type {LiveMatch | null}
+ */
+let liveMatch = null
+
+/** ids of matches that wait in the queue and were not cancelled */
+const pendingMatches = new Set()
+
+/** users whose start-match request is being handled right now */
+const startingUsers = new Set()
+
+/**
+ * Replay of a cancelled match: red loses, unfinished half-moves are dropped
+ * @param {LiveMatch | null} live
+ * @returns {import('../../data/types.js').WormsReplay}
+ */
+function abortedReplay(live) {
+  const start = live?.start ?? {
+    xRed: -1,
+    yRed: -1,
+    dirRed: -1,
+    xGreen: -1,
+    yGreen: -1,
+    dirGreen: -1,
+  }
+  const dirs = live ? live.dirs.slice(0, live.dirs.length & ~1) : []
+  return {
+    ...start,
+    dirs,
+    winner: 'green',
+    aborted: true,
+    redElo: -1,
+    greenElo: -1,
+  }
+}
+
+/**
  * Serialize matches: only one match runs at a time.
  * @template T
  * @param {() => Promise<T>} fn
@@ -29,29 +75,156 @@ function enqueue(fn) {
  * Run a match in a dedicated worker thread.
  * @param {string} redCode
  * @param {string} greenCode
+ * @param {LiveMatch} live receives start position and moves while the match runs
  * @returns {Promise<import('../../data/types.js').WormsReplay>}
  */
-function runWormsInWorker(redCode, greenCode) {
+function runWormsInWorker(redCode, greenCode, live) {
   const progress = new SharedArrayBuffer(4)
   currentProgress = new Int32Array(progress)
   return new Promise((resolve, reject) => {
     const worker = new Worker(new URL('./worms-worker.js', import.meta.url), {
       workerData: { redCode, greenCode, progress },
     })
-    worker.once('message', (msg) => {
-      worker.terminate()
+    let settled = false
+    /** @param {() => void} fn */
+    const finish = (fn) => {
+      if (settled) return
+      settled = true
       currentProgress = null
-      if (msg && msg.ok) {
-        resolve(msg.replay)
-      } else {
-        reject(new Error(msg && msg.error ? msg.error : 'worker failed'))
+      worker.terminate()
+      fn()
+    }
+    live.abort = () => {
+      if (settled) return false
+      live.aborted = true
+      finish(() => resolve(abortedReplay(live)))
+      return true
+    }
+    worker.on('message', (msg) => {
+      if (msg?.type == 'start') {
+        live.start = msg.start
+      } else if (msg?.type == 'move') {
+        live.dirs.push(msg.dir)
+      } else if (msg?.type == 'done') {
+        finish(() => {
+          if (msg.ok) {
+            resolve(msg.replay)
+          } else {
+            reject(new Error(msg.error ? msg.error : 'worker failed'))
+          }
+        })
       }
     })
     worker.once('error', (err) => {
-      currentProgress = null
-      reject(err)
+      finish(() => reject(err))
+    })
+    // otherwise the queue would wait forever if the worker dies silently
+    worker.once('exit', () => {
+      finish(() => reject(new Error('worker exited without result')))
     })
   })
+}
+
+/**
+ * Update ELO of both bots and store the result of a match
+ * @param {import("../../data/types.js").App} App
+ * @param {number} matchId
+ * @param {number} redBotId
+ * @param {number} greenBotId
+ * @param {import('../../data/types.js').WormsReplay} replay
+ */
+async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
+  // load elo of bots
+  const botELO = parseFloat(
+    (await App.storage.getItem(`worms_botelo_${redBotId}`)) ?? '500'
+  )
+  const opponentELO = parseFloat(
+    (await App.storage.getItem(`worms_botelo_${greenBotId}`)) ?? '500'
+  )
+
+  replay.redElo = botELO
+  replay.greenElo = opponentELO
+
+  const K = 32
+
+  let S = 0
+  if (replay.winner == 'red') {
+    S = 1
+  } else if (replay.winner == 'green') {
+    S = 0
+  }
+
+  const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
+
+  const newBotELO = botELO + K * (S - E)
+  const newOpponentELO = opponentELO + K * (E - S)
+
+  await App.storage.setItem(`worms_botelo_${redBotId}`, newBotELO.toString())
+  await App.storage.setItem(
+    `worms_botelo_${greenBotId}`,
+    newOpponentELO.toString()
+  )
+
+  await App.db.models.WormsArenaMatch.update(
+    {
+      status: replay.winner == 'red' ? 'red-win' : 'green-win',
+      replay: JSON.stringify(replay),
+    },
+    {
+      where: {
+        id: matchId,
+      },
+    }
+  )
+}
+
+/**
+ * @param {import("../../data/types.js").App} App
+ * @param {any} match
+ * @returns {Promise<number>}
+ */
+async function getQueuePosition(App, match) {
+  // find matches that are older and still pending
+  const olderMatches = await App.db.models.WormsArenaMatch.count({
+    where: {
+      status: 'pending',
+      createdAt: {
+        [Op.lt]: match.createdAt,
+      },
+    },
+  })
+  return olderMatches + 1
+}
+
+/**
+ * Status line shown while waiting for a match
+ * @param {import("../../data/types.js").App} App
+ * @param {any} match
+ * @returns {Promise<string>}
+ */
+async function getMatchStatusText(App, match) {
+  if (match.status == 'running') {
+    const steps = currentProgress ? Atomics.load(currentProgress, 0) : 0
+    return steps == 0
+      ? t('worms.arena.matchRunningLong')
+      : `${t('worms.arena.matchRunning')} (${t('worms.arena.step')} ${steps})`
+  }
+
+  if (match.status == 'pending') {
+    const queuePos = await getQueuePosition(App, match)
+    return `${t('worms.arena.matchQueued')} ${queuePos} ...`
+  }
+
+  if (match.status == 'error') {
+    return t('worms.arena.matchError')
+  }
+
+  if (match.status == 'cancelled') {
+    // If you've added a translation key for cancelled, use it here:
+    return t('worms.arena.matchCancelled') 
+  }
+
+  return match.status
 }
 
 /**
@@ -75,7 +248,7 @@ export function setupWormsArena(App) {
     )
   })
 
-  App.express.get('/worms/arena', async (req, res) => {
+App.express.get_async_fix('/worms/arena', async (req, res) => {
     const t = getWormsTranslator(App, req)
     const user = req.user
     if (!user) {
@@ -83,17 +256,45 @@ export function setupWormsArena(App) {
       return
     }
 
-    // first check if there is still a running match of this user
-    const runningMatch = await App.db.models.WormsArenaMatch.findOne({
+    // only one match per person in the queue: while it waits or runs, the
+    // overview links to it and no new match can be started
+    const ownMatch = await App.db.models.WormsArenaMatch.findOne({
       where: {
-        status: 'running',
+        status: { [Op.in]: ['pending', 'running'] },
         UserId: user.id,
       },
     })
+    const ownMatchNames = ownMatch
+      ? {
+          red:
+            (
+              await App.db.models.WormsBotDraft.findOne({
+                where: { id: ownMatch.redBotId },
+              })
+            )?.name ?? '[gelöschter Bot]',
+          green:
+            (
+              await App.db.models.WormsBotDraft.findOne({
+                where: { id: ownMatch.greenBotId },
+              })
+            )?.name ?? '[gelöschter Bot]',
+        }
+      : null
 
-    if (runningMatch) {
-      res.redirect('/worms/arena/match?id=' + runningMatch.id)
-      return
+    const liveArenaMatch = await App.db.models.WormsArenaMatch.findOne({
+      where: { status: 'running' },
+      order: [['createdAt', 'DESC']],
+    })
+
+    let liveNames = null
+    if (liveArenaMatch) {
+      const r = await App.db.models.WormsBotDraft.findOne({
+        where: { id: liveArenaMatch.redBotId },
+      })
+      const g = await App.db.models.WormsBotDraft.findOne({
+        where: { id: liveArenaMatch.greenBotId },
+      })
+      liveNames = { red: r?.name ?? null, green: g?.name ?? null }
     }
 
     const botELOs = await App.db.models.KVPair.findAll({
@@ -232,6 +433,33 @@ export function setupWormsArena(App) {
       content: `
         ${renderNavigation(2, req, App)}
 
+        ${
+          ownMatch && ownMatchNames
+            ? `
+          <div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px;">
+            Dein Match <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
+            ${ownMatch.status == 'running' ? 'läuft gerade' : 'wartet in der Warteschlange'}.
+            Solange kannst du kein weiteres Match starten.
+            <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">Zum Match</a>
+          </div>
+        `
+            : ''
+        }
+
+        ${
+          liveArenaMatch && liveNames && liveArenaMatch.id != ownMatch?.id
+            ? `
+          <p style="text-align: center; margin-top: 24px;">
+            <a href="/worms/arena/match?id=${liveArenaMatch.id}" class="btn btn-outline-warning">
+              🔴 Laufendes Match live ansehen:
+              ${escapeHTML(liveNames.red ?? '[gelöschter Bot]')} vs
+              ${escapeHTML(liveNames.green ?? '[gelöschter Bot]')}
+            </a>
+          </p>
+        `
+            : ''
+        }
+
         <style>
           .hidden {
             display: none;
@@ -357,12 +585,14 @@ export function setupWormsArena(App) {
         
         <script>
           let botId = null
+          // only one match per person in the queue
+          const canChallenge = ${!ownMatch}
 
           function updateBotIdAndUpdateUI(id) {
             if (isNaN(id)) {
               id = null
             }
-            if (id == null) {
+            if (id == null || !canChallenge) {
               // make all challenge buttons invisible
               const buttons = document.getElementsByClassName('challenge-button')
               for (let i = 0; i < buttons.length; i++) {
@@ -481,78 +711,80 @@ export function setupWormsArena(App) {
         return
       }
 
-      const match = await App.db.models.WormsArenaMatch.create({
-        redBotId: bot.id,
-        greenBotId: opponentBot.id,
-        status: 'pending',
-        replay: '',
-        UserId: user.id,
-      })
+      // fairness: only one match per person in the queue (waiting or
+      // running), nobody can block the arena for a long time
+      if (startingUsers.has(user.id)) {
+        res.redirect('/worms/arena')
+        return
+      }
+      startingUsers.add(user.id)
+      let match
+      try {
+        const ownMatch = await App.db.models.WormsArenaMatch.findOne({
+          where: {
+            status: { [Op.in]: ['pending', 'running'] },
+            UserId: user.id,
+          },
+        })
+        if (ownMatch) {
+          res.redirect('/worms/arena/match?id=' + ownMatch.id)
+          return
+        }
+        match = await App.db.models.WormsArenaMatch.create({
+          redBotId: bot.id,
+          greenBotId: opponentBot.id,
+          status: 'pending',
+          replay: '',
+          UserId: user.id,
+        })
+      } finally {
+        startingUsers.delete(user.id)
+      }
 
       req.session.lastWormsBotId = bot.id
+
+      pendingMatches.add(match.id)
 
       setTimeout(async () => {
         try {
           await enqueue(async () => {
-            await App.db.models.WormsArenaMatch.update(
-              {
-                status: 'running',
+            // match was cancelled while waiting
+            if (!pendingMatches.delete(match.id)) return
+
+            /** @type {LiveMatch} */
+            const live = {
+              matchId: match.id,
+              start: null,
+              dirs: [],
+              aborted: false,
+              // before the worker runs, the flag is checked below
+              abort: () => {
+                live.aborted = true
+                return true
               },
-              {
-                where: {
-                  id: match.id,
-                },
-              }
-            )
-
-            const replay = await runWormsInWorker(bot.code, opponentBot.code)
-
-            // load elo of bots
-            const botELO = parseFloat(
-              (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
-            )
-            const opponentELO = parseFloat(
-              (await App.storage.getItem(`worms_botelo_${opponentBot.id}`)) ??
-                '500'
-            )
-
-            replay.redElo = botELO
-            replay.greenElo = opponentELO
-
-            const K = 32
-
-            let S = 0
-            if (replay.winner == 'red') {
-              S = 1
-            } else if (replay.winner == 'green') {
-              S = 0
             }
+            liveMatch = live
 
-            const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
-
-            const newBotELO = botELO + K * (S - E)
-            const newOpponentELO = opponentELO + K * (E - S)
-
-            await App.storage.setItem(
-              `worms_botelo_${bot.id}`,
-              newBotELO.toString()
-            )
-            await App.storage.setItem(
-              `worms_botelo_${opponentBot.id}`,
-              newOpponentELO.toString()
-            )
-
-            await App.db.models.WormsArenaMatch.update(
-              {
-                status: replay.winner == 'red' ? 'red-win' : 'green-win',
-                replay: JSON.stringify(replay),
-              },
-              {
-                where: {
-                  id: match.id,
+            try {
+              await App.db.models.WormsArenaMatch.update(
+                {
+                  status: 'running',
                 },
-              }
-            )
+                {
+                  where: {
+                    id: match.id,
+                  },
+                }
+              )
+
+              const replay = live.aborted
+                ? abortedReplay(live)
+                : await runWormsInWorker(bot.code, opponentBot.code, live)
+
+              await finishMatch(App, match.id, bot.id, opponentBot.id, replay)
+            } finally {
+              if (liveMatch === live) liveMatch = null
+            }
           })
         } catch (e) {
           console.log('match failed', e)
@@ -597,9 +829,17 @@ export function setupWormsArena(App) {
         return
       }
 
-      const randomGif = ['fighting.gif', 'fighting2.gif', 'fighting3.gif'][
-        Math.floor(Math.random() * 3)
-      ]
+      const redBot = await App.db.models.WormsBotDraft.findOne({
+        where: { id: match.redBotId },
+      })
+      const greenBot = await App.db.models.WormsBotDraft.findOne({
+        where: { id: match.greenBotId },
+      })
+
+      const canCancel =
+        match.UserId == user.id &&
+        (match.status == 'pending' || match.status == 'running')
+      const pending = match.status == 'pending'
 
       renderPage(App, req, res, {
         page: 'worms-match-running',
@@ -610,27 +850,375 @@ export function setupWormsArena(App) {
   
           <h3 id="status">...</h3>
 
-          <img src="/worms/${randomGif}" style="margin-top: 24px;">
+          ${
+            canCancel
+              ? `<p id="cancel-area">
+                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">${pending ? 'Match abbrechen' : 'Aufgeben'}</button> <span id="cancel-hint" style="color: gray; margin-left: 8px;">${pending ? '(hat noch nicht begonnen, keine Wertung)' : '(zählt als Niederlage)'}</span></span>
+                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question">${pending ? 'Match abbrechen? Es wird nicht gewertet.' : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'}</span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">${pending ? 'Ja, abbrechen' : 'Ja, aufgeben'}</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
+                </p>`
+              : ''
+          }
+
+          <style>
+            #board-overlay {
+              position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+              background-color: rgba(0, 0, 0, 0.7); color: white; padding: 12px 20px;
+              border-radius: 10px; font-size: 22px; text-align: center; z-index: 1000;
+            }
+            #board-overlay small { display: block; font-size: 15px; color: gray; margin-top: 4px; }
+            #board-overlay .dots span { animation: worms-dot 1.4s infinite; opacity: 0.2; }
+            #board-overlay .dots span:nth-child(2) { animation-delay: 0.2s; }
+            #board-overlay .dots span:nth-child(3) { animation-delay: 0.4s; }
+            @keyframes worms-dot { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+          </style>
+
+          <div id="live">
+            <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}</span></h4>
+            <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 16px;">
+              <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
+            </div>
+            <div id="board"></div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+              <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" disabled title="Pause / Weiter">⏸︎</button>
+              <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" disabled aria-label="Zeitleiste">
+              <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>            </div>
+            <div style="height:70px"></div>
+          </div>
+
+          <script src="/worms/wormer.js"></script>
 
           <script>
-            // Polling until status is red-win or green-win
-            let interval = setInterval(fetchStatus, 3000)
+            const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
+            // empty arena is shown right away, worms appear with the first move
+            const wormer = new Wormer(document.getElementById('board'))
+            let started = false
+            let pollTimer = null
+
+            // the animation pauses while the tab is hidden, catch up when coming back
+            document.addEventListener('visibilitychange', () => {
+              if (document.visibilityState == 'visible' && started && following && !wormer.liveDone) {
+                wormer.skipAhead()
+              }
+            })
+
+            // timeline: scroll back and forth, the right end is live again
+            const timeline = document.getElementById('timeline')
+            let following = true
+            let dragging = false
+            let seekTo = -1
+            // all the way to the right is live
+            function inLiveZone() {
+              return parseInt(timeline.value) >= parseInt(timeline.max)
+            }
+            // the timeline ends where live is: the newest moves minus the small
+            // buffer that keeps them smooth, so live is always the furthest point
+            function liveRound() {
+              const keep = wormer.liveDone ? 0 : Math.ceil(wormer.liveBuffer / 120) * 2
+              return Math.max(0, Math.floor((wormer.dirs.length - keep) / 2))
+            }
+            timeline.addEventListener('input', () => {
+              dragging = true
+              following = false
+              // no moves while the timeline is held
+              wormer.held = true
+              // seek at most once per frame while dragging
+              if (seekTo < 0) {
+                requestAnimationFrame(() => {
+                  wormer.seek(seekTo * 2)
+                  seekTo = -1
+                })
+              }
+              seekTo = inLiveZone() ? liveRound() : parseInt(timeline.value)
+            })
+            function release() {
+              if (!dragging) return
+              dragging = false
+              wormer.held = false
+              if (inLiveZone()) {
+                following = true
+                wormer.paused = false
+                if (!wormer.liveDone) wormer.skipAhead()
+              }
+            }
+            timeline.addEventListener('change', release)
+            // the change event is missing when let go at the starting value
+            document.addEventListener('pointerup', release)
+
+            const pauseButton = document.getElementById('pause-button')
+            pauseButton.addEventListener('click', () => {
+              wormer.paused = !wormer.paused
+              if (wormer.paused) following = false
+            })
+
+            setInterval(() => {
+              timeline.disabled = !started
+              pauseButton.disabled = !started
+              if (!started) return
+              const total = liveRound()
+              const pos = Math.floor(wormer.consumed / 2)
+              // watching live: the slider stays at the right end, the moves
+              // in the buffer would make it jitter
+              const live = following && !wormer.liveDone
+              if (!dragging) {
+                timeline.max = total
+                timeline.value = live ? total : Math.min(total, pos)
+              }
+              document.getElementById('timeline-pos').innerText = dragging
+                ? 'Runde ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)
+                : 'Runde ' + pos + (live ? ' · Live' : '')
+              pauseButton.innerText = wormer.paused ? '▶︎' : '⏸︎'
+            }, 100)
+
+            const overlay = document.createElement('div')
+            overlay.id = 'board-overlay'
+            document.getElementById('board').appendChild(overlay)
+
+            function showOverlay(title, subtitle) {
+              const html =
+                title +
+                '<span class="dots"><span>.</span><span>.</span><span>.</span></span>' +
+                (subtitle ? '<small>' + subtitle + '</small>' : '')
+              // only update on change, otherwise the dot animation restarts
+              if (overlay.dataset.html != html) {
+                overlay.dataset.html = html
+                overlay.innerHTML = html
+              }
+            }
+            showOverlay('Match startet')
+
+            // Polling until status is red-win or green-win, moves are shown live
             function fetchStatus() {
-              fetch('/worms/arena/poll-match?id=${match.id}')
-                .then((res) => res.text())
-                .then((status) => {
-                  if (status == 'red-win' || status == 'green-win') {
-                    clearInterval(interval)
-                    window.location.href = '/worms/arena/replay?id=${match.id}&msg=done'
-                  } else {
-                    document.getElementById('status').innerText = status
+              pollTimer = null
+              const from = started ? wormer.dirs.length : 0
+              fetch('/worms/arena/live-match?id=${match.id}&from=' + from)
+                .then((res) => res.json())
+                .then((data) => {
+                  document.getElementById('status').innerText = data.text
+                  if (data.finished) {
+                    hideCancel()
+                    if (!started || !data.replay.dirs.length) {
+                      window.location.href = replayUrl
+                      return
+                    }
+                    wormer.onFinish = () => {
+                      setTimeout(() => {
+                        window.location.href = replayUrl + '&instant=1'
+                      }, 2000)
+                    }
+                    // cancelled: don't keep playing moves the viewer hasn't seen yet
+                    if (data.replay.aborted) wormer.instant = true
+                    wormer.finishLive(data.replay)
+                    return
                   }
+                  if (data.status == 'error') {
+                    hideCancel()
+                    overlay.innerHTML = 'Match fehlgeschlagen'
+                    document.getElementById('board').appendChild(overlay)
+                    return
+                  }
+                  if (data.status == 'cancelled') {
+                    hideCancel()
+                    overlay.innerHTML = 'Match abgebrochen<small>Es hat nicht begonnen und wird nicht gewertet. <a href="/worms/arena">Zurück zur Arena</a></small>'
+                    document.getElementById('board').appendChild(overlay)
+                    return
+                  }
+                  setCancelState(data.status)
+                  const joining = data.start && !started
+                  if (joining) {
+                    started = true
+                    overlay.remove()
+                    wormer.runLive(data.start)
+                  }
+                  if (started) {
+                    wormer.feedLive(data.dirs)
+                    // joined a match that is already running: start at the current state
+                    if (joining) wormer.skipAhead()
+                  } else if (data.status == 'pending') {
+                    showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
+                  } else {
+                    showOverlay('Match startet', 'Bots werden geladen')
+                  }
+                  const moves = started ? wormer.dirs.length : 0
+                  const initPhase = moves < 4
+                  const interval = started && initPhase ? 300 : 2000
+                  pollTimer = setTimeout(fetchStatus, interval)
+                })
+                .catch(() => {
+                  pollTimer = setTimeout(fetchStatus, 3000)
                 })
             }
+
+            function hideCancel() {
+              const area = document.getElementById('cancel-area')
+              if (area) area.style.display = 'none'
+            }
+
+            // waiting in the queue: cancel without rating, running: give up = loss
+            let cancelState = '${match.status}'
+            function setCancelState(state) {
+              if (!document.getElementById('cancel-area') || state == cancelState) return
+              if (state != 'pending' && state != 'running') return
+              cancelState = state
+              showCancelConfirm(false)
+              document.getElementById('cancel-yes').disabled = false
+              const pending = state == 'pending'
+              document.getElementById('cancel-button').innerText = pending ? 'Match abbrechen' : 'Aufgeben'
+              document.getElementById('cancel-hint').innerText = pending
+                ? '(hat noch nicht begonnen, keine Wertung)'
+                : '(zählt als Niederlage)'
+              document.getElementById('cancel-question').innerText = pending
+                ? 'Match abbrechen? Es wird nicht gewertet.'
+                : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'
+              document.getElementById('cancel-yes').innerText = pending ? 'Ja, abbrechen' : 'Ja, aufgeben'
+            }
+
+            // confirmation inside the page, native dialogs can be blocked
+            function showCancelConfirm(show) {
+              document.getElementById('cancel-ask').style.display = show ? 'none' : 'inline'
+              document.getElementById('cancel-confirm').style.display = show ? 'inline' : 'none'
+            }
+
+            function cancelMatch() {
+              document.getElementById('cancel-yes').disabled = true
+              fetch('/worms/arena/cancel-match', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                // tells the server what the user agreed to: cancelling a
+                // waiting match must never turn into giving up a running one
+                body: JSON.stringify({ id: ${match.id}, expect: cancelState }),
+              }).then((res) => {
+                // 409: the match started or ended meanwhile, the next poll shows it
+                if (res.status == 409) {
+                  document.getElementById('cancel-yes').disabled = false
+                  showCancelConfirm(false)
+                } else if (!res.ok) {
+                  throw new Error()
+                }
+              }).catch(() => {
+                document.getElementById('cancel-yes').disabled = false
+              }).finally(() => {
+                if (pollTimer) {
+                  clearTimeout(pollTimer)
+                  fetchStatus()
+                }
+              })
+            }
+
             fetchStatus()
           </script>
         `,
       })
+    })
+  )
+
+  App.express.get(
+    '/worms/arena/live-match',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.status(401).json({})
+        return
+      }
+
+      const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
+      const from = Math.max(
+        0,
+        parseInt((req.query.from ?? '0').toString()) || 0
+      )
+
+      const match = await App.db.models.WormsArenaMatch.findOne({
+        where: {
+          id: matchId,
+        },
+      })
+
+      if (!match) {
+        res.status(404).json({})
+        return
+      }
+
+      if (match.status == 'red-win' || match.status == 'green-win') {
+        /** @type {import('../../data/types.js').WormsReplay} */
+        const replay = JSON.parse(match.replay)
+        res.json({
+          status: match.status,
+          // the live view may still be replaying moves at this point
+          text: replay.aborted ? 'Match aufgegeben' : 'Match fertig berechnet',
+          finished: true,
+          replay: {
+            dirs: replay.dirs,
+            withCrash: !!replay.withCrash,
+            aborted: !!replay.aborted,
+          },
+        })
+        return
+      }
+
+      const live = liveMatch && liveMatch.matchId == match.id ? liveMatch : null
+
+      res.json({
+        status: match.status,
+        text: await getMatchStatusText(App, match),
+        queuePosition:
+          match.status == 'pending' ? await getQueuePosition(App, match) : 0,
+        finished: false,
+        start: live?.start ?? null,
+        dirs: live ? live.dirs.slice(from) : [],
+      })
+    })
+  )
+
+  App.express.post(
+    '/worms/arena/cancel-match',
+    safeRoute(async (req, res) => {
+      const user = req.user
+      if (!user) {
+        res.sendStatus(401)
+        return
+      }
+
+      const matchId = req.body?.id ? parseInt(req.body.id.toString()) : NaN
+
+      const match = await App.db.models.WormsArenaMatch.findOne({
+        where: {
+          id: matchId,
+          UserId: user.id,
+        },
+      })
+
+      if (!match) {
+        res.sendStatus(404)
+        return
+      }
+
+      // what the user confirmed: 'pending' = cancel without rating,
+      // 'running' = give up
+      const expect = (req.body?.expect ?? '').toString()
+
+      // running: giving up counts as a loss
+      if (liveMatch && liveMatch.matchId == match.id) {
+        if (expect == 'pending') {
+          // started in the meantime, the user did not agree to a loss
+          res.sendStatus(409)
+          return
+        }
+        res.sendStatus(liveMatch.abort() ? 200 : 409)
+        return
+      }
+
+      // still waiting in the queue: the match never started, so it is just
+      // dropped without any rating
+      if (pendingMatches.delete(match.id)) {
+        await App.db.models.WormsArenaMatch.update(
+          { status: 'cancelled' },
+          { where: { id: match.id } }
+        )
+        res.sendStatus(200)
+        return
+      }
+
+      // match is already finished
+      res.sendStatus(409)
     })
   )
 
@@ -657,40 +1245,7 @@ export function setupWormsArena(App) {
         return
       }
 
-      if (match.status == 'running') {
-        const steps = currentProgress ? Atomics.load(currentProgress, 0) : 0
-        res.send(
-          steps == 0
-            ? t('worms.arena.matchRunningLong')
-            : `${t('worms.arena.matchRunning')} (${t('worms.arena.step')} ${steps})`
-        )
-        return
-      }
-
-      if (match.status == 'pending') {
-        // find matches that are older and still pending
-        const olderMatches = await App.db.models.WormsArenaMatch.findAll({
-          where: {
-            status: 'pending',
-            createdAt: {
-              [Op.lt]: match.createdAt,
-            },
-          },
-        })
-        res.send(
-          `${t('worms.arena.matchQueued')} ${olderMatches.length + 1} ...`
-        )
-        return
-      }
-
-      if (match.status == 'error') {
-        res.send(
-          t('worms.arena.matchError')
-        )
-        return
-      }
-
-      res.send(match.status)
+      res.send(await getMatchStatusText(App, match))
     })
   )
 
@@ -721,8 +1276,6 @@ export function setupWormsArena(App) {
 
       const backToBot = req.query.backToBot
 
-      const showMsg = req.query.msg == 'done'
-
       const match = await App.db.models.WormsArenaMatch.findOne({
         where: {
           id: matchId,
@@ -733,6 +1286,16 @@ export function setupWormsArena(App) {
         res.redirect('/worms/arena')
         return
       }
+
+      // no replay yet (waiting or running) or never (cancelled, error)
+      if (match.status != 'red-win' && match.status != 'green-win') {
+        res.redirect('/worms/arena/match?id=' + match.id)
+        return
+      }
+
+      // "your bot won/lost" only makes sense for the one who started the match
+      const showMsg =
+        req.query.msg == 'done' && !!req.user && match.UserId == req.user.id
 
       /** @type {import('../../data/types.js').WormsReplay} */
       const replay = JSON.parse(match.replay)
@@ -761,6 +1324,12 @@ export function setupWormsArena(App) {
 
       const eloDiff = redBotELO - replay.redElo
 
+      // coming from the live view: show final board without animation
+      const instant = req.query.instant == '1'
+
+      // cancelled before the first move
+      const hasBoard = replay.xRed >= 0
+
       renderPage(App, req, res, {
         page: 'worms-match-replay',
         heading: 'Worms',
@@ -781,31 +1350,49 @@ export function setupWormsArena(App) {
         ${
           showMsg
             ? `<p style="font-size: 20px; text-align: center">${t('worms.arena.yourBot')} ${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`} ${t('worms.arena.wentAgainst')} ${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`} <strong>${
-                match.status == 'red-win' ? t('worms.arena.won') : t('worms.arena.lost')
-              }</strong>.<br >${t('worms.arena.newElo')} ${redBotELO} (${
+                replay.aborted
+                  ? t('worms.arena.matchCancelled') 
+                  : match.status == 'red-win' ? t('worms.arena.won' ) : t('worms.arena.lost')
+              }</strong>${replay.aborted ? ` ${t('worms.arena.abortedSuffix', 'und damit verloren')}` : ''}.<br >${t('worms.arena.newElo')} ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''
               }${Math.round(eloDiff)}).</p>`
-            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}</p>`
+            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}${replay.aborted ? ` (${t('worms.arena.abortedShort', 'aufgegeben')})` : ''}</p>`
         }
-        
+
         <p style="text-align: center; margin-top: 24px;"><a href="${
           backToBot
             ? '/worms/arena/bot-history?id=' + backToBot
             : '/worms/arena'
-        }" class="btn btn-primary">${showMsg ? 'OK' : t('worms.arena.close')}</a><button class="btn btn-secondary" style="margin-left: 32px;" onClick="window.location.reload()">${t('worms.arena.replayAgain')}</button></p>
-        
+        }" class="btn btn-primary">${showMsg ? 'OK' : t('worms.arena.close')}</a>${
+          hasBoard
+            ? `<button class="btn btn-secondary" style="margin-left: 32px;" onClick="${
+                instant
+                  ? `window.location.href = window.location.href.replace('&instant=1', '')`
+                  : 'window.location.reload()'
+              }">${t('worms.arena.replayAgain')}</button>`
+            : ''
+        }</p>
+
+        ${
+          hasBoard
+            ? `
         <script src="/worms/wormer.js"></script>
 
         <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
           <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>
         </div>
-        
+
         <div id="board"></div>
-        
+        <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+          <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="Pause / Weiter">⏸︎</button>
+          <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="Zeitleiste">
+          <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>
+        </div>
+
         <div style="height:70px"></div>
 
         <script>
-          const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${JSON.stringify(
+const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${JSON.stringify(
             {
               redWins: t('worms.wormer.redWins'),
               greenWins: t('worms.wormer.greenWins'),
@@ -813,8 +1400,57 @@ export function setupWormsArena(App) {
               restart: t('worms.wormer.restart'),
             }
           )})
+          wormer.instant = ${instant}
           wormer.runReplay(${JSON.stringify(replay)})
+
+          // timeline: scroll back and forth, the replay continues from there
+          const timeline = document.getElementById('timeline')
+          const total = Math.floor(wormer.dirs.length / 2)
+          timeline.max = total
+          let dragging = false
+          let seekTo = -1
+          timeline.addEventListener('input', () => {
+            dragging = true
+            // no moves while the timeline is held
+            wormer.held = true
+            // from the end of the live view: play normally after scrolling back
+            wormer.instant = false
+            // seek at most once per frame while dragging
+            if (seekTo < 0) {
+              requestAnimationFrame(() => {
+                wormer.seek(seekTo * 2)
+                seekTo = -1
+              })
+            }
+            seekTo = parseInt(timeline.value)
+          })
+          function release() {
+            dragging = false
+            wormer.held = false
+          }
+          timeline.addEventListener('change', release)
+          // the change event is missing when let go at the starting value
+          document.addEventListener('pointerup', release)
+          const pauseButton = document.getElementById('pause-button')
+          pauseButton.addEventListener('click', () => {
+            wormer.paused = !wormer.paused
+            // paused on the last move: start again from the beginning
+            if (!wormer.paused && wormer.winner) {
+              wormer.instant = false
+              wormer.seek(0)
+            }
+          })
+          setInterval(() => {
+            const pos = Math.min(total, Math.floor(wormer.consumed / 2))
+            if (!dragging) timeline.value = pos
+            document.getElementById('timeline-pos').innerText =
+              'Runde ' + (dragging ? timeline.value : pos) + ' / ' + total
+            pauseButton.innerText = wormer.paused || wormer.winner ? '▶︎' : '⏸︎'
+          }, 100)
         </script>
+        `
+            : `<p style="text-align: center; color: gray; margin-top: 24px;">Das Match wurde aufgegeben, bevor der erste Zug gemacht war.</p>`
+        }
         `,
       })
     })

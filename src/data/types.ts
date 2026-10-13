@@ -255,7 +255,13 @@ export class WormsArenaMatchModel extends Model<
   InferCreationAttributes<WormsArenaMatchModel>
 > {
   declare id: CreationOptional<number>
-  declare status: 'pending' | 'running' | 'red-win' | 'green-win' | 'error'
+  declare status:
+    | 'pending'
+    | 'running'
+    | 'red-win'
+    | 'green-win'
+    | 'error'
+    | 'cancelled'
   declare redBotId: number
   declare greenBotId: number
   declare UserId: number
@@ -394,7 +400,13 @@ export interface WormsReplay {
 
   winner: 'red' | 'green' | ''
   withCrash?: boolean
+  aborted?: boolean
 }
+
+export type WormsStart = Pick<
+  WormsReplay,
+  'xRed' | 'yRed' | 'dirRed' | 'xGreen' | 'yGreen' | 'dirGreen'
+>
 
 export type HintsData = {
   [key: number]: { entries: { question: string; answer: string }[] }

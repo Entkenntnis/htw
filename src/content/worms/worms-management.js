@@ -775,7 +775,7 @@ export function setupWormsManagement(App) {
 
               const yieldToUI = () => new Promise((resolve) => {
                 if (typeof window.requestIdleCallback === 'function') {
-                  requestIdleCallback(() => resolve())
+                  requestIdleCallback(() => resolve(), { timeout: 50 })
                 } else if (typeof window.requestAnimationFrame === 'function') {
                   requestAnimationFrame(() => resolve())
                 } else {

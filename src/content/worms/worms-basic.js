@@ -174,7 +174,9 @@ export function setupWormsBasic(App) {
 
         <p>${t('worms.guide.step3')}</p>
 
-        <p>${t('worms.guide.hurray')}</p>
+<p> ${t('worms.guide.fairness')}</p>        
+
+<p>${t('worms.guide.hurray')}</p>
 
         <hr />
 

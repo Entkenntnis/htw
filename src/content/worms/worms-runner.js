@@ -44,7 +44,7 @@ export async function runWorms(
   let dirGreen = (Math.floor(Math.random() * 3) + 2) % 4
 
   board[xRed][yRed] = 1
-  board[xGreen][yGreen] = 1
+  board[xGreen][yGreen] = 2
 
   /** @type {import('../../data/types.js').WormsReplay} */
   const replay = {

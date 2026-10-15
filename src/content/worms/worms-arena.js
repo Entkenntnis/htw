@@ -437,11 +437,12 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
         ${
           ownMatch && ownMatchNames
             ? `
-          <div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px;">
-            ${t('worms.arena.yourMatch')} <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
-            ${ownMatch.status == 'running' ? t('worms.arena.matchIsRunning') : t('worms.arena.matchIsQueued')}.
-            ${t('worms.arena.noNewMatch')}
-            <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">${t('worms.arena.toMatch')}</a>
+<div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px; margin-bottom: 12px;">
+  ${t('worms.arena.yourMatch')} <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
+  ${ownMatch.status == 'running' ? t('worms.arena.matchIsRunning') : t('worms.arena.matchIsQueued')}.
+  ${t('worms.arena.noNewMatch')}
+  <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">${t('worms.arena.toMatch')}</a>
+</div>
           </div>
         `
             : ''

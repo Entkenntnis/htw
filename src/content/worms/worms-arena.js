@@ -271,13 +271,13 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
               await App.db.models.WormsBotDraft.findOne({
                 where: { id: ownMatch.redBotId },
               })
-            )?.name ?? '[gelöschter Bot]',
+            )?.name ?? `[${t('worms.arena.deletedBot')}]`,
           green:
             (
               await App.db.models.WormsBotDraft.findOne({
                 where: { id: ownMatch.greenBotId },
               })
-            )?.name ?? '[gelöschter Bot]',
+            )?.name ?? `[${t('worms.arena.deletedBot')}]`,
         }
       : null
 
@@ -437,10 +437,10 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
           ownMatch && ownMatchNames
             ? `
           <div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px;">
-            Dein Match <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
-            ${ownMatch.status == 'running' ? 'läuft gerade' : 'wartet in der Warteschlange'}.
-            Solange kannst du kein weiteres Match starten.
-            <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">Zum Match</a>
+            ${t('worms.arena.yourMatch')} <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
+            ${ownMatch.status == 'running' ? t('worms.arena.matchIsRunning') : t('worms.arena.matchIsQueued')}.
+            ${t('worms.arena.noNewMatch')}
+            <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">${t('worms.arena.toMatch')}</a>
           </div>
         `
             : ''
@@ -451,9 +451,9 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
             ? `
           <p style="text-align: center; margin-top: 24px;">
             <a href="/worms/arena/match?id=${liveArenaMatch.id}" class="btn btn-outline-warning">
-              🔴 Laufendes Match live ansehen:
-              ${escapeHTML(liveNames.red ?? '[gelöschter Bot]')} vs
-              ${escapeHTML(liveNames.green ?? '[gelöschter Bot]')}
+              🔴 ${t('worms.arena.watchLive')}
+              ${escapeHTML(liveNames.red ?? `[${t('worms.arena.deletedBot')}]`)} vs
+              ${escapeHTML(liveNames.green ?? `[${t('worms.arena.deletedBot')}]`)}
             </a>
           </p>
         `
@@ -853,8 +853,8 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
           ${
             canCancel
               ? `<p id="cancel-area">
-                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">${pending ? 'Match abbrechen' : 'Aufgeben'}</button> <span id="cancel-hint" style="color: gray; margin-left: 8px;">${pending ? '(hat noch nicht begonnen, keine Wertung)' : '(zählt als Niederlage)'}</span></span>
-                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question">${pending ? 'Match abbrechen? Es wird nicht gewertet.' : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'}</span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">${pending ? 'Ja, abbrechen' : 'Ja, aufgeben'}</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
+                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">${pending ? t('worms.arena.cancelMatch') : t('worms.arena.forfeit')}</button> <span id="cancel-hint" style="color: gray; margin-left: 8px;">${pending ? t('worms.arena.cancelHintPending') : t('worms.arena.forfeitHint')}</span></span>
+                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question">${pending ? t('worms.arena.cancelConfirm') : t('worms.arena.forfeitConfirm')}</span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">${pending ? t('worms.arena.cancelYes') : t('worms.arena.forfeitYes')}</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">${t('worms.arena.no')}</button></span>
                 </p>`
               : ''
           }
@@ -873,14 +873,14 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
           </style>
 
           <div id="live">
-            <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}</span></h4>
+            <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}</span></h4>
             <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 16px;">
-              <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
+              <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>
             </div>
             <div id="board"></div>
             <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
-              <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" disabled title="Pause / Weiter">⏸︎</button>
-              <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" disabled aria-label="Zeitleiste">
+              <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" disabled title="${t('worms.arena.pauseResume')}">⏸︎</button>
+              <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" disabled aria-label="${t('worms.arena.timeline')}">
               <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>            </div>
             <div style="height:70px"></div>
           </div>
@@ -964,8 +964,8 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
                 timeline.value = live ? total : Math.min(total, pos)
               }
               document.getElementById('timeline-pos').innerText = dragging
-                ? 'Runde ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)
-                : 'Runde ' + pos + (live ? ' · Live' : '')
+                ? t('worms.arena.round') + ' ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)
+                : t('worms.arena.round') + ' ' + pos + (live ? ' · Live' : '')
               pauseButton.innerText = wormer.paused ? '▶︎' : '⏸︎'
             }, 100)
 
@@ -984,7 +984,7 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
                 overlay.innerHTML = html
               }
             }
-            showOverlay('Match startet')
+            showOverlay(t('worms.arena.matchStarting'))
 
             // Polling until status is red-win or green-win, moves are shown live
             function fetchStatus() {
@@ -1012,13 +1012,13 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
                   }
                   if (data.status == 'error') {
                     hideCancel()
-                    overlay.innerHTML = 'Match fehlgeschlagen'
+                    overlay.innerHTML = t('worms.arena.matchForfeited')
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
                   if (data.status == 'cancelled') {
                     hideCancel()
-                    overlay.innerHTML = 'Match abgebrochen<small>Es hat nicht begonnen und wird nicht gewertet. <a href="/worms/arena">Zurück zur Arena</a></small>'
+                    overlay.innerHTML = t('worms.arena.matchAbortedEarly')
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
@@ -1034,9 +1034,9 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
                     // joined a match that is already running: start at the current state
                     if (joining) wormer.skipAhead()
                   } else if (data.status == 'pending') {
-                    showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
+                    showOverlay(t('worms.arena.inQueue'), t('worms.arena.matchQueued') + ' ' + data.queuePosition)
                   } else {
-                    showOverlay('Match startet', 'Bots werden geladen')
+                    showOverlay(t('worms.arena.matchStarting'), t('worms.arena.botsLoading'))
                   }
                   const moves = started ? wormer.dirs.length : 0
                   const initPhase = moves < 4
@@ -1062,14 +1062,14 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
               showCancelConfirm(false)
               document.getElementById('cancel-yes').disabled = false
               const pending = state == 'pending'
-              document.getElementById('cancel-button').innerText = pending ? 'Match abbrechen' : 'Aufgeben'
+              document.getElementById('cancel-button').innerText = pending ? t('worms.arena.cancelMatch') : t('worms.arena.forfeit')
               document.getElementById('cancel-hint').innerText = pending
-                ? '(hat noch nicht begonnen, keine Wertung)'
-                : '(zählt als Niederlage)'
+                ? t('worms.arena.cancelHintPending')
+                : t('worms.arena.forfeitHint')
               document.getElementById('cancel-question').innerText = pending
-                ? 'Match abbrechen? Es wird nicht gewertet.'
-                : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'
-              document.getElementById('cancel-yes').innerText = pending ? 'Ja, abbrechen' : 'Ja, aufgeben'
+                ? t('worms.arena.cancelConfirm')
+                : t('worms.arena.forfeitConfirm')
+              document.getElementById('cancel-yes').innerText = pending ? t('worms.arena.cancelYes') : t('worms.arena.forfeitYes')
             }
 
             // confirmation inside the page, native dialogs can be blocked
@@ -1143,7 +1143,7 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
         res.json({
           status: match.status,
           // the live view may still be replaying moves at this point
-          text: replay.aborted ? 'Match aufgegeben' : 'Match fertig berechnet',
+          text: replay.aborted ? t('worms.arena.matchForfeited') : t('worms.arena.matchDone'),
           finished: true,
           replay: {
             dirs: replay.dirs,
@@ -1353,10 +1353,10 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
                 replay.aborted
                   ? t('worms.arena.matchCancelled') 
                   : match.status == 'red-win' ? t('worms.arena.won' ) : t('worms.arena.lost')
-              }</strong>${replay.aborted ? ` ${t('worms.arena.abortedSuffix', 'und damit verloren')}` : ''}.<br >${t('worms.arena.newElo')} ${redBotELO} (${
+              }</strong>${replay.aborted ? ` ${t('worms.arena.abortedSuffix')}` : ''}.<br >${t('worms.arena.newElo')} ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''
               }${Math.round(eloDiff)}).</p>`
-            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}${replay.aborted ? ` (${t('worms.arena.abortedShort', 'aufgegeben')})` : ''}</p>`
+            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}${replay.aborted ? ` (${t('worms.arena.abortedShort')})` : ''}</p>`
         }
 
         <p style="text-align: center; margin-top: 24px;"><a href="${
@@ -1384,8 +1384,8 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
 
         <div id="board"></div>
         <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
-          <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="Pause / Weiter">⏸︎</button>
-          <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="Zeitleiste">
+          <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="${t('worms.arena.pauseResume')}">⏸︎</button>
+          <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="${t('worms.arena.timeline')}">
           <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>
         </div>
 
@@ -1449,7 +1449,7 @@ const wormer = new Wormer(document.getElementById('board'), undefined, undefined
           }, 100)
         </script>
         `
-            : `<p style="text-align: center; color: gray; margin-top: 24px;">Das Match wurde aufgegeben, bevor der erste Zug gemacht war.</p>`
+            : `<p style="text-align: center; color: gray; margin-top: 24px;">${t('worms.arena.matchAbortedEarly')}</p>`
         }
         `,
       })

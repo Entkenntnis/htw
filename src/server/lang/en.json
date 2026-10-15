@@ -228,7 +228,7 @@
   },
   "worms": {
     "navigation": {
-      "back": "Back",
+      "back": "back",
       "twoPlayer": "2-player",
       "singlePlayer": "Single-player",
       "arena": "Bot arena",

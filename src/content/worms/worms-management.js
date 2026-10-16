@@ -125,7 +125,9 @@ export function setupWormsManagement(App) {
                     ? 'selected="selected"'
                     : ''
                 }>${escapeHTML(bot.name)}</option>`
-            )}</select></label>
+            )}<option value="me" ${
+              req.session.lastTestRun?.[0] === 'me' ? 'selected="selected"' : ''
+            }>${t('worms.testRun.humanOption')}</option></select></label>
             <label style="margin-left: 24px;">${t('worms.arena.green')}: <select name="gId" style="padding: 8px; margin-left: 8px;">${bots.map(
               (bot) =>
                 `<option value="${bot.id}" ${
@@ -133,7 +135,9 @@ export function setupWormsManagement(App) {
                     ? 'selected="selected"'
                     : ''
                 }>${escapeHTML(bot.name)}</option>`
-            )}</select></label>
+            )}<option value="me" ${
+              req.session.lastTestRun?.[1] === 'me' ? 'selected="selected"' : ''
+            }>${t('worms.testRun.humanOption')}</option></select></label>
             <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="${t('worms.management.startTestRun')}">
           </div>
           <div style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
@@ -531,33 +535,48 @@ export function setupWormsManagement(App) {
         return
       }
 
+      // 'me' instead of a bot id: the user plays this side with the keyboard
+      const rHuman = req.query.rId == 'me'
+      const gHuman = req.query.gId == 'me'
       const rId = req.query.rId ? parseInt(req.query.rId.toString()) : NaN
       const gId = req.query.gId ? parseInt(req.query.gId.toString()) : NaN
 
-      if (isNaN(rId) || isNaN(gId)) {
+      if ((isNaN(rId) && !rHuman) || (isNaN(gId) && !gHuman)) {
         res.send(t('worms.management.missingIds'))
         return
       }
 
-      const rBot = await App.db.models.WormsBotDraft.findOne({
-        where: { id: rId, UserId: req.user.id },
-      })
-      const gBot = await App.db.models.WormsBotDraft.findOne({
-        where: { id: gId, UserId: req.user.id },
-      })
+      // two humans: that's the 2-player mode
+      if (rHuman && gHuman) {
+        res.redirect('/worms/two-player')
+        return
+      }
 
-      if (!rBot || !gBot) {
+      const rBot = rHuman
+        ? null
+        : await App.db.models.WormsBotDraft.findOne({
+            where: { id: rId, UserId: req.user.id },
+          })
+      const gBot = gHuman
+        ? null
+        : await App.db.models.WormsBotDraft.findOne({
+            where: { id: gId, UserId: req.user.id },
+          })
+
+      if ((!rBot && !rHuman) || (!gBot && !gHuman)) {
         res.send(t('worms.management.botNotFound'))
         return
       }
 
-      req.session.lastTestRun = [rId, gId]
+      req.session.lastTestRun = [rHuman ? 'me' : rId, gHuman ? 'me' : gId]
 
       const repeat = req.query.repeat
         ? parseInt(req.query.repeat.toString())
         : NaN
 
-      if (!isNaN(repeat)) {
+      const human = rHuman ? 'red' : gHuman ? 'green' : null
+
+      if (!isNaN(repeat) && !human && rBot && gBot) {
         renderPage(App, req, res, {
           page: 'worms-test-run-headless',
           backButton: false,
@@ -845,13 +864,19 @@ export function setupWormsManagement(App) {
         backButton: false,
         title: t('worms.testRun.title'),
         content: `
-        <h2><span style="color: rgb(239, 68, 68)">${escapeHTML(
-          rBot.name
-        )}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${escapeHTML(
-          gBot.name
-        )}</span></h2>
+        <h2><span style="color: rgb(239, 68, 68)">${
+          rBot ? escapeHTML(rBot.name) : t('worms.testRun.you')
+        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${
+          gBot ? escapeHTML(gBot.name) : t('worms.testRun.you')
+        }</span></h2>
 
         <p><a href="/worms/your-bots">${t('worms.testRun.back')}</a></p>
+
+        ${
+          human
+            ? `<p>${t(human == 'red' ? 'worms.testRun.humanHintRed' : 'worms.testRun.humanHintGreen')} ${t('worms.testRun.humanTime')}</p>`
+            : ''
+        }
 
         <script src="/worms/wormer.js"></script>
 
@@ -861,10 +886,25 @@ export function setupWormsManagement(App) {
         ></script>
 
         <div style="display: flex; justify-content: end; margin-bottom: 16px; margin-top: 24px;">
-          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>&nbsp;&nbsp;|&nbsp;&nbsp;
-          <span style="color: gray;">${t('worms.testRun.cpuRed')}: <span id="red-cpu">0</span>% | ${t('worms.testRun.cpuGreen')}: <span id="green-cpu">0</span>%</span>
+          ${human ? '' : `<span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>&nbsp;&nbsp;|&nbsp;&nbsp;`}
+          <span style="color: gray;">${
+            human == 'red'
+              ? `${t('worms.testRun.humanTimeLabel')}: <span id="think-time">120</span> ms`
+              : `${t('worms.testRun.cpuRed')}: <span id="red-cpu">0</span>%`
+          } | ${
+            human == 'green'
+              ? `${t('worms.testRun.humanTimeLabel')}: <span id="think-time">120</span> ms`
+              : `${t('worms.testRun.cpuGreen')}: <span id="green-cpu">0</span>%`
+          }</span>
         </div>
-        <div id="board"></div>
+        <div id="game" style="position: relative;">
+          <div id="board"></div>
+          ${
+            human
+              ? `<div id="start-hint" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 12px 20px; border-radius: 10px; font-size: 22px; text-align: center; z-index: 1000;">${t('worms.testRun.pressToStart')}</div>`
+              : ''
+          }
+        </div>
         <div style="margin-top: 48px;">
           <textarea style="width: 100%; height: 200px; background-color: black; color: white; font-family: monospace;" readonly id="console-output"></textarea>
         </div>
@@ -887,7 +927,9 @@ export function setupWormsManagement(App) {
             runtimeRed.setMaxStackSize(1024 * 320)
             let cyclesRed = { val: 0 }
             runtimeRed.setInterruptHandler(() => {
-              document.getElementById('red-cpu').innerText = Math.min(100, Math.max(1, cyclesRed.val))
+              // no display when the user plays this side
+              const cpuRed = document.getElementById('red-cpu')
+              if (cpuRed) cpuRed.innerText = Math.min(100, Math.max(1, cyclesRed.val))
               const over = cyclesRed.val++ > 100
               if (over) {
                 logToConsole(${JSON.stringify(t('worms.testRun.redTag') + ' ')} + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
@@ -909,7 +951,7 @@ export function setupWormsManagement(App) {
             // -------------------------
 
             try {
-              ctxRed.evalCode(\`${rBot.code.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`)
+              ctxRed.evalCode(\`${(rBot ? rBot.code : '').replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`)
             } catch {}
 
             const runtimeGreen = QuickJS.newRuntime()
@@ -918,7 +960,9 @@ export function setupWormsManagement(App) {
 
             let cyclesGreen = { val: 0 }
             runtimeGreen.setInterruptHandler(() => {
-              document.getElementById('green-cpu').innerText = Math.min(100, Math.max(1, cyclesGreen.val))
+              // no display when the user plays this side
+              const cpuGreen = document.getElementById('green-cpu')
+              if (cpuGreen) cpuGreen.innerText = Math.min(100, Math.max(1, cyclesGreen.val))
               const over = cyclesGreen.val++ > 100
               if (over) {
                 logToConsole(${JSON.stringify(t('worms.testRun.greenTag') + ' ')} + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
@@ -927,7 +971,7 @@ export function setupWormsManagement(App) {
             })
             const ctxGreen = runtimeGreen.newContext()
             try {
-              ctxGreen.evalCode(\`${gBot.code.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`)
+              ctxGreen.evalCode(\`${(gBot ? gBot.code : '').replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`)
             } catch {}
 
             // ---------------------------------------
@@ -993,13 +1037,55 @@ export function setupWormsManagement(App) {
                 return newDirGreen
               }
             })()
+            ${
+              human
+                ? `
+            // the user plays one side: WASD for red, arrow keys for green
+            const keys = ${JSON.stringify(
+              human == 'red'
+                ? ['w', 'd', 's', 'a']
+                : ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft']
+            )}
+            const humanPlayer = createKeyboardPlayer(...keys, {}, {
+              touchPosition: ${JSON.stringify(human == 'red' ? 'left' : 'right')},
+            })
+            `
+                : ''
+            }
             const wormer = new Wormer(
               document.getElementById('board'),
-              red,
-              green,
+              ${human == 'red' ? 'humanPlayer' : 'red'},
+              ${human == 'green' ? 'humanPlayer' : 'green'},
               ${wormerMessages(t)}
             )
             window.wormer = wormer
+            ${
+              human
+                ? `
+            wormer.fairTime = true
+            // starts with the first direction, so nobody is caught off guard
+            wormer.paused = true
+            function start(event) {
+              if (event.type == 'keydown' && !keys.includes(event.key)) return
+              wormer.paused = false
+              document.getElementById('start-hint')?.remove()
+              window.removeEventListener('keydown', start)
+              document.removeEventListener('pointerdown', startByPad)
+            }
+            function startByPad(event) {
+              if (event.target.closest('.worm-touch-btn')) start(event)
+            }
+            window.addEventListener('keydown', start)
+            document.addEventListener('pointerdown', startByPad)
+            setInterval(() => {
+              document.getElementById('think-time').innerText = Math.round(
+                Math.max(120, wormer.thinkTime)
+              )
+            }, 250)
+            window.restart = () => window.location.reload()
+            `
+                : ''
+            }
             wormer.run()
           })
 

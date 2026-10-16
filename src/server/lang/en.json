@@ -374,7 +374,14 @@
       "cpuTimeExceeded": "CPU time exceeded",
       "returnNotNumber": "Return value is not a number",
       "invalidDirection": "Return \"{{direction}}\" is not a valid direction (0-3)",
-      "turbo": "Turbo"
+      "turbo": "Turbo",
+      "humanOption": "Me (keyboard)",
+      "you": "You",
+      "humanHintRed": "You play red and steer with WASD.",
+      "humanHintGreen": "You play green and steer with the arrow keys.",
+      "humanTime": "For each move you get as much time as the bot spent on its last move, at least 0.12 seconds.",
+      "humanTimeLabel": "Your time per move",
+      "pressToStart": "Press a direction to start"
     },
     "wormer": {
       "redWins": "Red wins",

@@ -327,7 +327,7 @@ interface SessionData {
   chal338_ts?: number
   chal338_result?: string
   maze?: { x: number; y: number }
-  lastTestRun?: [number, number]
+  lastTestRun?: [number | 'me', number | 'me']
   lastWormsTab?:
     | 'two-player'
     | 'single-player'

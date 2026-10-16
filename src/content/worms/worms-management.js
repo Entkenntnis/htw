@@ -1,6 +1,10 @@
 import { renderPage } from '../../helper/render-page.js'
 import escapeHTML from 'escape-html'
-import { getWormsTranslator, renderNavigation } from './worms-basic.js'
+import {
+  getWormsTranslator,
+  renderNavigation,
+  wormerMessages,
+} from './worms-basic.js'
 import { Sequelize } from 'sequelize'
 import { safeRoute } from '../../helper/helper.js'
 
@@ -30,6 +34,29 @@ function think(dx, dy, board, x, y, dir, oppX, oppY) {
   return dir
 }
 `
+}
+
+/**
+ * True if the code is still exactly the template, in any language (or with the
+ * raw template keys, from when they were missing). Then the editor may show the
+ * template in the user's language. Anything the user wrote must stay untouched.
+ * @param {import("../../data/types.js").App} App
+ * @param {string} code
+ * @returns {boolean}
+ */
+function isUntouchedTemplate(App, code) {
+  /** @param {string} text */
+  const normalize = (text) =>
+    text
+      .replace(/\r\n/g, '\n')
+      .replace(/[ \t]+$/gm, '')
+      .trim()
+  const templates = App.config.languages.map((lng) => {
+    const i18n = App.i18n.get(lng)
+    return getDefaultBotCode(i18n.t.bind(i18n))
+  })
+  templates.push(getDefaultBotCode((key) => key))
+  return templates.map(normalize).includes(normalize(code))
 }
 
 /**
@@ -318,16 +345,9 @@ export function setupWormsManagement(App) {
         return
       }
 
-      const isStarterCode =
-        bot.code.includes(
-          'function think(dx, dy, board, x, y, dir, oppX, oppY)'
-        ) &&
-        (bot.code.includes('Bestimme bei jedem Schritt deines Bots') ||
-          bot.code.includes('Determine the direction of your bot at each step') ||
-          bot.code.includes('worms.management.template.direction') ||
-          bot.code.includes('Schreibe hier deinen Code') ||
-          bot.code.includes('Write your code here'))
-      const initialCode = isStarterCode ? getDefaultBotCode(t) : bot.code
+      const initialCode = isUntouchedTemplate(App, bot.code)
+        ? getDefaultBotCode(t)
+        : bot.code
 
       renderPage(App, req, res, {
         page: 'worms-drafts-edit',
@@ -345,7 +365,7 @@ export function setupWormsManagement(App) {
             <button class="btn btn-primary" onClick="saveButtonClicked()">${t('worms.management.save')}</button>
             <span style="display: inline-block; width: 30px;"></span>
             <a href="/worms/your-bots" class="btn btn-danger">${t('worms.management.close')}</a>
-            <span style="margin-left: 32px; color: gray;">${t('worms.management.formatAndSave')} <kbd>Ctrl</kbd>+<kbd>S</kbd></span>
+            <span style="margin-left: 32px; color: gray;">${t('worms.management.formatAndSave')} <kbd>${t('worms.management.ctrlKey')}</kbd>+<kbd>S</kbd></span>
           </p>
 
           <div id="container" style="flex-grow: 1;"></div>
@@ -870,7 +890,7 @@ export function setupWormsManagement(App) {
               document.getElementById('red-cpu').innerText = Math.min(100, Math.max(1, cyclesRed.val))
               const over = cyclesRed.val++ > 100
               if (over) {
-                logToConsole('[red] ' + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
+                logToConsole(${JSON.stringify(t('worms.testRun.redTag') + ' ')} + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
               }
               return over
             })
@@ -879,7 +899,7 @@ export function setupWormsManagement(App) {
             // ---------------------------------------
             const logHandle = ctxRed.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxRed.dump)
-              logToConsole("[red] " + nativeArgs.join(" "))
+              logToConsole(${JSON.stringify(t('worms.testRun.redTag') + ' ')} + nativeArgs.join(" "))
             })
             const consoleHandle = ctxRed.newObject()
             ctxRed.setProp(consoleHandle, "log", logHandle)
@@ -901,7 +921,7 @@ export function setupWormsManagement(App) {
               document.getElementById('green-cpu').innerText = Math.min(100, Math.max(1, cyclesGreen.val))
               const over = cyclesGreen.val++ > 100
               if (over) {
-                logToConsole('[green] ' + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
+                logToConsole(${JSON.stringify(t('worms.testRun.greenTag') + ' ')} + ${JSON.stringify(t('worms.testRun.cpuTimeExceeded'))})
               }
               return over
             })
@@ -913,7 +933,7 @@ export function setupWormsManagement(App) {
             // ---------------------------------------
             const logHandle2 = ctxGreen.newFunction("log", (...args) => {
               const nativeArgs = args.map(ctxGreen.dump)
-              logToConsole("[green] " + nativeArgs.join(" "))
+              logToConsole(${JSON.stringify(t('worms.testRun.greenTag') + ' ')} + nativeArgs.join(" "))
             })
             const consoleHandle2 = ctxGreen.newObject()
             ctxGreen.setProp(consoleHandle2, "log", logHandle2)
@@ -937,7 +957,7 @@ export function setupWormsManagement(App) {
                   resultRed.dispose()
                   //logToConsole('red cycles (10k): ' + cyclesRed.val)
                 } catch(e) {
-                  logToConsole('[red] ' + e)
+                  logToConsole(${JSON.stringify(t('worms.testRun.redTag') + ' ')} + e)
                   // alert('Fehler in Rot: ' + e) 
                 }
                 return newDirRed
@@ -968,7 +988,7 @@ export function setupWormsManagement(App) {
                   resultGreen.dispose()
                   //logToConsole('green cycles (10k): ' + cyclesGreen.val)
                 } catch(e) {
-                  logToConsole('[green] ' + e)
+                  logToConsole(${JSON.stringify(t('worms.testRun.greenTag') + ' ')} + e)
                 }
                 return newDirGreen
               }
@@ -977,12 +997,7 @@ export function setupWormsManagement(App) {
               document.getElementById('board'),
               red,
               green,
-              ${JSON.stringify({
-                redWins: t('worms.wormer.redWins'),
-                greenWins: t('worms.wormer.greenWins'),
-                opponentCrashed: t('worms.wormer.opponentCrashed'),
-                restart: t('worms.wormer.restart'),
-              })}
+              ${wormerMessages(t)}
             )
             window.wormer = wormer
             wormer.run()

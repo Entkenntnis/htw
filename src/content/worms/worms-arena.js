@@ -1,6 +1,11 @@
 // This file implements the actual bot fights
 import { Worker } from 'node:worker_threads'
-import { getWormsTranslator, renderNavigation } from './worms-basic.js'
+import {
+  getWormsTranslator,
+  renderNavigation,
+  textsForScript,
+  wormerMessages,
+} from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
 import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
@@ -249,7 +254,7 @@ export function setupWormsArena(App) {
     )
   })
 
-App.express.get_async_fix('/worms/arena', async (req, res) => {
+  App.express.get_async_fix('/worms/arena', async (req, res) => {
     const t = getWormsTranslator(App, req)
     const user = req.user
     if (!user) {
@@ -890,9 +895,30 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
           <script src="/worms/wormer.js"></script>
 
           <script>
+            const texts = ${textsForScript(t, [
+              'worms.arena.round',
+              'worms.arena.liveLabel',
+              'worms.arena.matchStarting',
+              'worms.arena.matchFailed',
+              'worms.arena.matchCancelledShort',
+              'worms.arena.matchNotStarted',
+              'worms.arena.backToArena',
+              'worms.arena.inQueue',
+              'worms.arena.matchQueued',
+              'worms.arena.botsLoading',
+              'worms.arena.cancelMatch',
+              'worms.arena.forfeit',
+              'worms.arena.cancelHintPending',
+              'worms.arena.forfeitHint',
+              'worms.arena.cancelConfirm',
+              'worms.arena.forfeitConfirm',
+              'worms.arena.cancelYes',
+              'worms.arena.forfeitYes',
+            ])}
+            const t = (key) => texts[key]
             const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
             // empty arena is shown right away, worms appear with the first move
-            const wormer = new Wormer(document.getElementById('board'))
+            const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${wormerMessages(t)})
             let started = false
             let pollTimer = null
 
@@ -966,8 +992,8 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
                 timeline.value = live ? total : Math.min(total, pos)
               }
               document.getElementById('timeline-pos').innerText = dragging
-                ? t('worms.arena.round') + ' ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)
-                : t('worms.arena.round') + ' ' + pos + (live ? ' · Live' : '')
+                ? t('worms.arena.round') + ' ' + (inLiveZone() ? liveRound() + ' · ' + t('worms.arena.liveLabel') : timeline.value)
+                : t('worms.arena.round') + ' ' + pos + (live ? ' · ' + t('worms.arena.liveLabel') : '')
               pauseButton.innerText = wormer.paused ? '▶︎' : '⏸︎'
             }, 100)
 
@@ -1014,13 +1040,13 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
                   }
                   if (data.status == 'error') {
                     hideCancel()
-                    overlay.innerHTML = t('worms.arena.matchForfeited')
+                    overlay.innerHTML = t('worms.arena.matchFailed')
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
                   if (data.status == 'cancelled') {
                     hideCancel()
-                    overlay.innerHTML = t('worms.arena.matchAbortedEarly')
+                    overlay.innerHTML = t('worms.arena.matchCancelledShort') + '<small>' + t('worms.arena.matchNotStarted') + ' <a href="/worms/arena">' + t('worms.arena.backToArena') + '</a></small>'
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
@@ -1116,6 +1142,7 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
   App.express.get(
     '/worms/arena/live-match',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const user = req.user
       if (!user) {
         res.status(401).json({})
@@ -1145,7 +1172,9 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
         res.json({
           status: match.status,
           // the live view may still be replaying moves at this point
-          text: replay.aborted ? t('worms.arena.matchForfeited') : t('worms.arena.matchDone'),
+          text: replay.aborted
+            ? t('worms.arena.matchForfeited')
+            : t('worms.arena.matchDone'),
           finished: true,
           replay: {
             dirs: replay.dirs,
@@ -1160,7 +1189,7 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
 
       res.json({
         status: match.status,
-        text: await getMatchStatusText(App, match, getWormsTranslator(App, req)),
+        text: await getMatchStatusText(App, match, t),
         queuePosition:
           match.status == 'pending' ? await getQueuePosition(App, match) : 0,
         finished: false,
@@ -1247,7 +1276,9 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
         return
       }
 
-      res.send(await getMatchStatusText(App, match, getWormsTranslator(App, req)))
+      res.send(
+        await getMatchStatusText(App, match, getWormsTranslator(App, req))
+      )
     })
   )
 
@@ -1351,11 +1382,21 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
 
         ${
           showMsg
-            ? `<p style="font-size: 20px; text-align: center">${t('worms.arena.yourBot')} ${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`} ${t('worms.arena.wentAgainst')} ${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`} <strong>${
+            ? `<p style="font-size: 20px; text-align: center">${t(
                 replay.aborted
-                  ? t('worms.arena.matchCancelled') 
-                  : match.status == 'red-win' ? t('worms.arena.won' ) : t('worms.arena.lost')
-              }</strong>${replay.aborted ? ` ${t('worms.arena.abortedSuffix')}` : ''}.<br >${t('worms.arena.newElo')} ${redBotELO} (${
+                  ? 'worms.arena.resultForfeited'
+                  : match.status == 'red-win'
+                    ? 'worms.arena.resultWon'
+                    : 'worms.arena.resultLost',
+                {
+                  red: redBot
+                    ? escapeHTML(redBot.name)
+                    : `[<i>${t('worms.arena.deletedBot')}</i>]`,
+                  green: greenBot
+                    ? escapeHTML(greenBot.name)
+                    : `[<i>${t('worms.arena.deletedBot')}</i>]`,
+                }
+              )}<br >${t('worms.arena.newElo')} ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''
               }${Math.round(eloDiff)}).</p>`
             : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}${replay.aborted ? ` (${t('worms.arena.abortedShort')})` : ''}</p>`
@@ -1394,14 +1435,7 @@ App.express.get_async_fix('/worms/arena', async (req, res) => {
         <div style="height:70px"></div>
 
         <script>
-const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${JSON.stringify(
-            {
-              redWins: t('worms.wormer.redWins'),
-              greenWins: t('worms.wormer.greenWins'),
-              opponentCrashed: t('worms.wormer.opponentCrashed'),
-              restart: t('worms.wormer.restart'),
-            }
-          )})
+          const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${wormerMessages(t)})
           wormer.instant = ${instant}
           wormer.runReplay(${JSON.stringify(replay)})
 
@@ -1446,7 +1480,7 @@ const wormer = new Wormer(document.getElementById('board'), undefined, undefined
             const pos = Math.min(total, Math.floor(wormer.consumed / 2))
             if (!dragging) timeline.value = pos
             document.getElementById('timeline-pos').innerText =
-              'Runde ' + (dragging ? timeline.value : pos) + ' / ' + total
+              ${JSON.stringify(t('worms.arena.round') + ' ')} + (dragging ? timeline.value : pos) + ' / ' + total
             pauseButton.innerText = wormer.paused || wormer.winner ? '▶︎' : '⏸︎'
           }, 100)
         </script>

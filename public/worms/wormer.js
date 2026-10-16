@@ -10,6 +10,7 @@ class Wormer {
     this.messages = {
       redWins: 'Red wins',
       greenWins: 'Green wins',
+      matchAborted: 'Match forfeited',
       opponentCrashed: 'Opponent bot crashed, e.g. error or limit reached',
       restart: 'Restart',
       ...messages,
@@ -217,9 +218,7 @@ class Wormer {
   setWinnerMessage() {
     const message = document.createElement('div')
     message.innerHTML =
-(this.winner == 'red'
-        ? this.messages.redWins
-        : this.messages.greenWins) +
+      (this.winner == 'red' ? this.messages.redWins : this.messages.greenWins) +
       (this.aborted
         ? `<br><span style="font-size: 15px; color: gray;">(${this.messages.matchAborted})</span>`
         : this.withCrash

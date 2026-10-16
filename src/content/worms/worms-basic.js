@@ -44,6 +44,46 @@ export function getWormsTranslator(App, req) {
 }
 
 /**
+ * Texts for inline browser scripts. There is no t() in the browser, so the
+ * server passes the translations along as JSON.
+ * @param {(key: string) => string} t
+ * @param {string[]} keys
+ * @returns {string}
+ */
+export function textsForScript(t, keys) {
+  /** @type {Record<string, string>} */
+  const texts = {}
+  for (const key of keys) {
+    texts[key] = t(key)
+  }
+  return toScriptJson(texts)
+}
+
+/**
+ * Messages for the Wormer class (public/worms/wormer.js)
+ * @param {(key: string) => string} t
+ * @returns {string}
+ */
+export function wormerMessages(t) {
+  return toScriptJson({
+    redWins: t('worms.wormer.redWins'),
+    greenWins: t('worms.wormer.greenWins'),
+    matchAborted: t('worms.wormer.matchAborted'),
+    opponentCrashed: t('worms.wormer.opponentCrashed'),
+    restart: t('worms.wormer.restart'),
+  })
+}
+
+/**
+ * JSON that is safe inside a script tag (no "</script>")
+ * @param {any} value
+ * @returns {string}
+ */
+function toScriptJson(value) {
+  return JSON.stringify(value).replace(/</g, '\\u003c')
+}
+
+/**
  * @param {string} content
  * @param {(key: string) => string} germanT
  * @param {(key: string) => string} t
@@ -78,6 +118,11 @@ function translateGuideExamples(content, germanT, t) {
     'chooseAlternative',
     'keepDirection',
     'writeCode',
+    'dirUp',
+    'dirRight',
+    'dirDown',
+    'dirLeft',
+    'allBlocked',
   ]
 
   return replacements.reduce(
@@ -118,6 +163,7 @@ export function setupWormsBasic(App) {
         props: {
           navigation: renderNavigation(0, req, App),
           mode: 'two',
+          wormerMessages: wormerMessages(getWormsTranslator(App, req)),
         },
       })
     })
@@ -134,6 +180,7 @@ export function setupWormsBasic(App) {
         props: {
           navigation: renderNavigation(1, req, App),
           mode: 'single',
+          wormerMessages: wormerMessages(getWormsTranslator(App, req)),
         },
       })
     })

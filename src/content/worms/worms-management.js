@@ -141,6 +141,7 @@ export function setupWormsManagement(App) {
 
       if (App.config.demos.includes(req.user.name)) {
         res.status(403).send('forbidden')
+        return
       }
 
       const name = req.body?.name ? req.body.name.toString() : ''

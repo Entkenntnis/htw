@@ -338,6 +338,7 @@
       "botNotFound": "Bot not found",
       "codeTooLong": "Code too long",
       "missingIds": "Missing gId or rId",
+      "demoInvite": "Please create your own account to participate in the bot arena.",
       "template": {
         "direction": "Determine the direction of your bot at each step",
         "width": "Width of the playing field (fixed at 74)",

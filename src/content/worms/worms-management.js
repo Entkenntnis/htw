@@ -90,6 +90,19 @@ export function setupWormsManagement(App) {
         return
       }
 
+      if (App.config.demos.includes(user.name)) {
+        return renderPage(App, req, res, {
+          page: 'worms-drafts',
+          heading: 'Worms',
+          backButton: false,
+          content: `
+            ${renderNavigation(3, req, App)}
+
+            <p>${t('worms.management.demoInvite')}</p>
+          `,
+        })
+      }
+
       const bots = await App.db.models.WormsBotDraft.findAll({
         where: { UserId: user.id },
         // order by lower case name
@@ -124,6 +137,10 @@ export function setupWormsManagement(App) {
       if (!req.user) {
         res.redirect('/')
         return
+      }
+
+      if (App.config.demos.includes(req.user.name)) {
+        res.status(403).send('forbidden')
       }
 
       const name = req.body?.name ? req.body.name.toString() : ''

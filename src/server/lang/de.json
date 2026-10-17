@@ -338,6 +338,7 @@
       "botNotFound": "Bot nicht gefunden",
       "codeTooLong": "Code zu lang",
       "missingIds": "gId oder rId fehlt",
+      "demoInvite": "Bitte erstelle einen eigenen Account, um an der Arena teilzunehmen.",
       "template": {
         "direction": "Bestimme bei jedem Schritt deines Bots die Laufrichtung",
         "width": "Breite des Spielfelds (fixiert auf 74)",

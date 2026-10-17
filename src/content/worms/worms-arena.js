@@ -930,131 +930,46 @@ export function setupWormsArena(App) {
       // cancelled before the first move
       const hasBoard = replay.xRed >= 0
 
+      const redHtml = redBot
+        ? escapeHTML(redBot.name)
+        : `[<i>${t('worms.arena.deletedBot')}</i>]`
+      const greenHtml = greenBot
+        ? escapeHTML(greenBot.name)
+        : `[<i>${t('worms.arena.deletedBot')}</i>]`
+
       renderPage(App, req, res, {
         page: 'worms-match-replay',
         heading: 'Worms',
         backButton: false,
         backHref: '/worms/arena',
-        content: `
-
-        ${renderNavigation(2, req, App)}
-
-        <h3 style="text-align: center;">${
-          match.status == 'red-win' ? '🏆 ' : ''
-        }<span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}${
-          !showMsg ? ` (${Math.round(replay.redElo)})` : ''
-        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}${
-          !showMsg ? ` (${Math.round(replay.greenElo)})` : ''
-        }</span>${match.status == 'green-win' ? ' 🏆' : ''}</h3>
-
-        ${
-          showMsg
-            ? `<p style="font-size: 20px; text-align: center">${t(
-                replay.aborted
-                  ? 'worms.arena.resultForfeited'
-                  : match.status == 'red-win'
-                    ? 'worms.arena.resultWon'
-                    : 'worms.arena.resultLost',
-                {
-                  red: redBot
-                    ? escapeHTML(redBot.name)
-                    : `[<i>${t('worms.arena.deletedBot')}</i>]`,
-                  green: greenBot
-                    ? escapeHTML(greenBot.name)
-                    : `[<i>${t('worms.arena.deletedBot')}</i>]`,
-                }
-              )}<br >${t('worms.arena.newElo')} ${redBotELO} (${
-                eloDiff > 0 ? '+' : ''
-              }${Math.round(eloDiff)}).</p>`
-            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}${replay.aborted ? ` (${t('worms.arena.abortedShort')})` : ''}</p>`
-        }
-
-        <p style="text-align: center; margin-top: 24px;"><a href="${
-          backToBot
+        props: {
+          navigation: renderNavigation(2, req, App),
+          redWon: match.status == 'red-win',
+          greenWon: match.status == 'green-win',
+          redName: redBot ? redBot.name : null,
+          greenName: greenBot ? greenBot.name : null,
+          redElo: Math.round(replay.redElo),
+          greenElo: Math.round(replay.greenElo),
+          showMsg,
+          resultTextKey: replay.aborted
+            ? 'worms.arena.resultForfeited'
+            : match.status == 'red-win'
+              ? 'worms.arena.resultWon'
+              : 'worms.arena.resultLost',
+          redHtml,
+          greenHtml,
+          redBotElo: redBotELO,
+          eloDiff: Math.round(eloDiff),
+          updatedFromNow: App.moment(match.updatedAt).locale(req.lng).fromNow(),
+          aborted: replay.aborted,
+          instant,
+          hasBoard,
+          backHref: backToBot
             ? '/worms/arena/bot-history?id=' + backToBot
-            : '/worms/arena'
-        }" class="btn btn-primary">${showMsg ? 'OK' : t('worms.arena.close')}</a>${
-          hasBoard
-            ? `<button class="btn btn-secondary" style="margin-left: 32px;" onClick="${
-                instant
-                  ? `window.location.href = window.location.href.replace('&instant=1', '')`
-                  : 'window.location.reload()'
-              }">${t('worms.arena.replayAgain')}</button>`
-            : ''
-        }</p>
-
-        ${
-          hasBoard
-            ? `
-        <script src="/worms/wormer.js"></script>
-
-        <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
-          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>
-        </div>
-
-        <div id="board"></div>
-        <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
-          <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="${t('worms.arena.pauseResume')}">⏸︎</button>
-          <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="${t('worms.arena.timeline')}">
-          <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>
-        </div>
-
-        <div style="height:70px"></div>
-
-        <script>
-          const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${wormerMessages(t)})
-          wormer.instant = ${instant}
-          wormer.runReplay(${JSON.stringify(replay)})
-
-          // timeline: scroll back and forth, the replay continues from there
-          const timeline = document.getElementById('timeline')
-          const total = Math.floor(wormer.dirs.length / 2)
-          timeline.max = total
-          let dragging = false
-          let seekTo = -1
-          timeline.addEventListener('input', () => {
-            dragging = true
-            // no moves while the timeline is held
-            wormer.held = true
-            // from the end of the live view: play normally after scrolling back
-            wormer.instant = false
-            // seek at most once per frame while dragging
-            if (seekTo < 0) {
-              requestAnimationFrame(() => {
-                wormer.seek(seekTo * 2)
-                seekTo = -1
-              })
-            }
-            seekTo = parseInt(timeline.value)
-          })
-          function release() {
-            dragging = false
-            wormer.held = false
-          }
-          timeline.addEventListener('change', release)
-          // the change event is missing when let go at the starting value
-          document.addEventListener('pointerup', release)
-          const pauseButton = document.getElementById('pause-button')
-          pauseButton.addEventListener('click', () => {
-            wormer.paused = !wormer.paused
-            // paused on the last move: start again from the beginning
-            if (!wormer.paused && wormer.winner) {
-              wormer.instant = false
-              wormer.seek(0)
-            }
-          })
-          setInterval(() => {
-            const pos = Math.min(total, Math.floor(wormer.consumed / 2))
-            if (!dragging) timeline.value = pos
-            document.getElementById('timeline-pos').innerText =
-              ${JSON.stringify(t('worms.arena.round') + ' ')} + (dragging ? timeline.value : pos) + ' / ' + total
-            pauseButton.innerText = wormer.paused || wormer.winner ? '▶︎' : '⏸︎'
-          }, 100)
-        </script>
-        `
-            : `<p style="text-align: center; color: gray; margin-top: 24px;">${t('worms.arena.matchAbortedEarly')}</p>`
-        }
-        `,
+            : '/worms/arena',
+          wormerMessages: wormerMessages(t),
+          replay,
+        },
       })
     })
   )

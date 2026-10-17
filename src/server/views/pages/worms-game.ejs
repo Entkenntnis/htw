@@ -39,7 +39,7 @@
     green = createDemoBot()
   }
 
-  const wormer = new Wormer(document.getElementById('board'), red, green, <%- props.wormerMessages %>)
+  const wormer = new Wormer(document.getElementById('board'), red, green, JSON.parse('<%- props.wormerMessages %>'))
   wormer.run()
 
   function restart() {

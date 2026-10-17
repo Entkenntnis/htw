@@ -1,6 +1,11 @@
 // This file implements the actual bot fights
 import { Worker } from 'node:worker_threads'
-import { renderNavigation } from './worms-basic.js'
+import {
+  getWormsTranslator,
+  renderNavigation,
+  textsForScript,
+  wormerMessages,
+} from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
 import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
@@ -200,26 +205,29 @@ async function getQueuePosition(App, match) {
  * Status line shown while waiting for a match
  * @param {import("../../data/types.js").App} App
  * @param {any} match
+ * @param {import('i18next').TFunction} t
  * @returns {Promise<string>}
  */
-async function getMatchStatusText(App, match) {
+async function getMatchStatusText(App, match, t) {
   if (match.status == 'running') {
     const steps = currentProgress ? Atomics.load(currentProgress, 0) : 0
     return steps == 0
-      ? 'Match läuft ... (kann bis zu einer Minute dauern)'
-      : `Match läuft ... (Schritt ${steps})`
+      ? t('worms.arena.matchRunningLong')
+      : `${t('worms.arena.matchRunning')} (${t('worms.arena.step')} ${steps})`
   }
 
   if (match.status == 'pending') {
-    return `Match in Warteschlange auf Position ${await getQueuePosition(App, match)} ...`
+    const queuePos = await getQueuePosition(App, match)
+    return `${t('worms.arena.matchQueued')} ${queuePos} ...`
   }
 
   if (match.status == 'error') {
-    return 'Es ist ein Fehler passiert. Match konnte nicht fertig ausgeführt werden.'
+    return t('worms.arena.matchError')
   }
 
   if (match.status == 'cancelled') {
-    return 'Match abgebrochen (keine Wertung)'
+    // If you've added a translation key for cancelled, use it here:
+    return t('worms.arena.matchCancelled')
   }
 
   return match.status
@@ -247,6 +255,7 @@ export function setupWormsArena(App) {
   })
 
   App.express.get_async_fix('/worms/arena', async (req, res) => {
+    const t = getWormsTranslator(App, req)
     const user = req.user
     if (!user) {
       res.redirect('/')
@@ -268,13 +277,13 @@ export function setupWormsArena(App) {
               await App.db.models.WormsBotDraft.findOne({
                 where: { id: ownMatch.redBotId },
               })
-            )?.name ?? '[gelöschter Bot]',
+            )?.name ?? `[${t('worms.arena.deletedBot')}]`,
           green:
             (
               await App.db.models.WormsBotDraft.findOne({
                 where: { id: ownMatch.greenBotId },
               })
-            )?.name ?? '[gelöschter Bot]',
+            )?.name ?? `[${t('worms.arena.deletedBot')}]`,
         }
       : null
 
@@ -368,7 +377,7 @@ export function setupWormsArena(App) {
       if (redBot && redBot.matches.length < 10) {
         redBot.matches.push({
           id: match.id,
-          htmlLabel: `${match.status == 'red-win' ? 'Sieg' : 'Niederlage'} gegen ${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}`,
+          htmlLabel: `${match.status == 'red-win' ? t('worms.arena.win') : t('worms.arena.loss')} ${t('worms.arena.against')} ${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}`,
           ts: App.moment(match.createdAt).unix(),
         })
       }
@@ -376,7 +385,7 @@ export function setupWormsArena(App) {
       if (greenBot && greenBot.matches.length < 10) {
         greenBot.matches.push({
           id: match.id,
-          htmlLabel: `${match.status == 'green-win' ? 'Sieg' : 'Niederlage'} gegen ${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}`,
+          htmlLabel: `${match.status == 'green-win' ? t('worms.arena.win') : t('worms.arena.loss')} ${t('worms.arena.against')} ${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}`,
           ts: App.moment(match.createdAt).unix(),
         })
       }
@@ -428,16 +437,17 @@ export function setupWormsArena(App) {
       heading: 'Worms',
       backButton: false,
       content: `
-        ${renderNavigation(2)}
+        ${renderNavigation(2, req, App)}
 
         ${
           ownMatch && ownMatchNames
             ? `
-          <div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px; margin-bottom: 12px;">
-            Dein Match <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
-            ${ownMatch.status == 'running' ? 'läuft gerade' : 'wartet in der Warteschlange'}.
-            Solange kannst du kein weiteres Match starten.
-            <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">Zum Match</a>
+<div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px; margin-bottom: 12px;">
+  ${t('worms.arena.yourMatch')} <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
+  ${ownMatch.status == 'running' ? t('worms.arena.matchIsRunning') : t('worms.arena.matchIsQueued')}.
+  ${t('worms.arena.noNewMatch')}
+  <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">${t('worms.arena.toMatch')}</a>
+</div>
           </div>
         `
             : ''
@@ -448,9 +458,9 @@ export function setupWormsArena(App) {
             ? `
           <p style="text-align: center; margin-top: 24px;">
             <a href="/worms/arena/match?id=${liveArenaMatch.id}" class="btn btn-outline-warning">
-              🔴 Laufendes Match live ansehen:
-              ${escapeHTML(liveNames.red ?? '[gelöschter Bot]')} vs
-              ${escapeHTML(liveNames.green ?? '[gelöschter Bot]')}
+              🔴 ${t('worms.arena.watchLive')}
+              ${escapeHTML(liveNames.red ?? `[${t('worms.arena.deletedBot')}]`)} vs
+              ${escapeHTML(liveNames.green ?? `[${t('worms.arena.deletedBot')}]`)}
             </a>
           </p>
         `
@@ -463,14 +473,14 @@ export function setupWormsArena(App) {
           }
         </style>
 
-        <h4>Letzte Matches</h4>
+        <h4>${t('worms.arena.lastMatches')}</h4>
         <table class="table">
           <thead>
             <tr>
-              <th>Bot Rot</th>
-              <th>Bot Grün</th>
-              <th>Ergebnis</th>
-              <th>Datum</th>
+              <th>${t('worms.arena.redBot')}</th>
+              <th>${t('worms.arena.greenBot')}</th>
+              <th>${t('worms.arena.result')}</th>
+              <th>${t('worms.arena.date')}</th>
             </tr>
           </thead>
           <tbody>
@@ -480,14 +490,14 @@ export function setupWormsArena(App) {
               <tr ${i < 10 ? '' : 'class="hidden"'}>
                 <td>${escapeHTML(
                   botData.find((b) => b.id == match.redBotId)?.name ??
-                    '[gelöschter Bot]'
+                    `[${t('worms.arena.deletedBot')}]`
                 )}${match.status == 'red-win' ? ' 🏆' : ''}</td>
                 <td>${escapeHTML(
                   botData.find((b) => b.id == match.greenBotId)?.name ??
-                    '[gelöschter Bot]'
+                    `[${t('worms.arena.deletedBot')}]`
                 )}${match.status == 'green-win' ? ' 🏆' : ''}</td>
-                <td>${match.status == 'red-win' ? 'Rot' : 'Grün'} gewinnt [<a href="/worms/arena/replay?id=${match.id}">ansehen</a>]</td>
-                <td>${App.moment(match.createdAt).locale('de').fromNow()}</td>
+                <td>${match.status == 'red-win' ? t('worms.arena.red') : t('worms.arena.green')} ${t('worms.arena.wins')} [<a href="/worms/arena/replay?id=${match.id}">${t('worms.arena.view')}</a>]</td>
+                <td>${App.moment(match.createdAt).locale(req.lng).fromNow()}</td>
               </tr>
             `
               )
@@ -495,7 +505,7 @@ export function setupWormsArena(App) {
           </tbody>
         </table>
 
-        ${matchesToShow.length > 10 ? '<a id="show-more" href="#">mehr ...</a>' : ''}
+        ${matchesToShow.length > 10 ? `<a id="show-more" href="#">${t('worms.arena.more')}</a>` : ''}
 
         <div style="text-align: center; margin-bottom: 24px; margin-top: 56px;">
           <img src="/worms/arena.jpg">
@@ -503,34 +513,36 @@ export function setupWormsArena(App) {
 
         ${
           ownBots.length == 0
-            ? '<p>Du hast noch keine eigenen Bots. Erstelle welche unter &quot;Deine Bots&quot;.</p>'
+            ? `<p>${t('worms.arena.noBots')}</p>`
             : matchesInTheLast24h.length >= 50
-              ? `<p>Du hast das Limit von 50 Matches in 24 Stunden erreicht. Du kannst ${App.moment(
-                  new Date(matchesInTheLast24h[0].createdAt).getTime() +
-                    1000 * 60 * 60 * 24
-                )
-                  .locale('de')
-                  .fromNow()} wieder ein Match starten.</p>`
-              : `<p>Wähle deinen Bot für das Match:
+              ? `<p>${t('worms.arena.limitReached', {
+                  until: App.moment(
+                    new Date(matchesInTheLast24h[0].createdAt).getTime() +
+                      1000 * 60 * 60 * 24
+                  )
+                    .locale(req.lng)
+                    .fromNow(),
+                })}</p>`
+              : `<p>${t('worms.arena.chooseBot')}
           <select name="bot" id="bot-selector" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
-            <option value="">Bitte wählen...</option>
+            <option value="">${t('worms.arena.pleaseChoose')}</option>
             ${ownBots
               .map(
                 (bot) =>
                   `<option value="${bot.id}" ${bot.id === req.session.lastWormsBotId ? 'selected' : ''}>${escapeHTML(bot.name)}</option>`
               )
               .join('')}
-          </select><small style="margin-left: 12px;">Limit: 50 Matches pro 24h (${matchesInTheLast24h.length} / 50)</small>
+          </select><small style="margin-left: 12px;">${t('worms.arena.limit')} (${matchesInTheLast24h.length} / 50)</small>
         </p>`
         }
 
         <table class="table">
           <thead>
             <tr>
-              <th>Platz</th>
-              <th>Bot</th>
-              <th>ELO</th>
-              <th class="challenge-button" style="visibility: hidden;">Wähle Gegner</th>
+              <th>${t('worms.arena.rank')}</th>
+              <th>${t('worms.arena.bot')}</th>
+              <th>${t('worms.arena.elo')}</th>
+              <th class="challenge-button" style="visibility: hidden;">${t('worms.arena.chooseOpponent')}</th>
             </tr>
           </thead>
           <tbody>
@@ -540,14 +552,14 @@ export function setupWormsArena(App) {
               <tr>
                 
                 <td>${index + 1}</td>
-                <td>${escapeHTML(bot.name)}<span style="color: gray"> von ${escapeHTML(bot.username)}</span>${
+                <td>${escapeHTML(bot.name)}<span style="color: gray"> ${t('worms.arena.by')} ${escapeHTML(bot.username)}</span>${
                   bot.userid == user.id
                     ? ` <span onClick="updateBotIdAndUpdateUI(${bot.id})" id="bot-chooser-${bot.id}" class="bot-chooser"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 14px; height: 14px; cursor: pointer;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span>`
                     : ''
                 }<br >
                   <div style="display: flex">
                     <details>
-                      <summary><span style="color: darkgray">Siege: ${bot.wins}, Niederlagen: ${bot.losses}</span></summary>
+                      <summary><span style="color: darkgray">${t('worms.arena.wins')}: ${bot.wins}, ${t('worms.arena.losses')}: ${bot.losses}</span></summary>
                       <ul>
                         ${bot.matches
                           .map(
@@ -555,12 +567,12 @@ export function setupWormsArena(App) {
                               `<li><a href="/worms/arena/replay?id=${match.id}">${match.htmlLabel}</a> <span style="color: gray;">${App.moment(
                                 match.ts * 1000
                               )
-                                .locale('de')
+                                .locale(req.lng)
                                 .fromNow()}</span></li>`
                           )
                           .join('')}
                       </ul>
-                      <p style="margin-top: -14px; margin-left: 20px;"><a href="/worms/arena/bot-history?id=${bot.id}">Gesamter Verlauf</a></p>
+                      <p style="margin-top: -14px; margin-left: 20px;"><a href="/worms/arena/bot-history?id=${bot.id}">${t('worms.arena.fullHistory')}</a></p>
                     </details>
                   </div>
                 </td>
@@ -568,7 +580,7 @@ export function setupWormsArena(App) {
                 <td>
                   <form action="/worms/arena/start-match" method="POST" style="display: inline;" class="challenge-form">
                     <input type="hidden" name="opponent" value="${bot.id}">
-                    <button type="submit" class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" id="challenge-${bot.id}">Herausfordern</button>
+                    <button type="submit" class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" id="challenge-${bot.id}">${t('worms.arena.challenge')}</button>
                   </form>
                 </td>
               </tr>
@@ -803,6 +815,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/match',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const user = req.user
       if (!user) {
         res.redirect('/')
@@ -840,15 +853,15 @@ export function setupWormsArena(App) {
         heading: 'Worms',
         backButton: false,
         content: `
-          ${renderNavigation(2)}
-
+          ${renderNavigation(2, req, App)}
+  
           <h3 id="status">...</h3>
 
           ${
             canCancel
               ? `<p id="cancel-area">
-                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">${pending ? 'Match abbrechen' : 'Aufgeben'}</button> <span id="cancel-hint" style="color: gray; margin-left: 8px;">${pending ? '(hat noch nicht begonnen, keine Wertung)' : '(zählt als Niederlage)'}</span></span>
-                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question">${pending ? 'Match abbrechen? Es wird nicht gewertet.' : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'}</span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">${pending ? 'Ja, abbrechen' : 'Ja, aufgeben'}</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">Nein</button></span>
+                  <span id="cancel-ask"><button id="cancel-button" class="btn btn-sm btn-outline-danger" onClick="showCancelConfirm(true)">${pending ? t('worms.arena.cancelMatch') : t('worms.arena.forfeit')}</button> <span id="cancel-hint" style="color: gray; margin-left: 8px;">${pending ? t('worms.arena.cancelHintPending') : t('worms.arena.forfeitHint')}</span></span>
+                  <span id="cancel-confirm" style="display: none;"><span id="cancel-question">${pending ? t('worms.arena.cancelConfirm') : t('worms.arena.forfeitConfirm')}</span> <button id="cancel-yes" class="btn btn-sm btn-danger" style="margin-left: 8px;" onClick="cancelMatch()">${pending ? t('worms.arena.cancelYes') : t('worms.arena.forfeitYes')}</button> <button class="btn btn-sm btn-secondary" style="margin-left: 4px;" onClick="showCancelConfirm(false)">${t('worms.arena.no')}</button></span>
                 </p>`
               : ''
           }
@@ -867,14 +880,14 @@ export function setupWormsArena(App) {
           </style>
 
           <div id="live">
-            <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}</span></h4>
+            <h4 style="text-align: center; margin-top: 24px;"><span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}</span></h4>
             <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 16px;">
-              <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
+              <span><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>
             </div>
             <div id="board"></div>
             <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
-              <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" disabled title="Pause / Weiter">⏸︎</button>
-              <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" disabled aria-label="Zeitleiste">
+              <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" disabled title="${t('worms.arena.pauseResume')}">⏸︎</button>
+              <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" disabled aria-label="${t('worms.arena.timeline')}">
               <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>            </div>
             <div style="height:70px"></div>
           </div>
@@ -882,9 +895,30 @@ export function setupWormsArena(App) {
           <script src="/worms/wormer.js"></script>
 
           <script>
+            const texts = ${textsForScript(t, [
+              'worms.arena.round',
+              'worms.arena.liveLabel',
+              'worms.arena.matchStarting',
+              'worms.arena.matchFailed',
+              'worms.arena.matchCancelledShort',
+              'worms.arena.matchNotStarted',
+              'worms.arena.backToArena',
+              'worms.arena.inQueue',
+              'worms.arena.matchQueued',
+              'worms.arena.botsLoading',
+              'worms.arena.cancelMatch',
+              'worms.arena.forfeit',
+              'worms.arena.cancelHintPending',
+              'worms.arena.forfeitHint',
+              'worms.arena.cancelConfirm',
+              'worms.arena.forfeitConfirm',
+              'worms.arena.cancelYes',
+              'worms.arena.forfeitYes',
+            ])}
+            const t = (key) => texts[key]
             const replayUrl = '/worms/arena/replay?id=${match.id}${match.UserId == user.id ? '&msg=done' : ''}'
             // empty arena is shown right away, worms appear with the first move
-            const wormer = new Wormer(document.getElementById('board'))
+            const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${wormerMessages(t)})
             let started = false
             let pollTimer = null
 
@@ -958,8 +992,8 @@ export function setupWormsArena(App) {
                 timeline.value = live ? total : Math.min(total, pos)
               }
               document.getElementById('timeline-pos').innerText = dragging
-                ? 'Runde ' + (inLiveZone() ? liveRound() + ' · Live' : timeline.value)
-                : 'Runde ' + pos + (live ? ' · Live' : '')
+                ? t('worms.arena.round') + ' ' + (inLiveZone() ? liveRound() + ' · ' + t('worms.arena.liveLabel') : timeline.value)
+                : t('worms.arena.round') + ' ' + pos + (live ? ' · ' + t('worms.arena.liveLabel') : '')
               pauseButton.innerText = wormer.paused ? '▶︎' : '⏸︎'
             }, 100)
 
@@ -978,7 +1012,7 @@ export function setupWormsArena(App) {
                 overlay.innerHTML = html
               }
             }
-            showOverlay('Match startet')
+            showOverlay(t('worms.arena.matchStarting'))
 
             // Polling until status is red-win or green-win, moves are shown live
             function fetchStatus() {
@@ -1006,13 +1040,13 @@ export function setupWormsArena(App) {
                   }
                   if (data.status == 'error') {
                     hideCancel()
-                    overlay.innerHTML = 'Match fehlgeschlagen'
+                    overlay.innerHTML = t('worms.arena.matchFailed')
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
                   if (data.status == 'cancelled') {
                     hideCancel()
-                    overlay.innerHTML = 'Match abgebrochen<small>Es hat nicht begonnen und wird nicht gewertet. <a href="/worms/arena">Zurück zur Arena</a></small>'
+                    overlay.innerHTML = t('worms.arena.matchCancelledShort') + '<small>' + t('worms.arena.matchNotStarted') + ' <a href="/worms/arena">' + t('worms.arena.backToArena') + '</a></small>'
                     document.getElementById('board').appendChild(overlay)
                     return
                   }
@@ -1028,9 +1062,9 @@ export function setupWormsArena(App) {
                     // joined a match that is already running: start at the current state
                     if (joining) wormer.skipAhead()
                   } else if (data.status == 'pending') {
-                    showOverlay('In der Warteschlange', 'Position ' + data.queuePosition)
+                    showOverlay(t('worms.arena.inQueue'), t('worms.arena.matchQueued') + ' ' + data.queuePosition)
                   } else {
-                    showOverlay('Match startet', 'Bots werden geladen')
+                    showOverlay(t('worms.arena.matchStarting'), t('worms.arena.botsLoading'))
                   }
                   const moves = started ? wormer.dirs.length : 0
                   const initPhase = moves < 4
@@ -1056,14 +1090,14 @@ export function setupWormsArena(App) {
               showCancelConfirm(false)
               document.getElementById('cancel-yes').disabled = false
               const pending = state == 'pending'
-              document.getElementById('cancel-button').innerText = pending ? 'Match abbrechen' : 'Aufgeben'
+              document.getElementById('cancel-button').innerText = pending ? t('worms.arena.cancelMatch') : t('worms.arena.forfeit')
               document.getElementById('cancel-hint').innerText = pending
-                ? '(hat noch nicht begonnen, keine Wertung)'
-                : '(zählt als Niederlage)'
+                ? t('worms.arena.cancelHintPending')
+                : t('worms.arena.forfeitHint')
               document.getElementById('cancel-question').innerText = pending
-                ? 'Match abbrechen? Es wird nicht gewertet.'
-                : 'Wirklich aufgeben? Das zählt als Niederlage für deinen Bot.'
-              document.getElementById('cancel-yes').innerText = pending ? 'Ja, abbrechen' : 'Ja, aufgeben'
+                ? t('worms.arena.cancelConfirm')
+                : t('worms.arena.forfeitConfirm')
+              document.getElementById('cancel-yes').innerText = pending ? t('worms.arena.cancelYes') : t('worms.arena.forfeitYes')
             }
 
             // confirmation inside the page, native dialogs can be blocked
@@ -1108,6 +1142,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/live-match',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const user = req.user
       if (!user) {
         res.status(401).json({})
@@ -1137,7 +1172,9 @@ export function setupWormsArena(App) {
         res.json({
           status: match.status,
           // the live view may still be replaying moves at this point
-          text: replay.aborted ? 'Match aufgegeben' : 'Match fertig berechnet',
+          text: replay.aborted
+            ? t('worms.arena.matchForfeited')
+            : t('worms.arena.matchDone'),
           finished: true,
           replay: {
             dirs: replay.dirs,
@@ -1152,7 +1189,7 @@ export function setupWormsArena(App) {
 
       res.json({
         status: match.status,
-        text: await getMatchStatusText(App, match),
+        text: await getMatchStatusText(App, match, t),
         queuePosition:
           match.status == 'pending' ? await getQueuePosition(App, match) : 0,
         finished: false,
@@ -1219,6 +1256,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/poll-match',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const user = req.user
       if (!user) {
         res.redirect('/')
@@ -1238,7 +1276,9 @@ export function setupWormsArena(App) {
         return
       }
 
-      res.send(await getMatchStatusText(App, match))
+      res.send(
+        await getMatchStatusText(App, match, getWormsTranslator(App, req))
+      )
     })
   )
 
@@ -1264,6 +1304,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/replay',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
       const backToBot = req.query.backToBot
@@ -1329,41 +1370,49 @@ export function setupWormsArena(App) {
         backHref: '/worms/arena',
         content: `
 
-        ${renderNavigation(2)}
+        ${renderNavigation(2, req, App)}
 
         <h3 style="text-align: center;">${
           match.status == 'red-win' ? '🏆 ' : ''
-        }<span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'}${
+        }<span style="color: rgb(239, 68, 68)">${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}${
           !showMsg ? ` (${Math.round(replay.redElo)})` : ''
-        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'}${
+        }</span> <i>vs</i> <span style="color: rgb(34, 197, 94)">${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}${
           !showMsg ? ` (${Math.round(replay.greenElo)})` : ''
         }</span>${match.status == 'green-win' ? ' 🏆' : ''}</h3>
 
         ${
           showMsg
-            ? `<p style="font-size: 20px; text-align: center">Dein Bot ${redBot ? escapeHTML(redBot.name) : '[<i>gelöschter Bot</i>]'} hat das Match gegen ${greenBot ? escapeHTML(greenBot.name) : '[<i>gelöschter Bot</i>]'} <strong>${
+            ? `<p style="font-size: 20px; text-align: center">${t(
                 replay.aborted
-                  ? 'aufgegeben'
+                  ? 'worms.arena.resultForfeited'
                   : match.status == 'red-win'
-                    ? 'gewonnen'
-                    : 'verloren'
-              }</strong>${replay.aborted ? ' und damit verloren' : ''}.<br >Deine neue ELO beträgt ${redBotELO} (${
+                    ? 'worms.arena.resultWon'
+                    : 'worms.arena.resultLost',
+                {
+                  red: redBot
+                    ? escapeHTML(redBot.name)
+                    : `[<i>${t('worms.arena.deletedBot')}</i>]`,
+                  green: greenBot
+                    ? escapeHTML(greenBot.name)
+                    : `[<i>${t('worms.arena.deletedBot')}</i>]`,
+                }
+              )}<br >${t('worms.arena.newElo')} ${redBotELO} (${
                 eloDiff > 0 ? '+' : ''
               }${Math.round(eloDiff)}).</p>`
-            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale('de').fromNow()}${replay.aborted ? ' (aufgegeben)' : ''}</p>`
+            : `<p style="text-align: center;">${App.moment(match.updatedAt).locale(req.lng).fromNow()}${replay.aborted ? ` (${t('worms.arena.abortedShort')})` : ''}</p>`
         }
 
         <p style="text-align: center; margin-top: 24px;"><a href="${
           backToBot
             ? '/worms/arena/bot-history?id=' + backToBot
             : '/worms/arena'
-        }" class="btn btn-primary">${showMsg ? 'OK' : 'schließen'}</a>${
+        }" class="btn btn-primary">${showMsg ? 'OK' : t('worms.arena.close')}</a>${
           hasBoard
             ? `<button class="btn btn-secondary" style="margin-left: 32px;" onClick="${
                 instant
                   ? `window.location.href = window.location.href.replace('&instant=1', '')`
                   : 'window.location.reload()'
-              }">Replay wiederholen</button>`
+              }">${t('worms.arena.replayAgain')}</button>`
             : ''
         }</p>
 
@@ -1373,20 +1422,20 @@ export function setupWormsArena(App) {
         <script src="/worms/wormer.js"></script>
 
         <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
-          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> Turbo</label></span>
+          <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> ${t('worms.testRun.turbo')}</label></span>
         </div>
 
         <div id="board"></div>
         <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
-          <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="Pause / Weiter">⏸︎</button>
-          <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="Zeitleiste">
+          <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="${t('worms.arena.pauseResume')}">⏸︎</button>
+          <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="${t('worms.arena.timeline')}">
           <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>
         </div>
 
         <div style="height:70px"></div>
 
         <script>
-          const wormer = new Wormer(document.getElementById('board'))
+          const wormer = new Wormer(document.getElementById('board'), undefined, undefined, ${wormerMessages(t)})
           wormer.instant = ${instant}
           wormer.runReplay(${JSON.stringify(replay)})
 
@@ -1431,12 +1480,12 @@ export function setupWormsArena(App) {
             const pos = Math.min(total, Math.floor(wormer.consumed / 2))
             if (!dragging) timeline.value = pos
             document.getElementById('timeline-pos').innerText =
-              'Runde ' + (dragging ? timeline.value : pos) + ' / ' + total
+              ${JSON.stringify(t('worms.arena.round') + ' ')} + (dragging ? timeline.value : pos) + ' / ' + total
             pauseButton.innerText = wormer.paused || wormer.winner ? '▶︎' : '⏸︎'
           }, 100)
         </script>
         `
-            : `<p style="text-align: center; color: gray; margin-top: 24px;">Das Match wurde aufgegeben, bevor der erste Zug gemacht war.</p>`
+            : `<p style="text-align: center; color: gray; margin-top: 24px;">${t('worms.arena.matchAbortedEarly')}</p>`
         }
         `,
       })
@@ -1446,6 +1495,7 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/bot-history',
     safeRoute(async (req, res) => {
+      const t = getWormsTranslator(App, req)
       const botId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
       const bot = await App.db.models.WormsBotDraft.findOne({
@@ -1523,13 +1573,13 @@ export function setupWormsArena(App) {
         heading: 'Worms',
         backButton: false,
         content: `
-          ${renderNavigation(2)}
+          ${renderNavigation(2, req, App)}
 
           <h3 style="text-align: center;">${escapeHTML(bot.name)} (${Math.round(botELO)})</h3>
 
-          <h4 style="text-align: center; margin-bottom: 48px;">von ${escapeHTML(player.name)}</h4>
+          <h4 style="text-align: center; margin-bottom: 48px;">${t('worms.arena.by')} ${escapeHTML(player.name)}</h4>
 
-          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">schließen</a></p>
+          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">${t('worms.arena.close')}</a></p>
 
           <canvas id="chart" style="margin-top: 32px; margin-bottom: 32px;"></canvas>
 
@@ -1551,13 +1601,13 @@ export function setupWormsArena(App) {
             });
           </script>
 
-          <h4>Matches</h4>
+          <h4>${t('worms.arena.matches')}</h4>
           <table class="table">
             <thead>
               <tr>
-                <th>Gegner</th>
-                <th>Ergebnis</th>
-                <th>Datum</th>
+                <th>${t('worms.arena.opponent')}</th>
+                <th>${t('worms.arena.result')}</th>
+                <th>${t('worms.arena.date')}</th>
               </tr>
             </thead>
             <tbody>
@@ -1569,20 +1619,20 @@ export function setupWormsArena(App) {
                     match.redBotId == bot.id
                       ? escapeHTML(
                           opponents.find((opp) => opp.id == match.greenBotId)
-                            ?.name ?? '[gelöschter Bot]'
+                            ?.name ?? `[${t('worms.arena.deletedBot')}]`
                         )
                       : escapeHTML(
                           opponents.find((opp) => opp.id == match.redBotId)
-                            ?.name ?? '[gelöschter Bot]'
+                            ?.name ?? `[${t('worms.arena.deletedBot')}]`
                         )
-                  } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">ansehen</a>]</td>
+                  } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">${t('worms.arena.view')}</a>]</td>
                   <td>${
                     (match.status == 'red-win' && match.redBotId == bot.id) ||
                     (match.status == 'green-win' && match.greenBotId == bot.id)
-                      ? 'Sieg'
-                      : 'Niederlage'
+                      ? t('worms.arena.win')
+                      : t('worms.arena.loss')
                   }</td>
-                  <td>${App.moment(match.createdAt).locale('de').fromNow()}</td>
+                  <td>${App.moment(match.createdAt).locale(req.lng).fromNow()}</td>
                 </tr>
               `
                 )

@@ -226,18 +226,28 @@ class Wormer {
   }
 
   // live mode: show moves at one steady speed, never faster than a replay,
-  // slower if the server needs more time per move
+  // slower if the server needs more time per move. Turbo drops the replay
+  // limit and follows the server as fast as it computes, still keeping the
+  // buffer instead of rushing to the newest move and waiting there
   updateLiveInterval() {
-    if (this.liveDone) return
+    if (this.liveDone) {
+      // all moves are known: turbo keeps its pace, otherwise replay speed
+      if (!this.turbo) this.interval = Math.max(this.interval, 120)
+      return
+    }
     const first = this.liveSamples[0]
     const last = this.liveSamples[this.liveSamples.length - 1]
     if (!first || last.t == first.t || last.n == first.n) return
     const serverMs = (last.t - first.t) / ((last.n - first.n) / 2)
+    const minInterval = this.turbo ? 1 : 120
     // keep some moves buffered, slow down a bit when it runs low
     const buffered = (this.dirs.length - this.consumed) / 2
-    const wanted = this.liveBuffer / Math.max(serverMs, 120)
-    const factor = buffered >= wanted ? 1 : 1 + 0.5 * (1 - buffered / wanted)
-    const target = Math.max(120, serverMs * factor)
+    const wanted = this.liveBuffer / Math.max(serverMs, minInterval)
+    let factor = buffered >= wanted ? 1 : 1 + 0.5 * (1 - buffered / wanted)
+    // turbo: catch up when more than the buffer is in stock
+    if (this.turbo && buffered > wanted)
+      factor = Math.max(0.25, wanted / buffered)
+    const target = Math.max(minInterval, serverMs * factor)
     // change speed gradually
     this.interval += (target - this.interval) * 0.1
   }
@@ -317,22 +327,43 @@ class Wormer {
         ? Math.max(120, this.thinkTime)
         : 120
 
+    // turbo outside live mode: one move per frame, as fast as possible
+    const noWait = this.instant || (this.turbo && !this.live)
+
     // held: the viewer drags the timeline, no moves until it is let go
     if (
       this.paused ||
       this.held ||
-      (ts - this.lastTick < interval && !this.turbo && !this.instant)
+      (ts - this.lastTick < interval && !noWait)
     ) {
       requestAnimationFrame(this.tick.bind(this))
       return
-    } else {
-      this.lastTick = ts
     }
+
+    // live turbo can be faster than one move per frame: catch up on the
+    // moves that were due since the last frame, but never jump ahead after
+    // a pause
+    let due =
+      this.live && this.turbo
+        ? Math.max(
+            1,
+            Math.min(
+              Math.floor((ts - this.lastTick) / interval),
+              Math.ceil(100 / interval)
+            )
+          )
+        : 1
+    this.lastTick = ts
 
     // instant: play the whole replay at once and only show the final board
     do {
       this.step()
-    } while (this.instant && !this.winner)
+      due--
+    } while (
+      !this.winner &&
+      (this.instant ||
+        (due > 0 && (this.liveDone || this.dirs.length >= this.consumed + 2)))
+    )
 
     // the time for the human starts when the new position is shown, not
     // before the bot started thinking

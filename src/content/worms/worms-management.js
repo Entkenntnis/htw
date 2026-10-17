@@ -132,9 +132,20 @@ export function setupWormsManagement(App) {
       ${
         bots.length > 0
           ? `
+      <style>
+        /* phones: one field per line instead of one wide row */
+        @media (max-width: 575px) {
+          .worms-test-form { width: 100%; align-items: stretch !important; }
+          .worms-test-row { flex-direction: column; align-items: stretch !important; gap: 12px; }
+          .worms-test-row label { display: flex; align-items: center; margin-left: 0 !important; }
+          .worms-test-row select { width: 75%; margin-left: auto !important; }
+          .worms-test-row input[type='submit'] { margin-left: 0 !important; }
+          .worms-test-extra { margin-right: 0 !important; }
+        }
+      </style>
       <div style="margin-bottom: 32px; display: flex; justify-content: center;">
-        <form action="/worms/your-bots/test-run" style="display: flex; flex-direction: column; align-items: center;">
-          <div style="display: flex; align-items: baseline;">
+        <form action="/worms/your-bots/test-run" class="worms-test-form" style="display: flex; flex-direction: column; align-items: center;">
+          <div class="worms-test-row" style="display: flex; align-items: baseline;">
             <label>${t('worms.arena.red')}: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
               (bot) =>
                 `<option value="${bot.id}" ${
@@ -157,7 +168,7 @@ export function setupWormsManagement(App) {
             }>${t('worms.testRun.humanOption')}</option></select></label>
             <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="${t('worms.management.startTestRun')}">
           </div>
-          <div style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
+          <div class="worms-test-extra" style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
             <label style="display: inline-flex; align-items: center;">
               <input type="checkbox" id="extensiveTest" onchange="document.getElementById('repeatInput').disabled = !this.checked" style="margin-right: 8px;" />
               ${t('worms.management.extensiveTest')}

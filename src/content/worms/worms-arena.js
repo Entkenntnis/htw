@@ -471,10 +471,17 @@ export function setupWormsArena(App) {
           .hidden {
             display: none;
           }
+          /* phones: less padding, so the tables fit without scrolling */
+          @media (max-width: 575px) {
+            .worms-arena-table th,
+            .worms-arena-table td {
+              padding: 0.4rem 0.3rem;
+            }
+          }
         </style>
 
         <h4>${t('worms.arena.lastMatches')}</h4>
-        <table class="table">
+        <div class="table-responsive"><table class="table worms-arena-table">
           <thead>
             <tr>
               <th>${t('worms.arena.redBot')}</th>
@@ -503,12 +510,12 @@ export function setupWormsArena(App) {
               )
               .join('')}
           </tbody>
-        </table>
+        </table></div>
 
         ${matchesToShow.length > 10 ? `<a id="show-more" href="#">${t('worms.arena.more')}</a>` : ''}
 
         <div style="text-align: center; margin-bottom: 24px; margin-top: 56px;">
-          <img src="/worms/arena.jpg">
+          <img src="/worms/arena.jpg" style="max-width: 100%; height: auto;">
         </div>
 
         ${
@@ -536,7 +543,7 @@ export function setupWormsArena(App) {
         </p>`
         }
 
-        <table class="table">
+        <div class="table-responsive"><table class="table worms-arena-table">
           <thead>
             <tr>
               <th>${t('worms.arena.rank')}</th>
@@ -588,7 +595,7 @@ export function setupWormsArena(App) {
               )
               .join('')}
           </tbody>
-        </table>
+        </table></div>
         
         <script>
           let botId = null

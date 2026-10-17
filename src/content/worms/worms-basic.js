@@ -12,7 +12,15 @@ export function renderNavigation(active, req, App) {
   const t = getWormsTranslator(App, req)
 
   return `
-  <ul class="nav nav-tabs" style="margin-bottom: 24px;">
+  <style>
+    /* phones: one row to swipe through instead of three rows of tabs */
+    @media (max-width: 575px) {
+      .worms-nav { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; white-space: nowrap; scrollbar-width: none; }
+      .worms-nav::-webkit-scrollbar { display: none; }
+      .worms-nav .nav-link { padding: 0.5rem 0.75rem; }
+    }
+  </style>
+  <ul class="nav nav-tabs worms-nav" id="worms-nav" style="margin-bottom: 24px;">
     <li class="nav-item">
       <a class="nav-link" style="color: var(--main-color); border: none;" href="/map">${t('worms.navigation.back')}</a>
     </li>
@@ -31,7 +39,20 @@ export function renderNavigation(active, req, App) {
     <li class="nav-item">
       <a class="nav-link${active == 4 ? ' active' : ''}" href="/worms/guide">${t('worms.navigation.guide')}</a>
     </li>
-  </ul>`
+  </ul>
+  <script>
+    // the active tab may be outside the visible part of the row
+    ;(() => {
+      const nav = document.getElementById('worms-nav')
+      const active = nav.querySelector('.active')
+      if (active && nav.scrollWidth > nav.clientWidth) {
+        nav.scrollLeft +=
+          active.getBoundingClientRect().left -
+          nav.getBoundingClientRect().left -
+          16
+      }
+    })()
+  </script>`
 }
 
 /**

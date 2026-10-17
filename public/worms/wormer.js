@@ -491,9 +491,15 @@ function createKeyboardPlayer(up, right, down, left, resetRef, opts = {}) {
     const style = document.createElement('style')
     style.id = 'worm-touch-styles'
     style.textContent = `
-      .worm-touch-pad {position:fixed; bottom:12px; z-index:1500; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); grid-template-areas:"empty1 up empty2" "left empty3 right" "empty4 down empty5"; gap:6px; --worm-btn-size:60px; opacity:0.55; touch-action:none;}
-      .worm-touch-pad.left {left:12px;}
-      .worm-touch-pad.right {right:12px;}
+      .worm-touch-row {display:flex; justify-content:space-around; margin-top:12px;}
+      .worm-touch-pad {z-index:1500; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); grid-template-areas:"empty1 up empty2" "left empty3 right" "empty4 down empty5"; gap:6px; --worm-btn-size:60px; opacity:0.8; touch-action:none;}
+      .worm-touch-pad.right {order:1;}
+      #game:fullscreen .worm-touch-pad {position:fixed; bottom:12px; opacity:0.55;}
+      #game:fullscreen .worm-touch-pad.left {left:12px;}
+      #game:fullscreen .worm-touch-pad.right {right:12px;}
+      #game:-webkit-full-screen .worm-touch-pad {position:fixed; bottom:12px; opacity:0.55;}
+      #game:-webkit-full-screen .worm-touch-pad.left {left:12px;}
+      #game:-webkit-full-screen .worm-touch-pad.right {right:12px;}
       .worm-touch-pad .worm-touch-btn { grid-area:auto; width:var(--worm-btn-size); height:var(--worm-btn-size); background:rgba(30,58,138,0.45); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.25); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff; user-select:none; -webkit-user-select:none; touch-action:none; font-family:system-ui,sans-serif;}
       .worm-touch-pad .worm-touch-btn.up {grid-area:up;}
       .worm-touch-pad .worm-touch-btn.down {grid-area:down;}
@@ -504,6 +510,17 @@ function createKeyboardPlayer(up, right, down, left, resetRef, opts = {}) {
     `
     document.getElementById('game').appendChild(style)
     window.__wormTouchStyles = true
+  }
+
+  function getTouchRow() {
+    let row = document.getElementById('worm-touch-row')
+    if (!row) {
+      row = document.createElement('div')
+      row.id = 'worm-touch-row'
+      row.className = 'worm-touch-row'
+      document.getElementById('game').appendChild(row)
+    }
+    return row
   }
 
   function buildPad(position) {
@@ -576,7 +593,9 @@ function createKeyboardPlayer(up, right, down, left, resetRef, opts = {}) {
 
   if (hasTouch && opts.enableTouch !== false) {
     padEl = buildPad(opts.touchPosition === 'right' ? 'right' : 'left')
-    document.getElementById('game').appendChild(padEl)
+    // below the board instead of on top of it, so the pad never hides the
+    // worms (in fullscreen the pads float at the edges again)
+    getTouchRow().appendChild(padEl)
 
     // API hooks
     resetRef.setTouchPosition = (pos) => {

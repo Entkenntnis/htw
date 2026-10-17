@@ -4,7 +4,7 @@
     <span style="color: rgb(34, 197, 94)"><%= props.gBot ? props.gBot.name : t('worms.testRun.you') %></span>
 </h2>
 
-    
+
 <p><a href="/worms/your-bots"><%= t('worms.testRun.back') %></a></p>
 
 <% if (props.human) { %>
@@ -31,7 +31,7 @@
       <%= t('worms.testRun.humanTimeLabel') %>: <span id="think-time">120</span> ms
     <% } else { %>
       <%= t('worms.testRun.cpuRed') %>: <span id="red-cpu">0</span>%
-    <% } %> | 
+    <% } %> |
     <% if (props.human == "green") { %>
       <%= t('worms.testRun.humanTimeLabel') %>: <span id="think-time">120</span> ms
     <% } else { %>
@@ -39,8 +39,10 @@
     <% } %>
   </span>
 </div>
-<div id="game" style="position: relative;">
-  <div id="board"></div>
+<div id="game">
+  <div style="position: relative;">
+    <div id="board"></div>
+  </div>
 </div>
 <div style="margin-top: 48px;">
   <textarea style="width: 100%; height: 200px; background-color: black; color: white; font-family: monospace;" readonly id="console-output"></textarea>
@@ -139,7 +141,7 @@
           //logToConsole('red cycles (10k): ' + cyclesRed.val)
         } catch(e) {
           logToConsole(<%-JSON.stringify(t('worms.testRun.redTag') + ' ')%> + e)
-          // alert('Fehler in Rot: ' + e) 
+          // alert('Fehler in Rot: ' + e)
         }
         return newDirRed
       }

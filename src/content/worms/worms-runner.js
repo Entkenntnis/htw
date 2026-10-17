@@ -142,19 +142,27 @@ export async function runWorms(
       // console.log('red cycles (10k)', cyclesRed.val)
     } catch {}
     if (
-      newDirRed === 0 ||
-      newDirRed === 1 ||
-      newDirRed === 2 ||
-      newDirRed === 3
+      !(
+        newDirRed === 0 ||
+        newDirRed === 1 ||
+        newDirRed === 2 ||
+        newDirRed === 3
+      )
     ) {
-      dirRed = newDirRed
-      replay.dirs.push(newDirRed)
-      onMove(newDirRed)
-    } else {
-      replay.winner = 'green'
-      replay.withCrash = true
-      break
+      const moves = [0, 1, 2, 3].filter((d) => {
+        const nx = xRed + offsets[d][0]
+        const ny = yRed + offsets[d][1]
+        return board[nx][ny] == 0
+      })
+      if (moves.length == 0) {
+        newDirRed = Math.floor(Math.random() * 4)
+      } else {
+        newDirRed = moves[Math.floor(Math.random() * moves.length)]
+      }
     }
+    dirRed = newDirRed
+    replay.dirs.push(newDirRed)
+    onMove(newDirRed)
     const nrx = xRed + offsets[dirRed][0]
     const nry = yRed + offsets[dirRed][1]
     if (board[nrx][nry] == 0) {
@@ -182,19 +190,27 @@ export async function runWorms(
       //console.timeEnd('green')
     } catch {}
     if (
-      newDirGreen === 0 ||
-      newDirGreen === 1 ||
-      newDirGreen === 2 ||
-      newDirGreen === 3
+      !(
+        newDirGreen === 0 ||
+        newDirGreen === 1 ||
+        newDirGreen === 2 ||
+        newDirGreen === 3
+      )
     ) {
-      dirGreen = newDirGreen
-      replay.dirs.push(newDirGreen)
-      onMove(newDirGreen)
-    } else {
-      replay.winner = 'red'
-      replay.withCrash = true
-      break
+      const moves = [0, 1, 2, 3].filter((d) => {
+        const nx = xGreen + offsets[d][0]
+        const ny = yGreen + offsets[d][1]
+        return board[nx][ny] == 0
+      })
+      if (moves.length == 0) {
+        newDirGreen = Math.floor(Math.random() * 4)
+      } else {
+        newDirGreen = moves[Math.floor(Math.random() * moves.length)]
+      }
     }
+    dirGreen = newDirGreen
+    replay.dirs.push(newDirGreen)
+    onMove(newDirGreen)
     const ngx = xGreen + offsets[dirGreen][0]
     const ngy = yGreen + offsets[dirGreen][1]
     if (board[ngx][ngy] == 0) {

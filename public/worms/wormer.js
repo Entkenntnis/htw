@@ -16,6 +16,11 @@ class Wormer {
       ...messages,
     }
 
+    // human against bot: the human gets as much time per move as the bot
+    // needed for its last move, at least the normal speed
+    this.fairTime = false
+    this.thinkTime = 0
+
     // constants
     this.OFFSETS = [
       [0, -1],
@@ -270,7 +275,11 @@ class Wormer {
 
     const ts = new Date().getTime()
 
-    const interval = this.live ? this.interval : 120
+    const interval = this.live
+      ? this.interval
+      : this.fairTime
+        ? Math.max(120, this.thinkTime)
+        : 120
 
     // held: the viewer drags the timeline, no moves until it is let go
     if (
@@ -289,6 +298,10 @@ class Wormer {
       this.step()
     } while (this.instant && !this.winner)
 
+    // the time for the human starts when the new position is shown, not
+    // before the bot started thinking
+    if (this.fairTime) this.lastTick = new Date().getTime()
+
     if (this.live) this.updateLiveInterval()
 
     if (!this.winner) {
@@ -299,6 +312,7 @@ class Wormer {
   step() {
     this.consumed += 2
 
+    const redStart = performance.now()
     const newRedDir = this.actRed(
       74,
       42,
@@ -309,6 +323,7 @@ class Wormer {
       this.greenX,
       this.greenY
     )
+    this.thinkTime = performance.now() - redStart
     if (
       newRedDir === 0 ||
       newRedDir === 1 ||
@@ -337,6 +352,7 @@ class Wormer {
       return
     }
 
+    const greenStart = performance.now()
     const newGreenDir = this.actGreen(
       74,
       42,
@@ -347,6 +363,7 @@ class Wormer {
       this.redX,
       this.redY
     )
+    this.thinkTime += performance.now() - greenStart
     if (
       newGreenDir === 0 ||
       newGreenDir === 1 ||

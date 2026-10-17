@@ -65,22 +65,6 @@ export function getWormsTranslator(App, req) {
 }
 
 /**
- * Texts for inline browser scripts. There is no t() in the browser, so the
- * server passes the translations along as JSON.
- * @param {(key: string) => string} t
- * @param {string[]} keys
- * @returns {string}
- */
-export function textsForScript(t, keys) {
-  /** @type {Record<string, string>} */
-  const texts = {}
-  for (const key of keys) {
-    texts[key] = t(key)
-  }
-  return toScriptJson(texts)
-}
-
-/**
  * Messages for the Wormer class (public/worms/wormer.js)
  * @param {(key: string) => string} t
  * @returns {string}
@@ -92,6 +76,7 @@ export function wormerMessages(t) {
     matchAborted: t('worms.wormer.matchAborted'),
     opponentCrashed: t('worms.wormer.opponentCrashed'),
     restart: t('worms.wormer.restart'),
+    pressToStart: t('worms.wormer.pressToStart'),
   })
 }
 
@@ -100,7 +85,7 @@ export function wormerMessages(t) {
  * @param {any} value
  * @returns {string}
  */
-function toScriptJson(value) {
+export function toScriptJson(value) {
   return JSON.stringify(value).replace(/</g, '\\u003c')
 }
 

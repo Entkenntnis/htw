@@ -36,16 +36,22 @@
 
 <script>
   const redResetRef = {}
-  const red = createKeyboardPlayer('w', 'd', 's', 'a', redResetRef, {touchPosition: 'left'})
+  let wormer = null
+  const onFirstInput = () => wormer && wormer.start()
+
+  const red = createKeyboardPlayer('w', 'd', 's', 'a', redResetRef, {
+    touchPosition: 'left',
+    onFirstInput
+  })
   let green = null
   let greenResetRef = {}
   if (window.MODE === 'two') {
-    green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef, {touchPosition: 'right'})
+    green = createKeyboardPlayer('ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', greenResetRef, {touchPosition: 'right', onFirstInput})
   } else {
     green = createDemoBot()
   }
 
-  const wormer = new Wormer(document.getElementById('board'), red, green, JSON.parse('<%- props.wormerMessages %>'))
+  wormer = new Wormer(document.getElementById('board'), red, green, JSON.parse('<%- props.wormerMessages %>'), { pressToStart: true })
   wormer.run()
 
   function restart() {

@@ -366,7 +366,7 @@
       "greenWins": "Green wins",
       "averageMoves": "Average moves per game (tick pairs)",
       "elapsed": "Elapsed time",
-      "back": "Back",
+      "back": "back",
       "cpuRed": "CPU-Red",
       "cpuGreen": "CPU-Green",
       "redTag": "[red]",
@@ -380,15 +380,15 @@
       "humanHintRed": "You play red and steer with WASD.",
       "humanHintGreen": "You play green and steer with the arrow keys.",
       "humanTime": "For each move you get as much time as the bot spent on its last move, at least 0.12 seconds.",
-      "humanTimeLabel": "Your time per move",
-      "pressToStart": "Press a direction to start"
+      "humanTimeLabel": "Your time per move"
     },
     "wormer": {
       "redWins": "Red wins",
       "greenWins": "Green wins",
       "matchAborted": "Match forfeited",
       "opponentCrashed": "Opponent bot crashed, e.g. error or limit reached",
-      "restart": "Restart"
+      "restart": "Restart",
+      "pressToStart": "Press a direction to start"
     },
     "guide": {
       "welcome": "Two worms and a fight to the death - welcome to Worms!",

@@ -366,7 +366,7 @@
       "greenWins": "Grün gewinnt",
       "averageMoves": "Ø Züge pro Spiel (Tick-Paare)",
       "elapsed": "Vergangene Zeit",
-      "back": "Zurück",
+      "back": "zurück",
       "cpuRed": "CPU-Rot",
       "cpuGreen": "CPU-Grün",
       "redTag": "[rot]",
@@ -380,15 +380,15 @@
       "humanHintRed": "Du spielst Rot und steuerst mit WASD.",
       "humanHintGreen": "Du spielst Grün und steuerst mit den Pfeiltasten.",
       "humanTime": "Pro Zug hast du so viel Zeit, wie der Bot für seinen letzten Zug gerechnet hat, mindestens 0,12 Sekunden.",
-      "humanTimeLabel": "Deine Zeit pro Zug",
-      "pressToStart": "Drücke eine Richtung, um zu starten"
+      "humanTimeLabel": "Deine Zeit pro Zug"
     },
     "wormer": {
       "redWins": "Rot gewinnt",
       "greenWins": "Grün gewinnt",
       "matchAborted": "Match aufgegeben",
       "opponentCrashed": "Gegner-Bot abgestürzt, z.B. Fehler oder Limit erreicht",
-      "restart": "Neustart"
+      "restart": "Neustart",
+      "pressToStart": "Drücke eine Richtung, um zu starten"
     },
     "guide": {
       "welcome": "Zwei Würmer und ein Kampf auf Leben und Tod - herzlich Willkommen bei Worms!",

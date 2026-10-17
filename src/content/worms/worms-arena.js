@@ -3,13 +3,13 @@ import { Worker } from 'node:worker_threads'
 import {
   getWormsTranslator,
   renderNavigation,
-  textsForScript,
   wormerMessages,
 } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
 import { Op, Sequelize } from 'sequelize'
 import escapeHTML from 'escape-html'
 import { safeRoute } from '../../helper/helper.js'
+import { textsForScript } from './worms-management.js'
 
 /** @type {Int32Array | null} */
 let currentProgress = null

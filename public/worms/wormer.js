@@ -3,7 +3,7 @@
 // directions: 0 up, 1, right, 2, down, 3, left
 
 class Wormer {
-  constructor(div, actRed, actGreen, messages = {}) {
+  constructor(div, actRed, actGreen, messages = {}, options = {}) {
     this.div = div
     this.actRed = actRed
     this.actGreen = actGreen
@@ -13,8 +13,11 @@ class Wormer {
       matchAborted: 'Match forfeited',
       opponentCrashed: 'Opponent bot crashed, e.g. error or limit reached',
       restart: 'Restart',
+      pressToStart: 'Press a direction to start',
       ...messages,
     }
+
+    this.pressToStart = options.pressToStart === true
 
     // human against bot: the human gets as much time per move as the bot
     // needed for its last move, at least the normal speed
@@ -39,6 +42,7 @@ class Wormer {
 
   reset() {
     this.div.innerHTML = ''
+    this.startHint = null
 
     this.div.style.display = 'grid'
     this.div.style.gridTemplateColumns = 'repeat(74, 1fr)' // 74 equally spaced columns
@@ -86,10 +90,42 @@ class Wormer {
     this.lastTick = new Date().getTime()
     this.turbo = false
     this.consumed = 0
+
+    this.paused = this.pressToStart
+    if (this.pressToStart) this.showStartHint()
   }
 
   toggleTurbo() {
     this.turbo = !this.turbo
+  }
+
+  showStartHint() {
+    const hint = document.createElement('div')
+    hint.id = 'start-hint'
+    hint.textContent = this.messages.pressToStart
+    hint.style.position = 'absolute'
+    hint.style.top = '50%'
+    hint.style.left = '50%'
+    hint.style.transform = 'translate(-50%, -120%)'
+    hint.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+    hint.style.color = 'white'
+    hint.style.padding = '12px 20px'
+    hint.style.borderRadius = '10px'
+    hint.style.fontSize = '22px'
+    hint.style.textAlign = 'center'
+    hint.style.zIndex = '1000'
+    this.div.appendChild(hint)
+    this.startHint = hint
+  }
+
+  // if human start playing, call this
+  start() {
+    if (!this.pressToStart || !this.paused) return
+    this.paused = false
+    if (this.startHint) {
+      this.startHint.remove()
+      this.startHint = null
+    }
   }
 
   runReplay(replay) {
@@ -397,11 +433,19 @@ class Wormer {
 function createKeyboardPlayer(up, right, down, left, resetRef, opts = {}) {
   let lastDir = -1 // last applied direction
   let newDir = -1 // pending direction (consumed each tick)
+  let started = false
+
+  const notifyStart = () => {
+    if (started) return
+    started = true
+    if (opts.onFirstInput) opts.onFirstInput()
+  }
 
   // --- RESET HANDLER ---
   resetRef.reset = () => {
     lastDir = -1
     newDir = -1
+    started = false
     // Clear active button visual state if touch pad exists
     if (padEl) {
       padEl
@@ -432,6 +476,7 @@ function createKeyboardPlayer(up, right, down, left, resetRef, opts = {}) {
       default:
         return
     }
+    notifyStart()
   })
 
   // --- TOUCH / POINTER D-PAD (optional) ---
@@ -518,6 +563,7 @@ function createKeyboardPlayer(up, right, down, left, resetRef, opts = {}) {
         if (!btn) return
         const intended = parseInt(btn.dataset.dir)
         if (isNaN(intended)) return
+        notifyStart()
         // Guard against 180° reversal relative to lastDir
         if (!isOpposite(intended, lastDir)) {
           newDir = intended

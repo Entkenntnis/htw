@@ -255,7 +255,6 @@ export function setupWormsArena(App) {
   })
 
   App.express.get_async_fix('/worms/arena', async (req, res) => {
-    const t = getWormsTranslator(App, req)
     const user = req.user
     if (!user) {
       res.redirect('/')
@@ -277,13 +276,13 @@ export function setupWormsArena(App) {
               await App.db.models.WormsBotDraft.findOne({
                 where: { id: ownMatch.redBotId },
               })
-            )?.name ?? `[${t('worms.arena.deletedBot')}]`,
+            )?.name ?? null,
           green:
             (
               await App.db.models.WormsBotDraft.findOne({
                 where: { id: ownMatch.greenBotId },
               })
-            )?.name ?? `[${t('worms.arena.deletedBot')}]`,
+            )?.name ?? null,
         }
       : null
 
@@ -312,7 +311,7 @@ export function setupWormsArena(App) {
     })
 
     // extract bot ids and store elo values
-    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; htmlLabel: string; ts: number}[]}[]}} */
+    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string; ts: number}[]}[]}} */
     let botData = []
     for (const botELO of botELOs) {
       const id = parseInt(botELO.key.substring(13))
@@ -377,7 +376,9 @@ export function setupWormsArena(App) {
       if (redBot && redBot.matches.length < 10) {
         redBot.matches.push({
           id: match.id,
-          htmlLabel: `${match.status == 'red-win' ? t('worms.arena.win') : t('worms.arena.loss')} ${t('worms.arena.against')} ${greenBot ? escapeHTML(greenBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}`,
+          won: match.status == 'red-win',
+          opponentName: greenBot ? greenBot.name : null,
+          dateFromNow: App.moment(match.createdAt).locale(req.lng).fromNow(),
           ts: App.moment(match.createdAt).unix(),
         })
       }
@@ -385,7 +386,9 @@ export function setupWormsArena(App) {
       if (greenBot && greenBot.matches.length < 10) {
         greenBot.matches.push({
           id: match.id,
-          htmlLabel: `${match.status == 'green-win' ? t('worms.arena.win') : t('worms.arena.loss')} ${t('worms.arena.against')} ${redBot ? escapeHTML(redBot.name) : `[<i>${t('worms.arena.deletedBot')}</i>]`}`,
+          won: match.status == 'green-win',
+          opponentName: redBot ? redBot.name : null,
+          dateFromNow: App.moment(match.createdAt).locale(req.lng).fromNow(),
           ts: App.moment(match.createdAt).unix(),
         })
       }
@@ -432,246 +435,74 @@ export function setupWormsArena(App) {
 
     const matchesToShow = matches.slice(0, 40)
 
+    const lastMatches = matchesToShow.map((match) => {
+      const redBot = botData.find((b) => b.id == match.redBotId)
+      const greenBot = botData.find((b) => b.id == match.greenBotId)
+      return {
+        id: match.id,
+        redName: redBot ? redBot.name : null,
+        redUsername: redBot ? redBot.username : null,
+        greenName: greenBot ? greenBot.name : null,
+        greenUsername: greenBot ? greenBot.username : null,
+        redWon: match.status == 'red-win',
+        greenWon: match.status == 'green-win',
+        dateFromNow: App.moment(match.createdAt).locale(req.lng).fromNow(),
+      }
+    })
+
+    const limitReached = matchesInTheLast24h.length >= 50
+    const limitUntil = limitReached
+      ? App.moment(
+          new Date(matchesInTheLast24h[0].createdAt).getTime() +
+            1000 * 60 * 60 * 24
+        )
+          .locale(req.lng)
+          .fromNow()
+      : null
+
     renderPage(App, req, res, {
-      page: 'worms-drafts',
+      page: 'worms-arena',
       heading: 'Worms',
       backButton: false,
-      content: `
-        ${renderNavigation(2, req, App)}
-
-        ${
+      props: {
+        navigation: renderNavigation(2, req, App),
+        ownMatch:
           ownMatch && ownMatchNames
-            ? `
-<div style="border: 1px solid #3b82f6; background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 10px 14px; margin-top: 24px; margin-bottom: 12px;">
-  ${t('worms.arena.yourMatch')} <strong>${escapeHTML(ownMatchNames.red)} vs ${escapeHTML(ownMatchNames.green)}</strong>
-  ${ownMatch.status == 'running' ? t('worms.arena.matchIsRunning') : t('worms.arena.matchIsQueued')}.
-  ${t('worms.arena.noNewMatch')}
-  <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">${t('worms.arena.toMatch')}</a>
-</div>
-        `
-            : ''
-        }
-
-        ${
+            ? {
+                id: ownMatch.id,
+                redName: ownMatchNames.red,
+                greenName: ownMatchNames.green,
+                running: ownMatch.status == 'running',
+              }
+            : null,
+        liveMatch:
           liveArenaMatch && liveNames && liveArenaMatch.id != ownMatch?.id
-            ? `
-          <p style="text-align: center; margin-top: 24px;">
-            <a href="/worms/arena/match?id=${liveArenaMatch.id}" class="btn btn-outline-warning">
-              🔴 ${t('worms.arena.watchLive')}
-              ${escapeHTML(liveNames.red ?? `[${t('worms.arena.deletedBot')}]`)} vs
-              ${escapeHTML(liveNames.green ?? `[${t('worms.arena.deletedBot')}]`)}
-            </a>
-          </p>
-        `
-            : ''
-        }
-
-        <style>
-          .hidden {
-            display: none;
-          }
-          /* phones: less padding, so the tables fit without scrolling */
-          @media (max-width: 575px) {
-            .worms-arena-table th,
-            .worms-arena-table td {
-              padding: 0.4rem 0.3rem;
-            }
-          }
-        </style>
-
-        <h4>${t('worms.arena.lastMatches')}</h4>
-        <div class="table-responsive"><table class="table worms-arena-table">
-          <thead>
-            <tr>
-              <th>${t('worms.arena.redBot')}</th>
-              <th>${t('worms.arena.greenBot')}</th>
-              <th>${t('worms.arena.result')}</th>
-              <th>${t('worms.arena.date')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${matchesToShow
-              .map(
-                (match, i) => `
-              <tr ${i < 10 ? '' : 'class="hidden"'}>
-                <td>${escapeHTML(
-                  botData.find((b) => b.id == match.redBotId)?.name ??
-                    `[${t('worms.arena.deletedBot')}]`
-                )}${match.status == 'red-win' ? ' 🏆' : ''}</td>
-                <td>${escapeHTML(
-                  botData.find((b) => b.id == match.greenBotId)?.name ??
-                    `[${t('worms.arena.deletedBot')}]`
-                )}${match.status == 'green-win' ? ' 🏆' : ''}</td>
-                <td>${match.status == 'red-win' ? t('worms.arena.red') : t('worms.arena.green')} ${t('worms.arena.wins')} [<a href="/worms/arena/replay?id=${match.id}">${t('worms.arena.view')}</a>]</td>
-                <td>${App.moment(match.createdAt).locale(req.lng).fromNow()}</td>
-              </tr>
-            `
-              )
-              .join('')}
-          </tbody>
-        </table></div>
-
-        ${matchesToShow.length > 10 ? `<a id="show-more" href="#">${t('worms.arena.more')}</a>` : ''}
-
-        <div style="text-align: center; margin-bottom: 24px; margin-top: 56px;">
-          <img src="/worms/arena.jpg" style="max-width: 100%; height: auto;">
-        </div>
-
-        ${
-          ownBots.length == 0
-            ? `<p>${t('worms.arena.noBots')}</p>`
-            : matchesInTheLast24h.length >= 50
-              ? `<p>${t('worms.arena.limitReached', {
-                  until: App.moment(
-                    new Date(matchesInTheLast24h[0].createdAt).getTime() +
-                      1000 * 60 * 60 * 24
-                  )
-                    .locale(req.lng)
-                    .fromNow(),
-                })}</p>`
-              : `<p>${t('worms.arena.chooseBot')}
-          <select name="bot" id="bot-selector" style="min-width: 300px; padding: 8px; margin-left: 12px;" onchange="updateBotIdAndUpdateUI(parseInt(this.value))">
-            <option value="">${t('worms.arena.pleaseChoose')}</option>
-            ${ownBots
-              .map(
-                (bot) =>
-                  `<option value="${bot.id}" ${bot.id === req.session.lastWormsBotId ? 'selected' : ''}>${escapeHTML(bot.name)}</option>`
-              )
-              .join('')}
-          </select><small style="margin-left: 12px;">${t('worms.arena.limit')} (${matchesInTheLast24h.length} / 50)</small>
-        </p>`
-        }
-
-        <div class="table-responsive"><table class="table worms-arena-table">
-          <thead>
-            <tr>
-              <th>${t('worms.arena.rank')}</th>
-              <th>${t('worms.arena.bot')}</th>
-              <th>${t('worms.arena.elo')}</th>
-              <th class="challenge-button" style="visibility: hidden;">${t('worms.arena.chooseOpponent')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${botData
-              .map(
-                (bot, index) => `
-              <tr>
-                
-                <td>${index + 1}</td>
-                <td>${escapeHTML(bot.name)}<span style="color: gray"> ${t('worms.arena.by')} ${escapeHTML(bot.username)}</span>${
-                  bot.userid == user.id
-                    ? ` <span onClick="updateBotIdAndUpdateUI(${bot.id})" id="bot-chooser-${bot.id}" class="bot-chooser"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 14px; height: 14px; cursor: pointer;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span>`
-                    : ''
-                }<br >
-                  <div style="display: flex">
-                    <details>
-                      <summary><span style="color: darkgray">${t('worms.arena.wins_noun')}: ${bot.wins}, ${t('worms.arena.losses')}: ${bot.losses}</span></summary>
-                      <ul>
-                        ${bot.matches
-                          .map(
-                            (match) =>
-                              `<li><a href="/worms/arena/replay?id=${match.id}">${match.htmlLabel}</a> <span style="color: gray;">${App.moment(
-                                match.ts * 1000
-                              )
-                                .locale(req.lng)
-                                .fromNow()}</span></li>`
-                          )
-                          .join('')}
-                      </ul>
-                      <p style="margin-top: -14px; margin-left: 20px;"><a href="/worms/arena/bot-history?id=${bot.id}">${t('worms.arena.fullHistory')}</a></p>
-                    </details>
-                  </div>
-                </td>
-                <td>${Math.round(bot.elo)}</td>
-                <td>
-                  <form action="/worms/arena/start-match" method="POST" style="display: inline;" class="challenge-form">
-                    <input type="hidden" name="opponent" value="${bot.id}">
-                    <button type="submit" class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" id="challenge-${bot.id}">${t('worms.arena.challenge')}</button>
-                  </form>
-                </td>
-              </tr>
-            `
-              )
-              .join('')}
-          </tbody>
-        </table></div>
-        
-        <script>
-          let botId = null
-          // only one match per person in the queue
-          const canChallenge = ${!ownMatch}
-
-          function updateBotIdAndUpdateUI(id) {
-            if (isNaN(id)) {
-              id = null
-            }
-            if (id == null || !canChallenge) {
-              // make all challenge buttons invisible
-              const buttons = document.getElementsByClassName('challenge-button')
-              for (let i = 0; i < buttons.length; i++) {
-                buttons[i].style.visibility = 'hidden'
+            ? {
+                id: liveArenaMatch.id,
+                redName: liveNames.red,
+                greenName: liveNames.green,
               }
-              // make all challenge buttons visible
-              const choosers = document.getElementsByClassName('bot-chooser')
-              for (let i = 0; i < choosers.length; i++) {
-                choosers[i].style.visibility = 'visible'
-              }
-            } else {
-              // make all challenge buttons visible
-              const buttons = document.getElementsByClassName('challenge-button')
-              for (let i = 0; i < buttons.length; i++) {
-                buttons[i].style.visibility = 'visible'
-              }
-              // make all challenge buttons visible
-              const choosers = document.getElementsByClassName('bot-chooser')
-              for (let i = 0; i < choosers.length; i++) {
-                choosers[i].style.visibility = 'visible'
-              }
-            }
-            botId = id
-            if (id !== null) {
-              const el = document.getElementById('challenge-' + id)
-              if (el) {
-                el.style.visibility = 'hidden'
-              }
-              const el2 = document.getElementById('bot-chooser-' + id)
-              if (el2) {
-                el2.style.visibility = 'hidden'
-              }
-            }
-            const selector = document.getElementById('bot-selector')
-            if (selector) {
-              selector.value = id
-            }
-          }
-
-           // Add botId to challenge forms dynamically
-          document.querySelectorAll('form.challenge-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-              e.preventDefault()
-              const botIdInput = document.createElement('input')
-              botIdInput.type = 'hidden'
-              botIdInput.name = 'bot'
-              botIdInput.value = botId
-              this.appendChild(botIdInput)
-              this.submit()
-            })
-          })
-          
-          updateBotIdAndUpdateUI(parseInt(document.querySelector('select[name="bot"]')?.value))
-
-          document.getElementById('show-more')?.addEventListener('click', function(e) {
-            e.preventDefault()
-            const hiddenRows = document.querySelectorAll('tr.hidden')
-            hiddenRows.forEach(row => {
-              row.classList.remove('hidden')
-            })
-            this.style.display = 'none'
-          })
-        </script>
-
-        <div style="height: 200px;"></div>
-      `,
+            : null,
+        lastMatches,
+        bots: botData.map((bot) => ({
+          id: bot.id,
+          name: bot.name,
+          username: bot.username,
+          isOwn: bot.userid == user.id,
+          elo: Math.round(bot.elo),
+          wins: bot.wins,
+          losses: bot.losses,
+          matches: bot.matches,
+        })),
+        ownBots: ownBots.map((bot) => ({
+          id: bot.id,
+          name: bot.name,
+          selected: bot.id === req.session.lastWormsBotId,
+        })),
+        matchCount24h: matchesInTheLast24h.length,
+        limitUntil,
+        canChallenge: !ownMatch,
+      },
     })
   })
 

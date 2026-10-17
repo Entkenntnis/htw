@@ -60,22 +60,6 @@ function isUntouchedTemplate(App, code) {
 }
 
 /**
- * Texts for inline browser scripts. There is no t() in the browser, so the
- * server passes the translations along as JSON.
- * @param {(key: string) => string} t
- * @param {string[]} keys
- * @returns {string}
- */
-export function textsForScript(t, keys) {
-  /** @type {Record<string, string>} */
-  const texts = {}
-  for (const key of keys) {
-    texts[key] = t(key)
-  }
-  return toScriptJson(texts)
-}
-
-/**
  *
  * @param {import("../../data/types.js").App} App
  */
@@ -141,6 +125,7 @@ export function setupWormsManagement(App) {
 
       if (App.config.demos.includes(req.user.name)) {
         res.status(403).send('forbidden')
+        return
       }
 
       const name = req.body?.name ? req.body.name.toString() : ''

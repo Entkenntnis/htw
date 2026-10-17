@@ -1,0 +1,95 @@
+<%- props.navigation %>
+
+<h3 style="text-align: center;"><%= props.redWon ? '🏆 ' : '' %><span style="color: rgb(239, 68, 68)"><% if (props.redName) { %><%= props.redName %><% } else { %>[<i><%= t('worms.arena.deletedBot') %></i>]<% } %><% if (!props.showMsg) { %> (<%= props.redElo %>)<% } %></span> <i>vs</i> <span style="color: rgb(34, 197, 94)"><% if (props.greenName) { %><%= props.greenName %><% } else { %>[<i><%= t('worms.arena.deletedBot') %></i>]<% } %><% if (!props.showMsg) { %> (<%= props.greenElo %>)<% } %></span><%= props.greenWon ? ' 🏆' : '' %></h3>
+
+<% if (props.showMsg) { %>
+<p style="font-size: 20px; text-align: center"><%- t(props.resultTextKey, { red: props.redHtml, green: props.greenHtml }) %><br ><%= t('worms.arena.newElo') %> <%= props.redBotElo %> (<%= props.eloDiff > 0 ? '+' : '' %><%= props.eloDiff %>).</p>
+<% } else { %>
+<p style="text-align: center;"><%= props.updatedFromNow %><% if (props.aborted) { %> (<%= t('worms.arena.abortedShort') %>)<% } %></p>
+<% } %>
+
+<p style="text-align: center; margin-top: 24px;"><a href="<%= props.backHref %>" class="btn btn-primary"><%= props.showMsg ? 'OK' : t('worms.arena.close') %></a><% if (props.hasBoard) { %><button class="btn btn-secondary" style="margin-left: 32px;" onClick="<% if (props.instant) { %>window.location.href = window.location.href.replace('&instant=1', '')<% } else { %>window.location.reload()<% } %>"><%= t('worms.arena.replayAgain') %></button><% } %></p>
+
+<% if (props.hasBoard) { %>
+<script src="/worms/wormer.js"></script>
+
+<div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
+  <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> <%= t('worms.testRun.turbo') %></label></span>
+</div>
+
+<div id="board"></div>
+<div style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+  <button type="button" id="pause-button" class="btn btn-sm btn-outline-secondary" style="min-width: 40px;" title="<%= t('worms.arena.pauseResume') %>">⏸︎</button>
+  <input type="range" id="timeline" min="0" max="0" value="0" step="1" style="flex: 1;" aria-label="<%= t('worms.arena.timeline') %>">
+  <span id="timeline-pos" style="color: gray; font-size: 14px; min-width: 120px; text-align: right; font-variant-numeric: tabular-nums;"></span>
+</div>
+
+<div style="height:70px"></div>
+
+<script>
+  const wormer = new Wormer(document.getElementById('board'), undefined, undefined, <%- props.wormerMessages %>)
+  wormer.instant = <%- JSON.stringify(props.instant) %>
+  wormer.runReplay(<%- JSON.stringify(props.replay) %>)
+
+  // timeline: scroll back and forth, the replay continues from there
+  const timeline = document.getElementById('timeline')
+  const total = Math.floor(wormer.dirs.length / 2)
+  timeline.max = total
+  let dragging = false
+  let seekTo = -1
+  timeline.addEventListener('input', () => {
+    dragging = true
+    // no moves while the timeline is held
+    wormer.held = true
+    // from the end of the live view: play normally after scrolling back
+    wormer.instant = false
+    // seek at most once per frame while dragging
+    if (seekTo < 0) {
+      requestAnimationFrame(() => {
+        wormer.seek(seekTo * 2)
+        seekTo = -1
+      })
+    }
+    seekTo = parseInt(timeline.value)
+  })
+  function release() {
+    dragging = false
+    wormer.held = false
+  }
+  timeline.addEventListener('change', release)
+  // the change event is missing when let go at the starting value
+  document.addEventListener('pointerup', release)
+  const pauseButton = document.getElementById('pause-button')
+  pauseButton.addEventListener('click', () => {
+    wormer.paused = !wormer.paused
+    // paused on the last move: start again from the beginning
+    if (!wormer.paused && wormer.winner) {
+      wormer.instant = false
+      wormer.seek(0)
+    }
+  })
+  setInterval(() => {
+    const pos = Math.min(total, Math.floor(wormer.consumed / 2))
+    if (!dragging) timeline.value = pos
+    document.getElementById('timeline-pos').innerText =
+      <%- JSON.stringify(t('worms.arena.round') + ' ') %> + (dragging ? timeline.value : pos) + ' / ' + total
+    pauseButton.innerText = wormer.paused || wormer.winner ? '▶︎' : '⏸︎'
+  }, 100)
+</script>
+<% } else { %>
+<p style="text-align: center; color: gray; margin-top: 24px;"><%= t('worms.arena.matchAbortedEarly') %></p>
+<% } %>
+
+<script>
+  // Remove one-time query parameters without reloading or adding a history entry.
+  ;(() => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete('msg')
+    url.searchParams.delete('instant')
+    window.history.replaceState(
+      window.history.state,
+      '',
+      url.pathname + url.search + url.hash
+    )
+  })()
+</script>

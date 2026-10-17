@@ -46,7 +46,7 @@ export function safeRoute(handler) {
     } catch (error) {
       console.log('!! catching error in route !!')
       console.error(error)
-      res.send('[htw] internal server error')
+      res.status(500).send('[htw] internal server error')
     }
   }
 }

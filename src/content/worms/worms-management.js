@@ -1,5 +1,4 @@
 import { renderPage } from '../../helper/render-page.js'
-import escapeHTML from 'escape-html'
 import {
   getWormsTranslator,
   renderNavigation,
@@ -102,154 +101,18 @@ export function setupWormsManagement(App) {
         page: 'worms-drafts',
         heading: 'Worms',
         backButton: false,
-        content: `
-      ${renderNavigation(3, req, App)}
-
-      <div style="height: 24px;"></div>
-
-      ${bots
-        .map(
-          (bot) =>
-            `<div style="margin-bottom: 24px;"><strong style="font-size: 20px;">${escapeHTML(
-              bot.name
-            )}</strong><span style="margin-left: 24px; color: gray; user-select: none;">${t('worms.management.lastEdited')} ${App.moment(bot.updatedAt).locale(req.lng).fromNow()}</span><br>
-          <div style="margin-top: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 24px;">
-            <a class="btn btn-sm btn-warning" href="/worms/drafts/edit?id=${bot.id}"><svg style="height: 12px; fill: white; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg> ${t('worms.management.edit')}</a>
-            <span>
-              <button class="btn btn-sm btn-outline-light" onClick="renameBot(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">${t('worms.management.rename')}</button>
-              ${
-                /*bots.length >= 20
-                  ? '<button class="btn btn-sm btn-outline-warning" disabled>Duplizieren</button>'
-                  : `<a class="btn btn-sm btn-outline-warning" href="/worms/drafts/duplicate?id=${bot.id}">Duplizieren</a>`*/ ''
-              }
-              <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${bot.id}, '${Buffer.from(bot.name, 'utf-8').toString('base64')}')">${t('worms.management.delete')}</button>
-            </span>
-          </div>
-          </div> <hr>`
-        )
-        .join('')}
-
-      ${
-        bots.length > 0
-          ? `
-      <style>
-        /* phones: one field per line instead of one wide row */
-        @media (max-width: 575px) {
-          .worms-test-form { width: 100%; align-items: stretch !important; }
-          .worms-test-row { flex-direction: column; align-items: stretch !important; gap: 12px; }
-          .worms-test-row label { display: flex; align-items: center; margin-left: 0 !important; }
-          .worms-test-row select { width: 75%; margin-left: auto !important; }
-          .worms-test-row input[type='submit'] { margin-left: 0 !important; }
-          .worms-test-extra { margin-right: 0 !important; }
-        }
-      </style>
-      <div style="margin-bottom: 32px; display: flex; justify-content: center;">
-        <form action="/worms/your-bots/test-run" class="worms-test-form" style="display: flex; flex-direction: column; align-items: center;">
-          <div class="worms-test-row" style="display: flex; align-items: baseline;">
-            <label>${t('worms.arena.red')}: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
-              (bot) =>
-                `<option value="${bot.id}" ${
-                  bot.id === req.session.lastTestRun?.[0]
-                    ? 'selected="selected"'
-                    : ''
-                }>${escapeHTML(bot.name)}</option>`
-            )}<option value="me" ${
-              req.session.lastTestRun?.[0] === 'me' ? 'selected="selected"' : ''
-            }>${t('worms.testRun.humanOption')}</option></select></label>
-            <label style="margin-left: 24px;">${t('worms.arena.green')}: <select name="gId" style="padding: 8px; margin-left: 8px;">${bots.map(
-              (bot) =>
-                `<option value="${bot.id}" ${
-                  bot.id === req.session.lastTestRun?.[1]
-                    ? 'selected="selected"'
-                    : ''
-                }>${escapeHTML(bot.name)}</option>`
-            )}<option value="me" ${
-              req.session.lastTestRun?.[1] === 'me' ? 'selected="selected"' : ''
-            }>${t('worms.testRun.humanOption')}</option></select></label>
-            <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="${t('worms.management.startTestRun')}">
-          </div>
-          <div class="worms-test-extra" style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
-            <label style="display: inline-flex; align-items: center;">
-              <input type="checkbox" id="extensiveTest" onchange="document.getElementById('repeatInput').disabled = !this.checked" style="margin-right: 8px;" />
-              ${t('worms.management.extensiveTest')}
-            </label>
-            <input type="number" name="repeat" id="repeatInput" min="1" value="100" style="padding: 8px; width: 100px; margin-left: 8px; height: 28px;" disabled />
-          </div>
-        </form>
-      </div><hr>`
-          : ''
-      }
-
-      ${bots.length < 20 ? `<form action="/worms/drafts/create" method="POST"><input name="name" required autocomplete="off" maxlength="32"> <input type="submit" class="btn btn-sm btn-secondary" style="display: inline-block; margin-bottom: 4px; margin-left: 3px;" value="${t('worms.management.createBot')}"></form>` : `<p style="margin-top: 44px;">${t('worms.management.botLimit')}</p>`}
-
-      <div style="height: 250px;"></div>
-
-      <script>
-        function confirmDelete(id, name) {
-          name = atobUTF8(name)
-          if (confirm(${JSON.stringify(t('worms.management.confirmDelete'))}.replace('{{name}}', name))) {
-            fetch('/worms/drafts/delete', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ id: id }),
-            })
-            .then(response => {
-              if (response.ok) {
-                window.location.reload();
-              } else {
-                alert(${JSON.stringify(t('worms.management.deleteFailed'))});
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-              alert(${JSON.stringify(t('worms.management.deleteError'))});
-            });
-          }
-        }
-
-        function renameBot(id, name) {
-          name = atobUTF8(name)
-          const newName = prompt(${JSON.stringify(t('worms.management.newName'))}, name)
-          if (newName) {
-            if (newName.length > 32) {
-              alert(${JSON.stringify(t('worms.management.nameTooLong'))})
-              return
-            }
-            fetch('/worms/drafts/rename', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ id: id, name: newName }),
-            })
-            .then(response => {
-              if (response.ok) {
-                window.location.reload();
-              } else {
-                alert(${JSON.stringify(t('worms.management.renameFailed'))});
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-              alert(${JSON.stringify(t('worms.management.renameError'))});
-            });
-          }
-        }
-
-        
-        function atobUTF8(data) {
-            const decodedData = atob(data);
-            const utf8data = new Uint8Array(decodedData.length);
-            const decoder = new TextDecoder("utf-8");
-            for (let i = 0; i < decodedData.length; i++) {
-                utf8data[i] = decodedData.charCodeAt(i);
-            }
-            return decoder.decode(utf8data);
-        }
-      </script>
-      `,
+        props: {
+          navigation: renderNavigation(3, req, App),
+          drafts: bots.map((bot) => ({
+            id: bot.id,
+            name: bot.name,
+            nameBase64: Buffer.from(bot.name, 'utf-8').toString('base64'),
+            updatedAtFromNow: App.moment(bot.updatedAt)
+              .locale(req.lng)
+              .fromNow(),
+          })),
+          lastTestRun: req.session.lastTestRun,
+        },
       })
     })
   )

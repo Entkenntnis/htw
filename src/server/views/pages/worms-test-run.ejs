@@ -24,7 +24,7 @@
 
 <div style="display: flex; justify-content: end; margin-bottom: 16px; margin-top: 24px;">
   <% if (!props.human) { %>
-      <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> <%= t('worms.testRun.turbo') %></label></span>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <span style=""><label><input type="checkbox" id="turbo-toggle" onClick="setTurbo(this.checked)"/> <%= t('worms.testRun.turbo') %></label></span>&nbsp;&nbsp;|&nbsp;&nbsp;
   <% } %>
   <span style="color: gray;">
     <% if (props.human == "red") { %>
@@ -55,6 +55,20 @@
   const redCode = <%- props.rCode %>
   const greenCode = <%- props.gCode %>
   const wormerMessages = <%- props.wormerMessages %>
+
+  // turbo stays on after F5 while testing, as long as the tab is open
+  function setTurbo(on) {
+    try {
+      sessionStorage.setItem('worms-test-turbo', on ? '1' : '')
+    } catch {}
+    if (window.wormer) window.wormer.turbo = on
+  }
+  try {
+    const turboToggle = document.getElementById('turbo-toggle')
+    if (turboToggle && sessionStorage.getItem('worms-test-turbo')) {
+      turboToggle.checked = true
+    }
+  } catch {}
 
   function logToConsole(text) {
     const consoleOutput = document.getElementById('console-output')
@@ -213,5 +227,7 @@
       })
     <% } %>
     wormer.run()
+    // after run(), which resets turbo
+    wormer.turbo = !!document.getElementById('turbo-toggle')?.checked
   })
 </script>

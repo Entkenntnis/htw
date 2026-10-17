@@ -977,7 +977,6 @@ export function setupWormsArena(App) {
   App.express.get(
     '/worms/arena/bot-history',
     safeRoute(async (req, res) => {
-      const t = getWormsTranslator(App, req)
       const botId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
       const bot = await App.db.models.WormsBotDraft.findOne({
@@ -1050,78 +1049,34 @@ export function setupWormsArena(App) {
 
       elos.reverse()
 
+      const history = matches.map((match) => {
+        const opponent =
+          match.redBotId == bot.id
+            ? opponents.find((opp) => opp.id == match.greenBotId)
+            : opponents.find((opp) => opp.id == match.redBotId)
+        return {
+          id: match.id,
+          opponentName: opponent ? opponent.name : null,
+          won:
+            (match.status == 'red-win' && match.redBotId == bot.id) ||
+            (match.status == 'green-win' && match.greenBotId == bot.id),
+          dateFromNow: App.moment(match.createdAt).locale(req.lng).fromNow(),
+        }
+      })
+
       renderPage(App, req, res, {
         page: 'worms-bot-history',
         heading: 'Worms',
         backButton: false,
-        content: `
-          ${renderNavigation(2, req, App)}
-
-          <h3 style="text-align: center;">${escapeHTML(bot.name)} (${Math.round(botELO)})</h3>
-
-          <h4 style="text-align: center; margin-bottom: 48px;">${t('worms.arena.by')} ${escapeHTML(player.name)}</h4>
-
-          <p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary">${t('worms.arena.close')}</a></p>
-
-          <canvas id="chart" style="margin-top: 32px; margin-bottom: 32px;"></canvas>
-
-          <script src="/chart.js"></script>
-
-          <script>
-            const ctx = document.getElementById('chart').getContext('2d');
-            const chart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: [${elos.map(() => `""`).join(',')}],
-                datasets: [{
-                  label: 'ELO',
-                  data: [${elos.join(',')}],
-                  borderColor: 'rgb(255, 99, 132)',
-                  tension: 0.1
-                }]
-              },
-            });
-          </script>
-
-          <h4>${t('worms.arena.matches')}</h4>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>${t('worms.arena.opponent')}</th>
-                <th>${t('worms.arena.result')}</th>
-                <th>${t('worms.arena.date')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${matches
-                .map(
-                  (match) => `
-                <tr>
-                  <td>${
-                    match.redBotId == bot.id
-                      ? escapeHTML(
-                          opponents.find((opp) => opp.id == match.greenBotId)
-                            ?.name ?? `[${t('worms.arena.deletedBot')}]`
-                        )
-                      : escapeHTML(
-                          opponents.find((opp) => opp.id == match.redBotId)
-                            ?.name ?? `[${t('worms.arena.deletedBot')}]`
-                        )
-                  } [<a href="/worms/arena/replay?id=${match.id}&backToBot=${bot.id}">${t('worms.arena.view')}</a>]</td>
-                  <td>${
-                    (match.status == 'red-win' && match.redBotId == bot.id) ||
-                    (match.status == 'green-win' && match.greenBotId == bot.id)
-                      ? t('worms.arena.win')
-                      : t('worms.arena.loss')
-                  }</td>
-                  <td>${App.moment(match.createdAt).locale(req.lng).fromNow()}</td>
-                </tr>
-              `
-                )
-                .join('')}
-            </tbody>
-          </table>
-        `,
+        props: {
+          navigation: renderNavigation(2, req, App),
+          botId: bot.id,
+          botName: bot.name,
+          botElo: Math.round(botELO),
+          playerName: player.name,
+          elos,
+          matches: history,
+        },
       })
     })
   )

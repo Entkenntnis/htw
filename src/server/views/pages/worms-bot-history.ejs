@@ -1,0 +1,47 @@
+<%- props.navigation %>
+
+<h3 style="text-align: center;"><%= props.botName %> (<%= props.botElo %>)</h3>
+
+<h4 style="text-align: center; margin-bottom: 48px;"><%= t('worms.arena.by') %> <%= props.playerName %></h4>
+
+<p style="text-align: center; margin-top: 24px;"><a href="/worms/arena" class="btn btn-primary"><%= t('worms.arena.close') %></a></p>
+
+<canvas id="chart" style="margin-top: 32px; margin-bottom: 32px;"></canvas>
+
+<script src="/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('chart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: <%- JSON.stringify(props.elos.map(() => '')) %>,
+      datasets: [{
+        label: 'ELO',
+        data: <%- JSON.stringify(props.elos) %>,
+        borderColor: 'rgb(255, 99, 132)',
+        tension: 0.1
+      }]
+    },
+  });
+</script>
+
+<h4><%= t('worms.arena.matches') %></h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= t('worms.arena.opponent') %></th>
+      <th><%= t('worms.arena.result') %></th>
+      <th><%= t('worms.arena.date') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% props.matches.forEach((match) => { %>
+      <tr>
+        <td><% if (match.opponentName) { %><%= match.opponentName %><% } else { %>[<%= t('worms.arena.deletedBot') %>]<% } %> [<a href="/worms/arena/replay?id=<%= match.id %>&backToBot=<%= props.botId %>"><%= t('worms.arena.view') %></a>]</td>
+        <td><%= match.won ? t('worms.arena.win') : t('worms.arena.loss') %></td>
+        <td><%= match.dateFromNow %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

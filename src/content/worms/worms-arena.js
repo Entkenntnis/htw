@@ -448,7 +448,6 @@ export function setupWormsArena(App) {
   ${t('worms.arena.noNewMatch')}
   <a href="/worms/arena/match?id=${ownMatch.id}" class="btn btn-sm btn-primary" style="margin-left: 8px;">${t('worms.arena.toMatch')}</a>
 </div>
-          </div>
         `
             : ''
         }

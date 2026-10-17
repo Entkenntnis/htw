@@ -12,7 +12,7 @@ export function withExpress(App) {
 
   // Caching is still not optimal, a fixed max age is maybe not the best
   if (App.config.staticFolder) {
-    App.express.use(express.static(App.config.staticFolder))
+    App.express.use(express.static(App.config.staticFolder, { maxAge: '1h' }))
   }
 
   App.express.use(bodyParser.urlencoded({ extended: true }))

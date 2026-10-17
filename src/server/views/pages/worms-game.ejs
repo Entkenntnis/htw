@@ -3,14 +3,20 @@
 <script src="/worms/wormer.js"></script>
 
 <div id="game" style="position: relative; padding-top: 4px;">
-  <p style="color: gray; padding-left: 8px;">
-    <%= t('redWorm') %> <span style="color: lightgray">WASD</span>
+  <style>
+    /* keyboard hints make no sense on phones and tablets */
+    @media (hover: none) and (pointer: coarse) {
+      .worms-key-hint { display: none; }
+    }
+  </style>
+  <p style="color: gray; padding-left: 8px; min-height: 1.5em;">
+    <span class="worms-key-hint"><%= t('redWorm') %> <span style="color: lightgray">WASD</span></span>
     <% if (props.mode === 'two') { %>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= t('greenWorm') %> <span style="color: lightgray"><%= t('arrowKeys') %></span>
+      <span class="worms-key-hint">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= t('greenWorm') %> <span style="color: lightgray"><%= t('arrowKeys') %></span></span>
     <% } else { %>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: lightgray"><%= t('defeatGreenWorm') %></span>
+      <span class="worms-key-hint">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: lightgray"><%= t('defeatGreenWorm') %></span>
     <% } %>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= t('restart') %> <span style="color: lightgray">ENTER</span>
+    <span class="worms-key-hint">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= t('restart') %> <span style="color: lightgray">ENTER</span></span>
   </p>
   <div id="fullscreenToggle" data-fullscreen-label="<%= t('fullscreen') %>" data-close-fullscreen-label="<%= t('closeFullscreen') %>" style="position:absolute; top:4px; right: 0; padding-right: 4px; color: gray; text-decoration: underline; cursor: pointer;"><%= t('fullscreen') %></div>
   <div id="board" style="max-width: min(90vw, 130vh); margin: 0 auto;"></div>

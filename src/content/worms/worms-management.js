@@ -115,9 +115,20 @@ export function setupWormsManagement(App) {
       ${
         bots.length > 0
           ? `
+      <style>
+        /* phones: one field per line instead of one wide row */
+        @media (max-width: 575px) {
+          .worms-test-form { width: 100%; align-items: stretch !important; }
+          .worms-test-row { flex-direction: column; align-items: stretch !important; gap: 12px; }
+          .worms-test-row label { display: flex; align-items: center; margin-left: 0 !important; }
+          .worms-test-row select { width: 75%; margin-left: auto !important; }
+          .worms-test-row input[type='submit'] { margin-left: 0 !important; }
+          .worms-test-extra { margin-right: 0 !important; }
+        }
+      </style>
       <div style="margin-bottom: 32px; display: flex; justify-content: center;">
-        <form action="/worms/your-bots/test-run" style="display: flex; flex-direction: column; align-items: center;">
-          <div style="display: flex; align-items: baseline;">
+        <form action="/worms/your-bots/test-run" class="worms-test-form" style="display: flex; flex-direction: column; align-items: center;">
+          <div class="worms-test-row" style="display: flex; align-items: baseline;">
             <label>${t('worms.arena.red')}: <select name="rId" style="padding: 8px; margin-left: 8px;">${bots.map(
               (bot) =>
                 `<option value="${bot.id}" ${
@@ -140,7 +151,7 @@ export function setupWormsManagement(App) {
             }>${t('worms.testRun.humanOption')}</option></select></label>
             <input type="submit" class="btn btn-success" style="margin-left: 24px;" value="${t('worms.management.startTestRun')}">
           </div>
-          <div style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
+          <div class="worms-test-extra" style="display: flex; align-items: baseline; margin-top: 16px; margin-right: 300px;">
             <label style="display: inline-flex; align-items: center;">
               <input type="checkbox" id="extensiveTest" onchange="document.getElementById('repeatInput').disabled = !this.checked" style="margin-right: 8px;" />
               ${t('worms.management.extensiveTest')}
@@ -897,13 +908,15 @@ export function setupWormsManagement(App) {
               : `${t('worms.testRun.cpuGreen')}: <span id="green-cpu">0</span>%`
           }</span>
         </div>
-        <div id="game" style="position: relative;">
-          <div id="board"></div>
-          ${
-            human
-              ? `<div id="start-hint" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 12px 20px; border-radius: 10px; font-size: 22px; text-align: center; z-index: 1000;">${t('worms.testRun.pressToStart')}</div>`
-              : ''
-          }
+        <div id="game">
+          <div style="position: relative;">
+            <div id="board"></div>
+            ${
+              human
+                ? `<div id="start-hint" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 12px 20px; border-radius: 10px; font-size: 22px; text-align: center; z-index: 1000;">${t('worms.testRun.pressToStart')}</div>`
+                : ''
+            }
+          </div>
         </div>
         <div style="margin-top: 48px;">
           <textarea style="width: 100%; height: 200px; background-color: black; color: white; font-family: monospace;" readonly id="console-output"></textarea>

@@ -566,7 +566,7 @@ export function setupWormsArena(App) {
                 }<br >
                   <div style="display: flex">
                     <details>
-                      <summary><span style="color: darkgray">${t('worms.arena.wins')}: ${bot.wins}, ${t('worms.arena.losses')}: ${bot.losses}</span></summary>
+                      <summary><span style="color: darkgray">${t('worms.arena.wins_noun')}: ${bot.wins}, ${t('worms.arena.losses')}: ${bot.losses}</span></summary>
                       <ul>
                         ${bot.matches
                           .map(

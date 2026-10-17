@@ -244,6 +244,7 @@
       "red": "Red",
       "green": "Green",
       "wins": "wins",
+      "wins_noun": "Wins",
       "win": "Win",
       "loss": "Loss",
       "against": "against",

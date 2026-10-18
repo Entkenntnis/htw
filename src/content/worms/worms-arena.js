@@ -180,6 +180,116 @@ async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
       },
     }
   )
+
+  arenaStats = null
+}
+
+/**
+ * @typedef {object} ArenaBotStats
+ * @property {number} wins
+ * @property {number} losses
+ * @property {{id: number, won: boolean, opponentId: number, createdAt: Date | string}[]} matches newest first, at most 10
+ */
+
+/**
+ * @typedef {object} ArenaStats
+ * @property {Map<number, ArenaBotStats>} bots
+ * @property {{id: number, redBotId: number, greenBotId: number, status: string, createdAt: Date | string}[]} lastMatches newest first, at most 40
+ */
+
+/**
+ * Counting all finished matches is by far the slowest part of the arena page,
+ * but the result only changes when a match ends. So it is computed once and
+ * reused until then, at most for a minute (the ranking hides bots without a
+ * match in the last 7 days).
+ * @type {Promise<ArenaStats> | null}
+ */
+let arenaStats = null
+let arenaStatsTime = 0
+
+/**
+ * @param {import("../../data/types.js").App} App
+ * @returns {Promise<ArenaStats>}
+ */
+function getArenaStats(App) {
+  if (!arenaStats || Date.now() - arenaStatsTime > 60 * 1000) {
+    arenaStatsTime = Date.now()
+    const loading = loadArenaStats(App)
+    arenaStats = loading
+    // try again on the next request
+    loading.catch(() => {
+      if (arenaStats === loading) arenaStats = null
+    })
+  }
+  return arenaStats
+}
+
+/**
+ * @param {import("../../data/types.js").App} App
+ * @returns {Promise<ArenaStats>}
+ */
+async function loadArenaStats(App) {
+  const matches = await App.db.models.WormsArenaMatch.findAll({
+    where: {
+      status: {
+        [Op.in]: ['red-win', 'green-win'],
+      },
+    },
+    order: [['createdAt', 'DESC']],
+    attributes: ['id', 'status', 'redBotId', 'greenBotId', 'createdAt'],
+  })
+
+  /** @type {Map<number, ArenaBotStats>} */
+  const bots = new Map()
+  /** @param {number} id */
+  const statsOf = (id) => {
+    let stats = bots.get(id)
+    if (!stats) {
+      stats = { wins: 0, losses: 0, matches: [] }
+      bots.set(id, stats)
+    }
+    return stats
+  }
+
+  for (const match of matches) {
+    const redWon = match.status == 'red-win'
+    const red = statsOf(match.redBotId)
+    const green = statsOf(match.greenBotId)
+    if (red.matches.length < 10) {
+      red.matches.push({
+        id: match.id,
+        won: redWon,
+        opponentId: match.greenBotId,
+        createdAt: match.createdAt,
+      })
+    }
+    if (green.matches.length < 10) {
+      green.matches.push({
+        id: match.id,
+        won: !redWon,
+        opponentId: match.redBotId,
+        createdAt: match.createdAt,
+      })
+    }
+    if (redWon) {
+      red.wins++
+      green.losses++
+    } else {
+      red.losses++
+      green.wins++
+    }
+  }
+
+  return {
+    bots,
+    lastMatches: matches.slice(0, 40).map((match) => ({
+      id: match.id,
+      redBotId: match.redBotId,
+      greenBotId: match.greenBotId,
+      status: match.status,
+      createdAt: match.createdAt,
+    })),
+  }
 }
 
 /**
@@ -268,38 +378,27 @@ export function setupWormsArena(App) {
         UserId: user.id,
       },
     })
-    const ownMatchNames = ownMatch
-      ? {
-          red:
-            (
-              await App.db.models.WormsBotDraft.findOne({
-                where: { id: ownMatch.redBotId },
-              })
-            )?.name ?? null,
-          green:
-            (
-              await App.db.models.WormsBotDraft.findOne({
-                where: { id: ownMatch.greenBotId },
-              })
-            )?.name ?? null,
-        }
+
+    // the running match is known in memory, no need to search the table
+    const liveArenaMatch = liveMatch
+      ? await App.db.models.WormsArenaMatch.findOne({
+          where: { id: liveMatch.matchId, status: 'running' },
+          attributes: ['id', 'redBotId', 'greenBotId'],
+        })
       : null
 
-    const liveArenaMatch = await App.db.models.WormsArenaMatch.findOne({
-      where: { status: 'running' },
-      order: [['createdAt', 'DESC']],
-    })
-
-    let liveNames = null
-    if (liveArenaMatch) {
-      const r = await App.db.models.WormsBotDraft.findOne({
-        where: { id: liveArenaMatch.redBotId },
-      })
-      const g = await App.db.models.WormsBotDraft.findOne({
-        where: { id: liveArenaMatch.greenBotId },
-      })
-      liveNames = { red: r?.name ?? null, green: g?.name ?? null }
-    }
+    // names of the bots in both matches, in one query
+    const bannerBotIds = [ownMatch, liveArenaMatch].flatMap((m) =>
+      m ? [m.redBotId, m.greenBotId] : []
+    )
+    const bannerBots = bannerBotIds.length
+      ? await App.db.models.WormsBotDraft.findAll({
+          where: { id: bannerBotIds },
+          attributes: ['id', 'name'],
+        })
+      : []
+    /** @param {number} id */
+    const bannerName = (id) => bannerBots.find((b) => b.id == id)?.name ?? null
 
     const botELOs = await App.db.models.KVPair.findAll({
       where: {
@@ -308,107 +407,78 @@ export function setupWormsArena(App) {
         },
       },
     })
-
-    // extract bot ids and store elo values
-    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string; ts: number}[]}[]}} */
-    let botData = []
+    /** @type {Map<number, number>} */
+    const eloById = new Map()
     for (const botELO of botELOs) {
-      const id = parseInt(botELO.key.substring(13))
-      const elo = parseFloat(botELO.value)
-      botData.push({
-        id,
-        elo,
-        name: '',
-        userid: -1,
-        username: '',
+      eloById.set(parseInt(botELO.key.substring(13)), parseFloat(botELO.value))
+    }
+
+    // names change when bots are renamed or deleted, so they are always fresh
+    const bots = await App.db.models.WormsBotDraft.findAll({
+      where: {
+        id: [...eloById.keys()],
+      },
+      attributes: ['id', 'name', 'UserId'],
+    })
+    const users = await App.db.models.User.findAll({
+      where: {
+        id: bots.map((b) => b.UserId),
+      },
+      attributes: ['id', 'name'],
+    })
+    const userNameById = new Map(users.map((u) => [u.id, u.name]))
+    const botById = new Map(
+      bots.map((bot) => [
+        bot.id,
+        {
+          name: bot.name,
+          userid: bot.UserId,
+          username: userNameById.get(bot.UserId) ?? '',
+        },
+      ])
+    )
+
+    const stats = await getArenaStats(App)
+
+    /** @param {Date | string} date */
+    const fromNow = (date) => App.moment(date).locale(req.lng).fromNow()
+
+    const sevenDaysAgo = App.moment().subtract(7, 'days').toDate()
+
+    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
+    const botData = []
+    for (const [id, elo] of eloById) {
+      const bot = botById.get(id)
+      if (!bot || !bot.name || !bot.username) continue
+      const botStats = stats.bots.get(id) ?? {
         wins: 0,
         losses: 0,
         matches: [],
+      }
+      const winRate =
+        botStats.matches.length > 0
+          ? botStats.wins / (botStats.wins + botStats.losses)
+          : 0
+      const recentMatch = botStats.matches.some(
+        (match) => new Date(match.createdAt) > sevenDaysAgo
+      )
+      if (winRate < 0.2 && !recentMatch) continue
+      botData.push({
+        id,
+        elo,
+        name: bot.name,
+        userid: bot.userid,
+        username: bot.username,
+        wins: botStats.wins,
+        losses: botStats.losses,
+        matches: botStats.matches.map((match) => ({
+          id: match.id,
+          won: match.won,
+          opponentName: botById.get(match.opponentId)?.name ?? null,
+          dateFromNow: fromNow(match.createdAt),
+        })),
       })
     }
-
-    // fetch bot names
-    const bots = await App.db.models.WormsBotDraft.findAll({
-      where: {
-        id: botData.map((b) => b.id),
-      },
-    })
-
-    // store name into botData
-    for (const bot of bots) {
-      const data = botData.find((b) => b.id == bot.id)
-      if (data) {
-        data.name = bot.name
-        data.userid = bot.UserId
-      }
-    }
-
-    // fetch user names
-    const users = await App.db.models.User.findAll({
-      where: {
-        id: botData.map((b) => b.userid),
-      },
-    })
-
-    // store user names into botData
-    for (const bot of botData) {
-      const user = users.find((u) => u.id == bot.userid)
-      if (user) {
-        bot.username = user.name
-      }
-    }
-
-    const matches = await App.db.models.WormsArenaMatch.findAll({
-      where: {
-        status: {
-          [Op.in]: ['red-win', 'green-win'],
-        },
-      },
-      order: [['createdAt', 'DESC']],
-      attributes: { exclude: ['replay'] },
-    })
-
-    matches.forEach((match) => {
-      const redBot = botData.find((b) => b.id == match.redBotId)
-      const greenBot = botData.find((b) => b.id == match.greenBotId)
-
-      if (redBot && redBot.matches.length < 10) {
-        redBot.matches.push({
-          id: match.id,
-          won: match.status == 'red-win',
-          opponentName: greenBot ? greenBot.name : null,
-          dateFromNow: App.moment(match.createdAt).locale(req.lng).fromNow(),
-          ts: App.moment(match.createdAt).unix(),
-        })
-      }
-
-      if (greenBot && greenBot.matches.length < 10) {
-        greenBot.matches.push({
-          id: match.id,
-          won: match.status == 'green-win',
-          opponentName: redBot ? redBot.name : null,
-          dateFromNow: App.moment(match.createdAt).locale(req.lng).fromNow(),
-          ts: App.moment(match.createdAt).unix(),
-        })
-      }
-
-      if (match.status == 'red-win') {
-        if (redBot) redBot.wins++
-        if (greenBot) greenBot.losses++
-      } else if (match.status == 'green-win') {
-        if (redBot) redBot.losses++
-        if (greenBot) greenBot.wins++
-      }
-    })
-
-    const sevenDaysAgo = App.moment().subtract(7, 'days').toDate()
-    botData = botData.filter((b) => {
-      const winRate = b.matches.length > 0 ? b.wins / (b.wins + b.losses) : 0
-      const recentMatch = b.matches.some(
-        (match) => new Date(match.ts * 1000) > sevenDaysAgo
-      )
-      return b.name && b.username && (winRate >= 0.2 || recentMatch)
-    })
 
     botData.sort((a, b) => b.elo - a.elo)
 
@@ -419,7 +489,8 @@ export function setupWormsArena(App) {
       order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
     })
 
-    // find out number of matches in last 24h from this player
+    // find out number of matches in last 24h from this player, only the time
+    // is needed, not the replays
     const matchesInTheLast24h = await App.db.models.WormsArenaMatch.findAll({
       where: {
         UserId: user.id,
@@ -428,15 +499,14 @@ export function setupWormsArena(App) {
         },
       },
       order: [['createdAt', 'ASC']],
+      attributes: ['createdAt'],
     })
 
     req.session.lastWormsTab = 'arena'
 
-    const matchesToShow = matches.slice(0, 40)
-
-    const lastMatches = matchesToShow.map((match) => {
-      const redBot = botData.find((b) => b.id == match.redBotId)
-      const greenBot = botData.find((b) => b.id == match.greenBotId)
+    const lastMatches = stats.lastMatches.map((match) => {
+      const redBot = botById.get(match.redBotId)
+      const greenBot = botById.get(match.greenBotId)
       return {
         id: match.id,
         redName: redBot ? redBot.name : null,
@@ -445,7 +515,7 @@ export function setupWormsArena(App) {
         greenUsername: greenBot ? greenBot.username : null,
         redWon: match.status == 'red-win',
         greenWon: match.status == 'green-win',
-        dateFromNow: App.moment(match.createdAt).locale(req.lng).fromNow(),
+        dateFromNow: fromNow(match.createdAt),
       }
     })
 
@@ -465,21 +535,20 @@ export function setupWormsArena(App) {
       backButton: false,
       props: {
         navigation: renderNavigation(2, req, App),
-        ownMatch:
-          ownMatch && ownMatchNames
-            ? {
-                id: ownMatch.id,
-                redName: ownMatchNames.red,
-                greenName: ownMatchNames.green,
-                running: ownMatch.status == 'running',
-              }
-            : null,
+        ownMatch: ownMatch
+          ? {
+              id: ownMatch.id,
+              redName: bannerName(ownMatch.redBotId),
+              greenName: bannerName(ownMatch.greenBotId),
+              running: ownMatch.status == 'running',
+            }
+          : null,
         liveMatch:
-          liveArenaMatch && liveNames && liveArenaMatch.id != ownMatch?.id
+          liveArenaMatch && liveArenaMatch.id != ownMatch?.id
             ? {
                 id: liveArenaMatch.id,
-                redName: liveNames.red,
-                greenName: liveNames.green,
+                redName: bannerName(liveArenaMatch.redBotId),
+                greenName: bannerName(liveArenaMatch.greenBotId),
               }
             : null,
         lastMatches,

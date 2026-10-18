@@ -11,7 +11,7 @@
 <p style="text-align: center; margin-top: 24px;"><a href="<%= props.backHref %>" class="btn btn-primary"><%= props.showMsg ? 'OK' : t('worms.arena.close') %></a><% if (props.hasBoard) { %><button class="btn btn-secondary" style="margin-left: 32px;" onClick="<% if (props.instant) { %>window.location.href = window.location.href.replace('&instant=1', '')<% } else { %>window.location.reload()<% } %>"><%= t('worms.arena.replayAgain') %></button><% } %></p>
 
 <% if (props.hasBoard) { %>
-<script src="/worms/wormer.js?v=42"></script>
+<script src="/worms/wormer.js"></script>
 
 <div style="display: flex; justify-content: end; margin-bottom: -8px; margin-top: 24px;">
   <span style=""><label><input type="checkbox" onClick="wormer.toggleTurbo()"/> <%= t('worms.testRun.turbo') %></label></span>

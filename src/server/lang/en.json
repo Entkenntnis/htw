@@ -304,6 +304,8 @@
       "botsLoading": "Loading bots",
       "matchDone": "Match complete",
       "matchForfeited": "Match forfeited",
+      "connectionLost": "Connection to the server lost, reconnecting ...",
+      "tooManyConnections": "Too many open tabs with matches, please close some.",
       "matchAbortedEarly": "The match was forfeited before the first move was made.",
       "abortedShort": "forfeited",
       "pauseResume": "Pause / resume",

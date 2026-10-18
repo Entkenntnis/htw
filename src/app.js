@@ -5,6 +5,7 @@ import { withLogger } from './server/lib/withLogger.js'
 import { withDb } from './server/lib/withDb.js'
 import { withI18n } from './server/lib/withI18n.js'
 import { withExpress } from './server/lib/withExpress.js'
+import { withSocket } from './server/lib/withSocket.js'
 import { withCsrf } from './server/lib/withCsrf.js'
 import { withMoment } from './server/lib/withMoment.js'
 import { withPeriodic } from './server/lib/withPeriodic.js'
@@ -67,6 +68,7 @@ withLogger(preApp)
 await withDb(preApp)
 withI18n(preApp)
 withExpress(preApp)
+withSocket(preApp)
 withCsrf(preApp)
 withMoment(preApp)
 withPeriodic(preApp)

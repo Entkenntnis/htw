@@ -10,6 +10,8 @@ import {
   Sequelize,
 } from 'sequelize'
 import { i18n } from 'i18next'
+import type { Server as HttpServer } from 'node:http'
+import type { Server as SocketServer } from 'socket.io'
 
 export interface App {
   config: typeof appConfig
@@ -23,6 +25,8 @@ export interface App {
   }
   moment: typeof Moment
   express: ReturnType<typeof express>
+  httpServer: HttpServer
+  io: SocketServer
   db: Sequelize & {
     models: {
       User: ModelStatic<UserModel>

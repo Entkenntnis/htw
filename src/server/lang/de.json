@@ -304,6 +304,8 @@
       "botsLoading": "Bots werden geladen",
       "matchDone": "Match fertig berechnet",
       "matchForfeited": "Match aufgegeben",
+      "connectionLost": "Verbindung zum Server unterbrochen, verbinde neu ...",
+      "tooManyConnections": "Zu viele offene Tabs mit Matches, bitte schließe einige.",
       "matchAbortedEarly": "Das Match wurde aufgegeben, bevor der erste Zug gemacht war.",
       "abortedShort": "aufgegeben",
       "pauseResume": "Pause / Weiter",

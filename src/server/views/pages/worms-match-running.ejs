@@ -35,14 +35,39 @@
   <div style="height:70px"></div>
 </div>
 
-<script src="/worms/wormer.js?v=43"></script>
+<script src="/socket.io/socket.io.min.js"></script>
+<script src="/worms/wormer.js?v=44"></script>
 
 <script>
   const replayUrl = <%- JSON.stringify(props.replayUrl) %>
+  const matchId = <%- JSON.stringify(props.matchId) %>
+  const texts = {
+    queued: <%- JSON.stringify(t('worms.arena.matchQueued')) %>,
+    inQueue: <%- JSON.stringify(t('worms.arena.inQueue')) %>,
+    starting: <%- JSON.stringify(t('worms.arena.matchStarting')) %>,
+    botsLoading: <%- JSON.stringify(t('worms.arena.botsLoading')) %>,
+    runningLong: <%- JSON.stringify(t('worms.arena.matchRunningLong')) %>,
+    running: <%- JSON.stringify(t('worms.arena.matchRunning')) %>,
+    step: <%- JSON.stringify(t('worms.arena.step')) %>,
+    done: <%- JSON.stringify(t('worms.arena.matchDone')) %>,
+    forfeited: <%- JSON.stringify(t('worms.arena.matchForfeited')) %>,
+    error: <%- JSON.stringify(t('worms.arena.matchError')) %>,
+    failed: <%- JSON.stringify(t('worms.arena.matchFailed')) %>,
+    cancelledShort: <%- JSON.stringify(t('worms.arena.matchCancelledShort')) %>,
+    cancelled: <%- JSON.stringify(t('worms.arena.matchCancelled')) %>,
+    notStarted: <%- JSON.stringify(t('worms.arena.matchNotStarted')) %>,
+    backToArena: <%- JSON.stringify(t('worms.arena.backToArena')) %>,
+    round: <%- JSON.stringify(t('worms.arena.round')) %>,
+    live: <%- JSON.stringify(t('worms.arena.liveLabel')) %>,
+    connectionLost: <%- JSON.stringify(t('worms.arena.connectionLost')) %>,
+    tooManyConnections: <%- JSON.stringify(t('worms.arena.tooManyConnections')) %>,
+  }
   // empty arena is shown right away, worms appear with the first move
   const wormer = new Wormer(document.getElementById('board'), undefined, undefined, <%- props.wormerMessages %>)
+  const statusEl = document.getElementById('status')
   let started = false
-  let pollTimer = null
+  // finished, cancelled or failed: nothing more comes from the server
+  let ended = false
 
   // the animation pauses while the tab is hidden, catch up when coming back
   document.addEventListener('visibilitychange', () => {
@@ -51,7 +76,7 @@
     }
   })
 
-  // timeline: scroll back and forth, the right end is live again
+  // timeline: scroll back and forth, the right end is the newest move
   const timeline = document.getElementById('timeline')
   let following = true
   let dragging = false
@@ -60,11 +85,8 @@
   function inLiveZone() {
     return parseInt(timeline.value) >= parseInt(timeline.max)
   }
-  // the timeline ends where live is: the newest moves minus the small
-  // buffer that keeps them smooth, so live is always the furthest point
   function liveRound() {
-    const keep = wormer.liveDone ? 0 : Math.ceil(wormer.liveBuffer / 120) * 2
-    return Math.max(0, Math.floor((wormer.dirs.length - keep) / 2))
+    return Math.floor(wormer.dirs.length / 2)
   }
   timeline.addEventListener('input', () => {
     dragging = true
@@ -106,16 +128,14 @@
     if (!started) return
     const total = liveRound()
     const pos = Math.floor(wormer.consumed / 2)
-    // watching live: the slider stays at the right end, the moves
-    // in the buffer would make it jitter
     const live = following && !wormer.liveDone
     if (!dragging) {
       timeline.max = total
-      timeline.value = live ? total : Math.min(total, pos)
+      timeline.value = Math.min(total, pos)
     }
     document.getElementById('timeline-pos').innerText = dragging
-      ? <%- JSON.stringify(t('worms.arena.round')) %> + ' ' + (inLiveZone() ? liveRound() + ' · ' + <%- JSON.stringify(t('worms.arena.liveLabel')) %> : timeline.value)
-      : <%- JSON.stringify(t('worms.arena.round')) %> + ' ' + pos + (live ? ' · ' + <%- JSON.stringify(t('worms.arena.liveLabel')) %> : '')
+      ? texts.round + ' ' + (inLiveZone() ? liveRound() + ' · ' + texts.live : timeline.value)
+      : texts.round + ' ' + pos + (live ? ' · ' + texts.live : '')
     pauseButton.innerText = wormer.paused ? '▶︎' : '⏸︎'
   }, 100)
 
@@ -134,69 +154,128 @@
       overlay.innerHTML = html
     }
   }
-  showOverlay(<%- JSON.stringify(t('worms.arena.matchStarting')) %>)
+  showOverlay(texts.starting)
 
-  // Polling until status is red-win or green-win, moves are shown live
-  function fetchStatus() {
-    pollTimer = null
-    const from = started ? wormer.dirs.length : 0
-    fetch('/worms/arena/live-match?id=<%= props.matchId %>&from=' + from)
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById('status').innerText = data.text
-        if (data.finished) {
-          hideCancel()
-          if (!started || !data.replay.dirs.length) {
-            window.location.href = replayUrl
-            return
-          }
-          wormer.onFinish = () => {
-            setTimeout(() => {
-              window.location.href = replayUrl + '&instant=1'
-            }, 2000)
-          }
-          // cancelled: don't keep playing moves the viewer hasn't seen yet
-          if (data.replay.aborted) wormer.instant = true
-          wormer.finishLive(data.replay)
-          return
-        }
-        if (data.status == 'error') {
-          hideCancel()
-          overlay.innerHTML = <%- JSON.stringify(t('worms.arena.matchFailed')) %>
-          document.getElementById('board').appendChild(overlay)
-          return
-        }
-        if (data.status == 'cancelled') {
-          hideCancel()
-          overlay.innerHTML = <%- JSON.stringify(t('worms.arena.matchCancelledShort')) %> + '<small>' + <%- JSON.stringify(t('worms.arena.matchNotStarted')) %> + ' <a href="/worms/arena">' + <%- JSON.stringify(t('worms.arena.backToArena')) %> + '</a></small>'
-          document.getElementById('board').appendChild(overlay)
-          return
-        }
-        setCancelState(data.status)
-        const joining = data.start && !started
-        if (joining) {
-          started = true
-          overlay.remove()
-          wormer.runLive(data.start)
-        }
-        if (started) {
-          wormer.feedLive(data.dirs)
-          // joined a match that is already running: start at the current state
-          if (joining) wormer.skipAhead()
-        } else if (data.status == 'pending') {
-          showOverlay(<%- JSON.stringify(t('worms.arena.inQueue')) %>, <%- JSON.stringify(t('worms.arena.matchQueued')) %> + ' ' + data.queuePosition)
-        } else {
-          showOverlay(<%- JSON.stringify(t('worms.arena.matchStarting')) %>, <%- JSON.stringify(t('worms.arena.botsLoading')) %>)
-        }
-        const moves = started ? wormer.dirs.length : 0
-        const initPhase = moves < 4
-        const interval = started && initPhase ? 300 : 2000
-        pollTimer = setTimeout(fetchStatus, interval)
-      })
-      .catch(() => {
-        pollTimer = setTimeout(fetchStatus, 3000)
-      })
+  function showRunningText() {
+    const moves = wormer.dirs.length
+    statusEl.innerText = moves == 0
+      ? texts.runningLong
+      : texts.running + ' (' + texts.step + ' ' + Math.ceil(moves / 2) + ')'
   }
+
+  // the server pushes every change of the match and every move as soon as
+  // the bots made it, socket.io reconnects by itself
+  const socket = io()
+
+  function watch() {
+    socket.emit('worms:watch', { id: matchId, from: started ? wormer.dirs.length : 0 })
+  }
+  socket.on('connect', watch)
+
+  socket.on('connect_error', (err) => {
+    if (ended) return
+    statusEl.innerText = err.message == 'too many connections'
+      ? texts.tooManyConnections
+      : texts.connectionLost
+    // refused by the server: socket.io does not try again by itself
+    if (!socket.active && err.message != 'not logged in') {
+      setTimeout(() => socket.connect(), 5000)
+    }
+  })
+
+  socket.on('disconnect', () => {
+    if (!ended) statusEl.innerText = texts.connectionLost
+  })
+
+  // `at`: index of the first move in `dirs`
+  function addMoves(at, dirs) {
+    if (!started || ended) return
+    const have = wormer.dirs.length
+    if (at > have) {
+      // some moves got lost on the way, ask again from where we are
+      watch()
+      return
+    }
+    const fresh = dirs.slice(have - at)
+    if (fresh.length) {
+      wormer.feedLive(fresh)
+      showRunningText()
+    }
+  }
+
+  socket.on('worms:moves', (msg) => {
+    if (msg.id == matchId) addMoves(msg.at, msg.dirs)
+  })
+
+  socket.on('worms:state', (state) => {
+    if (state.id != matchId || ended) return
+
+    if (state.finished) {
+      ended = true
+      socket.disconnect()
+      hideCancel()
+      statusEl.innerText = state.replay.aborted ? texts.forfeited : texts.done
+      if (!started || !state.replay.dirs.length) {
+        window.location.href = replayUrl
+        return
+      }
+      wormer.onFinish = () => {
+        setTimeout(() => {
+          window.location.href = replayUrl + '&instant=1'
+        }, 2000)
+      }
+      // cancelled: don't keep playing moves the viewer hasn't seen yet
+      if (state.replay.aborted) wormer.instant = true
+      wormer.finishLive(state.replay)
+      return
+    }
+
+    if (state.status == 'error' || state.status == 'missing') {
+      ended = true
+      socket.disconnect()
+      hideCancel()
+      statusEl.innerText = texts.error
+      overlay.innerHTML = texts.failed
+      document.getElementById('board').appendChild(overlay)
+      return
+    }
+
+    if (state.status == 'cancelled') {
+      ended = true
+      socket.disconnect()
+      hideCancel()
+      statusEl.innerText = texts.cancelled
+      overlay.innerHTML = texts.cancelledShort + '<small>' + texts.notStarted + ' <a href="/worms/arena">' + texts.backToArena + '</a></small>'
+      document.getElementById('board').appendChild(overlay)
+      return
+    }
+
+    setCancelState(state.status)
+
+    if (state.status == 'pending') {
+      statusEl.innerText = texts.queued + ' ' + state.queuePosition + ' ...'
+      showOverlay(texts.inQueue, texts.queued + ' ' + state.queuePosition)
+      return
+    }
+
+    // running, the bots are still loading
+    if (!state.start) {
+      statusEl.innerText = texts.runningLong
+      showOverlay(texts.starting, texts.botsLoading)
+      return
+    }
+
+    const joining = !started
+    if (joining) {
+      started = true
+      overlay.remove()
+      wormer.runLive(state.start)
+    }
+    addMoves(state.at, state.dirs)
+    // joined a match that is already running: start at the current state
+    if (joining) wormer.skipAhead()
+    showRunningText()
+  })
 
   function hideCancel() {
     const area = document.getElementById('cancel-area')
@@ -239,9 +318,10 @@
       headers: { 'Content-Type': 'application/json' },
       // tells the server what the user agreed to: cancelling a
       // waiting match must never turn into giving up a running one
-      body: JSON.stringify({ id: <%- JSON.stringify(props.matchId) %>, expect: cancelState }),
+      body: JSON.stringify({ id: matchId, expect: cancelState }),
     }).then((res) => {
-      // 409: the match started or ended meanwhile, the next poll shows it
+      // 409: the match started or ended meanwhile, the server sends the
+      // new state on its own
       if (res.status == 409) {
         document.getElementById('cancel-yes').disabled = false
         showCancelConfirm(false)
@@ -250,13 +330,6 @@
       }
     }).catch(() => {
       document.getElementById('cancel-yes').disabled = false
-    }).finally(() => {
-      if (pollTimer) {
-        clearTimeout(pollTimer)
-        fetchStatus()
-      }
     })
   }
-
-  fetchStatus()
 </script>

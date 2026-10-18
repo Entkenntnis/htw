@@ -231,8 +231,8 @@ class Wormer {
   // buffer instead of rushing to the newest move and waiting there
   updateLiveInterval() {
     if (this.liveDone) {
-      // all moves are known: turbo keeps its pace, otherwise replay speed
-      if (!this.turbo) this.interval = Math.max(this.interval, 120)
+      // all moves are known: back to replay speed, turbo runs free anyway
+      this.interval = Math.max(this.interval, 120)
       return
     }
     const first = this.liveSamples[0]
@@ -327,8 +327,10 @@ class Wormer {
         ? Math.max(120, this.thinkTime)
         : 120
 
-    // turbo outside live mode: one move per frame, as fast as possible
-    const noWait = this.instant || (this.turbo && !this.live)
+    // turbo outside live mode or once the whole match is known: one move
+    // per frame, as fast as possible
+    const noWait =
+      this.instant || (this.turbo && (!this.live || this.liveDone))
 
     // held: the viewer drags the timeline, no moves until it is let go
     if (
@@ -344,7 +346,7 @@ class Wormer {
     // moves that were due since the last frame, but never jump ahead after
     // a pause
     let due =
-      this.live && this.turbo
+      this.live && this.turbo && !this.liveDone
         ? Math.max(
             1,
             Math.min(

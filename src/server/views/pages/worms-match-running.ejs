@@ -69,12 +69,19 @@
   // finished, cancelled or failed: nothing more comes from the server
   let ended = false
 
-  // the animation pauses while the tab is hidden, catch up when coming back
+  // back to the current state, e.g. after the tab was hidden: jump to the
+  // newest move, or straight to the end if the match is over by now
+  function catchUp() {
+    if (!started || !following) return
+    if (wormer.liveDone) wormer.instant = true
+    else wormer.skipAhead()
+  }
+  // the animation pauses while the tab is hidden
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState == 'visible' && started && following && !wormer.liveDone) {
-      wormer.skipAhead()
-    }
+    if (document.visibilityState == 'visible') catchUp()
   })
+  // reconnected: the missed moves come in again, catch up once they are here
+  let resync = false
 
   // timeline: scroll back and forth, the right end is the newest move
   const timeline = document.getElementById('timeline')
@@ -184,7 +191,9 @@
   })
 
   socket.on('disconnect', () => {
-    if (!ended) statusEl.innerText = texts.connectionLost
+    if (ended) return
+    statusEl.innerText = texts.connectionLost
+    resync = true
   })
 
   // `at`: index of the first move in `dirs`
@@ -227,6 +236,7 @@
       // cancelled: don't keep playing moves the viewer hasn't seen yet
       if (state.replay.aborted) wormer.instant = true
       wormer.finishLive(state.replay)
+      if (resync) catchUp()
       return
     }
 
@@ -274,6 +284,8 @@
     addMoves(state.at, state.dirs)
     // joined a match that is already running: start at the current state
     if (joining) wormer.skipAhead()
+    else if (resync) catchUp()
+    resync = false
     showRunningText()
   })
 

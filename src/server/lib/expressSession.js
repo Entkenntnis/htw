@@ -1,10 +1,35 @@
 import { Op } from 'sequelize'
 import { sync } from 'uid-safe'
 
-const session_cookie_key = 'sid'
+export const session_cookie_key = 'sid'
 
 /** @type {{[key: string]: {data: string, expires: number}}} */
 const session_cache = {}
+
+/**
+ * Session data for a sid, from the cache or the database
+ * @param {import("../../data/types.js").App} App
+ * @param {string} sid
+ * @returns {Promise<any>} null if there is no such session
+ */
+export async function readSession(App, sid) {
+  const fromCache = session_cache[sid]
+  if (fromCache) {
+    return JSON.parse(fromCache.data)
+  }
+  const session = await App.db.models.Session.findOne({
+    where: { sid },
+    raw: true,
+  })
+  if (!session) {
+    return null
+  }
+  session_cache[sid] = {
+    data: session.data,
+    expires: new Date(session.expires).getTime(),
+  }
+  return JSON.parse(session.data)
+}
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -24,26 +49,10 @@ export function expressSession(App) {
       signed: true,
     })
 
-    const fromCache = session_cache[sid]
-    if (fromCache) {
-      req.session = JSON.parse(fromCache.data)
-    } else if (hasValidIncomingSid) {
-      // skip database check if the sid is new
-      const session = await App.db.models.Session.findOne({
-        where: { sid },
-        raw: true,
-      })
-      req.session = session ? JSON.parse(session.data) : {}
-
-      if (session) {
-        session_cache[sid] = {
-          data: session.data,
-          expires: new Date(session.expires).getTime(),
-        }
-      }
-    } else {
-      req.session = {}
-    }
+    // skip database check if the sid is new
+    req.session = hasValidIncomingSid
+      ? ((await readSession(App, sid)) ?? {})
+      : {}
 
     async function save() {
       if (!session_cache[sid]) {

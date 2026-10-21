@@ -1,4 +1,5 @@
 import express from 'express'
+import http from 'node:http'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import { flash } from '../../external-wrapper/flash.js'
@@ -9,6 +10,8 @@ import { flash } from '../../external-wrapper/flash.js'
 export function withExpress(App) {
   App.express = express()
   App.express.get_async_fix = App.express.get
+  // socket.io needs the http server itself, not only the express app
+  App.httpServer = http.createServer(App.express)
 
   // Caching is still not optimal, a fixed max age is maybe not the best
   if (App.config.staticFolder) {
@@ -27,7 +30,7 @@ export function withExpress(App) {
     // REMARK: express.listen only provides a callback interface
     await /** @type {Promise<void>} */ (
       new Promise((res) => {
-        App.express.listen(App.config.port, () => {
+        App.httpServer.listen(App.config.port, () => {
           App.logger.info('Server started on port ' + App.config.port)
           res()
         })

@@ -199,57 +199,18 @@ class Wormer {
     this.live = true
     this.liveDone = false
     this.consumed = 0
-    this.interval = 120
-    this.liveSamples = []
-    // how much time worth of moves to keep in stock while watching live
-    if (!this.liveBuffer) this.liveBuffer = 1500
     this.runReplay({ ...start, dirs: [] })
   }
 
-  // jump close to the newest move, e.g. when joining a running match late
+  // jump to the newest move, e.g. when joining a running match late
   skipAhead() {
-    const keep = Math.ceil(this.liveBuffer / 120) * 2
-    while (!this.winner && this.dirs.length - this.consumed >= keep + 2) {
+    while (!this.winner && this.dirs.length >= this.consumed + 2) {
       this.step()
     }
   }
 
   feedLive(dirs) {
     this.dirs.push(...dirs)
-    if (dirs.length == 0) return
-    // remember when how many moves had arrived to estimate the server speed
-    const now = new Date().getTime()
-    this.liveSamples.push({ t: now, n: this.dirs.length })
-    while (this.liveSamples.length > 2 && now - this.liveSamples[0].t > 5000) {
-      this.liveSamples.shift()
-    }
-  }
-
-  // live mode: show moves at one steady speed, never faster than a replay,
-  // slower if the server needs more time per move. Turbo drops the replay
-  // limit and follows the server as fast as it computes, still keeping the
-  // buffer instead of rushing to the newest move and waiting there
-  updateLiveInterval() {
-    if (this.liveDone) {
-      // all moves are known: back to replay speed, turbo runs free anyway
-      this.interval = Math.max(this.interval, 120)
-      return
-    }
-    const first = this.liveSamples[0]
-    const last = this.liveSamples[this.liveSamples.length - 1]
-    if (!first || last.t == first.t || last.n == first.n) return
-    const serverMs = (last.t - first.t) / ((last.n - first.n) / 2)
-    const minInterval = this.turbo ? 1 : 120
-    // keep some moves buffered, slow down a bit when it runs low
-    const buffered = (this.dirs.length - this.consumed) / 2
-    const wanted = this.liveBuffer / Math.max(serverMs, minInterval)
-    let factor = buffered >= wanted ? 1 : 1 + 0.5 * (1 - buffered / wanted)
-    // turbo: catch up when more than the buffer is in stock
-    if (this.turbo && buffered > wanted)
-      factor = Math.max(0.25, wanted / buffered)
-    const target = Math.max(minInterval, serverMs * factor)
-    // change speed gradually
-    this.interval += (target - this.interval) * 0.1
   }
 
   finishLive(replay) {
@@ -321,16 +282,10 @@ class Wormer {
 
     const ts = new Date().getTime()
 
-    const interval = this.live
-      ? this.interval
-      : this.fairTime
-        ? Math.max(120, this.thinkTime)
-        : 120
+    const interval = this.fairTime ? Math.max(120, this.thinkTime) : 120
 
-    // turbo outside live mode or once the whole match is known: one move
-    // per frame, as fast as possible
-    const noWait =
-      this.instant || (this.turbo && (!this.live || this.liveDone))
+    // turbo: no waiting, live it shows the newest move right away
+    const noWait = this.instant || this.turbo
 
     // held: the viewer drags the timeline, no moves until it is let go
     if (
@@ -342,36 +297,22 @@ class Wormer {
       return
     }
 
-    // live turbo can be faster than one move per frame: catch up on the
-    // moves that were due since the last frame, but never jump ahead after
-    // a pause
-    let due =
-      this.live && this.turbo && !this.liveDone
-        ? Math.max(
-            1,
-            Math.min(
-              Math.floor((ts - this.lastTick) / interval),
-              Math.ceil(100 / interval)
-            )
-          )
-        : 1
     this.lastTick = ts
 
-    // instant: play the whole replay at once and only show the final board
+    // instant: play the whole replay at once and only show the final board.
+    // live turbo: everything that has arrived, the server can be faster
+    // than one move per frame
+    const toNewest = this.live && this.turbo && !this.liveDone
     do {
       this.step()
-      due--
     } while (
       !this.winner &&
-      (this.instant ||
-        (due > 0 && (this.liveDone || this.dirs.length >= this.consumed + 2)))
+      (this.instant || (toNewest && this.dirs.length >= this.consumed + 2))
     )
 
     // the time for the human starts when the new position is shown, not
     // before the bot started thinking
     if (this.fairTime) this.lastTick = new Date().getTime()
-
-    if (this.live) this.updateLiveInterval()
 
     if (!this.winner) {
       requestAnimationFrame(this.tick.bind(this))

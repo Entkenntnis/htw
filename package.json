@@ -36,6 +36,7 @@
     "quickjs-emscripten": "^0.32.0",
     "seedrandom": "^3.0.5",
     "sequelize": "^6.37.8",
+    "socket.io": "^4.8.4",
     "uid-safe": "^2.1.5"
   },
   "devDependencies": {

@@ -21,6 +21,8 @@ let queueChain = Promise.resolve()
  * @property {number[]} dirs
  * @property {boolean} aborted
  * @property {() => boolean} abort returns false if the match already ended
+ * @property {number} sent moves that already went out to the viewers
+ * @property {ReturnType<typeof setTimeout> | null} sendTimer
  */
 
 /**
@@ -34,6 +36,98 @@ const pendingMatches = new Set()
 
 /** users whose start-match request is being handled right now */
 const startingUsers = new Set()
+
+/**
+ * Viewers of a match are connected by socket.io and sit in one room per
+ * match. They get the state when it changes and the moves as they come in.
+ * @type {import('socket.io').Server | null}
+ */
+let io = null
+
+/** @param {number} matchId */
+function matchRoom(matchId) {
+  return 'worms-match-' + matchId
+}
+
+/**
+ * State of a match that is waiting or running, without a database query
+ * @param {number} matchId
+ * @param {number} from moves the viewer already has
+ */
+function liveState(matchId, from) {
+  if (liveMatch && liveMatch.matchId == matchId) {
+    return {
+      id: matchId,
+      status: 'running',
+      start: liveMatch.start,
+      at: from,
+      dirs: liveMatch.start ? liveMatch.dirs.slice(from) : [],
+    }
+  }
+  const queue = [...pendingMatches]
+  const index = queue.indexOf(matchId)
+  if (index >= 0) {
+    return { id: matchId, status: 'pending', queuePosition: index + 1 }
+  }
+  return null
+}
+
+/**
+ * State of a finished match
+ * @param {number} matchId
+ * @param {import('../../data/types.js').WormsReplay} replay
+ */
+function finishedState(matchId, replay) {
+  return {
+    id: matchId,
+    status: replay.winner == 'red' ? 'red-win' : 'green-win',
+    finished: true,
+    replay: {
+      dirs: replay.dirs,
+      withCrash: !!replay.withCrash,
+      aborted: !!replay.aborted,
+    },
+  }
+}
+
+/**
+ * @param {number} matchId
+ * @param {object | null} state
+ */
+function emitState(matchId, state) {
+  if (state) io?.to(matchRoom(matchId)).emit('worms:state', state)
+}
+
+/** the place in the queue changes for everyone waiting */
+function emitQueue() {
+  let position = 1
+  for (const matchId of pendingMatches) {
+    emitState(matchId, {
+      id: matchId,
+      status: 'pending',
+      queuePosition: position++,
+    })
+  }
+}
+
+/**
+ * Send the new moves to the viewers. Fast bots make thousands of moves per
+ * second, so moves that arrive within one frame go out together.
+ * @param {LiveMatch} live
+ */
+function sendMoves(live) {
+  if (live.sendTimer) {
+    clearTimeout(live.sendTimer)
+    live.sendTimer = null
+  }
+  if (live.sent >= live.dirs.length) return
+  io?.to(matchRoom(live.matchId)).emit('worms:moves', {
+    id: live.matchId,
+    at: live.sent,
+    dirs: live.dirs.slice(live.sent),
+  })
+  live.sent = live.dirs.length
+}
 
 /**
  * Replay of a cancelled match: red loses, unfinished half-moves are dropped
@@ -95,6 +189,11 @@ function runWormsInWorker(redCode, greenCode, live) {
       if (settled) return
       settled = true
       currentProgress = null
+      // the result contains all moves, no need to send the rest
+      if (live.sendTimer) {
+        clearTimeout(live.sendTimer)
+        live.sendTimer = null
+      }
       worker.terminate()
       fn()
     }
@@ -107,8 +206,12 @@ function runWormsInWorker(redCode, greenCode, live) {
     worker.on('message', (msg) => {
       if (msg?.type == 'start') {
         live.start = msg.start
+        emitState(live.matchId, liveState(live.matchId, 0))
       } else if (msg?.type == 'move') {
         live.dirs.push(msg.dir)
+        if (!live.sendTimer) {
+          live.sendTimer = setTimeout(() => sendMoves(live), 16)
+        }
       } else if (msg?.type == 'done') {
         finish(() => {
           if (msg.ok) {
@@ -656,6 +759,7 @@ export function setupWormsArena(App) {
       req.session.lastWormsBotId = bot.id
 
       pendingMatches.add(match.id)
+      emitQueue()
 
       setTimeout(async () => {
         try {
@@ -668,6 +772,8 @@ export function setupWormsArena(App) {
               matchId: match.id,
               start: null,
               dirs: [],
+              sent: 0,
+              sendTimer: null,
               aborted: false,
               // before the worker runs, the flag is checked below
               abort: () => {
@@ -676,6 +782,8 @@ export function setupWormsArena(App) {
               },
             }
             liveMatch = live
+            emitQueue()
+            emitState(match.id, liveState(match.id, 0))
 
             try {
               await App.db.models.WormsArenaMatch.update(
@@ -694,6 +802,9 @@ export function setupWormsArena(App) {
                 : await runWormsInWorker(bot.code, opponentBot.code, live)
 
               await finishMatch(App, match.id, bot.id, opponentBot.id, replay)
+              // not live any more, before the viewers hear about the result
+              if (liveMatch === live) liveMatch = null
+              emitState(match.id, finishedState(match.id, replay))
             } finally {
               if (liveMatch === live) liveMatch = null
             }
@@ -710,6 +821,7 @@ export function setupWormsArena(App) {
               },
             }
           )
+          emitState(match.id, { id: match.id, status: 'error' })
         }
       }, 0)
 
@@ -775,65 +887,50 @@ export function setupWormsArena(App) {
     })
   )
 
-  App.express.get(
-    '/worms/arena/live-match',
-    safeRoute(async (req, res) => {
-      const t = getWormsTranslator(App, req)
-      const user = req.user
-      if (!user) {
-        res.status(401).json({})
-        return
+  io = App.io
+  App.io.on('connection', (socket) => {
+    // a viewer wants to follow a match, `from` = moves it already has
+    socket.on('worms:watch', async (msg) => {
+      const matchId = parseInt(msg?.id)
+      const from = Math.max(0, parseInt(msg?.from) || 0)
+      if (!Number.isSafeInteger(matchId)) return
+
+      // one match per connection
+      for (const room of socket.rooms) {
+        if (room != socket.id) socket.leave(room)
       }
+      // join first: every change after this point reaches the viewer, every
+      // change before is already in the database
+      socket.join(matchRoom(matchId))
 
-      const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
-      const from = Math.max(
-        0,
-        parseInt((req.query.from ?? '0').toString()) || 0
-      )
-
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: {
-          id: matchId,
-        },
-      })
-
-      if (!match) {
-        res.status(404).json({})
-        return
-      }
-
-      if (match.status == 'red-win' || match.status == 'green-win') {
-        /** @type {import('../../data/types.js').WormsReplay} */
-        const replay = JSON.parse(match.replay)
-        res.json({
-          status: match.status,
-          // the live view may still be replaying moves at this point
-          text: replay.aborted
-            ? t('worms.arena.matchForfeited')
-            : t('worms.arena.matchDone'),
-          finished: true,
-          replay: {
-            dirs: replay.dirs,
-            withCrash: !!replay.withCrash,
-            aborted: !!replay.aborted,
-          },
+      try {
+        const match = await App.db.models.WormsArenaMatch.findOne({
+          where: { id: matchId },
         })
-        return
+        if (!match) {
+          socket.leave(matchRoom(matchId))
+          socket.emit('worms:state', { id: matchId, status: 'missing' })
+          return
+        }
+        // waiting and running are kept in memory and always up to date
+        const live = liveState(matchId, from)
+        if (live) {
+          socket.emit('worms:state', live)
+        } else if (match.status == 'red-win' || match.status == 'green-win') {
+          socket.emit(
+            'worms:state',
+            finishedState(matchId, JSON.parse(match.replay))
+          )
+        } else if (match.status == 'error' || match.status == 'cancelled') {
+          socket.emit('worms:state', { id: matchId, status: match.status })
+        }
+        // otherwise the match changed while it was loaded, that change is
+        // sent to the room anyway
+      } catch (e) {
+        socket.emit('worms:state', { id: matchId, status: 'error' })
       }
-
-      const live = liveMatch && liveMatch.matchId == match.id ? liveMatch : null
-
-      res.json({
-        status: match.status,
-        text: await getMatchStatusText(App, match, t),
-        queuePosition:
-          match.status == 'pending' ? await getQueuePosition(App, match) : 0,
-        finished: false,
-        start: live?.start ?? null,
-        dirs: live ? live.dirs.slice(from) : [],
-      })
     })
-  )
+  })
 
   App.express.post(
     '/worms/arena/cancel-match',
@@ -880,6 +977,8 @@ export function setupWormsArena(App) {
           { status: 'cancelled' },
           { where: { id: match.id } }
         )
+        emitState(match.id, { id: match.id, status: 'cancelled' })
+        emitQueue()
         res.sendStatus(200)
         return
       }

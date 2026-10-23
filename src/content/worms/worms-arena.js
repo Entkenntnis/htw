@@ -6,7 +6,6 @@ import {
   wormerMessages,
 } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
-import { Op } from 'sequelize'
 import escapeHTML from 'escape-html'
 import { safeRoute } from '../../helper/helper.js'
 
@@ -242,12 +241,10 @@ function runWormsInWorker(redCode, greenCode, live) {
  */
 async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
   // load elo of bots
-  const botELO = parseFloat(
-    (await App.storage.getItem(`worms_botelo_${redBotId}`)) ?? '500'
-  )
-  const opponentELO = parseFloat(
-    (await App.storage.getItem(`worms_botelo_${greenBotId}`)) ?? '500'
-  )
+  const [botELO, opponentELO] = await Promise.all([
+    App.wormsData.getBotElo(redBotId),
+    App.wormsData.getBotElo(greenBotId),
+  ])
 
   replay.redElo = botELO
   replay.greenElo = opponentELO
@@ -266,11 +263,10 @@ async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
   const newBotELO = botELO + K * (S - E)
   const newOpponentELO = opponentELO + K * (E - S)
 
-  await App.storage.setItem(`worms_botelo_${redBotId}`, newBotELO.toString())
-  await App.storage.setItem(
-    `worms_botelo_${greenBotId}`,
-    newOpponentELO.toString()
-  )
+  await App.wormsData.setBotElos([
+    { botId: redBotId, elo: newBotELO },
+    { botId: greenBotId, elo: newOpponentELO },
+  ])
 
   await App.wormsData.finishMatch({
     id: matchId,
@@ -437,18 +433,7 @@ export function setupWormsArena(App) {
     /** @param {number | null} id */
     const bannerName = (id) => bannerBots.find((b) => b.id == id)?.name ?? null
 
-    const botELOs = await App.db.models.KVPair.findAll({
-      where: {
-        key: {
-          [Op.like]: 'worms_botelo_%',
-        },
-      },
-    })
-    /** @type {Map<number, number>} */
-    const eloById = new Map()
-    for (const botELO of botELOs) {
-      eloById.set(parseInt(botELO.key.substring(13)), parseFloat(botELO.value))
-    }
+    const eloById = await App.wormsData.getBotElos()
 
     // names change when bots are renamed or deleted, so they are always fresh
     const bots = await App.wormsData.getBotsByIds([...eloById.keys()])
@@ -941,10 +926,9 @@ export function setupWormsArena(App) {
           ? null
           : await App.wormsData.getBot(match.greenBotId)
 
-      const redBotELO = parseInt(
-        (redBot && (await App.storage.getItem(`worms_botelo_${redBot.id}`))) ??
-          '500'
-      )
+      const redBotELO = redBot
+        ? Math.trunc(await App.wormsData.getBotElo(redBot.id))
+        : 500
 
       if (showMsg && !redBot) {
         res.redirect('/worms/arena')
@@ -1015,9 +999,7 @@ export function setupWormsArena(App) {
         return
       }
 
-      const botELO = parseFloat(
-        (await App.storage.getItem(`worms_botelo_${bot.id}`)) ?? '500'
-      )
+      const botELO = await App.wormsData.getBotElo(bot.id)
 
       const player = await App.db.models.User.findOne({
         where: {

@@ -111,6 +111,10 @@ export interface App {
     getBotsByIds(ids: number[]): Promise<WormsBotMeta[]>
     getBotCode(id: number): Promise<string | null>
 
+    getBotElo(botId: number): Promise<number>
+    getBotElos(): Promise<Map<number, number>>
+    setBotElos(entries: Array<{ botId: number; elo: number }>): Promise<void>
+
     createBot(input: {
       userId: number
       name: string

@@ -32,6 +32,17 @@ export function withWormsData(App) {
   /** @type {Promise<void> | null} */
   let matchesLoading = null
 
+  const BOT_ELO_PREFIX = 'worms_botelo_'
+  const DEFAULT_BOT_ELO = 500
+
+  /** @type {Map<number, number>} */
+  const botElos = new Map()
+
+  let botElosLoaded = false
+
+  /** @type {Promise<void> | null} */
+  let botElosLoading = null
+
   /** @type {Promise<unknown>} */
   let mutationChain = Promise.resolve()
 
@@ -153,6 +164,77 @@ export function withWormsData(App) {
    */
   function sortOldestFirst(list) {
     return list.slice().sort((a, b) => a.createdAt - b.createdAt || a.id - b.id)
+  }
+
+  async function loadBotElos() {
+    const rows = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Op.like]: `${BOT_ELO_PREFIX}%`,
+        },
+      },
+      raw: true,
+    })
+
+    botElos.clear()
+
+    for (const row of rows) {
+      const botId = parseInt(row.key.substring(BOT_ELO_PREFIX.length))
+      const elo = parseFloat(row.value)
+
+      if (Number.isSafeInteger(botId) && Number.isFinite(elo)) {
+        botElos.set(botId, elo)
+      }
+    }
+  }
+
+  async function ensureBotElos() {
+    if (botElosLoaded) return
+
+    if (!botElosLoading) {
+      botElosLoading = loadBotElos()
+        .then(() => {
+          botElosLoaded = true
+        })
+        .catch((err) => {
+          botElosLoading = null
+          throw err
+        })
+    }
+
+    await botElosLoading
+  }
+
+  /**
+   * @param {number} botId
+   * @returns {Promise<number>}
+   */
+  async function getBotElo(botId) {
+    await ensureBotElos()
+    return botElos.get(botId) ?? DEFAULT_BOT_ELO
+  }
+
+  /**
+   * @returns {Promise<Map<number, number>>}
+   */
+  async function getBotElos() {
+    await ensureBotElos()
+    return new Map(botElos)
+  }
+
+  /**
+   * @param {Array<{ botId: number, elo: number }>} entries
+   * @returns {Promise<void>}
+   */
+  async function setBotElos(entries) {
+    return mutate(async () => {
+      await ensureBotElos()
+
+      for (const { botId, elo } of entries) {
+        await App.storage.setItem(`${BOT_ELO_PREFIX}${botId}`, elo.toString())
+        botElos.set(botId, elo)
+      }
+    })
   }
 
   async function loadBots() {
@@ -784,6 +866,9 @@ export function withWormsData(App) {
     getBotsForUser,
     getBotsByIds,
     getBotCode,
+    getBotElo,
+    getBotElos,
+    setBotElos,
     createBot,
     renameBot,
     saveBotCode,

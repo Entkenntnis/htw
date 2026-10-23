@@ -172,7 +172,7 @@
 
   // the server pushes every change of the match and every move as soon as
   // the bots made it, socket.io reconnects by itself
-  const socket = io()
+  const socket = io({ closeOnBeforeunload: true })
 
   function watch() {
     socket.emit('worms:watch', { id: matchId, from: started ? wormer.dirs.length : 0 })

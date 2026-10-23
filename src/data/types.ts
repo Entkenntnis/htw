@@ -108,6 +108,7 @@ export interface App {
     getBot(id: number): Promise<WormsBotMeta | null>
     getBotForUser(id: number, userId: number): Promise<WormsBotMeta | null>
     getBotsForUser(userId: number): Promise<WormsBotMeta[]>
+    getBotsByIds(ids: number[]): Promise<WormsBotMeta[]>
     getBotCode(id: number): Promise<string | null>
 
     createBot(input: {

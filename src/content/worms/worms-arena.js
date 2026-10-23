@@ -6,7 +6,7 @@ import {
   wormerMessages,
 } from './worms-basic.js'
 import { renderPage } from '../../helper/render-page.js'
-import { Op, Sequelize } from 'sequelize'
+import { Op } from 'sequelize'
 import escapeHTML from 'escape-html'
 import { safeRoute } from '../../helper/helper.js'
 
@@ -494,12 +494,8 @@ export function setupWormsArena(App) {
     const bannerBotIds = [ownMatch, liveArenaMatch].flatMap((m) =>
       m ? [m.redBotId, m.greenBotId] : []
     )
-    const bannerBots = bannerBotIds.length
-      ? await App.db.models.WormsBotDraft.findAll({
-          where: { id: bannerBotIds },
-          attributes: ['id', 'name'],
-        })
-      : []
+    const bannerBots = await App.wormsData.getBotsByIds(bannerBotIds)
+
     /** @param {number} id */
     const bannerName = (id) => bannerBots.find((b) => b.id == id)?.name ?? null
 
@@ -517,15 +513,11 @@ export function setupWormsArena(App) {
     }
 
     // names change when bots are renamed or deleted, so they are always fresh
-    const bots = await App.db.models.WormsBotDraft.findAll({
-      where: {
-        id: [...eloById.keys()],
-      },
-      attributes: ['id', 'name', 'UserId'],
-    })
+    const bots = await App.wormsData.getBotsByIds([...eloById.keys()])
+
     const users = await App.db.models.User.findAll({
       where: {
-        id: bots.map((b) => b.UserId),
+        id: bots.map((b) => b.userId),
       },
       attributes: ['id', 'name'],
     })
@@ -535,8 +527,8 @@ export function setupWormsArena(App) {
         bot.id,
         {
           name: bot.name,
-          userid: bot.UserId,
-          username: userNameById.get(bot.UserId) ?? '',
+          userid: bot.userId,
+          username: userNameById.get(bot.userId) ?? '',
         },
       ])
     )
@@ -585,12 +577,7 @@ export function setupWormsArena(App) {
 
     botData.sort((a, b) => b.elo - a.elo)
 
-    const ownBots = await App.db.models.WormsBotDraft.findAll({
-      where: {
-        UserId: user.id,
-      },
-      order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
-    })
+    const ownBots = await App.wormsData.getBotsForUser(user.id)
 
     // find out number of matches in last 24h from this player, only the time
     // is needed, not the replays
@@ -708,20 +695,20 @@ export function setupWormsArena(App) {
         return
       }
 
-      const bot = await App.db.models.WormsBotDraft.findOne({
-        where: {
-          id: botId,
-          UserId: user.id,
-        },
-      })
-
-      const opponentBot = await App.db.models.WormsBotDraft.findOne({
-        where: {
-          id: opponentId,
-        },
-      })
+      const bot = await App.wormsData.getBotForUser(botId, user.id)
+      const opponentBot = await App.wormsData.getBot(opponentId)
 
       if (!bot || !opponentBot) {
+        res.redirect('/worms/arena')
+        return
+      }
+
+      const [botCode, opponentCode] = await Promise.all([
+        App.wormsData.getBotCode(bot.id),
+        App.wormsData.getBotCode(opponentBot.id),
+      ])
+
+      if (botCode == null || opponentCode == null) {
         res.redirect('/worms/arena')
         return
       }
@@ -799,7 +786,7 @@ export function setupWormsArena(App) {
 
               const replay = live.aborted
                 ? abortedReplay(live)
-                : await runWormsInWorker(bot.code, opponentBot.code, live)
+                : await runWormsInWorker(botCode, opponentCode, live)
 
               await finishMatch(App, match.id, bot.id, opponentBot.id, replay)
               // not live any more, before the viewers hear about the result
@@ -853,12 +840,14 @@ export function setupWormsArena(App) {
         return
       }
 
-      const redBot = await App.db.models.WormsBotDraft.findOne({
-        where: { id: match.redBotId },
-      })
-      const greenBot = await App.db.models.WormsBotDraft.findOne({
-        where: { id: match.greenBotId },
-      })
+      const redBot =
+        match.redBotId == null
+          ? null
+          : await App.wormsData.getBot(match.redBotId)
+      const greenBot =
+        match.greenBotId == null
+          ? null
+          : await App.wormsData.getBot(match.greenBotId)
 
       const canCancel =
         match.UserId == user.id &&
@@ -1018,25 +1007,6 @@ export function setupWormsArena(App) {
   )
 
   App.express.get(
-    '/worms/arena/seed',
-    safeRoute(async (req, res) => {
-      const botELOs = await App.db.models.KVPair.count({
-        where: {
-          key: {
-            [Op.like]: 'worms_botelo_%',
-          },
-        },
-      })
-
-      if (botELOs == 0) {
-        await App.storage.setItem('worms_botelo_4', '500')
-      }
-
-      res.send('done')
-    })
-  )
-
-  App.express.get(
     '/worms/arena/replay',
     safeRoute(async (req, res) => {
       const t = getWormsTranslator(App, req)
@@ -1068,17 +1038,14 @@ export function setupWormsArena(App) {
       /** @type {import('../../data/types.js').WormsReplay} */
       const replay = JSON.parse(match.replay)
 
-      const redBot = await App.db.models.WormsBotDraft.findOne({
-        where: {
-          id: match.redBotId,
-        },
-      })
-
-      const greenBot = await App.db.models.WormsBotDraft.findOne({
-        where: {
-          id: match.greenBotId,
-        },
-      })
+      const redBot =
+        match.redBotId == null
+          ? null
+          : await App.wormsData.getBot(match.redBotId)
+      const greenBot =
+        match.greenBotId == null
+          ? null
+          : await App.wormsData.getBot(match.greenBotId)
 
       const redBotELO = parseInt(
         (redBot && (await App.storage.getItem(`worms_botelo_${redBot.id}`))) ??
@@ -1147,11 +1114,7 @@ export function setupWormsArena(App) {
     safeRoute(async (req, res) => {
       const botId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-      const bot = await App.db.models.WormsBotDraft.findOne({
-        where: {
-          id: botId,
-        },
-      })
+      const bot = await App.wormsData.getBot(botId)
 
       if (!bot) {
         res.redirect('/worms/arena')
@@ -1164,7 +1127,7 @@ export function setupWormsArena(App) {
 
       const player = await App.db.models.User.findOne({
         where: {
-          id: bot.UserId,
+          id: bot.userId,
         },
       })
 
@@ -1196,11 +1159,7 @@ export function setupWormsArena(App) {
         )
         .filter((id, index, self) => self.indexOf(id) === index)
 
-      const opponents = await App.db.models.WormsBotDraft.findAll({
-        where: {
-          id: opponentIds,
-        },
-      })
+      const opponents = await App.wormsData.getBotsByIds(opponentIds)
 
       const elos = []
 

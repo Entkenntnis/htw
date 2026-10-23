@@ -142,8 +142,7 @@ export function withWormsData(App) {
    * @returns {Promise<WormsBotMeta | null>}
    */
   async function getBotForUser(id, userId) {
-    await ensureBots()
-    const bot = bots.get(id)
+    const bot = await getBot(id)
     return bot && bot.userId === userId ? bot : null
   }
 
@@ -154,6 +153,19 @@ export function withWormsData(App) {
   async function getBotsForUser(userId) {
     await ensureBots()
     return sortByName(listOf(botsByUser.get(userId)))
+  }
+
+  /**
+   * @param {number[]} ids
+   * @returns {Promise<WormsBotMeta[]>}
+   */
+  async function getBotsByIds(ids) {
+    if (ids.length === 0) return []
+
+    await ensureBots()
+
+    const wanted = new Set(ids.filter((id) => Number.isSafeInteger(id)))
+    return listOf(wanted)
   }
 
   /**
@@ -344,6 +356,7 @@ export function withWormsData(App) {
     getBot,
     getBotForUser,
     getBotsForUser,
+    getBotsByIds,
     getBotCode,
     createBot,
     renameBot,

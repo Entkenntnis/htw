@@ -5,7 +5,6 @@ import {
   toScriptJson,
   wormerMessages,
 } from './worms-basic.js'
-import { Sequelize } from 'sequelize'
 import { safeRoute } from '../../helper/helper.js'
 
 /**
@@ -87,11 +86,7 @@ export function setupWormsManagement(App) {
         })
       }
 
-      const bots = await App.db.models.WormsBotDraft.findAll({
-        where: { UserId: user.id },
-        // order by lower case name
-        order: [[Sequelize.fn('lower', Sequelize.col('name')), 'ASC']],
-      })
+      const bots = await App.wormsData.getBotsForUser(user.id)
 
       req.session.lastWormsTab = 'your-bots'
       renderPage(App, req, res, {
@@ -130,34 +125,24 @@ export function setupWormsManagement(App) {
 
       const name = req.body?.name ? req.body.name.toString() : ''
 
-      if (!name || name.length > 32) {
-        res.send(t('worms.management.invalidBotName'))
-        return
-      }
-
-      if (
-        (await App.db.models.WormsBotDraft.count({
-          where: { name, UserId: req.user.id },
-        })) > 0
-      ) {
-        res.send(t('worms.management.botNameExists'))
-        return
-      }
-
-      if (
-        (await App.db.models.WormsBotDraft.count({
-          where: { UserId: req.user.id },
-        })) >= 20
-      ) {
-        res.send(t('worms.management.botLimit'))
-        return
-      }
-
-      await App.db.models.WormsBotDraft.create({
+      const result = await App.wormsData.createBot({
+        userId: req.user.id,
         name,
-        UserId: req.user.id,
         code: getDefaultBotCode(t),
       })
+
+      if (!result.ok) {
+        if (result.reason === 'invalid-name') {
+          res.send(t('worms.management.invalidBotName'))
+        } else if (result.reason === 'name-exists') {
+          res.send(t('worms.management.botNameExists'))
+        } else if (result.reason === 'limit-reached') {
+          res.send(t('worms.management.botLimit'))
+        } else {
+          res.status(500).send('error')
+        }
+        return
+      }
 
       res.redirect('/worms/your-bots')
     })
@@ -178,9 +163,7 @@ export function setupWormsManagement(App) {
         return
       }
 
-      await App.db.models.WormsBotDraft.destroy({
-        where: { id, UserId: req.user.id },
-      })
+      await App.wormsData.deleteBot({ userId: req.user.id, botId: id })
 
       res.sendStatus(200)
     })
@@ -202,17 +185,17 @@ export function setupWormsManagement(App) {
         return
       }
 
-      const bot = await App.db.models.WormsBotDraft.findOne({
-        where: { id, UserId: req.user.id },
+      const result = await App.wormsData.renameBot({
+        userId: req.user.id,
+        botId: id,
+        name,
       })
 
-      if (!bot) {
+      if (!result.ok) {
         res.sendStatus(404)
         return
       }
 
-      bot.name = name
-      await bot.save()
       res.sendStatus(200)
     })
   )
@@ -233,18 +216,23 @@ export function setupWormsManagement(App) {
         return
       }
 
-      const bot = await App.db.models.WormsBotDraft.findOne({
-        where: { id, UserId: req.user.id },
-      })
+      const bot = await App.wormsData.getBotForUser(id, req.user.id)
 
       if (!bot) {
         res.send(t('worms.management.botNotFound'))
         return
       }
 
-      const initialCode = isUntouchedTemplate(App, bot.code)
+      const code = await App.wormsData.getBotCode(bot.id)
+
+      if (code == null) {
+        res.send(t('worms.management.botNotFound'))
+        return
+      }
+
+      const initialCode = isUntouchedTemplate(App, code)
         ? getDefaultBotCode(t)
-        : bot.code
+        : code
 
       renderPage(App, req, res, {
         page: 'worms-drafts-edit',
@@ -278,23 +266,23 @@ export function setupWormsManagement(App) {
 
       const code = req.body?.code ? req.body.code.toString() : ''
 
-      // ensure code is not too long
-      if (code.length > 100000) {
-        res.send(t('worms.management.codeTooLong'))
-        return
-      }
-
-      const bot = await App.db.models.WormsBotDraft.findOne({
-        where: { id, UserId: req.user.id },
+      const result = await App.wormsData.saveBotCode({
+        userId: req.user.id,
+        botId: id,
+        code,
       })
 
-      if (!bot) {
-        res.send(t('worms.management.botNotFound'))
+      if (!result.ok) {
+        if (result.reason === 'code-too-long') {
+          res.send(t('worms.management.codeTooLong'))
+        } else if (result.reason === 'not-found') {
+          res.send(t('worms.management.botNotFound'))
+        } else {
+          res.sendStatus(400)
+        }
         return
       }
 
-      bot.code = code
-      await bot.save()
       res.send('ok')
     })
   )
@@ -327,18 +315,25 @@ export function setupWormsManagement(App) {
 
       const rBot = rHuman
         ? null
-        : await App.db.models.WormsBotDraft.findOne({
-            where: { id: rId, UserId: req.user.id },
-          })
+        : await App.wormsData.getBotForUser(rId, req.user.id)
       const gBot = gHuman
         ? null
-        : await App.db.models.WormsBotDraft.findOne({
-            where: { id: gId, UserId: req.user.id },
-          })
+        : await App.wormsData.getBotForUser(gId, req.user.id)
 
       if ((!rBot && !rHuman) || (!gBot && !gHuman)) {
         res.send(t('worms.management.botNotFound'))
         return
+      }
+
+      let rCode = ''
+      let gCode = ''
+
+      if (rBot) {
+        rCode = (await App.wormsData.getBotCode(rBot.id)) ?? ''
+      }
+
+      if (gBot) {
+        gCode = (await App.wormsData.getBotCode(gBot.id)) ?? ''
       }
 
       req.session.lastTestRun = [rHuman ? 'me' : rId, gHuman ? 'me' : gId]
@@ -358,8 +353,8 @@ export function setupWormsManagement(App) {
             rBot,
             gBot,
             repeat,
-            rCode: toScriptJson(rBot?.code ?? ''),
-            gCode: toScriptJson(gBot?.code ?? ''),
+            rCode: toScriptJson(rCode),
+            gCode: toScriptJson(gCode),
           },
         })
         return
@@ -374,8 +369,8 @@ export function setupWormsManagement(App) {
           gBot,
           human,
           wormerMessages: wormerMessages(t),
-          rCode: toScriptJson(rBot?.code ?? ''),
-          gCode: toScriptJson(gBot?.code ?? ''),
+          rCode: toScriptJson(rCode),
+          gCode: toScriptJson(gCode),
         },
       })
     })

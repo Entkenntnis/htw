@@ -228,14 +228,19 @@
         window.location.href = replayUrl
         return
       }
-      wormer.onFinish = () => {
-        setTimeout(() => {
-          window.location.href = replayUrl + '&instant=1'
-        }, 2000)
+      let leaving = false
+      const toReplay = () => {
+        if (leaving) return
+        leaving = true
+        window.location.href = replayUrl + '&instant=1'
       }
+      wormer.onFinish = () => setTimeout(toReplay, 2000)
       // cancelled: don't keep playing moves the viewer hasn't seen yet
       if (state.replay.aborted) wormer.instant = true
+      wormer.paused = false
+      wormer.held = false
       wormer.finishLive(state.replay)
+      if (wormer.winner) wormer.onFinish()
       if (resync) catchUp()
       return
     }

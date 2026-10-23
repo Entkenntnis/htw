@@ -13,25 +13,63 @@ export async function renderPage(App, req, res, opts) {
   const i18n = App.i18n.get(req.lng)
 
   /**
+   * Translations are looked up many times per page (once per row, button,
+   * label, ...). i18n.exists() and i18n.t() are relatively expensive because
+   * they resolve namespaces, fallback languages and interpolation options on
+   * every call. Cache the result for the duration of this render.
+   * @type {Map<string, any>}
+   */
+  const translationCache = new Map()
+
+  /**
+   * @param {string} key
+   * @param {any} [opts]
+   * @returns {string | null} cache key, or null if caching is not possible
+   */
+  function translationCacheKey(key, opts) {
+    if (opts === undefined) return key
+
+    try {
+      const serialized = JSON.stringify(opts)
+      return serialized === undefined ? null : key + '\u0000' + serialized
+    } catch {
+      return null
+    }
+  }
+
+  /**
    * Translation helper that tries page-prefixed, then 'share', then raw key.
    * Falls back to returning the key itself if no translation exists.
    * @param {string} key
    * @param {any} [opts] optional interpolation / formatting options passed to i18n
    */
   const t = function (key, opts) {
+    const cacheKey = translationCacheKey(key, opts)
+    if (cacheKey !== null) {
+      const cached = translationCache.get(cacheKey)
+      if (cached !== undefined) return cached
+    }
+
+    let result
+
     const pageKey = page + '.' + key
     if (i18n.exists(pageKey)) {
-      return i18n.t(pageKey, opts)
+      result = i18n.t(pageKey, opts)
+    } else {
+      const shareKey = 'share.' + key
+      if (i18n.exists(shareKey)) {
+        result = i18n.t(shareKey, opts)
+      } else {
+        // REMARK: allow accessing other page's keys
+        result = i18n.exists(key) ? i18n.t(key, opts) : key
+      }
     }
-    const shareKey = 'share.' + key
-    if (i18n.exists(shareKey)) {
-      return i18n.t(shareKey, opts)
+
+    if (cacheKey !== null) {
+      translationCache.set(cacheKey, result)
     }
-    // REMARK: allow accessing other page's keys
-    if (i18n.exists(key)) {
-      return i18n.t(key, opts)
-    }
-    return key
+
+    return result
   }
 
   const locale = req.lng

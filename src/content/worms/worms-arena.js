@@ -272,75 +272,32 @@ async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
     newOpponentELO.toString()
   )
 
-  await App.db.models.WormsArenaMatch.update(
-    {
-      status: replay.winner == 'red' ? 'red-win' : 'green-win',
-      replay: JSON.stringify(replay),
-    },
-    {
-      where: {
-        id: matchId,
-      },
-    }
-  )
-
-  arenaStats = null
+  await App.wormsData.finishMatch({
+    id: matchId,
+    status: replay.winner == 'red' ? 'red-win' : 'green-win',
+    replay,
+  })
 }
 
 /**
  * @typedef {object} ArenaBotStats
  * @property {number} wins
  * @property {number} losses
- * @property {{id: number, won: boolean, opponentId: number, createdAt: Date | string}[]} matches newest first, at most 10
+ * @property {{id: number, won: boolean, opponentId: number | null, createdAt: number}[]} matches newest first, at most 10
  */
 
 /**
  * @typedef {object} ArenaStats
  * @property {Map<number, ArenaBotStats>} bots
- * @property {{id: number, redBotId: number, greenBotId: number, status: string, createdAt: Date | string}[]} lastMatches newest first, at most 40
+ * @property {import('../../data/types.js').WormsMatchMeta[]} lastMatches newest first, at most 40
  */
-
-/**
- * Counting all finished matches is by far the slowest part of the arena page,
- * but the result only changes when a match ends. So it is computed once and
- * reused until then, at most for a minute (the ranking hides bots without a
- * match in the last 7 days).
- * @type {Promise<ArenaStats> | null}
- */
-let arenaStats = null
-let arenaStatsTime = 0
 
 /**
  * @param {import("../../data/types.js").App} App
  * @returns {Promise<ArenaStats>}
  */
-function getArenaStats(App) {
-  if (!arenaStats || Date.now() - arenaStatsTime > 60 * 1000) {
-    arenaStatsTime = Date.now()
-    const loading = loadArenaStats(App)
-    arenaStats = loading
-    // try again on the next request
-    loading.catch(() => {
-      if (arenaStats === loading) arenaStats = null
-    })
-  }
-  return arenaStats
-}
-
-/**
- * @param {import("../../data/types.js").App} App
- * @returns {Promise<ArenaStats>}
- */
-async function loadArenaStats(App) {
-  const matches = await App.db.models.WormsArenaMatch.findAll({
-    where: {
-      status: {
-        [Op.in]: ['red-win', 'green-win'],
-      },
-    },
-    order: [['createdAt', 'DESC']],
-    attributes: ['id', 'status', 'redBotId', 'greenBotId', 'createdAt'],
-  })
+async function buildArenaStats(App) {
+  const matches = await App.wormsData.getFinishedMatches()
 
   /** @type {Map<number, ArenaBotStats>} */
   const bots = new Map()
@@ -356,67 +313,62 @@ async function loadArenaStats(App) {
 
   for (const match of matches) {
     const redWon = match.status == 'red-win'
-    const red = statsOf(match.redBotId)
-    const green = statsOf(match.greenBotId)
-    if (red.matches.length < 10) {
-      red.matches.push({
-        id: match.id,
-        won: redWon,
-        opponentId: match.greenBotId,
-        createdAt: match.createdAt,
-      })
+
+    if (match.redBotId != null) {
+      const red = statsOf(match.redBotId)
+      if (red.matches.length < 10) {
+        red.matches.push({
+          id: match.id,
+          won: redWon,
+          opponentId: match.greenBotId,
+          createdAt: match.createdAt,
+        })
+      }
+      if (redWon) {
+        red.wins++
+      } else {
+        red.losses++
+      }
     }
-    if (green.matches.length < 10) {
-      green.matches.push({
-        id: match.id,
-        won: !redWon,
-        opponentId: match.redBotId,
-        createdAt: match.createdAt,
-      })
-    }
-    if (redWon) {
-      red.wins++
-      green.losses++
-    } else {
-      red.losses++
-      green.wins++
+    if (match.greenBotId != null) {
+      const green = statsOf(match.greenBotId)
+      if (green.matches.length < 10) {
+        green.matches.push({
+          id: match.id,
+          won: !redWon,
+          opponentId: match.redBotId,
+          createdAt: match.createdAt,
+        })
+      }
+      if (redWon) {
+        green.losses++
+      } else {
+        green.wins++
+      }
     }
   }
 
   return {
     bots,
-    lastMatches: matches.slice(0, 40).map((match) => ({
-      id: match.id,
-      redBotId: match.redBotId,
-      greenBotId: match.greenBotId,
-      status: match.status,
-      createdAt: match.createdAt,
-    })),
+    lastMatches: matches.slice(0, 40),
   }
 }
 
 /**
  * @param {import("../../data/types.js").App} App
- * @param {any} match
+ * @param {import('../../data/types.js').WormsMatchMeta} match
  * @returns {Promise<number>}
  */
 async function getQueuePosition(App, match) {
-  // find matches that are older and still pending
-  const olderMatches = await App.db.models.WormsArenaMatch.count({
-    where: {
-      status: 'pending',
-      createdAt: {
-        [Op.lt]: match.createdAt,
-      },
-    },
-  })
-  return olderMatches + 1
+  const pending = await App.wormsData.getPendingMatches()
+  const index = pending.findIndex((entry) => entry.id == match.id)
+  return index >= 0 ? index + 1 : 1
 }
 
 /**
  * Status line shown while waiting for a match
  * @param {import("../../data/types.js").App} App
- * @param {any} match
+ * @param {import('../../data/types.js').WormsMatchMeta} match
  * @param {import('i18next').TFunction} t
  * @returns {Promise<string>}
  */
@@ -452,18 +404,7 @@ async function getMatchStatusText(App, match, t) {
 export function setupWormsArena(App) {
   App.entry.add(async () => {
     // safe guard: if there is still a running match, we reset it
-    await App.db.models.WormsArenaMatch.update(
-      {
-        status: 'error',
-      },
-      {
-        where: {
-          status: {
-            [Op.in]: ['running', 'pending'],
-          },
-        },
-      }
-    )
+    await App.wormsData.resetOpenMatches()
   })
 
   App.express.get_async_fix('/worms/arena', async (req, res) => {
@@ -475,28 +416,25 @@ export function setupWormsArena(App) {
 
     // only one match per person in the queue: while it waits or runs, the
     // overview links to it and no new match can be started
-    const ownMatch = await App.db.models.WormsArenaMatch.findOne({
-      where: {
-        status: { [Op.in]: ['pending', 'running'] },
-        UserId: user.id,
-      },
-    })
+    const ownMatch = await App.wormsData.getOpenMatchForUser(user.id)
 
-    // the running match is known in memory, no need to search the table
-    const liveArenaMatch = liveMatch
-      ? await App.db.models.WormsArenaMatch.findOne({
-          where: { id: liveMatch.matchId, status: 'running' },
-          attributes: ['id', 'redBotId', 'greenBotId'],
-        })
+    const liveMeta = liveMatch
+      ? await App.wormsData.getMatch(liveMatch.matchId)
       : null
 
+    const liveArenaMatch =
+      liveMeta && liveMeta.status == 'running' ? liveMeta : null
+
     // names of the bots in both matches, in one query
-    const bannerBotIds = [ownMatch, liveArenaMatch].flatMap((m) =>
-      m ? [m.redBotId, m.greenBotId] : []
-    )
+    const bannerBotIds = []
+    for (const m of [ownMatch, liveArenaMatch]) {
+      if (!m) continue
+      if (m.redBotId != null) bannerBotIds.push(m.redBotId)
+      if (m.greenBotId != null) bannerBotIds.push(m.greenBotId)
+    }
     const bannerBots = await App.wormsData.getBotsByIds(bannerBotIds)
 
-    /** @param {number} id */
+    /** @param {number | null} id */
     const bannerName = (id) => bannerBots.find((b) => b.id == id)?.name ?? null
 
     const botELOs = await App.db.models.KVPair.findAll({
@@ -533,12 +471,12 @@ export function setupWormsArena(App) {
       ])
     )
 
-    const stats = await getArenaStats(App)
+    const stats = await buildArenaStats(App)
 
-    /** @param {Date | string} date */
+    /** @param {number} date */
     const fromNow = (date) => App.moment(date).locale(req.lng).fromNow()
 
-    const sevenDaysAgo = App.moment().subtract(7, 'days').toDate()
+    const sevenDaysAgo = App.moment().subtract(7, 'days').valueOf()
 
     /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
     const botData = []
@@ -555,7 +493,7 @@ export function setupWormsArena(App) {
           ? botStats.wins / (botStats.wins + botStats.losses)
           : 0
       const recentMatch = botStats.matches.some(
-        (match) => new Date(match.createdAt) > sevenDaysAgo
+        (match) => match.createdAt > sevenDaysAgo
       )
       if (winRate < 0.2 && !recentMatch) continue
       botData.push({
@@ -569,7 +507,10 @@ export function setupWormsArena(App) {
         matches: botStats.matches.map((match) => ({
           id: match.id,
           won: match.won,
-          opponentName: botById.get(match.opponentId)?.name ?? null,
+          opponentName:
+            match.opponentId == null
+              ? null
+              : (botById.get(match.opponentId)?.name ?? null),
           dateFromNow: fromNow(match.createdAt),
         })),
       })
@@ -581,22 +522,18 @@ export function setupWormsArena(App) {
 
     // find out number of matches in last 24h from this player, only the time
     // is needed, not the replays
-    const matchesInTheLast24h = await App.db.models.WormsArenaMatch.findAll({
-      where: {
-        UserId: user.id,
-        createdAt: {
-          [Op.gt]: App.moment().subtract(24, 'hours').toDate(),
-        },
-      },
-      order: [['createdAt', 'ASC']],
-      attributes: ['createdAt'],
+    const since24h = App.moment().subtract(24, 'hours').valueOf()
+
+    const matchesInTheLast24h = await App.wormsData.getMatchesForUser(user.id, {
+      since: since24h,
     })
 
     req.session.lastWormsTab = 'arena'
 
     const lastMatches = stats.lastMatches.map((match) => {
-      const redBot = botById.get(match.redBotId)
-      const greenBot = botById.get(match.greenBotId)
+      const redBot = match.redBotId == null ? null : botById.get(match.redBotId)
+      const greenBot =
+        match.greenBotId == null ? null : botById.get(match.greenBotId)
       return {
         id: match.id,
         redName: redBot ? redBot.name : null,
@@ -610,14 +547,14 @@ export function setupWormsArena(App) {
     })
 
     const limitReached = matchesInTheLast24h.length >= 50
-    const limitUntil = limitReached
-      ? App.moment(
-          new Date(matchesInTheLast24h[0].createdAt).getTime() +
-            1000 * 60 * 60 * 24
-        )
-          .locale(req.lng)
-          .fromNow()
-      : null
+    const oldestRecentMatch =
+      matchesInTheLast24h[matchesInTheLast24h.length - 1]
+    const limitUntil =
+      limitReached && oldestRecentMatch
+        ? App.moment(oldestRecentMatch.createdAt + 1000 * 60 * 60 * 24)
+            .locale(req.lng)
+            .fromNow()
+        : null
 
     renderPage(App, req, res, {
       page: 'worms-arena',
@@ -674,13 +611,12 @@ export function setupWormsArena(App) {
       }
 
       // Server-side match limit check
-      const matches24h = await App.db.models.WormsArenaMatch.count({
-        where: {
-          UserId: user.id,
-          createdAt: { [Op.gt]: App.moment().subtract(24, 'hours').toDate() },
-        },
+      const since24h = App.moment().subtract(24, 'hours').valueOf()
+      const matches24h = await App.wormsData.getMatchesForUser(user.id, {
+        since: since24h,
       })
-      if (matches24h >= 50) {
+
+      if (matches24h.length >= 50) {
         res.status(429).send('Match limit exceeded')
         return
       }
@@ -722,22 +658,15 @@ export function setupWormsArena(App) {
       startingUsers.add(user.id)
       let match
       try {
-        const ownMatch = await App.db.models.WormsArenaMatch.findOne({
-          where: {
-            status: { [Op.in]: ['pending', 'running'] },
-            UserId: user.id,
-          },
-        })
+        const ownMatch = await App.wormsData.getOpenMatchForUser(user.id)
         if (ownMatch) {
           res.redirect('/worms/arena/match?id=' + ownMatch.id)
           return
         }
-        match = await App.db.models.WormsArenaMatch.create({
+        match = await App.wormsData.createMatch({
+          userId: user.id,
           redBotId: bot.id,
           greenBotId: opponentBot.id,
-          status: 'pending',
-          replay: '',
-          UserId: user.id,
         })
       } finally {
         startingUsers.delete(user.id)
@@ -773,16 +702,7 @@ export function setupWormsArena(App) {
             emitState(match.id, liveState(match.id, 0))
 
             try {
-              await App.db.models.WormsArenaMatch.update(
-                {
-                  status: 'running',
-                },
-                {
-                  where: {
-                    id: match.id,
-                  },
-                }
-              )
+              await App.wormsData.markMatchRunning(match.id)
 
               const replay = live.aborted
                 ? abortedReplay(live)
@@ -798,16 +718,7 @@ export function setupWormsArena(App) {
           })
         } catch (e) {
           console.log('match failed', e)
-          await App.db.models.WormsArenaMatch.update(
-            {
-              status: 'error',
-            },
-            {
-              where: {
-                id: match.id,
-              },
-            }
-          )
+          await App.wormsData.markMatchError(match.id)
           emitState(match.id, { id: match.id, status: 'error' })
         }
       }, 0)
@@ -829,11 +740,7 @@ export function setupWormsArena(App) {
       // match id
       const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: {
-          id: matchId,
-        },
-      })
+      const match = await App.wormsData.getMatch(matchId)
 
       if (!match) {
         res.status(404).send('Not found')
@@ -850,7 +757,7 @@ export function setupWormsArena(App) {
           : await App.wormsData.getBot(match.greenBotId)
 
       const canCancel =
-        match.UserId == user.id &&
+        match.userId == user.id &&
         (match.status == 'pending' || match.status == 'running')
       const pending = match.status == 'pending'
 
@@ -870,7 +777,7 @@ export function setupWormsArena(App) {
           replayUrl:
             '/worms/arena/replay?id=' +
             match.id +
-            (match.UserId == user.id ? '&msg=done' : ''),
+            (match.userId == user.id ? '&msg=done' : ''),
         },
       })
     })
@@ -893,9 +800,7 @@ export function setupWormsArena(App) {
       socket.join(matchRoom(matchId))
 
       try {
-        const match = await App.db.models.WormsArenaMatch.findOne({
-          where: { id: matchId },
-        })
+        const match = await App.wormsData.getMatch(matchId)
         if (!match) {
           socket.leave(matchRoom(matchId))
           socket.emit('worms:state', { id: matchId, status: 'missing' })
@@ -906,10 +811,12 @@ export function setupWormsArena(App) {
         if (live) {
           socket.emit('worms:state', live)
         } else if (match.status == 'red-win' || match.status == 'green-win') {
-          socket.emit(
-            'worms:state',
-            finishedState(matchId, JSON.parse(match.replay))
-          )
+          const replay = await App.wormsData.getMatchReplay(matchId)
+          if (replay) {
+            socket.emit('worms:state', finishedState(matchId, replay))
+          } else {
+            socket.emit('worms:state', { id: matchId, status: 'error' })
+          }
         } else if (match.status == 'error' || match.status == 'cancelled') {
           socket.emit('worms:state', { id: matchId, status: match.status })
         }
@@ -932,12 +839,7 @@ export function setupWormsArena(App) {
 
       const matchId = req.body?.id ? parseInt(req.body.id.toString()) : NaN
 
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: {
-          id: matchId,
-          UserId: user.id,
-        },
-      })
+      const match = await App.wormsData.getMatchForUser(matchId, user.id)
 
       if (!match) {
         res.sendStatus(404)
@@ -962,10 +864,7 @@ export function setupWormsArena(App) {
       // still waiting in the queue: the match never started, so it is just
       // dropped without any rating
       if (pendingMatches.delete(match.id)) {
-        await App.db.models.WormsArenaMatch.update(
-          { status: 'cancelled' },
-          { where: { id: match.id } }
-        )
+        await App.wormsData.cancelMatch(match.id)
         emitState(match.id, { id: match.id, status: 'cancelled' })
         emitQueue()
         res.sendStatus(200)
@@ -989,11 +888,7 @@ export function setupWormsArena(App) {
 
       const matchId = req.query.id ? parseInt(req.query.id.toString()) : NaN
 
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: {
-          id: matchId,
-        },
-      })
+      const match = await App.wormsData.getMatch(matchId)
 
       if (!match) {
         res.status(404).send('Not found')
@@ -1014,11 +909,7 @@ export function setupWormsArena(App) {
 
       const backToBot = req.query.backToBot
 
-      const match = await App.db.models.WormsArenaMatch.findOne({
-        where: {
-          id: matchId,
-        },
-      })
+      const match = await App.wormsData.getMatch(matchId)
 
       if (!match) {
         res.redirect('/worms/arena')
@@ -1033,10 +924,13 @@ export function setupWormsArena(App) {
 
       // "your bot won/lost" only makes sense for the one who started the match
       const showMsg =
-        req.query.msg == 'done' && !!req.user && match.UserId == req.user.id
+        req.query.msg == 'done' && !!req.user && match.userId == req.user.id
 
-      /** @type {import('../../data/types.js').WormsReplay} */
-      const replay = JSON.parse(match.replay)
+      const replay = await App.wormsData.getMatchReplay(match.id)
+      if (!replay) {
+        res.redirect('/worms/arena')
+        return
+      }
 
       const redBot =
         match.redBotId == null
@@ -1136,41 +1030,38 @@ export function setupWormsArena(App) {
         return
       }
 
-      const matches = await App.db.models.WormsArenaMatch.findAll({
-        where: {
-          [Op.or]: [
-            {
-              redBotId: bot.id,
-            },
-            {
-              greenBotId: bot.id,
-            },
-          ],
-          status: {
-            [Op.in]: ['red-win', 'green-win'],
-          },
-        },
-        order: [['createdAt', 'DESC']],
+      const matches = await App.wormsData.getMatchesForBot(bot.id, {
+        onlyFinished: true,
       })
 
-      const opponentIds = matches
-        .map((match) =>
+      /** @type {number[]} */
+      const opponentIds = []
+      for (const match of matches) {
+        const opponentId =
           match.redBotId == bot.id ? match.greenBotId : match.redBotId
-        )
-        .filter((id, index, self) => self.indexOf(id) === index)
+
+        if (opponentId != null && !opponentIds.includes(opponentId)) {
+          opponentIds.push(opponentId)
+        }
+      }
 
       const opponents = await App.wormsData.getBotsByIds(opponentIds)
+      const replays = await App.wormsData.getMatchReplays(
+        matches.map((match) => match.id)
+      )
 
       const elos = []
 
       elos.push(botELO)
 
       matches.forEach((match) => {
-        const data = JSON.parse(match.replay)
+        const replay = replays.get(match.id)
+        if (!replay) return
+
         if (match.redBotId == bot.id) {
-          elos.push(data.redElo)
+          elos.push(replay.redElo)
         } else if (match.greenBotId == bot.id) {
-          elos.push(data.greenElo)
+          elos.push(replay.greenElo)
         }
       })
 

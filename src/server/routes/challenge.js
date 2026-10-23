@@ -910,7 +910,11 @@ export function setupChallenges(App) {
       req.flash('delete', i18n.t('register.invalidToken'))
     } else {
       if (username === req.user.name) {
+        await App.wormsData.getBotsForUser(req.user.id)
         await App.db.models.User.destroy({ where: { id: req.user.id } })
+        try {
+          await App.wormsData.removeUser(req.user.id)
+        } catch {}
         await App.db.models.KVPair.destroy({
           where: {
             value: req.user.id,
@@ -947,7 +951,6 @@ export function setupChallenges(App) {
             },
           })
         }
-        await App.wormsData.removeUser(req.user.id)
         App.challengeStats.nuke()
         purge_user_from_cache(req.user.id)
         delete req.session.userId

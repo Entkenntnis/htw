@@ -1,5 +1,10 @@
 /** @typedef {import('../../data/types.js').WormsBotMeta} WormsBotMeta */
 /** @typedef {import('../../data/types.js').WormsBotMutationResult} WormsBotMutationResult */
+/** @typedef {import('../../data/types.js').WormsMatchMeta} WormsMatchMeta */
+/** @typedef {import('../../data/types.js').WormsMatchStatus} WormsMatchStatus */
+/** @typedef {import('../../data/types.js').WormsReplay} WormsReplay */
+
+import { Op } from 'sequelize'
 
 /**
  * @param {import("../../data/types.js").App} App
@@ -16,6 +21,17 @@ export function withWormsData(App) {
   /** @type {Promise<void> | null} */
   let loading = null
 
+  /** @type {Map<number, WormsMatchMeta>} */
+  const matches = new Map()
+
+  /** @type {Set<number>} */
+  const openMatches = new Set()
+
+  let matchesLoaded = false
+
+  /** @type {Promise<void> | null} */
+  let matchesLoading = null
+
   /** @type {Promise<unknown>} */
   let mutationChain = Promise.resolve()
 
@@ -27,6 +43,22 @@ export function withWormsData(App) {
     return {
       id: row.id,
       name: row.name,
+      userId: row.UserId,
+      createdAt: new Date(row.createdAt).getTime(),
+      updatedAt: new Date(row.updatedAt).getTime(),
+    }
+  }
+
+  /**
+   * @param {any} row
+   * @returns {WormsMatchMeta}
+   */
+  function toMatchMeta(row) {
+    return {
+      id: row.id,
+      status: row.status,
+      redBotId: row.redBotId ?? null,
+      greenBotId: row.greenBotId ?? null,
       userId: row.UserId,
       createdAt: new Date(row.createdAt).getTime(),
       updatedAt: new Date(row.updatedAt).getTime(),
@@ -57,6 +89,32 @@ export function withWormsData(App) {
     }
   }
 
+  /** @param {WormsMatchMeta} match */
+  function addMatchToCache(match) {
+    matches.set(match.id, match)
+
+    if (match.status == 'pending' || match.status == 'running') {
+      openMatches.add(match.id)
+    }
+  }
+
+  /** @param {WormsMatchMeta} updated */
+  function updateMatchInCache(updated) {
+    matches.set(updated.id, updated)
+
+    if (updated.status == 'pending' || updated.status == 'running') {
+      openMatches.add(updated.id)
+    } else {
+      openMatches.delete(updated.id)
+    }
+  }
+
+  /** @param {WormsMatchMeta} match */
+  function removeMatchFromCache(match) {
+    matches.delete(match.id)
+    openMatches.delete(match.id)
+  }
+
   /**
    * @param {Set<number> | undefined} ids
    * @returns {WormsBotMeta[]}
@@ -79,6 +137,22 @@ export function withWormsData(App) {
     return list
       .slice()
       .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+  }
+
+  /**
+   * @param {WormsMatchMeta[]} list
+   * @returns {WormsMatchMeta[]}
+   */
+  function sortNewestFirst(list) {
+    return list.slice().sort((a, b) => b.createdAt - a.createdAt || b.id - a.id)
+  }
+
+  /**
+   * @param {WormsMatchMeta[]} list
+   * @returns {WormsMatchMeta[]}
+   */
+  function sortOldestFirst(list) {
+    return list.slice().sort((a, b) => a.createdAt - b.createdAt || a.id - b.id)
   }
 
   async function loadBots() {
@@ -110,6 +184,70 @@ export function withWormsData(App) {
     }
 
     await loading
+  }
+
+  /**
+   * Wait for an already running lazy load, but do not start a new one.
+   * A failed load is ignored here: the DB remains authoritative and the
+   * next access will retry the load.
+   * @returns {Promise<void>}
+   */
+  async function waitForInFlightLoad() {
+    if (!loading) return
+
+    try {
+      await loading
+    } catch {}
+  }
+
+  async function loadMatches() {
+    const rows = await App.db.models.WormsArenaMatch.findAll({
+      attributes: [
+        'id',
+        'status',
+        'redBotId',
+        'greenBotId',
+        'UserId',
+        'createdAt',
+        'updatedAt',
+      ],
+      raw: true,
+    })
+
+    matches.clear()
+    openMatches.clear()
+
+    for (const row of rows) {
+      addMatchToCache(toMatchMeta(row))
+    }
+  }
+
+  async function ensureMatches() {
+    if (matchesLoaded) return
+
+    if (!matchesLoading) {
+      matchesLoading = loadMatches()
+        .then(() => {
+          matchesLoaded = true
+        })
+        .catch((err) => {
+          matchesLoading = null
+          throw err
+        })
+    }
+    await matchesLoading
+  }
+
+  /**
+   * Wartet auf einen laufenden Lazy-Load, startet aber keinen neuen.
+   * @returns {Promise<void>}
+   */
+  async function waitForInFlightMatchLoad() {
+    if (!matchesLoading) return
+
+    try {
+      await matchesLoading
+    } catch {}
   }
 
   /**
@@ -297,20 +435,6 @@ export function withWormsData(App) {
   }
 
   /**
-   * Wait for an already running lazy load, but do not start a new one.
-   * A failed load is ignored here: the DB remains authoritative and the
-   * next access will retry the load.
-   * @returns {Promise<void>}
-   */
-  async function waitForInFlightLoad() {
-    if (!loading) return
-
-    try {
-      await loading
-    } catch {}
-  }
-
-  /**
    * @param {{ userId: number, botId: number }} input
    * @returns {Promise<boolean>}
    */
@@ -328,6 +452,10 @@ export function withWormsData(App) {
         removeFromCache(cached)
       }
 
+      if (deleted > 0) {
+        await clearBotFromMatches(botId)
+      }
+
       return deleted > 0
     })
   }
@@ -339,17 +467,315 @@ export function withWormsData(App) {
   async function removeUser(userId) {
     return mutate(async () => {
       await waitForInFlightLoad()
+      await waitForInFlightMatchLoad()
 
-      const ids = botsByUser.get(userId)
-      if (!ids) return
+      const botIds = [...(botsByUser.get(userId) ?? [])]
 
-      for (const id of [...ids]) {
-        const bot = bots.get(id)
+      for (const botId of botIds) {
+        await clearBotFromMatches(botId)
+
+        const bot = bots.get(botId)
         if (bot) {
           removeFromCache(bot)
         }
       }
+
+      for (const match of [...matches.values()]) {
+        if (match.userId === userId) {
+          removeMatchFromCache(match)
+        }
+      }
     })
+  }
+
+  /**
+   * @param {number} id
+   * @returns {Promise<WormsMatchMeta | null>}
+   */
+  async function getMatch(id) {
+    await ensureMatches()
+    return matches.get(id) ?? null
+  }
+
+  /**
+   * @param {number} id
+   * @param {number} userId
+   * @returns {Promise<WormsMatchMeta | null>}
+   */
+  async function getMatchForUser(id, userId) {
+    const match = await getMatch(id)
+    return match && match.userId == userId ? match : null
+  }
+
+  /**
+   * @param {number} userId
+   * @param {{ since?: number }} [options]
+   * @returns {Promise<WormsMatchMeta[]>}
+   */
+  async function getMatchesForUser(userId, options) {
+    await ensureMatches()
+
+    const since = options?.since
+    const result = []
+
+    for (const match of matches.values()) {
+      if (match.userId != userId) continue
+      if (since !== undefined && match.createdAt < since) continue
+      result.push(match)
+    }
+
+    return sortNewestFirst(result)
+  }
+
+  /**
+   * @param {number} userId
+   * @returns {Promise<WormsMatchMeta | null>}
+   */
+  async function getOpenMatchForUser(userId) {
+    await ensureMatches()
+
+    for (const id of openMatches) {
+      const match = matches.get(id)
+      if (match && match.userId === userId) {
+        return match
+      }
+    }
+
+    return null
+  }
+
+  /**
+   * @returns {Promise<WormsMatchMeta[]>} älteste zuerst
+   */
+  async function getPendingMatches() {
+    await ensureMatches()
+
+    const result = []
+
+    for (const id of openMatches) {
+      const match = matches.get(id)
+      if (match && match.status == 'pending') {
+        result.push(match)
+      }
+    }
+
+    return sortOldestFirst(result)
+  }
+
+  /**
+   * @returns {Promise<WormsMatchMeta[]>} neueste zuerst
+   */
+  async function getFinishedMatches() {
+    await ensureMatches()
+
+    const result = []
+
+    for (const match of matches.values()) {
+      if (match.status == 'red-win' || match.status == 'green-win') {
+        result.push(match)
+      }
+    }
+
+    return sortNewestFirst(result)
+  }
+
+  /**
+   * @param {number} botId
+   * @param {{ onlyFinished?: boolean }} [options]
+   * @returns {Promise<WormsMatchMeta[]>}
+   */
+  async function getMatchesForBot(botId, options) {
+    await ensureMatches()
+
+    const result = []
+
+    for (const match of matches.values()) {
+      if (match.redBotId !== botId && match.greenBotId !== botId) continue
+
+      if (
+        options?.onlyFinished &&
+        match.status != 'red-win' &&
+        match.status != 'green-win'
+      ) {
+        continue
+      }
+      result.push(match)
+    }
+    return sortNewestFirst(result)
+  }
+
+  /**
+   * @param {number} id
+   * @returns {Promise<WormsReplay | null>}
+   */
+  async function getMatchReplay(id) {
+    const row = await App.db.models.WormsArenaMatch.findByPk(id, {
+      attributes: ['replay'],
+      raw: true,
+    })
+
+    if (!row || !row.replay) return null
+
+    try {
+      return JSON.parse(row.replay)
+    } catch {
+      return null
+    }
+  }
+
+  /**
+   * @param {number[]} ids
+   * @returns {Promise<Map<number, WormsReplay>>}
+   */
+  async function getMatchReplays(ids) {
+    const result = new Map()
+
+    if (ids.length == 0) return result
+
+    const rows = await App.db.models.WormsArenaMatch.findAll({
+      where: { id: ids },
+      attributes: ['id', 'replay'],
+      raw: true,
+    })
+
+    for (const row of rows) {
+      if (!row.replay) continue
+
+      try {
+        result.set(row.id, JSON.parse(row.replay))
+      } catch {}
+    }
+
+    return result
+  }
+
+  /**
+   * @param {{ userId: number, redBotId: number, greenBotId: number }} input
+   * @returns {Promise<WormsMatchMeta>}
+   */
+  async function createMatch({ userId, redBotId, greenBotId }) {
+    return mutate(async () => {
+      await ensureMatches()
+
+      const created = await App.db.models.WormsArenaMatch.create({
+        redBotId,
+        greenBotId,
+        status: 'pending',
+        replay: '',
+        UserId: userId,
+      })
+
+      const meta = toMatchMeta(created.get({ plain: true }))
+      addMatchToCache(meta)
+
+      return meta
+    })
+  }
+
+  /**
+   * @param {number} id
+   * @param {WormsMatchStatus} status
+   * @param {{ replay?: string }} [options]
+   * @returns {Promise<WormsMatchMeta | null>}
+   */
+  async function setMatchStatus(id, status, options) {
+    return mutate(async () => {
+      await ensureMatches()
+
+      const cached = matches.get(id)
+      if (!cached) return null
+
+      /** @type {{ status: WormsMatchStatus, replay?: string }} */
+      const values = { status }
+      if (options?.replay !== undefined) {
+        values.replay = options.replay
+      }
+
+      const [affected] = await App.db.models.WormsArenaMatch.update(values, {
+        where: { id },
+      })
+
+      if (affected == 0) {
+        removeMatchFromCache(cached)
+        return null
+      }
+
+      const updated = { ...cached, status, updatedAt: Date.now() }
+
+      updateMatchInCache(updated)
+      return updated
+    })
+  }
+
+  /** @param {number} id */
+  async function markMatchRunning(id) {
+    return setMatchStatus(id, 'running')
+  }
+
+  /** @param {number} id */
+  async function markMatchError(id) {
+    return setMatchStatus(id, 'error')
+  }
+
+  /** @param {number} id */
+  async function cancelMatch(id) {
+    return setMatchStatus(id, 'cancelled')
+  }
+
+  /**
+   * @param {{ id: number, status: 'red-win' | 'green-win', replay: WormsReplay }} input
+   * @returns {Promise<WormsMatchMeta | null>}
+   */
+  async function finishMatch({ id, status, replay }) {
+    return setMatchStatus(id, status, { replay: JSON.stringify(replay) })
+  }
+
+  /**
+   * Beim App-Start: hängen gebliebene Matches auf error setzen.
+   * @returns {Promise<void>}
+   */
+  async function resetOpenMatches() {
+    await mutate(async () => {
+      await App.db.models.WormsArenaMatch.update(
+        { status: 'error' },
+        { where: { status: { [Op.in]: ['running', 'pending'] } } }
+      )
+
+      await waitForInFlightMatchLoad()
+
+      if (!matchesLoaded) return
+
+      for (const id of [...openMatches]) {
+        const match = matches.get(id)
+        if (!match) continue
+        matches.set(id, { ...match, status: 'error', updatedAt: Date.now() })
+      }
+
+      openMatches.clear()
+    })
+  }
+
+  /**
+   * Die DB setzt bei gelöschten Bots redBotId/greenBotId auf NULL.
+   * Das muss der Cache nachziehen.
+   * @param {number} botId
+   * @returns {Promise<void>}
+   */
+  async function clearBotFromMatches(botId) {
+    await waitForInFlightMatchLoad()
+    if (!matchesLoaded) return
+
+    for (const match of [...matches.values()]) {
+      if (match.redBotId !== botId && match.greenBotId !== botId) {
+        continue
+      }
+
+      matches.set(match.id, {
+        ...match,
+        redBotId: match.redBotId === botId ? null : match.redBotId,
+        greenBotId: match.greenBotId === botId ? null : match.greenBotId,
+      })
+    }
   }
 
   App.wormsData = {
@@ -363,5 +789,22 @@ export function withWormsData(App) {
     saveBotCode,
     deleteBot,
     removeUser,
+
+    getMatch,
+    getMatchForUser,
+    getMatchesForUser,
+    getOpenMatchForUser,
+    getPendingMatches,
+    getFinishedMatches,
+    getMatchesForBot,
+
+    getMatchReplay,
+    getMatchReplays,
+    createMatch,
+    markMatchRunning,
+    markMatchError,
+    cancelMatch,
+    finishMatch,
+    resetOpenMatches,
   }
 }

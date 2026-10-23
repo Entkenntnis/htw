@@ -130,8 +130,41 @@ export interface App {
     }): Promise<WormsBotMutationResult>
 
     deleteBot(input: { userId: number; botId: number }): Promise<boolean>
-
     removeUser(userId: number): Promise<void>
+
+    getMatch(id: number): Promise<WormsMatchMeta | null>
+    getMatchForUser(id: number, userId: number): Promise<WormsMatchMeta | null>
+    getMatchesForUser(
+      userId: number,
+      options?: { since?: number }
+    ): Promise<WormsMatchMeta[]>
+    getOpenMatchForUser(userId: number): Promise<WormsMatchMeta | null>
+    getPendingMatches(): Promise<WormsMatchMeta[]>
+    getFinishedMatches(): Promise<WormsMatchMeta[]>
+    getMatchesForBot(
+      botId: number,
+      options?: { onlyFinished?: boolean }
+    ): Promise<WormsMatchMeta[]>
+
+    getMatchReplay(id: number): Promise<WormsReplay | null>
+    getMatchReplays(ids: number[]): Promise<Map<number, WormsReplay>>
+
+    createMatch(input: {
+      userId: number
+      redBotId: number
+      greenBotId: number
+    }): Promise<WormsMatchMeta>
+
+    markMatchRunning(id: number): Promise<WormsMatchMeta | null>
+    markMatchError(id: number): Promise<WormsMatchMeta | null>
+    cancelMatch(id: number): Promise<WormsMatchMeta | null>
+    finishMatch(input: {
+      id: number
+      status: 'red-win' | 'green-win'
+      replay: WormsReplay
+    }): Promise<WormsMatchMeta | null>
+
+    resetOpenMatches(): Promise<void>
   }
 }
 
@@ -288,15 +321,9 @@ export class WormsArenaMatchModel extends Model<
   InferCreationAttributes<WormsArenaMatchModel>
 > {
   declare id: CreationOptional<number>
-  declare status:
-    | 'pending'
-    | 'running'
-    | 'red-win'
-    | 'green-win'
-    | 'error'
-    | 'cancelled'
-  declare redBotId: number
-  declare greenBotId: number
+  declare status: WormsMatchStatus
+  declare redBotId: number | null
+  declare greenBotId: number | null
   declare UserId: number
   declare replay: string
   declare createdAt: CreationOptional<string | Date>
@@ -486,3 +513,21 @@ export type WormsBotMutationResult =
         | 'not-found'
         | 'code-too-long'
     }
+
+export type WormsMatchStatus =
+  | 'pending'
+  | 'running'
+  | 'red-win'
+  | 'green-win'
+  | 'error'
+  | 'cancelled'
+
+export interface WormsMatchMeta {
+  readonly id: number
+  readonly status: WormsMatchStatus
+  readonly redBotId: number | null
+  readonly greenBotId: number | null
+  readonly userId: number
+  readonly createdAt: number
+  readonly updatedAt: number
+}

@@ -104,6 +104,35 @@ export interface App {
     setDifficulty(userid: number, difficulty: 'easy' | 'hard'): Promise<void>
     setPwCheckCompleted(userid: number): Promise<void>
   }
+  wormsData: {
+    getBot(id: number): Promise<WormsBotMeta | null>
+    getBotForUser(id: number, userId: number): Promise<WormsBotMeta | null>
+    getBotsForUser(userId: number): Promise<WormsBotMeta[]>
+    getBotsByIds(ids: number[]): Promise<WormsBotMeta[]>
+    getBotCode(id: number): Promise<string | null>
+
+    createBot(input: {
+      userId: number
+      name: string
+      code: string
+    }): Promise<WormsBotMutationResult>
+
+    renameBot(input: {
+      userId: number
+      botId: number
+      name: string
+    }): Promise<WormsBotMutationResult>
+
+    saveBotCode(input: {
+      userId: number
+      botId: number
+      code: string
+    }): Promise<WormsBotMutationResult>
+
+    deleteBot(input: { userId: number; botId: number }): Promise<boolean>
+
+    removeUser(userId: number): Promise<void>
+  }
 }
 
 export interface MapMeta {
@@ -437,3 +466,23 @@ export interface ExperimentResult {
   nSolversBase: number
   nSolversTrial: number
 }
+
+export interface WormsBotMeta {
+  readonly id: number
+  readonly name: string
+  readonly userId: number
+  readonly createdAt: number
+  readonly updatedAt: number
+}
+
+export type WormsBotMutationResult =
+  | { ok: true; bot: WormsBotMeta }
+  | {
+      ok: false
+      reason:
+        | 'invalid-name'
+        | 'name-exists'
+        | 'limit-reached'
+        | 'not-found'
+        | 'code-too-long'
+    }

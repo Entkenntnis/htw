@@ -947,6 +947,7 @@ export function setupChallenges(App) {
             },
           })
         }
+        await App.wormsData.removeUser(req.user.id)
         App.challengeStats.nuke()
         purge_user_from_cache(req.user.id)
         delete req.session.userId

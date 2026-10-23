@@ -56,6 +56,7 @@ import { setupStoryline } from './content/storyline.js'
 import { setupHackerQuiz } from './content/hacker-quiz/hacker-quiz.js'
 import { withQuizData } from './server/lib/withQuizData.js'
 import { setupCoolesGame } from './content/cooles-game.js'
+import { withWormsData } from './server/lib/withWormsData.js'
 
 /** @type {any} App will be assembled step-wise */
 const preApp = {
@@ -112,6 +113,7 @@ setupEnough(App)
 setupWWWM(App)
 setupStoryline(App)
 
+withWormsData(App)
 setupWormsBasic(App)
 setupWormsManagement(App)
 setupWormsArena(App)

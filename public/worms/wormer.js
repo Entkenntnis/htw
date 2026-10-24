@@ -24,6 +24,10 @@ class Wormer {
     this.fairTime = false
     this.thinkTime = 0
 
+    if (options.seed) {
+      this.seed = options.seed.split('|').map((x) => parseInt(x) % 8)
+    }
+
     // constants
     this.OFFSETS = [
       [0, -1],
@@ -79,12 +83,20 @@ class Wormer {
     this.winner = '' // 'red' | 'green'
 
     // game state
-    this.redX = 10 + Math.floor(Math.random() * 8 - 4)
-    this.redY = 20 + Math.floor(Math.random() * 8 - 4)
+    if (!this.seed) {
+      this.seed = [
+        Math.random() * 8,
+        Math.random() * 8,
+        Math.random() * 8,
+        Math.random() * 8,
+      ]
+    }
+    this.redX = 10 + Math.floor(this.seed[0] - 4)
+    this.redY = 20 + Math.floor(this.seed[1] - 4)
     this.redDir = 1 //Math.floor(Math.random() * 3)
 
-    this.greenX = 61 + Math.floor(Math.random() * 8 - 4)
-    this.greenY = 21 + Math.floor(Math.random() * 8 - 4)
+    this.greenX = 61 + Math.floor(this.seed[2] - 4)
+    this.greenY = 21 + Math.floor(this.seed[3] - 4)
     this.greenDir = 3 //(Math.floor(Math.random() * 3) + 2) % 4
 
     this.lastTick = new Date().getTime()

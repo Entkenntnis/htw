@@ -15,7 +15,7 @@
 <% } %>
 
 
-<script src="/worms/wormer.js"></script>
+<script src="/worms/wormer.js?v=42"></script>
 
 <script
   src="/worms/quickjs.js"
@@ -55,6 +55,9 @@
   const redCode = <%- props.rCode %>
   const greenCode = <%- props.gCode %>
   const wormerMessages = <%- props.wormerMessages %>
+
+  const params = new URLSearchParams(window.location.search);
+  const seed = params.get('seed'); // string | null
 
   // turbo stays on after F5 while testing, as long as the tab is open
   function setTurbo(on) {
@@ -209,7 +212,7 @@
       <%- props.human == 'red' ? 'humanPlayer' : 'red' %>,
       <%- props.human == 'green' ? 'humanPlayer' : 'green'%>,
       wormerMessages,
-      { pressToStart: <%- JSON.stringify(!!props.human) %> }
+      { pressToStart: <%- JSON.stringify(!!props.human) %>, seed }
     )
     window.wormer = wormer
     <% if (props.human) { %>

@@ -35,6 +35,13 @@ export function withWormsData(App) {
   const BOT_ELO_PREFIX = 'worms_botelo_'
   const DEFAULT_BOT_ELO = 500
 
+  // achievement: a bot that reached this elo once keeps its medal
+  const ACHIEVEMENT_ELO = 1337
+  const BOT_ACHIEVEMENT_PREFIX = 'worms_bot1337_'
+
+  /** @type {Set<number>} */
+  const botAchievements = new Set()
+
   /** @type {Map<number, number>} */
   const botElos = new Map()
 
@@ -186,6 +193,40 @@ export function withWormsData(App) {
         botElos.set(botId, elo)
       }
     }
+
+    const achievementRows = await App.db.models.KVPair.findAll({
+      where: {
+        key: {
+          [Op.like]: `${BOT_ACHIEVEMENT_PREFIX}%`,
+        },
+      },
+      raw: true,
+    })
+
+    botAchievements.clear()
+
+    for (const row of achievementRows) {
+      const botId = parseInt(row.key.substring(BOT_ACHIEVEMENT_PREFIX.length))
+      if (Number.isSafeInteger(botId)) botAchievements.add(botId)
+    }
+
+    // bots that were above the limit before the achievement existed
+    for (const [botId, elo] of botElos) {
+      if (elo >= ACHIEVEMENT_ELO && !botAchievements.has(botId)) {
+        await saveAchievement(botId)
+      }
+    }
+  }
+
+  /**
+   * @param {number} botId
+   */
+  async function saveAchievement(botId) {
+    await App.storage.setItem(
+      `${BOT_ACHIEVEMENT_PREFIX}${botId}`,
+      Date.now().toString()
+    )
+    botAchievements.add(botId)
   }
 
   async function ensureBotElos() {
@@ -223,6 +264,15 @@ export function withWormsData(App) {
   }
 
   /**
+   * Bots that reached 1337 elo at least once
+   * @returns {Promise<Set<number>>}
+   */
+  async function getBotAchievements() {
+    await ensureBotElos()
+    return new Set(botAchievements)
+  }
+
+  /**
    * @param {Array<{ botId: number, elo: number }>} entries
    * @returns {Promise<void>}
    */
@@ -233,6 +283,9 @@ export function withWormsData(App) {
       for (const { botId, elo } of entries) {
         await App.storage.setItem(`${BOT_ELO_PREFIX}${botId}`, elo.toString())
         botElos.set(botId, elo)
+        if (elo >= ACHIEVEMENT_ELO && !botAchievements.has(botId)) {
+          await saveAchievement(botId)
+        }
       }
     })
   }
@@ -868,6 +921,7 @@ export function withWormsData(App) {
     getBotCode,
     getBotElo,
     getBotElos,
+    getBotAchievements,
     setBotElos,
     createBot,
     renameBot,

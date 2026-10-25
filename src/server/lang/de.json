@@ -304,6 +304,7 @@
       "botsLoading": "Bots werden geladen",
       "matchDone": "Match fertig berechnet",
       "matchForfeited": "Match aufgegeben",
+      "medal1337": "Hat 1337 ELO erreicht",
       "connectionLost": "Verbindung zum Server unterbrochen, verbinde neu ...",
       "tooManyConnections": "Zu viele offene Tabs mit Matches, bitte schließe einige.",
       "matchAbortedEarly": "Das Match wurde aufgegeben, bevor der erste Zug gemacht war.",

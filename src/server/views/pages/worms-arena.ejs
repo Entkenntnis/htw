@@ -105,10 +105,12 @@
         </td>
         <td><%= bot.elo %></td>
         <td>
+          <% if (!bot.isOwn) { %>
           <form action="/worms/arena/start-match" method="POST" style="display: inline;" class="challenge-form">
             <input type="hidden" name="opponent" value="<%= bot.id %>">
             <button type="submit" class="btn btn-sm btn-warning challenge-button" style="margin-top: -4px; visibility: hidden;" id="challenge-<%= bot.id %>"><%= t('worms.arena.challenge') %></button>
           </form>
+          <% } %>
         </td>
       </tr>
     <% }) %>

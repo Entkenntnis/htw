@@ -624,6 +624,13 @@ export function setupWormsArena(App) {
         return
       }
 
+      // only against bots of other people, otherwise elo could be farmed
+      // with a weak bot of your own
+      if (opponentBot.userId == user.id) {
+        res.redirect('/worms/arena')
+        return
+      }
+
       const [botCode, opponentCode] = await Promise.all([
         App.wormsData.getBotCode(bot.id),
         App.wormsData.getBotCode(opponentBot.id),

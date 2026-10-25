@@ -113,6 +113,7 @@ export interface App {
 
     getBotElo(botId: number): Promise<number>
     getBotElos(): Promise<Map<number, number>>
+    getBotAchievements(): Promise<Set<number>>
     setBotElos(entries: Array<{ botId: number; elo: number }>): Promise<void>
 
     createBot(input: {

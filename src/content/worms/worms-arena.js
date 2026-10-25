@@ -434,6 +434,7 @@ export function setupWormsArena(App) {
     const bannerName = (id) => bannerBots.find((b) => b.id == id)?.name ?? null
 
     const eloById = await App.wormsData.getBotElos()
+    const achievements = await App.wormsData.getBotAchievements()
 
     // names change when bots are renamed or deleted, so they are always fresh
     const bots = await App.wormsData.getBotsByIds([...eloById.keys()])
@@ -463,7 +464,7 @@ export function setupWormsArena(App) {
 
     const sevenDaysAgo = App.moment().subtract(7, 'days').valueOf()
 
-    /** @type {{id: number, elo: number, name: string, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
+    /** @type {{id: number, elo: number, name: string, medal: boolean, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
     const botData = []
     for (const [id, elo] of eloById) {
       const bot = botById.get(id)
@@ -485,6 +486,7 @@ export function setupWormsArena(App) {
         id,
         elo,
         name: bot.name,
+        medal: achievements.has(id),
         userid: bot.userid,
         username: bot.username,
         wins: botStats.wins,
@@ -567,6 +569,7 @@ export function setupWormsArena(App) {
         bots: botData.map((bot) => ({
           id: bot.id,
           name: bot.name,
+          medal: bot.medal,
           username: bot.username,
           isOwn: bot.userid == user.id,
           elo: Math.round(bot.elo),

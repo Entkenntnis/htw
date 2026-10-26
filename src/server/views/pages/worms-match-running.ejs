@@ -181,17 +181,21 @@
 
   socket.on('connect_error', (err) => {
     if (ended) return
-    statusEl.innerText = err.message == 'too many connections'
-      ? texts.tooManyConnections
-      : texts.connectionLost
+    statusEl.innerText = texts.connectionLost
     // refused by the server: socket.io does not try again by itself
     if (!socket.active && err.message != 'not logged in') {
       setTimeout(() => socket.connect(), 5000)
     }
   })
 
-  socket.on('disconnect', () => {
+  socket.on('disconnect', (reason) => {
     if (ended) return
+    // closed by the server: a newer tab of the same person took over, there
+    // is no reconnect
+    if (reason == 'io server disconnect') {
+      statusEl.innerText = texts.tooManyConnections
+      return
+    }
     statusEl.innerText = texts.connectionLost
     resync = true
   })

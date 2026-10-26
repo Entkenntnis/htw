@@ -619,7 +619,7 @@ export function getI18nExtension() {
       
       <h3 class="my-4">Experimente</h3>
       
-      <p>Neue Aufgaben werden gelegentlich in Form von Experimenten veröffentlicht. Dabei erhalten zufällig ausgewählte NutzerInnen früheren Zugriff auf neue Aufgaben und die Besuchs- und Lösungsrate wird mit der vorhandenen Version verglich. Im Rahmen der Experimente werden keine personenbezogenen Daten gesammelt und die Auswertung erfolgt vollständig anonymisiert.
+      <p>Neue Aufgaben werden gelegentlich in Form von Experimenten veröffentlicht. Dabei erhalten zufällig ausgewählte NutzerInnen früheren Zugriff auf neue Aufgaben und die Besuchs- und Lösungsrate wird mit der vorhandenen Version verglichen. Im Rahmen der Experimente werden keine personenbezogenen Daten gesammelt und die Auswertung erfolgt vollständig anonymisiert.
       </p>
 
       <-- MARKER -->

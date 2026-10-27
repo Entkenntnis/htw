@@ -251,7 +251,7 @@
       "deletedBot": "gelöschter Bot",
       "view": "ansehen",
       "more": "mehr ...",
-      "noBots": "Du hast noch keine eigenen Bots. Erstelle welche unter &quot;Deine Bots&quot;.",
+      "noBots": "Du hast noch keine eigenen Bots. Erstelle welche unter \"Deine Bots\".",
       "limit": "Limit: 50 Matches pro 24h",
       "limitReached": "Du hast das Limit von 50 Matches in 24 Stunden erreicht. Du kannst {{until}} wieder ein Match starten.",
       "chooseBot": "Wähle deinen Bot für das Match:",

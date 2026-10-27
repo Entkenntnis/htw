@@ -2,7 +2,7 @@ import { Server } from 'socket.io'
 import cookieParser from 'cookie-parser'
 import { readSession, session_cookie_key } from './expressSession.js'
 
-/** open connections per user, more tabs than this are refused */
+/** open connections per user, beyond that the oldest one is closed */
 const maxSocketsPerUser = 5
 
 /**
@@ -17,8 +17,11 @@ export function withSocket(App) {
     maxHttpBufferSize: 10_000,
   })
 
-  /** @type {Map<number, number>} */
-  const socketsPerUser = new Map()
+  /**
+   * connected sockets per user, oldest first
+   * @type {Map<number, Set<import('socket.io').Socket>>}
+   */
+  const socketsByUser = new Map()
   const parseCookies = cookieParser(App.config.sessionSecret)
 
   App.io.use(async (socket, next) => {
@@ -37,21 +40,36 @@ export function withSocket(App) {
         next(new Error('not logged in'))
         return
       }
-      const count = socketsPerUser.get(userId) ?? 0
-      if (count >= maxSocketsPerUser) {
-        next(new Error('too many connections'))
-        return
-      }
-      socketsPerUser.set(userId, count + 1)
       socket.data.userId = userId
-      socket.once('disconnect', () => {
-        const left = (socketsPerUser.get(userId) ?? 1) - 1
-        if (left > 0) socketsPerUser.set(userId, left)
-        else socketsPerUser.delete(userId)
-      })
       next()
     } catch (e) {
       next(new Error('session lookup failed'))
     }
+  })
+
+  // counted only once the connection is really there: socket.io drops a
+  // connection that closes during the middleware without a disconnect event
+  App.io.on('connection', (socket) => {
+    /** @type {number} */
+    const userId = socket.data.userId
+    let own = socketsByUser.get(userId)
+    if (!own) {
+      own = new Set()
+      socketsByUser.set(userId, own)
+    }
+    const sockets = own
+    sockets.add(socket)
+    socket.once('disconnect', () => {
+      sockets.delete(socket)
+      if (sockets.size == 0 && socketsByUser.get(userId) === sockets) {
+        socketsByUser.delete(userId)
+      }
+    })
+
+    // too many: the oldest ones give way, the page that was just opened
+    // always works
+    const excess = Math.max(0, sockets.size - maxSocketsPerUser)
+    const oldest = [...sockets].slice(0, excess)
+    for (const old of oldest) old.disconnect(true)
   })
 }

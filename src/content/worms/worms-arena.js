@@ -464,7 +464,7 @@ export function setupWormsArena(App) {
 
     const sevenDaysAgo = App.moment().subtract(7, 'days').valueOf()
 
-    /** @type {{id: number, elo: number, name: string, medal: boolean, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
+    /** @type {{id: number, elo: number, name: string, medal: boolean, rainbow: boolean, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
     const botData = []
     for (const [id, elo] of eloById) {
       const bot = botById.get(id)
@@ -482,11 +482,14 @@ export function setupWormsArena(App) {
         (match) => match.createdAt > sevenDaysAgo
       )
       if (winRate < 0.2 && !recentMatch) continue
+      const rainbow =
+        botStats.matches.slice(0, 10).findIndex((match) => !match.won) >= 7
       botData.push({
         id,
         elo,
         name: bot.name,
         medal: achievements.has(id),
+        rainbow,
         userid: bot.userid,
         username: bot.username,
         wins: botStats.wins,
@@ -570,6 +573,7 @@ export function setupWormsArena(App) {
           id: bot.id,
           name: bot.name,
           medal: bot.medal,
+          rainbow: bot.rainbow,
           username: bot.username,
           isOwn: bot.userid == user.id,
           elo: Math.round(bot.elo),

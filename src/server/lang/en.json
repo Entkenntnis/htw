@@ -311,7 +311,8 @@
       "abortedShort": "forfeited",
       "pauseResume": "Pause / resume",
       "timeline": "Timeline",
-      "streak": "Rising-Star"
+      "streak": "Rising-Star",
+      "streakExplain": "🏳️‍🌈 Rising Star: Win at least 5 fights in a row against solid bots (ELO > 500)."
     },
     "management": {
       "lastEdited": "last edited",

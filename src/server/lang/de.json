@@ -311,7 +311,8 @@
       "abortedShort": "aufgegeben",
       "pauseResume": "Pause / Weiter",
       "timeline": "Zeitleiste",
-      "streak": "Rising Star"
+      "streak": "Rising Star",
+      "streakExplain": "🏳️‍🌈 Rising Star: Gewinne mind. 5 Kämpfe in Folge gegen solide Bots (ELO > 500)."
     },
     "management": {
       "lastEdited": "zuletzt bearbeitet",

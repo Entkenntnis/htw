@@ -260,8 +260,9 @@ async function finishMatch(App, matchId, redBotId, greenBotId, replay) {
 
   const E = 1 / (1 + 10 ** ((opponentELO - botELO) / 400))
 
-  const newBotELO = botELO + K * (S - E)
-  const newOpponentELO = opponentELO + K * (E - S)
+  // elo never goes below 0
+  const newBotELO = Math.max(0, botELO + K * (S - E))
+  const newOpponentELO = Math.max(0, opponentELO + K * (E - S))
 
   await App.wormsData.setBotElos([
     { botId: redBotId, elo: newBotELO },

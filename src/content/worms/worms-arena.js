@@ -482,8 +482,27 @@ export function setupWormsArena(App) {
         (match) => match.createdAt > sevenDaysAgo
       )
       if (winRate < 0.2 && !recentMatch) continue
-      const rainbow =
-        botStats.matches.slice(0, 10).findIndex((match) => !match.won) >= 7
+
+      // "rising star" logic:
+      // I'm looking at the streak with in the last 10 matches
+      // this streak should contain at least 5 normally strong bots, e.g. ELO > 500
+      // the limit is relatively low, as bot ELO will generally decrease after a win
+      // so we are more generous
+      const streakIndex = botStats.matches
+        .slice(0, 10)
+        .findIndex((match) => !match.won)
+      const streaks = botStats.matches.slice(0, streakIndex)
+      let strongOpponents = 0
+      for (const match of streaks) {
+        const opp = match.opponentId
+        if (opp !== null) {
+          const elo = await App.wormsData.getBotElo(opp)
+          if (elo > 500) {
+            strongOpponents++
+          }
+        }
+      }
+      const rainbow = strongOpponents >= 5
       botData.push({
         id,
         elo,

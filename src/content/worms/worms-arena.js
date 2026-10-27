@@ -464,7 +464,7 @@ export function setupWormsArena(App) {
 
     const sevenDaysAgo = App.moment().subtract(7, 'days').valueOf()
 
-    /** @type {{id: number, elo: number, name: string, medal: boolean, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
+    /** @type {{id: number, elo: number, name: string, medal: boolean, rainbow: boolean, userid: number, username: string, wins: number, losses: number, matches: {id: number; won: boolean; opponentName: string | null; dateFromNow: string}[]}[]}} */
     const botData = []
     for (const [id, elo] of eloById) {
       const bot = botById.get(id)
@@ -482,11 +482,33 @@ export function setupWormsArena(App) {
         (match) => match.createdAt > sevenDaysAgo
       )
       if (winRate < 0.2 && !recentMatch) continue
+
+      // "rising star" logic:
+      // I'm looking at the streak with in the last 10 matches
+      // this streak should contain at least 5 normally strong bots, e.g. ELO > 500
+      // the limit is relatively low, as bot ELO will generally decrease after a win
+      // so we are more generous
+      const streakIndex = botStats.matches
+        .slice(0, 10)
+        .findIndex((match) => !match.won)
+      const streaks = botStats.matches.slice(0, streakIndex)
+      let strongOpponents = 0
+      for (const match of streaks) {
+        const opp = match.opponentId
+        if (opp !== null) {
+          const elo = await App.wormsData.getBotElo(opp)
+          if (elo > 500) {
+            strongOpponents++
+          }
+        }
+      }
+      const rainbow = strongOpponents >= 5
       botData.push({
         id,
         elo,
         name: bot.name,
         medal: achievements.has(id),
+        rainbow,
         userid: bot.userid,
         username: bot.username,
         wins: botStats.wins,
@@ -570,6 +592,7 @@ export function setupWormsArena(App) {
           id: bot.id,
           name: bot.name,
           medal: bot.medal,
+          rainbow: bot.rainbow,
           username: bot.username,
           isOwn: bot.userid == user.id,
           elo: Math.round(bot.elo),

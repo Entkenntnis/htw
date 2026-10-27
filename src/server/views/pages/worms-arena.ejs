@@ -20,6 +20,21 @@
 <% } %>
 
 <style>
+  /* 1337 achievement: the name runs through the rainbow */
+  .rainbow-name {
+    background: linear-gradient(90deg, #ff4d4d, #ffa64d, #ffe14d, #5cd65c, #4dc3ff, #8c6cff, #ff4dd2, #ff4d4d);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow-name 4s linear infinite;
+  }
+  @keyframes rainbow-name {
+    to { background-position: -200% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rainbow-name { animation: none; }
+  }
   .hidden {
     display: none;
   }
@@ -90,7 +105,7 @@
     <% props.bots.forEach((bot, index) => { %>
       <tr>
         <td><%= index + 1 %></td>
-        <td><%= bot.name %><% if (bot.medal) { %> <span title="<%= t('worms.arena.medal1337') %>" aria-label="<%= t('worms.arena.medal1337') %>" style="color: #f5b301;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; vertical-align: -3px;" aria-hidden="true"><!-- Tabler Icons "medal", MIT License, https://tabler.io/icons --><path d="M12 4v3m-4 -3v6m8 -6v6"/><path d="M12 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z"/></svg></span><% } %><span style="color: gray"> <%= t('worms.arena.by') %> <%= bot.username %></span><% if (bot.isOwn) { %> <span onClick="updateBotIdAndUpdateUI(<%= bot.id %>)" id="bot-chooser-<%= bot.id %>" class="bot-chooser"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 14px; height: 14px; cursor: pointer;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span><% } %><br >
+        <td><% if (bot.rainbow) { %><span class="rainbow-name" title="<%= t('worms.arena.streak')%>"><%= bot.name %></span><% } else { %><%= bot.name %><% } %><% if (bot.medal) { %> <span title="<%= t('worms.arena.medal1337') %>" aria-label="<%= t('worms.arena.medal1337') %>" style="color: #f5b301;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; vertical-align: -3px;" aria-hidden="true"><!-- Tabler Icons "medal", MIT License, https://tabler.io/icons --><path d="M12 4v3m-4 -3v6m8 -6v6"/><path d="M12 18.5l-3 1.5l.5 -3.5l-2 -2l3 -.5l1.5 -3l1.5 3l3 .5l-2 2l.5 3.5z"/></svg></span><% } %><span style="color: gray"> <%= t('worms.arena.by') %> <%= bot.username %></span><% if (bot.isOwn) { %> <span onClick="updateBotIdAndUpdateUI(<%= bot.id %>)" id="bot-chooser-<%= bot.id %>" class="bot-chooser"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 14px; height: 14px; cursor: pointer;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="gray" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span><% } %><br >
           <div style="display: flex">
             <details>
               <summary><span style="color: darkgray"><%= t('worms.arena.wins_noun') %>: <%= bot.wins %>, <%= t('worms.arena.losses') %>: <%= bot.losses %></span></summary>

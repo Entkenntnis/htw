@@ -310,7 +310,8 @@
       "matchAbortedEarly": "Das Match wurde aufgegeben, bevor der erste Zug gemacht war.",
       "abortedShort": "aufgegeben",
       "pauseResume": "Pause / Weiter",
-      "timeline": "Zeitleiste"
+      "timeline": "Zeitleiste",
+      "streak": "Rising Star"
     },
     "management": {
       "lastEdited": "zuletzt bearbeitet",

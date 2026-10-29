@@ -117,7 +117,6 @@ export async function runWorms(
     console.log(e)
   }
 
-  let lastInterrupt = Date.now()
   let steps = 0
 
   // todo: provide console.log in context
@@ -125,10 +124,6 @@ export async function runWorms(
   while (!replay.winner) {
     steps++
     onStep(steps)
-    if (Date.now() - lastInterrupt > 50) {
-      await new Promise((resolve) => setTimeout(resolve, 50))
-      lastInterrupt = Date.now()
-    }
 
     const callScriptRed = `
       think(74, 42, ${JSON.stringify(board)}, ${xRed}, ${yRed}, ${dirRed}, ${xGreen}, ${yGreen});

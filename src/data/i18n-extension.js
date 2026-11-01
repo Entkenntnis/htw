@@ -599,7 +599,7 @@ export function getI18nExtension() {
       
       <h3 class="my-4">Accountdaten</h3>
       
-      <p>Dein Benutzername wird in der Highscore öffentlich angezeigt und möglicherweise auch auf der Startseite. Es wird der Zeitpunkt der letzten Aktivität auf der Plattform gespeichert und ebenfalls mit angezeigt. Bei jeder Aufgabe ist zudem einsehbar, welche Nutzer sie bereits gelöst haben und der Zeitpunkt der Lösung. Im Profil lässt sich dein Account jederzeit vollständig löschen oder deine vollständigen Daten exportieren. Der Betreiber behält sich das Recht vor, bei trifftigen Grund Accounts ohne Ankündigung zu verändern oder zu löschen.
+      <p>Dein Benutzername wird in dem Leaderboard öffentlich angezeigt und möglicherweise auch auf der Startseite. Es wird der Zeitpunkt der letzten Aktivität auf der Plattform gespeichert und ebenfalls mit angezeigt. Bei jeder Aufgabe ist zudem einsehbar, welche Nutzer sie bereits gelöst haben und der Zeitpunkt der Lösung. Im Profil lässt sich dein Account jederzeit vollständig löschen oder deine vollständigen Daten exportieren. Der Betreiber behält sich das Recht vor, bei trifftigen Grund Accounts ohne Ankündigung zu verändern oder zu löschen.
       </p>
       
       <h3 class="my-4">Hosting</h3>
@@ -642,7 +642,7 @@ export function getI18nExtension() {
       
       <h3 class="my-4">Account data</h3>
       
-      <p>Your username is publicly displayed in the highscore and may also appear on the homepage. The time of your last activity on the platform is stored and displayed. For each task, it is visible which users have already solved it and the time of the solution. In your profile, you can delete your account completely at any time or export your full data. The operator reserves the right to modify or delete accounts without prior notice for a valid reason.
+      <p>Your username is publicly displayed in the leaderboard and may also appear on the homepage. The time of your last activity on the platform is stored and displayed. For each task, it is visible which users have already solved it and the time of the solution. In your profile, you can delete your account completely at any time or export your full data. The operator reserves the right to modify or delete accounts without prior notice for a valid reason.
       </p>
       
       <h3 class="my-4">Hosting</h3>
@@ -684,7 +684,7 @@ export function getI18nExtension() {
     value: `
       <p>Du hast die Session erfolgreich absolviert. Deine 30 Minuten sind nun abgelaufen.</p>
       
-      <p>Klicke auf OK, um dein Ergebnis in der Highscore zu speichern. Danach wird dein Account in den freien Modus geschaltet. Du kannst an den Aufgaben weiterarbeiten - ganz ohne Zeitdruck</p>
+      <p>Klicke auf OK, um dein Ergebnis in dem Leaderboard zu speichern. Danach wird dein Account in den freien Modus geschaltet. Du kannst an den Aufgaben weiterarbeiten - ganz ohne Zeitdruck</p>
       
       <p>Vielen Dank für die Teilnahme. Wir wünschen dir alles Gute für deine Zukunft als Hacker!</p>
     `,
@@ -695,7 +695,7 @@ export function getI18nExtension() {
     value: `
       <p>You have successfully completed the session. Your 30 minutes are now over.</p>
       
-      <p>Click OK to save your result in the highscore. After that, your account will be switched to free mode. You can continue working on the tasks without any time pressure.</p>
+      <p>Click OK to save your result in the leaderboard. After that, your account will be switched to free mode. You can continue working on the tasks without any time pressure.</p>
       
       <p>Thank you for participating. We wish you all the best for your future as a hacker!</p>
     `,
@@ -889,7 +889,7 @@ export function getI18nExtension() {
       </p>
       
       <ul>
-        <li>Die Highscore lässt sich nun sortieren. Es gibt drei Optionen: nach Punktzahl (wie bisher), nach Punktzahl der aktiven Benutzer des letzten Monats und nach dem Zeitpunkt der letzten Aktivität. Damit bekommt man eine bessere Übersicht, was aktuell auf der Plattform passiert.</li>
+        <li>Das Leaderboard lässt sich nun sortieren. Es gibt drei Optionen: nach Punktzahl (wie bisher), nach Punktzahl der aktiven Benutzer des letzten Monats und nach dem Zeitpunkt der letzten Aktivität. Damit bekommt man eine bessere Übersicht, was aktuell auf der Plattform passiert.</li>
         <li>Im Profil wird nun der aktuelle (globale) Platz und die zuletzt gelöste Aufgabe angezeigt.</li>
         <li>Einige Aufgaben wurden überarbeitet und verbessert.</li>
         <li>Auf der Community-Seite sind ein paar neue Hinweise hinzugekommen.</li>

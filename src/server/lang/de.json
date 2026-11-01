@@ -60,8 +60,8 @@
     "roomNotFound": "Raum nicht gefunden!"
   },
   "highscore": {
-    "heading": "Highscore",
-    "empty": "Die Highscore enthält noch keine Einträge. Werde die Erste!",
+    "heading": "Leaderboard",
+    "empty": "Die Leaderboard enthält noch keine Einträge. Werde die Erste!",
     "rank": "Platz",
     "name": "Benutzername",
     "score": "Punktzahl",
@@ -114,7 +114,7 @@
     "score": "Punkte:",
     "sessionReady": "Session: bereit",
     "session": "Session:",
-    "highscore": "Highscore",
+    "highscore": "Leaderboard",
     "hint": "Hinweise",
     "profile": "Profil",
     "logout": "abmelden"
@@ -176,8 +176,8 @@
     "hard": "schwer"
   },
   "roomscore": {
-    "title": "Highscore",
-    "heading": "Highscore für Raum \"{{room}}\""
+    "title": "Leaderboard",
+    "heading": "Leaderboard für Raum \"{{room}}\""
   },
   "finish": {
     "heading": "Session beendet",

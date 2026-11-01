@@ -60,8 +60,8 @@
     "roomNotFound": "Room not found!"
   },
   "highscore": {
-    "heading": "Highscore",
-    "empty": "There are no users in the highscore yet. Become the first!",
+    "heading": "Leaderboard",
+    "empty": "There are no users in the leaderboard yet. Become the first!",
     "rank": "Rank",
     "name": "Username",
     "score": "Score",
@@ -83,7 +83,7 @@
     "yourRooms": "My Rooms",
     "key": "New room key:",
     "go": "Create",
-    "information": "You can use a room to create a local highscore for your event and use the session system. A session lasts 30 minutes, in this time users can solve challenges and gain points. After 30 minutes, the score is submitted to the local highscore. After the session, users can continue to work on the challenges as regular users.",
+    "information": "You can use a room to create a local leaderboard for your event and use the session system. A session lasts 30 minutes, in this time users can solve challenges and gain points. After 30 minutes, the score is submitted to the local leaderboard. After the session, users can continue to work on the challenges as regular users.",
     "keyInvalid": "Only alphanumeric characters allowed in room key.",
     "keyTooShort": "Room key to short.",
     "keyTooLong": "Room key to long.",
@@ -114,7 +114,7 @@
     "score": "Score:",
     "sessionReady": "Session: ready",
     "session": "Session:",
-    "highscore": "Highscore",
+    "highscore": "Leaderboard",
     "hint": "Hints",
     "profile": "Profile",
     "logout": "Logout"
@@ -176,8 +176,8 @@
     "hard": "hard"
   },
   "roomscore": {
-    "title": "Highscore",
-    "heading": "Highscore for room \"{{room}}\""
+    "title": "Leaderboard",
+    "heading": "Leaderboard for room \"{{room}}\""
   },
   "finish": {
     "heading": "Session finished",

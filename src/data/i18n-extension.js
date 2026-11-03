@@ -599,7 +599,7 @@ export function getI18nExtension() {
       
       <h3 class="my-4">Accountdaten</h3>
       
-      <p>Dein Benutzername wird in dem Leaderboard öffentlich angezeigt und möglicherweise auch auf der Startseite. Es wird der Zeitpunkt der letzten Aktivität auf der Plattform gespeichert und ebenfalls mit angezeigt. Bei jeder Aufgabe ist zudem einsehbar, welche Nutzer sie bereits gelöst haben und der Zeitpunkt der Lösung. Im Profil lässt sich dein Account jederzeit vollständig löschen oder deine vollständigen Daten exportieren. Der Betreiber behält sich das Recht vor, bei trifftigen Grund Accounts ohne Ankündigung zu verändern oder zu löschen.
+      <p>Dein Benutzername wird im Leaderboard öffentlich angezeigt und möglicherweise auch auf der Startseite. Es wird der Zeitpunkt der letzten Aktivität auf der Plattform gespeichert und ebenfalls mit angezeigt. Bei jeder Aufgabe ist zudem einsehbar, welche Nutzer sie bereits gelöst haben und der Zeitpunkt der Lösung. Im Profil lässt sich dein Account jederzeit vollständig löschen oder deine vollständigen Daten exportieren. Der Betreiber behält sich das Recht vor, bei trifftigen Grund Accounts ohne Ankündigung zu verändern oder zu löschen.
       </p>
       
       <h3 class="my-4">Hosting</h3>
@@ -684,7 +684,7 @@ export function getI18nExtension() {
     value: `
       <p>Du hast die Session erfolgreich absolviert. Deine 30 Minuten sind nun abgelaufen.</p>
       
-      <p>Klicke auf OK, um dein Ergebnis in dem Leaderboard zu speichern. Danach wird dein Account in den freien Modus geschaltet. Du kannst an den Aufgaben weiterarbeiten - ganz ohne Zeitdruck</p>
+      <p>Klicke auf OK, um dein Ergebnis im Leaderboard zu speichern. Danach wird dein Account in den freien Modus geschaltet. Du kannst an den Aufgaben weiterarbeiten - ganz ohne Zeitdruck</p>
       
       <p>Vielen Dank für die Teilnahme. Wir wünschen dir alles Gute für deine Zukunft als Hacker!</p>
     `,

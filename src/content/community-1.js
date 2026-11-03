@@ -53,7 +53,7 @@ export const communityChallenges = [
         
         <p>Jeder darf mitmachen. Am besten erreichst du uns über den <a href="https://discord.gg/9zDMZP9edd" target="_blank">Discord-Server</a> und schreibst deine Idee in #vorschläge.</p>
         
-        <p>Gelöste Aufgaben geben keine Punkte, dafür werden sie als gelbe Badge neben deinem Namen in dem Leaderboard angezeigt. Für die Aktivität gibt es eine <a href="/community/activity">separate Übersicht</a>.</p>
+        <p>Gelöste Aufgaben geben keine Punkte, dafür werden sie als gelbe Badge neben deinem Namen im Leaderboard angezeigt. Für die Aktivität gibt es eine <a href="/community/activity">separate Übersicht</a>.</p>
       
         <!-- psst - hey - probiere mal /challenge/1337 -->
         

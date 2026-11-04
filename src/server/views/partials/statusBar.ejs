@@ -45,10 +45,10 @@
     </div>
 
     <nav class="status-right" aria-label="Status actions">
+      <a href="/profile" draggable="false"><%= t('statusBar.profile') %></a>
       <% if (!user.session_phase || user.session_phase == "DONE") { %>
         <a href="/highscore?sort=new" draggable="false"><%= t('statusBar.highscore') %></a>
       <% } %>
-      <a href="/profile" draggable="false"><%= t('statusBar.profile') %></a>
       <a href="/logout" draggable="false"><%= t('statusBar.logout') %></a>
     </nav>
   </div>

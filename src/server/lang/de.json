@@ -62,7 +62,7 @@
   },
   "highscore": {
     "heading": "Leaderboard",
-    "empty": "Die Leaderboard enthält noch keine Einträge. Werde die Erste!",
+    "empty": "Das Leaderboard enthält noch keine Einträge. Werde die Erste!",
     "rank": "Platz",
     "name": "Benutzername",
     "score": "Punktzahl",
@@ -115,7 +115,7 @@
     "score": "Punkte:",
     "sessionReady": "Session: bereit",
     "session": "Session:",
-    "highscore": "Leaderboard",
+    "highscore": "zuletzt aktiv",
     "hint": "Hinweise",
     "profile": "Profil",
     "logout": "abmelden"

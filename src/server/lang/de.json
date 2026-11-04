@@ -14,6 +14,7 @@
     "registerLink": "Registrierung",
     "joinRoom": "Raum beitreten",
     "top10": "Top 10 des Monats",
+    "leaderboard": "Leaderboard",
     "showRecent": "neuste Aktivität",
     "community": "Community",
     "rooms": "Räume",
@@ -60,8 +61,8 @@
     "roomNotFound": "Raum nicht gefunden!"
   },
   "highscore": {
-    "heading": "Highscore",
-    "empty": "Die Highscore enthält noch keine Einträge. Werde die Erste!",
+    "heading": "Leaderboard",
+    "empty": "Das Leaderboard enthält noch keine Einträge. Werde die Erste!",
     "rank": "Platz",
     "name": "Benutzername",
     "score": "Punktzahl",
@@ -114,7 +115,7 @@
     "score": "Punkte:",
     "sessionReady": "Session: bereit",
     "session": "Session:",
-    "highscore": "Highscore",
+    "highscore": "zuletzt aktiv",
     "hint": "Hinweise",
     "profile": "Profil",
     "logout": "abmelden"
@@ -176,8 +177,8 @@
     "hard": "schwer"
   },
   "roomscore": {
-    "title": "Highscore",
-    "heading": "Highscore für Raum \"{{room}}\""
+    "title": "Leaderboard",
+    "heading": "Leaderboard für Raum \"{{room}}\""
   },
   "finish": {
     "heading": "Session beendet",

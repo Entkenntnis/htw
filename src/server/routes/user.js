@@ -425,6 +425,12 @@ export function setupUser(App) {
 
     renderPage(App, req, res, {
       page: 'highscore',
+      heading:
+        sort == 'new'
+          ? req.lng == 'de'
+            ? 'Neueste Aktivität'
+            : 'Latest Activity'
+          : undefined,
       props: {
         users,
         sort,

@@ -23,7 +23,7 @@
     "ejs": "^5.0.0",
     "escape-html": "^1.0.3",
     "express": "^5.1.0",
-    "i18next": "^25.3.6",
+    "i18next": "^26.3.4",
     "i18next-fs-backend": "^2.6.4",
     "jsonwebtoken": "^9.0.2",
     "jsqr": "^1.4.0",

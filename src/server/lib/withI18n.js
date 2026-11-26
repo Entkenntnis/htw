@@ -26,7 +26,6 @@ export function withI18n(App) {
         {
           ...App.config.i18nConfig,
           lng,
-          showSupportNotice: false,
         },
         (err) => {
           if (err) {

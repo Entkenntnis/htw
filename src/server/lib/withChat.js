@@ -20,7 +20,7 @@ export function withChat(App) {
           },
           body: JSON.stringify({
             model: 'google/gemma-4-26b-a4b-it',
-            provider: { only: ['nextbit/bf16'] },
+            provider: { only: ['nextbit'] },
             messages,
             max_tokens: 300,
           }),
